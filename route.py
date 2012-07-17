@@ -3,5 +3,5 @@
 __revision__ = '$Id$'
 
 routes = [
-    (r'/', 'main.MainHandler'),
+    (r'/', 'handlers.MainHandler'),
 ]
