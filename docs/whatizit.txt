@@ -33,3 +33,8 @@ BottlingStep properties:
  * date
  * final amount incl. priming
  * carbonation type, one of (forced in keg, keg with priming, bottles with priming)
+
+TastingNote properties:
+ * date
+ * rating (in whole numbers from 1 to 5)
+ * note text

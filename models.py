@@ -11,5 +11,6 @@ class Brewery(db.Model):
 
 
 class Batch(db.Model):
-	brewery = db.ReferenceProperty(Brewery, collection_name='batches')
-	date_brewed = db.DateProperty()
+    brewery = db.ReferenceProperty(Brewery, collection_name='batches')
+    date_brewed = db.DateProperty()
+    notes = db.TextProperty()
