@@ -1,1 +1,2 @@
-from handlers.main import MainHanler
+from handlers.main import MainHandler
+from handlers.brewery import BreweryHandler
