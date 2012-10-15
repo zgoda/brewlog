@@ -12,6 +12,23 @@ class Brewery(db.Model):
     description_html = db.TextProperty()
 
 
+class Batch(db.Model):
+    brewery = db.ReferenceProperty(Brewery, collection_name='batches')
+    date_brewed = db.DateProperty()
+    notes = db.TextProperty()
+    notes_html = db.TextProperty()
+    boil_time = db.IntegerProperty()
+    fermentation_start_date = db.DateProperty()
+    og = db.FloatProperty()
+    fg = db.FloatProperty()
+    brew_length = db.FloatProperty()
+    fermentation_temperature = db.IntegerProperty()
+    final_amount = db.FloatProperty()
+    bottling_date = db.DateProperty()
+    carbonation_type = db.TextProperty(choices=('forced in keg', 'keg with priming', 'bottles with priming'))
+    carbonation_used = db.TextProperty()
+
+
 class FermentableItem(db.Model):
     name = db.StringProperty()
     amount = db.IntegerProperty()
@@ -23,7 +40,7 @@ class FermentableItem(db.Model):
 
 class HopItem(db.Model):
     name = db.StringProperty()
-    year = db.IntegetProperty()
+    year = db.IntegerProperty()
     aa_content = db.FloatProperty()
     amount = db.IntegerProperty()
     batch = db.ReferenceProperty(Batch, collection_name='hops')
@@ -72,22 +89,6 @@ class HoppingStep(db.Model):
     remarks = db.TextProperty()
     remarks_html = db.TextProperty()
 
-
-class Batch(db.Model):
-    brewery = db.ReferenceProperty(Brewery, collection_name='batches')
-    date_brewed = db.DateProperty()
-    notes = db.TextProperty()
-    notes_html = db.TextProperty()
-    boil_time = db.IntegerProperty()
-    fermentation_start_date = db.DateProperty()
-    og = db.FloatProperty()
-    fg = db.FloatProperty()
-    brew_length = db.FloatProperty()
-    fermentation_temperature = db.IntegerProperty()
-    final_amount = db.FloatProperty()
-    bottling_date = db.DateProperty()
-    carbonation_type = db.TextProperty(choices=('forced in keg', 'keg with priming', 'bottles with priming'))
-    carbonation_used = db.TextProperty()
 
 
 class AdditionalFermentationStep(db.Model):

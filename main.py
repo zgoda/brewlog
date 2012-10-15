@@ -8,7 +8,5 @@ import webapp2
 
 import route
 
-app = webapp2.WSGIApplication(
-        route.routes,
-    debug=True)
+app = webapp2.WSGIApplication(route.routes, debug=True)
 
