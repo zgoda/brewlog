@@ -2,7 +2,9 @@
 
 import sys
 import os
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'lib'))
+lib_dir_path = os.path.join(os.path.dirname(__file__), 'lib')
+if not lib_dir_path in sys.path:
+    sys.path.insert(0, lib_dir_path)
 
 import webapp2
 
