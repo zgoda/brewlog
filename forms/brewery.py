@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from wtforms.ext.appengine.db import model_form
+__revision__ = '$Id$'
 
-from models import Brewery
-
-
-BreweryBaseForm = model_form(Brewery)
+import wtforms as wf
 
 
-class BreweryForm(BreweryBaseForm):
-    pass
+class BreweryForm(wf.Form):
+    name = wf.TextField('name', [wf.validators.Length(min=4, max=500, message='brewery name has to be between 4 and 500 characters long')])
+    description = wf.TextAreaField('description')

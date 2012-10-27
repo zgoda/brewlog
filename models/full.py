@@ -4,12 +4,7 @@ __revision__ = '$Id$'
 
 from google.appengine.ext import db
 
-
-class Brewery(db.Model):
-    user = db.UserProperty()
-    name = db.StringProperty()
-    description = db.TextProperty()
-    description_html = db.TextProperty()
+from models.base import Brewery
 
 
 class Batch(db.Model):
@@ -88,7 +83,6 @@ class HoppingStep(db.Model):
     batch = db.ReferenceProperty(Batch, collection_name='hopping_steps')
     remarks = db.TextProperty()
     remarks_html = db.TextProperty()
-
 
 
 class AdditionalFermentationStep(db.Model):

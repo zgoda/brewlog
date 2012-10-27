@@ -2,10 +2,9 @@
 
 __revision__ = '$Id$'
 
-import sys
-import webapp2
+from handlers.base import BaseRequestHandler
 
-class MainHandler(webapp2.RequestHandler):
+class MainHandler(BaseRequestHandler):
 
     def get(self):
-        self.response.write('Hello, world! sys path: %s' % sys.path)
+        self.render_to_response('base.html')
