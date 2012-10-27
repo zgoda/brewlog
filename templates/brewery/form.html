@@ -1,0 +1,14 @@
+<form method="post" action=".">
+    <div>
+        {{ form.name.label }}
+        {{ form.name() }}
+    </div>
+    {% if form.name.errors %}
+    <ul class="errors">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+    {% endif %}
+    <div>
+        {{ form.description.label }}
+        {{ form.description() }}
+    </div>
+    <input type="submit">
+</form>
