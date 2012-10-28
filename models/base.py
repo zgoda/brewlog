@@ -10,3 +10,6 @@ class Brewery(db.Model):
     name = db.StringProperty()
     description = db.TextProperty()
     description_html = db.TextProperty()
+
+    def get_absolute_url(self):
+        return '/brewery/%s' % self.key()

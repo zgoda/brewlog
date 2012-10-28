@@ -1,3 +1,13 @@
 {% extends "brewery/base.html" %}
 
-{% block pagetitle %}brewery list for user "{{ user }}"{% endblock %}
+{% block headpagetitle %}brewery list for user "{{ user }}"{% endblock %}
+
+{% block content %}
+{% if breweries %}
+<ul>
+{% for brewery in breweries %}
+<li><a href="{{ brewery.get_absolute_url() }}">{{ brewery.name }}</a></li>
+{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
