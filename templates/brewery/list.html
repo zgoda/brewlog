@@ -1,6 +1,6 @@
 {% extends "brewery/base.html" %}
 
-{% block headpagetitle %}brewery list for user "{{ user }}"{% endblock %}
+{% block headpagetitle %}brewery list for user "{{ user.name }}"{% endblock %}
 
 {% block content %}
 {% if breweries %}
@@ -9,5 +9,7 @@
 <li><a href="{{ brewery.get_absolute_url() }}">{{ brewery.name }}</a></li>
 {% endfor %}
 </ul>
+{% else %}
+<p>You have no breweries, would you like to <a href="{{ uri_for('brewery-add') }}">add one</a>?</p>
 {% endif %}
 {% endblock %}

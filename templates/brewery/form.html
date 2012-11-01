@@ -1,4 +1,9 @@
-<form method="post" action=".">
+{% extends "brewery/base.html" %}
+
+{% block headpagetitle %}{% if brewery %}modify your "{{ brewery.name }}" brewery data{% else %}add new brewery{% endif %} form{% endblock %}
+
+{% block content %}
+<form method="post" action="{{ uri_for('brewery-add') }}">
     <div>
         {{ form.name.label }}
         {{ form.name() }}
@@ -10,5 +15,10 @@
         {{ form.description.label }}
         {{ form.description() }}
     </div>
+    <div>
+        {{ form.established_date.label }}
+        {{ form.established_date() }}
+    </div>
     <input type="submit">
 </form>
+{% endblock %}

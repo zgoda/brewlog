@@ -5,6 +5,11 @@
 <title>{% block headpagetitle %}{% endblock %}</title>
 </head>
 <body>
+{% if logged_in %}
+<p><a href="{{ uri_for('profile') }}">my profile</a> <a href="{{ uri_for('auth-logout') }}">logout</a></p>
+{% else %}
+<p>login with <a href="/auth/google">Google</a></p>
+{% endif %}
 {% block content %}
 {% endblock %}
 </body>
