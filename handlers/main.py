@@ -7,4 +7,4 @@ from handlers.base import BaseRequestHandler
 class MainHandler(BaseRequestHandler):
 
     def get(self):
-        return self.render('base.html')
+        return self.render('home.html')

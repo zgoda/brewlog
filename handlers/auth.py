@@ -9,15 +9,6 @@ import secrets
 from handlers.base import BaseRequestHandler
 
 
-class ProfileHandler(BaseRequestHandler):
-
-    def get(self):
-        self.render('account/profile.html', {
-            'user': self.current_user,
-            'session': self.auth.get_user_by_session(),
-        })
-
-
 class AuthHandler(BaseRequestHandler, simpleauth.SimpleAuthHandler):
 
     OAUTH2_CSRF_STATE = True
@@ -72,7 +63,10 @@ class AuthHandler(BaseRequestHandler, simpleauth.SimpleAuthHandler):
                 ok, user_obj = self.auth.store.user_model.create_user(auth_id, **_attrs)
                 if ok:
                     self.auth.set_session(self.auth.store.user_to_dict(user_obj))
-        self.redirect('/profile')
+        target = self.session.pop('original_url', None)
+        if target is None:
+            target = self.uri_for('profile')
+        self.redirect(target)
 
     def logout(self):
         self.auth.unset_session()
@@ -91,3 +85,6 @@ class AuthHandler(BaseRequestHandler, simpleauth.SimpleAuthHandler):
 
     def _get_consumer_info_for(self, provider):
         return secrets.AUTH_CONFIG[provider]
+
+    def select_auth(self):
+        self.render('auth/select.html')

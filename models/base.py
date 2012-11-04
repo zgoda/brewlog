@@ -3,7 +3,10 @@
 __revision__ = '$Id$'
 
 from google.appengine.ext import ndb as db
+from webapp2 import uri_for
 from webapp2_extras.appengine.auth.models import User
+
+import markdown
 
 
 class BrewerProfile(db.Model):
@@ -15,6 +18,13 @@ class BrewerProfile(db.Model):
     location = db.StringProperty()
     about_me = db.TextProperty()
 
+    def get_absolute_url(self):
+        return uri_for('profile-details', keyid=self.key.urlsafe())
+
+    @classmethod
+    def get_for_user(cls, user):
+        pass
+
 
 class Brewery(db.Model):
     user = db.KeyProperty(kind=User)
@@ -24,4 +34,7 @@ class Brewery(db.Model):
     established_date = db.DateProperty()
 
     def get_absolute_url(self):
-        return '/brewery/%s' % self.key.urlsafe()
+        return uri_for('brewery-details', keyid=self.key.urlsafe())
+
+    def _pre_put_hook(self):
+        self.description_html = markdown.markdown(self.description, safe_mode='remove')

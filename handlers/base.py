@@ -28,6 +28,8 @@ class BaseRequestHandler(webapp2.RequestHandler):
     @cached_property
     def current_user(self):
         user_dict = self.auth.get_user_by_session()
+        if user_dict is None:
+            return None
         return self.auth.store.user_model.get_by_id(user_dict['user_id'])
 
     @cached_property
@@ -44,6 +46,7 @@ class BaseRequestHandler(webapp2.RequestHandler):
         values = {
             'uri_for': webapp2.uri_for,
             'logged_in': self.logged_in,
+            'current_user': self.current_user,
             'flashes': self.session.get_flashes(),
         }
         values.update(context)
