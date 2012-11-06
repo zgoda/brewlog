@@ -12,7 +12,9 @@ class ProfileHandler(BaseRequestHandler):
 
     @simpleauth_login_required
     def get(self):
-        self.render('account/profile.html')
+        ctx = {
+        }
+        self.render('account/profile.html', ctx)
 
     def view_details(self, keyid):
         key = db.Key(urlsafe=keyid)

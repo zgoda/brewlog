@@ -14,6 +14,7 @@ class BrewerProfile(db.Model):
     first_name = db.TextProperty()
     last_name = db.TextProperty()
     nick = db.StringProperty()
+    email = db.StringProperty()
     full_name = db.StringProperty()
     location = db.StringProperty()
     about_me = db.TextProperty()
