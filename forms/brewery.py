@@ -22,5 +22,5 @@ class BreweryForm(BaseForm):
 
     def save(self, user, obj=None):
         if obj is None:
-            obj = Brewery(id=self.name.data, parent=user.key, user=user.key)
+            obj = Brewery(parent=user.key, user=user.key)
         return super(BreweryForm, self).save(user, obj, save=True)
