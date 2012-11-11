@@ -6,7 +6,7 @@
 {% if breweries %}
 <ul>
 {% for brewery in breweries %}
-<li><a href="{{ brewery.get_absolute_url() }}">{{ brewery.name }}</a></li>
+<li><a href="{{ brewery.get_absolute_url() }}">{{ brewery.name|e }}</a></li>
 {% endfor %}
 </ul>
 {% else %}

@@ -5,10 +5,23 @@ __revision__ = '$Id$'
 import webapp2
 from webapp2 import cached_property
 
-from webapp2_extras import jinja2, sessions, auth
+from webapp2_extras import jinja2, sessions, auth, i18n
+
+from models.base import BrewerProfile
+
+AVAILABLE_LOCALES = ['pl']
 
 
 class BaseRequestHandler(webapp2.RequestHandler):
+
+    def __init__(self, request, response):
+        self.initialize(request, response)
+        header = request.headers.get('Accept-Language', '')
+        locales = [locale.split(';')[0] for locale in header.split(',')]
+        for locale in locales:
+            if locale in AVAILABLE_LOCALES:
+                i18n.get_i18n().set_locale(locale)
+                break
 
     def dispatch(self):
         self.session_store = sessions.get_store(request=self.request)
@@ -40,6 +53,10 @@ class BaseRequestHandler(webapp2.RequestHandler):
     def jinja(self):
         return jinja2.get_jinja2(app=self.app)
 
+    @property
+    def brewer_profile(self):
+        return BrewerProfile.get_for_user(self.current_user)
+
     def render(self, template_name, context=None):
         if context is None:
             context = {}
@@ -55,3 +72,4 @@ class BaseRequestHandler(webapp2.RequestHandler):
     def head(self, *args):
         """required by Twitter"""
         pass
+

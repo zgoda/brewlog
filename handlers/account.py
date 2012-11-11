@@ -4,22 +4,33 @@ __revision__ = '$Id$'
 
 from google.appengine.ext import ndb as db
 
+from webapp2_extras.i18n import lazy_gettext as _
+
 from handlers.base import BaseRequestHandler
+from models.base import Brewery
 from forms.account import ProfileForm
-from models.base import BrewerProfile
-from utils.decorators.auth import simpleauth_login_required
 
 
 class ProfileHandler(BaseRequestHandler):
 
-    @simpleauth_login_required
-    def get(self):
-        try:
-            profile = BrewerProfile.query(ancestor=self.current_user.key).fetch(1)[0]
-        except IndexError:
-            profile = None
+    def my_profile(self):
+        if not self.current_user:
+            return self.redirect(self.uri_for('auth-select-provider'))
+        if self.request.method == 'POST':
+            form = ProfileForm(self.request.POST)
+            if form.validate():
+                form.save(obj=self.brewer_profile, user=self.current_user)
+                self.session.add_flash(_("your brewer's profile has been updated"))
+                return self.redirect(self.uri_for('profile'))
+        else:
+            form = ProfileForm(obj=self.brewer_profile)
+        bl, cursor, more = Brewery.get_for_user(self.current_user)
         ctx = {
-            'profile': profile,
+            'profile': self.brewer_profile,
+            'form': form,
+            'breweries': bl,
+            'cursor': cursor,
+            'has_more': more,
         }
         self.render('account/profile.html', ctx)
 

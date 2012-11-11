@@ -1,0 +1,283 @@
+# Translations template for PROJECT.
+# Copyright (C) 2012 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2012-11-11 16:55+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 0.9.6\n"
+
+#: forms/account.py:14
+msgid "first name"
+msgstr ""
+
+#: forms/account.py:15
+msgid "last name"
+msgstr ""
+
+#: forms/account.py:16
+msgid "nick"
+msgstr ""
+
+#: forms/account.py:17
+msgid "email"
+msgstr ""
+
+#: forms/account.py:18
+msgid "location"
+msgstr ""
+
+#: forms/account.py:19
+msgid "about me"
+msgstr ""
+
+#: forms/brewery.py:17
+msgid "brewery name has to be between 4 and 500 characters long"
+msgstr ""
+
+#: forms/brewery.py:21
+msgid "name"
+msgstr ""
+
+#: forms/brewery.py:22
+msgid "description"
+msgstr ""
+
+#: forms/brewery.py:23
+msgid "established"
+msgstr ""
+
+#: handlers/account.py:23
+msgid "your brewer's profile has been updated"
+msgstr ""
+
+#: handlers/brewery.py:65
+#, python-format
+msgid "data for brewery %s updated"
+msgstr ""
+
+#: lib/httplib2/__init__.py:400
+#, python-format
+msgid "Content purported to be compressed with %s but failed to decompress."
+msgstr ""
+
+#: lib/httplib2/__init__.py:510
+#, python-format
+msgid "Unsupported value for qop: %s."
+msgstr ""
+
+#: lib/httplib2/__init__.py:513 lib/httplib2/__init__.py:576
+#, python-format
+msgid "Unsupported value for algorithm: %s.algorithm"
+msgstr ""
+
+#: lib/httplib2/__init__.py:573
+msgid "The challenge doesn't contain a server nonce, or this one is empty."
+msgstr ""
+
+#: lib/httplib2/__init__.py:579
+#, python-format
+msgid "Unsupported value for pw-algorithm: %s.pw-algorithm"
+msgstr ""
+
+#: lib/httplib2/__init__.py:1359
+msgid "Redirected but the response is missing a Location: header."
+msgstr ""
+
+#: lib/wtforms/validators.py:55
+#, python-format
+msgid "Invalid field name '%s'."
+msgstr ""
+
+#: lib/wtforms/validators.py:62
+#, python-format
+msgid "Field must be equal to %(other_name)s."
+msgstr ""
+
+#: lib/wtforms/validators.py:94
+#, python-format
+msgid "Field must be at least %(min)d character long."
+msgid_plural "Field must be at least %(min)d characters long."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/wtforms/validators.py:97
+#, python-format
+msgid "Field cannot be longer than %(max)d character."
+msgid_plural "Field cannot be longer than %(max)d characters."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/wtforms/validators.py:100
+#, python-format
+msgid "Field must be between %(min)d and %(max)d characters long."
+msgstr ""
+
+#: lib/wtforms/validators.py:135
+#, python-format
+msgid "Number must be at least %(min)s."
+msgstr ""
+
+#: lib/wtforms/validators.py:137
+#, python-format
+msgid "Number must be at most %(max)s."
+msgstr ""
+
+#: lib/wtforms/validators.py:139
+#, python-format
+msgid "Number must be between %(min)s and %(max)s."
+msgstr ""
+
+#: lib/wtforms/validators.py:188 lib/wtforms/validators.py:221
+msgid "This field is required."
+msgstr ""
+
+#: lib/wtforms/validators.py:249
+msgid "Invalid input."
+msgstr ""
+
+#: lib/wtforms/validators.py:268
+msgid "Invalid email address."
+msgstr ""
+
+#: lib/wtforms/validators.py:297
+msgid "Invalid IP address."
+msgstr ""
+
+#: lib/wtforms/validators.py:345
+msgid "Invalid Mac address."
+msgstr ""
+
+#: lib/wtforms/validators.py:370
+msgid "Invalid URL."
+msgstr ""
+
+#: lib/wtforms/validators.py:388
+msgid "Invalid UUID."
+msgstr ""
+
+#: lib/wtforms/validators.py:415
+#, python-format
+msgid "Invalid value, must be one of: %(values)s."
+msgstr ""
+
+#: lib/wtforms/validators.py:442
+#, python-format
+msgid "Invalid value, can't be any of: %(values)s."
+msgstr ""
+
+#: lib/wtforms/ext/appengine/fields.py:90 lib/wtforms/fields/core.py:419
+msgid "Not a valid choice"
+msgstr ""
+
+#: lib/wtforms/ext/appengine/fields.py:109
+msgid "Not a valid list"
+msgstr ""
+
+#: lib/wtforms/ext/csrf/form.py:47
+msgid "Invalid CSRF Token"
+msgstr ""
+
+#: lib/wtforms/ext/csrf/session.py:57
+msgid "CSRF token missing"
+msgstr ""
+
+#: lib/wtforms/ext/csrf/session.py:65
+msgid "CSRF failed"
+msgstr ""
+
+#: lib/wtforms/ext/csrf/session.py:70
+msgid "CSRF token expired"
+msgstr ""
+
+#: lib/wtforms/ext/dateutil/fields.py:50
+msgid "Please input a date/time value"
+msgstr ""
+
+#: lib/wtforms/ext/dateutil/fields.py:62
+msgid "Invalid date/time input"
+msgstr ""
+
+#: lib/wtforms/fields/core.py:412
+msgid "Invalid Choice: could not coerce"
+msgstr ""
+
+#: lib/wtforms/fields/core.py:445
+msgid "Invalid choice(s): one or more data inputs could not be coerced"
+msgstr ""
+
+#: lib/wtforms/fields/core.py:452
+#, python-format
+msgid "'%(value)s' is not a valid choice for this field"
+msgstr ""
+
+#: lib/wtforms/fields/core.py:507
+msgid "Not a valid integer value"
+msgstr ""
+
+#: lib/wtforms/fields/core.py:554
+msgid "Not a valid decimal value"
+msgstr ""
+
+#: lib/wtforms/fields/core.py:581
+msgid "Not a valid float value"
+msgstr ""
+
+#: lib/wtforms/fields/core.py:632
+msgid "Not a valid datetime value"
+msgstr ""
+
+#: lib/wtforms/fields/core.py:649
+msgid "Not a valid date value"
+msgstr ""
+
+#: templates/index.html:10
+msgid "my profile"
+msgstr ""
+
+#: templates/index.html:10
+msgid "logout"
+msgstr ""
+
+#: templates/index.html:12
+msgid "login page"
+msgstr ""
+
+#: templates/account/profile.html:4
+#, python-format
+msgid "Brewer's profile for %(username)s"
+msgstr ""
+
+#: templates/account/profile.html:6
+msgid "See your brewer's profile data. You may change it using the form below."
+msgstr ""
+
+#: templates/account/profile.html:8
+msgid "Please fill you brewer's profile data"
+msgstr ""
+
+#: templates/account/profile.html:22
+msgid "Your brewery list"
+msgstr ""
+
+#: templates/account/profile.html:27
+msgid "Add another brewery"
+msgstr ""
+
+#: templates/account/profile.html:29
+#, python-format
+msgid ""
+"You don't have any brewery listed here, would you like to <a "
+"href=\"%(addurl)s\">add one</a>?"
+msgstr ""
+

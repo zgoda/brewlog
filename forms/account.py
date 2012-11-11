@@ -3,27 +3,22 @@
 __revision__ = '$Id$'
 
 import wtforms as wf
+from wtforms.validators import DataRequired, Email, Optional
+from webapp2_extras.i18n import lazy_gettext as _
 
 from forms.base import BaseForm
 from models.base import BrewerProfile
 
 
 class ProfileForm(BaseForm):
-    first_name = wf.TextField('first name')
-    last_name = wf.TextField('last name')
-    nick = wf.TextField('nick')
-    email = wf.TextField('email')
-    location = wf.TextField('location')
-    about_me = wf.TextAreaField('about me')
+    first_name = wf.TextField(_('first name'), validators=[Optional()])
+    last_name = wf.TextField(_('last name'), validators=[Optional()])
+    nick = wf.TextField(_('nick'), validators=[Optional()])
+    email = wf.TextField(_('email'), validators=[DataRequired(), Email()])
+    location = wf.TextField(_('location'), validators=[Optional()])
+    about_me = wf.TextAreaField(_('about me'), validators=[Optional()])
 
     def save(self, user, obj=None):
         if obj is None:
-            obj = BrewerProfile(parent=user.key, user=user.key,
-                first_name=self.first_name.data,
-                last_name=self.last_name.data,
-                nick=self.nick.data,
-                email=self.email.data,
-                location=self.location.data,
-                about_me=self.about_me.data,
-            )
+            obj = BrewerProfile(parent=user.key)
         return super(ProfileForm, self).save(user, obj, save=True)

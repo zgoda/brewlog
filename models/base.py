@@ -10,7 +10,6 @@ import markdown
 
 
 class BrewerProfile(db.Model):
-    user = db.KeyProperty(kind=User)
     first_name = db.TextProperty()
     last_name = db.TextProperty()
     nick = db.StringProperty()
@@ -22,19 +21,21 @@ class BrewerProfile(db.Model):
     def get_absolute_url(self):
         return uri_for('profile-details', keyid=self.key.urlsafe())
 
+    def _pre_put_hook(self):
+        fn = self.first_name or u''
+        ln = self.last_name or u''
+        full_name = u'%s %s' % (fn, ln)
+        self.full_name = full_name.strip()
+
     @classmethod
-    def get_or_create_for_user(cls, user, save=True):
+    def get_for_user(cls, user):
         try:
-            return cls.query(user==user.key, ancestor=user).fetch(1)[0]
+            return cls.query(ancestor=user.key).fetch(1)[0]
         except IndexError:
-            profile = cls(parent=user, user=user.key)
-            if save:
-                profile.put()
-            return profile
+            return None
 
 
 class Brewery(db.Model):
-    user = db.KeyProperty(kind=User)
     name = db.StringProperty()
     description = db.TextProperty()
     description_html = db.TextProperty()
@@ -43,6 +44,11 @@ class Brewery(db.Model):
     est_year = db.IntegerProperty()
     est_month = db.IntegerProperty()
     est_day = db.IntegerProperty
+
+    @property
+    def owner(self):
+        owner_key = self.key.parent()
+        return owner_key.get()
 
     def get_absolute_url(self):
         return uri_for('brewery-details', keyid=self.key.urlsafe())
@@ -54,11 +60,6 @@ class Brewery(db.Model):
             self.est_month = self.established_date.month
             self.est_day = self.established_date.day
 
-    def get_or_create_for_user(cls, user, save=True):
-        result = cls.query(user=user.key, ancestor=user).fetch_page(20)
-        if not result:
-            brewery = cls(parent=user, user=user.key)
-            if save:
-                brewery.put()
-            result = [brewery]
-        return result
+    @classmethod
+    def get_for_user(cls, user):
+        return cls.query(ancestor=user.key).order(Brewery.name).fetch_page(20)

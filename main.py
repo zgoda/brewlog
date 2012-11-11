@@ -17,6 +17,11 @@ app_config = {
     'webapp2_extras.auth': {
         'user_attributes': [],
     },
+    'webapp2_extras.jinja2': {
+        'environment_args': {
+            'extensions': ['jinja2.ext.i18n'],
+        },
+    },
 }
 
 import webapp2

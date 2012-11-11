@@ -1,5 +1,21 @@
 {% extends "brewery/base.html" %}
 
 {% block content %}
-{{ brewery }}
+<h3>Details for brewery {{ brewery.name|e }} by {{ brewery.owner.name|e }}</h3>
+<p>You may change brewery data using the form below:</p>
+<form method="post" action="{{ uri_for('brewery-details', keyid=brewery.key.urlsafe()) }}">
+    <div>
+        {{ form.name.label }}: {{ form.name() }}
+    </div>
+    {% if form.name.errors %}
+    <ul class="errors">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+    {% endif %}
+    <div>
+        {{ form.description.label }}: {{ form.description() }}
+    </div>
+    <div>
+        {{ form.established_date.label }}: {{ form.established_date() }}
+    </div>
+    <input type="submit">
+</form>
 {% endblock %}

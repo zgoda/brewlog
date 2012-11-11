@@ -4,6 +4,8 @@ __revision__ = '$Id$'
 
 from google.appengine.ext import ndb as db
 
+from webapp2_extras.i18n import lazy_gettext as _
+
 from handlers.base import BaseRequestHandler
 from models.base import Brewery
 from forms.brewery import BreweryForm
@@ -13,7 +15,7 @@ class BreweryHandler(BaseRequestHandler):
 
     def list_breweries(self):
         if self.logged_in:
-            bl, cursor, more = Brewery.query(ancestor=self.current_user.key).fetch_page(20)
+            bl, cursor, more = Brewery.get_for_user(self.current_user)
         else:
             bl, cursor, more = [], None, False
         ctx = {
@@ -38,7 +40,8 @@ class BreweryHandler(BaseRequestHandler):
             if form.validate():
                 brewery = form.save(user=self.current_user)
                 self.session.add_flash('brewery %s created' % brewery.name)
-                return self.redirect(self.uri_for('brewery-all'))
+                next = self.request.GET.get('next', 'brewery-all')
+                return self.redirect(self.uri_for(next))
         ctx = {
             'form': form,
         }
@@ -49,7 +52,25 @@ class BreweryHandler(BaseRequestHandler):
         brewery = key.get()
         if brewery is None:
             self.abort(404)
+        form = None
+        if brewery.owner != self.current_user:
+            if self.request.method == 'POST':
+                self.abort(403)
+        else:
+            form = BreweryForm(obj=brewery)
+        if self.request.POST:
+            form = BreweryForm(self.request.POST)
+            if form.validate():
+                brewery = form.save(user=self.current_user, obj=brewery)
+                self.session.add_flash(_('data for brewery %s updated') % brewery.name)
+                next = self.request.GET.get('next')
+                if next is None:
+                    next = self.uri_for('brewery-details', keyid=brewery.key.urlsafe())
+                else:
+                    next = self.uri_for(next)
+                return self.redirect(next)
         ctx = {
             'brewery': brewery,
+            'form': form,
         }
         self.render('brewery/details.html', ctx)
