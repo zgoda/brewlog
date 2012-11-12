@@ -4,10 +4,11 @@ __revision__ = '$Id$'
 
 import webapp2
 from webapp2 import cached_property
-
 from webapp2_extras import jinja2, sessions, auth, i18n
 
 from models.base import BrewerProfile
+
+from utils.context import get_global_context
 
 AVAILABLE_LOCALES = ['pl']
 
@@ -57,15 +58,28 @@ class BaseRequestHandler(webapp2.RequestHandler):
     def brewer_profile(self):
         return BrewerProfile.get_for_user(self.current_user)
 
-    def render(self, template_name, context=None):
-        if context is None:
-            context = {}
-        values = {
+    @cached_property
+    def static_context(self):
+        return {
             'uri_for': webapp2.uri_for,
+        }
+
+    @property
+    def request_context(self):
+        context = self.static_context
+        request_context = {
             'logged_in': self.logged_in,
             'current_user': self.current_user,
             'flashes': self.session.get_flashes(),
         }
+        context.update(request_context)
+        return context
+
+    def render(self, template_name, context=None):
+        if context is None:
+            context = {}
+        values = self.request_context
+        values.update(get_global_context())
         values.update(context)
         self.response.write(self.jinja.render_template(template_name, **values))
 
