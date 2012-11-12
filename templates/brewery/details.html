@@ -1,8 +1,8 @@
 {% extends "brewery/base.html" %}
 
 {% block content %}
-<h3>Details for brewery {{ brewery.name|e }} by {{ brewery.owner.name|e }}</h3>
-<p>You may change brewery data using the form below:</p>
+<h3>Details for brewery {{ brewery.name }} by {{ brewery.owner.name }}</h3>
+<p>{% trans %}You may change brewery data using the form below{% endtrans %}:</p>
 <form method="post" action="{{ uri_for('brewery-details', keyid=brewery.key.urlsafe()) }}">
     <div>
         {{ form.name.label }}: {{ form.name() }}

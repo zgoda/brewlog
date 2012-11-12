@@ -1,7 +1,7 @@
 {% extends "auth/base.html" %}
 
 {% block content %}
-<p>Sign in with:</p>
+<p>{% trans %}Sign in with{% endtrans %}:</p>
 <ul>
     <li><a class="btn-auth btn-google" href="{{ uri_for('auth-login', provider='google') }}">Google</a></li>
     <li><a class="btn-auth btn-facebook" href="{{ uri_for('auth-login', provider='facebook') }}">Facebook</a></li>

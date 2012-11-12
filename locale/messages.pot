@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-11 16:55+0100\n"
+"POT-Creation-Date: 2012-11-12 10:01+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -279,5 +279,13 @@ msgstr ""
 msgid ""
 "You don't have any brewery listed here, would you like to <a "
 "href=\"%(addurl)s\">add one</a>?"
+msgstr ""
+
+#: templates/auth/select.html:4
+msgid "Sign in with"
+msgstr ""
+
+#: templates/brewery/details.html:5
+msgid "You may change brewery data using the form below"
 msgstr ""
 

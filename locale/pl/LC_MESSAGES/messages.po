@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-11 16:55+0100\n"
+"POT-Creation-Date: 2012-11-12 10:01+0100\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -288,4 +288,12 @@ msgid ""
 msgstr ""
 "Nie masz jeszcze żadnego browaru, czy chcesz może <a "
 "href=\"%(addurl)s\">dodać twój browar</a>?"
+
+#: templates/auth/select.html:4
+msgid "Sign in with"
+msgstr "Zaloguj się używając"
+
+#: templates/brewery/details.html:5
+msgid "You may change brewery data using the form below"
+msgstr "Możesz zmienić dane browaru używając poniższego formularza"
 
