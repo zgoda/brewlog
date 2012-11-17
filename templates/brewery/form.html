@@ -1,6 +1,6 @@
 {% extends "brewery/base.html" %}
 
-{% block headpagetitle %}{% if brewery %}modify your "{{ brewery.name }}" brewery data{% else %}add new brewery{% endif %} form{% endblock %}
+{% block headpagetitle %}{% if brewery %}{% trans breweryname=brewery.name %}modify your "{{ brewery.name }}" brewery data{% endtrans %}{% else %}{% trans %}add new brewery{% endtrans %}{% endif %}{% endblock %}
 
 {% block content %}
 <form method="post" action="{{ uri_for('brewery-add') }}">

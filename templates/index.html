@@ -2,13 +2,19 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>{% block headpagetitle %}{% endblock %}</title>
+<title>Brewlog | {% block headpagetitle %}{% endblock %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="/static/signin-buttons/auth-buttons.css" rel="stylesheet">
 <link href="/static/bootstrap/css/bootstrap{% if not DEV %}.min{% endif %}.css" rel="stylesheet">
 <link href="/static/bootstrap/css/bootstrap-responsive{% if not DEV %}.min{% endif %}.css" rel="stylesheet">
 {% block styles %}
 {% endblock %}
-<script src="/static/bootstrap/bootstrap{% if not DEV %}.min{% endif %}.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap{% if not DEV %}.min{% endif %}.js"></script>
+<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+<!--[if lt IE 9]>
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
 {% block scripts %}
 {% endblock %}
 </head>

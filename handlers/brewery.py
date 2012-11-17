@@ -8,6 +8,7 @@ from webapp2_extras.i18n import lazy_gettext as _
 
 from handlers.base import BaseRequestHandler
 from models.base import Brewery
+from models.simple import Batch
 from forms.brewery import BreweryForm
 
 
@@ -69,8 +70,12 @@ class BreweryHandler(BaseRequestHandler):
                 else:
                     next = self.uri_for(next)
                 return self.redirect(next)
+        latest_brews, brews_cursor, has_more_brews = Batch.get_for_brewery(brewery)
         ctx = {
             'brewery': brewery,
             'form': form,
+            'latest_brews': latest_brews,
+            'brews_cursor': brews_cursor,
+            'has_more_brews': has_more_brews,
         }
         self.render('brewery/details.html', ctx)

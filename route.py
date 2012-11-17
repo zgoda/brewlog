@@ -15,5 +15,6 @@ routes = [
     Route(r'/brewery/all', handler='handlers.BreweryHandler', handler_method='all_breweries', name='brewery-all'),
     Route(r'/brewery/list', handler='handlers.BreweryHandler', handler_method='list_breweries', name='brewery-list'),
     Route(r'/brewery/<keyid>', handler='handlers.BreweryHandler', handler_method='brewery_details', name='brewery-details'),
+    Route(r'/brew/add', handler='handlers.BrewHandler', handler_method='add_brew', name='brew-add'),
     Route(r'/', handler='handlers.MainHandler', name='main'),
 ]

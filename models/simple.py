@@ -4,6 +4,8 @@ __revision__ = '$Id$'
 
 from google.appengine.ext import ndb as db
 
+import markdown
+
 from models.base import Brewery
 
 
@@ -14,6 +16,9 @@ class FermentableItem(db.Model):
     remarks = db.TextProperty()
     remarks_html = db.TextProperty()
 
+    def _pre_put_hook(self):
+        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
+
 
 class HopItem(db.Model):
     name = db.StringProperty()
@@ -22,6 +27,9 @@ class HopItem(db.Model):
     amount = db.IntegerProperty()
     remarks = db.TextProperty()
     remarks_html = db.TextProperty()
+
+    def _pre_put_hook(self):
+        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
 
 
 class YeastItem(db.Model):
@@ -32,6 +40,9 @@ class YeastItem(db.Model):
     remarks = db.TextProperty()
     remarks_html = db.TextProperty()
 
+    def _pre_put_hook(self):
+        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
+
 
 class MiscItem(db.Model):
     name = db.StringProperty()
@@ -40,6 +51,9 @@ class MiscItem(db.Model):
     use = db.TextProperty(choices=('mash', 'boil', 'fermentation', 'bottling'))
     remarks = db.TextProperty()
     remarks_html = db.TextProperty()
+
+    def _pre_put_hook(self):
+        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
 
 
 class MashStep(db.Model):
@@ -52,6 +66,9 @@ class MashStep(db.Model):
     remarks = db.TextProperty()
     remarks_html = db.TextProperty()
 
+    def _pre_put_hook(self):
+        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
+
 
 class HoppingStep(db.Model):
     addition_type = db.TextProperty(choices=('mash', 'first wort', 'boil', 'post-boil', 'dry hop'))
@@ -60,6 +77,9 @@ class HoppingStep(db.Model):
     amount = db.IntegerProperty()
     remarks = db.TextProperty()
     remarks_html = db.TextProperty()
+
+    def _pre_put_hook(self):
+        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
 
 
 class AdditionalFermentationStep(db.Model):
@@ -75,9 +95,16 @@ class TastingNote(db.Model):
     text = db.TextProperty()
     text_html = db.TextProperty()
 
+    def _pre_put_hook(self):
+        self.text_html = markdown.markdown(self.text, safe_mode='remove')
+
 
 class Batch(db.Model):
-    brewery = db.KeyProperty(kind=Brewery)
+    name = db.StringProperty()
+    style = db.TextProperty()
+    bjcp_style_code = db.StringProperty()
+    bjcp_style_name = db.StringProperty()
+    bjcp_style = db.TextProperty()
     date_brewed = db.DateProperty()
     notes = db.TextProperty()
     notes_html = db.TextProperty()
@@ -103,3 +130,21 @@ class Batch(db.Model):
     additional_fermentation_steps = db.LocalStructuredProperty(AdditionalFermentationStep, repeated=True)
     # tasting notes
     tasting_notes = db.LocalStructuredProperty(TastingNote, repeated=True)
+    # recipe metadata
+    is_public = db.BooleanProperty(default=True)
+    is_draft = db.BooleanProperty(default=False)
+
+    def brewery(self):
+        owner_key = self.key.parent()
+        return owner_key.get()
+
+    def _pre_put_hook(self):
+        self.notes_html = markdown.markdown(self.notes, safe_mode='remove')
+        if self.bjcp_style_code and self.bjcp_style_name:
+            self.bjcp_style = u'%s %s' % (self.bjcp_style_code, self.bjcp_style_name)
+        if self.bjcp_style and not self.style:
+            self.style = self.bjcp_style
+
+    @classmethod
+    def get_for_brewery(cls, brewery):
+        return cls.query(ancestor=brewery.key).order(-Batch.date_brewed).fetch_page(20)
