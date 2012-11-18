@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-18 14:45+0100\n"
+"POT-Creation-Date: 2012-11-18 17:40+0100\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -43,22 +43,22 @@ msgstr "lokalizacja"
 msgid "about me"
 msgstr "o mnie"
 
-#: forms/brew.py:15 forms/brew.py:22 forms/brew.py:30 forms/brew.py:38
-#: forms/brew.py:47 forms/brew.py:78 forms/brewery.py:21
+#: forms/brew.py:15 forms/brew.py:22 forms/brew.py:30 forms/brew.py:40
+#: forms/brew.py:49 forms/brew.py:81 forms/brewery.py:21
 msgid "name"
 msgstr "nazwa"
 
-#: forms/brew.py:16 forms/brew.py:25 forms/brew.py:39 forms/brew.py:51
-#: forms/brew.py:59 forms/brew.py:65
+#: forms/brew.py:16 forms/brew.py:25 forms/brew.py:41 forms/brew.py:53
+#: forms/brew.py:62 forms/brew.py:68
 msgid "amount"
 msgstr "ilość"
 
-#: forms/brew.py:17 forms/brew.py:40
+#: forms/brew.py:17 forms/brew.py:42
 msgid "unit"
 msgstr "jednostka"
 
-#: forms/brew.py:18 forms/brew.py:26 forms/brew.py:34 forms/brew.py:42
-#: forms/brew.py:52 forms/brew.py:60 forms/brew.py:69
+#: forms/brew.py:18 forms/brew.py:26 forms/brew.py:36 forms/brew.py:44
+#: forms/brew.py:55 forms/brew.py:63 forms/brew.py:72
 msgid "remarks"
 msgstr "uwagi"
 
@@ -75,138 +75,162 @@ msgid "code"
 msgstr "kod"
 
 #: forms/brew.py:32
+msgid "manufacturer code for this strain"
+msgstr "kod producenta"
+
+#: forms/brew.py:33
 msgid "manufacturer"
 msgstr "producent"
 
-#: forms/brew.py:33 forms/brew.py:41
+#: forms/brew.py:34 forms/brew.py:43
 msgid "usage"
 msgstr "użycie"
 
-#: forms/brew.py:46
+#: forms/brew.py:35
+msgid "select how this yeast was introduced into your brew"
+msgstr "wybierz kiedy te drożdże zostały dodane"
+
+#: forms/brew.py:48
 msgid "order"
 msgstr "porządek"
 
-#: forms/brew.py:48 models/choices.py:21
+#: forms/brew.py:50 models/choices.py:21
 msgid "temperature"
-msgstr "podgrzanie"
+msgstr "temperatura"
 
-#: forms/brew.py:49 forms/brew.py:57
+#: forms/brew.py:51 forms/brew.py:60
 msgid "time"
 msgstr "czas"
 
-#: forms/brew.py:50
+#: forms/brew.py:52
 msgid "step type"
 msgstr "rodzaj kroku"
 
-#: forms/brew.py:56
+#: forms/brew.py:54
+msgid "amount of water added as an infusion or mash drawn for decoction"
+msgstr "ilość dodanej wody lub odebranego dekoktu"
+
+#: forms/brew.py:59
 msgid "addition type"
 msgstr "jak dodane"
 
-#: forms/brew.py:58
+#: forms/brew.py:61
 msgid "variety"
 msgstr "odmiana"
 
-#: forms/brew.py:64 forms/brew.py:73
+#: forms/brew.py:67 forms/brew.py:76
 msgid "date"
 msgstr "data"
 
-#: forms/brew.py:66 forms/brew.py:86
+#: forms/brew.py:69 forms/brew.py:90
 msgid "original gravity"
 msgstr "gęstość początkowa"
 
-#: forms/brew.py:67 forms/brew.py:87
+#: forms/brew.py:70 forms/brew.py:91
 msgid "final gravity"
 msgstr "gęstość końcowa"
 
-#: forms/brew.py:68 forms/brew.py:89
+#: forms/brew.py:71 forms/brew.py:94
 msgid "fermentation temperature"
 msgstr "temperatura fermentacji"
 
-#: forms/brew.py:74
+#: forms/brew.py:77
 msgid "text"
 msgstr "tekst"
 
-#: forms/brew.py:79
+#: forms/brew.py:82
 msgid "style"
 msgstr "styl"
 
-#: forms/brew.py:80
+#: forms/brew.py:83
+msgid "descriptive name of style, as you see it"
+msgstr "opisowa nazwa stylu, tak jak Ty to piwo określasz"
+
+#: forms/brew.py:84
 msgid "BJCP style code"
 msgstr "kod stylu wg BJCP"
 
-#: forms/brew.py:81
+#: forms/brew.py:85
 msgid "BJCP style name"
 msgstr "nazwa stylu wg BJCP"
 
-#: forms/brew.py:82
+#: forms/brew.py:86
 msgid "date brewed"
 msgstr "data warzenia"
 
-#: forms/brew.py:83
+#: forms/brew.py:87
 msgid "notes"
 msgstr "notatki"
 
-#: forms/brew.py:84
+#: forms/brew.py:88
 msgid "boil time"
 msgstr "czas gotowania"
 
-#: forms/brew.py:85
+#: forms/brew.py:89
 msgid "fermentation start date"
 msgstr "data początku fetmentacji"
 
-#: forms/brew.py:88
+#: forms/brew.py:92
 msgid "brew length"
 msgstr "wielkość warki"
 
-#: forms/brew.py:90
+#: forms/brew.py:93
+msgid "total volume in fermenter (including yeast starter volume, if any)"
+msgstr "objętość całkowita w fermentorze, łącznie ze starterem/gęstwą"
+
+#: forms/brew.py:95
 msgid "final amount"
 msgstr "objętość końcowa"
 
-#: forms/brew.py:91
+#: forms/brew.py:96
+msgid "volume into bottling"
+msgstr "objętość po rozlewie"
+
+#: forms/brew.py:97
 msgid "bottling date"
 msgstr "data rozlewu"
 
-#: forms/brew.py:92
+#: forms/brew.py:98
 msgid "type of carbonation"
 msgstr "rodzaj nagazowania"
 
-#: forms/brew.py:93
-msgid "fermentable item"
-msgstr "surowiec fermentowalny"
-
-#: forms/brew.py:94
-msgid "hop item"
-msgstr "chmiel"
-
-#: forms/brew.py:95
-msgid "yeast item"
-msgstr "drożdże"
-
-#: forms/brew.py:96
-msgid "miscellaneous item"
-msgstr "dodatek"
-
-#: forms/brew.py:97
-msgid "mash schedule item"
-msgstr "krok zacierania"
-
-#: forms/brew.py:98
-msgid "hopping schedule item"
-msgstr "krok chmielenia"
-
 #: forms/brew.py:99
-msgid "additional fermentation step"
-msgstr "dodatkowy etap fermentacji"
+msgid "fermentable items"
+msgstr "surowce fermentowalne"
 
 #: forms/brew.py:100
-msgid "tasting note"
-msgstr "notatka z degustacji"
+msgid "hop items"
+msgstr "chmiele"
 
 #: forms/brew.py:101
+msgid "yeast items"
+msgstr "drożdże"
+
+#: forms/brew.py:102
+msgid "miscellaneous items"
+msgstr "dodatki inne"
+
+#: forms/brew.py:103
+msgid "mash schedule"
+msgstr "schemat zacierania"
+
+#: forms/brew.py:104
+msgid "hopping schedule"
+msgstr "schemat chmielenia"
+
+#: forms/brew.py:105
+msgid "additional fermentation steps"
+msgstr "dodatkowe etapy fermentacji"
+
+#: forms/brew.py:106
+msgid "tasting notes"
+msgstr "notatki z degustacji"
+
+#: forms/brew.py:107
 msgid "public"
 msgstr "publiczna"
 
-#: forms/brew.py:102
+#: forms/brew.py:108
 msgid "draft"
 msgstr "szkic"
 
@@ -484,30 +508,30 @@ msgstr "Wszelkie prawa zastrzeżone"
 msgid "my account"
 msgstr "moje konto"
 
-#: templates/account/profile.html:4
+#: templates/account/profile.html:5
 #, python-format
 msgid "Brewer's profile for %(username)s"
 msgstr "Profil piwowara %(username)s"
 
-#: templates/account/profile.html:6
+#: templates/account/profile.html:7
 msgid "See your brewer's profile data. You may change it using the form below."
 msgstr ""
 "Oto twoje dane piwowarskie. Możesz je zmienić używając poniższego "
 "formularza"
 
-#: templates/account/profile.html:8
+#: templates/account/profile.html:9
 msgid "Please fill you brewer's profile data"
 msgstr "Uzupełnij swój profil piwowarski"
 
-#: templates/account/profile.html:22
+#: templates/account/profile.html:14
 msgid "Your brewery list"
 msgstr "Lista twoich browarów"
 
-#: templates/account/profile.html:27
+#: templates/account/profile.html:19
 msgid "Add another brewery"
 msgstr "Dodaj kolejny browar"
 
-#: templates/account/profile.html:29 templates/brewery/list.html:13
+#: templates/account/profile.html:21 templates/brewery/list.html:13
 #, python-format
 msgid ""
 "You don't have any brewery listed here, would you like to <a "
@@ -528,20 +552,20 @@ msgstr "Zaloguj się używając"
 msgid "brewery"
 msgstr "browar"
 
-#: templates/brewery/details.html:4
+#: templates/brewery/details.html:5
 #, python-format
 msgid "Details for brewery %(breweryname)s by %(ownername)s"
 msgstr "Dane browaru %(breweryname)s użytkownika %(ownername)s"
 
-#: templates/brewery/details.html:5
+#: templates/brewery/details.html:6
 msgid "You may change brewery data using the form below"
 msgstr "Możesz zmienić dane browaru używając poniższego formularza"
 
-#: templates/brewery/details.html:22
+#: templates/brewery/details.html:11
 msgid "Latest brews"
 msgstr "Ostatnie warki"
 
-#: templates/brewery/details.html:30
+#: templates/brewery/details.html:19
 #, python-format
 msgid "Would you like to <a href=\"%(add_url)s\">add new brew</a>?"
 msgstr "Czy chcesz <a href=\"%(add_url)s\">dodać nową warkę</a>?"
@@ -550,4 +574,12 @@ msgstr "Czy chcesz <a href=\"%(add_url)s\">dodać nową warkę</a>?"
 #, python-format
 msgid "brewery list for user \"%(username)s\""
 msgstr "lista browarów użytkownika \"%(username)s\""
+
+#: templates/macros/forms.html:18
+msgid "submit"
+msgstr "zapisz"
+
+#: templates/macros/forms.html:19
+msgid "cancel"
+msgstr "anuluj"
 

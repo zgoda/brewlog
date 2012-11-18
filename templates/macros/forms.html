@@ -4,23 +4,58 @@
 {% if field.type in ['CSRFTokenField', 'HiddenField'] %}
     {{ field() }}
 {% else %}
-    <div class="clearfix{% if field.errors %} error{% endif %}">
-    {{ field.label }}
-        <div class="input">
-            {{ field() }}
-            {% if field.help_text %}
-            <span class="help-inline">{{ field.help_text }}</span>
-            {% if field.errors %}
-            <ul class="errors-list">
-                {% for error in errors %}
-                <li>{{ error }}</li>
-                {% endfor %}
-            </ul>
-            {% endif %}
-            {% endif %}
-        </div>
-    </div>
+    {% if field.type == 'FieldList' %}
+        {% for subfield in field %}
+            {{ form_field(subfield, with_label=True) }}
+        {% endfor %}
+    {% else %}
+        {{ form_field(field, with_label=True) }}
+    {% endif %}
 {% endif %}
 {% endfor %}
 </fieldset>
+<div class="form-actions">
+    <button type="submit" class="btn">{% trans %}submit{% endtrans %}</button>
+    <button class="btn">{% trans %}cancel{% endtrans %}</button>
+</div>
 {% endmacro %}
+
+{% macro form_field(field) -%}
+    {% set with_label = kwargs.pop('with_label', False) %}
+    {% set placeholder = '' %}
+    {% if not with_label %}
+        {% set placeholder = field.label.text %}
+    {% endif %}
+    <div class="control-group {% if field.errors %}error{% endif %}">
+        {% if with_label %}
+            <label for="{{ field.id }}" class="control-label">
+                {{ field.label.text }}{% if field.flags.required %} *{% endif %}:
+            </label>
+        {% endif %}
+        <div class="controls">
+            {% set class_ = kwargs.pop('class_', '') %}
+            {% if field.flags.required %}
+                {% set class_ = class_ + ' required' %}
+            {% endif %}
+            {% if field.type == 'BooleanField' %}
+                <label class="checkbox">
+                    {{ field(class_=class_, **kwargs) }}
+                    {{ field.label.text|safe }}
+                </label>
+            {% else %}
+                {% if field.type in ('TextField', 'TextAreaField', 'PasswordField') %}
+                    {% set class_ = class_ + ' input-xlarge' %}
+                {% elif field.type == 'FileField' %}
+                    {% set class_ = class_ + ' input-file' %}
+                {% endif %}
+                {{ field(class_=class_, placeholder=placeholder, **kwargs) }}
+            {% endif %}
+            {% if field.errors %}
+                <span class="error help-inline">{{ field.errors|join(', ') }}</span>
+            {% endif %}
+            {% if field.description %}
+                <p class="help-block">{{ field.description|safe }}</p>
+            {% endif %}
+        </div>
+    </div>
+{%- endmacro %}

@@ -40,7 +40,7 @@ class BreweryHandler(BaseRequestHandler):
         if self.request.POST:
             if form.validate():
                 brewery = form.save(user=self.current_user)
-                self.session.add_flash('brewery %s created' % brewery.name)
+                self.session.add_flash(_('brewery %s created') % brewery.name)
                 next = self.request.GET.get('next', 'brewery-all')
                 return self.redirect(self.uri_for(next))
         ctx = {
