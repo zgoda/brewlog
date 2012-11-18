@@ -3,10 +3,32 @@
 __revision__ = '$Id$'
 
 from google.appengine.ext import ndb as db
+from webapp2_extras.i18n import lazy_gettext as _
 
 import markdown
 
 from models.base import Brewery
+
+
+CARBONATION_KEYS = ('forced in keg', 'keg with priming', 'bottles with priming')
+CARBONATION_VALUES = (_('forced in keg'), _('keg with priming'), _('bottles with priming'))
+CARBONATION_CHOICES = zip(CARBONATION_KEYS, CARBONATION_VALUES)
+
+YEAST_USE_KEYS = ('primary', 'secondary', 'bottling')
+YEAST_USE_VALUES = (_('primary'), _('secondary'), _('bottling'))
+YEAST_USE_CHOICES = zip(YEAST_USE_KEYS, YEAST_USE_VALUES)
+
+MISC_USE_KEYS = ('mash', 'boil', 'fermentation', 'bottling')
+MISC_USE_VALUES = (_('mash'), _('boil'), _('fermentation'), _('bottling'))
+MISC_USE_CHOICES = zip(MISC_USE_KEYS, MISC_USE_VALUES)
+
+STEP_TYPE_KEYS = ('infusion', 'decoction', 'temperature')
+STEP_TYPE_VALUES = (_('infusion'), _('decoction'), _('temperature'))
+STEP_TYPE_CHOICES = zip(STEP_TYPE_KEYS, STEP_TYPE_VALUES)
+
+HOPSTEP_TYPE_KEYS = ('mash', 'first wort', 'boil', 'post-boil', 'dry hop')
+HOPSTEP_TYPE_VALUES = (_('mash'), _('first wort'), _('boil'), _('post-boil'), _('dry hop'))
+HOPSTEP_TYPE_CHOICES = zip(HOPSTEP_TYPE_KEYS, HOPSTEP_TYPE_VALUES)
 
 
 class FermentableItem(db.Model):
@@ -36,7 +58,7 @@ class YeastItem(db.Model):
     name = db.StringProperty()
     code = db.StringProperty()
     manufacturer = db.TextProperty()
-    use = db.TextProperty(choices=('primary', 'secondary', 'bottling'))
+    use = db.TextProperty(choices=YEAST_USE_KEYS)
     remarks = db.TextProperty()
     remarks_html = db.TextProperty()
 
@@ -48,7 +70,7 @@ class MiscItem(db.Model):
     name = db.StringProperty()
     amount = db.IntegerProperty()
     unit = db.TextProperty()
-    use = db.TextProperty(choices=('mash', 'boil', 'fermentation', 'bottling'))
+    use = db.TextProperty(choices=MISC_USE_KEYS)
     remarks = db.TextProperty()
     remarks_html = db.TextProperty()
 
@@ -61,7 +83,7 @@ class MashStep(db.Model):
     name = db.TextProperty()
     temperature = db.IntegerProperty()
     time = db.IntegerProperty()
-    step_type = db.TextProperty(choices=('infusion', 'decoction', 'temperature'))
+    step_type = db.TextProperty(choices=STEP_TYPE_KEYS)
     amount = db.IntegerProperty()
     remarks = db.TextProperty()
     remarks_html = db.TextProperty()
@@ -71,7 +93,7 @@ class MashStep(db.Model):
 
 
 class HoppingStep(db.Model):
-    addition_type = db.TextProperty(choices=('mash', 'first wort', 'boil', 'post-boil', 'dry hop'))
+    addition_type = db.TextProperty(choices=HOPSTEP_TYPE_KEYS)
     time = db.IntegerProperty()
     variety = db.StringProperty()
     amount = db.IntegerProperty()
@@ -88,6 +110,11 @@ class AdditionalFermentationStep(db.Model):
     og = db.FloatProperty()
     fg = db.FloatProperty()
     fermentation_temperature = db.IntegerProperty()
+    remarks = db.TextProperty()
+    remarks_html = db.TextProperty()
+
+    def _pre_put_hook(self):
+        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
 
 
 class TastingNote(db.Model):
@@ -116,7 +143,7 @@ class Batch(db.Model):
     fermentation_temperature = db.IntegerProperty()
     final_amount = db.FloatProperty()
     bottling_date = db.DateProperty()
-    carbonation_type = db.TextProperty(choices=('forced in keg', 'keg with priming', 'bottles with priming'))
+    carbonation_type = db.TextProperty(choices=CARBONATION_KEYS)
     carbonation_used = db.TextProperty()
     # lists
     fermentables = db.LocalStructuredProperty(FermentableItem, repeated=True)
