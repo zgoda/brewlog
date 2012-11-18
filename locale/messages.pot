@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-18 14:30+0100\n"
+"POT-Creation-Date: 2012-11-18 14:45+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,170 +41,170 @@ msgstr ""
 msgid "about me"
 msgstr ""
 
-#: forms/brew.py:14 forms/brew.py:21 forms/brew.py:29 forms/brew.py:37
-#: forms/brew.py:46 forms/brew.py:77 forms/brewery.py:21
+#: forms/brew.py:15 forms/brew.py:22 forms/brew.py:30 forms/brew.py:38
+#: forms/brew.py:47 forms/brew.py:78 forms/brewery.py:21
 msgid "name"
 msgstr ""
 
-#: forms/brew.py:15 forms/brew.py:24 forms/brew.py:38 forms/brew.py:50
-#: forms/brew.py:58 forms/brew.py:64
+#: forms/brew.py:16 forms/brew.py:25 forms/brew.py:39 forms/brew.py:51
+#: forms/brew.py:59 forms/brew.py:65
 msgid "amount"
 msgstr ""
 
-#: forms/brew.py:16 forms/brew.py:39
+#: forms/brew.py:17 forms/brew.py:40
 msgid "unit"
 msgstr ""
 
-#: forms/brew.py:17 forms/brew.py:25 forms/brew.py:33 forms/brew.py:41
-#: forms/brew.py:51 forms/brew.py:59 forms/brew.py:68
+#: forms/brew.py:18 forms/brew.py:26 forms/brew.py:34 forms/brew.py:42
+#: forms/brew.py:52 forms/brew.py:60 forms/brew.py:69
 msgid "remarks"
 msgstr ""
 
-#: forms/brew.py:22
+#: forms/brew.py:23
 msgid "year"
 msgstr ""
 
-#: forms/brew.py:23
+#: forms/brew.py:24
 msgid "alpha acids content"
 msgstr ""
 
-#: forms/brew.py:30
+#: forms/brew.py:31
 msgid "code"
 msgstr ""
 
-#: forms/brew.py:31
+#: forms/brew.py:32
 msgid "manufacturer"
 msgstr ""
 
-#: forms/brew.py:32 forms/brew.py:40
+#: forms/brew.py:33 forms/brew.py:41
 msgid "usage"
 msgstr ""
 
-#: forms/brew.py:45
+#: forms/brew.py:46
 msgid "order"
 msgstr ""
 
-#: forms/brew.py:47 models/simple.py:26
+#: forms/brew.py:48 models/choices.py:21
 msgid "temperature"
 msgstr ""
 
-#: forms/brew.py:48 forms/brew.py:56
+#: forms/brew.py:49 forms/brew.py:57
 msgid "time"
 msgstr ""
 
-#: forms/brew.py:49
+#: forms/brew.py:50
 msgid "step type"
 msgstr ""
 
-#: forms/brew.py:55
+#: forms/brew.py:56
 msgid "addition type"
 msgstr ""
 
-#: forms/brew.py:57
+#: forms/brew.py:58
 msgid "variety"
 msgstr ""
 
-#: forms/brew.py:63 forms/brew.py:72
+#: forms/brew.py:64 forms/brew.py:73
 msgid "date"
 msgstr ""
 
-#: forms/brew.py:65 forms/brew.py:85
+#: forms/brew.py:66 forms/brew.py:86
 msgid "original gravity"
 msgstr ""
 
-#: forms/brew.py:66 forms/brew.py:86
+#: forms/brew.py:67 forms/brew.py:87
 msgid "final gravity"
 msgstr ""
 
-#: forms/brew.py:67 forms/brew.py:88
+#: forms/brew.py:68 forms/brew.py:89
 msgid "fermentation temperature"
 msgstr ""
 
-#: forms/brew.py:73
+#: forms/brew.py:74
 msgid "text"
 msgstr ""
 
-#: forms/brew.py:78
+#: forms/brew.py:79
 msgid "style"
 msgstr ""
 
-#: forms/brew.py:79
+#: forms/brew.py:80
 msgid "BJCP style code"
 msgstr ""
 
-#: forms/brew.py:80
+#: forms/brew.py:81
 msgid "BJCP style name"
 msgstr ""
 
-#: forms/brew.py:81
+#: forms/brew.py:82
 msgid "date brewed"
 msgstr ""
 
-#: forms/brew.py:82
+#: forms/brew.py:83
 msgid "notes"
 msgstr ""
 
-#: forms/brew.py:83
+#: forms/brew.py:84
 msgid "boil time"
 msgstr ""
 
-#: forms/brew.py:84
+#: forms/brew.py:85
 msgid "fermentation start date"
 msgstr ""
 
-#: forms/brew.py:87
+#: forms/brew.py:88
 msgid "brew length"
 msgstr ""
 
-#: forms/brew.py:89
+#: forms/brew.py:90
 msgid "final amount"
 msgstr ""
 
-#: forms/brew.py:90
+#: forms/brew.py:91
 msgid "bottling date"
 msgstr ""
 
-#: forms/brew.py:91
+#: forms/brew.py:92
 msgid "type of carbonation"
 msgstr ""
 
-#: forms/brew.py:92
+#: forms/brew.py:93
 msgid "fermentable item"
 msgstr ""
 
-#: forms/brew.py:93
+#: forms/brew.py:94
 msgid "hop item"
 msgstr ""
 
-#: forms/brew.py:94
+#: forms/brew.py:95
 msgid "yeast item"
 msgstr ""
 
-#: forms/brew.py:95
+#: forms/brew.py:96
 msgid "miscellaneous item"
 msgstr ""
 
-#: forms/brew.py:96
+#: forms/brew.py:97
 msgid "mash schedule item"
 msgstr ""
 
-#: forms/brew.py:97
+#: forms/brew.py:98
 msgid "hopping schedule item"
 msgstr ""
 
-#: forms/brew.py:98
+#: forms/brew.py:99
 msgid "additional fermentation step"
 msgstr ""
 
-#: forms/brew.py:99
+#: forms/brew.py:100
 msgid "tasting note"
 msgstr ""
 
-#: forms/brew.py:100
+#: forms/brew.py:101
 msgid "public"
 msgstr ""
 
-#: forms/brew.py:101
+#: forms/brew.py:102
 msgid "draft"
 msgstr ""
 
@@ -404,59 +404,59 @@ msgstr ""
 msgid "Not a valid date value"
 msgstr ""
 
-#: models/simple.py:14
+#: models/choices.py:9
 msgid "forced in keg"
 msgstr ""
 
-#: models/simple.py:14
+#: models/choices.py:9
 msgid "keg with priming"
 msgstr ""
 
-#: models/simple.py:14
+#: models/choices.py:9
 msgid "bottles with priming"
 msgstr ""
 
-#: models/simple.py:18
+#: models/choices.py:13
 msgid "primary"
 msgstr ""
 
-#: models/simple.py:18
+#: models/choices.py:13
 msgid "secondary"
 msgstr ""
 
-#: models/simple.py:18 models/simple.py:22
+#: models/choices.py:13 models/choices.py:17
 msgid "bottling"
 msgstr ""
 
-#: models/simple.py:22 models/simple.py:30
+#: models/choices.py:17 models/choices.py:25
 msgid "mash"
 msgstr ""
 
-#: models/simple.py:22 models/simple.py:30
+#: models/choices.py:17 models/choices.py:25
 msgid "boil"
 msgstr ""
 
-#: models/simple.py:22
+#: models/choices.py:17
 msgid "fermentation"
 msgstr ""
 
-#: models/simple.py:26
+#: models/choices.py:21
 msgid "infusion"
 msgstr ""
 
-#: models/simple.py:26
+#: models/choices.py:21
 msgid "decoction"
 msgstr ""
 
-#: models/simple.py:30
+#: models/choices.py:25
 msgid "first wort"
 msgstr ""
 
-#: models/simple.py:30
+#: models/choices.py:25
 msgid "post-boil"
 msgstr ""
 
-#: models/simple.py:30
+#: models/choices.py:25
 msgid "dry hop"
 msgstr ""
 

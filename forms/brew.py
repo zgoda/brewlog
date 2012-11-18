@@ -7,7 +7,8 @@ from wtforms.validators import DataRequired
 from webapp2_extras.i18n import lazy_gettext as _
 
 from forms.base import BaseForm
-from models.base import CARBONATION_CHOICES, YEAST_USE_CHOICES, MISC_USE_CHOICES, STEP_TYPE_CHOICES, HOPSTEP_TYPE_CHOICES
+from models import choices
+from models.simple import Batch
 
 
 class FermentableItemForm(wf.Form):
@@ -29,7 +30,7 @@ class YeastItemForm(wf.Form):
     name = wf.TextField(_('name'), validators=[DataRequired()])
     code = wf.TextField(_('code'))
     manufacturer = wf.TextAreaField(_('manufacturer'))
-    use = wf.SelectField(_('usage'), choices=YEAST_USE_CHOICES)
+    use = wf.SelectField(_('usage'), choices=choices.YEAST_USE_CHOICES)
     remarks = wf.TextAreaField(_('remarks'))
 
 
@@ -37,7 +38,7 @@ class MiscItemForm(wf.Form):
     name = wf.TextField(_('name'), validators=[DataRequired()])
     amount = wf.FloatField(_('amount'), validators=[DataRequired()])
     unit = wf.TextField(_('unit'), validators=[DataRequired()])
-    use = wf.SelectField(_('usage'), choices=MISC_USE_CHOICES)
+    use = wf.SelectField(_('usage'), choices=choices.MISC_USE_CHOICES)
     remarks = wf.TextAreaField(_('remarks'))
 
 
@@ -46,13 +47,13 @@ class MashStepForm(wf.Form):
     name = wf.TextField(_('name'), validators=[DataRequired()])
     temperature = wf.IntegerField(_('temperature'), validators=[DataRequired()])
     time = wf.IntegerField(_('time'), validators=[DataRequired()])
-    step_type = wf.SelectField(_('step type'), choices=STEP_TYPE_CHOICES)
+    step_type = wf.SelectField(_('step type'), choices=choices.STEP_TYPE_CHOICES)
     amount = wf.IntegerField(_('amount'))
     remarks = wf.TextAreaField(_('remarks'))
 
 
 class HoppingStepForm(wf.Form):
-    addition_type = wf.SelectField(_('addition type'), choices=HOPSTEP_TYPE_CHOICES)
+    addition_type = wf.SelectField(_('addition type'), choices=choices.HOPSTEP_TYPE_CHOICES)
     time = wf.IntegerField(_('time'))
     variety = wf.TextField(_('variety'))
     amount = wf.IntegerField(_('amount'))
@@ -88,7 +89,7 @@ class BrewForm(BaseForm):
     fermentation_temperature = wf.IntegerField(_('fermentation temperature'))
     final_amount = wf.FloatField(_('final amount'))
     bottling_date = wf.DateField(_('bottling date'))
-    carbonation_type = wf.SelectField(_('type of carbonation'), choices=CARBONATION_CHOICES)
+    carbonation_type = wf.SelectField(_('type of carbonation'), choices=choices.CARBONATION_CHOICES)
     fermentables = wf.FieldList(wf.FormField(FermentableItemForm), _('fermentable item'), min_entries=1)
     hops = wf.FieldList(wf.FormField(HopItemForm), _('hop item'), min_entries=1)
     yeasts = wf.FieldList(wf.FormField(YeastItemForm), _('yeast item'), min_entries=1)
@@ -99,3 +100,8 @@ class BrewForm(BaseForm):
     tasting_notes = wf.FieldList(wf.FormField(TastingNoteForm), _('tasting note'))
     is_public = wf.BooleanField(_('public'))
     is_draft = wf.BooleanField(_('draft'))
+
+    def save(self, user, obj=None):
+        if obj is None:
+            obj = Batch(parent=user.key)
+        return super(BrewForm, self).save(user, obj, save=True)
