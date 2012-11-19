@@ -6,91 +6,89 @@ import wtforms as wf
 from wtforms.validators import DataRequired, Optional
 from webapp2_extras.i18n import lazy_gettext as _
 
-from forms.base import BaseForm
+from forms.base import BaseForm, BaseSubform
 from models import choices
 from models.simple import Batch, FermentableItem, HopItem, YeastItem, MiscItem, MashStep, HoppingStep, AdditionalFermentationStep, TastingNote
 
 
-class FermentableItemForm(wf.Form):
-    name = wf.TextField(_('name'), validators=[DataRequired()])
-    amount = wf.FloatField(_('amount'), validators=[DataRequired()])
-    unit = wf.TextField(_('unit'), validators=[DataRequired()])
-    remarks = wf.TextAreaField(_('remarks'), validators=[Optional()])
+class FermentableItemForm(BaseSubform):
+    name = wf.TextField(_('name'))
+    amount = wf.FloatField(_('amount'))
+    unit = wf.TextField(_('unit'))
+    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = FermentableItem
 
 
-class HopItemForm(wf.Form):
-    name = wf.TextField(_('name'), validators=[DataRequired()])
-    year = wf.IntegerField(_('year'), validators=[Optional()])
-    aa_content = wf.FloatField(_('alpha acids content'), validators=[Optional()])
-    amount = wf.FloatField(_('amount'), validators=[DataRequired()])
-    remarks = wf.TextAreaField(_('remarks'), validators=[Optional()])
+class HopItemForm(BaseSubform):
+    name = wf.TextField(_('name'))
+    year = wf.IntegerField(_('year'))
+    aa_content = wf.FloatField(_('alpha acids content'))
+    amount = wf.FloatField(_('amount'))
+    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = HopItem
 
 
-class YeastItemForm(wf.Form):
-    name = wf.TextField(_('name'), validators=[DataRequired()])
+class YeastItemForm(BaseSubform):
+    name = wf.TextField(_('name'))
     code = wf.TextField(_('code'),
-        description=_('manufacturer code for this strain'),
-        validators=[Optional()])
+        description=_('manufacturer code for this strain'))
     manufacturer = wf.TextAreaField(_('manufacturer'))
     use = wf.SelectField(_('usage'), choices=choices.YEAST_USE_CHOICES,
         description=_('select how this yeast was introduced into your brew'))
-    remarks = wf.TextAreaField(_('remarks'), validators=[Optional()])
+    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = YeastItem
 
 
-class MiscItemForm(wf.Form):
-    name = wf.TextField(_('name'), validators=[DataRequired()])
-    amount = wf.FloatField(_('amount'), validators=[DataRequired()])
-    unit = wf.TextField(_('unit'), validators=[DataRequired()])
+class MiscItemForm(BaseSubform):
+    name = wf.TextField(_('name'))
+    amount = wf.FloatField(_('amount'))
+    unit = wf.TextField(_('unit'))
     use = wf.SelectField(_('usage'), choices=choices.MISC_USE_CHOICES)
-    remarks = wf.TextAreaField(_('remarks'), validators=[Optional()])
+    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = MiscItem
 
 
-class MashStepForm(wf.Form):
+class MashStepForm(BaseSubform):
     order = wf.IntegerField(_('order'))
-    name = wf.TextField(_('name'), validators=[DataRequired()])
-    temperature = wf.IntegerField(_('temperature'), validators=[DataRequired()])
-    time = wf.IntegerField(_('time'), validators=[DataRequired()])
+    name = wf.TextField(_('name'))
+    temperature = wf.IntegerField(_('temperature'))
+    time = wf.IntegerField(_('time'))
     step_type = wf.SelectField(_('step type'), choices=choices.STEP_TYPE_CHOICES)
     amount = wf.IntegerField(_('amount'),
-        description=_('amount of water added as an infusion or mash drawn for decoction'),
-        validators=[Optional()])
-    remarks = wf.TextAreaField(_('remarks'), validators=[Optional()])
+        description=_('amount of water added as an infusion or mash drawn for decoction'))
+    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = MashStep
 
 
-class HoppingStepForm(wf.Form):
+class HoppingStepForm(BaseSubform):
     addition_type = wf.SelectField(_('addition type'), choices=choices.HOPSTEP_TYPE_CHOICES)
-    time = wf.IntegerField(_('time'), validators=[Optional()])
-    variety = wf.TextField(_('variety'), validators=[DataRequired()])
-    amount = wf.IntegerField(_('amount'), validators=[DataRequired()])
-    remarks = wf.TextAreaField(_('remarks'), validators=[Optional()])
+    time = wf.IntegerField(_('time'))
+    variety = wf.TextField(_('variety'))
+    amount = wf.IntegerField(_('amount'))
+    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = HoppingStep
 
 
-class AdditionalFermentationStepForm(wf.Form):
-    date = wf.DateField(_('date'), validators=[DataRequired()])
-    amount = wf.FloatField(_('amount'), validators=[Optional()])
-    og = wf.FloatField(_('original gravity'), validators=[Optional()])
-    fg = wf.FloatField(_('final gravity'), validators=[Optional()])
-    fermentation_temperature = wf.IntegerField(_('fermentation temperature'), validators=[Optional()])
-    remarks = wf.TextAreaField(_('remarks'), validators=[Optional()])
+class AdditionalFermentationStepForm(BaseSubform):
+    date = wf.DateField(_('date'))
+    amount = wf.FloatField(_('amount'))
+    og = wf.FloatField(_('original gravity'))
+    fg = wf.FloatField(_('final gravity'))
+    fermentation_temperature = wf.IntegerField(_('fermentation temperature'))
+    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = AdditionalFermentationStep
 
 
-class TastingNoteForm(wf.Form):
-    date = wf.DateField(_('date'), validators=[DataRequired()])
-    text = wf.TextAreaField(_('text'), validators=[DataRequired()])
+class TastingNoteForm(BaseSubform):
+    date = wf.DateField(_('date'))
+    text = wf.TextAreaField(_('text'))
 
     _model_class = TastingNote
 
@@ -132,13 +130,11 @@ class BrewForm(BaseForm):
     def save(self, user, obj=None):
         if obj is None:
             obj = Batch(parent=user.key)
-        kw = {
-            'fermentables': [],
-        }
+        kw = {}
         for field_name, field in self._fields.items():
             if field.type == 'FieldList':
                 for entry in field.entries:
-                    item = entry.form_class._model_class(name=entry.name.data, amount=entry.amount.data, unit=entry.unit.data, remarks=entry.remarks.data)
+                    item = entry.form.item_from_data()
                     kw[field_name].append(item)
             else:
                 kw[field_name] = field.data

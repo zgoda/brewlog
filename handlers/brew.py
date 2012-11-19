@@ -16,7 +16,7 @@ class BrewHandler(BaseRequestHandler):
         form = BrewForm(self.request.POST)
         if self.request.POST:
             if form.validate():
-                brew = form.save()
+                brew = form.save(user=self.current_user)
                 self.session.add_flash(_('brew %s saved') % brew.name)
                 next = self.uri_for('brew-details', keyid=brew.key.urlsafe())
                 return self.redirect(next)

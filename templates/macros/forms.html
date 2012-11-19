@@ -18,7 +18,17 @@
     <button type="submit" class="btn">{% trans %}submit{% endtrans %}</button>
     <button class="btn">{% trans %}cancel{% endtrans %}</button>
 </div>
-{% endmacro %}
+{%- endmacro %}
+
+
+{% macro render_subform(form, all_forms) -%}
+    {% set subform = all_forms[form.name] %}
+    <ul id="{{ subform.name }}" class="subform">
+        <li><label for="{{ subform.name }}-0">{{ subform.label }}</label>
+        </li>
+    </ul>
+{%- endmacro %}
+
 
 {% macro form_field(field) -%}
     {% set with_label = kwargs.pop('with_label', False) %}
