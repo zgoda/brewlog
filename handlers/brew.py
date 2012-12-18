@@ -6,11 +6,18 @@ __revision__ = '$Id$'
 from webapp2_extras.i18n import lazy_gettext as _
 
 from handlers.base import BaseRequestHandler
-
 from forms.brew import BrewForm
+from models.simple import Batch
 
 
 class BrewHandler(BaseRequestHandler):
+
+    def brew_list(self):
+        brews = Batch.query(Batch.is_public==True).order(-Batch.created_at).fetch(10)
+        ctx = {
+            'brews': brews
+        }
+        self.render('brewery/brew_list.html', ctx)
 
     def add_brew(self):
         form = BrewForm(self.request.POST)

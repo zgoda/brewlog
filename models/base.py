@@ -44,11 +44,20 @@ class Brewery(db.Model):
     est_year = db.IntegerProperty()
     est_month = db.IntegerProperty()
     est_day = db.IntegerProperty
+    other_brewers = db.KeyProperty(kind=User, repeated=True)
 
     @property
     def owner(self):
         owner_key = self.key.parent()
         return owner_key.get()
+
+    @property
+    def brewers(self):
+        brewers = [b.get() for b in self.other_brewers]
+        return {
+            'owner': self.owner,
+            'brewers': brewers,
+        }
 
     def get_absolute_url(self):
         return uri_for('brewery-details', keyid=self.key.urlsafe())

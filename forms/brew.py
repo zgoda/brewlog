@@ -133,9 +133,11 @@ class BrewForm(BaseForm):
         kw = {}
         for field_name, field in self._fields.items():
             if field.type == 'FieldList':
+                items = kw.get(field_name, [])
                 for entry in field.entries:
                     item = entry.form.item_from_data()
-                    kw[field_name].append(item)
+                    items.append(item)
+                kw[field_name] = items
             else:
                 kw[field_name] = field.data
         for k, v in kw:

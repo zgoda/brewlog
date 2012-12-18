@@ -106,6 +106,7 @@ class TastingNote(db.Model):
 
 
 class Batch(db.Model):
+    created_at = db.DateTimeProperty(auto_now_add=True)
     name = db.StringProperty()
     style = db.TextProperty()
     bjcp_style_code = db.StringProperty()

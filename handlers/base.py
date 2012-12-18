@@ -56,7 +56,9 @@ class BaseRequestHandler(webapp2.RequestHandler):
 
     @property
     def brewer_profile(self):
-        return BrewerProfile.get_for_user(self.current_user)
+        if self.current_user:
+            return BrewerProfile.get_for_user(self.current_user)
+        return None
 
     @cached_property
     def static_context(self):
