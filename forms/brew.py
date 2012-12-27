@@ -21,6 +21,7 @@ class FermentableItemForm(BaseSubform):
     remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = FermentableItem
+    _required = ('name', 'amount', 'unit')
 
 
 class HopItemForm(BaseSubform):
@@ -31,6 +32,7 @@ class HopItemForm(BaseSubform):
     remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = HopItem
+    _required = ('name', 'amount')
 
 
 class YeastItemForm(BaseSubform):
@@ -43,6 +45,7 @@ class YeastItemForm(BaseSubform):
     remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = YeastItem
+    _required = ('name', 'manufacturer', 'use')
 
 
 class MiscItemForm(BaseSubform):
@@ -53,6 +56,7 @@ class MiscItemForm(BaseSubform):
     remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = MiscItem
+    _required = ('name', 'amount', 'unit', 'use')
 
 
 class MashStepForm(BaseSubform):
@@ -66,6 +70,7 @@ class MashStepForm(BaseSubform):
     remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = MashStep
+    _required = ('temperature', 'time', 'step_type')
 
 
 class HoppingStepForm(BaseSubform):
@@ -76,6 +81,7 @@ class HoppingStepForm(BaseSubform):
     remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = HoppingStep
+    _required = ('addition_type', 'time', 'variety', 'amount')
 
 
 class AdditionalFermentationStepForm(BaseSubform):
@@ -87,6 +93,7 @@ class AdditionalFermentationStepForm(BaseSubform):
     remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = AdditionalFermentationStep
+    _required = ('date', 'og')
 
 
 class TastingNoteForm(BaseSubform):
@@ -94,6 +101,7 @@ class TastingNoteForm(BaseSubform):
     text = wf.TextAreaField(_('text'))
 
     _model_class = TastingNote
+    _required = ('date', 'text')
 
 
 class BrewForm(BaseForm):
@@ -142,17 +150,18 @@ class BrewForm(BaseForm):
             obj = Batch(parent=user.key)
         kw = {}
         for field_name, field in self._fields.items():
-            import pdb; pdb.set_trace()
-            if field.type == 'FieldList':
-                items = kw.get(field_name, [])
-                for entry in field.entries:
-                    item = entry.form.item_from_data()
-                    items.append(item)
-                kw[field_name] = items
-            elif field.type == 'SelectField':
+            if field_name == 'brewery':
                 kw[field_name] = db.Key(urlsafe=field.data)
             else:
-                kw[field_name] = field.data
+                if field.type == 'FieldList':
+                    items = kw.get(field_name, [])
+                    for entry in field.entries:
+                        item = entry.form.item_from_data()
+                        if item:
+                            items.append(item)
+                    kw[field_name] = items
+                else:
+                    kw[field_name] = field.data
         for k, v in kw.items():
             setattr(obj, k, v)
         obj.put()

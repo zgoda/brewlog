@@ -147,10 +147,6 @@ class Batch(db.Model):
         owner_key = self.key.parent()
         return owner_key.get()
 
-    @property
-    def brewery(self):
-        return self.brewery.get()
-
     def _pre_put_hook(self):
         self.notes_html = markdown.markdown(self.notes, safe_mode='remove')
         if self.bjcp_style_code and self.bjcp_style_name:
