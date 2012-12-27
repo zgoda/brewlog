@@ -11,7 +11,7 @@
 <h3>{% trans %}Latest brews{% endtrans %}</h3>
 <ul>
     {% for brew in latest_brews %}
-    <li>{{ brew.date }} &mdash; {{ brew.name }}</li>
+    <li>{% if brew_date %}{{ brew.date }}{% else %}{% trans %}not brewed yet{% endtrans %}{% endif %} &mdash; {{ brew.name }}</li>
     {% endfor %}
 </ul>
 {% endif %}

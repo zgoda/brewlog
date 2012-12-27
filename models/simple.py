@@ -155,5 +155,5 @@ class Batch(db.Model):
             self.style = self.bjcp_style
 
     @classmethod
-    def get_for_brewery(cls, brewery):
-        return cls.query(ancestor=brewery.key).order(-Batch.date_brewed).fetch_page(20)
+    def get_for_brewery(cls, brewery, limit=20):
+        return cls.query(cls.brewery==brewery.key).order(-Batch.date_brewed).fetch_page(limit)

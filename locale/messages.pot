@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-11-18 17:40+0100\n"
+"POT-Creation-Date: 2012-12-27 23:48+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -41,194 +41,198 @@ msgstr ""
 msgid "about me"
 msgstr ""
 
-#: forms/brew.py:15 forms/brew.py:22 forms/brew.py:30 forms/brew.py:40
-#: forms/brew.py:49 forms/brew.py:81 forms/brewery.py:21
+#: forms/brew.py:18 forms/brew.py:28 forms/brew.py:39 forms/brew.py:52
+#: forms/brew.py:64 forms/brew.py:109 forms/brewery.py:21
 msgid "name"
 msgstr ""
 
-#: forms/brew.py:16 forms/brew.py:25 forms/brew.py:41 forms/brew.py:53
-#: forms/brew.py:62 forms/brew.py:68
+#: forms/brew.py:19 forms/brew.py:31 forms/brew.py:53 forms/brew.py:68
+#: forms/brew.py:80 forms/brew.py:89
 msgid "amount"
 msgstr ""
 
-#: forms/brew.py:17 forms/brew.py:42
+#: forms/brew.py:20 forms/brew.py:54
 msgid "unit"
 msgstr ""
 
-#: forms/brew.py:18 forms/brew.py:26 forms/brew.py:36 forms/brew.py:44
-#: forms/brew.py:55 forms/brew.py:63 forms/brew.py:72
+#: forms/brew.py:21 forms/brew.py:32 forms/brew.py:45 forms/brew.py:56
+#: forms/brew.py:70 forms/brew.py:81 forms/brew.py:93
 msgid "remarks"
 msgstr ""
 
-#: forms/brew.py:23
+#: forms/brew.py:29
 msgid "year"
 msgstr ""
 
-#: forms/brew.py:24
+#: forms/brew.py:30
 msgid "alpha acids content"
 msgstr ""
 
-#: forms/brew.py:31
+#: forms/brew.py:40
 msgid "code"
 msgstr ""
 
-#: forms/brew.py:32
+#: forms/brew.py:41
 msgid "manufacturer code for this strain"
 msgstr ""
 
-#: forms/brew.py:33
+#: forms/brew.py:42
 msgid "manufacturer"
 msgstr ""
 
-#: forms/brew.py:34 forms/brew.py:43
+#: forms/brew.py:43 forms/brew.py:55
 msgid "usage"
 msgstr ""
 
-#: forms/brew.py:35
+#: forms/brew.py:44
 msgid "select how this yeast was introduced into your brew"
 msgstr ""
 
-#: forms/brew.py:48
+#: forms/brew.py:63
 msgid "order"
 msgstr ""
 
-#: forms/brew.py:50 models/choices.py:21
+#: forms/brew.py:65 models/choices.py:21
 msgid "temperature"
 msgstr ""
 
-#: forms/brew.py:51 forms/brew.py:60
+#: forms/brew.py:66 forms/brew.py:78
 msgid "time"
 msgstr ""
 
-#: forms/brew.py:52
+#: forms/brew.py:67
 msgid "step type"
 msgstr ""
 
-#: forms/brew.py:54
+#: forms/brew.py:69
 msgid "amount of water added as an infusion or mash drawn for decoction"
 msgstr ""
 
-#: forms/brew.py:59
+#: forms/brew.py:77
 msgid "addition type"
 msgstr ""
 
-#: forms/brew.py:61
+#: forms/brew.py:79
 msgid "variety"
 msgstr ""
 
-#: forms/brew.py:67 forms/brew.py:76
+#: forms/brew.py:88 forms/brew.py:100
 msgid "date"
 msgstr ""
 
-#: forms/brew.py:69 forms/brew.py:90
+#: forms/brew.py:90 forms/brew.py:119
 msgid "original gravity"
 msgstr ""
 
-#: forms/brew.py:70 forms/brew.py:91
+#: forms/brew.py:91 forms/brew.py:120
 msgid "final gravity"
 msgstr ""
 
-#: forms/brew.py:71 forms/brew.py:94
+#: forms/brew.py:92 forms/brew.py:124
 msgid "fermentation temperature"
 msgstr ""
 
-#: forms/brew.py:77
+#: forms/brew.py:101
 msgid "text"
 msgstr ""
 
-#: forms/brew.py:82
+#: forms/brew.py:108 templates/brewery/base.html:3
+msgid "brewery"
+msgstr ""
+
+#: forms/brew.py:110
 msgid "style"
 msgstr ""
 
-#: forms/brew.py:83
+#: forms/brew.py:111
 msgid "descriptive name of style, as you see it"
 msgstr ""
 
-#: forms/brew.py:84
+#: forms/brew.py:113
 msgid "BJCP style code"
 msgstr ""
 
-#: forms/brew.py:85
+#: forms/brew.py:114
 msgid "BJCP style name"
 msgstr ""
 
-#: forms/brew.py:86
+#: forms/brew.py:115
 msgid "date brewed"
 msgstr ""
 
-#: forms/brew.py:87
+#: forms/brew.py:116
 msgid "notes"
 msgstr ""
 
-#: forms/brew.py:88
+#: forms/brew.py:117
 msgid "boil time"
 msgstr ""
 
-#: forms/brew.py:89
+#: forms/brew.py:118
 msgid "fermentation start date"
 msgstr ""
 
-#: forms/brew.py:92
+#: forms/brew.py:121
 msgid "brew length"
 msgstr ""
 
-#: forms/brew.py:93
+#: forms/brew.py:122
 msgid "total volume in fermenter (including yeast starter volume, if any)"
 msgstr ""
 
-#: forms/brew.py:95
+#: forms/brew.py:125
 msgid "final amount"
 msgstr ""
 
-#: forms/brew.py:96
+#: forms/brew.py:126
 msgid "volume into bottling"
 msgstr ""
 
-#: forms/brew.py:97
+#: forms/brew.py:128
 msgid "bottling date"
 msgstr ""
 
-#: forms/brew.py:98
+#: forms/brew.py:129
 msgid "type of carbonation"
 msgstr ""
 
-#: forms/brew.py:99
+#: forms/brew.py:131
 msgid "fermentable items"
 msgstr ""
 
-#: forms/brew.py:100
+#: forms/brew.py:133
 msgid "hop items"
 msgstr ""
 
-#: forms/brew.py:101
+#: forms/brew.py:134
 msgid "yeast items"
 msgstr ""
 
-#: forms/brew.py:102
+#: forms/brew.py:135
 msgid "miscellaneous items"
 msgstr ""
 
-#: forms/brew.py:103
+#: forms/brew.py:137
 msgid "mash schedule"
 msgstr ""
 
-#: forms/brew.py:104
+#: forms/brew.py:139
 msgid "hopping schedule"
 msgstr ""
 
-#: forms/brew.py:105
+#: forms/brew.py:141
 msgid "additional fermentation steps"
 msgstr ""
 
-#: forms/brew.py:106
+#: forms/brew.py:143
 msgid "tasting notes"
 msgstr ""
 
-#: forms/brew.py:107
+#: forms/brew.py:145
 msgid "public"
 msgstr ""
 
-#: forms/brew.py:108
+#: forms/brew.py:146
 msgid "draft"
 msgstr ""
 
@@ -246,6 +250,21 @@ msgstr ""
 
 #: handlers/account.py:23
 msgid "your brewer's profile has been updated"
+msgstr ""
+
+#: handlers/brew.py:30
+#, python-format
+msgid "brew %s saved"
+msgstr ""
+
+#: handlers/brew.py:53
+#, python-format
+msgid "data for brew %s updated"
+msgstr ""
+
+#: handlers/brewery.py:43
+#, python-format
+msgid "brewery %s created"
 msgstr ""
 
 #: handlers/brewery.py:66
@@ -363,7 +382,7 @@ msgstr ""
 msgid "Invalid value, can't be any of: %(values)s."
 msgstr ""
 
-#: lib/wtforms/ext/appengine/fields.py:90 lib/wtforms/fields/core.py:419
+#: lib/wtforms/ext/appengine/fields.py:90 lib/wtforms/fields/core.py:432
 msgid "Not a valid choice"
 msgstr ""
 
@@ -395,36 +414,36 @@ msgstr ""
 msgid "Invalid date/time input"
 msgstr ""
 
-#: lib/wtforms/fields/core.py:412
+#: lib/wtforms/fields/core.py:425
 msgid "Invalid Choice: could not coerce"
 msgstr ""
 
-#: lib/wtforms/fields/core.py:445
+#: lib/wtforms/fields/core.py:458
 msgid "Invalid choice(s): one or more data inputs could not be coerced"
 msgstr ""
 
-#: lib/wtforms/fields/core.py:452
+#: lib/wtforms/fields/core.py:465
 #, python-format
 msgid "'%(value)s' is not a valid choice for this field"
 msgstr ""
 
-#: lib/wtforms/fields/core.py:507
+#: lib/wtforms/fields/core.py:520
 msgid "Not a valid integer value"
 msgstr ""
 
-#: lib/wtforms/fields/core.py:554
+#: lib/wtforms/fields/core.py:570
 msgid "Not a valid decimal value"
 msgstr ""
 
-#: lib/wtforms/fields/core.py:581
+#: lib/wtforms/fields/core.py:597
 msgid "Not a valid float value"
 msgstr ""
 
-#: lib/wtforms/fields/core.py:632
+#: lib/wtforms/fields/core.py:648
 msgid "Not a valid datetime value"
 msgstr ""
 
-#: lib/wtforms/fields/core.py:649
+#: lib/wtforms/fields/core.py:665
 msgid "Not a valid date value"
 msgstr ""
 
@@ -484,6 +503,10 @@ msgstr ""
 msgid "dry hop"
 msgstr ""
 
+#: templates/base.html:128 templates/index.html:38
+msgid "All rights reserved"
+msgstr ""
+
 #: templates/index.html:23
 msgid "my profile"
 msgstr ""
@@ -494,10 +517,6 @@ msgstr ""
 
 #: templates/index.html:25
 msgid "login page"
-msgstr ""
-
-#: templates/index.html:38
-msgid "All rights reserved"
 msgstr ""
 
 #: templates/account/base.html:3
@@ -540,8 +559,15 @@ msgstr ""
 msgid "Sign in with"
 msgstr ""
 
-#: templates/brewery/base.html:3
-msgid "brewery"
+#: templates/brew/base.html:3
+msgid "brew"
+msgstr ""
+
+#: templates/brew/details.html:5
+#, python-format
+msgid ""
+"Details for brew %(brewname)s from brewery %(breweryname)s by "
+"%(ownername)s"
 msgstr ""
 
 #: templates/brewery/details.html:5
@@ -555,6 +581,10 @@ msgstr ""
 
 #: templates/brewery/details.html:11
 msgid "Latest brews"
+msgstr ""
+
+#: templates/brewery/details.html:14
+msgid "not brewed yet"
 msgstr ""
 
 #: templates/brewery/details.html:19
