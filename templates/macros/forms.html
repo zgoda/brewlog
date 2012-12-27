@@ -43,22 +43,22 @@
             </label>
         {% endif %}
         <div class="controls">
-            {% set class_ = kwargs.pop('class_', '') %}
+            {% set cssclass_ = kwargs.pop('class_', '') %}
             {% if field.flags.required %}
-                {% set class_ = class_ + ' required' %}
+                {% set cssclass_ = cssclass_ + ' required' %}
             {% endif %}
             {% if field.type == 'BooleanField' %}
                 <label class="checkbox">
-                    {{ field(class_=class_, **kwargs) }}
+                    {{ field(class_=cssclass_, **kwargs) }}
                     {{ field.label.text|safe }}
                 </label>
             {% else %}
                 {% if field.type in ('TextField', 'TextAreaField', 'PasswordField') %}
-                    {% set class_ = class_ + ' input-xlarge' %}
+                    {% set cssclass_ = cssclass_ + ' input-xlarge' %}
                 {% elif field.type == 'FileField' %}
-                    {% set class_ = class_ + ' input-file' %}
+                    {% set cssclass_ = cssclass_ + ' input-file' %}
                 {% endif %}
-                {{ field(class_=class_, placeholder=placeholder, **kwargs) }}
+                {{ field(class_=cssclass_, placeholder=placeholder, **kwargs) }}
             {% endif %}
             {% if field.errors %}
                 <span class="error help-inline">{{ field.errors|join(', ') }}</span>

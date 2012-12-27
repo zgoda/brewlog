@@ -106,6 +106,7 @@ class TastingNote(db.Model):
 
 
 class Batch(db.Model):
+    brewery = db.KeyProperty(kind=Brewery)
     created_at = db.DateTimeProperty(auto_now_add=True)
     name = db.StringProperty()
     style = db.TextProperty()
@@ -141,9 +142,14 @@ class Batch(db.Model):
     is_public = db.BooleanProperty(default=True)
     is_draft = db.BooleanProperty(default=False)
 
-    def brewery(self):
+    @property
+    def user(self):
         owner_key = self.key.parent()
         return owner_key.get()
+
+    @property
+    def brewery(self):
+        return self.brewery.get()
 
     def _pre_put_hook(self):
         self.notes_html = markdown.markdown(self.notes, safe_mode='remove')

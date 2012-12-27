@@ -2,6 +2,9 @@
 
 __revision__ = '$Id$'
 
+
+from google.appengine.ext import ndb as db
+
 import wtforms as wf
 from wtforms.validators import DataRequired, Optional
 from webapp2_extras.i18n import lazy_gettext as _
@@ -94,6 +97,7 @@ class TastingNoteForm(BaseSubform):
 
 
 class BrewForm(BaseForm):
+    brewery = wf.SelectField(_('brewery'), coerce=str)
     name = wf.TextField(_('name'), validators=[DataRequired()])
     style = wf.TextField(_('style'),
         description=_('descriptive name of style, as you see it'),
@@ -116,14 +120,20 @@ class BrewForm(BaseForm):
     bottling_date = wf.DateField(_('bottling date'), validators=[Optional()])
     carbonation_type = wf.SelectField(_('type of carbonation'), choices=choices.CARBONATION_CHOICES,
         validators=[Optional()])
-    fermentables = wf.FieldList(wf.FormField(FermentableItemForm, _('fermentable items')), min_entries=1)
-    hops = wf.FieldList(wf.FormField(HopItemForm, _('hop items')), min_entries=1)
-    yeasts = wf.FieldList(wf.FormField(YeastItemForm, _('yeast items')), min_entries=1)
-    miscellany = wf.FieldList(wf.FormField(MiscItemForm, _('miscellaneous items')), min_entries=1)
-    mash_schedule = wf.FieldList(wf.FormField(MashStepForm, _('mash schedule')), min_entries=1)
-    hopping_schedule = wf.FieldList(wf.FormField(HoppingStepForm, _('hopping schedule')), min_entries=1)
-    additional_fermentation_steps = wf.FieldList(wf.FormField(AdditionalFermentationStepForm, _('additional fermentation steps')), min_entries=1)
-    tasting_notes = wf.FieldList(wf.FormField(TastingNoteForm, _('tasting notes')), min_entries=1)
+    fermentables = wf.FieldList(wf.FormField(FermentableItemForm, _('fermentable items')), min_entries=1,
+        validators=[Optional()])
+    hops = wf.FieldList(wf.FormField(HopItemForm, _('hop items')), min_entries=1, validators=[Optional()])
+    yeasts = wf.FieldList(wf.FormField(YeastItemForm, _('yeast items')), min_entries=1, validators=[Optional()])
+    miscellany = wf.FieldList(wf.FormField(MiscItemForm, _('miscellaneous items')), min_entries=1,
+        validators=[Optional()])
+    mash_schedule = wf.FieldList(wf.FormField(MashStepForm, _('mash schedule')), min_entries=1,
+        validators=[Optional()])
+    hopping_schedule = wf.FieldList(wf.FormField(HoppingStepForm, _('hopping schedule')), min_entries=1,
+        validators=[Optional()])
+    additional_fermentation_steps = wf.FieldList(wf.FormField(AdditionalFermentationStepForm, _('additional fermentation steps')),
+        min_entries=1, validators=[Optional()])
+    tasting_notes = wf.FieldList(wf.FormField(TastingNoteForm, _('tasting notes')), min_entries=1,
+        validators=[Optional()])
     is_public = wf.BooleanField(_('public'))
     is_draft = wf.BooleanField(_('draft'))
 
@@ -132,15 +142,18 @@ class BrewForm(BaseForm):
             obj = Batch(parent=user.key)
         kw = {}
         for field_name, field in self._fields.items():
+            import pdb; pdb.set_trace()
             if field.type == 'FieldList':
                 items = kw.get(field_name, [])
                 for entry in field.entries:
                     item = entry.form.item_from_data()
                     items.append(item)
                 kw[field_name] = items
+            elif field.type == 'SelectField':
+                kw[field_name] = db.Key(urlsafe=field.data)
             else:
                 kw[field_name] = field.data
-        for k, v in kw:
+        for k, v in kw.items():
             setattr(obj, k, v)
         obj.put()
         return obj

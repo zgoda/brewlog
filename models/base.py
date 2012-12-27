@@ -70,5 +70,5 @@ class Brewery(db.Model):
             self.est_day = self.established_date.day
 
     @classmethod
-    def get_for_user(cls, user):
-        return cls.query(ancestor=user.key).order(Brewery.name).fetch_page(20)
+    def get_for_user(cls, user, limit=20):
+        return cls.query(ancestor=user.key).order(Brewery.name).fetch_page(limit)
