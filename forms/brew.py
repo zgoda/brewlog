@@ -10,6 +10,7 @@ from wtforms.validators import DataRequired, Optional
 from webapp2_extras.i18n import lazy_gettext as _
 
 from forms.base import BaseForm, BaseSubform
+from forms.widgets import SubformListWidget
 from models import choices
 from models.simple import Batch, FermentableItem, HopItem, YeastItem, MiscItem, MashStep, HoppingStep, AdditionalFermentationStep, TastingNote
 
@@ -128,8 +129,8 @@ class BrewForm(BaseForm):
     bottling_date = wf.DateField(_('bottling date'), validators=[Optional()])
     carbonation_type = wf.SelectField(_('type of carbonation'), choices=choices.CARBONATION_CHOICES,
         validators=[Optional()])
-    fermentables = wf.FieldList(wf.FormField(FermentableItemForm, _('fermentable items')), min_entries=1,
-        validators=[Optional()])
+    fermentables = wf.FieldList(wf.FormField(FermentableItemForm, _('fermentable items'),
+        widget=SubformListWidget()), min_entries=1, validators=[Optional()])
     hops = wf.FieldList(wf.FormField(HopItemForm, _('hop items')), min_entries=1, validators=[Optional()])
     yeasts = wf.FieldList(wf.FormField(YeastItemForm, _('yeast items')), min_entries=1, validators=[Optional()])
     miscellany = wf.FieldList(wf.FormField(MiscItemForm, _('miscellaneous items')), min_entries=1,
