@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-12-27 23:48+0100\n"
+"POT-Creation-Date: 2013-01-10 14:22+0100\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -507,19 +507,23 @@ msgstr "po gotowaniu"
 msgid "dry hop"
 msgstr "na zimno"
 
-#: templates/base.html:128 templates/index.html:38
+#: templates/base.html:128 templates/index.bootstrap.html:35
+#: templates/index.foundation.html:47 templates/index.html:47
 msgid "All rights reserved"
 msgstr "Wszelkie prawa zastrzeżone"
 
-#: templates/index.html:23
+#: templates/index.bootstrap.html:20 templates/index.foundation.html:19
+#: templates/index.html:19
 msgid "my profile"
 msgstr "profil"
 
-#: templates/index.html:23
+#: templates/index.bootstrap.html:20 templates/index.foundation.html:19
+#: templates/index.html:19
 msgid "logout"
 msgstr "wyloguj"
 
-#: templates/index.html:25
+#: templates/index.bootstrap.html:22 templates/index.foundation.html:21
+#: templates/index.html:21
 msgid "login page"
 msgstr "strona logowania"
 
@@ -601,6 +605,15 @@ msgstr "jeszcze nie uwarzona"
 #, python-format
 msgid "Would you like to <a href=\"%(add_url)s\">add new brew</a>?"
 msgstr "Czy chcesz <a href=\"%(add_url)s\">dodać nową warkę</a>?"
+
+#: templates/brewery/form.html:4
+#, python-format
+msgid "modify your \"%(breweryname)s\" brewery data"
+msgstr ""
+
+#: templates/brewery/form.html:4
+msgid "add new brewery"
+msgstr "dodaj nowy browar"
 
 #: templates/brewery/list.html:3
 #, python-format

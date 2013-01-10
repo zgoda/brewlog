@@ -4,7 +4,7 @@
 {% block content %}
 <h3>{% trans breweryname=brewery.name, ownername=brewery.owner.name %}Details for brewery {{ breweryname }} by {{ ownername }}{% endtrans %}</h3>
 <p>{% trans %}You may change brewery data using the form below{% endtrans %}:</p>
-<form class="well" method="post" action="{{ uri_for('brewery-details', keyid=brewery.key.urlsafe()) }}">
+<form method="post" action="{{ uri_for('brewery-details', keyid=brewery.key.urlsafe()) }}">
     {{ forms.render(form) }}
 </form>
 {% if latest_brews %}

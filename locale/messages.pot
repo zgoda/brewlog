@@ -1,14 +1,14 @@
 # Translations template for PROJECT.
-# Copyright (C) 2012 ORGANIZATION
+# Copyright (C) 2013 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2012.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2012-12-27 23:48+0100\n"
+"POT-Creation-Date: 2013-01-10 14:22+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -503,19 +503,23 @@ msgstr ""
 msgid "dry hop"
 msgstr ""
 
-#: templates/base.html:128 templates/index.html:38
+#: templates/base.html:128 templates/index.bootstrap.html:35
+#: templates/index.foundation.html:47 templates/index.html:47
 msgid "All rights reserved"
 msgstr ""
 
-#: templates/index.html:23
+#: templates/index.bootstrap.html:20 templates/index.foundation.html:19
+#: templates/index.html:19
 msgid "my profile"
 msgstr ""
 
-#: templates/index.html:23
+#: templates/index.bootstrap.html:20 templates/index.foundation.html:19
+#: templates/index.html:19
 msgid "logout"
 msgstr ""
 
-#: templates/index.html:25
+#: templates/index.bootstrap.html:22 templates/index.foundation.html:21
+#: templates/index.html:21
 msgid "login page"
 msgstr ""
 
@@ -590,6 +594,15 @@ msgstr ""
 #: templates/brewery/details.html:19
 #, python-format
 msgid "Would you like to <a href=\"%(add_url)s\">add new brew</a>?"
+msgstr ""
+
+#: templates/brewery/form.html:4
+#, python-format
+msgid "modify your \"%(breweryname)s\" brewery data"
+msgstr ""
+
+#: templates/brewery/form.html:4
+msgid "add new brewery"
 msgstr ""
 
 #: templates/brewery/list.html:3

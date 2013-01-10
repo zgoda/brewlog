@@ -8,7 +8,7 @@
 {% else %}
 <p>{% trans %}Please fill you brewer's profile data{% endtrans %}</p>
 {% endif %}
-<form class="well" action="{{ uri_for('profile') }}" method="post">
+<form action="{{ uri_for('profile') }}" method="post">
     {{ forms.render(form) }}
 </form>
 <h3>{% trans %}Your brewery list{% endtrans %}</h3>

@@ -3,11 +3,11 @@
 __revision__ = '$Id$'
 
 
-from wtforms.widgets import ListWidget
+from wtforms.widgets import TableWidget
 
 
-class SubformListWidget(ListWidget):
+class SubformTableWidget(TableWidget):
 
     def __call__(self, field, **kwargs):
         kwargs['class_'] = 'subform'
-        return super(SubformListWidget, self).__call__(field, **kwargs)
+        return super(SubformTableWidget, self).__call__(field, **kwargs)

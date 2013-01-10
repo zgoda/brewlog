@@ -1,10 +1,10 @@
 {% extends "brewery/base.html" %}
 {% import "macros/forms.html" as forms %}
 
-{% block headpagetitle %}{% if brewery %}{% trans breweryname=brewery.name %}modify your "{{ brewery.name }}" brewery data{% endtrans %}{% else %}{% trans %}add new brewery{% endtrans %}{% endif %}{% endblock %}
+{% block headpagetitle %}{% if brewery %}{% trans breweryname=brewery.name %}modify your "{{ breweryname }}" brewery data{% endtrans %}{% else %}{% trans %}add new brewery{% endtrans %}{% endif %}{% endblock %}
 
 {% block content %}
-<form class="well" method="post" action="{{ uri_for('brewery-add') }}">
+<form method="post" action="{{ uri_for('brewery-add') }}">
     {{ forms.render(form) }}
 </form>
 {% endblock %}
