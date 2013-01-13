@@ -15,8 +15,7 @@
 {% endfor %}
 </fieldset>
 <div class="form-actions">
-    <button type="submit" class="btn">{% trans %}submit{% endtrans %}</button>
-    <button class="btn">{% trans %}cancel{% endtrans %}</button>
+    <button type="submit">{% trans %}submit{% endtrans %}</button>
 </div>
 {%- endmacro %}
 
@@ -36,32 +35,27 @@
     {% if not with_label %}
         {% set placeholder = field.label.text %}
     {% endif %}
-    <div class="control-group {% if field.errors %}error{% endif %}">
+    <div>
         {% if with_label %}
-            <label for="{{ field.id }}" class="control-label">
-                {{ field.label.text }}{% if field.flags.required %} *{% endif %}:
+            <label for="{{ field.id }}">
+                {{ field.label.text }}
             </label>
         {% endif %}
-        <div class="controls">
+        <div>
             {% set cssclass_ = kwargs.pop('class_', '') %}
             {% if field.flags.required %}
                 {% set cssclass_ = cssclass_ + ' required' %}
             {% endif %}
             {% if field.type == 'BooleanField' %}
-                <label class="checkbox">
+                <label>
                     {{ field(class_=cssclass_, **kwargs) }}
                     {{ field.label.text|safe }}
                 </label>
             {% else %}
-                {% if field.type in ('TextField', 'TextAreaField', 'PasswordField') %}
-                    {% set cssclass_ = cssclass_ + ' input-xlarge' %}
-                {% elif field.type == 'FileField' %}
-                    {% set cssclass_ = cssclass_ + ' input-file' %}
-                {% endif %}
                 {{ field(class_=cssclass_, placeholder=placeholder, **kwargs) }}
             {% endif %}
             {% if field.errors %}
-                <span class="error help-inline">{{ field.errors|join(', ') }}</span>
+                <span class="error">{{ field.errors|join(', ') }}</span>
             {% endif %}
             {% if field.description %}
                 <p class="help-block">{{ field.description|safe }}</p>
