@@ -5,12 +5,12 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
     <title>Brewlog | {% block headpagetitle %}{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <link rel="stylesheet" href="/static/foundation/stylesheets/foundation.min.css">
     <link rel="stylesheet" href="/static/foundation/stylesheets/app.css">
     <link href="/static/signin-buttons/auth-buttons.css" rel="stylesheet">
     {% block styles %}{% endblock %}
     <script src="/static/foundation/javascripts/modernizr.foundation.js"></script>
-    {% block scripts %}{% endblock %}
 </head>
 <body>
     <header class="row">
@@ -32,11 +32,11 @@
         {% endblock %}
     </header>
     <section class="row">
-        <div class="eight columns">
+        <div class="nine columns">
         {% block content %}
         {% endblock %}
         </div>
-        <div class="four columns">
+        <div class="three columns">
         {% block sidebar %}
         {% endblock %}
         </div>
@@ -48,8 +48,8 @@
         </div>
     </footer>
     {% endblock %}
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
     <script src="/static/foundation/javascripts/foundation.min.js"></script>
     <script src="/static/foundation/javascripts/app.js"></script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>

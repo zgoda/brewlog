@@ -4,7 +4,7 @@ __revision__ = '$Id$'
 
 import webapp2
 from webapp2 import cached_property
-from webapp2_extras import jinja2, sessions, auth, i18n
+from webapp2_extras import jinja2, sessions, auth, i18n, json
 
 from models.base import BrewerProfile
 
@@ -84,6 +84,14 @@ class BaseRequestHandler(webapp2.RequestHandler):
         values.update(get_global_context())
         values.update(context)
         self.response.write(self.jinja.render_template(template_name, **values))
+
+    def render_to_json(self, context=None):
+        if context is None:
+            context = {}
+        values = get_global_context()
+        values.update(context)
+        self.response.headers['Content-Type'] = 'application/json'
+        self.response.write(json.dumps(context))
 
     def head(self, *args):
         """required by Twitter"""

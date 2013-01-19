@@ -1,6 +1,25 @@
 {% extends "brewery/base.html" %}
 {% import "macros/forms.html" as forms %}
 
+{% block scripts %}
+{{ super() }}
+<script type="text/javascript">
+$(document).ready(function() {
+    $("table.subform").hide();
+    $("table[id$='-0']").show();
+    $("table[id$='-0'] .remove-item").hide();
+});
+$(".add-item").click(function(e) {
+    $(this).parents("div.field-enclosure").next().find("table.subform").show();
+    return false;
+});
+$(".remove-item").click(function(e) {
+    $(this).parents("table.subform").hide();
+    return false;
+});
+</script>
+{% endblock %}
+
 {% block content %}
 <form method="post" action="{{ uri_for('brew-add') }}">
     {{ forms.render(form) }}

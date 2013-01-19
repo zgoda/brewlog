@@ -6,7 +6,7 @@
 {% else %}
     {% if field.type == 'FieldList' %}
         {% for subfield in field %}
-            {{ form_field(subfield, with_label=True) }}
+            {% if loop.first %}{{ form_field(subfield, with_label=True) }}{% else %}{{ form_field(subfield, with_label=False) }}{% endif %}
         {% endfor %}
     {% else %}
         {{ form_field(field, with_label=True) }}
@@ -33,12 +33,12 @@
     {% set with_label = kwargs.pop('with_label', False) %}
     {% set placeholder = '' %}
     {% if not with_label %}
-        {% set placeholder = field.label.text %}
+        {% set placeholder = field.label.text|safe %}
     {% endif %}
-    <div>
+    <div class="field-enclosure">
         {% if with_label %}
             <label for="{{ field.id }}">
-                {{ field.label.text }}
+                {{ field.label.text|safe }}
             </label>
         {% endif %}
         <div>
@@ -58,7 +58,7 @@
                 <span class="error">{{ field.errors|join(', ') }}</span>
             {% endif %}
             {% if field.description %}
-                <p class="help-block">{{ field.description|safe }}</p>
+                <p class="help">{{ field.description|safe }}</p>
             {% endif %}
         </div>
     </div>
