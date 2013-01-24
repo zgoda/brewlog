@@ -128,19 +128,19 @@ class BrewForm(BaseForm):
     bottling_date = wf.DateField(_('bottling date'), validators=[Optional()])
     carbonation_type = wf.SelectField(_('type of carbonation'), choices=choices.CARBONATION_CHOICES,
         validators=[Optional()])
-    fermentables = wf.FieldList(wf.FormField(FermentableItemForm, _('fermentable items'), widget=SubformTableWidget()), min_entries=12,
+    fermentables = wf.FieldList(wf.FormField(FermentableItemForm, _('fermentable items'), widget=SubformTableWidget()), min_entries=1,
         validators=[Optional()])
-    hops = wf.FieldList(wf.FormField(HopItemForm, _('hop items'), widget=SubformTableWidget()), min_entries=12, validators=[Optional()])
-    yeasts = wf.FieldList(wf.FormField(YeastItemForm, _('yeast items'), widget=SubformTableWidget()), min_entries=6, validators=[Optional()])
-    miscellany = wf.FieldList(wf.FormField(MiscItemForm, _('miscellaneous items'), widget=SubformTableWidget()), min_entries=12,
+    hops = wf.FieldList(wf.FormField(HopItemForm, _('hop items'), widget=SubformTableWidget()), min_entries=1, validators=[Optional()])
+    yeasts = wf.FieldList(wf.FormField(YeastItemForm, _('yeast items'), widget=SubformTableWidget()), min_entries=1, validators=[Optional()])
+    miscellany = wf.FieldList(wf.FormField(MiscItemForm, _('miscellaneous items'), widget=SubformTableWidget()), min_entries=1,
         validators=[Optional()])
-    mash_schedule = wf.FieldList(wf.FormField(MashStepForm, _('mash schedule'), widget=SubformTableWidget()), min_entries=12,
+    mash_schedule = wf.FieldList(wf.FormField(MashStepForm, _('mash schedule'), widget=SubformTableWidget()), min_entries=1,
         validators=[Optional()])
-    hopping_schedule = wf.FieldList(wf.FormField(HoppingStepForm, _('hopping schedule'), widget=SubformTableWidget()), min_entries=12,
+    hopping_schedule = wf.FieldList(wf.FormField(HoppingStepForm, _('hopping schedule'), widget=SubformTableWidget()), min_entries=1,
         validators=[Optional()])
     additional_fermentation_steps = wf.FieldList(wf.FormField(AdditionalFermentationStepForm, _('additional fermentation steps'), widget=SubformTableWidget()),
-        min_entries=12, validators=[Optional()])
-    tasting_notes = wf.FieldList(wf.FormField(TastingNoteForm, _('tasting notes'), widget=SubformTableWidget()), min_entries=6,
+        min_entries=1, validators=[Optional()])
+    tasting_notes = wf.FieldList(wf.FormField(TastingNoteForm, _('tasting notes'), widget=SubformTableWidget()), min_entries=1,
         validators=[Optional()])
     is_public = wf.BooleanField(_('public'))
     is_draft = wf.BooleanField(_('draft'))

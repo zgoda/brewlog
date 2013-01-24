@@ -4,17 +4,40 @@
 {% block scripts %}
 {{ super() }}
 <script type="text/javascript">
-$(document).ready(function() {
-    $("table.subform").hide();
-    $("table[id$='-0']").show();
-    $("table[id$='-0'] .remove-item").hide();
-});
 $(".add-item").click(function(e) {
-    $(this).parents("div.field-enclosure").next().find("table.subform").show();
+    var table = $(this).parents("table.subform-table");
+    var oldObjId = table.attr("id");
+    var objIdParts = oldObjId.split("-");
+    var objName = objIdParts[0];
+    var objId = parseInt(objIdParts[1]);
+    var newId = objId + 1;
+    var newObjId = objName + "-" + newId;
+    var original = $(this).parents("div.field-enclosure");
+    var clone = original.clone(true);
+    clone.children("label[for='" + oldObjId + "']").hide();
+    var items = clone.find("[name^='" + objName + "'], [id^='" + objName + "'], [for^='" + objName + "']");
+    for (var i=0; i<items.length; i++) {
+        item = $(items[i]);
+        if (item.attr("id")) {
+            newAttr = item.attr("id").replace(oldObjId, newObjId);
+            item.attr("id", newAttr);
+        }
+        if (item.attr("name")) {
+            newAttr = item.attr("name").replace(oldObjId, newObjId);
+            item.attr("name", newAttr);
+        }
+        if (item.attr("for")) {
+            newAttr = item.attr("for").replace(oldObjId, newObjId);
+            item.attr("for",  newAttr);
+        }
+    }
+    clone.insertAfter(original);
+    original.find("td.item-ops").children().hide();
     return false;
 });
 $(".remove-item").click(function(e) {
-    $(this).parents("table.subform").hide();
+    $(this).parents("div.subform").prev().find("td.item-ops").children().show();
+    $(this).parents("div.subform").hide();
     return false;
 });
 </script>

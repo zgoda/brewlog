@@ -11,7 +11,7 @@ from wtforms.compat import text_type
 class SubformTableWidget(TableWidget):
 
     def __call__(self, field, **kwargs):
-        kwargs['class_'] = 'subform'
+        kwargs['class_'] = 'subform-table'
         html = []
         if self.with_table_tag:
             kwargs.setdefault('id', field.id)
@@ -27,7 +27,7 @@ class SubformTableWidget(TableWidget):
                 cell_row.append('<td>%s%s</td>' % (hidden, text_type(subfield)))
                 hidden = ''
         header_row.append('<th>&nbsp;</th>')
-        cell_row.append('<td><a href="#" class="add-item">(+)</a> <a href="#" class="remove-item">(-)</a></td>')
+        cell_row.append('<td class="item-ops"><a href="#" class="add-item">(+)</a> <a href="#" class="remove-item">(-)</a></td>')
         header_row.append('</tr>')
         cell_row.append('</tr>')
         html.append(''.join(header_row))
