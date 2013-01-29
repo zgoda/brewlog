@@ -5,6 +5,7 @@ __revision__ = '$Id$'
 from google.appengine.ext import ndb as db
 
 import wtforms as wf
+from wtforms.fields.html5 import DateField, IntegerField
 from wtforms.validators import DataRequired, Optional
 from webapp2_extras.i18n import lazy_gettext as _
 
@@ -25,7 +26,7 @@ class FermentableItemForm(BaseSubform):
 
 class HopItemForm(BaseSubform):
     name = wf.TextField(_('name'))
-    year = wf.IntegerField(_('year'))
+    year = IntegerField(_('year'))
     aa_content = wf.FloatField(_('alpha acids content'))
     amount = wf.FloatField(_('amount'))
 
@@ -56,10 +57,10 @@ class MiscItemForm(BaseSubform):
 
 
 class MashStepForm(BaseSubform):
-    order = wf.IntegerField(_('order'))
+    order = IntegerField(_('order'))
     name = wf.TextField(_('name'))
-    temperature = wf.IntegerField(_('temperature'))
-    time = wf.IntegerField(_('time'))
+    temperature = IntegerField(_('temperature'))
+    time = IntegerField(_('time'))
     step_type = wf.SelectField(_('step type'), choices=choices.STEP_TYPE_CHOICES)
     amount = wf.IntegerField(_('amount'),
         description=_('amount of water added as an infusion or mash drawn for decoction'))
@@ -70,7 +71,7 @@ class MashStepForm(BaseSubform):
 
 class HoppingStepForm(BaseSubform):
     addition_type = wf.SelectField(_('addition type'), choices=choices.HOPSTEP_TYPE_CHOICES)
-    time = wf.IntegerField(_('time'))
+    time = IntegerField(_('time'))
     variety = wf.TextField(_('variety'))
     amount = wf.IntegerField(_('amount'))
 
@@ -79,18 +80,18 @@ class HoppingStepForm(BaseSubform):
 
 
 class AdditionalFermentationStepForm(BaseSubform):
-    date = wf.DateField(_('date'))
+    date = DateField(_('date'))
     amount = wf.FloatField(_('amount'))
     og = wf.FloatField(_('original gravity'))
     fg = wf.FloatField(_('final gravity'))
-    fermentation_temperature = wf.IntegerField(_('fermentation temperature'))
+    fermentation_temperature = IntegerField(_('fermentation temperature'))
 
     _model_class = AdditionalFermentationStep
     _required = ('date', 'og')
 
 
 class TastingNoteForm(BaseSubform):
-    date = wf.DateField(_('date'))
+    date = DateField(_('date'))
     text = wf.TextAreaField(_('text'))
 
     _model_class = TastingNote
@@ -105,20 +106,20 @@ class BrewForm(BaseForm):
         validators=[Optional()])
     bjcp_style_code = wf.TextField(_('BJCP style code'), validators=[Optional()])
     bjcp_style_name = wf.TextField(_('BJCP style name'), validators=[Optional()])
-    date_brewed = wf.DateField(_('date brewed'), validators=[Optional()])
+    date_brewed = DateField(_('date brewed'), validators=[Optional()])
     notes = wf.TextAreaField(_('notes'), validators=[Optional()])
-    boil_time = wf.IntegerField(_('boil time'), validators=[Optional()])
-    fermentation_start_date = wf.DateField(_('fermentation start date'), validators=[Optional()])
+    boil_time = IntegerField(_('boil time'), validators=[Optional()])
+    fermentation_start_date = DateField(_('fermentation start date'), validators=[Optional()])
     og = wf.FloatField(_('original gravity'), validators=[Optional()])
     fg = wf.FloatField(_('final gravity'), validators=[Optional()])
     brew_length = wf.FloatField(_('brew length'),
         description=_('total volume in fermenter (including yeast starter volume, if any)'),
         validators=[Optional()])
-    fermentation_temperature = wf.IntegerField(_('fermentation temperature'), validators=[Optional()])
+    fermentation_temperature = IntegerField(_('fermentation temperature'), validators=[Optional()])
     final_amount = wf.FloatField(_('final amount'),
         description=_('volume into bottling'),
         validators=[Optional()])
-    bottling_date = wf.DateField(_('bottling date'), validators=[Optional()])
+    bottling_date = DateField(_('bottling date'), validators=[Optional()])
     carbonation_type = wf.SelectField(_('type of carbonation'), choices=choices.CARBONATION_CHOICES,
         validators=[Optional()])
     fermentables = wf.FieldList(wf.FormField(FermentableItemForm, _('fermentable items'), widget=SubformTableWidget()), min_entries=1,

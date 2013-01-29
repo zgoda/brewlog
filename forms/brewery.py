@@ -3,6 +3,7 @@
 __revision__ = '$Id$'
 
 import wtforms as wf
+from wtforms.fields.html5 import DateField
 from wtforms.validators import Length, Optional, DataRequired
 from webapp2_extras.i18n import lazy_gettext as _
 
@@ -20,7 +21,7 @@ class BreweryNameLength(Length):
 class BreweryForm(BaseForm):
     name = wf.TextField(_('name'), validators=[BreweryNameLength(), DataRequired()])
     description = wf.TextAreaField(_('description'), validators=[Optional()])
-    established_date = wf.DateField(_('established'), validators=[Optional()])
+    established_date = DateField(_('established'), validators=[Optional()])
 
     def save(self, user, obj=None):
         if obj is None:
