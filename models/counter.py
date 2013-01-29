@@ -2,6 +2,8 @@
 
 __revision__ = '$Id$'
 
+import random
+
 from google.appengine.api import memcache
 from google.appengine.ext import ndb as db
 

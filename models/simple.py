@@ -14,11 +14,6 @@ class FermentableItem(db.Model):
     name = db.StringProperty()
     amount = db.IntegerProperty()
     unit = db.TextProperty()
-    remarks = db.TextProperty()
-    remarks_html = db.TextProperty()
-
-    def _pre_put_hook(self):
-        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
 
 
 class HopItem(db.Model):
@@ -26,11 +21,6 @@ class HopItem(db.Model):
     year = db.IntegerProperty()
     aa_content = db.FloatProperty()
     amount = db.IntegerProperty()
-    remarks = db.TextProperty()
-    remarks_html = db.TextProperty()
-
-    def _pre_put_hook(self):
-        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
 
 
 class YeastItem(db.Model):
@@ -38,11 +28,6 @@ class YeastItem(db.Model):
     code = db.StringProperty()
     manufacturer = db.TextProperty()
     use = db.TextProperty(choices=choices.YEAST_USE_KEYS)
-    remarks = db.TextProperty()
-    remarks_html = db.TextProperty()
-
-    def _pre_put_hook(self):
-        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
 
 
 class MiscItem(db.Model):
@@ -50,11 +35,6 @@ class MiscItem(db.Model):
     amount = db.IntegerProperty()
     unit = db.TextProperty()
     use = db.TextProperty(choices=choices.MISC_USE_KEYS)
-    remarks = db.TextProperty()
-    remarks_html = db.TextProperty()
-
-    def _pre_put_hook(self):
-        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
 
 
 class MashStep(db.Model):
@@ -64,11 +44,6 @@ class MashStep(db.Model):
     time = db.IntegerProperty()
     step_type = db.TextProperty(choices=choices.STEP_TYPE_KEYS)
     amount = db.IntegerProperty()
-    remarks = db.TextProperty()
-    remarks_html = db.TextProperty()
-
-    def _pre_put_hook(self):
-        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
 
 
 class HoppingStep(db.Model):
@@ -76,11 +51,6 @@ class HoppingStep(db.Model):
     time = db.IntegerProperty()
     variety = db.StringProperty()
     amount = db.IntegerProperty()
-    remarks = db.TextProperty()
-    remarks_html = db.TextProperty()
-
-    def _pre_put_hook(self):
-        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
 
 
 class AdditionalFermentationStep(db.Model):
@@ -89,11 +59,6 @@ class AdditionalFermentationStep(db.Model):
     og = db.FloatProperty()
     fg = db.FloatProperty()
     fermentation_temperature = db.IntegerProperty()
-    remarks = db.TextProperty()
-    remarks_html = db.TextProperty()
-
-    def _pre_put_hook(self):
-        self.remarks_html = markdown.markdown(self.remarks, safe_mode='remove')
 
 
 class TastingNote(db.Model):

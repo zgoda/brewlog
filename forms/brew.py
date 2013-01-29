@@ -18,7 +18,6 @@ class FermentableItemForm(BaseSubform):
     name = wf.TextField(_('name'))
     amount = wf.FloatField(_('amount'))
     unit = wf.TextField(_('unit'))
-    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = FermentableItem
     _required = ('name', 'amount', 'unit')
@@ -29,7 +28,6 @@ class HopItemForm(BaseSubform):
     year = wf.IntegerField(_('year'))
     aa_content = wf.FloatField(_('alpha acids content'))
     amount = wf.FloatField(_('amount'))
-    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = HopItem
     _required = ('name', 'amount')
@@ -42,7 +40,6 @@ class YeastItemForm(BaseSubform):
     manufacturer = wf.TextAreaField(_('manufacturer'))
     use = wf.SelectField(_('usage'), choices=choices.YEAST_USE_CHOICES,
         description=_('select how this yeast was introduced into your brew'))
-    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = YeastItem
     _required = ('name', 'manufacturer', 'use')
@@ -53,7 +50,6 @@ class MiscItemForm(BaseSubform):
     amount = wf.FloatField(_('amount'))
     unit = wf.TextField(_('unit'))
     use = wf.SelectField(_('usage'), choices=choices.MISC_USE_CHOICES)
-    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = MiscItem
     _required = ('name', 'amount', 'unit', 'use')
@@ -67,7 +63,6 @@ class MashStepForm(BaseSubform):
     step_type = wf.SelectField(_('step type'), choices=choices.STEP_TYPE_CHOICES)
     amount = wf.IntegerField(_('amount'),
         description=_('amount of water added as an infusion or mash drawn for decoction'))
-    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = MashStep
     _required = ('temperature', 'time', 'step_type')
@@ -78,7 +73,6 @@ class HoppingStepForm(BaseSubform):
     time = wf.IntegerField(_('time'))
     variety = wf.TextField(_('variety'))
     amount = wf.IntegerField(_('amount'))
-    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = HoppingStep
     _required = ('addition_type', 'time', 'variety', 'amount')
@@ -90,7 +84,6 @@ class AdditionalFermentationStepForm(BaseSubform):
     og = wf.FloatField(_('original gravity'))
     fg = wf.FloatField(_('final gravity'))
     fermentation_temperature = wf.IntegerField(_('fermentation temperature'))
-    remarks = wf.TextAreaField(_('remarks'))
 
     _model_class = AdditionalFermentationStep
     _required = ('date', 'og')
