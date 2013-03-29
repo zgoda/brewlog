@@ -3,3 +3,9 @@
 MANIFEST
 dist/
 docs/_build/
+*.sublime-*
+datastore
+search
+secrets.py
+lib/markdown
+lib/pytz
