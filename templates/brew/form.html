@@ -4,7 +4,15 @@
 {% block scripts %}
 {{ super() }}
 <script type="text/javascript">
-$(".add-item").click(function(e) {
+var hideControls = function(element) {
+    $(element).parents("div.subform").prev().find("td.item-ops").children().show();
+    $(element).parents("div.subform").hide();
+};
+$(".remove-item").on("click", function(e) {
+    hideControls(this);
+    return false;
+});
+$(".add-item").on("click", function(e) {
     var table = $(this).parents("table.subform-table");
     var oldObjId = table.attr("id");
     var objIdParts = oldObjId.split("-");
@@ -32,12 +40,11 @@ $(".add-item").click(function(e) {
         }
     }
     clone.insertAfter(original);
+    $(clone.find(".remove-item")).on("click", function(e) {
+        hideControls(this);
+        return false;
+    })
     original.find("td.item-ops").children().hide();
-    return false;
-});
-$(".remove-item").click(function(e) {
-    $(this).parents("div.subform").prev().find("td.item-ops").children().show();
-    $(this).parents("div.subform").hide();
     return false;
 });
 </script>

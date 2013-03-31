@@ -6,15 +6,38 @@
     <meta name="viewport" content="width=device-width">
     <title>Brewlog | {% block headpagetitle %}{% endblock %}</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <link rel="stylesheet" href="/static/foundation/stylesheets/foundation.min.css">
-    <link rel="stylesheet" href="/static/foundation/stylesheets/app.css">
+    <link rel="stylesheet" href="/static/foundation/css/normalize.css">
+    <link rel="stylesheet" href="/static/foundation/css/foundation.min.css">
+    <link rel="stylesheet" href="/static/css/app.css">
     <link href="/static/signin-buttons/auth-buttons.css" rel="stylesheet">
     {% block styles %}{% endblock %}
-    <script src="/static/foundation/javascripts/modernizr.foundation.js"></script>
+    <script src="/static/foundation/js/vendor/custom.modernizr.js"></script>
 </head>
 <body>
     <header class="row">
-        <div class="twelve columns">
+        <nav class="top-bar">
+            <ul class="title-area">
+                <li class="name">
+                    <h1><a href="#">Brew Log</a></h1>
+                </li>
+                <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+            </ul>
+            <section class="top-bar-section">
+                <ul class="right">
+                    <li class="has-dropdown"><a href="#">{% trans %}tools{% endtrans %}</a>
+                        <ul class="dropdown">
+                            {% if logged_in %}
+                            <li><a href="{{ uri_for('profile') }}">{% trans %}my profile{% endtrans %}</a></li>
+                            <li><a href="{{ uri_for('auth-logout') }}">{% trans %}logout{% endtrans %}</a></li>
+                            {% else %}
+                            <li><a href="{{ uri_for('auth-select-provider') }}">{% trans %}login page{% endtrans %}</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+        <div class="small-12 columns">
             {% if logged_in %}
             <p><a href="{{ uri_for('profile') }}">{% trans %}my profile{% endtrans %}</a> <a href="{{ uri_for('auth-logout') }}">{% trans %}logout{% endtrans %}</a></p>
             {% else %}
@@ -23,7 +46,7 @@
         </div>
         {% block flash %}
         {% if flashes %}
-        <div class="twelve columns">
+        <div class="small-12 columns">
             <ul>
                 {% for flash in flashes %}<li>{{ flash.0|e }}</li>{% endfor %}
             </ul>
@@ -31,25 +54,34 @@
         {% endif %}
         {% endblock %}
     </header>
-    <section class="row">
-        <div class="nine columns">
+    <section class="row full-width">
+        <div class="small-9 columns">
         {% block content %}
         {% endblock %}
         </div>
-        <div class="three columns">
+        <div class="small-3 columns">
         {% block sidebar %}
         {% endblock %}
         </div>
     </section>
     {% block footer %}
-    <footer class="row">
-        <div class="twelve columns">
-            <p>Copyright: &copy; 2012, Jarek Zgoda &amp; Z-SOFT. {% trans %}All rights reserved{% endtrans %}.</p>
-        </div>
+    <footer class="row full-width">
+        <p>Copyright: &copy; 2012, Jarek Zgoda &amp; Z-SOFT. {% trans %}All rights reserved{% endtrans %}.</p>
     </footer>
     {% endblock %}
-    <script src="/static/foundation/javascripts/foundation.min.js"></script>
-    <script src="/static/foundation/javascripts/app.js"></script>
+    {% if DEV %}
+    <script>
+        document.write('<script src="/static/foundation/js/vendor/'
+            + ('__proto__' in {} ? 'zepto' : 'jquery')
+            + '.min.js"><\/script>');
+    </script>
+    {% else %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    {% endif %}
+    <script src="/static/foundation/js/foundation.min.js"></script>
+    <script>
+        $(document).foundation();
+    </script>
     {% block scripts %}{% endblock %}
 </body>
 </html>
