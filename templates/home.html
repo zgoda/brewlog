@@ -1,8 +1,10 @@
 {% extends "index.html" %}
 
-{% block headpagetitle %}{% trans %}{% endtrans %}{% endblock %}
+{% block headpagetitle %}{% trans %}Welcome{% endtrans %}{% endblock %}
 
 {% block content %}
+<h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
+<p>{% trans %}This is BrewLog, brewing log app written by homebrewer for homebrewers. Have a look to the site and start logging your brews.{% endtrans %}</p>
 {% if latest_brews %}
 <div class="section-list">
     <h3>{% trans %}Latest brews{% endtrans %}</h3>
