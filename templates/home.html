@@ -1,1 +1,12 @@
 {% extends "index.html" %}
+
+{% block content %}
+{% if latest_brews %}
+<div class="section-list">
+    <h3>{% trans %}Latest brews{% endtrans %}</h3>
+    <ul>
+        {% for brew in latest_brews %}<li><a href="{{ brew.get_absolute_url() }}">{{ brew.name }}</a></li>{% endfor %}
+    </ul>
+</div>
+{% endif %}
+{% endblock %}

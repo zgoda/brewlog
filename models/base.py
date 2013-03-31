@@ -17,6 +17,7 @@ class BrewerProfile(db.Model):
     full_name = db.StringProperty()
     location = db.StringProperty()
     about_me = db.TextProperty()
+    created = db.DateTimeProperty(auto_now_add=True)
 
     def get_absolute_url(self):
         return uri_for('profile-details', keyid=self.key.urlsafe())
@@ -37,6 +38,7 @@ class BrewerProfile(db.Model):
 
 class Brewery(db.Model):
     name = db.StringProperty()
+    created = db.DateTimeProperty(auto_now_add=True)
     description = db.TextProperty()
     description_html = db.TextProperty()
     established_date = db.DateProperty()
@@ -72,3 +74,7 @@ class Brewery(db.Model):
     @classmethod
     def get_for_user(cls, user, limit=20):
         return cls.query(ancestor=user.key).order(Brewery.name).fetch_page(limit)
+
+    @classmethod
+    def recently_active(cls):
+        pass

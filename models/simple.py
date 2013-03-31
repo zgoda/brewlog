@@ -3,6 +3,7 @@
 __revision__ = '$Id$'
 
 from google.appengine.ext import ndb as db
+from webapp2 import uri_for
 
 import markdown
 
@@ -106,6 +107,9 @@ class Batch(db.Model):
     # recipe metadata
     is_public = db.BooleanProperty(default=True)
     is_draft = db.BooleanProperty(default=False)
+
+    def get_absolute_url(self):
+        return uri_for('brew-details', keyid=self.key.urlsafe())
 
     @property
     def user(self):
