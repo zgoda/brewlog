@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-__revision__ = '$Id$'
-
 from google.appengine.ext import ndb as db
 from webapp2 import uri_for
 from webapp2_extras.appengine.auth.models import User
