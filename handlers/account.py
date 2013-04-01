@@ -4,7 +4,7 @@ __revision__ = '$Id$'
 
 from google.appengine.ext import ndb as db
 
-from webapp2_extras.i18n import lazy_gettext as _
+from webapp2_extras.i18n import gettext
 
 from handlers.base import BaseRequestHandler
 from models.base import Brewery, BrewerProfile
@@ -20,7 +20,7 @@ class ProfileHandler(BaseRequestHandler):
             form = ProfileForm(self.request.POST)
             if form.validate():
                 form.save(obj=self.brewer_profile, user=self.current_user)
-                self.session.add_flash(_("your brewer's profile has been updated"))
+                self.session.add_flash(gettext("your brewer's profile has been updated"))
                 return self.redirect(self.uri_for('profile'))
         else:
             form = ProfileForm(obj=self.brewer_profile)

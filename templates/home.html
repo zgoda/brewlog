@@ -1,16 +1,34 @@
-{% extends "index.html" %}
+{% extends "index-1cols.html" %}
 
 {% block headpagetitle %}{% trans %}Welcome{% endtrans %}{% endblock %}
 
-{% block content %}
+{% block widecontent %}
 <h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
 <p>{% trans %}This is BrewLog, brewing log app written by homebrewer for homebrewers. Have a look to the site and start logging your brews.{% endtrans %}</p>
-{% if latest_brews %}
-<div class="section-list">
-    <h3>{% trans %}Latest brews{% endtrans %}</h3>
-    <ul>
-        {% for brew in latest_brews %}<li><a href="{{ brew.get_absolute_url() }}">{{ brew.name }}</a></li>{% endfor %}
-    </ul>
+<div class="row">
+    <div class="large-12 columns">
+        <div class="row">
+            {% if latest_brews %}
+            <div class="large-4 columns">
+                <div class="panel">
+                    <h4>{% trans %}Latest brews{% endtrans %}</h4>
+                    <ul>
+                        {% for brew in latest_brews %}<li><a href="{{ brew.get_absolute_url() }}">{{ brew.name }}</a> {% trans brewername=brew.user.name, breweryname=brew.brewery.get().name %} by {{ brewername }} in {{ breweryname }}{% endtrans %}</li>{% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+            {% if latest_breweries %}
+            <div class="large-4 columns">
+                <div class="panel">
+                    <h4>{% trans %}Recently registered breweries{% endtrans %}</h4>
+                    <ul>
+                        {% for brewery in latest_breweries %}<li><a href="{{ brewery.get_absolute_url() }}">{{ brewery.name }}</a> {% trans brewer=brewery.owner.name %}by {{ brewer }} {% endtrans %}</li>{% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 </div>
-{% endif %}
 {% endblock %}

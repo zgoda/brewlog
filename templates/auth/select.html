@@ -1,10 +1,20 @@
 {% extends "auth/base.html" %}
 
-{% block content %}
-<p>{% trans %}Sign in with{% endtrans %}:</p>
-<ul>
-    <li><a class="btn-auth btn-google" href="{{ uri_for('auth-login', provider='google') }}">Google</a></li>
-    <li><a class="btn-auth btn-facebook" href="{{ uri_for('auth-login', provider='facebook') }}">Facebook</a></li>
-    <li><a class="btn-auth btn-twitter" href="{{ uri_for('auth-login', provider='twitter') }}">Twitter</a></li>
-</ul>
+{% block widecontent %}
+<div class="row">
+    <div class="large-12 columns">
+        <div class="row">
+            <p>{% trans %}Sign in with{% endtrans %}:</p>
+            <div class="large-4 columns">
+                <div class="panel text-center"><a class="btn-auth btn-google" href="{{ uri_for('auth-login', provider='google') }}">Google</a></div>
+            </div>
+            <div class="large-4 columns">
+                <div class="panel text-center"><a class="btn-auth btn-facebook" href="{{ uri_for('auth-login', provider='facebook') }}">Facebook</a></div>
+            </div>
+            <div class="large-4 columns">
+                <div class="panel text-center"><a class="btn-auth btn-twitter" href="{{ uri_for('auth-login', provider='twitter') }}">Twitter</a></div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
