@@ -4,7 +4,7 @@ __revision__ = '$Id$'
 
 from google.appengine.ext import ndb as db
 
-from webapp2_extras.i18n import lazy_gettext as _
+from webapp2_extras.i18n import gettext
 
 from handlers.base import BaseRequestHandler
 from models.base import Brewery
@@ -40,7 +40,7 @@ class BreweryHandler(BaseRequestHandler):
         if self.request.POST:
             if form.validate():
                 brewery = form.save(user=self.current_user)
-                self.session.add_flash(_('brewery %s created') % brewery.name)
+                self.session.add_flash(gettext('brewery %s created') % brewery.name)
                 next = self.request.GET.get('next', 'brewery-all')
                 return self.redirect(self.uri_for(next))
         ctx = {
@@ -63,7 +63,7 @@ class BreweryHandler(BaseRequestHandler):
             form = BreweryForm(self.request.POST)
             if form.validate():
                 brewery = form.save(user=self.current_user, obj=brewery)
-                self.session.add_flash(_('data for brewery %s updated') % brewery.name)
+                self.session.add_flash(gettext('data for brewery %s updated') % brewery.name)
                 next = self.request.GET.get('next')
                 if next is None:
                     next = self.uri_for('brewery-details', keyid=brewery.key.urlsafe())

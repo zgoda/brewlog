@@ -2,7 +2,7 @@
 
 from google.appengine.ext import ndb as db
 
-from webapp2_extras.i18n import lazy_gettext as _
+from webapp2_extras.i18n import gettext
 
 from handlers.base import BaseRequestHandler
 from forms.brew import BrewForm
@@ -25,7 +25,7 @@ class BrewHandler(BaseRequestHandler):
         if self.request.POST:
             if form.validate():
                 brew = form.save(user=self.current_user)
-                self.session.add_flash(_('brew %s saved') % brew.name)
+                self.session.add_flash(gettext('brew %s saved') % brew.name)
                 next = self.uri_for('brew-details', keyid=brew.key.urlsafe())
                 return self.redirect(next)
         ctx = {
@@ -48,7 +48,7 @@ class BrewHandler(BaseRequestHandler):
                 form = BrewForm(self.request.POST)
                 if form.validate():
                     brew = form.save(user=self.current_user, obj=brew)
-                    self.session.add_flash(_('data for brew %s updated') % brew.name)
+                    self.session.add_flash(gettext('data for brew %s updated') % brew.name)
                     next = self.request.GET.get('next')
                     if next is None:
                         next = self.uri_for('brew-details', keyid=brew.key.urlsafe())
