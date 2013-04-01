@@ -3,4 +3,7 @@
 
 {% block content %}
 <h3>{% trans breweryname=brewery.name, ownername=brewery.owner.name, brewname=brew.name %}Details for brew {{ brewname }} from brewery {{ breweryname }} by {{ ownername }}{% endtrans %}</h3>
+<form method="post" action=".">
+    {{ forms.render(form) }}
+</form>
 {% endblock %}

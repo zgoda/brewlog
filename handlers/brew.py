@@ -41,8 +41,7 @@ class BrewHandler(BaseRequestHandler):
         form = None
         brewery = brew.brewery.get()
         if brewery.owner != self.current_user:
-            if self.request.method == 'POST':
-                self.abort(403)
+            self.abort(403)
         else:
             if self.request.POST:
                 form = BrewForm(self.request.POST)
