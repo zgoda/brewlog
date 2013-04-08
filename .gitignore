@@ -5,6 +5,7 @@ dist/
 docs/_build/
 *.sublime-*
 datastore
+*.db
 search
 secrets.py
 lib/markdown
