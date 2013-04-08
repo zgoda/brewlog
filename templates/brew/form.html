@@ -3,6 +3,7 @@
 
 {% block scripts %}
 {{ super() }}
+<script type="text/javascript" src="/static/js/application/brew/form.js"></script>
 <script type="text/javascript">
 var hideControls = function(element) {
     $(element).parents("div.subform").prev().find("td.item-ops").children().show();
@@ -51,7 +52,9 @@ $(".add-item").on("click", function(e) {
 {% endblock %}
 
 {% block content %}
+{% if form %}
 <form method="post" action="{{ uri_for('brew-add') }}">
     {{ forms.render(form) }}
 </form>
+{% endif %}
 {% endblock %}

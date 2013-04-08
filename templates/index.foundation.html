@@ -69,13 +69,11 @@
     </footer>
     {% endblock %}
     {% if DEV %}
-    <script>
-        document.write('<script src="/static/foundation/js/vendor/'
-            + ('__proto__' in {} ? 'zepto' : 'jquery')
-            + '.min.js"><\/script>');
-    </script>
+    <script src="/static/foundation/js/vendor/jquery.min.js"></script>
+    <script src="/static/js/knockout-2.2.1.js"></script>
     {% else %}
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/jQuery/jquery-1.9.1.min.js"></script>
+    <script src="//ajax.aspnetcdn.com/ajax/knockout/knockout-2.2.1.js"></script>
     {% endif %}
     <script src="/static/foundation/js/foundation.min.js"></script>
     <script>

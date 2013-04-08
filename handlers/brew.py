@@ -30,6 +30,7 @@ class BrewHandler(BaseRequestHandler):
                 return self.redirect(next)
         ctx = {
             'form': form,
+            'brewery_choices': form.brewery.choices,
         }
         self.render('brew/form.html', ctx)
 
@@ -41,7 +42,8 @@ class BrewHandler(BaseRequestHandler):
         form = None
         brewery = brew.brewery.get()
         if brewery.owner != self.current_user:
-            self.abort(403)
+            if self.request.method == 'POST':
+                self.abort(403)
         else:
             if self.request.POST:
                 form = BrewForm(self.request.POST)

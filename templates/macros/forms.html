@@ -1,4 +1,5 @@
 {% macro render(form) -%}
+{% if form %}
 <fieldset>
 {% for field in form %}
 {% if field.type in ['CSRFTokenField', 'HiddenField'] %}
@@ -17,6 +18,7 @@
 <div class="form-actions">
     <button type="submit">{% trans %}submit{% endtrans %}</button>
 </div>
+{% endif %}
 {%- endmacro %}
 
 
