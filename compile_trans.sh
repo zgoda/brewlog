@@ -1,4 +1,4 @@
 #! /bin/bash
 
-pybabel compile -f -d ./locale
+pybabel compile -f -d ./brewlog/translations
 
