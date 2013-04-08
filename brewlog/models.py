@@ -1,6 +1,15 @@
 import datetime
 
+import markdown
+
 from brewlog import db
+
+
+other_brewers = db.Table('other_brewers',
+    db.Column('brewer_profile_id', db.Integer, db.ForeignKey('brewer_profile.id')),
+    db.Column('brewery_id', db.Integer, db.ForeignKey('brewery.id')),
+    db.Column('date_joined', db.Date),
+)
 
 
 class Brewery(db.Model):
@@ -16,9 +25,21 @@ class Brewery(db.Model):
     created = db.Column(db.DateTime, default=datetime.datetime.now)
     updated = db.Column(db.DateTime, onupdate=datetime.datetime.now)
     brewer_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'))
+    other_brewers = db.relationship('BrewerProfile', secondary=other_brewers,
+        backref=db.backref('other_breweries'))
 
     def __repr__(self):
         return u'<Brewery %s>' % self.name
+
+    def _pre_save(self):
+        if self.established_date is not None:
+            self.est_year = self.established_date.est_year
+            self.est_month = self.established_date.est_month
+            self.est_day = self.established_date.day
+        if self.description:
+            self.description_html = markdown.markdown(self.description)
+        if self.updated is None:
+            self.updated = self.created
 
 
 class BrewerProfile(db.Model):
@@ -37,3 +58,9 @@ class BrewerProfile(db.Model):
 
     def __repr__(self):
         return u'<BrewerProfile %s>' % self.email
+
+    def _pre_save(self):
+        full_name = u'%s %s' % (self.first_name or u'', self.last_name or u'')
+        self.full_name = full_name.strip()
+        if self.updated is None:
+            self.updated = self.created

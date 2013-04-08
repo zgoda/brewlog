@@ -7,3 +7,4 @@ DB_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.a
 class DevConfig(Config):
     DEBUG = True
     SQLALCHEMY_DATABASE_URI = 'sqlite:///%s' % DB_PATH
+    SQLALCHEMY_ECHO = True
