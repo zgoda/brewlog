@@ -1,32 +1,33 @@
 import datetime
 
+from sqlalchemy import Table, Column, Integer, ForeignKey, Date, DateTime, String, Text
+from sqlalchemy.orm import relationship, backref
 import markdown
 
-from brewlog import db
+from brewlog import Model
 
 
-other_brewers = db.Table('other_brewers',
-    db.Column('brewer_profile_id', db.Integer, db.ForeignKey('brewer_profile.id')),
-    db.Column('brewery_id', db.Integer, db.ForeignKey('brewery.id')),
-    db.Column('date_joined', db.Date),
+other_brewers = Table('other_brewers', Model.metadata,
+    Column('brewer_profile_id', Integer, ForeignKey('brewer_profile.id')),
+    Column('brewery_id', Integer, ForeignKey('brewery.id')),
 )
 
 
-class Brewery(db.Model):
+class Brewery(Model):
     __tablename__ = 'brewery'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(200), nullable=False)
-    description = db.Column(db.Text)
-    description_html = db.Column(db.Text)
-    established_date = db.Column(db.Date)
-    est_year = db.Column(db.Integer)
-    est_month = db.Column(db.Integer)
-    est_day = db.Column(db.Integer)
-    created = db.Column(db.DateTime, default=datetime.datetime.now)
-    updated = db.Column(db.DateTime, onupdate=datetime.datetime.now)
-    brewer_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'))
-    other_brewers = db.relationship('BrewerProfile', secondary=other_brewers,
-        backref=db.backref('other_breweries'))
+    id = Column(Integer, primary_key=True)
+    name = Column(String(200), nullable=False)
+    description = Column(Text)
+    description_html = Column(Text)
+    established_date = Column(Date)
+    est_year = Column(Integer)
+    est_month = Column(Integer)
+    est_day = Column(Integer)
+    created = Column(DateTime, default=datetime.datetime.now)
+    updated = Column(DateTime, onupdate=datetime.datetime.now)
+    brewer_id = Column(Integer, ForeignKey('brewer_profile.id'))
+    other_brewers = relationship('BrewerProfile', secondary=other_brewers,
+        backref=backref('other_breweries'))
 
     def __repr__(self):
         return u'<Brewery %s>' % self.name
@@ -42,19 +43,19 @@ class Brewery(db.Model):
             self.updated = self.created
 
 
-class BrewerProfile(db.Model):
+class BrewerProfile(Model):
     __tablename__ = 'brewer_profile'
-    id = db.Column(db.Integer, primary_key=True)
-    first_name = db.Column(db.String(50))
-    last_name = db.Column(db.String(50))
-    nick = db.Column(db.String(50))
-    email = db.Column(db.String(80), nullable=False)
-    full_name = db.Column(db.String(100))
-    location = db.Column(db.String(100))
-    about_me = db.Column(db.Text)
-    created = db.Column(db.DateTime, default=datetime.datetime.now)
-    updated = db.Column(db.DateTime, onupdate=datetime.datetime.now)
-    breweries = db.relationship('Brewery', backref='breweries')
+    id = Column(Integer, primary_key=True)
+    first_name = Column(String(50))
+    last_name = Column(String(50))
+    nick = Column(String(50))
+    email = Column(String(80), nullable=False)
+    full_name = Column(String(100))
+    location = Column(String(100))
+    about_me = Column(Text)
+    created = Column(DateTime, default=datetime.datetime.now)
+    updated = Column(DateTime, onupdate=datetime.datetime.now)
+    breweries = relationship('Brewery', backref='breweries')
 
     def __repr__(self):
         return u'<BrewerProfile %s>' % self.email
