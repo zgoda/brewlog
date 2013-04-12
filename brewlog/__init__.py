@@ -11,6 +11,11 @@ session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=en
 Model = declarative_base()
 Model.query = session.query_property()
 
+def init_db():
+    import brewing.models
+    import users.models
+    Model.metadata.create_all(bind=engine)
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404

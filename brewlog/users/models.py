@@ -1,8 +1,9 @@
+import datetime
+
 from brewlog import Model
 
-from sqlalchemy import Table, Column, Integer, ForeignKey, Date, DateTime, String, Text
-from sqlalchemy.orm import relationship, backref
-import markdown
+from sqlalchemy import Column, Integer, DateTime, String, Text
+from sqlalchemy.orm import relationship
 
 
 class BrewerProfile(Model):
