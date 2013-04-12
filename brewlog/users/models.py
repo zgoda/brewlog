@@ -21,7 +21,7 @@ class BrewerProfile(Model):
     access_token = Column(Text) # for OAuth2
     oauth_token = Column(Text) # for OAuth1a
     oauth_token_secret = Column(Text) # for OAuth1a
-    breweries = relationship('brewlog.brewing.models.Brewery', backref='breweries')
+    breweries = relationship('brewlog.brewing.models.Brewery', backref='brewery')
 
     def __repr__(self):
         return u'<BrewerProfile %s>' % self.email
