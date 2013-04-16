@@ -8,5 +8,6 @@ datastore
 *.db
 search
 secrets.py
+config_local.py
 lib/markdown
 lib/pytz

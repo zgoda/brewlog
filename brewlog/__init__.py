@@ -4,9 +4,12 @@ from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 app = Flask(__name__)
-app.config.from_object('config')
+app.config.from_object('brewlog.config')
 
-engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'], convert_unicode=True)
+engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'],
+    convert_unicode=True,
+    echo=app.config['SQLALCHEMY_ECHO']
+)
 session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
 Model = declarative_base()
 Model.query = session.query_property()
