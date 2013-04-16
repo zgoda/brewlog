@@ -3,7 +3,6 @@ Flask
 Flask-Babel
 Flask-Login
 Flask-OAuth
-Flask-SQLAlchemy
 Flask-Script
 Flask-WTF
 Jinja2
@@ -12,8 +11,6 @@ SQLAlchemy
 WTForms
 Werkzeug
 httplib2
-ipython
 oauth2
 pytz
 speaklater
-wsgiref
