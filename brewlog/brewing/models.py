@@ -4,7 +4,9 @@ from brewlog import Model
 from brewlog.brewing import choices
 
 from sqlalchemy import Table, Column, Integer, String, Text, Date, DateTime, ForeignKey, Float, Enum, Boolean
+from sqlalchemy import event
 from sqlalchemy.orm import relationship
+import markdown
 
 
 brewers_breweries = Table('brewers_breweries', Model.metadata,
@@ -24,11 +26,14 @@ class Brewery(Model):
     est_month = Column(Integer)
     est_day = Column(Integer)
     created = Column(DateTime, default=datetime.datetime.utcnow)
-    updated = Column(DateTime, onupdate=datetime.datetime.utcnow)
+    updated = Column(DateTime, onupdate=datetime.datetime.utcnow, index=True)
     brewer_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
     brewer = relationship('brewlog.users.models.BrewerProfile', backref='breweries')
     other_brewers = relationship('brewlog.users.models.BrewerProfile',
         secondary=brewers_breweries, backref='other_breweries')
+
+    def __repr__(self):
+        return '<Brewery %s>' % self.name.encode('utf-8')
 
 
 class Fermentable(Model):
@@ -124,11 +129,12 @@ class TastingNote(Model):
 class Brew(Model):
     __tablename__ = 'brew'
     id = Column(Integer, primary_key=True)
-    created = Column(DateTime, default=datetime.datetime.utcnow, index=True)
+    created = Column(DateTime, default=datetime.datetime.utcnow)
+    updated = Column(DateTime, onupdate=datetime.datetime.utcnow, index=True)
     name = Column(String(200), nullable=False)
     style = Column(String(200))
-    bjcp_style_code = Column(String(20))
-    bjcp_style_name = Column(String(50))
+    bjcp_style_code = Column(String(20), default=u'')
+    bjcp_style_name = Column(String(50), default=u'')
     bjcp_style = Column(String(100))
     date_brewed = Column(Date, index=True)
     notes = Column(Text)
@@ -145,3 +151,28 @@ class Brew(Model):
     carbonation_used = Column(Text)
     is_public = Column(Boolean, default=True)
     is_draft = Column(Boolean, default=False)
+    brewery_id = Column(Integer, ForeignKey('brewery.id'), nullable=False)
+    brewery = relationship('brewlog.brewing.models.Brewery', backref='brews')
+
+    def __repr__(self):
+        return '<Brew %s by %s>' % (self.name.encode('utf-8'), self.brewery.name.encode('utf-8'))
+
+## events: Brewery model
+def brewery_pre_save(mapper, connection, target):
+    target.description_html = markdown.markdown(target.tescription, safe_mode='remove')
+    if target.updated is None:
+        target.updated = target.created
+
+event.listen(Brewery, 'before_insert', brewery_pre_save)
+event.listen(Brewery, 'before_update', brewery_pre_save)
+
+## events: Brew model
+def brew_pre_save(mapper, connection, target):
+    bjcp_style = u'%s %s' % (target.bjcp_style_code, target.bjcp_style_name)
+    target.bjcp_style = bjcp_style.strip()
+    target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
+    if target.updated is None:
+        target.updated = target.created
+
+event.listen(Brew, 'before_insert', brew_pre_save)
+event.listen(Brew, 'before_update', brew_pre_save)

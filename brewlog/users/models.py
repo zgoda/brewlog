@@ -3,6 +3,7 @@ import datetime
 from brewlog import Model
 
 from sqlalchemy import Column, Integer, DateTime, String, Text
+from sqlalchemy import event
 from sqlalchemy.orm import relationship
 
 
@@ -17,17 +18,21 @@ class BrewerProfile(Model):
     location = Column(String(100))
     about_me = Column(Text)
     created = Column(DateTime, default=datetime.datetime.now)
-    updated = Column(DateTime, onupdate=datetime.datetime.now)
+    updated = Column(DateTime, onupdate=datetime.datetime.now, index=True)
     access_token = Column(Text) # for OAuth2
     oauth_token = Column(Text) # for OAuth1a
     oauth_token_secret = Column(Text) # for OAuth1a
-    breweries = relationship('brewlog.brewing.models.Brewery', backref='brewery')
+    breweries = relationship('Brewery', backref='brewer_profile')
 
     def __repr__(self):
-        return u'<BrewerProfile %s>' % self.email
+        return '<BrewerProfile %s>' % self.email.encode('utf-8')
 
-    def _pre_save(self):
-        full_name = u'%s %s' % (self.first_name or u'', self.last_name or u'')
-        self.full_name = full_name.strip()
-        if self.updated is None:
-            self.updated = self.created
+# mapper events
+def profile_pre_save(mapper, connection, target):
+    full_name = u'%s %s' % (target.first_name or u'', target.last_name or u'')
+    target.full_name = full_name.strip()
+    if target.updated is None:
+        target.updated = target.created
+
+event.listen(BrewerProfile, 'before_insert', profile_pre_save)
+event.listen(BrewerProfile, 'before_update', profile_pre_save)
