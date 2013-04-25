@@ -2,6 +2,7 @@ import datetime
 
 from brewlog import Model
 from brewlog.brewing import choices
+from brewlog.users.models import BrewerProfile
 
 from sqlalchemy import Table, Column, Integer, String, Text, Date, DateTime, ForeignKey, Float, Enum, Boolean
 from sqlalchemy import event
@@ -28,8 +29,8 @@ class Brewery(Model):
     created = Column(DateTime, default=datetime.datetime.utcnow)
     updated = Column(DateTime, onupdate=datetime.datetime.utcnow, index=True)
     brewer_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
-    brewer = relationship('brewlog.users.models.BrewerProfile', backref='breweries')
-    other_brewers = relationship('brewlog.users.models.BrewerProfile',
+    brewer = relationship('BrewerProfile', backref='breweries')
+    other_brewers = relationship('BrewerProfile',
         secondary=brewers_breweries, backref='other_breweries')
 
     def __repr__(self):
@@ -43,7 +44,7 @@ class Fermentable(Model):
     unit = Column(String(20))
     amount = Column(Float(precision=3))
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('brewlog.brewing.models.Brew', backref='fermentables')
+    brew = relationship('Brew', backref='fermentables')
 
 
 class Hop(Model):
@@ -54,7 +55,7 @@ class Hop(Model):
     aa_content = Column(Float(precision=2))
     amount = Column(Integer)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('brewlog.brewing.models.Brew', backref='hops')
+    brew = relationship('Brew', backref='hops')
 
 
 class Yeast(Model):
@@ -65,7 +66,7 @@ class Yeast(Model):
     manufacturer = Column(String(50))
     use = Column(Enum(*choices.YEAST_USE_KEYS), nullable=False)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('brewlog.brewing.models.Brew', backref='yeasts')
+    brew = relationship('Brew', backref='yeasts')
 
 
 class Misc(Model):
@@ -75,7 +76,7 @@ class Misc(Model):
     amount = Column(Float(precision=2))
     use = Column(Enum(*choices.MISC_USE_KEYS), nullable=False)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('brewlog.brewing.models.Brew', backref='misc_items')
+    brew = relationship('Brew', backref='misc_items')
 
 
 class MashStep(Model):
@@ -88,7 +89,7 @@ class MashStep(Model):
     step_type = Column(Enum(*choices.STEP_TYPE_KEYS), nullable=False)
     amount = Column(Integer)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('brewlog.brewing.models.Brew', backref='mash_steps')
+    brew = relationship('Brew', backref='mash_steps')
 
 
 class HoppingStep(Model):
@@ -99,7 +100,7 @@ class HoppingStep(Model):
     variety = Column(String(50))
     amount = Column(Integer)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('brewlog.brewing.models.Brew', backref='hopping_steps')
+    brew = relationship('Brew', backref='hopping_steps')
 
 
 class AdditionalFermentationStep(Model):
@@ -111,19 +112,19 @@ class AdditionalFermentationStep(Model):
     fg = Column(Float(precision=1))
     fermentation_temperature = Column(Integer)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('brewlog.brewing.models.Brew', backref='fermentation_steps')
+    brew = relationship('Brew', backref='fermentation_steps')
 
 
 class TastingNote(Model):
     __tablename__ = 'tasting_note'
     id = Column(Integer, primary_key=True)
     author_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
-    author = relationship('brewlog.users.models.BrewerProfile', backref='tasting_notes')
+    author = relationship('BrewerProfile', backref='tasting_notes')
     date = Column(Date, nullable=False, index=True)
     text = Column(Text, nullable=False)
     text_html = Column(Text)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('brewlog.brewing.models.Brew', backref='tasting_notes')
+    brew = relationship('Brew', backref='tasting_notes')
 
 
 class Brew(Model):
@@ -152,16 +153,23 @@ class Brew(Model):
     is_public = Column(Boolean, default=True)
     is_draft = Column(Boolean, default=False)
     brewery_id = Column(Integer, ForeignKey('brewery.id'), nullable=False)
-    brewery = relationship('brewlog.brewing.models.Brewery', backref='brews')
+    brewery = relationship('Brewery', backref='brews')
 
     def __repr__(self):
         return '<Brew %s by %s>' % (self.name.encode('utf-8'), self.brewery.name.encode('utf-8'))
 
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):
-    target.description_html = markdown.markdown(target.tescription, safe_mode='remove')
+    if target.description:
+        target.description_html = markdown.markdown(target.description, safe_mode='remove')
+    else:
+        target.description_html = None
     if target.updated is None:
         target.updated = target.created
+    if target.established_date:
+        target.est_year = target.established_date.year
+        target.est_month = target.established_date.month
+        target.est_day = target.established_date.day
 
 event.listen(Brewery, 'before_insert', brewery_pre_save)
 event.listen(Brewery, 'before_update', brewery_pre_save)

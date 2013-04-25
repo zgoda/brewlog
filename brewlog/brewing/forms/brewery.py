@@ -21,7 +21,7 @@ class BreweryForm(BaseForm):
     description = wf.TextAreaField(_('description'), validators=[Optional()])
     established_date = DateField(_('established'), validators=[Optional()])
 
-    def save(self, obj=None):
+    def save(self, user, obj=None):
         if obj is None:
-            obj = Brewery()
+            obj = Brewery(brewer=user)
         return super(BreweryForm, self).save(obj, save=True)

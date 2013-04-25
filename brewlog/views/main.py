@@ -1,19 +1,22 @@
 # -*- coding: utf-8 -*-
 
-from handlers.base import BaseRequestHandler
-from models.simple import Batch
-from models.base import Brewery, BrewerProfile
+from flask import render_template
 
-class MainHandler(BaseRequestHandler):
+from brewlog import app
+from brewlog.brewing.models import Brew, Brewery
+from brewlog.users.models import BrewerProfile
 
-    def get(self):
-        item_limit = 5
-        ctx = {
-            'latest_brews': Batch.query().order(-Batch.created_at).fetch(item_limit),
-            'latest_breweries': Brewery.query().order(-Brewery.created).fetch(item_limit),
-            'latest_brewers': BrewerProfile.query().order(-BrewerProfile.created).fetch(item_limit),
-            'recently_active_breweries': [],
-            'recently_active_brewers': [],
-            'most_active_breweries': []
-        }
-        return self.render('home.html', ctx)
+
+@app.route('/')
+def main():
+    item_limit = 5
+    ctx = {
+        'latest_brews': Brew.query.all().order(-Batch.created_at).fetch(item_limit),
+        'latest_breweries': Brewery.query().order(-Brewery.created).fetch(item_limit),
+        'latest_brewers': BrewerProfile.query().order(-BrewerProfile.created).fetch(item_limit),
+        'recently_active_breweries': [],
+        'recently_active_brewers': [],
+        'most_active_breweries': []
+    }
+    return render_template('home.html', **ctx)
+

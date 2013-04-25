@@ -4,7 +4,6 @@ from brewlog import Model
 
 from sqlalchemy import Column, Integer, DateTime, String, Text
 from sqlalchemy import event
-from sqlalchemy.orm import relationship
 
 
 class BrewerProfile(Model):
@@ -22,7 +21,7 @@ class BrewerProfile(Model):
     access_token = Column(Text) # for OAuth2
     oauth_token = Column(Text) # for OAuth1a
     oauth_token_secret = Column(Text) # for OAuth1a
-    breweries = relationship('Brewery', backref='brewer_profile')
+    oauth_service = Column(String(50))
 
     def __repr__(self):
         return '<BrewerProfile %s>' % self.email.encode('utf-8')
