@@ -17,6 +17,10 @@ session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=en
 Model = declarative_base(bind=engine)
 Model.query = session.query_property()
 
+# register views
+#import brewlog.brewing.views
+import brewlog.users.views
+
 def init_db():
     import brewing.models
     import users.models
