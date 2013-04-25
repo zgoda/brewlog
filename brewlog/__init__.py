@@ -1,10 +1,13 @@
 from flask import Flask, render_template
+from flaskext.babel import Babel
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 app = Flask(__name__)
 app.config.from_object('brewlog.config')
+app.config['BABEL_DEFAULT_LOCALE'] = 'pl'
+babel = Babel(app)
 
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'],
     convert_unicode=True,

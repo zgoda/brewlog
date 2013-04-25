@@ -27,10 +27,10 @@
                     <li class="has-dropdown"><a href="#">{% trans %}tools{% endtrans %}</a>
                         <ul class="dropdown">
                             {% if logged_in %}
-                            <li><a href="{{ uri_for('profile') }}">{% trans %}my profile{% endtrans %}</a></li>
-                            <li><a href="{{ uri_for('auth-logout') }}">{% trans %}logout{% endtrans %}</a></li>
+                            <li><a href="{{ url_for('profile') }}">{% trans %}my profile{% endtrans %}</a></li>
+                            <li><a href="{{ url_for('auth-logout') }}">{% trans %}logout{% endtrans %}</a></li>
                             {% else %}
-                            <li><a href="{{ uri_for('auth-select-provider') }}">{% trans %}login page{% endtrans %}</a></li>
+                            <li><a href="{{ url_for('auth-select-provider') }}">{% trans %}login page{% endtrans %}</a></li>
                             {% endif %}
                         </ul>
                     </li>
