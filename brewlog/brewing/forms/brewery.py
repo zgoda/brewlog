@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-__revision__ = '$Id$'
-
 import wtforms as wf
 from wtforms.fields.html5 import DateField
 from wtforms.validators import Length, Optional, DataRequired
-from webapp2_extras.i18n import lazy_gettext as _
+from flaskext.babel import lazy_gettext as _
 
-from forms.base import BaseForm
-from models.base import Brewery
+from brewlog.forms.base import BaseForm
+from brewlog.brewing.models import Brewery
 
 
 class BreweryNameLength(Length):
@@ -23,7 +21,7 @@ class BreweryForm(BaseForm):
     description = wf.TextAreaField(_('description'), validators=[Optional()])
     established_date = DateField(_('established'), validators=[Optional()])
 
-    def save(self, user, obj=None):
+    def save(self, obj=None):
         if obj is None:
-            obj = Brewery(parent=user.key)
-        return super(BreweryForm, self).save(user, obj, save=True)
+            obj = Brewery()
+        return super(BreweryForm, self).save(obj, save=True)

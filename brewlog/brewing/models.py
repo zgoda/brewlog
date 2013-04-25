@@ -102,7 +102,7 @@ class HoppingStep(Model):
     brew = relationship('brewlog.brewing.models.Brew', backref='hopping_steps')
 
 
-class AdditionalFermentationStem(Model):
+class AdditionalFermentationStep(Model):
     __tablename__ = 'fermentation_step'
     id = Column(Integer, primary_key=True)
     date = Column(Date, index=True)

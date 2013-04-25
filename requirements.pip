@@ -8,7 +8,7 @@ Flask-WTF
 Jinja2
 Markdown
 SQLAlchemy
-WTForms
+-e hg+https://bitbucket.org/simplecodes/wtforms/#egg=wtforms
 Werkzeug
 httplib2
 oauth2

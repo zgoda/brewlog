@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 
-__revision__ = '$Id$'
-
-from google.appengine.ext import ndb as db
-
 import wtforms as wf
 from wtforms.fields.html5 import DateField, IntegerField
 from wtforms.validators import DataRequired, Optional
-from webapp2_extras.i18n import lazy_gettext as _
+from flaskext.babel import lazy_gettext as _
 
-from forms.base import BaseForm, BaseSubform
-from forms.widgets import SubformTableWidget
-from models import choices
-from models.simple import Batch, FermentableItem, HopItem, YeastItem, MiscItem, MashStep, HoppingStep, AdditionalFermentationStep, TastingNote
+from brewlog import session
+from brewlog.forms.base import BaseForm, BaseSubform
+from brewlog.forms.widgets import SubformTableWidget
+from brewlog.brewing import choices
+from brewlog.brewing.models import Brew, Fermentable, Hop, Yeast, Misc, MashStep, HoppingStep, AdditionalFermentationStep, TastingNote
 
 
 class FermentableItemForm(BaseSubform):
@@ -20,7 +17,7 @@ class FermentableItemForm(BaseSubform):
     amount = wf.FloatField(_('amount'))
     unit = wf.TextField(_('unit'))
 
-    _model_class = FermentableItem
+    _model_class = Fermentable
     _required = ('name', 'amount', 'unit')
 
 
@@ -30,7 +27,7 @@ class HopItemForm(BaseSubform):
     aa_content = wf.FloatField(_('alpha acids content'))
     amount = wf.FloatField(_('amount'))
 
-    _model_class = HopItem
+    _model_class = Hop
     _required = ('name', 'amount')
 
 
@@ -42,7 +39,7 @@ class YeastItemForm(BaseSubform):
     use = wf.SelectField(_('usage'), choices=choices.YEAST_USE_CHOICES,
         description=_('select how this yeast was introduced into your brew'))
 
-    _model_class = YeastItem
+    _model_class = Yeast
     _required = ('name', 'manufacturer', 'use')
 
 
@@ -52,7 +49,7 @@ class MiscItemForm(BaseSubform):
     unit = wf.TextField(_('unit'))
     use = wf.SelectField(_('usage'), choices=choices.MISC_USE_CHOICES)
 
-    _model_class = MiscItem
+    _model_class = Misc
     _required = ('name', 'amount', 'unit', 'use')
 
 
@@ -139,24 +136,23 @@ class BrewForm(BaseForm):
     is_public = wf.BooleanField(_('public'))
     is_draft = wf.BooleanField(_('draft'))
 
-    def save(self, user, obj=None):
+    def save(self, obj=None, save=True):
         if obj is None:
-            obj = Batch(parent=user.key)
+            obj = Brew()
         kw = {}
         for field_name, field in self._fields.items():
-            if field_name == 'brewery':
-                kw[field_name] = db.Key(urlsafe=field.data)
+            if field.type == 'FieldList':
+                items = kw.get(field_name, [])
+                for entry in field.entries:
+                    item = entry.form.item_from_data()
+                    if item:
+                        items.append(item)
+                kw[field_name] = items
             else:
-                if field.type == 'FieldList':
-                    items = kw.get(field_name, [])
-                    for entry in field.entries:
-                        item = entry.form.item_from_data()
-                        if item:
-                            items.append(item)
-                    kw[field_name] = items
-                else:
-                    kw[field_name] = field.data
+                kw[field_name] = field.data
         for k, v in kw.items():
             setattr(obj, k, v)
-        obj.put()
+        if save:
+            session.add(obj)
+            session.commit()
         return obj

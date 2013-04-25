@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 
-__revision__ = '$Id$'
-
 import wtforms as wf
 from wtforms.validators import DataRequired, Email, Optional
-from webapp2_extras.i18n import lazy_gettext as _
+from flaskext.babel import lazy_gettext as _
 
 from forms.base import BaseForm
-from models.base import BrewerProfile
+from users.models import BrewerProfile
 
 
 class ProfileForm(BaseForm):
@@ -18,7 +16,7 @@ class ProfileForm(BaseForm):
     location = wf.TextField(_('location'), validators=[Optional()])
     about_me = wf.TextAreaField(_('about me'), validators=[Optional()])
 
-    def save(self, user, obj=None):
+    def save(self, obj=None):
         if obj is None:
-            obj = BrewerProfile(parent=user.key)
+            obj = BrewerProfile()
         return super(ProfileForm, self).save(user, obj, save=True)

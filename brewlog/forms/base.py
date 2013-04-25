@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-__revision__ = '$Id$'
-
 from wtforms import Form
+
+from brewlog import session
 
 
 class BaseSubform(Form):
@@ -21,11 +21,12 @@ class BaseSubform(Form):
 
 class BaseForm(Form):
 
-    def save(self, user, obj, save=False):
+    def save(self, obj, save=False):
         kw = {}
         for field_name, field in self._fields.items():
             kw[field_name] = field.data
         obj.populate(**kw)
         if save:
-            obj.put()
+            session.add(obj)
+            session.commit()
         return obj
