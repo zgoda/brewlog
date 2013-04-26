@@ -9,7 +9,7 @@
 What is (Z)Brew-log
 -------------------
 
-(Z)Brew-log is an application to manage, maintain and publish brew logs for homebrewers. This application is designed for Google AppEngine platform. Future versions might be runnable on any platform that supports Python WSGI standard.
+(Z)Brew-log is a web application to manage, maintain and publish brewing logs for homebrewers. It should be runnable on any platform that supports Python WSGI standard. Software stack is built upon Python based open source technologies - Flask microframework and SQLAlchemy. Application is designed to be easily deployable on cloud based services like OpenStack.
 
 Contents:
 
@@ -17,6 +17,7 @@ Contents:
    :maxdepth: 2
 
    objects
+   auth
 
 
 Indices and tables

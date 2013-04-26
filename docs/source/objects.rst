@@ -1,10 +1,23 @@
 Objects and entities
 ====================
 
-Main entity: Batch
+Entity: BrewerProfile
+---------------------
+
+BrewerProfile properties:
+
+ * first and lasn name
+ * nick
+ * email (required)
+ * location
+ * free text ("about me")
+
+BrewerProfile object holds OAuth login data (last used service and received authentication secrets).
+
+Main entity: Brew
 ------------------
 
-Batch properties:
+Brew properties:
 
  * brew date
  * brew name
