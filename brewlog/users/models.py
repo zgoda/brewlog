@@ -26,7 +26,8 @@ class BrewerProfile(Model):
     def __repr__(self):
         return '<BrewerProfile %s>' % self.email.encode('utf-8')
 
-    def get_absolute_url(self):
+    @property
+    def absolute_url(self):
         return ''
 
 

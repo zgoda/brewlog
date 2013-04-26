@@ -37,7 +37,8 @@ class Brewery(Model):
     def __repr__(self):
         return '<Brewery %s>' % self.name.encode('utf-8')
 
-    def get_absolute_url(self):
+    @property
+    def absolute_url(self):
         return ''
 
 
@@ -162,7 +163,8 @@ class Brew(Model):
     def __repr__(self):
         return '<Brew %s by %s>' % (self.name.encode('utf-8'), self.brewery.name.encode('utf-8'))
 
-    def get_absolute_url(self):
+    @property
+    def absolute_url(self):
         return ''
 
 
