@@ -1,3 +1,8 @@
+"""
+BrewLog, homebrewer's log application
+=====================================
+"""
+
 from setuptools import setup, find_packages
 
 setup(

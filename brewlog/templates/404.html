@@ -1,1 +1,7 @@
 {% extends "index-1cols.html" %}
+
+{% block headpagetitle %}{% trans %}Page not found (404){% endtrans %}{% endblock %}
+
+{% block widecontent %}
+<p>{% trans %}The page you was trying to access was not found on the server.{% endtrans %}</p>
+{% endblock %}
