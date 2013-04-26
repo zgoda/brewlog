@@ -7,6 +7,7 @@ from brewlog.users.models import BrewerProfile
 from sqlalchemy import Table, Column, Integer, String, Text, Date, DateTime, ForeignKey, Float, Enum, Boolean
 from sqlalchemy import event
 from sqlalchemy.orm import relationship
+from flask import url_for
 import markdown
 
 
@@ -35,6 +36,9 @@ class Brewery(Model):
 
     def __repr__(self):
         return '<Brewery %s>' % self.name.encode('utf-8')
+
+    def get_absolute_url(self):
+        return ''
 
 
 class Fermentable(Model):
@@ -157,6 +161,10 @@ class Brew(Model):
 
     def __repr__(self):
         return '<Brew %s by %s>' % (self.name.encode('utf-8'), self.brewery.name.encode('utf-8'))
+
+    def get_absolute_url(self):
+        return ''
+
 
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):

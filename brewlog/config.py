@@ -10,6 +10,12 @@ SQLALCHEMY_ECHO = False
 CSRF_ENABLED = True
 CSRF_SESSION_KEY = os.urandom(24)
 
+if 'OPENSHIFT_DATA_DIR' in os.environ:
+    try:
+        from config_openshift import *
+    except ImportError:
+        pass
+
 try:
     from config_local import *
 except ImportError:

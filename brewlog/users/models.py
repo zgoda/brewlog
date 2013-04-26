@@ -26,6 +26,10 @@ class BrewerProfile(Model):
     def __repr__(self):
         return '<BrewerProfile %s>' % self.email.encode('utf-8')
 
+    def get_absolute_url(self):
+        return ''
+
+
 # mapper events
 def profile_pre_save(mapper, connection, target):
     full_name = u'%s %s' % (target.first_name or u'', target.last_name or u'')

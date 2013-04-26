@@ -13,7 +13,7 @@
                 <div class="panel">
                     <h4>{% trans %}Latest brews{% endtrans %}</h4>
                     <ul>
-                        {% for brew in latest_brews %}<li><a href="{{ brew.get_absolute_url() }}">{{ brew.name }}</a> {% trans brewername=brew.user.name, breweryname=brew.brewery.get().name %} by {{ brewername }} in {{ breweryname }}{% endtrans %}</li>{% endfor %}
+                        {% for brew in latest_brews %}<li><a href="{{ brew.get_absolute_url() }}">{{ brew.name }}</a> {% trans brewername=brew.brewery.brewer.name, breweryname=brew.brewery.name %} by {{ brewername }} in {{ breweryname }}{% endtrans %}</li>{% endfor %}
                     </ul>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 <div class="panel">
                     <h4>{% trans %}Recently registered breweries{% endtrans %}</h4>
                     <ul>
-                        {% for brewery in latest_breweries %}<li><a href="{{ brewery.get_absolute_url() }}">{{ brewery.name }}</a> {% trans brewer=brewery.owner.name %}by {{ brewer }} {% endtrans %}</li>{% endfor %}
+                        {% for brewery in latest_breweries %}<li><a href="{{ brewery.get_absolute_url() }}">{{ brewery.name }}</a> {% trans brewer=brewery.brewer.full_name %}by {{ brewer }} {% endtrans %}</li>{% endfor %}
                     </ul>
                 </div>
             </div>

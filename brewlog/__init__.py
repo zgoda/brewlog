@@ -19,6 +19,7 @@ Model.query = session.query_property()
 
 # register views
 #import brewlog.brewing.views
+import brewlog.views.main
 import brewlog.users.views
 
 def init_db():
