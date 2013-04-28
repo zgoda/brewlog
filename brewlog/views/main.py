@@ -1,11 +1,9 @@
 from flask import render_template
 
-from brewlog import app
 from brewlog.brewing.models import Brew, Brewery
 from brewlog.users.models import BrewerProfile
 
 
-@app.route('/')
 def main():
     item_limit = 5
     ctx = {

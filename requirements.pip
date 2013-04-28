@@ -1,16 +1,11 @@
 Babel
 Flask
 Flask-Babel
-Flask-Login
-Flask-OAuth
 Flask-Script
 Flask-WTF
-Jinja2
+Flask-OAuth
+Flask-Login
 Markdown
 SQLAlchemy
 -e hg+https://bitbucket.org/simplecodes/wtforms/#egg=wtforms
-Werkzeug
-httplib2
-oauth2
 pytz
-speaklater

@@ -1,5 +1,6 @@
 from flask import Flask, render_template
-from flaskext.babel import Babel
+from flaskext.babel import Babel, lazy_gettext as _
+from flask_login import LoginManager
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -17,10 +18,18 @@ session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=en
 Model = declarative_base(bind=engine)
 Model.query = session.query_property()
 
-# register views
-#import brewlog.brewing.views
-import brewlog.views.main
-import brewlog.users.views
+# login infrastructure
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'brewlog.users.views.select_provider'
+login_manager.login_message = _('Please log in to access this page')
+login_manager.login_message_category = 'info'
+
+# register url map
+from brewlog.urls import rules
+for url, kwargs in rules:
+    app.add_url_rule(url, **kwargs)
+
 
 def init_db():
     import brewing.models

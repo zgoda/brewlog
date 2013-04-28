@@ -1,12 +1,13 @@
 import datetime
 
-from brewlog import Model
-
 from sqlalchemy import Column, Integer, DateTime, String, Text
 from sqlalchemy import event
+from flask_login import UserMixin
+
+from brewlog import Model, login_manager
 
 
-class BrewerProfile(Model):
+class BrewerProfile(UserMixin, Model):
     __tablename__ = 'brewer_profile'
     id = Column(Integer, primary_key=True)
     first_name = Column(String(50))
@@ -29,6 +30,11 @@ class BrewerProfile(Model):
     @property
     def absolute_url(self):
         return ''
+
+
+@login_manager.user_loader
+def get_user(userid):
+    return BrewerProfile.query.get(userid)
 
 
 # mapper events

@@ -1,15 +1,44 @@
-from flask import render_template, redirect
+import requests
+from flask import render_template, redirect, url_for, session
+from flask_login import login_user, logout_user, login_required
 
-from brewlog import app
+from brewlog.users.auth import services, google
+from brewlog.users.models import BrewerProfile
 
-@app.route('/auth/select', endpoint='auth-select-provider')
+
 def select_provider():
     return render_template('auth/select.html')
 
-@app.route('/auth/logout', endpoint='auth-logout')
-def logout():
-    return redirect('/')
+def remote_login(provider):
+    if services.get(provider) is None:
+        return redirect(url_for('auth-select-provider'))
+    callback = url_for('auth-callback', provider=provider, _external=True)
+    service = services[provider]
+    return service.authorize(callback=callback)
 
-@app.route('/profile', endpoint='profile')
+@google.authorized_handler
+def remote_login_callback(resp, provider):
+    access_token = resp['access_token']
+    session['access_token'] = access_token, ''
+    import ipdb; ipdb.set_trace()
+    if access_token:
+        headers = {
+            'Authorization': 'OAuth %s' % access_token,
+        }
+        r = requests.get('https://www.googleapis.com/oauth2/v1/userinfo', headers=headers)
+        if r.ok:
+            data = r.json()
+            user = BrewerProfile.query.filter_by(email=data['email']).first()
+            login_user(user)
+            next_url = session.get('next') or url_for('main')
+            return redirect(next_url)
+    return redirect(url_for('auth-select-provider'))
+
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('main'))
+
 def profile():
     return render_template('account/profile.html')
+
