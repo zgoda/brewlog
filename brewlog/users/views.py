@@ -20,7 +20,6 @@ def remote_login(provider):
 def remote_login_callback(resp, provider):
     access_token = resp['access_token']
     session['access_token'] = access_token, ''
-    import ipdb; ipdb.set_trace()
     if access_token:
         headers = {
             'Authorization': 'OAuth %s' % access_token,
@@ -42,3 +41,5 @@ def logout():
 def profile():
     return render_template('account/profile.html')
 
+def dashboard():
+    return render_template('account/profile.html')
