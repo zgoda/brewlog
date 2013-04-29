@@ -10,8 +10,8 @@ facebook = oauth.remote_app('facebook',
     request_token_url=None,
     access_token_url='/oauth/access_token',
     authorize_url='https://www.facebook.com/dialog/oauth',
-    consumer_key=app.config['FACEBOOK_APP_ID'],
-    consumer_secret=app.config['FACEBOOK_APP_SECRET'],
+    consumer_key=app.config['AUTH_CONFIG']['facebook'][0],
+    consumer_secret=app.config['AUTH_CONFIG']['facebook'][1],
     request_token_params={'scope': 'email'},
 )
 
@@ -26,17 +26,18 @@ google = oauth.remote_app('google',
     access_token_url='https://accounts.google.com/o/oauth2/token',
     access_token_method='POST',
     access_token_params={'grant_type': 'authorization_code'},
-    consumer_key=app.config['GOOGLE_APP_ID'],
-    consumer_secret=app.config['GOOGLE_APP_SECRET'],
+    consumer_key=app.config['AUTH_CONFIG']['google'][0],
+    consumer_secret=app.config['AUTH_CONFIG']['google'][1],
 )
 
 
 services = {
-    'google': google,
-    'facebook': facebook,
+    'google': (google, 'oauth2'),
+    'facebook': (facebook, 'oauth2'),
 }
 
 
 @google.tokengetter
+@facebook.tokengetter
 def get_access_token():
     return session.get('access_token')

@@ -1,6 +1,6 @@
 import datetime
 
-from sqlalchemy import Column, Integer, DateTime, String, Text
+from sqlalchemy import Column, Integer, DateTime, String, Text, Index
 from sqlalchemy import event
 from flask_login import UserMixin
 
@@ -13,7 +13,7 @@ class BrewerProfile(UserMixin, Model):
     first_name = Column(String(50))
     last_name = Column(String(50))
     nick = Column(String(50))
-    email = Column(String(80), nullable=False)
+    email = Column(String(80), nullable=False, index=True)
     full_name = Column(String(100))
     location = Column(String(100))
     about_me = Column(Text)
@@ -23,6 +23,10 @@ class BrewerProfile(UserMixin, Model):
     oauth_token = Column(Text) # for OAuth1a
     oauth_token_secret = Column(Text) # for OAuth1a
     oauth_service = Column(String(50))
+    remote_userid = Column(String(80))
+    __table_args__ = (
+        Index('user_remote_id', 'oauth_service', 'remote_userid'),
+    )
 
     def __repr__(self):
         return '<BrewerProfile %s>' % self.email.encode('utf-8')
