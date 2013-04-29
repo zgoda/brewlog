@@ -83,8 +83,8 @@ def profile():
 def dashboard(userid):
     if str(userid) != str(current_user.id):
         abort(403)
-    form = ProfileForm(request.form)
-    if request.form:
+    if request.method == 'POST':
+        form = ProfileForm(request.form)
         if form.validate():
             form.save(obj=current_user)
             flash(_('your profile data has been updated'))
@@ -94,6 +94,7 @@ def dashboard(userid):
                 return redirect(next_)
             else:
                 return redirect(url_for(next_))
+    form = ProfileForm(obj=current_user)
     context = {
         'form': form,
     }

@@ -9,7 +9,7 @@ rules = [
     ('/auth/facebook/callback', dict(endpoint='auth-callback-facebook', view_func=facebook_remote_login_callback)),
     ('/logout', dict(endpoint='auth-logout', view_func=logout)),
     ('/profile', dict(endpoint='profile', view_func=profile)),
-    ('/profile/<userid>', dict(endpoint='profile-details', view_func=dashboard)),
+    ('/profile/<userid>', dict(endpoint='profile-details', view_func=dashboard, methods=['POST', 'GET'])),
     ('/brewery/add', dict(endpoint='brewery-add', view_func=brewery_add)),
     #('/brewery/all', dict(endpoint='brewery-all')),
     #('/brewery/list', dict(endpoint='brewery-list')),

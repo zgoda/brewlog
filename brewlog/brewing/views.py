@@ -7,7 +7,7 @@ from brewlog.brewing.forms.brewery import BreweryForm
 
 def brewery_add():
     form = BreweryForm(request.form)
-    if request.form:
+    if request.method == 'POST':
         if form.validate():
             brewery = form.save(user=current_user)
             flash(_('brewery %s created') % brewery.name)

@@ -22,8 +22,7 @@ class BaseForm(Form):
     def save(self, obj, save=False):
         kw = {}
         for field_name, field in self._fields.items():
-            kw[field_name] = field.data
-        obj.populate(**kw)
+            setattr(obj, field_name, field.data)
         if save:
             session.add(obj)
             session.commit()
