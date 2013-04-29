@@ -1,6 +1,6 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, get_flashed_messages
 from flaskext.babel import Babel, lazy_gettext as _
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -39,3 +39,10 @@ def init_db():
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404
+
+@app.context_processor
+def inject():
+    return {
+        'user': current_user,
+        'flashes': get_flashed_messages(),
+    }

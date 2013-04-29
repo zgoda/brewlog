@@ -35,6 +35,10 @@ class BrewerProfile(UserMixin, Model):
     def absolute_url(self):
         return ''
 
+    @property
+    def name(self):
+        return self.full_name or self.email
+
 
 @login_manager.user_loader
 def get_user(userid):

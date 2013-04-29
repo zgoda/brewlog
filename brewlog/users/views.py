@@ -1,11 +1,12 @@
 import requests
-from flask import render_template, redirect, url_for, session, flash, request
-from flask_login import login_user, logout_user, login_required
+from flask import render_template, redirect, url_for, session, flash, request, abort
+from flask_login import login_user, logout_user, login_required, current_user
 from flaskext.babel import lazy_gettext as _
 
 from brewlog import session as dbsession
 from brewlog.users.auth import services, google, facebook
 from brewlog.users.models import BrewerProfile
+from brewlog.users.forms import ProfileForm
 
 
 def select_provider():
@@ -45,6 +46,9 @@ def google_remote_login_callback(resp):
 
 @facebook.authorized_handler
 def facebook_remote_login_callback(resp):
+    if resp is None:
+        flash(_('Facebook login error, reason: %(error_reason)s, description: %(error_description)s') % (request.args))
+        return redirect(url_for('auth-select-provider'))
     access_token = resp['access_token']
     session['access_token'] = access_token, ''
     if access_token:
@@ -62,9 +66,9 @@ def facebook_remote_login_callback(resp):
         dbsession.add(user)
         dbsession.commit()
         login_user(user)
-        next_url = request.args.get('next') or session.get('next') or url_for('main')
+        next_url = request.args.get('next') or session.get('next') or 'main'
         flash(_('You have been logged in as %s using Facebook') % me.data['email'])
-        return redirect(next_url)
+        return redirect(url_for(next_url))
     return redirect(url_for('auth-select-provider'))
 
 @login_required
@@ -75,5 +79,22 @@ def logout():
 def profile():
     return render_template('account/profile.html')
 
-def dashboard():
-    return render_template('account/profile.html')
+@login_required
+def dashboard(userid):
+    if str(userid) != str(current_user.id):
+        abort(403)
+    form = ProfileForm(request.form)
+    if request.form:
+        if form.validate():
+            form.save(obj=current_user)
+            flash(_('your profile data has been updated'))
+            next_ = request.args.get('next')
+            if next_ is None:
+                next_ = url_for('profile-details', userid=userid)
+                return redirect(next_)
+            else:
+                return redirect(url_for(next_))
+    context = {
+        'form': form,
+    }
+    return render_template('account/profile.html', **context)

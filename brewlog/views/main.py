@@ -10,9 +10,8 @@ def main():
         'latest_brews': Brew.query.order_by('-created').limit(item_limit).all(),
         'latest_breweries': Brewery.query.order_by('-created').limit(item_limit).all(),
         'latest_brewers': BrewerProfile.query.order_by('-created').limit(item_limit).all(),
-        'recently_active_breweries': [],
-        'recently_active_brewers': [],
-        'most_active_breweries': []
+        'recently_active_breweries': Brewery.query.order_by('-updated').limit(item_limit).all(),
+        'recently_active_brewers': BrewerProfile.query.order_by('-updated').limit(item_limit).all(),
     }
     return render_template('home.html', **ctx)
 

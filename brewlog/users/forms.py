@@ -4,8 +4,8 @@ import wtforms as wf
 from wtforms.validators import DataRequired, Email, Optional
 from flaskext.babel import lazy_gettext as _
 
-from forms.base import BaseForm
-from users.models import BrewerProfile
+from brewlog.forms.base import BaseForm
+from brewlog.users.models import BrewerProfile
 
 
 class ProfileForm(BaseForm):
@@ -19,4 +19,4 @@ class ProfileForm(BaseForm):
     def save(self, obj=None):
         if obj is None:
             obj = BrewerProfile()
-        return super(ProfileForm, self).save(user, obj, save=True)
+        return super(ProfileForm, self).save(obj, save=True)

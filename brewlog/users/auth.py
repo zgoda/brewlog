@@ -30,7 +30,6 @@ google = oauth.remote_app('google',
     consumer_secret=app.config['AUTH_CONFIG']['google'][1],
 )
 
-
 services = {
     'google': (google, 'oauth2'),
     'facebook': (facebook, 'oauth2'),
