@@ -33,14 +33,15 @@ def google_remote_login_callback(resp):
             data = r.json()
             user = BrewerProfile.query.filter_by(email=data['email']).first()
             if user is None:
-                user = BrewerProfile(email=data['email'], remote_userid=data['id'])
+                user = BrewerProfile(email=data['email'])
             user.access_token = access_token
+            user.remote_userid = data['id']
             user.oauth_service = 'google'
             dbsession.add(user)
             dbsession.commit()
             login_user(user)
             next_url = request.args.get('next') or session.get('next') or url_for('main')
-            flash(_('You have been logged in as %s using Google') % data['email'])
+            flash(_('You have been signed in using Google'))
             return redirect(next_url)
     return redirect(url_for('auth-select-provider'))
 
@@ -59,15 +60,15 @@ def facebook_remote_login_callback(resp):
                 email=me.data['email'],
                 first_name=me.data['first_name'],
                 last_name=me.data['last_name'],
-                remote_userid=me.data['id'],
             )
         user.access_token = access_token
         user.oauth_service = 'facebook'
+        user.remote_userid = me.data['id']
         dbsession.add(user)
         dbsession.commit()
         login_user(user)
         next_url = request.args.get('next') or session.get('next') or 'main'
-        flash(_('You have been logged in as %s using Facebook') % me.data['email'])
+        flash(_('You have been signed in using Facebook'))
         return redirect(url_for(next_url))
     return redirect(url_for('auth-select-provider'))
 

@@ -7,5 +7,11 @@ Flask-OAuth
 Flask-Login
 Markdown
 SQLAlchemy
+Werkzeug
+Jinja2
 -e hg+https://bitbucket.org/simplecodes/wtforms/#egg=wtforms
 pytz
+speaklater
+requests
+oauth2
+httplib2
