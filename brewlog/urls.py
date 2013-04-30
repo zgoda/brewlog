@@ -1,6 +1,6 @@
 from brewlog.views.main import main
 from brewlog.users.views import select_provider, profile, dashboard, logout, remote_login, google_remote_login_callback, facebook_remote_login_callback
-from brewlog.brewing.views import brewery_add, brewery_all, brewery_details, brew_add
+from brewlog.brewing.views import brewery_add, brewery_all, brewery_details, brew_add, brew_details
 
 rules = [
     ('/auth/select', dict(endpoint='auth-select-provider', view_func=select_provider)),
@@ -16,6 +16,6 @@ rules = [
     ('/brewery/<brewery_id>', dict(endpoint='brewery-details', view_func=brewery_details, methods=['POST', 'GET'])),
     #('/brew/list', dict(endpoint='brew-list')),
     ('/brew/add', dict(endpoint='brew-add', view_func=brew_add, methods=['POST', 'GET'])),
-    #('/brew/<keyid>', dict(endpoint='brew-details')),
+    ('/brew/<brew_id>', dict(endpoint='brew-details', view_func=brew_details, method=['POST', 'GET'])),
     ('/', dict(endpoint='main', view_func=main)),
 ]

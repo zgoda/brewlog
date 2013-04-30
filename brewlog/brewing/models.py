@@ -41,6 +41,13 @@ class Brewery(Model):
     def absolute_url(self):
         return url_for('brewery-details', brewery_id=self.id)
 
+    @property
+    def brewers(self):
+        return self.other_brewers + [self.brewer]
+
+    def recent_brews(self, limit=10):
+        return self.brews.order_by('-created').limit(limit).all()
+
 
 class Fermentable(Model):
     __tablename__ = 'fermentable'
