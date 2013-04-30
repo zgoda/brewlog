@@ -1,5 +1,6 @@
 import datetime
 
+from flask import url_for
 from sqlalchemy import Column, Integer, DateTime, String, Text, Index
 from sqlalchemy import event
 from flask_login import UserMixin
@@ -33,7 +34,7 @@ class BrewerProfile(UserMixin, Model):
 
     @property
     def absolute_url(self):
-        return ''
+        return url_for('profile-details', userid=self.id)
 
     @property
     def name(self):

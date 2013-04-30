@@ -4,6 +4,7 @@ from brewlog import Model
 from brewlog.brewing import choices
 from brewlog.users.models import BrewerProfile
 
+from flask import url_for
 from sqlalchemy import Table, Column, Integer, String, Text, Date, DateTime, ForeignKey, Float, Enum, Boolean
 from sqlalchemy import event
 from sqlalchemy.orm import relationship
@@ -38,7 +39,7 @@ class Brewery(Model):
 
     @property
     def absolute_url(self):
-        return ''
+        return url_for('brewery-details', brewery_id=self.id)
 
 
 class Fermentable(Model):

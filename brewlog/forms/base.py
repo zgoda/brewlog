@@ -1,4 +1,4 @@
-from wtforms import Form
+from flask_wtf import Form
 
 from brewlog import session
 

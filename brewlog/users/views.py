@@ -40,15 +40,17 @@ def google_remote_login_callback(resp):
             dbsession.add(user)
             dbsession.commit()
             login_user(user)
-            next_url = request.args.get('next') or session.get('next') or url_for('main')
-            flash(_('You have been signed in using Google'))
-            return redirect(next_url)
+            next_url = request.args.get('next') or session.get('next') or 'main'
+            flash(_('You have been signed in as %(email)s using Google', email=data['email']))
+            return redirect(url_for(next_url))
+        else:
+            flash(_('Error receiving profile data from Google: %(code)s', code=r.status_code))
     return redirect(url_for('auth-select-provider'))
 
 @facebook.authorized_handler
 def facebook_remote_login_callback(resp):
     if resp is None:
-        flash(_('Facebook login error, reason: %(error_reason)s, description: %(error_description)s') % (request.args))
+        flash(_('Facebook login error, reason: %(error_reason)s, description: %(error_description)s', **request.args))
         return redirect(url_for('auth-select-provider'))
     access_token = resp['access_token']
     session['access_token'] = access_token, ''
@@ -68,7 +70,7 @@ def facebook_remote_login_callback(resp):
         dbsession.commit()
         login_user(user)
         next_url = request.args.get('next') or session.get('next') or 'main'
-        flash(_('You have been signed in using Facebook'))
+        flash(_('You have been signed in as %(email)s using Facebook', email=me.data['email']))
         return redirect(url_for(next_url))
     return redirect(url_for('auth-select-provider'))
 

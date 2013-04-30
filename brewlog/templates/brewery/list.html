@@ -10,6 +10,6 @@
 {% endfor %}
 </ul>
 {% else %}
-<p>{% trans addurl=uri_for('brewery-add') %}You don't have any brewery listed here, would you like to <a href="{{ addurl }}">add one</a>?{% endtrans %}</p>
+<p>{% trans addurl=url_for('brewery-add') %}You don't have any brewery listed here, would you like to <a href="{{ addurl }}">add one</a>?{% endtrans %}</p>
 {% endif %}
 {% endblock %}

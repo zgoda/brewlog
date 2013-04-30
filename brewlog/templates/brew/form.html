@@ -1,60 +1,7 @@
 {% extends "brewery/base.html" %}
-{% import "macros/forms.html" as forms %}
-
-{% block scripts %}
-{{ super() }}
-<script type="text/javascript" src="/static/js/application/brew/form.js"></script>
-<script type="text/javascript">
-var hideControls = function(element) {
-    $(element).parents("div.subform").prev().find("td.item-ops").children().show();
-    $(element).parents("div.subform").hide();
-};
-$(".remove-item").on("click", function(e) {
-    hideControls(this);
-    return false;
-});
-$(".add-item").on("click", function(e) {
-    var table = $(this).parents("table.subform-table");
-    var oldObjId = table.attr("id");
-    var objIdParts = oldObjId.split("-");
-    var objName = objIdParts[0];
-    var objId = parseInt(objIdParts[1]);
-    var newId = objId + 1;
-    var newObjId = objName + "-" + newId;
-    var original = $(this).parents("div.field-enclosure");
-    var clone = original.clone(true);
-    clone.children("label[for='" + oldObjId + "']").hide();
-    var items = clone.find("[name^='" + objName + "'], [id^='" + objName + "'], [for^='" + objName + "']");
-    for (var i=0; i<items.length; i++) {
-        item = $(items[i]);
-        if (item.attr("id")) {
-            newAttr = item.attr("id").replace(oldObjId, newObjId);
-            item.attr("id", newAttr);
-        }
-        if (item.attr("name")) {
-            newAttr = item.attr("name").replace(oldObjId, newObjId);
-            item.attr("name", newAttr);
-        }
-        if (item.attr("for")) {
-            newAttr = item.attr("for").replace(oldObjId, newObjId);
-            item.attr("for",  newAttr);
-        }
-    }
-    clone.insertAfter(original);
-    $(clone.find(".remove-item")).on("click", function(e) {
-        hideControls(this);
-        return false;
-    })
-    original.find("td.item-ops").children().hide();
-    return false;
-});
-</script>
-{% endblock %}
 
 {% block content %}
-{% if form %}
-<form method="post" action="{{ uri_for('brew-add') }}">
-    {{ forms.render(form) }}
+<form method="post" action="{{ url_for('brew-add') }}">
+    {{ form.hidden_tag() }}
 </form>
-{% endif %}
 {% endblock %}
