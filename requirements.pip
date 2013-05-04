@@ -9,7 +9,7 @@ Markdown
 SQLAlchemy
 Werkzeug
 Jinja2
--e hg+https://bitbucket.org/simplecodes/wtforms/#egg=wtforms
+WTForms
 pytz
 speaklater
 requests

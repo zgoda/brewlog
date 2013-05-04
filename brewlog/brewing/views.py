@@ -34,7 +34,7 @@ def brewery_details(brewery_id):
         abort(404)
     if request.method == 'POST':
         if not current_user in brewery.brewers:
-        abort(403)
+            abort(403)
         form = BreweryForm(request.form)
         if form.validate():
             brewery = form.save(user=current_user)

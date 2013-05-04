@@ -9,90 +9,12 @@ from brewlog import session
 from brewlog.forms.base import BaseForm, BaseSubform
 from brewlog.forms.widgets import SubformTableWidget
 from brewlog.brewing import choices
-from brewlog.brewing.models import Brew, Fermentable, Hop, Yeast, Misc, MashStep, HoppingStep, AdditionalFermentationStep, TastingNote
+from brewlog.brewing.models import Brew
 
 
-class FermentableItemForm(BaseSubform):
-    name = wf.TextField(_('name'))
-    amount = wf.FloatField(_('amount'))
-    unit = wf.TextField(_('unit'))
-
-    _model_class = Fermentable
-    _required = ('name', 'amount', 'unit')
-
-
-class HopItemForm(BaseSubform):
-    name = wf.TextField(_('name'))
-    year = IntegerField(_('year'))
-    aa_content = wf.FloatField(_('alpha acids content'))
-    amount = wf.FloatField(_('amount'))
-
-    _model_class = Hop
-    _required = ('name', 'amount')
-
-
-class YeastItemForm(BaseSubform):
-    name = wf.TextField(_('name'))
-    code = wf.TextField(_('code'),
-        description=_('manufacturer code for this strain'))
-    manufacturer = wf.TextAreaField(_('manufacturer'))
-    use = wf.SelectField(_('usage'), choices=choices.YEAST_USE_CHOICES,
-        description=_('select how this yeast was introduced into your brew'))
-
-    _model_class = Yeast
-    _required = ('name', 'manufacturer', 'use')
-
-
-class MiscItemForm(BaseSubform):
-    name = wf.TextField(_('name'))
-    amount = wf.FloatField(_('amount'))
-    unit = wf.TextField(_('unit'))
-    use = wf.SelectField(_('usage'), choices=choices.MISC_USE_CHOICES)
-
-    _model_class = Misc
-    _required = ('name', 'amount', 'unit', 'use')
-
-
-class MashStepForm(BaseSubform):
-    order = IntegerField(_('order'))
-    name = wf.TextField(_('name'))
-    temperature = IntegerField(_('temperature'))
-    time = IntegerField(_('time'))
-    step_type = wf.SelectField(_('step type'), choices=choices.STEP_TYPE_CHOICES)
-    amount = wf.IntegerField(_('amount'),
-        description=_('amount of water added as an infusion or mash drawn for decoction'))
-
-    _model_class = MashStep
-    _required = ('temperature', 'time', 'step_type')
-
-
-class HoppingStepForm(BaseSubform):
-    addition_type = wf.SelectField(_('addition type'), choices=choices.HOPSTEP_TYPE_CHOICES)
-    time = IntegerField(_('time'))
-    variety = wf.TextField(_('variety'))
-    amount = wf.IntegerField(_('amount'))
-
-    _model_class = HoppingStep
-    _required = ('addition_type', 'time', 'variety', 'amount')
-
-
-class AdditionalFermentationStepForm(BaseSubform):
-    date = DateField(_('date'))
-    amount = wf.FloatField(_('amount'))
-    og = wf.FloatField(_('original gravity'))
-    fg = wf.FloatField(_('final gravity'))
-    fermentation_temperature = IntegerField(_('fermentation temperature'))
-
-    _model_class = AdditionalFermentationStep
-    _required = ('date', 'og')
-
-
-class TastingNoteForm(BaseSubform):
+class TastingNoteForm(BaseForm):
     date = DateField(_('date'))
     text = wf.TextAreaField(_('text'))
-
-    _model_class = TastingNote
-    _required = ('date', 'text')
 
 
 class BrewForm(BaseForm):
@@ -119,20 +41,13 @@ class BrewForm(BaseForm):
     bottling_date = DateField(_('bottling date'), validators=[Optional()])
     carbonation_type = wf.SelectField(_('type of carbonation'), choices=choices.CARBONATION_CHOICES,
         validators=[Optional()])
-    fermentables = wf.FieldList(wf.FormField(FermentableItemForm, _('fermentable items'), widget=SubformTableWidget()), min_entries=5,
-        validators=[Optional()])
-    hops = wf.FieldList(wf.FormField(HopItemForm, _('hop items'), widget=SubformTableWidget()), min_entries=5, validators=[Optional()])
-    yeasts = wf.FieldList(wf.FormField(YeastItemForm, _('yeast items'), widget=SubformTableWidget()), min_entries=5, validators=[Optional()])
-    miscellany = wf.FieldList(wf.FormField(MiscItemForm, _('miscellaneous items'), widget=SubformTableWidget()), min_entries=5,
-        validators=[Optional()])
-    mash_schedule = wf.FieldList(wf.FormField(MashStepForm, _('mash schedule'), widget=SubformTableWidget()), min_entries=5,
-        validators=[Optional()])
-    hopping_schedule = wf.FieldList(wf.FormField(HoppingStepForm, _('hopping schedule'), widget=SubformTableWidget()), min_entries=5,
-        validators=[Optional()])
-    additional_fermentation_steps = wf.FieldList(wf.FormField(AdditionalFermentationStepForm, _('additional fermentation steps'), widget=SubformTableWidget()),
-        min_entries=5, validators=[Optional()])
-    tasting_notes = wf.FieldList(wf.FormField(TastingNoteForm, _('tasting notes'), widget=SubformTableWidget()), min_entries=5,
-        validators=[Optional()])
+    fermentables = wf.TextAreaField(_('fermentables'), validators=[Optional()])
+    hops = wf.TextAreaField(_('hop items'), validators=[Optional()])
+    yeasts = wf.TextAreaField(_('yeast items'), validators=[Optional()])
+    miscellany = wf.TextAreaField(_('miscellaneous items'), validators=[Optional()])
+    mash_schedule = wf.TextAreaField(_('mash schedule'), validators=[Optional()])
+    hopping_schedule = wf.TextAreaField(_('hopping schedule'), validators=[Optional()])
+    additional_fermentation_steps = wf.TextAreaField(_('additional fermentation steps'), validators=[Optional()])
     is_public = wf.BooleanField(_('public'))
     is_draft = wf.BooleanField(_('draft'))
 

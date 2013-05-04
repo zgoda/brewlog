@@ -16,6 +16,6 @@ rules = [
     ('/brewery/<brewery_id>', dict(endpoint='brewery-details', view_func=brewery_details, methods=['POST', 'GET'])),
     #('/brew/list', dict(endpoint='brew-list')),
     ('/brew/add', dict(endpoint='brew-add', view_func=brew_add, methods=['POST', 'GET'])),
-    ('/brew/<brew_id>', dict(endpoint='brew-details', view_func=brew_details, method=['POST', 'GET'])),
+    ('/brew/<brew_id>', dict(endpoint='brew-details', view_func=brew_details, methods=['POST', 'GET'])),
     ('/', dict(endpoint='main', view_func=main)),
 ]

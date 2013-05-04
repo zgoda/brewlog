@@ -49,84 +49,6 @@ class Brewery(Model):
         return self.brews.order_by('-created').limit(limit).all()
 
 
-class Fermentable(Model):
-    __tablename__ = 'fermentable'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(80), nullable=False, index=True)
-    unit = Column(String(20))
-    amount = Column(Float(precision=3))
-    brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('Brew', backref='fermentables')
-
-
-class Hop(Model):
-    __tablename__ = 'hop'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(50), nullable=False, index=True)
-    year = Column(Integer)
-    aa_content = Column(Float(precision=2))
-    amount = Column(Integer)
-    brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('Brew', backref='hops')
-
-
-class Yeast(Model):
-    __tablename__ = 'yeast'
-    id = Column(Integer, primary_key=True)
-    code = Column(String(20))
-    name = Column(String(50), nullable=False, index=True)
-    manufacturer = Column(String(50))
-    use = Column(Enum(*choices.YEAST_USE_KEYS), nullable=False)
-    brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('Brew', backref='yeasts')
-
-
-class Misc(Model):
-    __tablename__ = 'misc'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(50), nullable=False, index=True)
-    amount = Column(Float(precision=2))
-    use = Column(Enum(*choices.MISC_USE_KEYS), nullable=False)
-    brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('Brew', backref='misc_items')
-
-
-class MashStep(Model):
-    __tablename__ = 'mash_step'
-    id = Column(Integer, primary_key=True)
-    order = Column(Integer, nullable=False, index=True)
-    name = Column(String(50), nullable=False)
-    temperature = Column(Integer)
-    time = Column(Integer)
-    step_type = Column(Enum(*choices.STEP_TYPE_KEYS), nullable=False)
-    amount = Column(Integer)
-    brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('Brew', backref='mash_steps')
-
-
-class HoppingStep(Model):
-    __tablename__ = 'hopping_step'
-    id = Column(Integer, primary_key=True)
-    addition_type = Column(Enum(*choices.HOPSTEP_TYPE_KEYS), nullable=False)
-    time = Column(Integer, index=True, nullable=False)
-    variety = Column(String(50))
-    amount = Column(Integer)
-    brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('Brew', backref='hopping_steps')
-
-
-class AdditionalFermentationStep(Model):
-    __tablename__ = 'fermentation_step'
-    id = Column(Integer, primary_key=True)
-    date = Column(Date, index=True)
-    amount = Column(Float(precision=1))
-    og = Column(Float(precision=1))
-    fg = Column(Float(precision=1))
-    fermentation_temperature = Column(Integer)
-    brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('Brew', backref='fermentation_steps')
-
-
 class TastingNote(Model):
     __tablename__ = 'tasting_note'
     id = Column(Integer, primary_key=True)
@@ -137,6 +59,9 @@ class TastingNote(Model):
     text_html = Column(Text)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
     brew = relationship('Brew', backref='tasting_notes')
+
+    def __repr__(self):
+        return '<TastingNote by %s for %s>' % (author.name.encode('utf-8'), brew.name.encode('utf-8'))
 
 
 class Brew(Model):
@@ -152,6 +77,13 @@ class Brew(Model):
     date_brewed = Column(Date, index=True)
     notes = Column(Text)
     notes_html = Column(Text)
+    fermentables = Column(Text)
+    hops = Column(Text)
+    yeast = Column(Text)
+    misc = Column(Text)
+    mash_steps = Column(Text)
+    hopping_steps = Column(Text)
+    fermentation_steps = Column(Text)
     boil_time = Column(Integer)
     fermentation_start_date = Column(Date)
     og = Column(Float(precision=1))
@@ -172,7 +104,7 @@ class Brew(Model):
 
     @property
     def absolute_url(self):
-        return ''
+        return url_for('brew-details', brew_id=self.id)
 
 
 ## events: Brewery model
