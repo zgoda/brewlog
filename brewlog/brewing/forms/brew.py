@@ -5,9 +5,7 @@ from wtforms.fields.html5 import DateField, IntegerField
 from wtforms.validators import DataRequired, Optional
 from flaskext.babel import lazy_gettext as _
 
-from brewlog import session
-from brewlog.forms.base import BaseForm, BaseSubform
-from brewlog.forms.widgets import SubformTableWidget
+from brewlog.forms.base import BaseForm
 from brewlog.brewing import choices
 from brewlog.brewing.models import Brew
 
@@ -54,20 +52,4 @@ class BrewForm(BaseForm):
     def save(self, obj=None, save=True):
         if obj is None:
             obj = Brew()
-        kw = {}
-        for field_name, field in self._fields.items():
-            if field.type == 'FieldList':
-                items = kw.get(field_name, [])
-                for entry in field.entries:
-                    item = entry.form.item_from_data()
-                    if item:
-                        items.append(item)
-                kw[field_name] = items
-            else:
-                kw[field_name] = field.data
-        for k, v in kw.items():
-            setattr(obj, k, v)
-        if save:
-            session.add(obj)
-            session.commit()
-        return obj
+        return super(BrewForm, self).save(obj, save)

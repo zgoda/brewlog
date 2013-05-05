@@ -1,5 +1,5 @@
 from flask import request, flash, url_for, redirect, render_template, abort
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flaskext.babel import lazy_gettext as _
 
 from brewlog.brewing.models import Brewery, Brew
@@ -7,6 +7,7 @@ from brewlog.brewing.forms.brewery import BreweryForm
 from brewlog.brewing.forms import BrewForm
 
 
+@login_required
 def brewery_add():
     form = BreweryForm(request.form)
     if request.method == 'POST':
@@ -37,16 +38,17 @@ def brewery_details(brewery_id):
             abort(403)
         form = BreweryForm(request.form)
         if form.validate():
-            brewery = form.save(user=current_user)
+            brewery = form.save(obj=brewery)
             flash(_('brewery %(name)s data updated', name=brewery.name))
-            return redirect(url_for('brewery-details', brewery_id=brewery.id))
+            return redirect(brewery.absolute_url)
     ctx = {
         'brewery': brewery,
     }
     if current_user in brewery.brewers:
-        ctx['form'] = BreweryForm(obj=brewery),
+        ctx['form'] = BreweryForm(obj=brewery)
     return render_template('brewery/details.html', **ctx)
 
+@login_required
 def brew_add():
     form = BrewForm(request.form)
     if request.method == 'POST':
@@ -64,7 +66,7 @@ def brew_details(brew_id):
     if not brew:
         abort(404)
     if request.method == 'POST':
-        if not current_user in brewery.brewers:
+        if not current_user in brew.brewery.brewers:
             abort(403)
         form = BrewForm(request.form)
         if form.validate():
@@ -73,6 +75,7 @@ def brew_details(brew_id):
             return redirect(brew.absolute_url)
     ctx = {
         'brew': brew,
-        'form': BrewForm(obj=brew),
     }
-    return render_templates('brew/details.html', **ctx)
+    if current_user in brew.brewery.brewers:
+        ctx['form'] = BrewForm(obj=brew)
+    return render_template('brew/details.html', **ctx)

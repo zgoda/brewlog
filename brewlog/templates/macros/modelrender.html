@@ -1,7 +1,7 @@
 {% macro render(obj) -%}
-<div class="obj">
+<table>
 {% for field, data in obj.render_fields.items() %}
-{% if data %}<div><span>{{ gettext(field) }}</span><span>{{ data|safe }}</span></div>{% endif %}
+    {% if data %}<tr><th>{{ gettext(field) }}</th><td>{{ data|safe }}</td></tr>{% endif %}
 {% endfor %}
-</div>
+</table>
 {%- endmacro %}

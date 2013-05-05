@@ -9,7 +9,6 @@ from sqlalchemy import Table, Column, Integer, String, Text, Date, DateTime, For
 from sqlalchemy import event
 from sqlalchemy.orm import relationship
 import markdown
-from flaskext.babel import lazy_gettext as _
 
 
 brewers_breweries = Table('brewers_breweries', Model.metadata,
