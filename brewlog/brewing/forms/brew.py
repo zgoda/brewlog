@@ -51,9 +51,9 @@ class BrewForm(BaseForm):
     is_public = wf.BooleanField(_('public'))
     is_draft = wf.BooleanField(_('draft'))
 
-    def save(self, brewery, obj=None, save=True):
+    def save(self, obj=None, save=True):
         if obj is None:
-            obj = Brew(brewery=brewery)
+            obj = Brew()
         kw = {}
         for field_name, field in self._fields.items():
             if field.type == 'FieldList':

@@ -1,0 +1,7 @@
+{% macro render(obj) -%}
+<div class="obj">
+{% for field, data in obj.render_fields.items() %}
+{% if data %}<div><span>{{ gettext(field) }}</span><span>{{ data|safe }}</span></div>{% endif %}
+{% endfor %}
+</div>
+{%- endmacro %}

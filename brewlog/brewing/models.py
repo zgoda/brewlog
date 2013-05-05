@@ -9,6 +9,7 @@ from sqlalchemy import Table, Column, Integer, String, Text, Date, DateTime, For
 from sqlalchemy import event
 from sqlalchemy.orm import relationship
 import markdown
+from flaskext.babel import lazy_gettext as _
 
 
 brewers_breweries = Table('brewers_breweries', Model.metadata,
@@ -47,6 +48,14 @@ class Brewery(Model):
 
     def recent_brews(self, limit=10):
         return self.brews.order_by('-created').limit(limit).all()
+
+    @property
+    def render_fields(self):
+        return {
+            'name': self.name,
+            'description': self.description_html,
+            'established': self.established_date,
+        }
 
 
 class TastingNote(Model):

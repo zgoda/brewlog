@@ -42,21 +42,18 @@ def brewery_details(brewery_id):
             return redirect(url_for('brewery-details', brewery_id=brewery.id))
     ctx = {
         'brewery': brewery,
-        'form': BreweryForm(obj=brewery),
     }
+    if current_user in brewery.brewers:
+        ctx['form'] = BreweryForm(obj=brewery),
     return render_template('brewery/details.html', **ctx)
 
 def brew_add():
     form = BrewForm(request.form)
     if request.method == 'POST':
         if form.validate():
-            brew = form.save(user=current_user)
-            flash(_('brew %()s created', name=brew.name))
-            next_url = request.args('next')
-            if next_url:
-                return redirect(url_for(next_url))
-            else:
-                return redirect(url_for('brewery-details', brewery_id=brew.brewery.id))
+            brew = form.save()
+            flash(_('brew %(name)s created', name=brew.name))
+            return redirect(brew.absolute_url)
     ctx = {
         'form': form,
     }
@@ -66,7 +63,16 @@ def brew_details(brew_id):
     brew = Brew.query.get(brew_id)
     if not brew:
         abort(404)
+    if request.method == 'POST':
+        if not current_user in brewery.brewers:
+            abort(403)
+        form = BrewForm(request.form)
+        if form.validate():
+            brew = form.save(obj=brew)
+            flash(_('brew %(name)s data updated', name=brew.name))
+            return redirect(brew.absolute_url)
     ctx = {
         'brew': brew,
+        'form': BrewForm(obj=brew),
     }
     return render_templates('brew/details.html', **ctx)

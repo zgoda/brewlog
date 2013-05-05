@@ -1,12 +1,17 @@
 {% extends "brewery/base.html" %}
 {% import "macros/forms.html" as forms %}
+{% import "macros/modelrender.html" as modelrender %}
 
 {% block content %}
 <h3>{% trans breweryname=brewery.name, ownername=brewery.brewer.name %}Details for brewery {{ breweryname }} by {{ ownername }}{% endtrans %}</h3>
+{% if form %}
 <p>{% trans %}You may change brewery data using the form below{% endtrans %}:</p>
 <form method="post" action="{{ url_for('brewery-details', brewery_id=brewery.id) }}">
     {{ forms.render(form) }}
 </form>
+{% else %}
+{{ modelrender.render(brewery) }}
+{% endif %}
 {% if latest_brews %}
 <h3>{% trans %}Latest brews{% endtrans %}</h3>
 <ul>
@@ -15,7 +20,7 @@
     {% endfor %}
 </ul>
 {% endif %}
-{% if brewery.brewer.id == user.id %}
+{% if form %}
 <p>{% trans add_url=url_for('brew-add') %}Would you like to <a href="{{ add_url }}">add new brew</a>?{% endtrans %}</p>
 {% endif %}
 {% endblock %}
