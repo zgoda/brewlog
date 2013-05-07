@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-03-31 23:42+0200\n"
+"POT-Creation-Date: 2013-05-07 12:20+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -19,509 +19,244 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: forms/account.py:14
-msgid "first name"
-msgstr "imię"
-
-#: forms/account.py:15
-msgid "last name"
-msgstr "nazwisko"
-
-#: forms/account.py:16
-msgid "nick"
-msgstr "nick"
-
-#: forms/account.py:17
-msgid "email"
-msgstr "email"
-
-#: forms/account.py:18
-msgid "location"
-msgstr "lokalizacja"
-
-#: forms/account.py:19
-msgid "about me"
-msgstr "o mnie"
-
-#: forms/brew.py:19 forms/brew.py:28 forms/brew.py:38 forms/brew.py:50
-#: forms/brew.py:61 forms/brew.py:103 forms/brewery.py:22
-msgid "name"
-msgstr "nazwa"
-
-#: forms/brew.py:20 forms/brew.py:31 forms/brew.py:51 forms/brew.py:65
-#: forms/brew.py:76 forms/brew.py:84
-msgid "amount"
-msgstr "ilość"
-
-#: forms/brew.py:21 forms/brew.py:52
-msgid "unit"
-msgstr "jednostka"
-
-#: forms/brew.py:29
-msgid "year"
-msgstr "rok"
-
-#: forms/brew.py:30
-msgid "alpha acids content"
-msgstr "zawartość alfa-kwasów"
-
-#: forms/brew.py:39
-msgid "code"
-msgstr "kod"
-
-#: forms/brew.py:40
-msgid "manufacturer code for this strain"
-msgstr "kod producenta"
-
-#: forms/brew.py:41
-msgid "manufacturer"
-msgstr "producent"
-
-#: forms/brew.py:42 forms/brew.py:53
-msgid "usage"
-msgstr "użycie"
-
-#: forms/brew.py:43
-msgid "select how this yeast was introduced into your brew"
-msgstr "wybierz kiedy te drożdże zostały dodane"
-
-#: forms/brew.py:60
-msgid "order"
-msgstr "porządek"
-
-#: forms/brew.py:62 models/choices.py:21
-msgid "temperature"
-msgstr "temperatura"
-
-#: forms/brew.py:63 forms/brew.py:74
-msgid "time"
-msgstr "czas"
-
-#: forms/brew.py:64
-msgid "step type"
-msgstr "rodzaj kroku"
-
-#: forms/brew.py:66
-msgid "amount of water added as an infusion or mash drawn for decoction"
-msgstr "ilość dodanej wody lub odebranego dekoktu"
-
-#: forms/brew.py:73
-msgid "addition type"
-msgstr "jak dodane"
-
-#: forms/brew.py:75
-msgid "variety"
-msgstr "odmiana"
-
-#: forms/brew.py:83 forms/brew.py:94
-msgid "date"
-msgstr "data"
-
-#: forms/brew.py:85 forms/brew.py:113
-msgid "original gravity"
-msgstr "gęstość początkowa"
-
-#: forms/brew.py:86 forms/brew.py:114
-msgid "final gravity"
-msgstr "gęstość końcowa"
-
-#: forms/brew.py:87 forms/brew.py:118
-msgid "fermentation temperature"
-msgstr "temperatura fermentacji"
-
-#: forms/brew.py:95
-msgid "text"
-msgstr "tekst"
-
-#: forms/brew.py:102 templates/brewery/base.html:3
-msgid "brewery"
-msgstr "browar"
-
-#: forms/brew.py:104
-msgid "style"
-msgstr "styl"
-
-#: forms/brew.py:105
-msgid "descriptive name of style, as you see it"
-msgstr "opisowa nazwa stylu, tak jak Ty to piwo określasz"
-
-#: forms/brew.py:107
-msgid "BJCP style code"
-msgstr "kod stylu wg BJCP"
-
-#: forms/brew.py:108
-msgid "BJCP style name"
-msgstr "nazwa stylu wg BJCP"
-
-#: forms/brew.py:109
-msgid "date brewed"
-msgstr "data warzenia"
-
-#: forms/brew.py:110
-msgid "notes"
-msgstr "notatki"
-
-#: forms/brew.py:111
-msgid "boil time"
-msgstr "czas gotowania"
-
-#: forms/brew.py:112
-msgid "fermentation start date"
-msgstr "data początku fetmentacji"
-
-#: forms/brew.py:115
-msgid "brew length"
-msgstr "wielkość warki"
-
-#: forms/brew.py:116
-msgid "total volume in fermenter (including yeast starter volume, if any)"
-msgstr "objętość całkowita w fermentorze, łącznie ze starterem/gęstwą"
-
-#: forms/brew.py:119
-msgid "final amount"
-msgstr "objętość końcowa"
-
-#: forms/brew.py:120
-msgid "volume into bottling"
-msgstr "objętość po rozlewie"
-
-#: forms/brew.py:122
-msgid "bottling date"
-msgstr "data rozlewu"
-
-#: forms/brew.py:123
-msgid "type of carbonation"
-msgstr "rodzaj nagazowania"
-
-#: forms/brew.py:125
-msgid "fermentable items"
-msgstr "surowce fermentowalne"
-
-#: forms/brew.py:127
-msgid "hop items"
-msgstr "chmiele"
-
-#: forms/brew.py:128
-msgid "yeast items"
-msgstr "drożdże"
-
-#: forms/brew.py:129
-msgid "miscellaneous items"
-msgstr "dodatki inne"
-
-#: forms/brew.py:131
-msgid "mash schedule"
-msgstr "schemat zacierania"
-
-#: forms/brew.py:133
-msgid "hopping schedule"
-msgstr "schemat chmielenia"
-
-#: forms/brew.py:135
-msgid "additional fermentation steps"
-msgstr "dodatkowe etapy fermentacji"
-
-#: forms/brew.py:137
-msgid "tasting notes"
-msgstr "notatki z degustacji"
-
-#: forms/brew.py:139
-msgid "public"
-msgstr "publiczna"
-
-#: forms/brew.py:140
-msgid "draft"
-msgstr "szkic"
-
-#: forms/brewery.py:18
-msgid "brewery name has to be between 4 and 500 characters long"
-msgstr "nazwa browaru musi mieć od 4 do 500 znaków długości"
-
-#: forms/brewery.py:23
-msgid "description"
-msgstr "opis"
-
-#: forms/brewery.py:24
-msgid "established"
-msgstr "ustanowiony"
-
-#: handlers/account.py:23
-msgid "your brewer's profile has been updated"
-msgstr "twój profil piwowara został uaktualniony"
-
-#: handlers/brew.py:28
-#, python-format
-msgid "brew %s saved"
-msgstr "warka %s zapisana"
-
-#: handlers/brew.py:51
-#, python-format
-msgid "data for brew %s updated"
-msgstr "dane warki %s zostały zaktualizowane"
-
-#: handlers/brewery.py:43
-#, python-format
-msgid "brewery %s created"
-msgstr "browar %s utworzony"
-
-#: handlers/brewery.py:66
-#, python-format
-msgid "data for brewery %s updated"
-msgstr "dane browaru %s zostały zaktualizowane"
-
-#: lib/httplib2/__init__.py:400
-#, python-format
-msgid "Content purported to be compressed with %s but failed to decompress."
-msgstr ""
-
-#: lib/httplib2/__init__.py:510
-#, python-format
-msgid "Unsupported value for qop: %s."
-msgstr ""
-
-#: lib/httplib2/__init__.py:513 lib/httplib2/__init__.py:576
-#, python-format
-msgid "Unsupported value for algorithm: %s.algorithm"
-msgstr ""
-
-#: lib/httplib2/__init__.py:573
-msgid "The challenge doesn't contain a server nonce, or this one is empty."
-msgstr ""
-
-#: lib/httplib2/__init__.py:579
-#, python-format
-msgid "Unsupported value for pw-algorithm: %s.pw-algorithm"
-msgstr ""
-
-#: lib/httplib2/__init__.py:1359
-msgid "Redirected but the response is missing a Location: header."
-msgstr ""
-
-#: lib/wtforms/validators.py:55
-#, python-format
-msgid "Invalid field name '%s'."
-msgstr "Błędna nazwa pola '%s'."
-
-#: lib/wtforms/validators.py:62
-#, python-format
-msgid "Field must be equal to %(other_name)s."
-msgstr "Wartość pola musi być identyczna jak w %(other_name)s."
-
-#: lib/wtforms/validators.py:94
-#, python-format
-msgid "Field must be at least %(min)d character long."
-msgid_plural "Field must be at least %(min)d characters long."
-msgstr[0] "Pole musi mieć długość co najmniej %(min)d znak."
-msgstr[1] "Pole musi mieć długość co najmniej %(min)d znaki."
-msgstr[2] "Pole musi mieć długość co najmniej %(min)d znaków."
-
-#: lib/wtforms/validators.py:97
-#, python-format
-msgid "Field cannot be longer than %(max)d character."
-msgid_plural "Field cannot be longer than %(max)d characters."
-msgstr[0] "Długość pola nie może przekroczyć %(max)d znaku."
-msgstr[1] "Długość pola nie może przekroczyć %(max)d znaków."
-msgstr[2] "Długość pola nie może przekroczyć %(max)d znaków."
-
-#: lib/wtforms/validators.py:100
-#, python-format
-msgid "Field must be between %(min)d and %(max)d characters long."
-msgstr "Pole musi mieć od %(min)d do %(max)d znaków długości."
-
-#: lib/wtforms/validators.py:135
-#, python-format
-msgid "Number must be at least %(min)s."
-msgstr "Liczba musi mieć wartość co najmniej %(min)s."
-
-#: lib/wtforms/validators.py:137
-#, python-format
-msgid "Number must be at most %(max)s."
-msgstr "Liczba musi mieć wartość co najwyżej %(max)s."
-
-#: lib/wtforms/validators.py:139
-#, python-format
-msgid "Number must be between %(min)s and %(max)s."
-msgstr "Wartość liczbowa musi być w przedziale od %(min)s do %(max)s."
-
-#: lib/wtforms/validators.py:188 lib/wtforms/validators.py:221
-msgid "This field is required."
-msgstr "Wypełnienie tego pola jest wymagane."
-
-#: lib/wtforms/validators.py:249
-msgid "Invalid input."
-msgstr "Zła wartość."
-
-#: lib/wtforms/validators.py:268
-msgid "Invalid email address."
-msgstr "Nieprawidłowy adres email."
-
-#: lib/wtforms/validators.py:297
-msgid "Invalid IP address."
-msgstr "Nieprawidłowy adres IP."
-
-#: lib/wtforms/validators.py:345
-msgid "Invalid Mac address."
-msgstr "Nieprawidłowy adres MAC."
-
-#: lib/wtforms/validators.py:370
-msgid "Invalid URL."
-msgstr "Nieprawidłowy URL."
-
-#: lib/wtforms/validators.py:388
-msgid "Invalid UUID."
-msgstr "Nieprawidłowy UUID."
-
-#: lib/wtforms/validators.py:415
-#, python-format
-msgid "Invalid value, must be one of: %(values)s."
-msgstr "Wartość nieprawidłowa, musi być jedną z %(values)s."
-
-#: lib/wtforms/validators.py:442
-#, python-format
-msgid "Invalid value, can't be any of: %(values)s."
-msgstr "Wartość nieprawidłowa, nie może być żadną z %(values)s."
-
-#: lib/wtforms/ext/appengine/fields.py:91
-#: lib/wtforms/ext/appengine/fields.py:173
-#: lib/wtforms/ext/appengine/fields.py:175 lib/wtforms/fields/core.py:436
-msgid "Not a valid choice"
-msgstr "Nieprawidłowy wybór"
-
-#: lib/wtforms/ext/appengine/fields.py:194
-msgid "Not a valid list"
-msgstr "To nie jest poprawna lista"
-
-#: lib/wtforms/ext/appengine/fields.py:213
-msgid "Not a valid integer list"
-msgstr "Wartość nie jest listą liczb całkowitych"
-
-#: lib/wtforms/ext/csrf/form.py:47
-msgid "Invalid CSRF Token"
-msgstr "Błędny token CSRF"
-
-#: lib/wtforms/ext/csrf/session.py:57
-msgid "CSRF token missing"
-msgstr "Brak tokena CSRF"
-
-#: lib/wtforms/ext/csrf/session.py:65
-msgid "CSRF failed"
-msgstr "Sprawdzenie CSRF nie powiodło się"
-
-#: lib/wtforms/ext/csrf/session.py:70
-msgid "CSRF token expired"
-msgstr "Token CSRF jest przestarzały"
-
-#: lib/wtforms/ext/dateutil/fields.py:50
-msgid "Please input a date/time value"
-msgstr "Proszę podać wartość dla daty/czasu"
-
-#: lib/wtforms/ext/dateutil/fields.py:62
-msgid "Invalid date/time input"
-msgstr "Wprowadzona wartość daty/czasu jest nieprawidłowa"
-
-#: lib/wtforms/fields/core.py:429
-msgid "Invalid Choice: could not coerce"
-msgstr "Wybór nieprawidłowy, nie daje się dołączyć"
-
-#: lib/wtforms/fields/core.py:462
-msgid "Invalid choice(s): one or more data inputs could not be coerced"
-msgstr "Nieprawidłowe wartości: jedna lub więcej nie dała się dołączyć"
-
-#: lib/wtforms/fields/core.py:469
-#, python-format
-msgid "'%(value)s' is not a valid choice for this field"
-msgstr "Wartość '%(value)s' nie jest poprawnym wyborem w tym polu"
-
-#: lib/wtforms/fields/core.py:524
-msgid "Not a valid integer value"
-msgstr "Nieprawidłowa wartość całkowitoliczbowa"
-
-#: lib/wtforms/fields/core.py:574
-msgid "Not a valid decimal value"
-msgstr "Nieprawidłowa wartość dziesiętna"
-
-#: lib/wtforms/fields/core.py:601
-msgid "Not a valid float value"
-msgstr "Nieprawidłowa wartość zmiennoprzecinkowa"
-
-#: lib/wtforms/fields/core.py:652
-msgid "Not a valid datetime value"
-msgstr "Nieprawidłowa wartość daty i czasu"
-
-#: lib/wtforms/fields/core.py:669
-msgid "Not a valid date value"
-msgstr "Nieprawidłowa wartość daty"
-
-#: models/choices.py:9
+#: brewlog/__init__.py:25
+msgid "Please log in to access this page"
+msgstr "Musisz się zalogować by uzyskać dostęp do tej strony"
+
+#: brewlog/brewing/choices.py:7
 msgid "forced in keg"
 msgstr "wymuszone w kegu"
 
-#: models/choices.py:9
+#: brewlog/brewing/choices.py:7
 msgid "keg with priming"
 msgstr "refermentacja w kegu"
 
-#: models/choices.py:9
+#: brewlog/brewing/choices.py:7
 msgid "bottles with priming"
 msgstr "refermentacja w butelkach"
 
-#: models/choices.py:13
+#: brewlog/brewing/choices.py:11
 msgid "primary"
 msgstr "do burzliwej"
 
-#: models/choices.py:13
+#: brewlog/brewing/choices.py:11
 msgid "secondary"
 msgstr "do cichej"
 
-#: models/choices.py:13 models/choices.py:17
+#: brewlog/brewing/choices.py:11 brewlog/brewing/choices.py:15
 msgid "bottling"
 msgstr "do rozlewu"
 
-#: models/choices.py:17 models/choices.py:25
+#: brewlog/brewing/choices.py:15 brewlog/brewing/choices.py:23
 msgid "mash"
 msgstr "do zacieru"
 
-#: models/choices.py:17 models/choices.py:25
+#: brewlog/brewing/choices.py:15 brewlog/brewing/choices.py:23
 msgid "boil"
 msgstr "do gotowania"
 
-#: models/choices.py:17
+#: brewlog/brewing/choices.py:15
 msgid "fermentation"
 msgstr "do fermentacji"
 
-#: models/choices.py:21
+#: brewlog/brewing/choices.py:19
 msgid "infusion"
 msgstr "infuzja"
 
-#: models/choices.py:21
+#: brewlog/brewing/choices.py:19
 msgid "decoction"
 msgstr "dekokcja"
 
-#: models/choices.py:25
+#: brewlog/brewing/choices.py:19
+msgid "temperature"
+msgstr "temperatura"
+
+#: brewlog/brewing/choices.py:23
 msgid "first wort"
 msgstr "do brzeczki przedniej"
 
-#: models/choices.py:25
+#: brewlog/brewing/choices.py:23
 msgid "post-boil"
 msgstr "po gotowaniu"
 
-#: models/choices.py:25
+#: brewlog/brewing/choices.py:23
 msgid "dry hop"
 msgstr "na zimno"
 
-#: templates/base.html:128 templates/index.bootstrap.html:35
-#: templates/index.foundation.html:62 templates/index.html:62
+#: brewlog/brewing/views.py:16
+#, python-format
+msgid "brewery %(name)s created"
+msgstr "browar %(name)s utworzony"
+
+#: brewlog/brewing/views.py:42
+#, python-format
+msgid "brewery %(name)s data updated"
+msgstr "dane browaru %(name)s zostały zaktualizowane"
+
+#: brewlog/brewing/views.py:57
+#, python-format
+msgid "brew %(name)s created"
+msgstr "warka %(name)s utworzona"
+
+#: brewlog/brewing/views.py:74
+#, python-format
+msgid "brew %(name)s data updated"
+msgstr "dane warki %(name)s zostały zaktualizowane"
+
+#: brewlog/brewing/forms/brew.py:14
+msgid "date"
+msgstr "data"
+
+#: brewlog/brewing/forms/brew.py:15
+msgid "text"
+msgstr "tekst"
+
+#: brewlog/brewing/forms/brew.py:19 brewlog/templates/brewery/base.html:3
+msgid "brewery"
+msgstr "browar"
+
+#: brewlog/brewing/forms/brew.py:20 brewlog/brewing/forms/brewery.py:21
+msgid "name"
+msgstr "nazwa"
+
+#: brewlog/brewing/forms/brew.py:21
+msgid "style"
+msgstr "styl"
+
+#: brewlog/brewing/forms/brew.py:22
+msgid "descriptive name of style, as you see it"
+msgstr "opisowa nazwa stylu, tak jak Ty to piwo określasz"
+
+#: brewlog/brewing/forms/brew.py:24
+msgid "BJCP style code"
+msgstr "kod stylu wg BJCP"
+
+#: brewlog/brewing/forms/brew.py:25
+msgid "BJCP style name"
+msgstr "nazwa stylu wg BJCP"
+
+#: brewlog/brewing/forms/brew.py:26
+msgid "date brewed"
+msgstr "data warzenia"
+
+#: brewlog/brewing/forms/brew.py:27
+msgid "notes"
+msgstr "notatki"
+
+#: brewlog/brewing/forms/brew.py:28
+msgid "boil time"
+msgstr "czas gotowania"
+
+#: brewlog/brewing/forms/brew.py:29
+msgid "fermentation start date"
+msgstr "data początku fetmentacji"
+
+#: brewlog/brewing/forms/brew.py:30
+msgid "original gravity"
+msgstr "gęstość początkowa"
+
+#: brewlog/brewing/forms/brew.py:31
+msgid "final gravity"
+msgstr "gęstość końcowa"
+
+#: brewlog/brewing/forms/brew.py:32
+msgid "brew length"
+msgstr "wielkość warki"
+
+#: brewlog/brewing/forms/brew.py:33
+msgid "total volume in fermenter (including yeast starter volume, if any)"
+msgstr "objętość całkowita w fermentorze, łącznie ze starterem/gęstwą"
+
+#: brewlog/brewing/forms/brew.py:35
+msgid "fermentation temperature"
+msgstr "temperatura fermentacji"
+
+#: brewlog/brewing/forms/brew.py:36
+msgid "final amount"
+msgstr "objętość końcowa"
+
+#: brewlog/brewing/forms/brew.py:37
+msgid "volume into bottling"
+msgstr "objętość po rozlewie"
+
+#: brewlog/brewing/forms/brew.py:39
+msgid "bottling date"
+msgstr "data rozlewu"
+
+#: brewlog/brewing/forms/brew.py:40
+msgid "type of carbonation"
+msgstr "rodzaj nagazowania"
+
+#: brewlog/brewing/forms/brew.py:42
+msgid "fermentables"
+msgstr "surowce fermentowalne"
+
+#: brewlog/brewing/forms/brew.py:43
+msgid "hop items"
+msgstr "chmiele"
+
+#: brewlog/brewing/forms/brew.py:44
+msgid "yeast items"
+msgstr "drożdże"
+
+#: brewlog/brewing/forms/brew.py:45
+msgid "miscellaneous items"
+msgstr "dodatki inne"
+
+#: brewlog/brewing/forms/brew.py:46
+msgid "mash schedule"
+msgstr "schemat zacierania"
+
+#: brewlog/brewing/forms/brew.py:47
+msgid "hopping schedule"
+msgstr "schemat chmielenia"
+
+#: brewlog/brewing/forms/brew.py:48
+msgid "additional fermentation steps"
+msgstr "dodatkowe etapy fermentacji"
+
+#: brewlog/brewing/forms/brew.py:49
+msgid "public"
+msgstr "publiczna"
+
+#: brewlog/brewing/forms/brew.py:50
+msgid "draft"
+msgstr "szkic"
+
+#: brewlog/brewing/forms/brewery.py:17
+msgid "brewery name has to be between 4 and 500 characters long"
+msgstr "nazwa browaru musi mieć od 4 do 500 znaków długości"
+
+#: brewlog/brewing/forms/brewery.py:22
+msgid "description"
+msgstr "opis"
+
+#: brewlog/brewing/forms/brewery.py:23
+msgid "established"
+msgstr "ustanowiony"
+
+#: brewlog/templates/404.html:3
+msgid "Page not found (404)"
+msgstr "Nie znaleziono strony (404)"
+
+#: brewlog/templates/404.html:6
+msgid "The page you was trying to access was not found on the server."
+msgstr "Strona nie została znaleziona"
+
+#: brewlog/templates/base.html:128 brewlog/templates/index.bootstrap.html:35
+#: brewlog/templates/index.foundation.html:68 brewlog/templates/index.html:68
 msgid "All rights reserved"
 msgstr "Wszelkie prawa zastrzeżone"
 
-#: templates/home.html:3
+#: brewlog/templates/home.html:3
 msgid "Welcome"
 msgstr "Witamy"
 
-#: templates/home.html:6
+#: brewlog/templates/home.html:6
 msgid "Welcome to BrewLog"
 msgstr "Witaj na stronie BrewLog"
 
-#: templates/home.html:7
+#: brewlog/templates/home.html:7
 msgid ""
 "This is BrewLog, brewing log app written by homebrewer for homebrewers. "
 "Have a look to the site and start logging your brews."
@@ -529,57 +264,68 @@ msgstr ""
 "Witaj na stronie BrewLog, zrobionej przez piwowara domowego dla innych "
 "piwowarów. Rozejrzyj się i zacznij zapisywać swoje warki."
 
-#: templates/home.html:10 templates/brewery/details.html:11
+#: brewlog/templates/home.html:14 brewlog/templates/brewery/details.html:16
 msgid "Latest brews"
 msgstr "Ostatnie warki"
 
-#: templates/index.bootstrap.html:20 templates/index.foundation.html:30
-#: templates/index.html:30
+#: brewlog/templates/home.html:16
+#, python-format
+msgid " by %(brewername)s in %(breweryname)s"
+msgstr " przez %(brewername)s w %(breweryname)s"
+
+#: brewlog/templates/home.html:24
+msgid "Recently registered breweries"
+msgstr "Ostatnio zarejestrowane browary"
+
+#: brewlog/templates/home.html:26
+#, python-format
+msgid "by %(brewer)s "
+msgstr "przez %(brewer)s"
+
+#: brewlog/templates/index.bootstrap.html:20
+#: brewlog/templates/index.foundation.html:32 brewlog/templates/index.html:32
 msgid "my profile"
 msgstr "profil"
 
-#: templates/index.bootstrap.html:20 templates/index.foundation.html:31
-#: templates/index.html:31
+#: brewlog/templates/index.bootstrap.html:20
+#: brewlog/templates/index.foundation.html:33 brewlog/templates/index.html:33
 msgid "logout"
 msgstr "wyloguj"
 
-#: templates/index.bootstrap.html:22 templates/index.foundation.html:33
-#: templates/index.html:33
+#: brewlog/templates/index.bootstrap.html:22
+#: brewlog/templates/index.foundation.html:30 brewlog/templates/index.html:30
 msgid "login page"
 msgstr "strona logowania"
 
-#: templates/index.foundation.html:27 templates/index.html:27
+#: brewlog/templates/index.foundation.html:27 brewlog/templates/index.html:27
 msgid "tools"
 msgstr "narzędzia"
 
-#: templates/account/base.html:3
+#: brewlog/templates/account/base.html:3
 msgid "my account"
 msgstr "moje konto"
 
-#: templates/account/profile.html:5
+#: brewlog/templates/account/profile.html:5
 #, python-format
-msgid "Brewer's profile for %(username)s"
-msgstr "Profil piwowara %(username)s"
+msgid "Brewer's profile for %(name)s"
+msgstr "Profil piwowara %(name)s"
 
-#: templates/account/profile.html:7
+#: brewlog/templates/account/profile.html:6
 msgid "See your brewer's profile data. You may change it using the form below."
 msgstr ""
 "Oto twoje dane piwowarskie. Możesz je zmienić używając poniższego "
 "formularza"
 
-#: templates/account/profile.html:9
-msgid "Please fill you brewer's profile data"
-msgstr "Uzupełnij swój profil piwowarski"
-
-#: templates/account/profile.html:14
+#: brewlog/templates/account/profile.html:10
 msgid "Your brewery list"
 msgstr "Lista twoich browarów"
 
-#: templates/account/profile.html:19
+#: brewlog/templates/account/profile.html:15
 msgid "Add another brewery"
 msgstr "Dodaj kolejny browar"
 
-#: templates/account/profile.html:21 templates/brewery/list.html:13
+#: brewlog/templates/account/profile.html:17
+#: brewlog/templates/brewery/list.html:13
 #, python-format
 msgid ""
 "You don't have any brewery listed here, would you like to <a "
@@ -588,19 +334,19 @@ msgstr ""
 "Nie masz jeszcze żadnego browaru, czy chcesz może <a "
 "href=\"%(addurl)s\">dodać twój browar</a>?"
 
-#: templates/auth/base.html:3
+#: brewlog/templates/auth/base.html:3
 msgid "authorization"
 msgstr "logowanie"
 
-#: templates/auth/select.html:4
+#: brewlog/templates/auth/select.html:7
 msgid "Sign in with"
 msgstr "Zaloguj się używając"
 
-#: templates/brew/base.html:3
+#: brewlog/templates/brew/base.html:3
 msgid "brew"
 msgstr "warka"
 
-#: templates/brew/details.html:5
+#: brewlog/templates/brew/details.html:5
 #, python-format
 msgid ""
 "Details for brew %(brewname)s from brewery %(breweryname)s by "
@@ -609,40 +355,115 @@ msgstr ""
 "Dane warki %(brewname)s w browarze %(breweryname)s użytkownika "
 "%(ownername)s"
 
-#: templates/brewery/details.html:5
+#: brewlog/templates/brewery/details.html:6
 #, python-format
 msgid "Details for brewery %(breweryname)s by %(ownername)s"
 msgstr "Dane browaru %(breweryname)s użytkownika %(ownername)s"
 
-#: templates/brewery/details.html:6
+#: brewlog/templates/brewery/details.html:8
 msgid "You may change brewery data using the form below"
 msgstr "Możesz zmienić dane browaru używając poniższego formularza"
 
-#: templates/brewery/details.html:14
+#: brewlog/templates/brewery/details.html:19
 msgid "not brewed yet"
 msgstr "jeszcze nie uwarzona"
 
-#: templates/brewery/details.html:19
+#: brewlog/templates/brewery/details.html:24
 #, python-format
 msgid "Would you like to <a href=\"%(add_url)s\">add new brew</a>?"
 msgstr "Czy chcesz <a href=\"%(add_url)s\">dodać nową warkę</a>?"
 
-#: templates/brewery/form.html:4
+#: brewlog/templates/brewery/form.html:4
 #, python-format
 msgid "modify your \"%(breweryname)s\" brewery data"
 msgstr "zmień dane swojego browaru \"%(breweryname)s\""
 
-#: templates/brewery/form.html:4
+#: brewlog/templates/brewery/form.html:4
 msgid "add new brewery"
 msgstr "dodaj nowy browar"
 
-#: templates/brewery/list.html:3
+#: brewlog/templates/brewery/list.html:3
 #, python-format
 msgid "brewery list for user \"%(username)s\""
 msgstr "lista browarów użytkownika \"%(username)s\""
 
-#: templates/macros/forms.html:18
+#: brewlog/templates/macros/forms.html:19
 msgid "submit"
 msgstr "zapisz"
 
+#: brewlog/users/forms.py:12
+msgid "first name"
+msgstr "imię"
+
+#: brewlog/users/forms.py:13
+msgid "last name"
+msgstr "nazwisko"
+
+#: brewlog/users/forms.py:14
+msgid "nick"
+msgstr "nick"
+
+#: brewlog/users/forms.py:15
+msgid "email"
+msgstr "email"
+
+#: brewlog/users/forms.py:16
+msgid "location"
+msgstr "lokalizacja"
+
+#: brewlog/users/forms.py:17
+msgid "about me"
+msgstr "o mnie"
+
+#: brewlog/users/views.py:44
+#, python-format
+msgid "You have been signed in as %(email)s using Google"
+msgstr "Użytkownik zalogowany jako %(email)s przez Google"
+
+#: brewlog/users/views.py:47
+#, python-format
+msgid "Error receiving profile data from Google: %(code)s"
+msgstr "Błąd ładowania danych profilu z Google: %(code)s"
+
+#: brewlog/users/views.py:53
+#, python-format
+msgid ""
+"Facebook login error, reason: %(error_reason)s, description: "
+"%(error_description)s"
+msgstr ""
+"Błąd logowania przez Facebook, przyczyna: %(error_reason)s, opis: "
+"%(error_description)s"
+
+#: brewlog/users/views.py:73
+#, python-format
+msgid "You have been signed in as %(email)s using Facebook"
+msgstr "Użytkownik zalogowany jako %(email)s przez Facebook"
+
+#: brewlog/users/views.py:93
+msgid "your profile data has been updated"
+msgstr "twój profil piwowara został uaktualniony"
+
+#: brewlog/views/account.py:21
+msgid "your brewer's profile has been updated"
+msgstr "twój profil piwowara został uaktualniony"
+
+#: brewlog/views/brew.py:28
+#, python-format
+msgid "brew %s saved"
+msgstr "warka %s zapisana"
+
+#: brewlog/views/brew.py:52
+#, python-format
+msgid "data for brew %s updated"
+msgstr "dane warki %s zostały zaktualizowane"
+
+#: brewlog/views/brewery.py:43
+#, python-format
+msgid "brewery %s created"
+msgstr "browar %s utworzony"
+
+#: brewlog/views/brewery.py:66
+#, python-format
+msgid "data for brewery %s updated"
+msgstr "dane browaru %s zostały zaktualizowane"
 
