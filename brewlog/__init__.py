@@ -5,11 +5,15 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
+
 app = Flask(__name__)
 app.config.from_object('brewlog.config')
+
+# i18n
 app.config['BABEL_DEFAULT_LOCALE'] = 'pl'
 babel = Babel(app)
 
+# database
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'],
     convert_unicode=True,
     echo=app.config['SQLALCHEMY_ECHO']
@@ -46,3 +50,7 @@ def inject():
         'user': current_user,
         'flashes': get_flashed_messages(),
     }
+
+@app.teardown_request
+def shutdown_session(exception=None):
+    session.remove()
