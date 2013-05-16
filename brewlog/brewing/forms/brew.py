@@ -15,6 +15,14 @@ class TastingNoteForm(BaseForm):
     text = wf.TextAreaField(_('text'))
 
 
+class AdditionalFermentationStepForm(BaseForm):
+    date = DateField(_('date'))
+    og = wf.FloatField(_('original gravity'))
+    fg = wf.FloatField(_('final gravity'))
+    amount = wf.FloatField(_('amount collected'))
+    is_last = wf.BooleanField(_('last fermentation step'))
+
+
 class BrewForm(BaseForm):
     brewery = wf.SelectField(_('brewery'), coerce=str)
     name = wf.TextField(_('name'), validators=[DataRequired()])
@@ -39,13 +47,18 @@ class BrewForm(BaseForm):
     bottling_date = DateField(_('bottling date'), validators=[Optional()])
     carbonation_type = wf.SelectField(_('type of carbonation'), choices=choices.CARBONATION_CHOICES,
         validators=[Optional()])
-    fermentables = wf.TextAreaField(_('fermentables'), validators=[Optional()])
-    hops = wf.TextAreaField(_('hop items'), validators=[Optional()])
-    yeasts = wf.TextAreaField(_('yeast items'), validators=[Optional()])
-    miscellany = wf.TextAreaField(_('miscellaneous items'), validators=[Optional()])
-    mash_schedule = wf.TextAreaField(_('mash schedule'), validators=[Optional()])
-    hopping_schedule = wf.TextAreaField(_('hopping schedule'), validators=[Optional()])
-    additional_fermentation_steps = wf.TextAreaField(_('additional fermentation steps'), validators=[Optional()])
+    fermentables = wf.TextAreaField(_('fermentables'), validators=[Optional()],
+        description=_('put each fermentable on separate line to make nice list'))
+    hops = wf.TextAreaField(_('hop items'), validators=[Optional()],
+        description=_('put each hop item on separate line to make nice list'))
+    yeasts = wf.TextAreaField(_('yeast items'), validators=[Optional()],
+        description=_('put each yeast item on separate line to make nice list'))
+    miscellany = wf.TextAreaField(_('miscellaneous items'), validators=[Optional()],
+        description=_('put each miscellanea on separare line to make nice list'))
+    mash_schedule = wf.TextAreaField(_('mash schedule'), validators=[Optional()],
+        description=_('put each step on separate line to make nice list'))
+    hopping_schedule = wf.TextAreaField(_('hopping schedule'), validators=[Optional()],
+        description=_('put each step on separate line to make nice list'))
     is_public = wf.BooleanField(_('public'))
     is_draft = wf.BooleanField(_('draft'))
 

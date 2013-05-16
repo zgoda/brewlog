@@ -72,6 +72,20 @@ class TastingNote(Model):
         return '<TastingNote by %s for %s>' % (author.name.encode('utf-8'), brew.name.encode('utf-8'))
 
 
+class AdditionalFermentationStep(Model):
+    __tablename__ = 'fermentation_step'
+    id = Column(Integer, primary_key=True)
+    date = Column(Date, index=True)
+    og = Column(Float(precision=1))
+    fg = Column(Float(precision=1))
+    is_last = Column(Boolean, default=False)
+    brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
+    brew = relationship('Brew', backref='additional_fermentation_steps')
+
+    def __repr__(self):
+        return '<AdditionalFermentationStep>'
+
+
 class Brew(Model):
     __tablename__ = 'brew'
     id = Column(Integer, primary_key=True)
