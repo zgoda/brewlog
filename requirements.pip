@@ -5,7 +5,6 @@ Flask-Script
 Flask-WTF
 Flask-OAuth
 Flask-Login
-Flask-SQLAlchemy
 Markdown
 SQLAlchemy
 Werkzeug
@@ -16,4 +15,3 @@ speaklater
 requests
 oauth2
 httplib2
-setuptools
