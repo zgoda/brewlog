@@ -1,7 +1,8 @@
 {% extends "brewery/base.html" %}
+{% import "macros/forms.html" as forms %}
 
 {% block content %}
 <form method="post" action="{{ url_for('brew-add') }}">
-    {{ form.hidden_tag() }}
+    {{ forms.render(form) }}
 </form>
 {% endblock %}

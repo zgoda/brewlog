@@ -25,9 +25,14 @@ Model.query = session.query_property()
 # login infrastructure
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'brewlog.users.views.select_provider'
+login_manager.login_view = 'auth-select-provider'
 login_manager.login_message = _('Please log in to access this page')
 login_manager.login_message_category = 'info'
+
+@login_manager.user_loader
+def get_user(userid):
+    from users.models import BrewerProfile
+    return BrewerProfile.query.get(userid)
 
 # register url map
 from brewlog.urls import rules

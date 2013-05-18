@@ -69,7 +69,7 @@ class TastingNote(Model):
     brew = relationship('Brew', backref='tasting_notes')
 
     def __repr__(self):
-        return '<TastingNote by %s for %s>' % (author.name.encode('utf-8'), brew.name.encode('utf-8'))
+        return '<TastingNote by %s for %s>' % (self.author.name.encode('utf-8'), self.brew.name.encode('utf-8'))
 
 
 class AdditionalFermentationStep(Model):
@@ -92,6 +92,7 @@ class Brew(Model):
     created = Column(DateTime, default=datetime.datetime.utcnow)
     updated = Column(DateTime, onupdate=datetime.datetime.utcnow, index=True)
     name = Column(String(200), nullable=False)
+    code = Column(String(20))
     style = Column(String(200))
     bjcp_style_code = Column(String(20), default=u'')
     bjcp_style_name = Column(String(50), default=u'')

@@ -4,7 +4,7 @@ from flaskext.babel import lazy_gettext as _
 
 from brewlog.brewing.models import Brewery, Brew
 from brewlog.brewing.forms.brewery import BreweryForm
-from brewlog.brewing.forms import BrewForm
+from brewlog.brewing.forms.brew import BrewForm
 
 
 @login_required
@@ -12,7 +12,7 @@ def brewery_add():
     form = BreweryForm(request.form)
     if request.method == 'POST':
         if form.validate():
-            brewery = form.save(user=current_user)
+            brewery = form.save()
             flash(_('brewery %(name)s created', name=brewery.name))
             next_url = request.args.get('next')
             if next_url:
@@ -56,6 +56,7 @@ def brew_add():
             brew = form.save()
             flash(_('brew %(name)s created', name=brew.name))
             return redirect(brew.absolute_url)
+    import ipdb; ipdb.set_trace()
     ctx = {
         'form': form,
     }

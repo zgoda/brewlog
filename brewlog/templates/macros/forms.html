@@ -1,10 +1,9 @@
 {% macro render(form) -%}
 {% if form %}
+{{ form.hidden_tag() }}
 <fieldset>
 {% for field in form %}
-{% if field.type in ['CSRFTokenField', 'HiddenField'] %}
-    {{ field() }}
-{% else %}
+{% if not field.type in ['CSRFTokenField', 'HiddenField'] %}
     {% if field.type == 'FieldList' %}
         {% for subfield in field %}
             {% if loop.first %}{{ form_field(subfield, with_label=True) }}{% else %}{{ form_field(subfield, with_label=False) }}{% endif %}

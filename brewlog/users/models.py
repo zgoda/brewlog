@@ -5,7 +5,7 @@ from sqlalchemy import Column, Integer, DateTime, String, Text, Index
 from sqlalchemy import event
 from flask_login import UserMixin
 
-from brewlog import Model, login_manager
+from brewlog import Model
 
 
 class BrewerProfile(UserMixin, Model):
@@ -39,11 +39,6 @@ class BrewerProfile(UserMixin, Model):
     @property
     def name(self):
         return self.full_name or self.email
-
-
-@login_manager.user_loader
-def get_user(userid):
-    return BrewerProfile.query.get(userid)
 
 
 # mapper events

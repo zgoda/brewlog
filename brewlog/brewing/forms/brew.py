@@ -3,11 +3,13 @@
 import wtforms as wf
 from wtforms.fields.html5 import DateField, IntegerField
 from wtforms.validators import DataRequired, Optional
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flaskext.babel import lazy_gettext as _
+from flask_login import current_user
 
 from brewlog.forms.base import BaseForm
 from brewlog.brewing import choices
-from brewlog.brewing.models import Brew
+from brewlog.brewing.models import Brew, Brewery
 
 
 class TastingNoteForm(BaseForm):
@@ -23,9 +25,14 @@ class AdditionalFermentationStepForm(BaseForm):
     is_last = wf.BooleanField(_('last fermentation step'))
 
 
+def user_breweries_query():
+    return Brewery.query.filter(Brewery.brewer==current_user)
+
+
 class BrewForm(BaseForm):
-    brewery = wf.SelectField(_('brewery'), coerce=str)
+    brewery = QuerySelectField(_('brewery'), query_factory=user_breweries_query, get_label='name')
     name = wf.TextField(_('name'), validators=[DataRequired()])
+    code = wf.TextField(_('code'), validators=[Optional()])
     style = wf.TextField(_('style'),
         description=_('descriptive name of style, as you see it'),
         validators=[Optional()])
