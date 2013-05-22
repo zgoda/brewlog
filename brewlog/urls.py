@@ -26,5 +26,5 @@ rules = [
     ('/brew/<brew_id>',
         dict(endpoint='brew-details', view_func=LazyView('brewlog.brewing.views.brew_details'), methods=['POST', 'GET'])),
     ('/',
-        dict(endpoint='main', view_func=LazyView('brewlog.views.main.main'))),
+        dict(endpoint='main', view_func=LazyView('brewlog.views.main'))),
 ]
