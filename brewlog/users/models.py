@@ -6,9 +6,10 @@ from sqlalchemy import event
 from flask_login import UserMixin
 
 from brewlog import Model
+from brewlog.utils.models import DataModelMixin
 
 
-class BrewerProfile(UserMixin, Model):
+class BrewerProfile(UserMixin, DataModelMixin, Model):
     __tablename__ = 'brewer_profile'
     id = Column(Integer, primary_key=True)
     first_name = Column(String(50))
