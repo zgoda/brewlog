@@ -14,6 +14,7 @@ def select_provider():
 
 def remote_login(provider):
     if services.get(provider) is None:
+        flash(_('Service "%(provider)s" is not supported', provider=provider))
         return redirect(url_for('auth-select-provider'))
     view_name = 'auth-callback-%s' % provider
     callback = url_for(view_name, _external=True)
@@ -79,14 +80,24 @@ def logout():
     logout_user()
     return redirect(url_for('main'))
 
-def profile():
-    return render_template('account/profile.html')
-
-@login_required
-def dashboard(userid):
-    if str(userid) != str(current_user.id):
-        abort(403)
+def profile(userid):
+    is_owner = False
+    if current_user.is_authenticated():
+        is_owner = str(userid) == str(current_user.id)
+    user_profile = BrewerProfile.query.filter_by(id=userid).one()
+    context = {
+        'data': user_profile.summary_data(['nick']),
+        'data_type': 'summary',
+        'user': user_profile,
+    }
+    if is_owner:
+        context['form'] = ProfileForm(obj=current_user)
+    if is_owner or (current_user.is_authenticated() and user_profile.is_public):
+        context['data'] = user_profile.full_data()
+        context['data_type'] = 'full'
     if request.method == 'POST':
+        if not is_owner:
+            abort(403)
         form = ProfileForm(request.form)
         if form.validate():
             form.save(obj=current_user)
@@ -97,8 +108,4 @@ def dashboard(userid):
                 return redirect(next_)
             else:
                 return redirect(url_for(next_))
-    form = ProfileForm(obj=current_user)
-    context = {
-        'form': form,
-    }
     return render_template('account/profile.html', **context)

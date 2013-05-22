@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-18 22:45+0200\n"
+"POT-Creation-Date: 2013-05-22 13:02+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -329,30 +329,31 @@ msgstr "strona logowania"
 msgid "tools"
 msgstr "narzędzia"
 
-#: brewlog/templates/account/base.html:3
-msgid "my account"
-msgstr "moje konto"
-
-#: brewlog/templates/account/profile.html:5
+#: brewlog/templates/account/profile.html:4
 #, python-format
-msgid "Brewer's profile for %(name)s"
-msgstr "Profil piwowara %(name)s"
+msgid "Profile data for user %(nick)s"
+msgstr "Profil użytkownika %(nick)s"
 
-#: brewlog/templates/account/profile.html:6
+#: brewlog/templates/account/profile.html:7
+#, python-format
+msgid "Brewer's profile for user %(nick)s"
+msgstr "Profil piwowara %(nick)s"
+
+#: brewlog/templates/account/profile.html:9
 msgid "See your brewer's profile data. You may change it using the form below."
 msgstr ""
 "Oto twoje dane piwowarskie. Możesz je zmienić używając poniższego "
 "formularza"
 
-#: brewlog/templates/account/profile.html:10
-msgid "Your brewery list"
-msgstr "Lista twoich browarów"
+#: brewlog/templates/account/profile.html:14
+msgid "Brewery list"
+msgstr "Lista browarów"
 
-#: brewlog/templates/account/profile.html:15
+#: brewlog/templates/account/profile.html:22
 msgid "Add another brewery"
 msgstr "Dodaj kolejny browar"
 
-#: brewlog/templates/account/profile.html:17
+#: brewlog/templates/account/profile.html:24
 #: brewlog/templates/brewery/list.html:13
 #, python-format
 msgid ""
@@ -443,17 +444,26 @@ msgstr "lokalizacja"
 msgid "about me"
 msgstr "o mnie"
 
-#: brewlog/users/views.py:44
+#: brewlog/users/forms.py:18
+msgid "profile is public"
+msgstr ""
+
+#: brewlog/users/views.py:17
+#, python-format
+msgid "Service \"%(provider)s\" is not supported"
+msgstr "Logowanie przy użyciu \"%(provider)s\" nie jest obsługiwane"
+
+#: brewlog/users/views.py:45
 #, python-format
 msgid "You have been signed in as %(email)s using Google"
 msgstr "Użytkownik zalogowany jako %(email)s przez Google"
 
-#: brewlog/users/views.py:47
+#: brewlog/users/views.py:48
 #, python-format
 msgid "Error receiving profile data from Google: %(code)s"
 msgstr "Błąd ładowania danych profilu z Google: %(code)s"
 
-#: brewlog/users/views.py:53
+#: brewlog/users/views.py:54
 #, python-format
 msgid ""
 "Facebook login error, reason: %(error_reason)s, description: "
@@ -462,12 +472,12 @@ msgstr ""
 "Błąd logowania przez Facebook, przyczyna: %(error_reason)s, opis: "
 "%(error_description)s"
 
-#: brewlog/users/views.py:73
+#: brewlog/users/views.py:74
 #, python-format
 msgid "You have been signed in as %(email)s using Facebook"
 msgstr "Użytkownik zalogowany jako %(email)s przez Facebook"
 
-#: brewlog/users/views.py:93
+#: brewlog/users/views.py:104
 msgid "your profile data has been updated"
 msgstr "twój profil piwowara został uaktualniony"
 

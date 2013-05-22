@@ -1,7 +1,7 @@
 import datetime
 
 from flask import url_for
-from sqlalchemy import Column, Integer, DateTime, String, Text, Index
+from sqlalchemy import Column, Integer, DateTime, String, Text, Index, Boolean
 from sqlalchemy import event
 from flask_login import UserMixin
 
@@ -19,6 +19,7 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
     full_name = Column(String(100))
     location = Column(String(100))
     about_me = Column(Text)
+    is_public = Column(Boolean, default=True)
     created = Column(DateTime, default=datetime.datetime.now)
     updated = Column(DateTime, onupdate=datetime.datetime.now, index=True)
     access_token = Column(Text) # for OAuth2

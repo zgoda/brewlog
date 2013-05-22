@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-18 22:45+0200\n"
+"POT-Creation-Date: 2013-05-22 13:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -325,28 +325,29 @@ msgstr ""
 msgid "tools"
 msgstr ""
 
-#: brewlog/templates/account/base.html:3
-msgid "my account"
-msgstr ""
-
-#: brewlog/templates/account/profile.html:5
+#: brewlog/templates/account/profile.html:4
 #, python-format
-msgid "Brewer's profile for %(name)s"
+msgid "Profile data for user %(nick)s"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:6
+#: brewlog/templates/account/profile.html:7
+#, python-format
+msgid "Brewer's profile for user %(nick)s"
+msgstr ""
+
+#: brewlog/templates/account/profile.html:9
 msgid "See your brewer's profile data. You may change it using the form below."
 msgstr ""
 
-#: brewlog/templates/account/profile.html:10
-msgid "Your brewery list"
+#: brewlog/templates/account/profile.html:14
+msgid "Brewery list"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:15
+#: brewlog/templates/account/profile.html:22
 msgid "Add another brewery"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:17
+#: brewlog/templates/account/profile.html:24
 #: brewlog/templates/brewery/list.html:13
 #, python-format
 msgid ""
@@ -433,29 +434,38 @@ msgstr ""
 msgid "about me"
 msgstr ""
 
-#: brewlog/users/views.py:44
+#: brewlog/users/forms.py:18
+msgid "profile is public"
+msgstr ""
+
+#: brewlog/users/views.py:17
+#, python-format
+msgid "Service \"%(provider)s\" is not supported"
+msgstr ""
+
+#: brewlog/users/views.py:45
 #, python-format
 msgid "You have been signed in as %(email)s using Google"
 msgstr ""
 
-#: brewlog/users/views.py:47
+#: brewlog/users/views.py:48
 #, python-format
 msgid "Error receiving profile data from Google: %(code)s"
 msgstr ""
 
-#: brewlog/users/views.py:53
+#: brewlog/users/views.py:54
 #, python-format
 msgid ""
 "Facebook login error, reason: %(error_reason)s, description: "
 "%(error_description)s"
 msgstr ""
 
-#: brewlog/users/views.py:73
+#: brewlog/users/views.py:74
 #, python-format
 msgid "You have been signed in as %(email)s using Facebook"
 msgstr ""
 
-#: brewlog/users/views.py:93
+#: brewlog/users/views.py:104
 msgid "your profile data has been updated"
 msgstr ""
 

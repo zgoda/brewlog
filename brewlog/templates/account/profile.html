@@ -1,19 +1,27 @@
 {% extends "account/base.html" %}
 {% import "macros/forms.html" as forms %}
 
+{% block headpagetitle %}{{ gettext("Profile data for user %(nick)s", nick=data.nick) }}{% endblock %}
+
 {% block content %}
-<h3>{{ gettext("Brewer's profile for %(name)s", name=user.name) }}</h3>
+<h3>{{ gettext("Brewer's profile for user %(nick)s", nick=data.nick) }}</h3>
+{% if form %}
 <p>{% trans %}See your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
 <form action="{{ url_for('profile-details', userid=user.id) }}" method="post">
     {{ forms.render(form) }}
 </form>
-<h3>{% trans %}Your brewery list{% endtrans %}</h3>
+{% endif %}
+<h3>{% trans %}Brewery list{% endtrans %}</h3>
 {% if user.breweries %}
 <ul>
 {% for brewery in user.breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a></li>{% endfor %}
 </ul>
+{% endif %}
+{% if form %}
+{% if user.breweries %}
 <p><a href="{{ url_for('brewery-add', next='profile-details') }}">{% trans %}Add another brewery{% endtrans %}</a>.</p>
 {% else %}
 <p>{% trans addurl=url_for('brewery-add', next='profile') %}You don't have any brewery listed here, would you like to <a href="{{ addurl }}">add one</a>?{% endtrans %}</p>
+{% endif %}
 {% endif %}
 {% endblock %}
