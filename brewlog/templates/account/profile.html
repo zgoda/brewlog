@@ -18,10 +18,6 @@
 </ul>
 {% endif %}
 {% if form %}
-{% if user.breweries %}
-<p><a href="{{ url_for('brewery-add', next='profile-details') }}">{% trans %}Add another brewery{% endtrans %}</a>.</p>
-{% else %}
-<p>{% trans addurl=url_for('brewery-add', next='profile') %}You don't have any brewery listed here, would you like to <a href="{{ addurl }}">add one</a>?{% endtrans %}</p>
-{% endif %}
+<p><a href="{{ url_for('brewery-add') }}" class="small button radius">{{ gettext("Create new brewery") }}</a></p>
 {% endif %}
 {% endblock %}

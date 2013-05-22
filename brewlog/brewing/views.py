@@ -3,6 +3,7 @@ from flask_login import current_user, login_required
 from flaskext.babel import lazy_gettext as _
 
 from brewlog.brewing.models import Brewery, Brew
+from brewlog.users.models import BrewerProfile
 from brewlog.brewing.forms.brewery import BreweryForm
 from brewlog.brewing.forms.brew import BrewForm
 
@@ -29,12 +30,12 @@ def brewery_all():
     }
     return render_template('brewery/list.html', **ctx)
 
-def brewery_details(brewery_id):
+def brewery(brewery_id):
     brewery = Brewery.query.get(brewery_id)
     if not brewery:
         abort(404)
     if request.method == 'POST':
-        if not current_user in brewery.brewers:
+        if current_user.is_anonymous() or (current_user != brewery.brewer):
             abort(403)
         form = BreweryForm(request.form)
         if form.validate():
@@ -44,7 +45,7 @@ def brewery_details(brewery_id):
     ctx = {
         'brewery': brewery,
     }
-    if current_user in brewery.brewers:
+    if current_user == brewery.brewer:
         ctx['form'] = BreweryForm(obj=brewery)
     return render_template('brewery/details.html', **ctx)
 

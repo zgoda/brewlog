@@ -19,7 +19,7 @@ rules = [
         dict(endpoint='brewery-all', view_func=LazyView('brewlog.brewing.views.brewery_all'))),
     #('/brewery/list', dict(endpoint='brewery-list')),
     ('/brewery/<brewery_id>',
-        dict(endpoint='brewery-details', view_func=LazyView('brewlog.brewing.views.brewery_details'), methods=['POST', 'GET'])),
+        dict(endpoint='brewery-details', view_func=LazyView('brewlog.brewing.views.brewery'), methods=['POST', 'GET'])),
     #('/brew/list', dict(endpoint='brew-list')),
     ('/brew/add',
         dict(endpoint='brew-add', view_func=LazyView('brewlog.brewing.views.brew_add'), methods=['POST', 'GET'])),

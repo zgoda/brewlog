@@ -2,19 +2,12 @@ import datetime
 
 from brewlog import Model
 from brewlog.brewing import choices
-from brewlog.users.models import BrewerProfile
 
 from flask import url_for
-from sqlalchemy import Table, Column, Integer, String, Text, Date, DateTime, ForeignKey, Float, Enum, Boolean
+from sqlalchemy import Column, Integer, String, Text, Date, DateTime, ForeignKey, Float, Enum, Boolean
 from sqlalchemy import event
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import relationship, backref
 import markdown
-
-
-brewers_breweries = Table('brewers_breweries', Model.metadata,
-    Column('brewer_id', Integer, ForeignKey('brewer_profile.id')),
-    Column('brewery_id', Integer, ForeignKey('brewery.id')),
-)
 
 
 class Brewery(Model):
@@ -30,9 +23,7 @@ class Brewery(Model):
     created = Column(DateTime, default=datetime.datetime.utcnow)
     updated = Column(DateTime, onupdate=datetime.datetime.utcnow, index=True)
     brewer_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
-    brewer = relationship('BrewerProfile', backref='breweries')
-    other_brewers = relationship('BrewerProfile',
-        secondary=brewers_breweries, backref='other_breweries')
+    brews = relationship('Brew', backref=backref('brewery'))
 
     def __repr__(self):
         return '<Brewery %s>' % self.name.encode('utf-8')
@@ -40,10 +31,6 @@ class Brewery(Model):
     @property
     def absolute_url(self):
         return url_for('brewery-details', brewery_id=self.id)
-
-    @property
-    def brewers(self):
-        return self.other_brewers + [self.brewer]
 
     def recent_brews(self, limit=10):
         return self.brews.order_by('-created').limit(limit).all()
@@ -61,12 +48,10 @@ class TastingNote(Model):
     __tablename__ = 'tasting_note'
     id = Column(Integer, primary_key=True)
     author_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
-    author = relationship('BrewerProfile', backref='tasting_notes')
     date = Column(Date, nullable=False, index=True)
     text = Column(Text, nullable=False)
     text_html = Column(Text)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('Brew', backref='tasting_notes')
 
     def __repr__(self):
         return '<TastingNote by %s for %s>' % (self.author.name.encode('utf-8'), self.brew.name.encode('utf-8'))
@@ -80,7 +65,6 @@ class AdditionalFermentationStep(Model):
     fg = Column(Float(precision=1))
     is_last = Column(Boolean, default=False)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('Brew', backref='additional_fermentation_steps')
 
     def __repr__(self):
         return '<AdditionalFermentationStep>'
@@ -120,7 +104,8 @@ class Brew(Model):
     is_public = Column(Boolean, default=True)
     is_draft = Column(Boolean, default=False)
     brewery_id = Column(Integer, ForeignKey('brewery.id'), nullable=False)
-    brewery = relationship('Brewery', backref='brews')
+    tasting_notes = relationship('TastingNote', backref=backref('brew'))
+    additional_fermentation_steps = relationship('AdditionalFermentationStep', backref=backref('brew'))
 
     def __repr__(self):
         return '<Brew %s by %s>' % (self.name.encode('utf-8'), self.brewery.name.encode('utf-8'))

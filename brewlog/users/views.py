@@ -7,6 +7,7 @@ from brewlog import session as dbsession
 from brewlog.users.auth import services, google, facebook
 from brewlog.users.models import BrewerProfile
 from brewlog.users.forms import ProfileForm
+from brewlog.brewing.models import Brewery # yes, SQLAlchemy is stupid
 
 
 def select_provider():
@@ -81,10 +82,12 @@ def logout():
     return redirect(url_for('main'))
 
 def profile(userid):
+    user_profile = BrewerProfile.query.get(userid)
+    if user_profile is None:
+        abort(404)
     is_owner = False
     if current_user.is_authenticated():
         is_owner = str(userid) == str(current_user.id)
-    user_profile = BrewerProfile.query.filter_by(id=userid).one()
     context = {
         'data': user_profile.summary_data(['nick']),
         'data_type': 'summary',

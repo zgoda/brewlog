@@ -3,10 +3,12 @@ import datetime
 from flask import url_for
 from sqlalchemy import Column, Integer, DateTime, String, Text, Index, Boolean
 from sqlalchemy import event
+from sqlalchemy.orm import relationship, backref
 from flask_login import UserMixin
 
 from brewlog import Model
 from brewlog.utils.models import DataModelMixin
+from brewlog.brewing.models import Brewery, TastingNote # thank you, SQLAlchemy
 
 
 class BrewerProfile(UserMixin, DataModelMixin, Model):
@@ -27,6 +29,8 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
     oauth_token_secret = Column(Text) # for OAuth1a
     oauth_service = Column(String(50))
     remote_userid = Column(String(80))
+    breweries = relationship('Brewery', backref=backref('brewer'))
+    tasting_notes = relationship('TastingNote', backref=backref('author'))
     __table_args__ = (
         Index('user_remote_id', 'oauth_service', 'remote_userid'),
     )
