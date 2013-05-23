@@ -8,6 +8,5 @@ class BaseForm(Form):
     def save(self, obj, save=False):
         self.populate_obj(obj)
         if save:
-            session.add(obj)
-            session.commit()
+            obj.save()
         return obj

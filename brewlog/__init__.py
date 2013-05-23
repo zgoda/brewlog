@@ -19,6 +19,10 @@ class Model(pw.Model):
     class Meta:
         database = db
 
+    @classmethod
+    def get(cls, obj_id):
+        return cls.select().where(cls.id == obj_id).get()
+
 # login infrastructure
 login_manager = LoginManager()
 login_manager.init_app(app)

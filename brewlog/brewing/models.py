@@ -44,6 +44,14 @@ class Brewery(Model):
             'established': self.established_date,
         }
 
+    @classmethod
+    def last_updated(cls, limit=5):
+        return cls.select().order_by(cls.updated.desc()).limit(limit)
+
+    @classmethod
+    def last_created(cls, limit=5):
+        return cls.select().order_by(cls.created.desc()).limit(limit)
+
 
 class Brew(Model):
     created = pw.DateTimeField(default=datetime.datetime.utcnow)
@@ -94,6 +102,14 @@ class Brew(Model):
     @property
     def absolute_url(self):
         return url_for('brew-details', brew_id=self.id)
+
+    @classmethod
+    def last_created(cls, limit=5):
+        return cls.select().order_by(cls.created.desc()).limit(limit)
+
+    @classmethod
+    def last_updated(cls, limit=5):
+        return cls.select().order_by(cls.updated.desc()).limit(limit)
 
 
 class TastingNote(Model):

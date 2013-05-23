@@ -55,3 +55,11 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
     def name(self):
         return self.full_name or self.email
 
+    @classmethod
+    def last_created(cls, limit=5):
+        return cls.select().order_by(cls.created.desc()).limit(limit)
+
+    @classmethod
+    def last_updated(cls, limit=5):
+        return cls.select().order_by(cls.updated.desc()).limit(limit)
+

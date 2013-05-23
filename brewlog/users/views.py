@@ -3,7 +3,6 @@ from flask import render_template, redirect, url_for, session, flash, request, a
 from flask_login import login_user, logout_user, login_required, current_user
 from flaskext.babel import lazy_gettext as _
 
-from brewlog import session as dbsession
 from brewlog.users.auth import services, google, facebook
 from brewlog.users.models import BrewerProfile
 from brewlog.users.forms import ProfileForm
@@ -33,14 +32,13 @@ def google_remote_login_callback(resp):
         r = requests.get('https://www.googleapis.com/oauth2/v1/userinfo', headers=headers)
         if r.ok:
             data = r.json()
-            user = BrewerProfile.query.filter_by(email=data['email']).first()
+            user = BrewerProfile.select().where(BrewerProfile.email == data['email']).get()
             if user is None:
                 user = BrewerProfile(email=data['email'])
             user.access_token = access_token
             user.remote_userid = data['id']
             user.oauth_service = 'google'
-            dbsession.add(user)
-            dbsession.commit()
+            user.save()
             login_user(user)
             next_url = request.args.get('next') or session.get('next') or 'main'
             flash(_('You have been signed in as %(email)s using Google', email=data['email']))
@@ -58,7 +56,7 @@ def facebook_remote_login_callback(resp):
     session['access_token'] = access_token, ''
     if access_token:
         me = facebook.get('/me')
-        user = BrewerProfile.query.filter_by(email=me.data['email']).first()
+        user = BrewerProfile.select().where(BrewerProfile.email == me.data['email']).get()
         if user is None:
             user = BrewerProfile(
                 email=me.data['email'],
@@ -68,8 +66,7 @@ def facebook_remote_login_callback(resp):
         user.access_token = access_token
         user.oauth_service = 'facebook'
         user.remote_userid = me.data['id']
-        dbsession.add(user)
-        dbsession.commit()
+        user.save()
         login_user(user)
         next_url = request.args.get('next') or session.get('next') or 'main'
         flash(_('You have been signed in as %(email)s using Facebook', email=me.data['email']))
@@ -82,7 +79,7 @@ def logout():
     return redirect(url_for('main'))
 
 def profile(userid):
-    user_profile = BrewerProfile.query.get(userid)
+    user_profile = BrewerProfile.get(userid)
     if user_profile is None:
         abort(404)
     is_owner = False
