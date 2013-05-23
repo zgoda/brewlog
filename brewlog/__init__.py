@@ -12,7 +12,17 @@ app.config['BABEL_DEFAULT_LOCALE'] = 'pl'
 babel = Babel(app)
 
 # database
-db = pw.SqliteDatabase(*app.config['DB_CONNECTION_ARGS'], **app.config['DB_CONNECTION_KWARGS'])
+dbtype = app.config['DB_TYPE']
+dbclass = None
+if dbtype == 'sqlite':
+    dbclass = pw.SqliteDatabase
+elif dbtype == 'mysql':
+    dbclass = pw.MySQLDatabase
+elif dbtype == 'postgresql':
+    dbclass = pw.PostgresqlDatabase
+if dbclass is None:
+    raise Exception('database type is improperly configured')
+db = dbclass(*app.config['DB_CONNECTION_ARGS'], **app.config['DB_CONNECTION_KWARGS'])
 
 class Model(pw.Model):
 
