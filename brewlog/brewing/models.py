@@ -2,38 +2,39 @@ import datetime
 
 from brewlog import Model
 from brewlog.brewing import choices
+from brewlog.users.models import BrewerProfile
 
 from flask import url_for
-from sqlalchemy import Column, Integer, String, Text, Date, DateTime, ForeignKey, Float, Enum, Boolean
-from sqlalchemy import event
-from sqlalchemy.orm import relationship, backref
+import peewee as pw
 import markdown
 
 
 class Brewery(Model):
-    __tablename__ = 'brewery'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(200), nullable=False)
-    description = Column(Text)
-    description_html = Column(Text)
-    established_date = Column(Date)
-    est_year = Column(Integer)
-    est_month = Column(Integer)
-    est_day = Column(Integer)
-    created = Column(DateTime, default=datetime.datetime.utcnow)
-    updated = Column(DateTime, onupdate=datetime.datetime.utcnow, index=True)
-    brewer_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
-    brews = relationship('Brew', backref=backref('brewery'))
+    name = pw.CharField(max_length=200)
+    description = pw.TextField(null=True)
+    description_html = pw.TextField(null=True)
+    established_date = pw.DateField(null=True)
+    created = pw.DateTimeField(default=datetime.datetime.utcnow)
+    updated = pw.DateTimeField(index=True)
+    brewer = pw.ForeignKeyField(BrewerProfile, related_name='brewery')
+
+    class Meta:
+        db_table = 'brewery'
 
     def __repr__(self):
         return '<Brewery %s>' % self.name.encode('utf-8')
+
+    def save(self, *args, **kwargs):
+        self.description_html = markdown.markdown(self.description, safe_mode='remove')
+        self.updated = datetime.datetime.utcnow()
+        return super(Brewery, self).save(*args, **kwargs)
 
     @property
     def absolute_url(self):
         return url_for('brewery-details', brewery_id=self.id)
 
     def recent_brews(self, limit=10):
-        return self.brews.order_by('-created').limit(limit).all()
+        return self.brews.order_by(Brew.created.desc()).limit(limit)
 
     @property
     def render_fields(self):
@@ -44,100 +45,85 @@ class Brewery(Model):
         }
 
 
-class TastingNote(Model):
-    __tablename__ = 'tasting_note'
-    id = Column(Integer, primary_key=True)
-    author_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
-    date = Column(Date, nullable=False, index=True)
-    text = Column(Text, nullable=False)
-    text_html = Column(Text)
-    brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-
-    def __repr__(self):
-        return '<TastingNote by %s for %s>' % (self.author.name.encode('utf-8'), self.brew.name.encode('utf-8'))
-
-
-class AdditionalFermentationStep(Model):
-    __tablename__ = 'fermentation_step'
-    id = Column(Integer, primary_key=True)
-    date = Column(Date, index=True)
-    og = Column(Float(precision=1))
-    fg = Column(Float(precision=1))
-    is_last = Column(Boolean, default=False)
-    brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-
-    def __repr__(self):
-        return '<AdditionalFermentationStep>'
-
-
 class Brew(Model):
-    __tablename__ = 'brew'
-    id = Column(Integer, primary_key=True)
-    created = Column(DateTime, default=datetime.datetime.utcnow)
-    updated = Column(DateTime, onupdate=datetime.datetime.utcnow, index=True)
-    name = Column(String(200), nullable=False)
-    code = Column(String(20))
-    style = Column(String(200))
-    bjcp_style_code = Column(String(20), default=u'')
-    bjcp_style_name = Column(String(50), default=u'')
-    bjcp_style = Column(String(100))
-    date_brewed = Column(Date, index=True)
-    notes = Column(Text)
-    notes_html = Column(Text)
-    fermentables = Column(Text)
-    hops = Column(Text)
-    yeast = Column(Text)
-    misc = Column(Text)
-    mash_steps = Column(Text)
-    hopping_steps = Column(Text)
-    fermentation_steps = Column(Text)
-    boil_time = Column(Integer)
-    fermentation_start_date = Column(Date)
-    og = Column(Float(precision=1))
-    fg = Column(Float(precision=1))
-    brew_length = Column(Float(precision=2))
-    fermentation_temperature = Column(Integer)
-    final_amount = Column(Float(precision=2))
-    bottling_date = Column(Date)
-    carbonation_type = Column(Enum(*choices.CARBONATION_KEYS))
-    carbonation_used = Column(Text)
-    is_public = Column(Boolean, default=True)
-    is_draft = Column(Boolean, default=False)
-    brewery_id = Column(Integer, ForeignKey('brewery.id'), nullable=False)
-    tasting_notes = relationship('TastingNote', backref=backref('brew'))
-    additional_fermentation_steps = relationship('AdditionalFermentationStep', backref=backref('brew'))
+    created = pw.DateTimeField(default=datetime.datetime.utcnow)
+    updated = pw.DateTimeField(index=True)
+    name = pw.CharField(max_length=200)
+    code = pw.CharField(max_length=20, null=True)
+    style = pw.CharField(max_length=200, null=True)
+    bjcp_style_code = pw.CharField(max_length=20, default=u'')
+    bjcp_style_name = pw.CharField(max_length=50, default=u'')
+    bjcp_style = pw.CharField(max_length=100)
+    date_brewed = pw.DateField(null=True, index=True)
+    notes = pw.TextField(null=True)
+    notes_html = pw.TextField(null=True)
+    fermentables = pw.TextField(null=True)
+    hops = pw.TextField(null=True)
+    yeast = pw.TextField(null=True)
+    misc = pw.TextField(null=True)
+    mash_steps = pw.TextField(null=True)
+    hopping_steps = pw.TextField(null=True)
+    fermentation_steps = pw.TextField(null=True)
+    boil_time = pw.IntegerField(null=True)
+    fermentation_start_date = pw.DateField(null=True)
+    og = pw.DecimalField(decimal_places=1, null=True)
+    fg = pw.DecimalField(decimal_places=1, null=True)
+    brew_length = pw.DecimalField(decimal_places=2, null=True)
+    fermentation_temperature = pw.IntegerField(null=True)
+    final_amount = pw.DecimalField(decimal_places=2, null=True)
+    bottling_date = pw.DateField(null=True)
+    carbonation_type = pw.CharField(max_length=50, choices=choices.CARBONATION_CHOICES)
+    carbonation_used = pw.TextField(null=True)
+    is_public = pw.BooleanField(default=True)
+    is_draft = pw.BooleanField(default=False)
+    brewery = pw.ForeignKeyField(Brewery, related_name='brews')
+
+    class Meta:
+        db_table = 'brew'
 
     def __repr__(self):
         return '<Brew %s by %s>' % (self.name.encode('utf-8'), self.brewery.name.encode('utf-8'))
+
+    def save(self, *args, **kwargs):
+        bjcp_style = u'%s %s' % (self.bjcp_style_code, self.bjcp_style_name)
+        self.bjcp_style = bjcp_style.strip()
+        self.notes_html = markdown.markdown(self.notes, safe_mode='remove')
+        self.updated = datetime.datetime.utcnow()
+        return super(Brew, self).save(*args, **kwargs)
 
     @property
     def absolute_url(self):
         return url_for('brew-details', brew_id=self.id)
 
 
-## events: Brewery model
-def brewery_pre_save(mapper, connection, target):
-    if target.description:
-        target.description_html = markdown.markdown(target.description, safe_mode='remove')
-    else:
-        target.description_html = None
-    if target.updated is None:
-        target.updated = target.created
-    if target.established_date:
-        target.est_year = target.established_date.year
-        target.est_month = target.established_date.month
-        target.est_day = target.established_date.day
+class TastingNote(Model):
+    author = pw.ForeignKeyField(BrewerProfile, related_name='tasting_notes')
+    date = pw.DateField(index=True)
+    text = pw.TextField()
+    text_html = pw.TextField()
+    brew = pw.ForeignKeyField(Brew, related_name='tasting_notes')
 
-event.listen(Brewery, 'before_insert', brewery_pre_save)
-event.listen(Brewery, 'before_update', brewery_pre_save)
+    class Meta:
+        db_table = 'tasting_note'
 
-## events: Brew model
-def brew_pre_save(mapper, connection, target):
-    bjcp_style = u'%s %s' % (target.bjcp_style_code, target.bjcp_style_name)
-    target.bjcp_style = bjcp_style.strip()
-    target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
-    if target.updated is None:
-        target.updated = target.created
+    def __repr__(self):
+        return '<TastingNote by %s for %s>' % (self.author.name.encode('utf-8'), self.brew.name.encode('utf-8'))
 
-event.listen(Brew, 'before_insert', brew_pre_save)
-event.listen(Brew, 'before_update', brew_pre_save)
+    def save(self, *args, **kwargs):
+        self.text_html = markdown.markdown(self.text, safe_mode='remove')
+        return super(TastingNote, self).save(*args, **kwargs)
+
+
+class AdditionalFermentationStep(Model):
+    date = pw.DateField(index=True)
+    og = pw.DecimalField(decimal_places=1)
+    fg = pw.DecimalField(decimal_places=1, null=True)
+    is_last = pw.BooleanField(default=False)
+    brew = pw.ForeignKeyField(Brew, related_name='additional_fermentation_steps')
+
+    class Meta:
+        db_table = 'fermentation_step'
+
+    def __repr__(self):
+        return '<AdditionalFermentationStep>'
+

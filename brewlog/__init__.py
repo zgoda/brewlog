@@ -1,9 +1,7 @@
 from flask import Flask, render_template, get_flashed_messages
 from flaskext.babel import Babel, lazy_gettext as _
 from flask_login import LoginManager, current_user
-from sqlalchemy import create_engine
-from sqlalchemy.orm import scoped_session, sessionmaker
-from sqlalchemy.ext.declarative import declarative_base
+import peewee as pw
 
 
 app = Flask(__name__)
@@ -14,13 +12,12 @@ app.config['BABEL_DEFAULT_LOCALE'] = 'pl'
 babel = Babel(app)
 
 # database
-engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'],
-    convert_unicode=True,
-    echo=app.config['SQLALCHEMY_ECHO']
-)
-session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
-Model = declarative_base(bind=engine)
-Model.query = session.query_property()
+db = pw.SqliteDatabase(*app.config['DB_CONNECTION_ARGS'], **app.config['DB_CONNECTION_KWARGS'])
+
+class Model(pw.Model):
+
+    class Meta:
+        database = db
 
 # login infrastructure
 login_manager = LoginManager()
@@ -32,7 +29,7 @@ login_manager.login_message_category = 'info'
 @login_manager.user_loader
 def get_user(userid):
     from users.models import BrewerProfile
-    return BrewerProfile.query.get(userid)
+    return BrewerProfile.select().where(BrewerProfile.id == userid)
 
 # register url map
 from brewlog.urls import rules
@@ -41,9 +38,14 @@ for url, kwargs in rules:
 
 
 def init_db():
-    import brewing.models
-    import users.models
-    Model.metadata.create_all(bind=engine)
+    from users.models import BrewerProfile
+    from brewing.models import Brewery, Brew, TastingNote, AdditionalFermentationStep
+    BrewerProfile.create_table()
+    Brewery.create_table()
+    Brew.create_table()
+    TastingNote.create_table()
+    AdditionalFermentationStep.create_table()
+
 
 @app.errorhandler(404)
 def not_found(error):
@@ -56,6 +58,4 @@ def inject():
         'flashes': get_flashed_messages(),
     }
 
-@app.teardown_request
-def shutdown_session(exception=None):
-    session.remove()
+

@@ -1,42 +1,51 @@
 import datetime
 
 from flask import url_for
-from sqlalchemy import Column, Integer, DateTime, String, Text, Index, Boolean
-from sqlalchemy import event
-from sqlalchemy.orm import relationship, backref
+import peewee as pw
 from flask_login import UserMixin
 
 from brewlog import Model
 from brewlog.utils.models import DataModelMixin
-from brewlog.brewing.models import Brewery, TastingNote # thank you, SQLAlchemy
 
 
 class BrewerProfile(UserMixin, DataModelMixin, Model):
-    __tablename__ = 'brewer_profile'
-    id = Column(Integer, primary_key=True)
-    first_name = Column(String(50))
-    last_name = Column(String(50))
-    nick = Column(String(50))
-    email = Column(String(80), nullable=False, index=True)
-    full_name = Column(String(100))
-    location = Column(String(100))
-    about_me = Column(Text)
-    is_public = Column(Boolean, default=True)
-    created = Column(DateTime, default=datetime.datetime.now)
-    updated = Column(DateTime, onupdate=datetime.datetime.now, index=True)
-    access_token = Column(Text) # for OAuth2
-    oauth_token = Column(Text) # for OAuth1a
-    oauth_token_secret = Column(Text) # for OAuth1a
-    oauth_service = Column(String(50))
-    remote_userid = Column(String(80))
-    breweries = relationship('Brewery', backref=backref('brewer'))
-    tasting_notes = relationship('TastingNote', backref=backref('author'))
-    __table_args__ = (
-        Index('user_remote_id', 'oauth_service', 'remote_userid'),
-    )
+    first_name = pw.CharField(max_length=50, null=True)
+    last_name = pw.CharField(max_length=50, null=True)
+    nick = pw.CharField(max_length=50, null=True)
+    email = pw.CharField(max_length=80, index=True)
+    full_name = pw.CharField(max_length=100, null=True)
+    location = pw.CharField(max_length=100, null=True)
+    about_me = pw.TextField(null=True)
+    is_public = pw.BooleanField(default=True)
+    created = pw.DateTimeField(default=datetime.datetime.utcnow)
+    updated = pw.DateTimeField(index=True)
+    access_token = pw.TextField(null=True) # for OAuth2
+    oauth_token = pw.TextField(null=True) # for OAuth1a
+    oauth_token_secret = pw.TextField(null=True) # for OAuth1a
+    oauth_service = pw.CharField(max_length=50, null=True)
+    remote_userid = pw.CharField(max_length=100, null=True)
 
-    def __repr__(self):
-        return '<BrewerProfile %s>' % self.email.encode('utf-8')
+    class Meta:
+        db_table = 'brewer_profile'
+        indexes = (
+            (('oauth_service', 'remote_userid'), False),
+        )
+
+    def __unicode__(self):
+        return self.email
+
+    def save(self, *args, **kwargs):
+        full_name = u'%s %s' % (self.first_name or u'', self.last_name or u'')
+        self.full_name = full_name.strip()
+        self.updated = datetime.datetime.utcnow()
+        return super(BrewerProfile, self).save(*args, **kwargs)
+
+    def get_id(self):
+        """This has to be overwritten because flask-login wants to convert
+        it to unicode, no matter what"""
+        if self.id is None:
+            return self.id
+        return super(BrewerProfile, self).get_id()
 
     @property
     def absolute_url(self):
@@ -46,13 +55,3 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
     def name(self):
         return self.full_name or self.email
 
-
-# mapper events
-def profile_pre_save(mapper, connection, target):
-    full_name = u'%s %s' % (target.first_name or u'', target.last_name or u'')
-    target.full_name = full_name.strip()
-    if target.updated is None:
-        target.updated = target.created
-
-event.listen(BrewerProfile, 'before_insert', profile_pre_save)
-event.listen(BrewerProfile, 'before_update', profile_pre_save)
