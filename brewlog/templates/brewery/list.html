@@ -1,15 +1,14 @@
 {% extends "brewery/base.html" %}
 
-{% block headpagetitle %}{% trans username=user.name %}brewery list for user "{{ username }}"{% endtrans %}{% endblock %}
+{% block headpagetitle %}{% trans %}brewery list{% endtrans %}{% endblock %}
 
 {% block content %}
 {% if breweries %}
 <ul>
-{% for brewery in breweries %}
-<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a></li>
-{% endfor %}
+{% for brewery in breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a></li>{% endfor %}
 </ul>
-{% else %}
-<p>{% trans addurl=url_for('brewery-add') %}You don't have any brewery listed here, would you like to <a href="{{ addurl }}">add one</a>?{% endtrans %}</p>
+{% endif %}
+{% if user.is_authenticated() %}
+<p><a href="{{ addurl }}" class="button small radius">{{ gettext("add new brewery") }}</a></p>
 {% endif %}
 {% endblock %}
