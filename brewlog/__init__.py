@@ -20,15 +20,15 @@ class Model(pw.Model):
         database = db
 
     @classmethod
-    def get(cls, obj_id):
+    def get_by_pk(cls, obj_id):
         try:
-            return cls.select().where(cls.id == obj_id).get()
+            return cls.get(cls.id == obj_id)
         except cls.DoesNotExist:
             return None
 
     @classmethod
     def get_or_404(cls, obj_id):
-        obj = cls.get(obj_id)
+        obj = cls.get_by_pk(obj_id)
         if obj is None:
             abort(404)
         return obj

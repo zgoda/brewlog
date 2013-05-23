@@ -25,14 +25,18 @@ def brewery_add():
     return render_template('brewery/form.html', **ctx)
 
 def brewery_all():
+    page_size = 20
+    try:
+        page = int(request.args.get('p', '1'))
+    except ValueError:
+        page = 1
     ctx = {
+        'breweries': Brewery.select().order_by(Brewery.name).paginate(page, page_size)
     }
     return render_template('brewery/list.html', **ctx)
 
 def brewery(brewery_id):
-    brewery = Brewery.get(brewery_id)
-    if not brewery:
-        abort(404)
+    brewery = Brewery.get_or_404(brewery_id)
     if request.method == 'POST':
         if current_user.is_anonymous() or (current_user != brewery.brewer):
             abort(403)
@@ -61,12 +65,10 @@ def brew_add():
     }
     return render_template('brew/form.html', **ctx)
 
-def brew_details(brew_id):
-    brew = Brew.get(brew_id)
-    if not brew:
-        abort(404)
+def brew(brew_id):
+    brew = Brew.get_or_404(brew_id)
     if request.method == 'POST':
-        if not current_user in brew.brewery.brewers:
+        if current_user != brew.brewery.brewer:
             abort(403)
         form = BrewForm(request.form)
         if form.validate():
@@ -79,3 +81,14 @@ def brew_details(brew_id):
     if current_user in brew.brewery.brewers:
         ctx['form'] = BrewForm(obj=brew)
     return render_template('brew/details.html', **ctx)
+
+def brew_all():
+    page_size = 20
+    try:
+        page = int(request.args.get('p', '1'))
+    except ValueError:
+        page = 1
+    context = {
+        'brews': Brew.select().where(Brew.is_public == True).order_by(Brew.created.desc()).paginate(page, page_size)
+    }
+    return rennder_template('brew/list.html', **ctx)

@@ -78,12 +78,10 @@ def logout():
     return redirect(url_for('main'))
 
 def profile(userid):
-    user_profile = BrewerProfile.get(userid)
-    if user_profile is None:
-        abort(404)
+    user_profile = BrewerProfile.get_or_404(userid)
     is_owner = False
     if current_user.is_authenticated():
-        is_owner = str(userid) == str(current_user.id)
+        is_owner = user_profile == current_user
     context = {
         'data': user_profile.summary_data(['nick']),
         'data_type': 'summary',
