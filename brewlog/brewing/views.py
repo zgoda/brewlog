@@ -3,7 +3,6 @@ from flask_login import current_user, login_required
 from flaskext.babel import lazy_gettext as _
 
 from brewlog.brewing.models import Brewery, Brew
-from brewlog.users.models import BrewerProfile
 from brewlog.brewing.forms.brewery import BreweryForm
 from brewlog.brewing.forms.brew import BrewForm
 
@@ -31,7 +30,7 @@ def brewery_all():
     return render_template('brewery/list.html', **ctx)
 
 def brewery(brewery_id):
-    brewery = Brewery.query.get(brewery_id)
+    brewery = Brewery.get(brewery_id)
     if not brewery:
         abort(404)
     if request.method == 'POST':
@@ -57,14 +56,13 @@ def brew_add():
             brew = form.save()
             flash(_('brew %(name)s created', name=brew.name))
             return redirect(brew.absolute_url)
-    import ipdb; ipdb.set_trace()
     ctx = {
         'form': form,
     }
     return render_template('brew/form.html', **ctx)
 
 def brew_details(brew_id):
-    brew = Brew.query.get(brew_id)
+    brew = Brew.get(brew_id)
     if not brew:
         abort(404)
     if request.method == 'POST':

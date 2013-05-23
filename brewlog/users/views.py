@@ -6,7 +6,6 @@ from flaskext.babel import lazy_gettext as _
 from brewlog.users.auth import services, google, facebook
 from brewlog.users.models import BrewerProfile
 from brewlog.users.forms import ProfileForm
-from brewlog.brewing.models import Brewery # yes, SQLAlchemy is stupid
 
 
 def select_provider():

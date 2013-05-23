@@ -3,18 +3,23 @@
 import wtforms as wf
 from wtforms.fields.html5 import DateField, IntegerField
 from wtforms.validators import DataRequired, Optional
-from wtforms.ext.sqlalchemy.fields import QuerySelectField
+from wtfpeewee.fields import SelectQueryField
 from flaskext.babel import lazy_gettext as _
 from flask_login import current_user
 
 from brewlog.forms.base import BaseForm
 from brewlog.brewing import choices
-from brewlog.brewing.models import Brew, Brewery
+from brewlog.brewing.models import Brew, Brewery, TastingNote, AdditionalFermentationStep
 
 
 class TastingNoteForm(BaseForm):
     date = DateField(_('date'))
     text = wf.TextAreaField(_('text'))
+
+    def save(self, brew, obj=None):
+        if obj is None:
+            obj = TastingNote(brew=brew)
+        return super(TastingNoteForm, self).save(obj)
 
 
 class AdditionalFermentationStepForm(BaseForm):
@@ -24,13 +29,18 @@ class AdditionalFermentationStepForm(BaseForm):
     amount = wf.FloatField(_('amount collected'))
     is_last = wf.BooleanField(_('last fermentation step'))
 
+    def save(self, brew, obj=None):
+        if obj is None:
+            obj = AdditionalFermentationStep(brew=brew)
+        return super(AdditionalFermentationStepForm, self).save(obj)
+
 
 def user_breweries_query():
-    return Brewery.query.filter(Brewery.brewer==current_user)
+    return Brewery.select().where(Brewery.brewer==current_user).order_by(Brewery.name)
 
 
 class BrewForm(BaseForm):
-    brewery = QuerySelectField(_('brewery'), query_factory=user_breweries_query, get_label='name')
+    brewery = SelectQueryField(_('brewery'), query=user_breweries_query, get_label='name')
     name = wf.TextField(_('name'), validators=[DataRequired()])
     code = wf.TextField(_('code'), validators=[Optional()])
     style = wf.TextField(_('style'),

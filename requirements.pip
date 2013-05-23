@@ -7,6 +7,7 @@ Flask-OAuth
 Flask-Login
 Markdown
 peewee
+wtf-peewee
 Werkzeug
 Jinja2
 WTForms

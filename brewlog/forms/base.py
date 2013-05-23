@@ -1,7 +1,5 @@
 from flask_wtf import Form
 
-from brewlog import session
-
 
 class BaseForm(Form):
 

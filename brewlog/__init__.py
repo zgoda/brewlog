@@ -1,4 +1,4 @@
-from flask import Flask, render_template, get_flashed_messages
+from flask import Flask, render_template, get_flashed_messages, abort
 from flaskext.babel import Babel, lazy_gettext as _
 from flask_login import LoginManager, current_user
 import peewee as pw
@@ -21,7 +21,17 @@ class Model(pw.Model):
 
     @classmethod
     def get(cls, obj_id):
-        return cls.select().where(cls.id == obj_id).get()
+        try:
+            return cls.select().where(cls.id == obj_id).get()
+        except cls.DoesNotExist:
+            return None
+
+    @classmethod
+    def get_or_404(cls, obj_id):
+        obj = cls.get(obj_id)
+        if obj is None:
+            abort(404)
+        return obj
 
 # login infrastructure
 login_manager = LoginManager()
