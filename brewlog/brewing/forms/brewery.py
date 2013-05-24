@@ -23,7 +23,6 @@ class BreweryForm(BaseForm):
     established_date = DateField(_('established'), validators=[Optional()])
 
     def save(self, obj=None):
-        import ipdb; ipdb.set_trace()
         if obj is None:
             obj = Brewery(brewer=current_user)
         return super(BreweryForm, self).save(obj, save=True)

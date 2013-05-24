@@ -6,8 +6,7 @@ Flask-WTF
 Flask-OAuth
 Flask-Login
 Markdown
-peewee
-wtf-peewee
+SQLAlchemy
 Werkzeug
 Jinja2
 WTForms

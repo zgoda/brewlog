@@ -3,6 +3,7 @@ from flask_login import current_user, login_required
 from flaskext.babel import lazy_gettext as _
 
 from brewlog.models import Brewery, Brew
+from brewlog.utils.models import get_or_404
 from brewlog.brewing.forms.brewery import BreweryForm
 from brewlog.brewing.forms.brew import BrewForm
 
@@ -31,12 +32,12 @@ def brewery_all():
     except ValueError:
         page = 1
     ctx = {
-        'breweries': Brewery.select().order_by(Brewery.name).paginate(page, page_size)
+        'breweries': Brewery.query.order_by('name').paginate(page, page_size)
     }
     return render_template('brewery/list.html', **ctx)
 
 def brewery(brewery_id):
-    brewery = Brewery.get_or_404(brewery_id)
+    brewery = get_or_404(Brewery, brewery_id)
     if request.method == 'POST':
         if current_user.is_anonymous() or (current_user != brewery.brewer):
             abort(403)
@@ -66,7 +67,7 @@ def brew_add():
     return render_template('brew/form.html', **ctx)
 
 def brew(brew_id):
-    brew = Brew.get_or_404(brew_id)
+    brew = get_or_404(Brew, brew_id)
     if request.method == 'POST':
         if current_user != brew.brewery.brewer:
             abort(403)

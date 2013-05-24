@@ -1,15 +1,13 @@
-# -*- coding: utf-8 -*-
-
 import wtforms as wf
 from wtforms.fields.html5 import DateField, IntegerField
 from wtforms.validators import DataRequired, Optional
-from wtfpeewee.fields import SelectQueryField
+from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flaskext.babel import lazy_gettext as _
 from flask_login import current_user
 
 from brewlog.forms.base import BaseForm
 from brewlog.brewing import choices
-from brewlog.brewing.models import Brew, Brewery, TastingNote, AdditionalFermentationStep
+from brewlog.models import Brew, Brewery, TastingNote, AdditionalFermentationStep
 
 
 class TastingNoteForm(BaseForm):
@@ -18,7 +16,7 @@ class TastingNoteForm(BaseForm):
 
     def save(self, brew, obj=None):
         if obj is None:
-            obj = TastingNote(brew=brew)
+            obj = TastingNote(brew=brew, author=current_user)
         return super(TastingNoteForm, self).save(obj)
 
 
@@ -36,11 +34,11 @@ class AdditionalFermentationStepForm(BaseForm):
 
 
 def user_breweries_query():
-    return Brewery.select().where(Brewery.brewer==current_user).order_by(Brewery.name)
+    return Brewery.query.filter_by(brewer=current_user).order_by('name')
 
 
 class BrewForm(BaseForm):
-    brewery = SelectQueryField(_('brewery'), query=user_breweries_query, get_label='name')
+    brewery = QuerySelectField(_('brewery'), query_factory=user_breweries_query, get_label='name')
     name = wf.TextField(_('name'), validators=[DataRequired()])
     code = wf.TextField(_('code'), validators=[Optional()])
     style = wf.TextField(_('style'),

@@ -1,7 +1,9 @@
-from flask import Flask, render_template, get_flashed_messages, abort
+from flask import Flask, render_template, get_flashed_messages
 from flaskext.babel import Babel, lazy_gettext as _
 from flask_login import LoginManager, current_user
-import peewee as pw
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
 
 
 app = Flask(__name__)
@@ -12,48 +14,19 @@ app.config['BABEL_DEFAULT_LOCALE'] = 'pl'
 babel = Babel(app)
 
 # database
-dbtype = app.config['DB_TYPE']
-dbclass = None
-if dbtype == 'sqlite':
-    dbclass = pw.SqliteDatabase
-elif dbtype == 'mysql':
-    dbclass = pw.MySQLDatabase
-elif dbtype == 'postgresql':
-    dbclass = pw.PostgresqlDatabase
-if dbclass is None:
-    raise pw.ImproperlyConfigured('database type is improperly configured')
-db = dbclass(*app.config['DB_CONNECTION_ARGS'], **app.config['DB_CONNECTION_KWARGS'])
+# database
+engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'],
+    convert_unicode=True,
+    echo=app.config['SQLALCHEMY_ECHO']
+)
+session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
+Model = declarative_base(bind=engine)
+Model.query = session.query_property()
 
-class Model(pw.Model):
-
-    class Meta:
-        database = db
-
-    def __int__(self):
-        return self.id
-
-    @classmethod
-    def get_by_pk(cls, obj_id):
-        try:
-            return cls.get(cls.id == obj_id)
-        except cls.DoesNotExist:
-            return None
-
-    @classmethod
-    def get_or_404(cls, obj_id):
-        obj = cls.get_by_pk(obj_id)
-        if obj is None:
-            abort(404)
-        return obj
 
 def init_db():
-    from models import BrewerProfile, Brewery, BrewerBrewery, Brew, TastingNote, AdditionalFermentationStep
-    BrewerProfile.create_table()
-    Brewery.create_table()
-    BrewerBrewery.create_table()
-    Brew.create_table()
-    TastingNote.create_table()
-    AdditionalFermentationStep.create_table()
+    import models
+    Model.metadata.create_all(bind=engine)
 
 # login infrastructure
 login_manager = LoginManager()
@@ -65,7 +38,7 @@ login_manager.login_message_category = 'info'
 @login_manager.user_loader
 def get_user(userid):
     from models import BrewerProfile
-    return BrewerProfile.get_by_pk(userid)
+    return BrewerProfile.query.get(userid)
 
 # register url map
 from brewlog.urls import rules
