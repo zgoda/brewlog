@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from flaskext.babel import lazy_gettext as _
 
 from brewlog.users.auth import services, google, facebook
-from brewlog.users.models import BrewerProfile
+from brewlog.models import BrewerProfile
 from brewlog.users.forms import ProfileForm
 
 
@@ -31,7 +31,10 @@ def google_remote_login_callback(resp):
         r = requests.get('https://www.googleapis.com/oauth2/v1/userinfo', headers=headers)
         if r.ok:
             data = r.json()
-            user = BrewerProfile.select().where(BrewerProfile.email == data['email']).get()
+            try:
+                user = BrewerProfile.select().where(BrewerProfile.email == data['email']).get()
+            except BrewerProfile.DoesNotExist:
+                user = None
             if user is None:
                 user = BrewerProfile(email=data['email'])
             user.access_token = access_token
@@ -55,7 +58,10 @@ def facebook_remote_login_callback(resp):
     session['access_token'] = access_token, ''
     if access_token:
         me = facebook.get('/me')
-        user = BrewerProfile.select().where(BrewerProfile.email == me.data['email']).get()
+        try:
+            user = BrewerProfile.select().where(BrewerProfile.email == me.data['email']).get()
+        except BrewerProfile.DoesNotExist:
+            user = None
         if user is None:
             user = BrewerProfile(
                 email=me.data['email'],
@@ -80,8 +86,9 @@ def logout():
 def profile(userid):
     user_profile = BrewerProfile.get_or_404(userid)
     is_owner = False
+    import ipdb; ipdb.set_trace()
     if current_user.is_authenticated():
-        is_owner = user_profile == current_user
+        is_owner = user_profile.id == current_user.id
     context = {
         'data': user_profile.summary_data(['nick']),
         'data_type': 'summary',

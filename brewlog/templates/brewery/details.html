@@ -14,16 +14,16 @@
 {% endif %}
 <h3>{{ gettext("People") }}</h3>
 <p>{{ gettext("Head brewer") }}: <a href="{{ brewery.brewer.absolute_url }}">{{ brewery.brewer.nick }}</a></p>
-{% if brewery.other_brewers %}
+{% if brewery.other_brewers.count() %}
 <p>{{ gettext("Other brewers") }}:</p>
 <ul>
     {% for brewer in brewery.other_brewers %}<li><a href="{{ brewer.absolute_url }}">{{ brewer.nick }}</a></li>{% endfor %}
 </ul>
 {% endif %}
-{% if latest_brews %}
+{% if brewery.recent_brews().exists() %}
 <h3>{% trans %}Latest brews{% endtrans %}</h3>
 <ul>
-    {% for brew in latest_brews %}
+    {% for brew in brewery.recent_brews() %}
     <li>{% if brew_date %}{{ brew.date }}{% else %}{% trans %}not brewed yet{% endtrans %}{% endif %} &mdash; {{ brew.name }}</li>
     {% endfor %}
 </ul>

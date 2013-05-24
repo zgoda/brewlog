@@ -2,7 +2,7 @@ from flask import request, flash, url_for, redirect, render_template, abort
 from flask_login import current_user, login_required
 from flaskext.babel import lazy_gettext as _
 
-from brewlog.brewing.models import Brewery, Brew
+from brewlog.models import Brewery, Brew
 from brewlog.brewing.forms.brewery import BreweryForm
 from brewlog.brewing.forms.brew import BrewForm
 
@@ -91,4 +91,4 @@ def brew_all():
     context = {
         'brews': Brew.select().where(Brew.is_public == True).order_by(Brew.created.desc()).paginate(page, page_size)
     }
-    return rennder_template('brew/list.html', **ctx)
+    return render_template('brew/list.html', **context)

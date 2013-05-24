@@ -1,7 +1,6 @@
 from flask import render_template
 
-from brewlog.brewing.models import Brew, Brewery
-from brewlog.users.models import BrewerProfile
+from brewlog.models import BrewerProfile, Brew, Brewery
 
 
 def main():

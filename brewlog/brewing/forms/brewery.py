@@ -7,7 +7,7 @@ from flaskext.babel import lazy_gettext as _
 from flask_login import current_user
 
 from brewlog.forms.base import BaseForm
-from brewlog.brewing.models import Brewery
+from brewlog.models import Brewery
 
 
 class BreweryNameLength(Length):
@@ -23,6 +23,7 @@ class BreweryForm(BaseForm):
     established_date = DateField(_('established'), validators=[Optional()])
 
     def save(self, obj=None):
+        import ipdb; ipdb.set_trace()
         if obj is None:
             obj = Brewery(brewer=current_user)
         return super(BreweryForm, self).save(obj, save=True)

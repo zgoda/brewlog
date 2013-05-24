@@ -21,13 +21,16 @@ elif dbtype == 'mysql':
 elif dbtype == 'postgresql':
     dbclass = pw.PostgresqlDatabase
 if dbclass is None:
-    raise Exception('database type is improperly configured')
+    raise pw.ImproperlyConfigured('database type is improperly configured')
 db = dbclass(*app.config['DB_CONNECTION_ARGS'], **app.config['DB_CONNECTION_KWARGS'])
 
 class Model(pw.Model):
 
     class Meta:
         database = db
+
+    def __int__(self):
+        return self.id
 
     @classmethod
     def get_by_pk(cls, obj_id):
@@ -43,6 +46,15 @@ class Model(pw.Model):
             abort(404)
         return obj
 
+def init_db():
+    from models import BrewerProfile, Brewery, BrewerBrewery, Brew, TastingNote, AdditionalFermentationStep
+    BrewerProfile.create_table()
+    Brewery.create_table()
+    BrewerBrewery.create_table()
+    Brew.create_table()
+    TastingNote.create_table()
+    AdditionalFermentationStep.create_table()
+
 # login infrastructure
 login_manager = LoginManager()
 login_manager.init_app(app)
@@ -52,24 +64,13 @@ login_manager.login_message_category = 'info'
 
 @login_manager.user_loader
 def get_user(userid):
-    from users.models import BrewerProfile
-    return BrewerProfile.select().where(BrewerProfile.id == userid).get()
+    from models import BrewerProfile
+    return BrewerProfile.get_by_pk(userid)
 
 # register url map
 from brewlog.urls import rules
 for url, kwargs in rules:
     app.add_url_rule(url, **kwargs)
-
-
-def init_db():
-    from users.models import BrewerProfile
-    from brewing.models import Brewery, Brew, TastingNote, AdditionalFermentationStep
-    BrewerProfile.create_table()
-    Brewery.create_table()
-    Brew.create_table()
-    TastingNote.create_table()
-    AdditionalFermentationStep.create_table()
-
 
 @app.errorhandler(404)
 def not_found(error):
