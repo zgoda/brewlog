@@ -53,7 +53,7 @@ login_manager.login_message_category = 'info'
 @login_manager.user_loader
 def get_user(userid):
     from users.models import BrewerProfile
-    return BrewerProfile.select().where(BrewerProfile.id == userid)
+    return BrewerProfile.select().where(BrewerProfile.id == userid).get()
 
 # register url map
 from brewlog.urls import rules
