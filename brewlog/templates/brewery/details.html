@@ -23,9 +23,7 @@
 {% if brewery.recent_brews() %}
 <h3>{% trans %}Latest brews{% endtrans %}</h3>
 <ul>
-    {% for brew in brewery.recent_brews() %}
-    <li>{% if brew_date %}{{ brew.date }}{% else %}{% trans %}not brewed yet{% endtrans %}{% endif %} &mdash; {{ brew.name }}</li>
-    {% endfor %}
+    {% for brew in brewery.recent_brews() %}<li>{% if brew.date_brewed %}{{ brew.date_brewed }}{% else %}{% trans %}not brewed yet{% endtrans %}{% endif %} &mdash; <a href="{{ brew.absolute_url }}">{{ brew.name }}</a></li>{% endfor %}
 </ul>
 {% endif %}
 {% if form %}
