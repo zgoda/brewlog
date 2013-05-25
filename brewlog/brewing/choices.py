@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 from flaskext.babel import lazy_gettext as _
 
 

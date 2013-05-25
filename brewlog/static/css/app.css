@@ -1,0 +1,3 @@
+textarea#misc, textarea#fermentables, textarea#hops, textarea#mash_steps, textarea#hopping_steps {
+    height: 100px;
+}
