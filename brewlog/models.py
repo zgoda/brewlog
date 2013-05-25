@@ -95,6 +95,9 @@ class Brewery(Model):
     def __unicode__(self):
         return self.name
 
+    def __repr__(self):
+        return '<Brewery %s>' % self.name.encode('utf-8')
+
     @property
     def absolute_url(self):
         return url_for('brewery-details', brewery_id=self.id)
@@ -102,6 +105,10 @@ class Brewery(Model):
     @property
     def other_brewers(self):
         return []
+
+    @property
+    def brewers(self):
+        return [self.brewer] + self.other_brewers
 
     def recent_brews(self, limit=10):
         return Brew.query.filter(Brew.brewery_id==self.id).order_by('-created').limit(limit).all()

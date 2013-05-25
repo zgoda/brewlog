@@ -66,13 +66,13 @@ class BrewForm(BaseForm):
         description=_('put each fermentable on separate line to make nice list'))
     hops = wf.TextAreaField(_('hop items'), validators=[Optional()],
         description=_('put each hop item on separate line to make nice list'))
-    yeasts = wf.TextAreaField(_('yeast items'), validators=[Optional()],
+    yeast = wf.TextAreaField(_('yeast items'), validators=[Optional()],
         description=_('put each yeast item on separate line to make nice list'))
-    miscellany = wf.TextAreaField(_('miscellaneous items'), validators=[Optional()],
+    misc = wf.TextAreaField(_('miscellaneous items'), validators=[Optional()],
         description=_('put each miscellanea on separare line to make nice list'))
-    mash_schedule = wf.TextAreaField(_('mash schedule'), validators=[Optional()],
+    mash_steps = wf.TextAreaField(_('mash schedule'), validators=[Optional()],
         description=_('put each step on separate line to make nice list'))
-    hopping_schedule = wf.TextAreaField(_('hopping schedule'), validators=[Optional()],
+    hopping_steps = wf.TextAreaField(_('hopping schedule'), validators=[Optional()],
         description=_('put each step on separate line to make nice list'))
     is_public = wf.BooleanField(_('public'))
     is_draft = wf.BooleanField(_('draft'))
