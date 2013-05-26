@@ -12,7 +12,7 @@
 {% block content %}
 <h3>{% trans breweryname=brew.brewery.name, ownername=brew.brewery.brewer.name, brewname=brew.name %}Details for brew {{ brewname }} from brewery {{ breweryname }} by {{ ownername }}{% endtrans %}</h3>
 {% if form %}
-<form method="post" action="{{ url_for('brew-details', brew_id=brew.id) }}">
+<form method="post" action="{{ url_for('brew-details', brew_id=brew.id) }}" class="custom">
     {{ forms.render(form) }}
 </form>
 {% endif %}

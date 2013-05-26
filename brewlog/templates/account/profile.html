@@ -7,7 +7,7 @@
 <h3>{{ gettext("Brewer's profile for user %(nick)s", nick=data.nick) }}</h3>
 {% if form %}
 <p>{% trans %}See your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
-<form action="{{ url_for('profile-details', userid=user.id) }}" method="post">
+<form action="{{ url_for('profile-details', userid=user.id) }}" method="post" class="custom">
     {{ forms.render(form) }}
 </form>
 {% endif %}

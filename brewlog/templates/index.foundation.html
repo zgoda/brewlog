@@ -41,7 +41,7 @@
         {% block flash %}
         {% if flashes %}
         <div class="small-12 columns">
-            <ul>
+            <ul class="no-bullet">
                 {% for flash in flashes %}<li>{{ flash|e }}</li>{% endfor %}
             </ul>
         </div>
