@@ -80,7 +80,7 @@ def logout():
     logout_user()
     return redirect(url_for('main'))
 
-def profile(userid):
+def profile(userid, **kwargs):
     user_profile = get_or_404(BrewerProfile, userid)
     is_owner = False
     if current_user.is_authenticated():

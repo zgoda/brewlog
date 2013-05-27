@@ -36,7 +36,7 @@ def brewery_all():
     }
     return render_template('brewery/list.html', **ctx)
 
-def brewery(brewery_id):
+def brewery(brewery_id, **kwargs):
     brewery = get_or_404(Brewery, brewery_id)
     if request.method == 'POST':
         if current_user.is_anonymous() or (current_user != brewery.brewer):
@@ -66,7 +66,7 @@ def brew_add():
     }
     return render_template('brew/form.html', **ctx)
 
-def brew(brew_id):
+def brew(brew_id, **kwargs):
     brew = get_or_404(Brew, brew_id)
     if request.method == 'POST':
         if current_user != brew.brewery.brewer:

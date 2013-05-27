@@ -10,6 +10,7 @@ from sqlalchemy.orm import relationship
 from brewlog import Model
 from brewlog.brewing import choices
 from brewlog.utils.models import DataModelMixin
+from brewlog.utils.text import slugify
 
 
 class BrewerProfile(UserMixin, DataModelMixin, Model):
@@ -40,7 +41,7 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
 
     @property
     def absolute_url(self):
-        return url_for('profile-details', userid=self.id)
+        return url_for('profile-details', userid=self.id, slug=slugify(self.name))
 
     @property
     def safe_email(self):
@@ -100,7 +101,7 @@ class Brewery(Model):
 
     @property
     def absolute_url(self):
-        return url_for('brewery-details', brewery_id=self.id)
+        return url_for('brewery-details', brewery_id=self.id, slug=slugify(self.name))
 
     @property
     def other_brewers(self):
@@ -228,7 +229,7 @@ class Brew(Model):
 
     @property
     def absolute_url(self):
-        return url_for('brew-details', brew_id=self.id)
+        return url_for('brew-details', brew_id=self.id, slug=slugify(self.name))
 
     @classmethod
     def last_created(cls, limit=5):
