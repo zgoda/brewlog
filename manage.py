@@ -4,7 +4,9 @@ from brewlog import app
 
 
 manager = Manager(app)
+
 manager.add_command('runserver', Server(port=8080))
+
 manager.add_command('shell', Shell())
 
 @manager.command
@@ -12,6 +14,13 @@ def initdb():
     "Initialize empty database if does not exist"
     import brewlog
     brewlog.init_db()
+
+@manager.command
+def cleardb():
+    "Clear all database tables"
+    import brewlog
+    brewlog.clear_db()
+
 
 if __name__ == '__main__':
     manager.run()

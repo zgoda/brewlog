@@ -28,6 +28,10 @@ def init_db():
     import models
     Model.metadata.create_all(bind=engine)
 
+def clear_db():
+    import models
+    Model.metadata.drop_all(bind=engine)
+
 # login infrastructure
 login_manager = LoginManager()
 login_manager.init_app(app)
