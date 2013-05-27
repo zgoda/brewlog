@@ -207,6 +207,7 @@ class Brew(Model):
     yeast = Column(Text)
     misc = Column(Text)
     mash_steps = Column(Text)
+    sparging = Column(String(200))
     hopping_steps = Column(Text)
     fermentation_steps = Column(Text)
     boil_time = Column(Integer)

@@ -36,6 +36,10 @@ class Pagination(object):
                 last = num
 
 
+def paginate(query, page_num, per_page):
+    return query.offset(page_num*per_page).limit(per_page).all()
+
+
 def get_or_404(cls, pk):
     obj = cls.query.get(pk)
     if obj is None:

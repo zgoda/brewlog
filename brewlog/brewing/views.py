@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from flaskext.babel import lazy_gettext as _
 
 from brewlog.models import Brewery, Brew
-from brewlog.utils.models import get_or_404
+from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.brewing.forms.brewery import BreweryForm
 from brewlog.brewing.forms.brew import BrewForm
 
@@ -31,9 +31,12 @@ def brewery_all():
         page = int(request.args.get('p', '1'))
     except ValueError:
         page = 1
+    pagination = Pagination(page, page_size, Brewery.query.count())
     ctx = {
-        'breweries': Brewery.query.order_by('name').paginate(page, page_size)
+        'pagination': pagination,
+        'breweries': paginate(Brewery.query.order_by('name'), page-1, page_size)
     }
+    import ipdb; ipdb.set_trace()
     return render_template('brewery/list.html', **ctx)
 
 def brewery(brewery_id, **kwargs):
@@ -89,7 +92,19 @@ def brew_all():
         page = int(request.args.get('p', '1'))
     except ValueError:
         page = 1
+    query = Brew.query.filter_by(is_public=True)
+    pagination = Pagination(page, page_size, query.count()
     context = {
-        'brews': Brew.select().where(Brew.is_public == True).order_by(Brew.created.desc()).paginate(page, page_size)
+        'pagination': pagination,
+        'brews': paginate(query.order_by('-created'), page-1, page_size)
     }
     return render_template('brew/list.html', **context)
+
+def brew_export(brew_id, flavour):
+    brew = get_or_404(Brew, brew_id)
+    ctx = {
+        'brew': brew,
+        'flavour': flavour,
+        'exported': render_template('brew/export/%s.txt' % flavour, **ctx)
+    }
+    return render_template('brew/export.html', **ctx)
