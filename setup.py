@@ -12,15 +12,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
-    install_requires=[
-        'pytz',
-        'Flask',
-        'Flask-Babel',
-        'Flask-Script',
-        'Flask-WTForms',
-        'Flask-OAuth',
-        'Markdown',
-        'SQLAlchemy'
-    ]
+    install_requires=open('requirements.pip').read().strip().split('\n')
 )
 

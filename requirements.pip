@@ -6,6 +6,7 @@ Flask-WTF
 Flask-OAuth
 Flask-Login
 Markdown
+MySQL-python
 SQLAlchemy
 Werkzeug
 Jinja2
