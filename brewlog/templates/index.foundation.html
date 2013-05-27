@@ -20,7 +20,7 @@
                 <li class="name">
                     <h1><a href="/">Brew Log</a></h1>
                 </li>
-                <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+                <li class="toggle-topbar menu-icon"><a href="#"><span>{% trans %}Menu{% endtrans %}</span></a></li>
             </ul>
             <section class="top-bar-section">
                 <ul class="right">
@@ -49,17 +49,17 @@
         {% endblock %}
     </header>
     <section class="row full-width">
-        <div class="large-12 columns">
+        <div class="small-12 columns">
         {% block widecontent %}
         {% endblock %}
         </div>
     </section>
     <section class="row full-width">
-        <div class="large-9 push-3 columns">
+        <div class="small-9 push-3 columns">
         {% block content %}
         {% endblock %}
         </div>
-        <div class="large-3 push-9 columns">
+        <div class="small-3 push-9 columns">
         {% block sidebar %}
         {% endblock %}
         </div>
