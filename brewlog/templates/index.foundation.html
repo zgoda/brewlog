@@ -30,7 +30,7 @@
                             {% if user.is_anonymous() %}
                             <li><a href="{{ url_for('auth-select-provider') }}">{% trans %}login page{% endtrans %}</a></li>
                             {% else %}
-                            <li><a href="{{ url_for('profile-details', userid=user.id) }}">{% trans %}my profile{% endtrans %}</a></li>
+                            <li><a href="{{ user.absolute_url }}">{% trans %}my profile{% endtrans %}</a></li>
                             <li><a href="{{ url_for('auth-logout') }}">{% trans %}logout{% endtrans %}</a></li>
                             {% endif %}
                         </ul>
