@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-25 22:56+0200\n"
+"POT-Creation-Date: 2013-05-27 14:17+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -19,9 +19,13 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: brewlog/__init__.py:35
+#: brewlog/__init__.py:39
 msgid "Please log in to access this page"
 msgstr "Musisz się zalogować by uzyskać dostęp do tej strony"
+
+#: brewlog/models.py:57
+msgid "wanting to stay anonymous"
+msgstr "pragnący pozostać anonimowym"
 
 #: brewlog/brewing/choices.py:5
 msgid "forced in keg"
@@ -276,7 +280,7 @@ msgid "The page you was trying to access was not found on the server."
 msgstr "Strona nie została znaleziona"
 
 #: brewlog/templates/base.html:128 brewlog/templates/index.bootstrap.html:35
-#: brewlog/templates/index.foundation.html:68 brewlog/templates/index.html:68
+#: brewlog/templates/index.foundation.html:69 brewlog/templates/index.html:69
 msgid "All rights reserved"
 msgstr "Wszelkie prawa zastrzeżone"
 
@@ -315,23 +319,23 @@ msgid "by %(brewer)s "
 msgstr "przez %(brewer)s"
 
 #: brewlog/templates/index.bootstrap.html:20
-#: brewlog/templates/index.foundation.html:32 brewlog/templates/index.html:32
+#: brewlog/templates/index.foundation.html:33 brewlog/templates/index.html:33
 msgid "my profile"
 msgstr "profil"
 
 #: brewlog/templates/index.bootstrap.html:20
-#: brewlog/templates/index.foundation.html:33 brewlog/templates/index.html:33
+#: brewlog/templates/index.foundation.html:34 brewlog/templates/index.html:34
 msgid "logout"
 msgstr "wyloguj"
 
 #: brewlog/templates/index.bootstrap.html:22
-#: brewlog/templates/index.foundation.html:30 brewlog/templates/index.html:30
+#: brewlog/templates/index.foundation.html:31 brewlog/templates/index.html:31
 msgid "login page"
 msgstr "strona logowania"
 
-#: brewlog/templates/index.foundation.html:27 brewlog/templates/index.html:27
-msgid "tools"
-msgstr "narzędzia"
+#: brewlog/templates/index.foundation.html:28 brewlog/templates/index.html:28
+msgid "user tools"
+msgstr "narzędzia konta"
 
 #: brewlog/templates/account/profile.html:4
 #, python-format
@@ -379,6 +383,10 @@ msgid "brew"
 msgstr "warka"
 
 #: brewlog/templates/brew/details.html:5
+msgid "recipe tools"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:13
 #, python-format
 msgid ""
 "Details for brew %(brewname)s from brewery %(breweryname)s by "
@@ -408,7 +416,7 @@ msgstr "Główny piwowar"
 msgid "Other brewers"
 msgstr "Inni piwowarzy"
 
-#: brewlog/templates/brewery/details.html:27
+#: brewlog/templates/brewery/details.html:26
 msgid "not brewed yet"
 msgstr "jeszcze nie uwarzona"
 

@@ -2,6 +2,7 @@ import datetime
 
 from flask import url_for
 from flask_login import UserMixin
+from flaskext.babel import lazy_gettext as _
 import markdown
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Index, Date, ForeignKey, Float, Enum
 from sqlalchemy import event
@@ -45,14 +46,15 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
 
     @property
     def safe_email(self):
-        return self.email
+        return self.email.replace('@', '-at-').replace('.', '-dot-')
 
     @property
     def name(self):
-        for attr in ['nick', 'full_name', 'safe_email']:
+        for attr in ['nick', 'full_name']:
             value = getattr(self, attr, None)
             if value:
                 return value
+        return _('wanting to stay anonymous')
 
     @property
     def other_breweries(self):
