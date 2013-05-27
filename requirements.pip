@@ -10,7 +10,7 @@ MySQL-python
 SQLAlchemy
 Werkzeug
 Jinja2
-WTForms
+WTForms>1.0.3
 pytz
 speaklater
 requests
