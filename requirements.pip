@@ -10,7 +10,7 @@ Markdown
 MySQL-python
 SQLAlchemy
 Werkzeug
-Jinja2
+Jinja2>2.6
 WTForms>1.0.3
 pytz
 speaklater
