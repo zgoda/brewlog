@@ -70,6 +70,7 @@ def facebook_remote_login_callback(resp):
         user.remote_userid = me.data['id']
         dbsession.add(user)
         dbsession.commit()
+        login_user(user)
         next_url = request.args.get('next') or session.get('next') or 'main'
         flash(_('You have been signed in as %(email)s using Facebook', email=me.data['email']))
         return redirect(url_for(next_url))

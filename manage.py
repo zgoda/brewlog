@@ -1,3 +1,5 @@
+import os
+
 from flask.ext.script import Server, Manager, Shell
 
 from brewlog import app
@@ -23,10 +25,13 @@ def cleardb():
 
 @manager.command
 def test():
-    #import unittest
-    print 'tests disabled until ready'
-    #suite = unittest.TestLoader().discover('brewlog/tests', pattern='test_*.py')
-    #unittest.TextTestRunner(verbosity=2).run(suite)
+    here = os.path.abspath(os.path.dirname(__file__))
+    testing_cfg = os.path.join(here, 'brewlog', 'config_testing.py')
+    app.config.from_pyfile(testing_cfg)
+    import unittest
+    #print 'tests disabled until ready'
+    suite = unittest.TestLoader().discover('brewlog/tests', pattern='test_*.py')
+    unittest.TextTestRunner(verbosity=2).run(suite)
 
 
 if __name__ == '__main__':

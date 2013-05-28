@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-27 14:17+0200\n"
+"POT-Creation-Date: 2013-05-28 15:56+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 0.9.6\n"
 
-#: brewlog/__init__.py:39
+#: brewlog/__init__.py:42
 msgid "Please log in to access this page"
 msgstr "Musisz się zalogować by uzyskać dostęp do tej strony"
 
@@ -92,17 +92,17 @@ msgstr "na zimno"
 msgid "brewery %(name)s created"
 msgstr "browar %(name)s utworzony"
 
-#: brewlog/brewing/views.py:47
+#: brewlog/brewing/views.py:50
 #, python-format
 msgid "brewery %(name)s data updated"
 msgstr "dane browaru %(name)s zostały zaktualizowane"
 
-#: brewlog/brewing/views.py:62
+#: brewlog/brewing/views.py:65
 #, python-format
 msgid "brew %(name)s created"
 msgstr "warka %(name)s utworzona"
 
-#: brewlog/brewing/views.py:77
+#: brewlog/brewing/views.py:80
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr "dane warki %(name)s zostały zaktualizowane"
@@ -280,7 +280,7 @@ msgid "The page you was trying to access was not found on the server."
 msgstr "Strona nie została znaleziona"
 
 #: brewlog/templates/base.html:128 brewlog/templates/index.bootstrap.html:35
-#: brewlog/templates/index.foundation.html:69 brewlog/templates/index.html:69
+#: brewlog/templates/index.foundation.html:70 brewlog/templates/index.html:70
 msgid "All rights reserved"
 msgstr "Wszelkie prawa zastrzeżone"
 
@@ -300,40 +300,53 @@ msgstr ""
 "Witaj na stronie BrewLog, zrobionej przez piwowara domowego dla innych "
 "piwowarów. Rozejrzyj się i zacznij zapisywać swoje warki."
 
-#: brewlog/templates/home.html:14 brewlog/templates/brewery/details.html:24
-msgid "Latest brews"
-msgstr "Ostatnie warki"
+#: brewlog/templates/home.html:14
+msgid "latest brewers"
+msgstr "ostatnio zarejestrowani"
 
 #: brewlog/templates/home.html:16
+#, python-format
+msgid "registered: %(date)s"
+msgstr "rejestracja: %(date)s"
+
+#: brewlog/templates/home.html:24
+msgid "latest brews"
+msgstr "ostatnie warki"
+
+#: brewlog/templates/home.html:26
 #, python-format
 msgid " by %(brewername)s in %(breweryname)s"
 msgstr " przez %(brewername)s w %(breweryname)s"
 
-#: brewlog/templates/home.html:24
-msgid "Recently registered breweries"
-msgstr "Ostatnio zarejestrowane browary"
+#: brewlog/templates/home.html:34
+msgid "recently registered breweries"
+msgstr "ostatnio zarejestrowane browary"
 
-#: brewlog/templates/home.html:26
+#: brewlog/templates/home.html:36
 #, python-format
 msgid "by %(brewer)s "
 msgstr "przez %(brewer)s"
 
 #: brewlog/templates/index.bootstrap.html:20
-#: brewlog/templates/index.foundation.html:33 brewlog/templates/index.html:33
+#: brewlog/templates/index.foundation.html:34 brewlog/templates/index.html:34
 msgid "my profile"
 msgstr "profil"
 
 #: brewlog/templates/index.bootstrap.html:20
-#: brewlog/templates/index.foundation.html:34 brewlog/templates/index.html:34
+#: brewlog/templates/index.foundation.html:35 brewlog/templates/index.html:35
 msgid "logout"
 msgstr "wyloguj"
 
 #: brewlog/templates/index.bootstrap.html:22
-#: brewlog/templates/index.foundation.html:31 brewlog/templates/index.html:31
+#: brewlog/templates/index.foundation.html:32 brewlog/templates/index.html:32
 msgid "login page"
 msgstr "strona logowania"
 
-#: brewlog/templates/index.foundation.html:28 brewlog/templates/index.html:28
+#: brewlog/templates/index.foundation.html:24 brewlog/templates/index.html:24
+msgid "Menu"
+msgstr "Menu"
+
+#: brewlog/templates/index.foundation.html:29 brewlog/templates/index.html:29
 msgid "user tools"
 msgstr "narzędzia konta"
 
@@ -344,8 +357,8 @@ msgstr "Profil użytkownika %(nick)s"
 
 #: brewlog/templates/account/profile.html:7
 #, python-format
-msgid "Brewer's profile for user %(nick)s"
-msgstr "Profil piwowara %(nick)s"
+msgid "Brewer's profile for user %(name)s"
+msgstr "Profil piwowara %(name)s"
 
 #: brewlog/templates/account/profile.html:9
 msgid "See your brewer's profile data. You may change it using the form below."
@@ -384,7 +397,7 @@ msgstr "warka"
 
 #: brewlog/templates/brew/details.html:5
 msgid "recipe tools"
-msgstr ""
+msgstr "narzędzia receptur"
 
 #: brewlog/templates/brew/details.html:13
 #, python-format
@@ -415,6 +428,10 @@ msgstr "Główny piwowar"
 #: brewlog/templates/brewery/details.html:18
 msgid "Other brewers"
 msgstr "Inni piwowarzy"
+
+#: brewlog/templates/brewery/details.html:24
+msgid "Latest brews"
+msgstr "Ostatnie warki"
 
 #: brewlog/templates/brewery/details.html:26
 msgid "not brewed yet"
@@ -493,12 +510,12 @@ msgstr ""
 "Błąd logowania przez Facebook, przyczyna: %(error_reason)s, opis: "
 "%(error_description)s"
 
-#: brewlog/users/views.py:74
+#: brewlog/users/views.py:75
 #, python-format
 msgid "You have been signed in as %(email)s using Facebook"
 msgstr "Użytkownik zalogowany jako %(email)s przez Facebook"
 
-#: brewlog/users/views.py:104
+#: brewlog/users/views.py:105
 msgid "your profile data has been updated"
 msgstr "twój profil piwowara został uaktualniony"
 

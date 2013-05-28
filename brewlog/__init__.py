@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask, render_template, get_flashed_messages
 from flaskext.babel import Babel, lazy_gettext as _
 from flask_login import LoginManager, current_user
@@ -8,6 +10,8 @@ from sqlalchemy.ext.declarative import declarative_base
 
 app = Flask(__name__)
 app.config.from_object('brewlog.config')
+if os.environ.get('BREWLOG_CONFIG', ''):
+    app.config.from_envvar('BREWLOG_CONFIG')
 
 # i18n
 app.config['BABEL_DEFAULT_LOCALE'] = 'pl'

@@ -6,12 +6,22 @@
 <h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
 <p>{% trans %}This is BrewLog, brewing log app written by homebrewer for homebrewers. Have a look to the site and start logging your brews.{% endtrans %}</p>
 <div class="row">
-    <div class="large-12 columns">
+    <div class="small-12 columns">
         <div class="row">
-            {% if latest_brews %}
-            <div class="large-4 columns">
+            {% if latest_brewers %}
+            <div class="small-4 columns">
                 <div class="panel">
-                    <h4>{% trans %}Latest brews{% endtrans %}</h4>
+                    <h4>{{ gettext("latest brewers").capitalize() }}</h4>
+                    <ul class="no-bullet">
+                        {% for brewer in latest_brewers %}<li><a href="{{ brewer.absolute_url }}">{{ brewer.name }}</a> <small>{{ gettext("registered: %(date)s", date=brewer.created.strftime("%Y-%m-%d %H:%M:%S")) }}</small></li>{% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+            {% if latest_brews %}
+            <div class="small-4 columns">
+                <div class="panel">
+                    <h4>{{ gettext("latest brews").capitalize() }}</h4>
                     <ul class="no-bullet">
                         {% for brew in latest_brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name }}</a> {% trans brewername=brew.brewery.brewer.name, breweryname=brew.brewery.name %} by {{ brewername }} in {{ breweryname }}{% endtrans %}</li>{% endfor %}
                     </ul>
@@ -19,11 +29,11 @@
             </div>
             {% endif %}
             {% if latest_breweries %}
-            <div class="large-4 columns">
+            <div class="small-4 columns">
                 <div class="panel">
-                    <h4>{% trans %}Recently registered breweries{% endtrans %}</h4>
+                    <h4>{{ gettext("recently registered breweries").capitalize() }}</h4>
                     <ul class="no-bullet">
-                        {% for brewery in latest_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name }}</a> {% trans brewer=brewery.brewer.full_name %}by {{ brewer }} {% endtrans %}</li>{% endfor %}
+                        {% for brewery in latest_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name }}</a> {% trans brewer=brewery.brewer.name %}by {{ brewer }} {% endtrans %}</li>{% endfor %}
                     </ul>
                 </div>
             </div>
