@@ -49,6 +49,11 @@ from brewlog.urls import rules
 for url, kwargs in rules:
     app.add_url_rule(url, **kwargs)
 
+
+@app.teardown_request
+def shutdown_session(exception=None):
+    session.remove()
+
 @app.errorhandler(404)
 def not_found(error):
     return render_template('404.html'), 404
