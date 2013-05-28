@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-28 15:56+0200\n"
+"POT-Creation-Date: 2013-05-28 16:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -427,6 +427,10 @@ msgstr ""
 
 #: brewlog/templates/brewery/details.html:26
 msgid "not brewed yet"
+msgstr ""
+
+#: brewlog/templates/brewery/details.html:30
+msgid "add new brew"
 msgstr ""
 
 #: brewlog/templates/brewery/form.html:4
