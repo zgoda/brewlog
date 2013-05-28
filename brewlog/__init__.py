@@ -14,7 +14,6 @@ app.config['BABEL_DEFAULT_LOCALE'] = 'pl'
 babel = Babel(app)
 
 # database
-# database
 engine = create_engine(app.config['SQLALCHEMY_DATABASE_URI'],
     convert_unicode=True,
     echo=app.config['SQLALCHEMY_ECHO']

@@ -21,6 +21,13 @@ def cleardb():
     import brewlog
     brewlog.clear_db()
 
+@manager.command
+def test():
+    #import unittest
+    print 'tests disabled until ready'
+    #suite = unittest.TestLoader().discover('brewlog/tests', pattern='test_*.py')
+    #unittest.TextTestRunner(verbosity=2).run(suite)
+
 
 if __name__ == '__main__':
     manager.run()

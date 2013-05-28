@@ -4,7 +4,7 @@
 {% block headpagetitle %}{{ gettext("Profile data for user %(nick)s", nick=data.nick) }}{% endblock %}
 
 {% block content %}
-<h3>{{ gettext("Brewer's profile for user %(nick)s", nick=data.nick) }}</h3>
+<h3>{{ gettext("Brewer's profile for user %(name)s", name=user.name) }}</h3>
 {% if form %}
 <p>{% trans %}See your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
 <form action="{{ user.absolute_url }}" method="post" class="custom">

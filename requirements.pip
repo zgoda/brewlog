@@ -23,3 +23,8 @@ translitcodec
 # database migrations
 alembic
 Mako
+
+# tests - uncomment when ready
+# Flask-Testing
+# twill
+# fixture
