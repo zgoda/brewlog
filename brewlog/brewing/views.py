@@ -93,7 +93,7 @@ def brew_all():
     except ValueError:
         page = 1
     query = Brew.query.filter_by(is_public=True)
-    pagination = Pagination(page, page_size, query.count()
+    pagination = Pagination(page, page_size, query.count())
     context = {
         'pagination': pagination,
         'brews': paginate(query.order_by('-created'), page-1, page_size)
