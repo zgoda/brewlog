@@ -1,3 +1,4 @@
+# core
 Babel
 Flask
 Flask-Babel
@@ -18,3 +19,7 @@ oauth2
 httplib2
 MarkupSafe
 translitcodec
+
+# database migrations
+alembic
+Mako
