@@ -26,7 +26,6 @@ session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=en
 Model = declarative_base(bind=engine)
 Model.query = session.query_property()
 
-
 def init_db():
     import models
     Model.metadata.create_all(bind=engine)
@@ -52,7 +51,7 @@ from brewlog.urls import rules
 for url, kwargs in rules:
     app.add_url_rule(url, **kwargs)
 
-
+# app-level event handlers
 @app.teardown_request
 def shutdown_session(exception=None):
     session.remove()
@@ -68,10 +67,9 @@ def inject():
         'flashes': get_flashed_messages(),
     }
 
-# jinja filters
-def url_for_other_page(page):
-    args = request.view_args.copy()
-    args['p'] = page
-    return url_for(request.endpoint, **args)
+# templates
+def register_filters(application):
+    from utils import templates
+    application.jinja_env.globals['url_for_other_page'] = templates.url_for_other_page
 
-app.jinja_env.globals['url_for_other_page'] = url_for_other_page
+register_filters(app)
