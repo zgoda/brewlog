@@ -36,7 +36,6 @@ def brewery_all():
         'pagination': pagination,
         'breweries': paginate(Brewery.query.order_by('name'), page-1, page_size)
     }
-    import ipdb; ipdb.set_trace()
     return render_template('brewery/list.html', **ctx)
 
 def brewery(brewery_id, **kwargs):

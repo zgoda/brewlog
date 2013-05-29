@@ -1,1 +1,12 @@
 {% extends "brew/base.html" %}
+
+{% block headpagetitle %}{{ gettext("brews") }}{% endblock %}
+
+{% block content %}
+<h3>{{ gettext("all public brews").capitalize() }}</h3>
+{% if brews %}
+<ul>
+{% for brew in brews %}<li>{{ brew.name|e }}</li>{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}
