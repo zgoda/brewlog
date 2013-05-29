@@ -113,8 +113,19 @@ class Brewery(Model):
     def brewers(self):
         return [self.brewer] + self.other_brewers
 
-    def recent_brews(self, limit=10):
-        return Brew.query.filter(Brew.brewery_id==self.id).order_by('-created').limit(limit).all()
+    def recent_brews(self, public_only=False, limit=10):
+        query = Brew.query.filter_by(brewery_id=self.id)
+        if public_only:
+            return query.filter_by(is_public=True).order_by('-created').limit(limit).all()
+        else:
+            return query.order_by('-created').limit(limit).all()
+
+    def all_brews(self, public_only=False):
+        query = Brew.query.filter_by(brewery_id=self.id)
+        if public_only:
+            return query.filter_by(is_public=True).order_by('-created').all()
+        else:
+            return query.order_by('-created').all()
 
     @property
     def render_fields(self):

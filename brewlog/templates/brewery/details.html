@@ -22,9 +22,10 @@
 {% endif %}
 {% if brewery.recent_brews() %}
 <h3>{% trans %}Latest brews{% endtrans %}</h3>
-<ul>
-    {% for brew in brewery.recent_brews() %}<li>{% if brew.date_brewed %}{{ brew.date_brewed }}{% else %}{% trans %}not brewed yet{% endtrans %}{% endif %} &mdash; <a href="{{ brew.absolute_url }}">{{ brew.name }}</a></li>{% endfor %}
+<ul class="no-bullet">
+    {% for brew in brewery.recent_brews(public_only=True) %}<li>{% if brew.date_brewed %}{{ brew.date_brewed }}{% else %}{% trans %}not brewed yet{% endtrans %}{% endif %} &mdash; <a href="{{ brew.absolute_url }}">{{ brew.name }}</a></li>{% endfor %}
 </ul>
+<p><a href="{{ url_for('brewery-brews', brewery_id=brewery.id) }}">{{ gettext("view other brews") }}</a></p>
 {% endif %}
 {% if form %}
 <p><a href="{{ url_for('brew-add') }}" class="button small radius">{{ gettext("add new brew") }}</a></p>

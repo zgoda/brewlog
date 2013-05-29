@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-28 16:06+0200\n"
+"POT-Creation-Date: 2013-05-29 10:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -90,17 +90,17 @@ msgstr ""
 msgid "brewery %(name)s created"
 msgstr ""
 
-#: brewlog/brewing/views.py:50
+#: brewlog/brewing/views.py:49
 #, python-format
 msgid "brewery %(name)s data updated"
 msgstr ""
 
-#: brewlog/brewing/views.py:65
+#: brewlog/brewing/views.py:83
 #, python-format
 msgid "brew %(name)s created"
 msgstr ""
 
-#: brewlog/brewing/views.py:80
+#: brewlog/brewing/views.py:98
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr ""
@@ -400,6 +400,20 @@ msgid ""
 "%(ownername)s"
 msgstr ""
 
+#: brewlog/templates/brew/list.html:4
+msgid "brews"
+msgstr ""
+
+#: brewlog/templates/brew/list.html:7
+msgid "all public brews"
+msgstr ""
+
+#: brewlog/templates/brewery/brews.html:4
+#: brewlog/templates/brewery/brews.html:7
+#, python-format
+msgid "brews from brewery %(name)s"
+msgstr ""
+
 #: brewlog/templates/brewery/details.html:6
 #, python-format
 msgid "Details for brewery %(breweryname)s by %(ownername)s"
@@ -429,7 +443,11 @@ msgstr ""
 msgid "not brewed yet"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:30
+#: brewlog/templates/brewery/details.html:28
+msgid "view other brews"
+msgstr ""
+
+#: brewlog/templates/brewery/details.html:31
 msgid "add new brew"
 msgstr ""
 
@@ -444,6 +462,14 @@ msgstr ""
 
 #: brewlog/templates/macros/forms.html:18
 msgid "submit"
+msgstr ""
+
+#: brewlog/templates/macros/pagination.html:4
+msgid "previous"
+msgstr ""
+
+#: brewlog/templates/macros/pagination.html:17
+msgid "next"
 msgstr ""
 
 #: brewlog/users/forms.py:10

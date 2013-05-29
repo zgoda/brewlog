@@ -1,10 +1,10 @@
-{% extends "brew/base.html" %}
+{% extends "brewery/base.html" %}
 {% import "macros/pagination.html" as pg %}
 
-{% block headpagetitle %}{{ gettext("brews") }}{% endblock %}
+{% block headpagetitle %}{{ gettext("brews from brewery %(name)s", name=brewery.name)|e }}{% endblock %}
 
 {% block content %}
-<h3>{{ gettext("all public brews").capitalize() }}</h3>
+<h3>{{ gettext("brews from brewery %(name)s", name=brewery.name).capitalize()|e }}</h3>
 {% if brews %}
 <ul>
 {% for brew in brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a></li>{% endfor %}

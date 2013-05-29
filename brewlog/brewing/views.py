@@ -55,6 +55,25 @@ def brewery(brewery_id, **kwargs):
         ctx['form'] = BreweryForm(obj=brewery)
     return render_template('brewery/details.html', **ctx)
 
+def brewery_brews(brewery_id):
+    page_size = 20
+    try:
+        page = int(request.args.get('p', '1'))
+    except ValueError:
+        page = 1
+    brewery = get_or_404(Brewery, brewery_id)
+    public_only = False
+    if current_user.is_anonymous() or (current_user != brewery.brewer):
+        public_only = True
+    brews = brewery.all_brews(public_only)
+    pagination = Pagination(page, page_size, len(brews))
+    ctx = {
+        'brewery': brewery,
+        'brews': brews,
+        'pagination': pagination,
+    }
+    return render_template('brewery/brews.html', **ctx)
+
 @login_required
 def brew_add():
     form = BrewForm(request.form)
@@ -104,6 +123,6 @@ def brew_export(brew_id, flavour):
     ctx = {
         'brew': brew,
         'flavour': flavour,
-        'exported': render_template('brew/export/%s.txt' % flavour, **ctx)
+        'exported': render_template('brew/export/%s.txt' % flavour, brew=brew)
     }
     return render_template('brew/export.html', **ctx)

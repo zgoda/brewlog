@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, get_flashed_messages
+from flask import Flask, render_template, get_flashed_messages, request, url_for
 from flaskext.babel import Babel, lazy_gettext as _
 from flask_login import LoginManager, current_user
 from sqlalchemy import create_engine
@@ -68,4 +68,10 @@ def inject():
         'flashes': get_flashed_messages(),
     }
 
+# jinja filters
+def url_for_other_page(page):
+    args = request.view_args.copy()
+    args['p'] = page
+    return url_for(request.endpoint, **args)
 
+app.jinja_env.globals['url_for_other_page'] = url_for_other_page
