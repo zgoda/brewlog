@@ -20,6 +20,8 @@ def remote_login(provider):
     view_name = 'auth-callback-%s' % provider
     callback = url_for(view_name, _external=True)
     service = services[provider][0]
+    if provider == 'local':
+        return local_login_callback(None)
     return service.authorize(callback=callback)
 
 @google.authorized_handler
@@ -73,6 +75,19 @@ def facebook_remote_login_callback(resp):
         login_user(user)
         next_url = request.args.get('next') or session.get('next') or 'main'
         flash(_('You have been signed in as %(email)s using Facebook', email=me.data['email']))
+        return redirect(url_for(next_url))
+    return redirect(url_for('auth-select-provider'))
+
+def local_login_callback(resp):
+    email = 'user@example.com'
+    user = BrewerProfile.query.filter_by(email=email).first()
+    if user is None:
+        user = BrewerProfile(email=email, nick='example user')
+        dbsession.add(user)
+        dbsession.commit()
+        login_user(user)
+        next_url = request.args.get('next') or session.get('next') or 'main'
+        flash(_('You have been signed in as %(email)s using Facebook', email=email))
         return redirect(url_for(next_url))
     return redirect(url_for('auth-select-provider'))
 

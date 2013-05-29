@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, get_flashed_messages, request, url_for
+from flask import Flask, render_template, get_flashed_messages
 from flaskext.babel import Babel, lazy_gettext as _
 from flask_login import LoginManager, current_user
 from sqlalchemy import create_engine
@@ -64,6 +64,7 @@ def not_found(error):
 @app.context_processor
 def inject():
     return {
+        'DEV': app.config['DEBUG'],
         'user': current_user,
         'flashes': get_flashed_messages(),
     }

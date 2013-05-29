@@ -33,6 +33,7 @@ google = oauth.remote_app('google',
 services = {
     'google': (google, 'oauth2'),
     'facebook': (facebook, 'oauth2'),
+    'local': (None, None),
 }
 
 

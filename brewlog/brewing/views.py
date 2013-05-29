@@ -1,6 +1,7 @@
 from flask import request, flash, url_for, redirect, render_template, abort
 from flask_login import current_user, login_required
 from flaskext.babel import lazy_gettext as _
+from sqlalchemy import desc
 
 from brewlog.models import Brewery, Brew
 from brewlog.utils.models import get_or_404, Pagination, paginate
@@ -34,7 +35,7 @@ def brewery_all():
     pagination = Pagination(page, page_size, Brewery.query.count())
     ctx = {
         'pagination': pagination,
-        'breweries': paginate(Brewery.query.order_by('name'), page-1, page_size)
+        'breweries': paginate(Brewery.query.order_by(Brewery.name), page-1, page_size)
     }
     return render_template('brewery/list.html', **ctx)
 
@@ -114,7 +115,7 @@ def brew_all():
     pagination = Pagination(page, page_size, query.count())
     context = {
         'pagination': pagination,
-        'brews': paginate(query.order_by('-created'), page-1, page_size)
+        'brews': paginate(query.order_by(desc(Brew.created)), page-1, page_size)
     }
     return render_template('brew/list.html', **context)
 

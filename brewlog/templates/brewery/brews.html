@@ -6,7 +6,7 @@
 {% block content %}
 <h3>{{ gettext("brews from brewery %(name)s", name=brewery.name).capitalize()|e }}</h3>
 {% if brews %}
-<ul>
+<ul class="no-bullet">
 {% for brew in brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a></li>{% endfor %}
 </ul>
 {{ pg.render_pagination(pagination) }}

@@ -2,10 +2,10 @@ import datetime
 
 from flask import url_for
 from flask_login import UserMixin
-from flaskext.babel import lazy_gettext as _
+from flaskext.babel import lazy_gettext as _, format_datetime, format_date
 import markdown
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Index, Date, ForeignKey, Float, Enum
-from sqlalchemy import event
+from sqlalchemy import event, desc
 from sqlalchemy.orm import relationship
 
 from brewlog import Model
@@ -69,11 +69,11 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
 
     @classmethod
     def last_created(cls, limit=5):
-        return cls.query.order_by('-created').limit(limit).all()
+        return cls.query.order_by(desc(cls.created)).limit(limit).all()
 
     @classmethod
     def last_updated(cls, limit=5):
-        return cls.query.order_by('-updated').limit(limit).all()
+        return cls.query.order_by(desc(cls.updated)).limit(limit).all()
 
 # mapper events
 def profile_pre_save(mapper, connection, target):
@@ -137,26 +137,26 @@ class Brewery(Model):
         return query.all()
 
     def recent_brews(self, public_only=False, limit=10):
-        return self._brews(public_only=public_only, limit=limit, order='-created')
+        return self._brews(public_only=public_only, limit=limit, order=desc(Brew.created))
 
     def all_brews(self, public_only=False):
-        return self_brews(public_only=public_only, order='-created')
+        return self._brews(public_only=public_only, order=desc(Brew.created))
 
     @property
     def render_fields(self):
-        return {
-            'name': self.name,
-            'description': self.description_html,
-            'established': self.established_date,
-        }
+        return (
+            (_('name'), self.name),
+            (_('description'), self.description),
+            (_('established'), format_date(self.established_date, 'medium')),
+        )
 
     @classmethod
     def last_updated(cls, limit=5):
-        return cls.query.order_by('-updated').limit(limit).all()
+        return cls.query.order_by(desc(cls.updated)).limit(limit).all()
 
     @classmethod
     def last_created(cls, limit=5):
-        return cls.query.order_by('-created').limit(limit).all()
+        return cls.query.order_by(desc(cls.created)).limit(limit).all()
 
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):
@@ -266,15 +266,33 @@ class Brew(Model):
 
     @classmethod
     def last_created(cls, limit=5):
-        return cls.query.order_by('-created').limit(limit).all()
+        return cls.query.order_by(desc(cls.created)).limit(limit).all()
 
     @classmethod
     def last_updated(cls, limit=5):
-        return cls.query.order_by('-updated').limit(limit).all()
+        return cls.query.order_by(desc(cls.updated)).limit(limit).all()
 
     @property
     def render_fields(self):
-        return self.__dict__
+        return (
+            (_('name'), self.name),
+            (_('created'), format_datetime(self.created, 'medium')),
+            (_('date brewed'), format_date(self.date_brewed, 'medium')),
+            (_('style'), self.style),
+            (_('BJCP style'), self.bjcp_style),
+            (_('brew length'), self.brew_length),
+            (_('original gravity'), self.og),
+            (_('final gravity'), self.fg),
+        )
+
+    @property
+    def display_info(self):
+        data = {
+            'style': self.style or self.bjcp_style,
+            'brewery': self.brewery.name,
+            'brewer': self.brewery.brewer.name,
+        }
+        return _('%(style)s by %(brewer)s in %(brewery)s', **data)
 
 ## events: Brew model
 def brew_pre_save(mapper, connection, target):

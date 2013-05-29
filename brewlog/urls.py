@@ -9,6 +9,8 @@ rules = [
         dict(endpoint='auth-callback-google', view_func=LazyView('brewlog.users.views.google_remote_login_callback'))),
     ('/auth/facebook/callback',
         dict(endpoint='auth-callback-facebook', view_func=LazyView('brewlog.users.views.facebook_remote_login_callback'))),
+    ('/auth/local/callback',
+        dict(endpoint='auth-callback-local', view_func=LazyView('brewlog.users.views.local_login_callback'))),
     ('/logout',
         dict(endpoint='auth-logout', view_func=LazyView('brewlog.users.views.logout'))),
     ('/profile/<userid>',

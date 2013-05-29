@@ -1,4 +1,5 @@
 {% extends "brewery/base.html" %}
+{% import "macros/pagination.html" as pg %}
 
 {% block headpagetitle %}{% trans %}brewery list{% endtrans %}{% endblock %}
 
@@ -8,8 +9,9 @@
 <ul class="no-bullet">
     {% for brewery in breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> <small>({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews|count) }})</small></li>{% endfor %}
 </ul>
+{{ pg.render_pagination(pagination) }}
 {% endif %}
 {% if user.is_authenticated() %}
-<p><a href="{{ addurl }}" class="button small radius">{{ gettext("add new brewery") }}</a></p>
+<p><a href="{{ url_for('brewery-add') }}" class="button small radius">{{ gettext("add new brewery") }}</a></p>
 {% endif %}
 {% endblock %}

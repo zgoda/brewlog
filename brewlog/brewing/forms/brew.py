@@ -34,7 +34,7 @@ class AdditionalFermentationStepForm(BaseForm):
 
 
 def user_breweries_query():
-    return Brewery.query.filter_by(brewer=current_user).order_by('name')
+    return Brewery.query.filter_by(brewer=current_user).order_by(Brewery.name)
 
 
 class BrewForm(BaseForm):
