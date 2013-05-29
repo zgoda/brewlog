@@ -13,6 +13,8 @@ rules = [
         dict(endpoint='auth-callback-local', view_func=LazyView('brewlog.users.views.local_login_callback'))),
     ('/logout',
         dict(endpoint='auth-logout', view_func=LazyView('brewlog.users.views.logout'))),
+    ('/profile/all',
+        dict(endpoint='profile-all', view_func=LazyView('brewlog.users.views.profile_list'))),
     ('/profile/<userid>',
         dict(endpoint='profile-details', view_func=LazyView('brewlog.users.views.profile'), methods=['POST', 'GET'])),
     ('/brewery/add',

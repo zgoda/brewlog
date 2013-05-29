@@ -4,7 +4,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from flaskext.babel import lazy_gettext as _
 
 from brewlog import session as dbsession
-from brewlog.utils.models import get_or_404
+from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.users.auth import services, google, facebook
 from brewlog.models import BrewerProfile
 from brewlog.users.forms import ProfileForm
@@ -125,3 +125,17 @@ def profile(userid, **kwargs):
             else:
                 return redirect(url_for(next_))
     return render_template('account/profile.html', **context)
+
+def profile_list():
+    page_size = 20
+    try:
+        page = int(request.args.get('p', '1'))
+    except ValueError:
+        page = 1
+    query = BrewerProfile.query.filter_by(is_public=True).order_by(BrewerProfile.created)
+    pagination = Pagination(page, page_size, query.count())
+    ctx = {
+        'users': paginate(query, page-1, page_size),
+        'pagination': pagination,
+    }
+    return render_template('account/profile_list.html', **ctx)

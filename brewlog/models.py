@@ -68,12 +68,18 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
         return []
 
     @classmethod
-    def last_created(cls, limit=5):
-        return cls.query.order_by(desc(cls.created)).limit(limit).all()
+    def last_created(cls, public_only=False, limit=5):
+        query = cls.query.order_by(desc(cls.created)).limit(limit)
+        if public_only:
+            query = query.filter_by(is_public=True)
+        return query.all()
 
     @classmethod
-    def last_updated(cls, limit=5):
-        return cls.query.order_by(desc(cls.updated)).limit(limit).all()
+    def last_updated(cls, public_only=False, limit=5):
+        query = cls.query.order_by(desc(cls.updated)).limit(limit)
+        if public_only:
+            query = query.filter_by(is_public=True)
+        return query.all()
 
 # mapper events
 def profile_pre_save(mapper, connection, target):
@@ -125,7 +131,7 @@ class Brewery(Model):
         return [self.brewer] + self.other_brewers
 
     def _brews(self, public_only=False, limit=None, order=None, return_query=False):
-        query = Brew.query.filter_by(brewery_id=self.id)
+        query = Brew.query.filter_by(brewery_id=self.id, is_draft=False)
         if public_only:
             query = query.filter_by(is_public=True)
         if order is not None:
@@ -265,12 +271,18 @@ class Brew(Model):
         return slugify(self.name)
 
     @classmethod
-    def last_created(cls, limit=5):
-        return cls.query.order_by(desc(cls.created)).limit(limit).all()
+    def last_created(cls, public_only=False, limit=5):
+        query = cls.query.filter_by(is_draft=False).order_by(desc(cls.created)).limit(limit)
+        if public_only:
+            query = query.filter_by(is_public=True)
+        return query.all()
 
     @classmethod
-    def last_updated(cls, limit=5):
-        return cls.query.order_by(desc(cls.updated)).limit(limit).all()
+    def last_updated(cls, public_only=False, limit=5):
+        query = cls.query.filter_by(is_draft=False).order_by(desc(cls.updated)).limit(limit)
+        if public_only:
+            query = query.filter_by(is_public=True)
+        return query.all()
 
     @property
     def render_fields(self):

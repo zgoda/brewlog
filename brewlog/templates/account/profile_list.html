@@ -1,0 +1,14 @@
+{% extends "account/base.html" %}
+{% import "macros/pagination.html" as pg %}
+
+{% block headpagetitle %}{{ gettext("registered brewers") }}{% endblock %}
+
+{% block content %}
+<h3>{{ gettext("registered brewers").capitalize() }}</h3>
+{% if users %}
+<ul class="no-bullet">
+{% for user in users %}<li><a href="{{ user.absolute_url }}">{{ user.name|e }}</a></li>{% endfor %}
+</ul>
+{{ pg.render_pagination(pagination) }}
+{% endif %}
+{% endblock %}
