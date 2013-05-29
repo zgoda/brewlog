@@ -3,9 +3,10 @@
 {% block headpagetitle %}{% trans %}brewery list{% endtrans %}{% endblock %}
 
 {% block content %}
+<h3>{{ gettext("List of registered breweries") }}</h3>
 {% if breweries %}
-<ul>
-{% for brewery in breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a></li>{% endfor %}
+<ul class="no-bullet">
+    {% for brewery in breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> <small>({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews|count) }})</small></li>{% endfor %}
 </ul>
 {% endif %}
 {% if user.is_authenticated() %}

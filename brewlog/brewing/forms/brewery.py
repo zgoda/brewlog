@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import wtforms as wf
 from wtforms.fields.html5 import DateField
 from wtforms.validators import Length, Optional, DataRequired

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-29 10:01+0200\n"
+"POT-Creation-Date: 2013-05-29 15:29+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,7 +21,7 @@ msgstr ""
 msgid "Please log in to access this page"
 msgstr ""
 
-#: brewlog/models.py:57
+#: brewlog/models.py:64
 msgid "wanting to stay anonymous"
 msgstr ""
 
@@ -133,7 +133,7 @@ msgstr ""
 msgid "brewery"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:42 brewlog/brewing/forms/brewery.py:21
+#: brewlog/brewing/forms/brew.py:42 brewlog/brewing/forms/brewery.py:19
 msgid "name"
 msgstr ""
 
@@ -257,15 +257,15 @@ msgstr ""
 msgid "draft"
 msgstr ""
 
-#: brewlog/brewing/forms/brewery.py:17
+#: brewlog/brewing/forms/brewery.py:15
 msgid "brewery name has to be between 4 and 500 characters long"
 msgstr ""
 
-#: brewlog/brewing/forms/brewery.py:22
+#: brewlog/brewing/forms/brewery.py:20
 msgid "description"
 msgstr ""
 
-#: brewlog/brewing/forms/brewery.py:23
+#: brewlog/brewing/forms/brewery.py:21
 msgid "established"
 msgstr ""
 
@@ -275,11 +275,6 @@ msgstr ""
 
 #: brewlog/templates/404.html:6
 msgid "The page you was trying to access was not found on the server."
-msgstr ""
-
-#: brewlog/templates/base.html:128 brewlog/templates/index.bootstrap.html:35
-#: brewlog/templates/index.foundation.html:70 brewlog/templates/index.html:70
-msgid "All rights reserved"
 msgstr ""
 
 #: brewlog/templates/home.html:3
@@ -311,7 +306,7 @@ msgstr ""
 
 #: brewlog/templates/home.html:26
 #, python-format
-msgid " by %(brewername)s in %(breweryname)s"
+msgid "by %(brewername)s in %(breweryname)s"
 msgstr ""
 
 #: brewlog/templates/home.html:34
@@ -320,22 +315,7 @@ msgstr ""
 
 #: brewlog/templates/home.html:36
 #, python-format
-msgid "by %(brewer)s "
-msgstr ""
-
-#: brewlog/templates/index.bootstrap.html:20
-#: brewlog/templates/index.foundation.html:34 brewlog/templates/index.html:34
-msgid "my profile"
-msgstr ""
-
-#: brewlog/templates/index.bootstrap.html:20
-#: brewlog/templates/index.foundation.html:35 brewlog/templates/index.html:35
-msgid "logout"
-msgstr ""
-
-#: brewlog/templates/index.bootstrap.html:22
-#: brewlog/templates/index.foundation.html:32 brewlog/templates/index.html:32
-msgid "login page"
+msgid "by %(brewer)s"
 msgstr ""
 
 #: brewlog/templates/index.foundation.html:24 brewlog/templates/index.html:24
@@ -346,9 +326,25 @@ msgstr ""
 msgid "user tools"
 msgstr ""
 
+#: brewlog/templates/index.foundation.html:32 brewlog/templates/index.html:32
+msgid "login page"
+msgstr ""
+
+#: brewlog/templates/index.foundation.html:34 brewlog/templates/index.html:34
+msgid "my profile"
+msgstr ""
+
+#: brewlog/templates/index.foundation.html:35 brewlog/templates/index.html:35
+msgid "logout"
+msgstr ""
+
+#: brewlog/templates/index.foundation.html:70 brewlog/templates/index.html:70
+msgid "All rights reserved"
+msgstr ""
+
 #: brewlog/templates/account/profile.html:4
 #, python-format
-msgid "Profile data for user %(nick)s"
+msgid "Profile data for user %(name)s"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:7
@@ -368,12 +364,21 @@ msgstr ""
 msgid "Owned"
 msgstr ""
 
+#: brewlog/templates/account/profile.html:18
+#: brewlog/templates/account/profile.html:24
+#: brewlog/templates/brewery/list.html:9
+#, python-format
+msgid "%(num)d brew"
+msgid_plural "%(num)d brews"
+msgstr[0] ""
+msgstr[1] ""
+
 #: brewlog/templates/account/profile.html:22
 msgid "Other"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:28
-#: brewlog/templates/brewery/form.html:4 brewlog/templates/brewery/list.html:12
+#: brewlog/templates/brewery/form.html:4 brewlog/templates/brewery/list.html:13
 msgid "add new brewery"
 msgstr ""
 
@@ -389,15 +394,20 @@ msgstr ""
 msgid "brew"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:5
+#: brewlog/templates/brew/details.html:6
 msgid "recipe tools"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:13
+#: brewlog/templates/brew/details.html:14
 #, python-format
 msgid ""
 "Details for brew %(brewname)s from brewery %(breweryname)s by "
 "%(ownername)s"
+msgstr ""
+
+#: brewlog/templates/brew/form.html:4 brewlog/templates/brew/form.html:7
+#: brewlog/templates/brewery/details.html:31
+msgid "add new brew"
 msgstr ""
 
 #: brewlog/templates/brew/list.html:4
@@ -447,10 +457,6 @@ msgstr ""
 msgid "view other brews"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:31
-msgid "add new brew"
-msgstr ""
-
 #: brewlog/templates/brewery/form.html:4
 #, python-format
 msgid "modify your \"%(breweryname)s\" brewery data"
@@ -458,6 +464,10 @@ msgstr ""
 
 #: brewlog/templates/brewery/list.html:3
 msgid "brewery list"
+msgstr ""
+
+#: brewlog/templates/brewery/list.html:6
+msgid "List of registered breweries"
 msgstr ""
 
 #: brewlog/templates/macros/forms.html:18

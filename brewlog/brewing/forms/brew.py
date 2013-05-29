@@ -1,5 +1,5 @@
 import wtforms as wf
-from wtforms.fields.html5 import DateField, IntegerField
+from wtforms.fields.html5 import DateField, IntegerField, DecimalField
 from wtforms.validators import DataRequired, Optional
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flaskext.babel import lazy_gettext as _
@@ -22,9 +22,9 @@ class TastingNoteForm(BaseForm):
 
 class AdditionalFermentationStepForm(BaseForm):
     date = DateField(_('date'))
-    og = wf.FloatField(_('original gravity'))
-    fg = wf.FloatField(_('final gravity'))
-    amount = wf.FloatField(_('amount collected'))
+    og = DecimalField(_('original gravity'))
+    fg = DecimalField(_('final gravity'))
+    amount = DecimalField(_('amount collected'))
     is_last = wf.BooleanField(_('last fermentation step'))
 
     def save(self, brew, obj=None):
@@ -62,13 +62,13 @@ class BrewForm(BaseForm):
         description=_('put each step on separate line to make nice list'))
     boil_time = IntegerField(_('boil time'), validators=[Optional()])
     fermentation_start_date = DateField(_('fermentation start date'), validators=[Optional()])
-    og = wf.FloatField(_('original gravity'), validators=[Optional()])
-    fg = wf.FloatField(_('final gravity'), validators=[Optional()])
-    brew_length = wf.FloatField(_('brew length'),
+    og = DecimalField(_('original gravity'), validators=[Optional()])
+    fg = DecimalField(_('final gravity'), validators=[Optional()])
+    brew_length = DecimalField(_('brew length'),
         description=_('total volume in fermenter (including yeast starter volume, if any)'),
         validators=[Optional()])
     fermentation_temperature = IntegerField(_('fermentation temperature'), validators=[Optional()])
-    final_amount = wf.FloatField(_('final amount'),
+    final_amount = DecimalField(_('final amount'),
         description=_('volume into bottling'),
         validators=[Optional()])
     bottling_date = DateField(_('bottling date'), validators=[Optional()])

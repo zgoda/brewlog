@@ -1,5 +1,6 @@
 {% extends "brew/base.html" %}
 {% import "macros/forms.html" as forms %}
+{% import "macros/modelrender.html" as modelrender %}
 
 {% block topmenu_right %}
 <li class="has-dropdown"><a href="#">{% trans %}recipe tools{% endtrans %}</a>
@@ -10,10 +11,12 @@
 {% endblock %}
 
 {% block content %}
-<h3>{% trans breweryname=brew.brewery.name, ownername=brew.brewery.brewer.name, brewname=brew.name %}Details for brew {{ brewname }} from brewery {{ breweryname }} by {{ ownername }}{% endtrans %}</h3>
+<h3>{{ gettext("Details for brew %(brewname)s from brewery %(breweryname)s by %(ownername)s", breweryname=brew.brewery.name, ownername=brew.brewery.brewer.name, brewname=brew.name)|e }}</h3>
 {% if form %}
-<form method="post" action="{{ url_for('brew-details', brew_id=brew.id) }}" class="custom">
+<form method="post" action="{{ brew.absolute_url }}" class="custom">
     {{ forms.render(form) }}
 </form>
+{% else %}
+{{ modelrender.render(brew) }}
 {% endif %}
 {% endblock %}

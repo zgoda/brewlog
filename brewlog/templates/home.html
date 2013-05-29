@@ -13,7 +13,7 @@
                 <div class="panel">
                     <h4>{{ gettext("latest brewers").capitalize() }}</h4>
                     <ul class="no-bullet">
-                        {% for brewer in latest_brewers %}<li><a href="{{ brewer.absolute_url }}">{{ brewer.name }}</a> <small>{{ gettext("registered: %(date)s", date=brewer.created.strftime("%Y-%m-%d %H:%M:%S")) }}</small></li>{% endfor %}
+                        {% for brewer in latest_brewers %}<li><a href="{{ brewer.absolute_url }}">{{ brewer.name|e }}</a> <small>{{ gettext("registered: %(date)s", date=brewer.created.strftime("%Y-%m-%d %H:%M:%S")) }}</small></li>{% endfor %}
                     </ul>
                 </div>
             </div>
@@ -23,7 +23,7 @@
                 <div class="panel">
                     <h4>{{ gettext("latest brews").capitalize() }}</h4>
                     <ul class="no-bullet">
-                        {% for brew in latest_brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name }}</a> {% trans brewername=brew.brewery.brewer.name, breweryname=brew.brewery.name %} by {{ brewername }} in {{ breweryname }}{% endtrans %}</li>{% endfor %}
+                        {% for brew in latest_brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a> {{ gettext("by %(brewername)s in %(breweryname)s", brewername=brew.brewery.brewer.name, breweryname=brew.brewery.name)|e }}</li>{% endfor %}
                     </ul>
                 </div>
             </div>
@@ -33,7 +33,7 @@
                 <div class="panel">
                     <h4>{{ gettext("recently registered breweries").capitalize() }}</h4>
                     <ul class="no-bullet">
-                        {% for brewery in latest_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name }}</a> {% trans brewer=brewery.brewer.name %}by {{ brewer }} {% endtrans %}</li>{% endfor %}
+                        {% for brewery in latest_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> {{ gettext("by %(brewer)s", brewer=brewery.brewer.name)|e }}</li>{% endfor %}
                     </ul>
                 </div>
             </div>

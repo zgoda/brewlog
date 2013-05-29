@@ -1,10 +1,10 @@
 {% extends "account/base.html" %}
 {% import "macros/forms.html" as forms %}
 
-{% block headpagetitle %}{{ gettext("Profile data for user %(nick)s", nick=data.nick) }}{% endblock %}
+{% block headpagetitle %}{{ gettext("Profile data for user %(name)s", name=user.name)|e }}{% endblock %}
 
 {% block content %}
-<h3>{{ gettext("Brewer's profile for user %(name)s", name=user.name) }}</h3>
+<h3>{{ gettext("Brewer's profile for user %(name)s", name=user.name)|e }}</h3>
 {% if form %}
 <p>{% trans %}See your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
 <form action="{{ user.absolute_url }}" method="post" class="custom">
@@ -15,13 +15,13 @@
 <h4>{{ gettext("Owned") }}</h4>
 {% if user.breweries %}
 <ul>
-{% for brewery in user.breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a></li>{% endfor %}
+    {% for brewery in user.breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> <small>({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews|count) }})</small></li>{% endfor %}
 </ul>
 {% endif %}
 {% if user.other_breweries %}
 <h4>{{ gettext("Other") }}</h4>
 <ul>
-{% for brewery in user.other_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a></li>{% endfor %}
+    {% for brewery in user.other_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> <small>{{ ngettext("%(num)d brew", "%(num)d brews"), brewery.brews|count }}</small></li>{% endfor %}
 </ul>
 {% endif %}
 {% if form %}

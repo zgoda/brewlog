@@ -272,6 +272,10 @@ class Brew(Model):
     def last_updated(cls, limit=5):
         return cls.query.order_by('-updated').limit(limit).all()
 
+    @property
+    def render_fields(self):
+        return self.__dict__
+
 ## events: Brew model
 def brew_pre_save(mapper, connection, target):
     bjcp_style = u'%s %s' % (target.bjcp_style_code, target.bjcp_style_name)

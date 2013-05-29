@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-29 10:01+0200\n"
+"POT-Creation-Date: 2013-05-29 15:29+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -23,7 +23,7 @@ msgstr ""
 msgid "Please log in to access this page"
 msgstr "Musisz się zalogować by uzyskać dostęp do tej strony"
 
-#: brewlog/models.py:57
+#: brewlog/models.py:64
 msgid "wanting to stay anonymous"
 msgstr "pragnący pozostać anonimowym"
 
@@ -135,7 +135,7 @@ msgstr "ostatni etap fermentacji"
 msgid "brewery"
 msgstr "browar"
 
-#: brewlog/brewing/forms/brew.py:42 brewlog/brewing/forms/brewery.py:21
+#: brewlog/brewing/forms/brew.py:42 brewlog/brewing/forms/brewery.py:19
 msgid "name"
 msgstr "nazwa"
 
@@ -259,15 +259,15 @@ msgstr "publiczna"
 msgid "draft"
 msgstr "szkic"
 
-#: brewlog/brewing/forms/brewery.py:17
+#: brewlog/brewing/forms/brewery.py:15
 msgid "brewery name has to be between 4 and 500 characters long"
 msgstr "nazwa browaru musi mieć od 4 do 500 znaków długości"
 
-#: brewlog/brewing/forms/brewery.py:22
+#: brewlog/brewing/forms/brewery.py:20
 msgid "description"
 msgstr "opis"
 
-#: brewlog/brewing/forms/brewery.py:23
+#: brewlog/brewing/forms/brewery.py:21
 msgid "established"
 msgstr "ustanowiony"
 
@@ -278,11 +278,6 @@ msgstr "Nie znaleziono strony (404)"
 #: brewlog/templates/404.html:6
 msgid "The page you was trying to access was not found on the server."
 msgstr "Strona nie została znaleziona"
-
-#: brewlog/templates/base.html:128 brewlog/templates/index.bootstrap.html:35
-#: brewlog/templates/index.foundation.html:70 brewlog/templates/index.html:70
-msgid "All rights reserved"
-msgstr "Wszelkie prawa zastrzeżone"
 
 #: brewlog/templates/home.html:3
 msgid "Welcome"
@@ -315,8 +310,8 @@ msgstr "ostatnie warki"
 
 #: brewlog/templates/home.html:26
 #, python-format
-msgid " by %(brewername)s in %(breweryname)s"
-msgstr " przez %(brewername)s w %(breweryname)s"
+msgid "by %(brewername)s in %(breweryname)s"
+msgstr "przez %(brewername)s w %(breweryname)s"
 
 #: brewlog/templates/home.html:34
 msgid "recently registered breweries"
@@ -324,23 +319,8 @@ msgstr "ostatnio zarejestrowane browary"
 
 #: brewlog/templates/home.html:36
 #, python-format
-msgid "by %(brewer)s "
+msgid "by %(brewer)s"
 msgstr "przez %(brewer)s"
-
-#: brewlog/templates/index.bootstrap.html:20
-#: brewlog/templates/index.foundation.html:34 brewlog/templates/index.html:34
-msgid "my profile"
-msgstr "profil"
-
-#: brewlog/templates/index.bootstrap.html:20
-#: brewlog/templates/index.foundation.html:35 brewlog/templates/index.html:35
-msgid "logout"
-msgstr "wyloguj"
-
-#: brewlog/templates/index.bootstrap.html:22
-#: brewlog/templates/index.foundation.html:32 brewlog/templates/index.html:32
-msgid "login page"
-msgstr "strona logowania"
 
 #: brewlog/templates/index.foundation.html:24 brewlog/templates/index.html:24
 msgid "Menu"
@@ -350,10 +330,26 @@ msgstr "Menu"
 msgid "user tools"
 msgstr "narzędzia konta"
 
+#: brewlog/templates/index.foundation.html:32 brewlog/templates/index.html:32
+msgid "login page"
+msgstr "strona logowania"
+
+#: brewlog/templates/index.foundation.html:34 brewlog/templates/index.html:34
+msgid "my profile"
+msgstr "profil"
+
+#: brewlog/templates/index.foundation.html:35 brewlog/templates/index.html:35
+msgid "logout"
+msgstr "wyloguj"
+
+#: brewlog/templates/index.foundation.html:70 brewlog/templates/index.html:70
+msgid "All rights reserved"
+msgstr "Wszelkie prawa zastrzeżone"
+
 #: brewlog/templates/account/profile.html:4
 #, python-format
-msgid "Profile data for user %(nick)s"
-msgstr "Profil użytkownika %(nick)s"
+msgid "Profile data for user %(name)s"
+msgstr "Profil użytkownika %(name)s"
 
 #: brewlog/templates/account/profile.html:7
 #, python-format
@@ -374,12 +370,22 @@ msgstr "Lista browarów"
 msgid "Owned"
 msgstr "Własne"
 
+#: brewlog/templates/account/profile.html:18
+#: brewlog/templates/account/profile.html:24
+#: brewlog/templates/brewery/list.html:9
+#, python-format
+msgid "%(num)d brew"
+msgid_plural "%(num)d brews"
+msgstr[0] "%(num)d warka"
+msgstr[1] "%(num)d warki"
+msgstr[2] "%(num)d warek"
+
 #: brewlog/templates/account/profile.html:22
 msgid "Other"
 msgstr "Inne"
 
 #: brewlog/templates/account/profile.html:28
-#: brewlog/templates/brewery/form.html:4 brewlog/templates/brewery/list.html:12
+#: brewlog/templates/brewery/form.html:4 brewlog/templates/brewery/list.html:13
 msgid "add new brewery"
 msgstr "dodaj nowy browar"
 
@@ -395,11 +401,11 @@ msgstr "Zaloguj się używając"
 msgid "brew"
 msgstr "warka"
 
-#: brewlog/templates/brew/details.html:5
+#: brewlog/templates/brew/details.html:6
 msgid "recipe tools"
 msgstr "narzędzia receptur"
 
-#: brewlog/templates/brew/details.html:13
+#: brewlog/templates/brew/details.html:14
 #, python-format
 msgid ""
 "Details for brew %(brewname)s from brewery %(breweryname)s by "
@@ -407,6 +413,11 @@ msgid ""
 msgstr ""
 "Dane warki %(brewname)s w browarze %(breweryname)s użytkownika "
 "%(ownername)s"
+
+#: brewlog/templates/brew/form.html:4 brewlog/templates/brew/form.html:7
+#: brewlog/templates/brewery/details.html:31
+msgid "add new brew"
+msgstr "dodaj nową warkę"
 
 #: brewlog/templates/brew/list.html:4
 msgid "brews"
@@ -455,10 +466,6 @@ msgstr "jeszcze nie uwarzona"
 msgid "view other brews"
 msgstr "zobacz więcej warek"
 
-#: brewlog/templates/brewery/details.html:31
-msgid "add new brew"
-msgstr "dodaj nową warkę"
-
 #: brewlog/templates/brewery/form.html:4
 #, python-format
 msgid "modify your \"%(breweryname)s\" brewery data"
@@ -467,6 +474,11 @@ msgstr "zmień dane swojego browaru \"%(breweryname)s\""
 #: brewlog/templates/brewery/list.html:3
 msgid "brewery list"
 msgstr "lista browarów"
+
+#: brewlog/templates/brewery/list.html:6
+#, fuzzy
+msgid "List of registered breweries"
+msgstr "ostatnio zarejestrowane browary"
 
 #: brewlog/templates/macros/forms.html:18
 msgid "submit"
@@ -548,7 +560,4 @@ msgstr "Użytkownik zalogowany jako %(email)s przez Facebook"
 #: brewlog/users/views.py:105
 msgid "your profile data has been updated"
 msgstr "twój profil piwowara został uaktualniony"
-
-#~ msgid "brews in brewery %(name)s"
-#~ msgstr "warki z browaru %(name)s"
 
