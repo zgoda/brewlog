@@ -75,8 +75,8 @@ class BrewForm(BaseForm):
     carbonation_type = wf.SelectField(_('type of carbonation'), choices=choices.CARBONATION_CHOICES,
         validators=[Optional()])
     carbonation_used = wf.TextAreaField(_('carbonation used'), validators=[Optional()])
-    is_public = wf.BooleanField(_('public'))
-    is_draft = wf.BooleanField(_('draft'))
+    is_public = wf.BooleanField(_('public'), default=True)
+    is_draft = wf.BooleanField(_('draft'), default=False)
 
     def save(self, obj=None, save=True):
         if obj is None:

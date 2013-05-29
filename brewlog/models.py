@@ -40,6 +40,9 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
     def __unicode__(self):
         return self.email
 
+    def __repr__(self):
+        return '<BrewerProfile %s>' % self.email.encode('utf-8')
+
     @property
     def absolute_url(self):
         return url_for('profile-details', userid=self.id, slug=slugify(self.name))
@@ -113,19 +116,23 @@ class Brewery(Model):
     def brewers(self):
         return [self.brewer] + self.other_brewers
 
-    def recent_brews(self, public_only=False, limit=10):
+    def _brews(self, public_only=False, limit=None, order=None, return_query=False):
         query = Brew.query.filter_by(brewery_id=self.id)
         if public_only:
-            return query.filter_by(is_public=True).order_by('-created').limit(limit).all()
-        else:
-            return query.order_by('-created').limit(limit).all()
+            query = query.filter_by(is_public=True)
+        if order is not None:
+            query = query.order_by(order)
+        if limit is not None:
+            query = query.limit(limit)
+        if return_query:
+            return query
+        return query.all()
+
+    def recent_brews(self, public_only=False, limit=10):
+        return self._brews(public_only=public_only, limit=limit, order='-created')
 
     def all_brews(self, public_only=False):
-        query = Brew.query.filter_by(brewery_id=self.id)
-        if public_only:
-            return query.filter_by(is_public=True).order_by('-created').all()
-        else:
-            return query.order_by('-created').all()
+        return self_brews(public_only=public_only, order='-created')
 
     @property
     def render_fields(self):
