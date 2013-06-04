@@ -246,6 +246,7 @@ class Brew(Model):
     fermentation_start_date = Column(Date)
     og = Column(Float(precision=1))
     fg = Column(Float(precision=1))
+    abv = Column(Float(precision=1))
     brew_length = Column(Float(precision=2))
     fermentation_temperature = Column(Integer)
     final_amount = Column(Float(precision=2))
