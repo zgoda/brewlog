@@ -1,4 +1,5 @@
 import datetime
+import decimal
 
 from flask import url_for
 from flask_login import UserMixin
@@ -252,6 +253,7 @@ class Brew(Model):
     final_amount = Column(Float(precision=2))
     bottling_date = Column(Date)
     carbonation_type = Column(Enum(*choices.CARBONATION_KEYS))
+    carbonation_level = Column(Enum(*choices.CARB_LEVEL_KEYS), default=u'normal')
     carbonation_used = Column(Text)
     is_public = Column(Boolean, default=True)
     is_draft = Column(Boolean, default=False)
@@ -314,6 +316,12 @@ def brew_pre_save(mapper, connection, target):
     target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
     if target.updated is None:
         target.updated = target.created
+    if target.og and target.fg:
+        result = (target.og - target.fg) / decimal.Decimal(1.938)
+        if target.carbonation_type.endswith(u'priming'):
+            level = target.carbonation_level or u'normal'
+            result = result + choices.CARB_LEVEL_DATA[level]
+        target.abv = result
 
 event.listen(Brew, 'before_insert', brew_pre_save)
 event.listen(Brew, 'before_update', brew_pre_save)

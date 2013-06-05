@@ -11,20 +11,27 @@
     {{ forms.render(form) }}
 </form>
 {% endif %}
-<h3>{% trans %}Brewery list{% endtrans %}</h3>
-<h4>{{ gettext("Owned") }}</h4>
+{% endblock %}
+
+{% block sidebar %}
+<h4>{% trans %}Brewery list{% endtrans %}</h4>
+<h5>{{ gettext("Owned") }}</h5>
 {% if user.breweries %}
-<ul>
+<ul class="no-bullet">
     {% for brewery in user.breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> <small>({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews|count) }})</small></li>{% endfor %}
 </ul>
 {% endif %}
 {% if user.other_breweries %}
-<h4>{{ gettext("Other") }}</h4>
+<h5>{{ gettext("Other") }}</h5>
 <ul>
     {% for brewery in user.other_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> <small>{{ ngettext("%(num)d brew", "%(num)d brews"), brewery.brews|count }}</small></li>{% endfor %}
 </ul>
 {% endif %}
 {% if form %}
 <p><a href="{{ url_for('brewery-add') }}" class="small button radius">{{ gettext("add new brewery") }}</a></p>
+{% endif %}
+<h4>{{ gettext("latest brews").capitalize() }}</h4>
+{% if form %}
+<p><a href="{{ url_for('brew-add') }}" class="small button radius">{{ gettext("add new brew") }}</a></p>
 {% endif %}
 {% endblock %}

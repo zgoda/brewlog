@@ -1,9 +1,23 @@
+from decimal import Decimal
+
 from flaskext.babel import lazy_gettext as _
 
 
 CARBONATION_KEYS = (u'forced in keg', u'keg with priming', u'bottles with priming')
 CARBONATION_VALUES = (_('forced in keg'), _('keg with priming'), _('bottles with priming'))
 CARBONATION_CHOICES = zip(CARBONATION_KEYS, CARBONATION_VALUES)
+
+CARB_LEVEL_KEYS = (u'high', u'normal', u'low', u'very low', u'none')
+CARB_LEVEL_VALUES = (
+    _('high (eg. German wheat, Belgian ales)'),
+    _('normal (eg. lagers, American ales)'),
+    _('low (eg. British and Irish ales)'),
+    _('very low (eg. Scottish ales, kellerbiers)'),
+    _('none (eg. Finnish sahti)'),
+)
+CARB_LEVELS = (Decimal(0.4), Decimal(0.35), Decimal(0.3), Decimal(0.15), Decimal(0))
+CARB_LEVEL_DATA = dict(zip(CARB_LEVEL_KEYS, CARB_LEVELS))
+CARB_LEVEL_CHOICES = zip(CARB_LEVEL_KEYS, CARB_LEVEL_VALUES)
 
 YEAST_USE_KEYS = (u'primary', u'secondary', u'bottling')
 YEAST_USE_VALUES = (_('primary'), _('secondary'), _('bottling'))
