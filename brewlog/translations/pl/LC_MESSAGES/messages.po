@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-05-29 21:27+0200\n"
+"POT-Creation-Date: 2013-06-06 10:21+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -23,115 +23,139 @@ msgstr ""
 msgid "Please log in to access this page"
 msgstr "Musisz się zalogować by uzyskać dostęp do tej strony"
 
-#: brewlog/models.py:64
+#: brewlog/models.py:65
 msgid "wanting to stay anonymous"
 msgstr "pragnący pozostać anonimowym"
 
-#: brewlog/models.py:154 brewlog/models.py:290 brewlog/brewing/forms/brew.py:42
+#: brewlog/models.py:155 brewlog/models.py:293 brewlog/brewing/forms/brew.py:42
 #: brewlog/brewing/forms/brewery.py:19
 msgid "name"
 msgstr "nazwa"
 
-#: brewlog/models.py:155 brewlog/brewing/forms/brewery.py:20
+#: brewlog/models.py:156 brewlog/brewing/forms/brewery.py:20
 msgid "description"
 msgstr "opis"
 
-#: brewlog/models.py:156 brewlog/brewing/forms/brewery.py:21
+#: brewlog/models.py:157 brewlog/brewing/forms/brewery.py:21
 msgid "established"
 msgstr "ustanowiony"
 
-#: brewlog/models.py:291
+#: brewlog/models.py:294
 msgid "created"
 msgstr "utworzona"
 
-#: brewlog/models.py:292 brewlog/brewing/forms/brew.py:50
+#: brewlog/models.py:295 brewlog/brewing/forms/brew.py:50
 msgid "date brewed"
 msgstr "data warzenia"
 
-#: brewlog/models.py:293 brewlog/brewing/forms/brew.py:44
+#: brewlog/models.py:296 brewlog/brewing/forms/brew.py:44
 msgid "style"
 msgstr "styl"
 
-#: brewlog/models.py:294
+#: brewlog/models.py:297
 msgid "BJCP style"
 msgstr "styl BJCP"
 
-#: brewlog/models.py:295 brewlog/brewing/forms/brew.py:67
+#: brewlog/models.py:298 brewlog/brewing/forms/brew.py:67
 msgid "brew length"
 msgstr "wielkość warki"
 
-#: brewlog/models.py:296 brewlog/brewing/forms/brew.py:25
+#: brewlog/models.py:299 brewlog/brewing/forms/brew.py:25
 #: brewlog/brewing/forms/brew.py:65
 msgid "original gravity"
 msgstr "gęstość początkowa"
 
-#: brewlog/models.py:297 brewlog/brewing/forms/brew.py:26
+#: brewlog/models.py:300 brewlog/brewing/forms/brew.py:26
 #: brewlog/brewing/forms/brew.py:66
 msgid "final gravity"
 msgstr "gęstość końcowa"
 
-#: brewlog/models.py:307
+#: brewlog/models.py:301
+msgid "abv"
+msgstr "alkohol (obj.)"
+
+#: brewlog/models.py:311
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr "%(style)s przez %(brewer)s w %(brewery)s"
 
-#: brewlog/brewing/choices.py:5
+#: brewlog/brewing/choices.py:7
 msgid "forced in keg"
 msgstr "wymuszone w kegu"
 
-#: brewlog/brewing/choices.py:5
+#: brewlog/brewing/choices.py:7
 msgid "keg with priming"
 msgstr "refermentacja w kegu"
 
-#: brewlog/brewing/choices.py:5
+#: brewlog/brewing/choices.py:7
 msgid "bottles with priming"
 msgstr "refermentacja w butelkach"
 
-#: brewlog/brewing/choices.py:9
+#: brewlog/brewing/choices.py:12
+msgid "high (eg. German wheat, Belgian ales)"
+msgstr "wysokie (np. niemieckie pszenice, belgijskie ale)"
+
+#: brewlog/brewing/choices.py:13
+msgid "normal (eg. lagers, American ales)"
+msgstr "normalne (np. lagery, amerykańskie ale)"
+
+#: brewlog/brewing/choices.py:14
+msgid "low (eg. British and Irish ales)"
+msgstr "niskie (np. brytyjskie i irlandzkie ale)"
+
+#: brewlog/brewing/choices.py:15
+msgid "very low (eg. Scottish ales, kellerbiers)"
+msgstr "bardzo niskie (np. szkockie ale, kellerbier)"
+
+#: brewlog/brewing/choices.py:16
+msgid "none (eg. Finnish sahti)"
+msgstr "żadne (np. fińskie sahti)"
+
+#: brewlog/brewing/choices.py:23
 msgid "primary"
 msgstr "do burzliwej"
 
-#: brewlog/brewing/choices.py:9
+#: brewlog/brewing/choices.py:23
 msgid "secondary"
 msgstr "do cichej"
 
-#: brewlog/brewing/choices.py:9 brewlog/brewing/choices.py:13
+#: brewlog/brewing/choices.py:23 brewlog/brewing/choices.py:27
 msgid "bottling"
 msgstr "do rozlewu"
 
-#: brewlog/brewing/choices.py:13 brewlog/brewing/choices.py:21
+#: brewlog/brewing/choices.py:27 brewlog/brewing/choices.py:35
 msgid "mash"
 msgstr "do zacieru"
 
-#: brewlog/brewing/choices.py:13 brewlog/brewing/choices.py:21
+#: brewlog/brewing/choices.py:27 brewlog/brewing/choices.py:35
 msgid "boil"
 msgstr "do gotowania"
 
-#: brewlog/brewing/choices.py:13
+#: brewlog/brewing/choices.py:27
 msgid "fermentation"
 msgstr "do fermentacji"
 
-#: brewlog/brewing/choices.py:17
+#: brewlog/brewing/choices.py:31
 msgid "infusion"
 msgstr "infuzja"
 
-#: brewlog/brewing/choices.py:17
+#: brewlog/brewing/choices.py:31
 msgid "decoction"
 msgstr "dekokcja"
 
-#: brewlog/brewing/choices.py:17
+#: brewlog/brewing/choices.py:31
 msgid "temperature"
 msgstr "temperatura"
 
-#: brewlog/brewing/choices.py:21
+#: brewlog/brewing/choices.py:35
 msgid "first wort"
 msgstr "do brzeczki przedniej"
 
-#: brewlog/brewing/choices.py:21
+#: brewlog/brewing/choices.py:35
 msgid "post-boil"
 msgstr "po gotowaniu"
 
-#: brewlog/brewing/choices.py:21
+#: brewlog/brewing/choices.py:35
 msgid "dry hop"
 msgstr "na zimno"
 
@@ -263,23 +287,27 @@ msgstr "objętość końcowa"
 msgid "volume into bottling"
 msgstr "objętość po rozlewie"
 
-#: brewlog/brewing/forms/brew.py:74
+#: brewlog/brewing/forms/brew.py:73
 msgid "bottling date"
 msgstr "data rozlewu"
 
-#: brewlog/brewing/forms/brew.py:75
+#: brewlog/brewing/forms/brew.py:74
 msgid "type of carbonation"
 msgstr "rodzaj nagazowania"
 
-#: brewlog/brewing/forms/brew.py:77
+#: brewlog/brewing/forms/brew.py:76
+msgid "carbonation level"
+msgstr "poziom nagazowania"
+
+#: brewlog/brewing/forms/brew.py:78
 msgid "carbonation used"
 msgstr "użyte nagazowanie"
 
-#: brewlog/brewing/forms/brew.py:78
+#: brewlog/brewing/forms/brew.py:79
 msgid "public"
 msgstr "publiczna"
 
-#: brewlog/brewing/forms/brew.py:79
+#: brewlog/brewing/forms/brew.py:80
 msgid "draft"
 msgstr "szkic"
 
@@ -325,7 +353,7 @@ msgstr "rejestracja: %(date)s"
 msgid "view all"
 msgstr "wszystkie"
 
-#: brewlog/templates/home.html:25
+#: brewlog/templates/home.html:25 brewlog/templates/account/profile.html:33
 msgid "latest brews"
 msgstr "ostatnie warki"
 
@@ -383,16 +411,16 @@ msgstr ""
 "Oto twoje dane piwowarskie. Możesz je zmienić używając poniższego "
 "formularza"
 
-#: brewlog/templates/account/profile.html:14
+#: brewlog/templates/account/profile.html:17
 msgid "Brewery list"
 msgstr "Lista browarów"
 
-#: brewlog/templates/account/profile.html:15
+#: brewlog/templates/account/profile.html:18
 msgid "Owned"
 msgstr "Własne"
 
-#: brewlog/templates/account/profile.html:18
-#: brewlog/templates/account/profile.html:24
+#: brewlog/templates/account/profile.html:21
+#: brewlog/templates/account/profile.html:27
 #: brewlog/templates/brewery/list.html:10
 #, python-format
 msgid "%(num)d brew"
@@ -401,14 +429,20 @@ msgstr[0] "%(num)d warka"
 msgstr[1] "%(num)d warki"
 msgstr[2] "%(num)d warek"
 
-#: brewlog/templates/account/profile.html:22
+#: brewlog/templates/account/profile.html:25
 msgid "Other"
 msgstr "Inne"
 
-#: brewlog/templates/account/profile.html:28
+#: brewlog/templates/account/profile.html:31
 #: brewlog/templates/brewery/form.html:4 brewlog/templates/brewery/list.html:15
 msgid "add new brewery"
 msgstr "dodaj nowy browar"
+
+#: brewlog/templates/account/profile.html:35 brewlog/templates/brew/form.html:4
+#: brewlog/templates/brew/form.html:7 brewlog/templates/brew/list.html:15
+#: brewlog/templates/brewery/details.html:31
+msgid "add new brew"
+msgstr "dodaj nową warkę"
 
 #: brewlog/templates/account/profile_list.html:4
 #: brewlog/templates/account/profile_list.html:7
@@ -439,12 +473,6 @@ msgid ""
 msgstr ""
 "Dane warki %(brewname)s w browarze %(breweryname)s użytkownika "
 "%(ownername)s"
-
-#: brewlog/templates/brew/form.html:4 brewlog/templates/brew/form.html:7
-#: brewlog/templates/brew/list.html:15
-#: brewlog/templates/brewery/details.html:31
-msgid "add new brew"
-msgstr "dodaj nową warkę"
 
 #: brewlog/templates/brew/list.html:4
 msgid "brews"

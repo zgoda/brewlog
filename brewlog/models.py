@@ -298,6 +298,7 @@ class Brew(Model):
             (_('brew length'), self.brew_length),
             (_('original gravity'), self.og),
             (_('final gravity'), self.fg),
+            (_('abv'), self.abv),
         )
 
     @property
