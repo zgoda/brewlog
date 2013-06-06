@@ -295,10 +295,10 @@ class Brew(Model):
             (_('date brewed'), format_date(self.date_brewed, 'medium')),
             (_('style'), self.style),
             (_('BJCP style'), self.bjcp_style),
-            (_('brew length'), self.brew_length),
-            (_('original gravity'), self.og),
-            (_('final gravity'), self.fg),
-            (_('abv'), self.abv),
+            (_('brew length'), '%.1f' % self.brew_length),
+            (_('original gravity'), '%.1f' % self.og),
+            (_('final gravity'), '%.1f' % self.fg),
+            (_('abv'), '%.2f' % self.abv),
         )
 
     @property
