@@ -314,7 +314,7 @@ class Brew(Model):
     def carbonation_data_display(self):
         data = {
             'carb_type': _(dict(choices.CARBONATION_CHOICES)[self.carbonation_type]),
-            'carb_level': _(dict(choices.CARB_LEVEL_CHOICES)[self.carbonation_level]),
+            'carb_level': _(dict(choices.CARB_LEVEL_CHOICES)[self.carbonation_level or u'normal']),
         }
         return _('%(carb_type)s: carbonation %(carb_level)s', **data)
 

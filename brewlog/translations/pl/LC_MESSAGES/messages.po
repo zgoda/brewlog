@@ -83,7 +83,7 @@ msgstr "%(style)s przez %(brewer)s w %(brewery)s"
 #: brewlog/models.py:319
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
-msgstr "%(carb_type)s: nagazowanie $(carb_level)s"
+msgstr "%(carb_type)s: nagazowanie %(carb_level)s"
 
 #: brewlog/brewing/choices.py:7
 msgid "forced in keg"
