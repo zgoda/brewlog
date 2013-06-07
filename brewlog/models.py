@@ -82,6 +82,11 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
             query = query.filter_by(is_public=True)
         return query.all()
 
+    @property
+    def latest_brews(self):
+        query = Brew.query.join(Brewery).join(BrewerProfile).filter(BrewerProfile.id==self.id).order_by(desc(Brew.created))
+        return query.all()
+
 # mapper events
 def profile_pre_save(mapper, connection, target):
     full_name = u'%s %s' % (target.first_name or u'', target.last_name or u'')

@@ -44,9 +44,8 @@ def google_remote_login_callback(resp):
             dbsession.add(user)
             dbsession.commit()
             login_user(user)
-            next_url = request.args.get('next') or session.get('next') or 'main'
             flash(_('You have been signed in as %(email)s using Google', email=data['email']))
-            return redirect(url_for(next_url))
+            return redirect(url_for('profile-details', userid=user.id))
         else:
             flash(_('Error receiving profile data from Google: %(code)s', code=r.status_code))
     return redirect(url_for('auth-select-provider'))
@@ -73,9 +72,8 @@ def facebook_remote_login_callback(resp):
         dbsession.add(user)
         dbsession.commit()
         login_user(user)
-        next_url = request.args.get('next') or session.get('next') or 'main'
         flash(_('You have been signed in as %(email)s using Facebook', email=me.data['email']))
-        return redirect(url_for(next_url))
+        return redirect(url_for('profile-details', userid=user.id))
     return redirect(url_for('auth-select-provider'))
 
 def local_login_callback(resp):
@@ -86,9 +84,8 @@ def local_login_callback(resp):
         dbsession.add(user)
         dbsession.commit()
         login_user(user)
-        next_url = request.args.get('next') or session.get('next') or 'main'
         flash(_('You have been signed in as %(email)s using Facebook', email=email))
-        return redirect(url_for(next_url))
+        return redirect(url_for('profile-details', userid=user.id))
     return redirect(url_for('auth-select-provider'))
 
 @login_required
