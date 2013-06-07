@@ -73,5 +73,7 @@ def inject():
 def register_filters(application):
     from utils import templates
     application.jinja_env.globals['url_for_other_page'] = templates.url_for_other_page
+    import math
+    application.jinja_env.globals['pow'] = math.pow
 
 register_filters(app)

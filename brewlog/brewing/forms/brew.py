@@ -62,13 +62,13 @@ class BrewForm(BaseForm):
         description=_('put each step on separate line to make nice list'))
     boil_time = IntegerField(_('boil time'), validators=[Optional()])
     fermentation_start_date = DateField(_('fermentation start date'), validators=[Optional()])
-    og = wf.DecimalField(_('original gravity'), places=1, validators=[Optional()])
-    fg = wf.DecimalField(_('final gravity'), places=1, validators=[Optional()])
-    brew_length = wf.DecimalField(_('brew length'), places=2,
+    og = DecimalField(_('original gravity'), places=1, validators=[Optional()])
+    fg = DecimalField(_('final gravity'), places=1, validators=[Optional()])
+    brew_length = DecimalField(_('brew length'), places=1,
         description=_('total volume in fermenter (including yeast starter volume, if any)'),
         validators=[Optional()])
     fermentation_temperature = IntegerField(_('fermentation temperature'), validators=[Optional()])
-    final_amount = wf.DecimalField(_('final amount'), places=2,
+    final_amount = DecimalField(_('final amount'), places=1,
         description=_('volume into bottling'), validators=[Optional()])
     bottling_date = DateField(_('bottling date'), validators=[Optional()])
     carbonation_type = wf.SelectField(_('type of carbonation'), choices=choices.CARBONATION_CHOICES,

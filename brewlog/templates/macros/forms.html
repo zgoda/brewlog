@@ -9,7 +9,11 @@
             {% if loop.first %}{{ form_field(subfield, with_label=True) }}{% else %}{{ form_field(subfield, with_label=False) }}{% endif %}
         {% endfor %}
     {% else %}
-        {{ form_field(field, with_label=True) }}
+        {% if field.type == 'DecimalField' %}
+            {{ form_field(field, with_label=True, step=pow(10, field.places * -1)) }}
+        {% else %}
+            {{ form_field(field, with_label=True) }}
+        {% endif %}
     {% endif %}
 {% endif %}
 {% endfor %}
