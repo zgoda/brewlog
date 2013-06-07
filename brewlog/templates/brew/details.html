@@ -15,10 +15,10 @@
 <p>{{ gettext("brewed on %(date)s", date=brew.date_brewed) }}</p>
 <h3>{{ gettext("stats").capitalize() }}</h3>
 <ul>
-    <li><strong>{{ gettext("brew length").capitalize() }}:</strong> {{ '%.1f' % brew.brew_length }}</li>
-    <li><strong>{{ gettext("original gravity").capitalize() }}:</strong> {{ '%.1f' % brew.og }}</li>
-    <li><strong>{{ gettext("final gravity").capitalize() }}:</strong> {{ '%.1f' % brew.fg }}</li>
-    <li><strong>{{ gettext("abv").capitalize() }}:</strong> {{ '%.2f' % brew.abv }}</li>
+    <li><strong>{{ gettext("brew length").capitalize() }}:</strong> {% if brew.brew_length %}{{ '%.1f' % brew.brew_length }}{% endif %}</li>
+    <li><strong>{{ gettext("original gravity").capitalize() }}:</strong> {% if brew.og %}{{ '%.1f' % brew.og }}{% endif %}</li>
+    <li><strong>{{ gettext("final gravity").capitalize() }}:</strong> {% if brew.fg %}{{ '%.1f' % brew.fg }}{% endif %}</li>
+    <li><strong>{{ gettext("abv").capitalize() }}:</strong> {% if brew.abv %}{{ '%.2f' % brew.abv }}{% endif %}</li>
     {% if brew.final_amount %}<li><strong>{{ gettext("final amount").capitalize() }}:</strong> {{ '%.1f' % brew.final_amount }}</li>{% endif %}
 </ul>
 <h3>{{ gettext("wort preparation").capitalize() }}</h3>
