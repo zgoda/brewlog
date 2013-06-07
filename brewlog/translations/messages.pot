@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-06 10:21+0200\n"
+"POT-Creation-Date: 2013-06-07 08:55+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -55,26 +55,32 @@ msgid "BJCP style"
 msgstr ""
 
 #: brewlog/models.py:298 brewlog/brewing/forms/brew.py:67
+#: brewlog/templates/brew/details.html:18
 msgid "brew length"
 msgstr ""
 
 #: brewlog/models.py:299 brewlog/brewing/forms/brew.py:25
-#: brewlog/brewing/forms/brew.py:65
+#: brewlog/brewing/forms/brew.py:65 brewlog/templates/brew/details.html:19
 msgid "original gravity"
 msgstr ""
 
 #: brewlog/models.py:300 brewlog/brewing/forms/brew.py:26
-#: brewlog/brewing/forms/brew.py:66
+#: brewlog/brewing/forms/brew.py:66 brewlog/templates/brew/details.html:20
 msgid "final gravity"
 msgstr ""
 
-#: brewlog/models.py:301
+#: brewlog/models.py:301 brewlog/templates/brew/details.html:21
 msgid "abv"
 msgstr ""
 
 #: brewlog/models.py:311
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
+msgstr ""
+
+#: brewlog/models.py:319
+#, python-format
+msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr ""
 
 #: brewlog/brewing/choices.py:7
@@ -213,11 +219,12 @@ msgstr ""
 msgid "BJCP style name"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:49
+#: brewlog/brewing/forms/brew.py:49 brewlog/templates/brew/details.html:64
 msgid "notes"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:51
+#: brewlog/brewing/forms/brew.py:51 brewlog/templates/brew/details.html:25
+#: brewlog/templates/brew/export/ipboard.txt:4
 msgid "fermentables"
 msgstr ""
 
@@ -257,15 +264,17 @@ msgstr ""
 msgid "put each step on separate line to make nice list"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:61
+#: brewlog/brewing/forms/brew.py:61 brewlog/templates/brew/details.html:57
+#: brewlog/templates/brew/export/ipboard.txt:33
 msgid "hopping schedule"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:63
+#: brewlog/brewing/forms/brew.py:63 brewlog/templates/brew/details.html:56
+#: brewlog/templates/brew/export/ipboard.txt:31
 msgid "boil time"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:64
+#: brewlog/brewing/forms/brew.py:64 brewlog/templates/brew/details.html:69
 msgid "fermentation start date"
 msgstr ""
 
@@ -273,11 +282,11 @@ msgstr ""
 msgid "total volume in fermenter (including yeast starter volume, if any)"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:70
+#: brewlog/brewing/forms/brew.py:70 brewlog/templates/brew/details.html:70
 msgid "fermentation temperature"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:71
+#: brewlog/brewing/forms/brew.py:71 brewlog/templates/brew/details.html:22
 msgid "final amount"
 msgstr ""
 
@@ -285,7 +294,7 @@ msgstr ""
 msgid "volume into bottling"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:73
+#: brewlog/brewing/forms/brew.py:73 brewlog/templates/brew/details.html:71
 msgid "bottling date"
 msgstr ""
 
@@ -297,7 +306,7 @@ msgstr ""
 msgid "carbonation level"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:78
+#: brewlog/brewing/forms/brew.py:78 brewlog/templates/brew/details.html:73
 msgid "carbonation used"
 msgstr ""
 
@@ -463,6 +472,53 @@ msgstr ""
 msgid ""
 "Details for brew %(brewname)s from brewery %(breweryname)s by "
 "%(ownername)s"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:15
+#: brewlog/templates/brew/export/ipboard.txt:2
+#, python-format
+msgid "brewed on %(date)s"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:16
+msgid "stats"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:24
+msgid "wort preparation"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:31
+#: brewlog/templates/brew/export/ipboard.txt:9
+msgid "hops"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:37
+#: brewlog/templates/brew/export/ipboard.txt:14
+msgid "yeast"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:43
+#: brewlog/templates/brew/export/ipboard.txt:19
+msgid "misc. items"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:49
+#: brewlog/templates/brew/export/ipboard.txt:24
+msgid "mash steps"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:55
+#: brewlog/templates/brew/export/ipboard.txt:29
+msgid "sparging"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:67
+msgid "fermentation and packaging"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:72
+msgid "carbonation data"
 msgstr ""
 
 #: brewlog/templates/brew/list.html:4

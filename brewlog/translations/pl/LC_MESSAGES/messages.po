@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-06 10:21+0200\n"
+"POT-Creation-Date: 2013-06-07 08:55+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -57,20 +57,21 @@ msgid "BJCP style"
 msgstr "styl BJCP"
 
 #: brewlog/models.py:298 brewlog/brewing/forms/brew.py:67
+#: brewlog/templates/brew/details.html:18
 msgid "brew length"
 msgstr "wielkość warki"
 
 #: brewlog/models.py:299 brewlog/brewing/forms/brew.py:25
-#: brewlog/brewing/forms/brew.py:65
+#: brewlog/brewing/forms/brew.py:65 brewlog/templates/brew/details.html:19
 msgid "original gravity"
 msgstr "gęstość początkowa"
 
 #: brewlog/models.py:300 brewlog/brewing/forms/brew.py:26
-#: brewlog/brewing/forms/brew.py:66
+#: brewlog/brewing/forms/brew.py:66 brewlog/templates/brew/details.html:20
 msgid "final gravity"
 msgstr "gęstość końcowa"
 
-#: brewlog/models.py:301
+#: brewlog/models.py:301 brewlog/templates/brew/details.html:21
 msgid "abv"
 msgstr "alkohol (obj.)"
 
@@ -78,6 +79,11 @@ msgstr "alkohol (obj.)"
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr "%(style)s przez %(brewer)s w %(brewery)s"
+
+#: brewlog/models.py:319
+#, python-format
+msgid "%(carb_type)s: carbonation %(carb_level)s"
+msgstr "%(carb_type)s: nagazowanie $(carb_level)s"
 
 #: brewlog/brewing/choices.py:7
 msgid "forced in keg"
@@ -215,11 +221,12 @@ msgstr "kod stylu wg BJCP"
 msgid "BJCP style name"
 msgstr "nazwa stylu wg BJCP"
 
-#: brewlog/brewing/forms/brew.py:49
+#: brewlog/brewing/forms/brew.py:49 brewlog/templates/brew/details.html:64
 msgid "notes"
 msgstr "notatki"
 
-#: brewlog/brewing/forms/brew.py:51
+#: brewlog/brewing/forms/brew.py:51 brewlog/templates/brew/details.html:25
+#: brewlog/templates/brew/export/ipboard.txt:4
 msgid "fermentables"
 msgstr "surowce fermentowalne"
 
@@ -259,15 +266,17 @@ msgstr "schemat zacierania"
 msgid "put each step on separate line to make nice list"
 msgstr "umieść każdy krok w oddzielnej linii by uzyskać ładną listę"
 
-#: brewlog/brewing/forms/brew.py:61
+#: brewlog/brewing/forms/brew.py:61 brewlog/templates/brew/details.html:57
+#: brewlog/templates/brew/export/ipboard.txt:33
 msgid "hopping schedule"
 msgstr "schemat chmielenia"
 
-#: brewlog/brewing/forms/brew.py:63
+#: brewlog/brewing/forms/brew.py:63 brewlog/templates/brew/details.html:56
+#: brewlog/templates/brew/export/ipboard.txt:31
 msgid "boil time"
 msgstr "czas gotowania"
 
-#: brewlog/brewing/forms/brew.py:64
+#: brewlog/brewing/forms/brew.py:64 brewlog/templates/brew/details.html:69
 msgid "fermentation start date"
 msgstr "data początku fermentacji"
 
@@ -275,11 +284,11 @@ msgstr "data początku fermentacji"
 msgid "total volume in fermenter (including yeast starter volume, if any)"
 msgstr "objętość całkowita w fermentorze, łącznie ze starterem/gęstwą"
 
-#: brewlog/brewing/forms/brew.py:70
+#: brewlog/brewing/forms/brew.py:70 brewlog/templates/brew/details.html:70
 msgid "fermentation temperature"
 msgstr "temperatura fermentacji"
 
-#: brewlog/brewing/forms/brew.py:71
+#: brewlog/brewing/forms/brew.py:71 brewlog/templates/brew/details.html:22
 msgid "final amount"
 msgstr "objętość końcowa"
 
@@ -287,7 +296,7 @@ msgstr "objętość końcowa"
 msgid "volume into bottling"
 msgstr "objętość po rozlewie"
 
-#: brewlog/brewing/forms/brew.py:73
+#: brewlog/brewing/forms/brew.py:73 brewlog/templates/brew/details.html:71
 msgid "bottling date"
 msgstr "data rozlewu"
 
@@ -299,7 +308,7 @@ msgstr "rodzaj nagazowania"
 msgid "carbonation level"
 msgstr "poziom nagazowania"
 
-#: brewlog/brewing/forms/brew.py:78
+#: brewlog/brewing/forms/brew.py:78 brewlog/templates/brew/details.html:73
 msgid "carbonation used"
 msgstr "użyte nagazowanie"
 
@@ -473,6 +482,53 @@ msgid ""
 msgstr ""
 "Dane warki %(brewname)s w browarze %(breweryname)s użytkownika "
 "%(ownername)s"
+
+#: brewlog/templates/brew/details.html:15
+#: brewlog/templates/brew/export/ipboard.txt:2
+#, python-format
+msgid "brewed on %(date)s"
+msgstr "warzone %(date)s"
+
+#: brewlog/templates/brew/details.html:16
+msgid "stats"
+msgstr "dane"
+
+#: brewlog/templates/brew/details.html:24
+msgid "wort preparation"
+msgstr "przygotowanie brzeczki"
+
+#: brewlog/templates/brew/details.html:31
+#: brewlog/templates/brew/export/ipboard.txt:9
+msgid "hops"
+msgstr "chmiele"
+
+#: brewlog/templates/brew/details.html:37
+#: brewlog/templates/brew/export/ipboard.txt:14
+msgid "yeast"
+msgstr "drożdże"
+
+#: brewlog/templates/brew/details.html:43
+#: brewlog/templates/brew/export/ipboard.txt:19
+msgid "misc. items"
+msgstr "dodatki inne"
+
+#: brewlog/templates/brew/details.html:49
+#: brewlog/templates/brew/export/ipboard.txt:24
+msgid "mash steps"
+msgstr "schemat zacierania"
+
+#: brewlog/templates/brew/details.html:55
+#: brewlog/templates/brew/export/ipboard.txt:29
+msgid "sparging"
+msgstr "wysładzanie i filtracja"
+
+#: brewlog/templates/brew/details.html:67
+msgid "fermentation and packaging"
+msgstr "fermentacja i rozlew"
+
+#: brewlog/templates/brew/details.html:72
+msgid "carbonation data"
+msgstr "nagazowanie"
 
 #: brewlog/templates/brew/list.html:4
 msgid "brews"

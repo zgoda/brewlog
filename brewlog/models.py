@@ -310,6 +310,14 @@ class Brew(Model):
         }
         return _('%(style)s by %(brewer)s in %(brewery)s', **data)
 
+    @property
+    def carbonation_data_display(self):
+        data = {
+            'carb_type': _(dict(choices.CARBONATION_CHOICES)[self.carbonation_type]),
+            'carb_level': _(dict(choices.CARB_LEVEL_CHOICES)[self.carbonation_level]),
+        }
+        return _('%(carb_type)s: carbonation %(carb_level)s', **data)
+
 ## events: Brew model
 def brew_pre_save(mapper, connection, target):
     bjcp_style = u'%s %s' % (target.bjcp_style_code, target.bjcp_style_name)

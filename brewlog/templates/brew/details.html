@@ -12,11 +12,69 @@
 
 {% block content %}
 <h3>{{ gettext("Details for brew %(brewname)s from brewery %(breweryname)s by %(ownername)s", breweryname=brew.brewery.name, ownername=brew.brewery.brewer.name, brewname=brew.name)|e }}</h3>
+<p>{{ gettext("brewed on %(date)s", date=brew.date_brewed) }}</p>
+<h3>{{ gettext("stats").capitalize() }}</h3>
+<ul>
+    <li><strong>{{ gettext("brew length").capitalize() }}:</strong> {{ '%.1f' % brew.brew_length }}</li>
+    <li><strong>{{ gettext("original gravity").capitalize() }}:</strong> {{ '%.1f' % brew.og }}</li>
+    <li><strong>{{ gettext("final gravity").capitalize() }}:</strong> {{ '%.1f' % brew.fg }}</li>
+    <li><strong>{{ gettext("abv").capitalize() }}:</strong> {{ '%.2f' % brew.abv }}</li>
+    {% if brew.final_amount %}<li><strong>{{ gettext("final amount").capitalize() }}:</strong> {{ '%.1f' % brew.final_amount }}</li>{% endif %}
+</ul>
+<h3>{{ gettext("wort preparation").capitalize() }}</h3>
+<h4>{{ gettext("fermentables").capitalize() }}:</h4>
+{% if brew.fermentables %}
+<ul>
+{% for fermentable in brew.fermentables.strip().split("\n") %}<li>{{ fermentable.strip()|e }}</li>{% endfor %}
+</ul>
+{% endif %}
+<h4>{{ gettext("hops").capitalize() }}:</h4>
+{% if brew.hops %}
+<ul>
+{% for hop in brew.hops.strip().split("\n") %}<li>{{ hop.strip()|e }}</li>{% endfor %}
+</ul>
+{% endif %}
+<h4>{{ gettext("yeast").capitalize() }}:</h4>
+{% if brew.yeast %}
+<ul>
+{% for yeast in brew.yeast.strip().split("\n") %}<li>{{ yeast.strip()|e }}</li>{% endfor %}
+</ul>
+{% endif %}
+<h4>{{ gettext("misc. items").capitalize() }}:</h4>
+{% if brew.misc %}
+<ul>
+{% for misc in brew.misc.strip().split("\n") %}<li>{{ misc.strip()|e }}</li>{% endfor %}
+</ul>
+{% endif %}
+<h4>{{ gettext("mash steps").capitalize() }}:</h4>
+{% if brew.mash_steps %}
+<ul>
+{% for step in brew.mash_steps.strip().split("\n") %}<li>{{ step.strip()|e }}</li>{% endfor %}
+</ul>
+{% endif %}
+<p><strong>{{ gettext("sparging").capitalize() }}:</strong> {% if brew.sparging %}{{ brew.sparging|e }}{% endif %}</p>
+<p><strong>{{ gettext("boil time").capitalize() }}:</strong> {% if brew.boil_time %}{{ brew.boil_time }}{% endif %}</p>
+<h4>{{ gettext("hopping schedule").capitalize() }}:</h4>
+{% if brew.hopping_steps %}
+<ul>
+{% for step in brew.hopping_steps.strip().split("\n") %}<li>{{ step.strip()|e }}</li>{% endfor %}
+</ul>
+{% endif %}
+{% if brew.notes_html %}
+<h4>{{ gettext("notes").capitalize() }}:</h4>
+{{ brew.notes_html|safe }}
+{% endif %}
+<h3>{{ gettext("fermentation and packaging").capitalize() }}</h3>
+<ul>
+    <li><strong>{{ gettext("fermentation start date").capitalize() }}:</strong> {% if brew.fermentation_start_date %}{{ brew.fermentation_start_date }}{% endif %}</li>
+    <li><strong>{{ gettext("fermentation temperature").capitalize() }}:</strong> {% if brew.fermentation_temperature %}{{ brew.fermentation_temperature }}{% endif %}</li>
+    <li><strong>{{ gettext("bottling date").capitalize() }}:</strong> {% if brew.bottling_date %}{{ brew.bottling_date }}{% endif %}</li>
+    <li><strong>{{ gettext("carbonation data").capitalize() }}:</strong> {{ brew.carbonation_data_display|e }}</li>
+    {% if brew.carbonation_used %}<li><strong>{{ gettext("carbonation used").capitalize() }}: </strong> {{ brew.carbonation_used|e }}</li>{% endif %}
+</ul>
 {% if form %}
 <form method="post" action="{{ brew.absolute_url }}" class="custom">
     {{ forms.render(form) }}
 </form>
-{% else %}
-{{ modelrender.render(brew) }}
 {% endif %}
 {% endblock %}
