@@ -70,17 +70,17 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
 
     @classmethod
     def last_created(cls, public_only=False, limit=5):
-        query = cls.query.order_by(desc(cls.created)).limit(limit)
+        query = cls.query
         if public_only:
             query = query.filter_by(is_public=True)
-        return query.all()
+        return query.order_by(desc(cls.created)).limit(limit).all()
 
     @classmethod
     def last_updated(cls, public_only=False, limit=5):
-        query = cls.query.order_by(desc(cls.updated)).limit(limit)
+        query = cls.query
         if public_only:
             query = query.filter_by(is_public=True)
-        return query.all()
+        return query.order_by(desc(cls.updated)).limit(limit).all()
 
     @property
     def latest_brews(self):
@@ -137,7 +137,7 @@ class Brewery(Model):
         return [self.brewer] + self.other_brewers
 
     def _brews(self, public_only=False, limit=None, order=None, return_query=False):
-        query = Brew.query.filter_by(brewery_id=self.id, is_draft=False)
+        query = Brew.query
         if public_only:
             query = query.filter_by(is_public=True)
         if order is not None:
@@ -146,7 +146,7 @@ class Brewery(Model):
             query = query.limit(limit)
         if return_query:
             return query
-        return query.all()
+        return query.filter_by(brewery_id=self.id, is_draft=False).all()
 
     def recent_brews(self, public_only=False, limit=10):
         return self._brews(public_only=public_only, limit=limit, order=desc(Brew.created))
@@ -280,17 +280,17 @@ class Brew(Model):
 
     @classmethod
     def last_created(cls, public_only=False, limit=5):
-        query = cls.query.filter_by(is_draft=False).order_by(desc(cls.created)).limit(limit)
+        query = cls.query
         if public_only:
             query = query.filter_by(is_public=True)
-        return query.all()
+        return query.filter_by(is_draft=False).order_by(desc(cls.created)).limit(limit).all()
 
     @classmethod
     def last_updated(cls, public_only=False, limit=5):
-        query = cls.query.filter_by(is_draft=False).order_by(desc(cls.updated)).limit(limit)
+        query = cls.query
         if public_only:
             query = query.filter_by(is_public=True)
-        return query.all()
+        return query.filter_by(is_draft=False).order_by(desc(cls.updated)).limit(limit).all()
 
     @property
     def render_fields(self):
