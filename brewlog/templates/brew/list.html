@@ -7,7 +7,7 @@
 <h3>{{ gettext("all public brews").capitalize() }}</h3>
 {% if brews %}
 <ul class="no-bullet">
-{% for brew in brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a> <small>({{ brew.display_info|e }})</small></li>{% endfor %}
+{% for brew in brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a> <small>({% if brew.is_draft %}<strong>{{ gettext("draft") }}</strong> {% endif %}{{ brew.display_info|e }})</small></li>{% endfor %}
 </ul>
 {{ pg.render_pagination(pagination) }}
 {% endif %}
