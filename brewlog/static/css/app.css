@@ -2,6 +2,10 @@ textarea#misc, textarea#fermentables, textarea#hops, textarea#mash_steps, textar
     height: 11.5625em;
 }
 
+textarea.export {
+    height: 34.6875em;
+}
+
 .help {
     font-size: 75%;
     font-style: italic;

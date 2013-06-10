@@ -26,9 +26,9 @@
 {% for step in brew.mash_steps.strip().split("\n") %}[*] {{ step.strip()|e }}
 {% endfor %}[/list]{% endif %}
 
-[b]{{ gettext("sparging").capitalize() }}:[/b] {{ brew.sparging|e }}
+[b]{{ gettext("sparging").capitalize() }}:[/b] {% if brew.sparging %}{{ brew.sparging|e }}{% endif %}
 
-[b]{{ gettext("boil time").capitalize() }}:[/b] {{ brew.boil_time }}
+[b]{{ gettext("boil time").capitalize() }}:[/b] {% if brew.boil_time %}{{ brew.boil_time }}{% endif %}
 
 [b]{{ gettext("hopping schedule").capitalize() }}:[/b]
 {% if brew.hopping_steps %}[list]

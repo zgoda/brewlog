@@ -5,7 +5,11 @@
 {% block topmenu_right %}
 <li class="has-dropdown"><a href="#">{% trans %}recipe tools{% endtrans %}</a>
     <ul class="dropdown">
-        <li><a href="">export</a></li>
+        <li class="has-dropdown"><a href="#">{{ gettext("export recipe") }}</a>
+            <ul class="dropdown">
+                <li><a href="{{ url_for('brew-export', flavour='ipboard', brew_id=brew.id) }}">IP.Board</a></li>
+            </ul>
+        </li>
     </ul>
 </li>
 {% endblock %}
