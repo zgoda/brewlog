@@ -1,12 +1,14 @@
 {% extends "account/base.html" %}
 {% import "macros/forms.html" as forms %}
+{% import "macros/users.html" as users %}
 
 {% block headpagetitle %}{{ gettext("Profile data for user %(name)s", name=user.name)|e }}{% endblock %}
 
 {% block content %}
-<h3>{{ gettext("Brewer's profile for user %(name)s", name=user.name)|e }}</h3>
+<h3>{{ gettext("Brewer profile for user %(name)s", name=user.name)|e }}</h3>
+{{ users.display_profile(user) }}
 {% if form %}
-<p>{% trans %}See your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
+<p>{% trans %}This is your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
 <form action="{{ user.absolute_url }}" method="post" class="custom">
     {{ forms.render(form) }}
 </form>

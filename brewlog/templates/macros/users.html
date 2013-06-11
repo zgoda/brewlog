@@ -1,0 +1,9 @@
+{% macro display_profile(user) -%}
+<ul class="no-bullet">
+    {% if user.full_name and user.is_public %}<li>{{ gettext("full name").capitalize() }}: {{ user.full_name|e }}</li>{% endif %}
+    {% if user.nick %}<li>{{ gettext("nick").capitalize() }}: {{ user.nick|e }}</li>{% endif %}
+    {% if user.location and user.is_public %}<li>{{ gettext("location").capitalize() }}: {{ user.location|e }}</li>{% endif %}
+    <li>{{ gettext("registered").capitalize() }}: {{ user.created|dateformat("medium") }}</li>
+</ul>
+{% if user.about_me %}<p><blockquote>{{ user.about_me|e }}</blockquote></p>{% endif %}
+{%- endmacro %}
