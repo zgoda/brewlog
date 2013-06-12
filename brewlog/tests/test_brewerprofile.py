@@ -17,5 +17,6 @@ class BrewerProfileTestCase(BrewlogTestCase):
         dbsession.add(user)
         dbsession.commit()
         login_user(user)
+        import ipdb; ipdb.set_trace()
         rv = self.client.get('/profile/1')
         self.assertIn('form', rv.data)

@@ -100,10 +100,10 @@ def profile(userid, **kwargs):
     context = {
         'data': user_profile.summary_data(['nick']),
         'data_type': 'summary',
-        'user': user_profile,
+        'profile': user_profile,
     }
     if is_owner:
-        context['form'] = ProfileForm(obj=current_user)
+        context['form'] = ProfileForm(obj=profile)
     if is_owner or (current_user.is_authenticated() and user_profile.is_public):
         context['data'] = user_profile.full_data()
         context['data_type'] = 'full'
@@ -112,7 +112,7 @@ def profile(userid, **kwargs):
             abort(403)
         form = ProfileForm(request.form)
         if form.validate():
-            form.save(obj=current_user)
+            form.save(obj=profile)
             flash(_('your profile data has been updated'))
             next_ = request.args.get('next')
             if next_ is None:

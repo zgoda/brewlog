@@ -10,8 +10,8 @@ class BrewlogTestCase(TestCase):
     TESTING = True
 
     def create_app(self):
-        app.config.update(self.__dict__)
         self.app = app
+        self.app.config.update(self.__dict__)
         return app
 
     def setUp(self):
