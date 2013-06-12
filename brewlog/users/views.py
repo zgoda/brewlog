@@ -83,10 +83,9 @@ def local_login_callback(resp):
         user = BrewerProfile(email=email, nick='example user')
         dbsession.add(user)
         dbsession.commit()
-        login_user(user)
-        flash(_('You have been signed in as %(email)s using Facebook', email=email))
-        return redirect(url_for('profile-details', userid=user.id))
-    return redirect(url_for('auth-select-provider'))
+    login_user(user)
+    flash(_('You have been signed in as %(email)s using local handler', email=email))
+    return redirect(url_for('profile-details', userid=user.id))
 
 @login_required
 def logout():

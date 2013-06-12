@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-11 15:48+0200\n"
+"POT-Creation-Date: 2013-06-12 15:35+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -685,12 +685,17 @@ msgstr ""
 "Błąd logowania przez Facebook, przyczyna: %(error_reason)s, opis: "
 "%(error_description)s"
 
-#: brewlog/users/views.py:75 brewlog/users/views.py:87
+#: brewlog/users/views.py:75
 #, python-format
 msgid "You have been signed in as %(email)s using Facebook"
 msgstr "Użytkownik zalogowany jako %(email)s przez Facebook"
 
-#: brewlog/users/views.py:117
+#: brewlog/users/views.py:87
+#, python-format
+msgid "You have been signed in as %(email)s using local handler"
+msgstr "Użytkownik zalogowany lokalnie jako %(email)s"
+
+#: brewlog/users/views.py:116
 msgid "your profile data has been updated"
 msgstr "twój profil piwowara został uaktualniony"
 

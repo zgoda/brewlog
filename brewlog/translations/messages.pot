@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-06-11 15:48+0200\n"
+"POT-Creation-Date: 2013-06-12 15:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -672,12 +672,17 @@ msgid ""
 "%(error_description)s"
 msgstr ""
 
-#: brewlog/users/views.py:75 brewlog/users/views.py:87
+#: brewlog/users/views.py:75
 #, python-format
 msgid "You have been signed in as %(email)s using Facebook"
 msgstr ""
 
-#: brewlog/users/views.py:117
+#: brewlog/users/views.py:87
+#, python-format
+msgid "You have been signed in as %(email)s using local handler"
+msgstr ""
+
+#: brewlog/users/views.py:116
 msgid "your profile data has been updated"
 msgstr ""
 
