@@ -1,7 +1,7 @@
 import requests
 from flask import render_template, redirect, url_for, session, flash, request, abort
 from flask_login import login_user, logout_user, login_required, current_user
-from flaskext.babel import lazy_gettext as _
+from flaskext.babel import gettext as _
 
 from brewlog import session as dbsession
 from brewlog.utils.models import get_or_404, Pagination, paginate

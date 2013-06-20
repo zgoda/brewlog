@@ -8,15 +8,7 @@ from brewlog.models import BrewerProfile
 
 class BrewerProfileTestCase(BrewlogTestCase):
 
-    def setUp(self):
-        super(BrewerProfileTestCase, self).setUp()
-        self.client = self.app.test_client()
+    def test_empty(self):
+        rv = self.client.get('/')
+        self.assertIn('strona logowania', rv.data)
 
-    def test_create(self):
-        user = BrewerProfile(email='test@example.com', nick='test')
-        dbsession.add(user)
-        dbsession.commit()
-        login_user(user)
-        import ipdb; ipdb.set_trace()
-        rv = self.client.get('/profile/1')
-        self.assertIn('form', rv.data)

@@ -10,6 +10,7 @@ Markdown
 MySQL-python
 SQLAlchemy
 Werkzeug
+itsdangerous
 Jinja2>2.6
 WTForms>1.0.3
 pytz
