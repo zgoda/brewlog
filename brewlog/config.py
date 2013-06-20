@@ -10,6 +10,9 @@ SQLALCHEMY_ECHO = False
 CSRF_ENABLED = True
 CSRF_SESSION_KEY = os.urandom(24)
 
+BABEL_DEFAULT_LOCALE = 'pl'
+BABEL_DEFAULT_TIMEZONE = 'Europe/Warsaw'
+
 if 'OPENSHIFT_DATA_DIR' in os.environ:
     try:
         from config_openshift import *

@@ -14,8 +14,6 @@ if os.environ.get('BREWLOG_CONFIG', ''):
     app.config.from_envvar('BREWLOG_CONFIG')
 
 # i18n
-app.config['BABEL_DEFAULT_LOCALE'] = 'pl'
-app.config['BABEL_DEFAULT_TIMEZONE'] = 'Europe/Warsaw'
 babel = Babel(app)
 
 # database
