@@ -5,4 +5,5 @@
 {% block content %}
 <h2>{{ gettext("%(flavour)s export of brew %(brew)s", flavour=flavour, brew=brew.name)|e }}</h2>
 <p><textarea readonly class="export">{{ exported }}</textarea></p>
+<p><a href="{{ brew.absolte_url }}">{{ gettext("brew link") }}</a></p>
 {% endblock %}
