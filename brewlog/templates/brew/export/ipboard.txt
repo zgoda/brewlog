@@ -3,36 +3,36 @@
 
 [b]{{ gettext("fermentables").capitalize() }}:[/b]
 {% if brew.fermentables %}[list]
-{% for fermentable in brew.fermentables.strip().split("\n") %}[*] {{ fermentable.strip()|e }}
+{% for fermentable in brew.fermentables.strip().split("\n") %}[*] {{ fermentable.strip()|safe }}
 {% endfor %}[/list]{% endif %}
 
 [b]{{ gettext("hops").capitalize() }}:[/b]
 {% if brew.hops %}[list]
-{% for hop in brew.hops.strip().split("\n") %}[*] {{ hop.strip()|e }}
+{% for hop in brew.hops.strip().split("\n") %}[*] {{ hop.strip()|safe }}
 {% endfor %}[/list]{% endif %}
 
 [b]{{ gettext("yeast").capitalize() }}:[/b]
 {% if brew.yeast %}[list]
-{% for yeast in brew.yeast.strip().split("\n") %}[*] {{ yeast.strip()|e }}
+{% for yeast in brew.yeast.strip().split("\n") %}[*] {{ yeast.strip()|safe }}
 {% endfor %}[/list]{% endif %}
 
 [b]{{ gettext("misc. items").capitalize() }}:[/b]
 {% if brew.misc %}[list]
-{% for misc in brew.misc.strip().split("\n") %}[*] {{ misc.strip()|e }}
+{% for misc in brew.misc.strip().split("\n") %}[*] {{ misc.strip()|safe }}
 {% endfor %}[/list]{% endif %}
 
 [b]{{ gettext("mash steps").capitalize() }}:[/b]
 {% if brew.mash_steps %}[list]
-{% for step in brew.mash_steps.strip().split("\n") %}[*] {{ step.strip()|e }}
+{% for step in brew.mash_steps.strip().split("\n") %}[*] {{ step.strip()|safe }}
 {% endfor %}[/list]{% endif %}
 
-[b]{{ gettext("sparging").capitalize() }}:[/b] {% if brew.sparging %}{{ brew.sparging|e }}{% endif %}
+[b]{{ gettext("sparging").capitalize() }}:[/b] {% if brew.sparging %}{{ brew.sparging|safe }}{% endif %}
 
 [b]{{ gettext("boil time").capitalize() }}:[/b] {% if brew.boil_time %}{{ brew.boil_time }}{% endif %}
 
 [b]{{ gettext("hopping schedule").capitalize() }}:[/b]
 {% if brew.hopping_steps %}[list]
-{% for hop_step in brew.hopping_steps.strip().split("\n") %}[*] {{ hop_step.strip()|e }}
+{% for hop_step in brew.hopping_steps.strip().split("\n") %}[*] {{ hop_step.strip()|safe }}
 {% endfor %}[/list]{% endif %}
 
-{% if brew.notes %}{{ brew.notes|e }}{% endif %}
+{% if brew.notes %}{{ brew.notes|safe }}{% endif %}
