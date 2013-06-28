@@ -33,6 +33,7 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
     oauth_token_secret = Column(Text) # for OAuth1a
     oauth_service = Column(String(50))
     remote_userid = Column(String(100))
+    ipboard_topic_id = Column(String(20))
     breweries = relationship('Brewery')
     __table_args__ = (
         Index('user_remote_id', 'oauth_service', 'remote_userid'),
