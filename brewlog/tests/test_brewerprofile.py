@@ -12,3 +12,12 @@ class BrewerProfileTestCase(BrewlogTestCase):
         rv = self.client.get('/')
         self.assertIn('strona logowania', rv.data)
 
+    def test_loggedin(self):
+        profile = BrewerProfile(email='test@example-domain.tld')
+        dbsession.add(profile)
+        dbsession.commit()
+        login_user(profile)
+        rv = self.client.get('/')
+        import ipdb; ipdb.set_trace()
+        self.assertTrue(1==1)
+

@@ -33,8 +33,9 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
     oauth_token_secret = Column(Text) # for OAuth1a
     oauth_service = Column(String(50))
     remote_userid = Column(String(100))
-    ipboard_topic_id = Column(String(20))
     breweries = relationship('Brewery')
+    ipboard_setups = relationship('IPBoardExportSetup')
+    custom_export_templates = relationship('CustomExportTemplate')
     __table_args__ = (
         Index('user_remote_id', 'oauth_service', 'remote_userid'),
     )
@@ -88,6 +89,14 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
         query = Brew.query.join(Brewery).join(BrewerProfile).filter(BrewerProfile.id==self.id).order_by(desc(Brew.created))
         return query.all()
 
+    @property
+    def ipb_export_setups(self, active_only=False):
+        query = IPBoardExportSetup.query.join(BrewerProfile).filter(BrewerProfile.id==self.id)
+        if active_only:
+            query = query.filter_by(is_active=True)
+        query.order_by(IPBoardExportSetup.service_name)
+        return query.all()
+
 # mapper events
 def profile_pre_save(mapper, connection, target):
     full_name = u'%s %s' % (target.first_name or u'', target.last_name or u'')
@@ -97,6 +106,31 @@ def profile_pre_save(mapper, connection, target):
 
 event.listen(BrewerProfile, 'before_insert', profile_pre_save)
 event.listen(BrewerProfile, 'before_update', profile_pre_save)
+
+
+class IPBoardExportSetup(Model):
+    __tablename__ = 'ipboard_export_setup'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
+    user = relationship('BrewerProfile')
+    service_name = Column(String(50), nullable=False)
+    topic_id = Column(String(50), nullable=False)
+    is_active = Column(Boolean, default=True)
+    __table_args__ = (
+        Index('ipb_user_service', 'user_id', 'service_name'),
+    )
+
+
+class CustomExportTemplate(Model):
+    __tablename__ = 'custom_export_template'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
+    user = relationship('BrewerProfile')
+    name = Column(String(100), nullable=False)
+    text = Column(Text)
+    __table__args__ = (
+        Index('user_export_template', 'user_id', 'name'),
+    )
 
 
 class Brewery(Model):

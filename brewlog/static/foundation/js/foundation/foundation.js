@@ -82,7 +82,7 @@ if (typeof jQuery === "undefined" &&
 
       var t = Object(this),
           len = t.length >>> 0;
-      if (typeof fun != "function") {
+      if (typeof fun !== "function") {
           return;
       }
 
@@ -166,7 +166,7 @@ if (typeof jQuery === "undefined" &&
   window.Foundation = {
     name : 'Foundation',
 
-    version : '4.2.0',
+    version : '4.3.1',
 
     cache : {},
 
@@ -231,8 +231,7 @@ if (typeof jQuery === "undefined" &&
         if (this.libs.hasOwnProperty(lib)) {
           this.patch(this.libs[lib]);
           return this.libs[lib].init.apply(this.libs[lib], args);
-        }
-        else {
+        } else {
           return function () {};
         }
       }.bind(this), lib);
@@ -267,7 +266,7 @@ if (typeof jQuery === "undefined" &&
     },
 
     random_str : function (length) {
-      var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXTZabcdefghiklmnopqrstuvwxyz'.split('');
+      var chars = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'.split('');
 
       if (!length) {
         length = Math.floor(Math.random() * chars.length);
@@ -402,7 +401,7 @@ if (typeof jQuery === "undefined" &&
         return el.outerHeight();
       };
 
-      lib.outerWidth = function (el) {
+      lib.outerWidth = function (el, bool) {
         if (typeof Zepto === 'function') {
           return el.width();
         }
@@ -426,13 +425,7 @@ if (typeof jQuery === "undefined" &&
       return true;
     },
 
-    zj : function () {
-      if (typeof Zepto !== 'undefined') {
-        return Zepto;
-      } else {
-        return jQuery;
-      }
-    }()
+    zj : $
   };
 
   $.fn.foundation = function () {
