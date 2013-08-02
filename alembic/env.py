@@ -7,7 +7,7 @@ from logging.config import fileConfig
 # access to the values within the .ini file in use.
 config = context.config
 from brewlog import config as app_config
-config.set_main_option('sqlalchemy.url', app_config['SQLALCHEMY_DATABASE_URI'])
+config.set_main_option('sqlalchemy.url', app_config.SQLALCHEMY_DATABASE_URI)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
