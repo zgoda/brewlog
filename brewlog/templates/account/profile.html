@@ -2,14 +2,14 @@
 {% import "macros/forms.html" as forms %}
 {% import "macros/users.html" as users %}
 
-{% block headpagetitle %}{{ gettext("Profile data for user %(name)s", name=user.name)|e }}{% endblock %}
+{% block headpagetitle %}{{ gettext("Profile data for user %(name)s", name=profile.name)|e }}{% endblock %}
 
 {% block content %}
-<h3>{{ gettext("Brewer profile for user %(name)s", name=user.name)|e }}</h3>
-{{ users.display_profile(user) }}
+<h3>{{ gettext("Brewer profile for user %(name)s", name=profile.name)|e }}</h3>
+{{ users.display_profile(profile) }}
 {% if form %}
 <p>{% trans %}This is your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
-<form action="{{ user.absolute_url }}" method="post" class="custom">
+<form action="{{ profile.absolute_url }}" method="post" class="custom">
     {{ forms.render(form) }}
 </form>
 {% endif %}
@@ -18,15 +18,15 @@
 {% block sidebar %}
 <h4>{% trans %}Brewery list{% endtrans %}</h4>
 <h5>{{ gettext("Owned") }}</h5>
-{% if user.breweries %}
+{% if profile.breweries %}
 <ul class="no-bullet">
-    {% for brewery in user.breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> <small>({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews|count) }})</small></li>{% endfor %}
+    {% for brewery in profile.breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> <small>({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews|count) }})</small></li>{% endfor %}
 </ul>
 {% endif %}
-{% if user.other_breweries %}
+{% if profile.other_breweries %}
 <h5>{{ gettext("Other") }}</h5>
 <ul>
-    {% for brewery in user.other_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> <small>{{ ngettext("%(num)d brew", "%(num)d brews"), brewery.brews|count }}</small></li>{% endfor %}
+    {% for brewery in profile.other_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> <small>{{ ngettext("%(num)d brew", "%(num)d brews"), brewery.brews|count }}</small></li>{% endfor %}
 </ul>
 {% endif %}
 {% if form %}
@@ -34,7 +34,7 @@
 {% endif %}
 <h4>{{ gettext("latest brews").capitalize() }}</h4>
 <ul class="no-bullet">
-    {% for brew in user.latest_brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a> <small>{{ brew.created|dateformat }}</small></li>{% endfor %}
+    {% for brew in profile.latest_brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a> <small>{{ brew.created|dateformat }}</small></li>{% endfor %}
 </ul>
 {% if form %}
 <p><a href="{{ url_for('brew-add') }}" class="small button radius">{{ gettext("add new brew") }}</a></p>

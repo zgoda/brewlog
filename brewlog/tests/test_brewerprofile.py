@@ -23,3 +23,10 @@ class BrewerProfileTestCase(BrewlogTestCase):
             # check target resource
             rv = client.get('/auth/local', follow_redirects=True)
             self.assertIn('You have been signed in as %s using local handler' % user.email, rv.data)
+
+    def test_anon_view_profile(self):
+        user = BrewerProfile.query.filter_by(email='user@example.com').first()
+        profile_url = '/profile/%s' % user.id
+        with self.app.test_client() as client:
+            rv = client.get(profile_url)
+            self.assertNotIn('form', rv.data)
