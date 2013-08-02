@@ -6,8 +6,8 @@ from logging.config import fileConfig
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-from brewlog import app
-config.set_main_option('sqlalchemy.url', app.config['SQLALCHEMY_DATABASE_URI'])
+from brewlog import config as app_config
+config.set_main_option('sqlalchemy.url', app_config['SQLALCHEMY_DATABASE_URI'])
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
