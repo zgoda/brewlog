@@ -58,6 +58,7 @@ class BrewForm(BaseForm):
         description=_('put each miscellanea on separare line to make nice list'))
     mash_steps = wf.TextAreaField(_('mash schedule'), validators=[Optional()],
         description=_('put each step on separate line to make nice list'))
+    sparging = wf.TextField(_('sparging'), validators=[Optional()])
     hopping_steps = wf.TextAreaField(_('hopping schedule'), validators=[Optional()],
         description=_('put each step on separate line to make nice list'))
     boil_time = IntegerField(_('boil time'), validators=[Optional()])
