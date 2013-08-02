@@ -1,7 +1,7 @@
 from flask import current_app
 import wtforms as wf
 from wtforms.validators import DataRequired, Email, Optional
-from flaskext.babel import lazy_gettext as _
+from flask_babel import lazy_gettext as _
 
 from brewlog.forms.base import BaseForm
 from brewlog.models import BrewerProfile, IPBoardExportSetup

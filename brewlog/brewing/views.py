@@ -1,6 +1,6 @@
 from flask import request, flash, url_for, redirect, render_template, abort
 from flask_login import current_user, login_required
-from flaskext.babel import gettext as _
+from flask_babel import gettext as _
 from sqlalchemy import desc
 
 from brewlog.models import Brewery, Brew
