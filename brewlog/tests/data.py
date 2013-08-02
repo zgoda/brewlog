@@ -2,6 +2,9 @@ from fixture import DataSet
 
 
 class BrewerProfileData(DataSet):
+    class user0:
+        email = 'user@example.com'
+        nick = 'example user'
     class user1:
         email = 'user1@example.com'
         nick = 'example user #1'

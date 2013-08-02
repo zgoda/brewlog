@@ -1,5 +1,6 @@
 import os
 
+from werkzeug.utils import ImportStringError
 from flask import Flask, render_template, get_flashed_messages
 from flask_babel import Babel, lazy_gettext as _
 from flask_login import LoginManager, current_user
@@ -13,6 +14,12 @@ babel = Babel()
 def make_app(env):
     app = Flask(__name__)
     app.config.from_object('brewlog.config')
+    env_config = 'brewlog.config_%s' % env
+    try:
+        app.config.from_object(env_config)
+    except ImportStringError:
+        # no special configuration for this environment
+        pass
     if os.environ.get('BREWLOG_CONFIG', ''):
         app.config.from_evvar('BREWLOG_CONFIG')
     init_engine(app.config['%s_SQLALCHEMY_DATABASE_URI' % env.upper()])

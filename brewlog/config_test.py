@@ -1,0 +1,3 @@
+TESTING = True
+BABEL_DEFAULT_LOCALE = 'en_US'
+

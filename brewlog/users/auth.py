@@ -1,7 +1,6 @@
 from flask import session
+from flask import current_app as app
 from flask_oauth import OAuth
-
-from brewlog import app
 
 oauth = OAuth()
 
