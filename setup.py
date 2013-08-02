@@ -8,7 +8,7 @@ from setuptools import setup, find_packages
 setup(
     name='BrewLog',
     version='0.5',
-    long_sescription=__doc__,
+    long_description=__doc__,
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
