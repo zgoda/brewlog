@@ -3,13 +3,13 @@ import decimal
 
 from flask import url_for
 from flask_login import UserMixin
-from flaskext.babel import lazy_gettext as _, format_datetime, format_date
+from flask_babel import lazy_gettext as _, format_datetime, format_date
 import markdown
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Index, Date, ForeignKey, Float, Enum
 from sqlalchemy import event, desc
 from sqlalchemy.orm import relationship
 
-from brewlog import Model
+from brewlog.db import Model
 from brewlog.brewing import choices
 from brewlog.utils.models import DataModelMixin
 from brewlog.utils.text import slugify
@@ -362,7 +362,8 @@ class Brew(Model):
 def brew_pre_save(mapper, connection, target):
     bjcp_style = u'%s %s' % (target.bjcp_style_code, target.bjcp_style_name)
     target.bjcp_style = bjcp_style.strip()
-    target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
+    if target.notes:
+        target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
     if target.updated is None:
         target.updated = target.created
     if target.og and target.fg:

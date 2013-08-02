@@ -1,11 +1,14 @@
 import os
+import unittest
 
 from flask.ext.script import Server, Manager, Shell
 
-from brewlog import app
+from brewlog import make_app
+from brewlog.db import init_db, clear_db
 
 
-manager = Manager(app)
+manager = Manager(make_app)
+manager.add_option('-e', '--env', dest='env', default='dev')
 
 manager.add_command('runserver', Server(port=8080))
 
@@ -14,22 +17,15 @@ manager.add_command('shell', Shell())
 @manager.command
 def initdb():
     "Initialize empty database if does not exist"
-    import brewlog
-    brewlog.init_db()
+    init_db()
 
 @manager.command
 def cleardb():
     "Clear all database tables"
-    import brewlog
-    brewlog.clear_db()
+    clear_db()
 
 @manager.command
 def test():
-    here = os.path.abspath(os.path.dirname(__file__))
-    testing_cfg = os.path.join(here, 'brewlog', 'config_testing.py')
-    app.config.from_pyfile(testing_cfg)
-    import unittest
-    #print 'tests disabled until ready'
     suite = unittest.TestLoader().discover('brewlog/tests', pattern='test_*.py')
     unittest.TextTestRunner(verbosity=2).run(suite)
 

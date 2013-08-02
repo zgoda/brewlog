@@ -1,14 +1,26 @@
-from unittest import TestCase
+from flask_testing import TestCase
 
-import brewlog
+from fixture import SQLAlchemyFixture
+from fixture.style import NamedDataStyle
+
+from brewlog import make_app, db, models
+from brewlog.tests.data import BrewData
 
 
 class BrewlogTestCase(TestCase):
 
-    SQLALCHEMY_DATABASE_URI = 'sqlite://'
-    TESTING = True
+    def create_app(self):
+        app = make_app(env='test')
+        app.config['TESTING'] = True
+        return app
 
     def setUp(self):
-        brewlog.app.config.update(self.__dict__)
-        self.client = brewlog.app.test_client()
-        brewlog.init_db()
+        db.init_db()
+        fx = SQLAlchemyFixture(env=models, style=NamedDataStyle(), engine=db.engine)
+        self.data = fx.data(BrewData)
+        self.data.setup()
+
+    def tearDown(self):
+        self.data.teardown()
+        db.session.remove()
+        db.clear_db()
