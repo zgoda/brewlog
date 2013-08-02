@@ -17,7 +17,7 @@ fileConfig(config.config_file_name)
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
-from brewlog import Model
+from brewlog.db import Model
 target_metadata = Model.metadata
 
 # other values from the config, defined by the needs of env.py,
