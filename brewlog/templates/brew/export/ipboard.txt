@@ -1,38 +1,26 @@
-[b][size=5]{{ brew.name|e }}[/size][/b]
-{{ gettext("brewed on %(date)s", date=brew.date_brewed) }}
+{% import "macros/display.html" as display %}[b][size=5]{{ brew.name|e }}[/size][/b]
+{% if brew.date_brewed %}{{ gettext("brewed on %(date)s", date=brew.date_brewed) }}{% endif %}
 
 [b]{{ gettext("fermentables").capitalize() }}:[/b]
-{% if brew.fermentables %}[list]
-{% for fermentable in brew.fermentables.strip().split("\n") %}[*] {{ fermentable.strip()|safe }}
-{% endfor %}[/list]{% endif %}
+{% if brew.fermentables %}{{ display.makelist(brew.fermentables, prefix="[*]") }}{% endif %}
 
 [b]{{ gettext("hops").capitalize() }}:[/b]
-{% if brew.hops %}[list]
-{% for hop in brew.hops.strip().split("\n") %}[*] {{ hop.strip()|safe }}
-{% endfor %}[/list]{% endif %}
+{% if brew.hops %}{{ display.makelist(brew.hops, prefix="[*]") }}{% endif %}
 
 [b]{{ gettext("yeast").capitalize() }}:[/b]
-{% if brew.yeast %}[list]
-{% for yeast in brew.yeast.strip().split("\n") %}[*] {{ yeast.strip()|safe }}
-{% endfor %}[/list]{% endif %}
+{% if brew.yeast %}{{ display.makelist(brew.yeast, prefix="[*]") }}{% endif %}
 
 [b]{{ gettext("misc. items").capitalize() }}:[/b]
-{% if brew.misc %}[list]
-{% for misc in brew.misc.strip().split("\n") %}[*] {{ misc.strip()|safe }}
-{% endfor %}[/list]{% endif %}
+{% if brew.misc %}{{ display.makelist(brew.misc, prefix="[*]") }}{% endif %}
 
 [b]{{ gettext("mash steps").capitalize() }}:[/b]
-{% if brew.mash_steps %}[list]
-{% for step in brew.mash_steps.strip().split("\n") %}[*] {{ step.strip()|safe }}
-{% endfor %}[/list]{% endif %}
+{% if brew.mash_steps %}{{ display.makelist(brew.mash_steps, prefix="[*]") }}{% endif %}
 
 [b]{{ gettext("sparging").capitalize() }}:[/b] {% if brew.sparging %}{{ brew.sparging|safe }}{% endif %}
 
 [b]{{ gettext("boil time").capitalize() }}:[/b] {% if brew.boil_time %}{{ brew.boil_time }}{% endif %}
 
 [b]{{ gettext("hopping schedule").capitalize() }}:[/b]
-{% if brew.hopping_steps %}[list]
-{% for hop_step in brew.hopping_steps.strip().split("\n") %}[*] {{ hop_step.strip()|safe }}
-{% endfor %}[/list]{% endif %}
+{% if brew.hopping_steps %}{{ display.makelist(brew.hopping_steps, prefix="[*]") }}{% endif %}
 
 {% if brew.notes %}{{ brew.notes|safe }}{% endif %}

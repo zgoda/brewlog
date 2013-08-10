@@ -2,7 +2,7 @@
 Babel
 Flask
 Flask-Babel
-Flask-Script
+Flask-Script==0.6
 Flask-WTF
 Flask-OAuth
 Flask-Login

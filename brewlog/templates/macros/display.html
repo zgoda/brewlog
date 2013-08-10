@@ -1,0 +1,5 @@
+{% macro makelist(text, prefix='', postfix='') -%}
+[list]
+{% for line in text.strip().split('\n') %}{{ prefix }} {{ line.strip()|safe }}{{ postfix }}
+{% endfor %}[/list]
+{%- endmacro %}
