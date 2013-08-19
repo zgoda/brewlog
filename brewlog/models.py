@@ -71,6 +71,10 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
         return []
 
     @classmethod
+    def get_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
+
+    @classmethod
     def last_created(cls, public_only=False, limit=5):
         query = cls.query
         if public_only:

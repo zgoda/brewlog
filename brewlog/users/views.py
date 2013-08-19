@@ -21,7 +21,7 @@ def remote_login(provider):
     callback = url_for(view_name, _external=True)
     service = services[provider][0]
     if provider == 'local':
-        return local_login_callback(None)
+        return local_login_callback(request.args.get('email', None))
     return service.authorize(callback=callback)
 
 @google.authorized_handler
@@ -77,7 +77,10 @@ def facebook_remote_login_callback(resp):
     return redirect(url_for('auth-select-provider'))
 
 def local_login_callback(resp):
-    email = 'user@example.com'
+    if resp is not None:
+        email = resp
+    else:
+        email = 'user@example.com'
     user = BrewerProfile.query.filter_by(email=email).first()
     if user is None:
         user = BrewerProfile(email=email, nick='example user')
