@@ -3,7 +3,7 @@
 {% import "macros/modelrender.html" as modelrender %}
 
 {% block content %}
-<h3>{{ gettext("Details for brewery %(breweryname)s by %(ownername)s", breweryname=brewery.name, ownername=brewery.brewer.name)|e }}</h3>
+<h3>{{ brewery.name|e }}</h3>
 {% if form %}
 <p>{% trans %}You may change brewery data using the form below{% endtrans %}:</p>
 <form method="post" action="{{ brewery.absolute_url }}" class="custom">
