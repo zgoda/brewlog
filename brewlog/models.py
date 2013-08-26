@@ -12,7 +12,7 @@ from sqlalchemy.orm import relationship
 from brewlog.db import Model
 from brewlog.brewing import choices
 from brewlog.utils.models import DataModelMixin
-from brewlog.utils.text import slugify
+from brewlog.utils.text import slugify, stars2deg
 
 
 class BrewerProfile(UserMixin, DataModelMixin, Model):
@@ -367,6 +367,7 @@ def brew_pre_save(mapper, connection, target):
     bjcp_style = u'%s %s' % (target.bjcp_style_code, target.bjcp_style_name)
     target.bjcp_style = bjcp_style.strip()
     if target.notes:
+        target.notes = stars2deg(target.notes)
         target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
     if target.updated is None:
         target.updated = target.created
