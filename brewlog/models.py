@@ -221,7 +221,7 @@ class Brewery(Model):
         query = cls.query
         if public_only:
             if extra_user:
-                query = qyery.join(BrewerProfile).filter(or_(BrewerProfile.is_public==True, BrewerProfile.id==extra_user.id))
+                query = query.join(BrewerProfile).filter(or_(BrewerProfile.is_public==True, BrewerProfile.id==extra_user.id))
             else:
                 query = query.join(BrewerProfile).filter(BrewerProfile.is_public==True)
         return query.order_by(desc(ordering)).limit(limit).all()

@@ -1,4 +1,5 @@
 from brewlog.tests import BrewlogTestCase
+from brewlog.models import BrewerProfile
 
 
 class MainPageTestCase(BrewlogTestCase):
@@ -32,10 +33,21 @@ class MainPageTestCase(BrewlogTestCase):
     def test_loggedin(self):
         """
         case: what logged in user sees on main site page:
-            * box with recently registered users with public profiles and self
-            * box with recently created public brews from public breweries and own
-            * box with recently created breweries of users with public profile and own
+            * box with recently registered users with public profiles and self if hidden
+            * box with recently created public brews from public breweries and own if hidden
+            * box with recently created breweries of users with public profile and own if hidden
             * link to main page
             * link to profile page
         """
-        pass
+        # normal (public) profile user
+        user = BrewerProfile.get_by_email('user@example.com')
+        with self.app.test_client() as client:
+            self.login(client, user.email)
+            rv = client.get('/')
+            self.assertIn('>my profile</a>', rv.data)
+        # hidden profile user
+        user = BrewerProfile.get_by_email('hidden0@example.com')
+        with self.app.test_client() as client:
+            self.login(client, user.email)
+            rv = client.get('/')
+            self.assertIn('hidden user', rv.data)
