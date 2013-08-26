@@ -1,12 +1,13 @@
 import datetime
 import decimal
+import operator
 
 from flask import url_for
 from flask_login import UserMixin
 from flask_babel import lazy_gettext as _, format_datetime, format_date
 import markdown
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Index, Date, ForeignKey, Float, Enum
-from sqlalchemy import event, desc
+from sqlalchemy import event, desc, or_
 from sqlalchemy.orm import relationship
 
 from brewlog.db import Model
@@ -83,18 +84,24 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
         return cls.query.filter_by(email=email).first()
 
     @classmethod
-    def last_created(cls, public_only=False, limit=5):
+    def _last(cls, ordering, public_only=False, limit=5, extra_user=None):
         query = cls.query
         if public_only:
-            query = query.filter_by(is_public=True)
-        return query.order_by(desc(cls.created)).limit(limit).all()
+            if extra_user:
+                query = query.filter(or_(cls.is_public==True, cls.id==extra_user.id))
+            else:
+                query = query.filter_by(is_public=True)
+        return query.order_by(desc(ordering)).limit(limit).all()
 
     @classmethod
-    def last_updated(cls, public_only=False, limit=5):
-        query = cls.query
-        if public_only:
-            query = query.filter_by(is_public=True)
-        return query.order_by(desc(cls.updated)).limit(limit).all()
+    def last_created(cls, public_only=False, limit=5, **kwargs):
+        extra_user = kwargs.get('extra_user', None)
+        return cls._last(cls.created, public_only, limit, extra_user)
+
+    @classmethod
+    def last_updated(cls, public_only=False, limit=5, **kwargs):
+        extra_user = kwargs.get('extra_user', None)
+        return cls._last(cls.updated, public_only, limit, extra_user)
 
     @property
     def latest_brews(self):
@@ -210,18 +217,24 @@ class Brewery(Model):
         )
 
     @classmethod
-    def last_updated(cls, limit=5, public_only=False):
+    def _last(cls, ordering, limit=5, public_only=False, extra_user=None):
         query = cls.query
         if public_only:
-            query = query.join(BrewerProfile).filter(BrewerProfile.is_public==True)
-        return query.order_by(desc(cls.updated)).limit(limit).all()
+            if extra_user:
+                query = qyery.join(BrewerProfile).filter(or_(BrewerProfile.is_public==True, BrewerProfile.id==extra_user.id))
+            else:
+                query = query.join(BrewerProfile).filter(BrewerProfile.is_public==True)
+        return query.order_by(desc(ordering)).limit(limit).all()
 
     @classmethod
-    def last_created(cls, limit=5, public_only=False):
-        query = cls.query
-        if public_only:
-            query = query.join(BrewerProfile).filter(BrewerProfile.is_public==True)
-        return query.order_by(desc(cls.created)).limit(limit).all()
+    def last_updated(cls, limit=5, public_only=False, **kwargs):
+        extra_user = kwargs.get('extra_user')
+        return cls._last(cls.updated, limit, public_only, extra_user)
+
+    @classmethod
+    def last_created(cls, limit=5, public_only=False, **kwargs):
+        extra_user = kwargs.get('extra_user')
+        return cls._last(cls.created, limit, public_only, extra_user)
 
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):
@@ -332,18 +345,25 @@ class Brew(Model):
         return slugify(self.name)
 
     @classmethod
-    def last_created(cls, public_only=False, limit=5):
+    def _last(cls, ordering, public_only=False, limit=5, extra_user=None):
         query = cls.query
         if public_only:
-            query = query.join(Brewery).join(BrewerProfile).filter(cls.is_public==True).filter(BrewerProfile.is_public==True)
-        return query.filter(cls.is_draft==False).order_by(desc(cls.created)).limit(limit).all()
+            query = query.join(Brewery).join(BrewerProfile).filter(cls.is_public==True)
+            if extra_user:
+                query = query.filter(or_(BrewerProfile.is_public==True, BrewerProfile.id==extra_user.id))
+            else:
+                query = query.filter(BrewerProfile.is_public==True)
+        return query.filter(cls.is_draft==False).order_by(desc(ordering)).limit(limit).all()
 
     @classmethod
-    def last_updated(cls, public_only=False, limit=5):
-        query = cls.query
-        if public_only:
-            query = query.join(Brewery).join(BrewerProfile).filter(cls.is_public==True).filter(BrewerProfile.is_public==True)
-        return query.filter(clsis_draft==False).order_by(desc(cls.updated)).limit(limit).all()
+    def last_created(cls, public_only=False, limit=5, **kwargs):
+        extra_user = kwargs.get('extra_user')
+        return cls._last(cls.created, public_only, limit, extra_user)
+
+    @classmethod
+    def last_updated(cls, public_only=False, limit=5, **kwargs):
+        extra_user = kwargs.get('extra_user')
+        return cls._last(cls.updated, public_only, limit, extra_user)
 
     @property
     def render_fields(self):
