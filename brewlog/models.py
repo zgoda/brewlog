@@ -210,12 +210,18 @@ class Brewery(Model):
         )
 
     @classmethod
-    def last_updated(cls, limit=5):
-        return cls.query.order_by(desc(cls.updated)).limit(limit).all()
+    def last_updated(cls, limit=5, public_only=False):
+        query = cls.query
+        if public_only:
+            query = query.join(BrewerProfile).filter(BrewerProfile.is_public==True)
+        return query.order_by(desc(cls.updated)).limit(limit).all()
 
     @classmethod
-    def last_created(cls, limit=5):
-        return cls.query.order_by(desc(cls.created)).limit(limit).all()
+    def last_created(cls, limit=5, public_only=False):
+        query = cls.query
+        if public_only:
+            query = query.join(BrewerProfile).filter(BrewerProfile.is_public==True)
+        return query.order_by(desc(cls.created)).limit(limit).all()
 
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):
@@ -329,15 +335,15 @@ class Brew(Model):
     def last_created(cls, public_only=False, limit=5):
         query = cls.query
         if public_only:
-            query = query.filter_by(is_public=True)
-        return query.filter_by(is_draft=False).order_by(desc(cls.created)).limit(limit).all()
+            query = query.join(Brewery).join(BrewerProfile).filter(cls.is_public==True).filter(BrewerProfile.is_public==True)
+        return query.filter(cls.is_draft==False).order_by(desc(cls.created)).limit(limit).all()
 
     @classmethod
     def last_updated(cls, public_only=False, limit=5):
         query = cls.query
         if public_only:
-            query = query.filter_by(is_public=True)
-        return query.filter_by(is_draft=False).order_by(desc(cls.updated)).limit(limit).all()
+            query = query.join(Brewery).join(BrewerProfile).filter(cls.is_public==True).filter(BrewerProfile.is_public==True)
+        return query.filter(clsis_draft==False).order_by(desc(cls.updated)).limit(limit).all()
 
     @property
     def render_fields(self):

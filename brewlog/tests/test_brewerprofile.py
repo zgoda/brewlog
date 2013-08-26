@@ -8,11 +8,6 @@ from brewlog.models import BrewerProfile
 
 class BrewerProfileTestCase(BrewlogTestCase):
 
-    def test_empty(self):
-        with self.app.test_client() as client:
-            rv = client.get('/')
-            self.assertIn('login page', rv.data)
-
     def test_login(self):
         user = BrewerProfile.get_by_email('user@example.com')
         profile_url = '/profile/%s' % user.id
