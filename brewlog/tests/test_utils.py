@@ -4,7 +4,7 @@ import unicodedata
 from brewlog.utils import text as utl
 
 
-class TextUtilsTests(TestCase):
+class TextUtilsTestCase(TestCase):
 
     def test_degree_replacement(self):
         orig_char = u'*'
