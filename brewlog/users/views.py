@@ -2,11 +2,12 @@ import requests
 from flask import render_template, redirect, url_for, session, flash, request, abort
 from flask_login import login_user, logout_user, login_required, current_user
 from flask_babel import gettext as _
+from sqlalchemy import desc
 
 from brewlog import session as dbsession
 from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.users.auth import services, google, facebook
-from brewlog.models import BrewerProfile
+from brewlog.models import BrewerProfile, Brewery, Brew
 from brewlog.users.forms import ProfileForm
 
 
@@ -138,3 +139,34 @@ def profile_list():
         'pagination': pagination,
     }
     return render_template('account/profile_list.html', **ctx)
+
+def breweries(userid):
+    page_size = 10
+    try:
+        page = int(request.args.get('p', '1'))
+    except ValueError:
+        page = 1
+    query = Brewery.query.filter_by(brewer_id=userid).order_by(Brewery.name)
+    pagination = Pagination(page, page_size, query.count())
+    ctx = {
+        'breweries': paginate(query, page-1, page_size),
+        'pagination': pagination,
+    }
+    return render_template('brewery/list.html', **ctx)
+
+def brews(userid):
+    page_size = 10
+    try:
+        page = int(request.args.get('p', '1'))
+    except ValueError:
+        page = 1
+    query = Brew.query.join(Brewery).filter(Brewery.brewer_id==userid)
+    if current_user.id != userid:
+        query = query.filter_by(is_public=True)
+    query = query.order_by(desc(Brew.created))
+    pagination = Pagination(page, page_size, query.count())
+    ctx = {
+        'brews': paginate(query, page-1, page_size),
+        'pagination': pagination,
+    }
+    return render_template('brew/list.html', **ctx)

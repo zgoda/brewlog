@@ -33,6 +33,12 @@
                             <li><a href="{{ url_for('brew-add') }}">{% trans %}brew{% endtrans %}</a></li>
                         </ul>
                     </li>
+                    <li class="has-dropdown"><a href="#">{% trans %}my items{% endtrans %}</a>
+                        <ul class="dropdown">
+                            <li><a href="{{ user.breweries_list_url }}">{% trans %}breweries{% endtrans %}</a></li>
+                            <li><a href="{{ user.brews_list_url }}">{% trans %}brews{% endtrans %}</a></li>
+                        </ul>
+                    </li>
                     {% endif %}
                     <li class="has-dropdown"><a href="#">{% trans %}user tools{% endtrans %}</a>
                         <ul class="dropdown">

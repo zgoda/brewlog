@@ -51,6 +51,14 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
         return url_for('profile-details', userid=self.id)
 
     @property
+    def breweries_list_url(self):
+        return url_for('profile-breweries', userid=self.id)
+
+    @property
+    def brews_list_url(self):
+        return url_for('profile-brews', userid=self.id)
+
+    @property
     def slug(self):
         return slugify(self.name)
 
