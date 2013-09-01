@@ -21,6 +21,9 @@ httplib2
 MarkupSafe
 translitcodec
 
+# deployment
+gevent
+
 # database migrations
 alembic
 Mako
