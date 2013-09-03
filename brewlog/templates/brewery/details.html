@@ -2,6 +2,8 @@
 {% import "macros/forms.html" as forms %}
 {% import "macros/modelrender.html" as modelrender %}
 
+{% block headpagetitle %}{{ super() }} {{ brewery.name|e }}{% endblock %}
+
 {% block content %}
 <h3>{{ brewery.name|e }}</h3>
 {% if form %}

@@ -4,7 +4,7 @@
 {% block headpagetitle %}{{ gettext("brews") }}{% endblock %}
 
 {% block content %}
-<h3>{{ gettext("all public brews").capitalize() }}</h3>
+<h3>{% if public_only %}{{ gettext("all public brews").capitalize() }}{% else %}{{ gettext("all brews").capitalize() }}{% endif %}</h3>
 {% if brews %}
 <ul class="no-bullet">
 {% for brew in brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a> <small>({% if brew.is_draft %}<strong>{{ gettext("draft") }}</strong> {% endif %}{{ brew.display_info|e }})</small></li>{% endfor %}
