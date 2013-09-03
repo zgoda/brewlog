@@ -1,4 +1,4 @@
-{% import "macros/display.html" as display %}[b][size=5]{{ brew.name|e }}[/size][/b]
+{% import "macros/display.html" as display %}[b][size=5]{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name|e }}[/size][/b]
 {% if brew.date_brewed %}{{ gettext("brewed on %(date)s", date=brew.date_brewed) }}{% endif %}
 
 [b]{{ gettext("fermentables").capitalize() }}:[/b]
