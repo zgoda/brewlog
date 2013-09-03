@@ -45,9 +45,28 @@ class MainPageTestCase(BrewlogTestCase):
             self.login(client, user.email)
             rv = client.get('/')
             self.assertIn('>my profile</a>', rv.data)
+            # public profiles only
+            self.assertIn('example user', rv.data)
+            self.assertNotIn('hidden user', rv.data)
+            # public breweries only
+            self.assertIn('brewery #1', rv.data)
+            self.assertNotIn('hidden brewery #1', rv.data)
+            # public brews only
+            self.assertIn('pale ale', rv.data)
+            self.assertNotIn('hidden czech pilsener', rv.data)
+            self.assertNotIn('hidden amber ale', rv.data)
         # hidden profile user
         user = BrewerProfile.get_by_email('hidden0@example.com')
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get('/')
+            # public profiles and own
+            self.assertIn('example user', rv.data)
             self.assertIn('hidden user', rv.data)
+            # public breweries and own
+            self.assertIn('brewery #1', rv.data)
+            self.assertIn('hidden brewery #1', rv.data)
+            # public brews and own
+            self.assertIn('pale ale', rv.data)
+            self.assertNotIn('hidden czech pilsener', rv.data)
+            self.assertIn('hidden amber ale', rv.data)
