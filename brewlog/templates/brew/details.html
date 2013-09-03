@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block content %}
-<h3>{{ brew.name|e }}</h3>
+<h3>{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name|e }}</h3>
 {% if brew.date_brewed %}<p>{{ gettext("brewed on %(date)s", date=brew.date_brewed) }}{% if brew.bottling_date %}, {{ gettext("packaged on %(date)s", date=brew.bottling_date) }}{% endif %}</p>{% endif %}
 <h3>{{ gettext("stats").capitalize() }}</h3>
 <ul>
