@@ -18,6 +18,7 @@
 
 {% block content %}
 <h3>{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name|e }}</h3>
+{% if brew.style %}<p>{{ brew.style|e }}</p>{% endif %}
 {% if brew.date_brewed %}<p>{{ gettext("brewed on %(date)s", date=brew.date_brewed) }}{% if brew.bottling_date %}, {{ gettext("packaged on %(date)s", date=brew.bottling_date) }}{% endif %}</p>{% endif %}
 <h3>{{ gettext("stats").capitalize() }}</h3>
 <ul>
@@ -55,7 +56,7 @@
 <h4>{{ gettext("mash steps").capitalize() }}:</h4>
 {% if brew.mash_steps %}
 <ul>
-{% for step in brew.mash_steps.strip().split("\n") %}<li>{{ step.strip()|e }}</li>{% endfor %}
+{% for step in brew.mash_steps.strip().split("\n") %}<li>{{ stars2deg(step.strip())|e }}</li>{% endfor %}
 </ul>
 {% endif %}
 <p><strong>{{ gettext("sparging").capitalize() }}:</strong> {% if brew.sparging %}{{ brew.sparging|e }}{% endif %}</p>

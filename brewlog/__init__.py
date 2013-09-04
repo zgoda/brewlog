@@ -57,6 +57,8 @@ def make_app(env):
         application.jinja_env.globals['url_for_other_page'] = templates.url_for_other_page
         import math
         application.jinja_env.globals['pow'] = math.pow
+        from utils.text import stars2deg
+        application.jinja_env.globals['stars2deg'] = stars2deg
     register_filters(app)
 
     return app
