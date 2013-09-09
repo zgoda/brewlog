@@ -13,7 +13,6 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=(
-        'gevent',
         'Babel',
         'Flask',
         'Flask-Babel',
@@ -28,7 +27,7 @@ setup(
         'itsdangerous',
         'Jinja2',
         'wtforms',
-        'pytz==2013b',
+        'pytz==2013d',
         'speaklater',
         'requests',
         'oauth2',
