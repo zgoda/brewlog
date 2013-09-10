@@ -41,6 +41,8 @@ def brewery_all():
 
 def brewery(brewery_id, **kwargs):
     brewery = get_or_404(Brewery, brewery_id)
+    if not brewery.is_public and (current_user != brewery.brewer):
+        abort(404)
     if request.method == 'POST':
         if current_user.is_anonymous() or (current_user != brewery.brewer):
             abort(403)

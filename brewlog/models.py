@@ -190,6 +190,10 @@ class Brewery(Model):
     def brewers(self):
         return [self.brewer] + self.other_brewers
 
+    @property
+    def is_public(self):
+        return self.brewer.is_public
+
     def _brews(self, public_only=False, limit=None, order=None, return_query=False):
         query = Brew.query.filter_by(brewery_id=self.id, is_draft=False)
         if public_only:
