@@ -17,12 +17,29 @@ class BrewerProfileTestCase(BrewlogTestCase):
             rv = self.login(client, user.email)
             self.assertIn('You have been signed in as %s using local handler' % user.email, rv.data)
 
+    def test_view_list_by_public(self):
+        user = BrewerProfile.get_by_email('user@example.com')
+        hidden_user = BrewerProfile.get_by_email('hidden1@example.com')
+        url = url_for('profile-all')
+        with self.app.test_client() as client:
+            self.login(client, user.email)
+            rv = client.get(url)
+            self.assertNotIn(hidden_user.absolute_url, rv.data)
+
+    def test_view_list_by_hidden(self):
+        hidden_user = BrewerProfile.get_by_email('hidden1@example.com')
+        url = url_for('profile-all')
+        with self.app.test_client() as client:
+            self.login(client, hidden_user.email)
+            rv = client.get(url)
+            self.assertIn(hidden_user.absolute_url, rv.data)
+
     def test_anon_view_profile(self):
         user = BrewerProfile.get_by_email('user@example.com')
         profile_url = url_for('profile-details', userid=user.id)
         with self.app.test_client() as client:
             rv = client.get(profile_url)
-            self.assertNotIn('form', rv.data)
+            self.assertNotIn('<form', rv.data)
 
     def test_update_other_profile(self):
         user1 = BrewerProfile.get_by_email('user1@example.com')
