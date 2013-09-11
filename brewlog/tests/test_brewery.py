@@ -21,6 +21,16 @@ class BreweryTestCase(BrewlogTestCase):
             rv = client.get(url)
             self.assertNotIn(self.hidden_brewery.name, rv.data)
 
+    def test_owner_view_list(self):
+        """
+        Owner of hidden brewery can see it on the list
+        """
+        with self.app.test_client() as client:
+            url = url_for('brewery-all')
+            self.login(client, self.hidden_brewery.brewer.email)
+            rv = client.get(url)
+            self.assertIn(self.hidden_brewery.name, rv.data)
+
     def test_nonowner_view(self):
         """
         View by ordinary user:

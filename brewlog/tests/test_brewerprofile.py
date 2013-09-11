@@ -1,7 +1,5 @@
-from flask import session
-from flask_login import login_user
+from flask import url_for
 
-from brewlog import session as dbsession
 from brewlog.tests import BrewlogTestCase
 from brewlog.models import BrewerProfile
 
@@ -10,10 +8,10 @@ class BrewerProfileTestCase(BrewlogTestCase):
 
     def test_login(self):
         user = BrewerProfile.get_by_email('user@example.com')
-        profile_url = '/profile/%s' % user.id
+        profile_url = url_for('profile-details', userid=user.id)
         with self.app.test_client() as client:
             # check redirect
-            rv = client.get('/auth/local', follow_redirects=False)
+            rv = client.get(url_for('auth-login', provider='local'), follow_redirects=False)
             self.assertRedirects(rv, profile_url)
             # check target resource
             rv = self.login(client, user.email)
@@ -21,7 +19,7 @@ class BrewerProfileTestCase(BrewlogTestCase):
 
     def test_anon_view_profile(self):
         user = BrewerProfile.get_by_email('user@example.com')
-        profile_url = '/profile/%s' % user.id
+        profile_url = url_for('profile-details', userid=user.id)
         with self.app.test_client() as client:
             rv = client.get(profile_url)
             self.assertNotIn('form', rv.data)
@@ -29,7 +27,7 @@ class BrewerProfileTestCase(BrewlogTestCase):
     def test_update_other_profile(self):
         user1 = BrewerProfile.get_by_email('user1@example.com')
         user2 = BrewerProfile.get_by_email('user2@example.com')
-        profile_url = '/profile/%s' % user1.id
+        profile_url = url_for('profile-details', userid=user1.id)
         with self.app.test_client() as client:
             self.login(client, user2.email)
             data = {
@@ -40,7 +38,7 @@ class BrewerProfileTestCase(BrewlogTestCase):
 
     def test_update_by_anon(self):
         user = BrewerProfile.get_by_email('user1@example.com')
-        profile_url = '/profile/%s' % user.id
+        profile_url = url_for('profile-details', userid=user.id)
         with self.app.test_client() as client:
             data = {
                 'nick': 'new nick',
@@ -50,7 +48,7 @@ class BrewerProfileTestCase(BrewlogTestCase):
 
     def test_update_by_self(self):
         user = BrewerProfile.get_by_email('user1@example.com')
-        profile_url = '/profile/%s' % user.id
+        profile_url = url_for('profile-details', userid=user.id)
         with self.app.test_client() as client:
             self.login(client, user.email)
             data = {

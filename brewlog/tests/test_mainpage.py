@@ -1,8 +1,14 @@
+from flask import url_for
+
 from brewlog.tests import BrewlogTestCase
 from brewlog.models import BrewerProfile
 
 
 class MainPageTestCase(BrewlogTestCase):
+
+    def setUp(self):
+        super(MainPageTestCase, self).setUp()
+        self.main_url = url_for('main')
 
     def test_anon(self):
         """
@@ -14,7 +20,7 @@ class MainPageTestCase(BrewlogTestCase):
             * link to login page
         """
         with self.app.test_client() as client:
-            rv = client.get('/')
+            rv = client.get(self.main_url)
             # public profiles
             self.assertIn('example user', rv.data)
             self.assertNotIn('hidden user', rv.data)
@@ -43,7 +49,7 @@ class MainPageTestCase(BrewlogTestCase):
         user = BrewerProfile.get_by_email('user@example.com')
         with self.app.test_client() as client:
             self.login(client, user.email)
-            rv = client.get('/')
+            rv = client.get(self.main_url)
             self.assertIn('>my profile</a>', rv.data)
             # public profiles only
             self.assertIn('example user', rv.data)
@@ -59,7 +65,7 @@ class MainPageTestCase(BrewlogTestCase):
         user = BrewerProfile.get_by_email('hidden0@example.com')
         with self.app.test_client() as client:
             self.login(client, user.email)
-            rv = client.get('/')
+            rv = client.get(self.main_url)
             # public profiles and own
             self.assertIn('example user', rv.data)
             self.assertIn('hidden user', rv.data)
