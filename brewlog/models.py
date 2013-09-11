@@ -222,13 +222,7 @@ class Brewery(Model):
 
     @classmethod
     def _last(cls, ordering, limit=5, public_only=False, extra_user=None):
-        query = cls.query
-        if public_only:
-            if extra_user:
-                query = query.join(BrewerProfile).filter(or_(BrewerProfile.is_public==True, BrewerProfile.id==extra_user.id))
-            else:
-                query = query.join(BrewerProfile).filter(BrewerProfile.is_public==True)
-        return query.order_by(desc(ordering)).limit(limit).all()
+        return cls.public_query().order_by(desc(ordering)).limit(limit).all()
 
     @classmethod
     def last_updated(cls, limit=5, public_only=False, **kwargs):
@@ -239,6 +233,16 @@ class Brewery(Model):
     def last_created(cls, limit=5, public_only=False, **kwargs):
         extra_user = kwargs.get('extra_user')
         return cls._last(cls.created, limit, public_only, extra_user)
+
+    @classmethod
+    def public_query(cls, public_only=True, extra_user=None):
+        query = cls.query
+        if public_only:
+            if extra_user:
+                query = query.join(BrewerProfile).filter(or_(BrewerProfile.is_public==True, BrewerProfile.id==extra_user.id))
+            else:
+                query = query.join(BrewerProfile).filter(BrewerProfile.is_public==True)
+        return query
 
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):

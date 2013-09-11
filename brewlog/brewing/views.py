@@ -32,10 +32,14 @@ def brewery_all():
         page = int(request.args.get('p', '1'))
     except ValueError:
         page = 1
-    pagination = Pagination(page, page_size, Brewery.query.count())
+    if current_user.is_anonymous():
+        query = Brewery.public_query()
+    else:
+        query = Brewery.public_query(extra_user=current_user)
+    pagination = Pagination(page, page_size, query.count())
     ctx = {
         'pagination': pagination,
-        'breweries': paginate(Brewery.query.order_by(Brewery.name), page-1, page_size)
+        'breweries': paginate(query.order_by(Brewery.name), page-1, page_size)
     }
     return render_template('brewery/list.html', **ctx)
 
