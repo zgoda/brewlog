@@ -132,6 +132,9 @@ def brew_all():
 
 def brew_export(brew_id, flavour):
     brew = get_or_404(Brew, brew_id)
+    if brew.brewery.brewer != current_user:
+        if not (brew.is_public and brew.brewery.brewer.is_public):
+            abort(404)
     ctx = {
         'brew': brew,
         'flavour': flavour,

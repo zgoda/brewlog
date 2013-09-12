@@ -84,3 +84,24 @@ class BrewTestCase(BrewlogTestCase):
             }
             rv = client.post(url, data=data)
             self.assertEqual(rv.status_code, 403)
+
+
+class BrewExportTestCase(BrewlogTestCase):
+
+    def test_public(self):
+        brew = Brew.query.filter_by(name='pale ale').first()
+        user = BrewerProfile.get_by_email('hidden1@example.com')
+        url = url_for('brew-export', brew_id=brew.id, flavour='ipboard')
+        with self.app.test_client() as client:
+            self.login(client, user.email)
+            rv = client.get(url)
+            self.assertIn('<textarea', rv.data)
+
+    def test_hidden(self):
+        brew = Brew.query.filter_by(name='hidden czech pilsener').first()
+        user = BrewerProfile.get_by_email('hidden1@example.com')
+        url = url_for('brew-export', brew_id=brew.id, flavour='ipboard')
+        with self.app.test_client() as client:
+            self.login(client, user.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 404)
