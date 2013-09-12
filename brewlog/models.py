@@ -7,7 +7,7 @@ from flask_login import UserMixin
 from flask_babel import lazy_gettext as _, format_datetime, format_date
 import markdown
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Index, Date, ForeignKey, Float, Enum
-from sqlalchemy import event, desc, or_
+from sqlalchemy import event, desc, or_, and_
 from sqlalchemy.orm import relationship
 
 from brewlog.db import Model
@@ -356,11 +356,11 @@ class Brew(Model):
     def public_query(cls, public_only=True, extra_user=None):
         query = cls.query
         if public_only:
-            query = query.join(Brewery).join(BrewerProfile).filter(cls.is_public==True)
+            query = query.join(Brewery).join(BrewerProfile)
             if extra_user:
-                query = query.filter(or_(BrewerProfile.is_public==True, BrewerProfile.id==extra_user.id))
+                query = query.filter(or_(BrewerProfile.id==extra_user.id, and_(BrewerProfile.is_public==True, cls.is_public==True)))
             else:
-                query = query.filter(BrewerProfile.is_public==True)
+                query = query.filter(and_(BrewerProfile.is_public==True, cls.is_public==True))
         return query
 
     @classmethod
