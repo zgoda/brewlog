@@ -75,3 +75,54 @@ class BrewerProfileTestCase(BrewlogTestCase):
             rv = client.post(profile_url, data=data, follow_redirects=True)
             self.assertEqual(rv.status_code, 200)
             self.assertEqual(BrewerProfile.get_by_email(user.email).nick, data['nick'])
+
+
+class ProfileBrewsTestCase(BrewlogTestCase):
+
+    def setUp(self):
+        super(ProfileBrewsTestCase, self).setUp()
+        self.public_user = BrewerProfile.get_by_email('user1@example.com')
+        self.hidden_user = BrewerProfile.get_by_email('hidden0@example.com')
+
+    def test_public(self):
+        url = url_for('profile-brews', userid=self.public_user.id)
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_user.email)
+            rv = client.get(url)
+            self.assertNotIn('hidden czech pilsener', rv.data)
+
+    def test_owner(self):
+        url = url_for('profile-brews', userid=self.public_user.id)
+        with self.app.test_client() as client:
+            self.login(client, self.public_user.email)
+            rv = client.get(url)
+            self.assertIn('hidden czech pilsener', rv.data)
+
+    def test_hidden(self):
+        url = url_for('profile-brews', userid=self.hidden_user.id)
+        with self.app.test_client() as client:
+            self.login(client, self.public_user.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 404)
+
+
+class ProfileBreweriesTestCase(BrewlogTestCase):
+
+    def setUp(self):
+        super(ProfileBreweriesTestCase, self).setUp()
+        self.public_user = BrewerProfile.get_by_email('user1@example.com')
+        self.hidden_user = BrewerProfile.get_by_email('hidden0@example.com')
+
+    def test_public(self):
+        url = url_for('profile-breweries', userid=self.public_user.id)
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_user.email)
+            rv = client.get(url)
+            self.assertIn('brewery #1', rv.data)
+
+    def test_hidden(self):
+        url = url_for('profile-breweries', userid=self.hidden_user.id)
+        with self.app.test_client() as client:
+            self.login(client, self.public_user.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 404)

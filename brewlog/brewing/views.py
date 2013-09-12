@@ -71,6 +71,8 @@ def brewery_brews(brewery_id):
     brewery = get_or_404(Brewery, brewery_id)
     public_only = False
     if current_user.is_anonymous() or (current_user != brewery.brewer):
+        if not brewery.brewer.is_public:
+            abort(404)
         public_only = True
     brews = brewery.all_brews(public_only)
     pagination = Pagination(page, page_size, len(brews))

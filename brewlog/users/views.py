@@ -141,6 +141,9 @@ def profile_list():
     return render_template('account/profile_list.html', **ctx)
 
 def breweries(userid):
+    brewer = BrewerProfile.query.get(userid)
+    if not brewer or (not brewer.is_public and current_user.id != userid):
+        abort(404)
     page_size = 10
     try:
         page = int(request.args.get('p', '1'))
@@ -155,6 +158,9 @@ def breweries(userid):
     return render_template('brewery/list.html', **ctx)
 
 def brews(userid):
+    brewer = BrewerProfile.query.get(userid)
+    if not brewer or (not brewer.is_public and current_user.id != userid):
+        abort(404)
     page_size = 10
     try:
         page = int(request.args.get('p', '1'))

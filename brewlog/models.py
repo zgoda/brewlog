@@ -403,11 +403,13 @@ class Brew(Model):
 
     @property
     def carbonation_data_display(self):
-        data = {
-            'carb_type': _(dict(choices.CARBONATION_CHOICES)[self.carbonation_type]),
-            'carb_level': _(dict(choices.CARB_LEVEL_CHOICES)[self.carbonation_level or u'normal']),
-        }
-        return _('%(carb_type)s: carbonation %(carb_level)s', **data)
+        if self.carbonation_type:
+            data = {
+                'carb_type': _(dict(choices.CARBONATION_CHOICES)[self.carbonation_type]),
+                'carb_level': _(dict(choices.CARB_LEVEL_CHOICES)[self.carbonation_level or u'normal']),
+            }
+            return _('%(carb_type)s: carbonation %(carb_level)s', **data)
+        return u''
 
 ## events: Brew model
 def brew_pre_save(mapper, connection, target):

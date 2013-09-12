@@ -1,7 +1,7 @@
 from flask import url_for
 
 from brewlog.tests import BrewlogTestCase
-from brewlog.models import Brewery
+from brewlog.models import Brewery, Brew
 
 
 class BreweryTestCase(BrewlogTestCase):
@@ -83,3 +83,41 @@ class BreweryTestCase(BrewlogTestCase):
             self.assertIn(new_name, rv.data)
             brewery = Brewery.query.get(self.hidden_brewery.id)
             self.assertEqual(brewery.name, new_name)
+
+
+class BreweryBrewsTestCase(BrewlogTestCase):
+
+    """
+    List of brews from single brewery:
+        * owner sees everything
+        * others see only public brews
+        * if brewery is hidden others get 404
+    """
+
+    def setUp(self):
+        super(BreweryBrewsTestCase, self).setUp()
+        self.public_brewery = Brewery.query.filter_by(name='brewery #1').first()
+        self.hidden_brewery = Brewery.query.filter_by(name='hidden brewery #1').first()
+
+    def test_owner_view(self):
+        url = url_for('brewery-brews', brewery_id=self.public_brewery.id)
+        hidden_brew = Brew.query.filter_by(name='hidden czech pilsener').first()
+        with self.app.test_client() as client:
+            self.login(client, self.public_brewery.brewer.email)
+            rv = client.get(url)
+            self.assertIn(hidden_brew.name, rv.data)
+
+    def test_public_view(self):
+        url = url_for('brewery-brews', brewery_id=self.public_brewery.id)
+        hidden_brew = Brew.query.filter_by(name='hidden czech pilsener').first()
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brewery.brewer.email)
+            rv = client.get(url)
+            self.assertNotIn(hidden_brew.name, rv.data)
+
+    def test_hidden_view_by_public(self):
+        url = url_for('brewery-brews', brewery_id=self.hidden_brewery.id)
+        with self.app.test_client() as client:
+            self.login(client, self.public_brewery.brewer.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 404)
