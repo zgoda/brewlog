@@ -353,7 +353,7 @@ class Brew(Model):
         return slugify(self.name)
 
     @classmethod
-    def _last(cls, ordering, public_only=False, limit=5, extra_user=None):
+    def public_query(cls, public_only=True, extra_user=None):
         query = cls.query
         if public_only:
             query = query.join(Brewery).join(BrewerProfile).filter(cls.is_public==True)
@@ -361,6 +361,11 @@ class Brew(Model):
                 query = query.filter(or_(BrewerProfile.is_public==True, BrewerProfile.id==extra_user.id))
             else:
                 query = query.filter(BrewerProfile.is_public==True)
+        return query
+
+    @classmethod
+    def _last(cls, ordering, public_only=False, limit=5, extra_user=None):
+        query = cls.public_query(public_only, extra_user)
         return query.filter(cls.is_draft==False).order_by(desc(ordering)).limit(limit).all()
 
     @classmethod

@@ -117,7 +117,10 @@ def brew_all():
         page = int(request.args.get('p', '1'))
     except ValueError:
         page = 1
-    query = Brew.query.filter_by(is_public=True)
+    if current_user.is_anonymous():
+        query = Brew.public_query()
+    else:
+        query = Brew.public_query(extra_user=current_user)
     pagination = Pagination(page, page_size, query.count())
     context = {
         'pagination': pagination,
