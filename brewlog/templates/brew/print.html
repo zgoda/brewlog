@@ -1,5 +1,7 @@
 {% extends "print.html" %}
 
+{% block headpagetitle %}{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name|e }}{% endblock %}
+
 {% block widecontent %}
 {% include "brew/include/details.html" %}
 {% endblock %}
