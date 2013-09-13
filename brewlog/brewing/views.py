@@ -45,16 +45,16 @@ def brewery_all():
 
 def brewery(brewery_id, **kwargs):
     brewery = get_or_404(Brewery, brewery_id)
-    if not brewery.is_public and (current_user != brewery.brewer):
-        abort(404)
     if request.method == 'POST':
-        if current_user.is_anonymous() or (current_user != brewery.brewer):
+        if current_user != brewery.brewer:
             abort(403)
         form = BreweryForm(request.form)
         if form.validate():
             brewery = form.save(obj=brewery)
             flash(_('brewery %(name)s data updated', name=brewery.name))
             return redirect(brewery.absolute_url)
+    if not brewery.has_access(current_user):
+        abort(404)
     ctx = {
         'brewery': brewery,
     }
@@ -71,7 +71,7 @@ def brewery_brews(brewery_id):
     brewery = get_or_404(Brewery, brewery_id)
     public_only = False
     if current_user.is_anonymous() or (current_user != brewery.brewer):
-        if not brewery.brewer.is_public:
+        if not brewery.has_access(current_user):
             abort(404)
         public_only = True
     brews = brewery.all_brews(public_only)
@@ -141,3 +141,6 @@ def brew_export(brew_id, flavour):
         'exported': render_template('brew/export/%s.txt' % flavour, brew=brew)
     }
     return render_template('brew/export.html', **ctx)
+
+def brew_print(brew_id):
+    pass

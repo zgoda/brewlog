@@ -116,6 +116,12 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
         query.order_by(IPBoardExportSetup.service_name)
         return query.all()
 
+    def has_access(self, user):
+        if self != user:
+            if not self.is_public:
+                return False
+        return True
+
 # mapper events
 def profile_pre_save(mapper, connection, target):
     full_name = u'%s %s' % (target.first_name or u'', target.last_name or u'')
@@ -243,6 +249,12 @@ class Brewery(Model):
             else:
                 query = query.join(BrewerProfile).filter(BrewerProfile.is_public==True)
         return query
+
+    def has_access(self, user):
+        if self.brewer != user:
+            if not self.brewer.has_access(user):
+                return False
+        return True
 
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):
@@ -410,6 +422,12 @@ class Brew(Model):
             }
             return _('%(carb_type)s: carbonation %(carb_level)s', **data)
         return u''
+
+    def has_access(self, user):
+        if self.brewery.brewer != user:
+            if not (self.is_public and self.brewery.has_access(user)):
+                return False
+        return True
 
 ## events: Brew model
 def brew_pre_save(mapper, connection, target):
