@@ -98,21 +98,8 @@ def logout():
 
 def profile(userid, **kwargs):
     user_profile = get_or_404(BrewerProfile, userid)
-    is_owner = False
-    if current_user.is_authenticated():
-        is_owner = user_profile.id == current_user.id
-    context = {
-        'data': user_profile.summary_data(['nick']),
-        'data_type': 'summary',
-        'profile': user_profile,
-    }
-    if is_owner:
-        context['form'] = ProfileForm(obj=user_profile)
-    if is_owner or (current_user.is_authenticated() and user_profile.is_public):
-        context['data'] = user_profile.full_data()
-        context['data_type'] = 'full'
     if request.method == 'POST':
-        if not is_owner:
+        if current_user != user_profile:
             abort(403)
         form = ProfileForm(request.form)
         if form.validate():
@@ -124,6 +111,18 @@ def profile(userid, **kwargs):
                 return redirect(next_)
             else:
                 return redirect(url_for(next_))
+    context = {
+        'data': user_profile.summary_data(['nick']),
+        'data_type': 'summary',
+        'profile': user_profile,
+    }
+    if user_profile.has_access(current_user):
+        context['data'] = user_profile.full_data()
+        context['data_type'] = 'full'
+    else:        
+        abort(404)
+    if user_profile == current_user:
+        context['form'] = ProfileForm(obj=user_profile)
     return render_template('account/profile.html', **context)
 
 def profile_list():

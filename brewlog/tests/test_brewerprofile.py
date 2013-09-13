@@ -76,6 +76,15 @@ class BrewerProfileTestCase(BrewlogTestCase):
             self.assertEqual(rv.status_code, 200)
             self.assertEqual(BrewerProfile.get_by_email(user.email).nick, data['nick'])
 
+    def test_view_hidden_by_public(self):
+        hidden = BrewerProfile.get_by_email('hidden1@example.com')
+        user = BrewerProfile.get_by_email('user1@example.com')
+        profile_url = url_for('profile-details', userid=hidden.id)
+        with self.app.test_client() as client:
+            self.login(client, user.email)
+            rv = client.get(profile_url)
+            self.assertEqual(rv.status_code, 404)
+
 
 class ProfileBrewsTestCase(BrewlogTestCase):
 
