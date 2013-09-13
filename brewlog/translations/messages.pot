@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-03 09:46+0200\n"
+"POT-Creation-Date: 2013-09-13 12:01+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,68 +21,70 @@ msgstr ""
 msgid "Please log in to access this page"
 msgstr ""
 
-#: brewlog/models.py:76
+#: brewlog/models.py:75
 msgid "wanting to stay anonymous"
 msgstr ""
 
-#: brewlog/models.py:214 brewlog/models.py:371 brewlog/brewing/forms/brew.py:42
+#: brewlog/models.py:223 brewlog/models.py:395 brewlog/brewing/forms/brew.py:42
 #: brewlog/brewing/forms/brewery.py:19
 msgid "name"
 msgstr ""
 
-#: brewlog/models.py:215 brewlog/brewing/forms/brewery.py:20
+#: brewlog/models.py:224 brewlog/brewing/forms/brewery.py:20
 msgid "description"
 msgstr ""
 
-#: brewlog/models.py:216 brewlog/brewing/forms/brewery.py:21
+#: brewlog/models.py:225 brewlog/brewing/forms/brewery.py:21
 msgid "established"
 msgstr ""
 
-#: brewlog/models.py:372
+#: brewlog/models.py:396
 msgid "created"
 msgstr ""
 
-#: brewlog/models.py:373 brewlog/brewing/forms/brew.py:50
+#: brewlog/models.py:397 brewlog/brewing/forms/brew.py:50
 msgid "date brewed"
 msgstr ""
 
-#: brewlog/models.py:374 brewlog/brewing/forms/brew.py:44
+#: brewlog/models.py:398 brewlog/brewing/forms/brew.py:44
 msgid "style"
 msgstr ""
 
-#: brewlog/models.py:375
+#: brewlog/models.py:399
 msgid "BJCP style"
 msgstr ""
 
-#: brewlog/models.py:376 brewlog/brewing/forms/brew.py:70
-#: brewlog/templates/brew/details.html:22
+#: brewlog/models.py:400 brewlog/brewing/forms/brew.py:70
+#: brewlog/templates/brew/include/details.html:6
 msgid "brew length"
 msgstr ""
 
-#: brewlog/models.py:377 brewlog/brewing/forms/brew.py:25
-#: brewlog/brewing/forms/brew.py:66 brewlog/templates/brew/details.html:23
+#: brewlog/models.py:401 brewlog/brewing/forms/brew.py:25
+#: brewlog/brewing/forms/brew.py:66
+#: brewlog/templates/brew/include/details.html:7
 msgid "original gravity"
 msgstr ""
 
-#: brewlog/models.py:378 brewlog/brewing/forms/brew.py:26
-#: brewlog/brewing/forms/brew.py:67 brewlog/templates/brew/details.html:24
+#: brewlog/models.py:402 brewlog/brewing/forms/brew.py:26
+#: brewlog/brewing/forms/brew.py:67
+#: brewlog/templates/brew/include/details.html:8
 msgid "final gravity"
 msgstr ""
 
-#: brewlog/models.py:379 brewlog/templates/brew/details.html:25
+#: brewlog/models.py:403 brewlog/templates/brew/include/details.html:9
 msgid "abv"
 msgstr ""
 
-#: brewlog/models.py:389
+#: brewlog/models.py:413
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr ""
 
-#: brewlog/models.py:395
+#: brewlog/models.py:420
 msgid "normal"
 msgstr ""
 
-#: brewlog/models.py:397
+#: brewlog/models.py:422
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr ""
@@ -172,17 +174,17 @@ msgstr ""
 msgid "brewery %(name)s created"
 msgstr ""
 
-#: brewlog/brewing/views.py:50
+#: brewlog/brewing/views.py:54
 #, python-format
 msgid "brewery %(name)s data updated"
 msgstr ""
 
-#: brewlog/brewing/views.py:84
+#: brewlog/brewing/views.py:92
 #, python-format
 msgid "brew %(name)s created"
 msgstr ""
 
-#: brewlog/brewing/views.py:99
+#: brewlog/brewing/views.py:107
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr ""
@@ -224,12 +226,13 @@ msgstr ""
 msgid "BJCP style name"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:49 brewlog/templates/brew/details.html:68
+#: brewlog/brewing/forms/brew.py:49
+#: brewlog/templates/brew/include/details.html:52
 msgid "notes"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:51 brewlog/templates/brew/details.html:29
-#: brewlog/templates/brew/export/ipboard.txt:4
+#: brewlog/brewing/forms/brew.py:51 brewlog/templates/brew/export/ipboard.txt:4
+#: brewlog/templates/brew/include/details.html:13
 msgid "fermentables"
 msgstr ""
 
@@ -270,22 +273,26 @@ msgstr ""
 msgid "put each step on separate line to make nice list"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:61 brewlog/templates/brew/details.html:59
+#: brewlog/brewing/forms/brew.py:61
 #: brewlog/templates/brew/export/ipboard.txt:19
+#: brewlog/templates/brew/include/details.html:43
 msgid "sparging"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:62 brewlog/templates/brew/details.html:61
+#: brewlog/brewing/forms/brew.py:62
 #: brewlog/templates/brew/export/ipboard.txt:23
+#: brewlog/templates/brew/include/details.html:45
 msgid "hopping schedule"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:64 brewlog/templates/brew/details.html:60
+#: brewlog/brewing/forms/brew.py:64
 #: brewlog/templates/brew/export/ipboard.txt:21
+#: brewlog/templates/brew/include/details.html:44
 msgid "boil time"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:65 brewlog/templates/brew/details.html:73
+#: brewlog/brewing/forms/brew.py:65
+#: brewlog/templates/brew/include/details.html:57
 msgid "fermentation start date"
 msgstr ""
 
@@ -297,11 +304,13 @@ msgstr ""
 msgid "total volume in fermenter (including yeast starter volume, if any)"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:73 brewlog/templates/brew/details.html:74
+#: brewlog/brewing/forms/brew.py:73
+#: brewlog/templates/brew/include/details.html:58
 msgid "fermentation temperature"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:74 brewlog/templates/brew/details.html:26
+#: brewlog/brewing/forms/brew.py:74
+#: brewlog/templates/brew/include/details.html:10
 msgid "final amount"
 msgstr ""
 
@@ -309,7 +318,8 @@ msgstr ""
 msgid "volume into bottling"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:76 brewlog/templates/brew/details.html:75
+#: brewlog/brewing/forms/brew.py:76
+#: brewlog/templates/brew/include/details.html:59
 msgid "bottling date"
 msgstr ""
 
@@ -321,7 +331,8 @@ msgstr ""
 msgid "carbonation level"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:81 brewlog/templates/brew/details.html:77
+#: brewlog/brewing/forms/brew.py:81
+#: brewlog/templates/brew/include/details.html:61
 msgid "carbonation used"
 msgstr ""
 
@@ -481,7 +492,7 @@ msgstr ""
 
 #: brewlog/templates/account/profile.html:42 brewlog/templates/brew/form.html:4
 #: brewlog/templates/brew/form.html:7 brewlog/templates/brew/list.html:15
-#: brewlog/templates/brewery/details.html:31
+#: brewlog/templates/brewery/details.html:33
 msgid "add new brew"
 msgstr ""
 
@@ -503,54 +514,11 @@ msgid "recipe tools"
 msgstr ""
 
 #: brewlog/templates/brew/details.html:8
+msgid "print"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:9
 msgid "export recipe"
-msgstr ""
-
-#: brewlog/templates/brew/details.html:19
-#: brewlog/templates/brew/export/ipboard.txt:2
-#, python-format
-msgid "brewed on %(date)s"
-msgstr ""
-
-#: brewlog/templates/brew/details.html:19
-#, python-format
-msgid "packaged on %(date)s"
-msgstr ""
-
-#: brewlog/templates/brew/details.html:20
-msgid "stats"
-msgstr ""
-
-#: brewlog/templates/brew/details.html:28
-msgid "wort preparation"
-msgstr ""
-
-#: brewlog/templates/brew/details.html:35
-#: brewlog/templates/brew/export/ipboard.txt:7
-msgid "hops"
-msgstr ""
-
-#: brewlog/templates/brew/details.html:41
-#: brewlog/templates/brew/export/ipboard.txt:10
-msgid "yeast"
-msgstr ""
-
-#: brewlog/templates/brew/details.html:47
-#: brewlog/templates/brew/export/ipboard.txt:13
-msgid "misc. items"
-msgstr ""
-
-#: brewlog/templates/brew/details.html:53
-#: brewlog/templates/brew/export/ipboard.txt:16
-msgid "mash steps"
-msgstr ""
-
-#: brewlog/templates/brew/details.html:71
-msgid "fermentation and packaging"
-msgstr ""
-
-#: brewlog/templates/brew/details.html:76
-msgid "carbonation data"
 msgstr ""
 
 #: brewlog/templates/brew/export.html:3 brewlog/templates/brew/export.html:6
@@ -566,37 +534,88 @@ msgstr ""
 msgid "all public brews"
 msgstr ""
 
+#: brewlog/templates/brew/list.html:7
+msgid "all brews"
+msgstr ""
+
+#: brewlog/templates/brew/export/ipboard.txt:2
+#: brewlog/templates/brew/include/details.html:3
+#, python-format
+msgid "brewed on %(date)s"
+msgstr ""
+
+#: brewlog/templates/brew/export/ipboard.txt:7
+#: brewlog/templates/brew/include/details.html:19
+msgid "hops"
+msgstr ""
+
+#: brewlog/templates/brew/export/ipboard.txt:10
+#: brewlog/templates/brew/include/details.html:25
+msgid "yeast"
+msgstr ""
+
+#: brewlog/templates/brew/export/ipboard.txt:13
+#: brewlog/templates/brew/include/details.html:31
+msgid "misc. items"
+msgstr ""
+
+#: brewlog/templates/brew/export/ipboard.txt:16
+#: brewlog/templates/brew/include/details.html:37
+msgid "mash steps"
+msgstr ""
+
+#: brewlog/templates/brew/include/details.html:3
+#, python-format
+msgid "packaged on %(date)s"
+msgstr ""
+
+#: brewlog/templates/brew/include/details.html:4
+msgid "stats"
+msgstr ""
+
+#: brewlog/templates/brew/include/details.html:12
+msgid "wort preparation"
+msgstr ""
+
+#: brewlog/templates/brew/include/details.html:55
+msgid "fermentation and packaging"
+msgstr ""
+
+#: brewlog/templates/brew/include/details.html:60
+msgid "carbonation data"
+msgstr ""
+
 #: brewlog/templates/brewery/brews.html:4
 #: brewlog/templates/brewery/brews.html:7
 #, python-format
 msgid "brews from brewery %(name)s"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:8
+#: brewlog/templates/brewery/details.html:10
 msgid "You may change brewery data using the form below"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:15
+#: brewlog/templates/brewery/details.html:17
 msgid "People"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:16
+#: brewlog/templates/brewery/details.html:18
 msgid "Head brewer"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:18
+#: brewlog/templates/brewery/details.html:20
 msgid "Other brewers"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:24
+#: brewlog/templates/brewery/details.html:26
 msgid "Latest brews"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:26
+#: brewlog/templates/brewery/details.html:28
 msgid "not brewed yet"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:28
+#: brewlog/templates/brewery/details.html:30
 msgid "view all brews"
 msgstr ""
 
@@ -681,39 +700,39 @@ msgid ""
 "posting brew data directly"
 msgstr ""
 
-#: brewlog/users/views.py:19
+#: brewlog/users/views/auth.py:16
 #, python-format
 msgid "Service \"%(provider)s\" is not supported"
 msgstr ""
 
-#: brewlog/users/views.py:48
+#: brewlog/users/views/auth.py:45
 #, python-format
 msgid "You have been signed in as %(email)s using Google"
 msgstr ""
 
-#: brewlog/users/views.py:51
+#: brewlog/users/views/auth.py:48
 #, python-format
 msgid "Error receiving profile data from Google: %(code)s"
 msgstr ""
 
-#: brewlog/users/views.py:57
+#: brewlog/users/views/auth.py:54
 #, python-format
 msgid ""
 "Facebook login error, reason: %(error_reason)s, description: "
 "%(error_description)s"
 msgstr ""
 
-#: brewlog/users/views.py:76
+#: brewlog/users/views/auth.py:73
 #, python-format
 msgid "You have been signed in as %(email)s using Facebook"
 msgstr ""
 
-#: brewlog/users/views.py:91
+#: brewlog/users/views/auth.py:88
 #, python-format
 msgid "You have been signed in as %(email)s using local handler"
 msgstr ""
 
-#: brewlog/users/views.py:120
+#: brewlog/users/views/profile.py:19
 msgid "your profile data has been updated"
 msgstr ""
 
