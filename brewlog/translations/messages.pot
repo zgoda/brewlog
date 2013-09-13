@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-13 12:01+0200\n"
+"POT-Creation-Date: 2013-09-13 14:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -514,10 +514,14 @@ msgid "recipe tools"
 msgstr ""
 
 #: brewlog/templates/brew/details.html:8
-msgid "print"
+msgid "print recipe"
 msgstr ""
 
 #: brewlog/templates/brew/details.html:9
+msgid "print labels"
+msgstr ""
+
+#: brewlog/templates/brew/details.html:10
 msgid "export recipe"
 msgstr ""
 
@@ -583,6 +587,22 @@ msgstr ""
 
 #: brewlog/templates/brew/include/details.html:60
 msgid "carbonation data"
+msgstr ""
+
+#: brewlog/templates/brew/include/label.html:3
+msgid "brewed"
+msgstr ""
+
+#: brewlog/templates/brew/include/label.html:3
+msgid "packaged"
+msgstr ""
+
+#: brewlog/templates/brew/include/label.html:4
+msgid "OG"
+msgstr ""
+
+#: brewlog/templates/brew/include/label.html:4
+msgid "alc. vol."
 msgstr ""
 
 #: brewlog/templates/brewery/brews.html:4

@@ -12,3 +12,11 @@ textarea.export {
     color: gray;
     line-height: 1.1em;
 }
+
+table.printlabel td {
+    width: 9cm;
+    height: 5cm;
+    text-align: center;
+    vertical-align: center;
+    border: 1px solid black;
+}

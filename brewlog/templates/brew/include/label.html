@@ -1,0 +1,4 @@
+<h4>{{ brew.brewery.name|e }}</h4>
+<h3>{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name|e }}</h3>
+{% if brew.date_brewed and brew.bottling_date %}<p>{% trans %}brewed{% endtrans %}: {{ brew.date_brewed|dateformat("short" )}} &ndash; {% trans %}packaged{% endtrans %}: {{ brew.bottling_date|dateformat("short" )}}</p>{% endif %}
+{% if brew.og and brew.abv %}<p>{% trans %}OG{% endtrans %}: {{ '%.1f%%' % brew.og }} / {% trans %}alc. vol.{% endtrans %} : {{ '%.1f' % brew.abv }}</p>{% endif %}

@@ -1,0 +1,15 @@
+{% extends "print.html" %}
+
+{% block headpagetitle %}{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name|e }}{% endblock %}
+
+{% block widecontent %}
+<table class="printlabel">
+    {% for i in range(5) %}
+    <tr>
+        {% for j in range(2) %}
+        <td>{% include "brew/include/label.html" %}</td>
+        {% endfor %}
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

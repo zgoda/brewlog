@@ -39,6 +39,8 @@ rules = [
         dict(endpoint='brew-export', view_func=LazyView('brewlog.brewing.views.brew_export'))),
     ('/print/brew/<int:brew_id>',
         dict(endpoint='brew-print', view_func=LazyView('brewlog.brewing.views.brew_print'))),
+    ('/print/brew/<int:brew_id>/labels',
+        dict(endpoint='brew-print-labels', view_func=LazyView('brewlog.brewing.views.brew_labels'))),
     ('/',
         dict(endpoint='main', view_func=LazyView('brewlog.views.main'))),
 ]

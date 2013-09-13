@@ -151,3 +151,12 @@ def brew_print(brew_id):
         'brew': brew,
     }
     return render_template('brew/print.html', **ctx)
+
+def brew_labels(brew_id):
+    brew = get_or_404(Brew, brew_id)
+    if not brew.has_access(current_user):
+        abort(404)
+    ctx = {
+        'brew': brew,
+    }
+    return render_template('brew/labels.html', **ctx)
