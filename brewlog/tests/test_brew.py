@@ -44,7 +44,7 @@ class BrewTestCase(BrewlogTestCase):
             self.assertNotIn(self.hidden_brew_indirect.name, rv.data)
             self.assertIn(self.hidden_brew_direct.name, rv.data)
 
-    def test_view_details(self):
+    def test_view_public_details(self):
         """
         Only owner sees form for modify brew data
         """
@@ -57,6 +57,20 @@ class BrewTestCase(BrewlogTestCase):
             self.login(client, self.brew.brewery.brewer.email)
             rv = client.get(url)
             self.assertIn('<form', rv.data)
+
+    def test_view_hidden_details_indirect(self):
+        url = url_for('brew-details', brew_id=self.hidden_brew_indirect.id)
+        with self.app.test_client() as client:
+            self.login(client, self.brew.brewery.brewer.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 404)
+
+    def test_view_hidden_details_direct(self):
+        url = url_for('brew-details', brew_id=self.hidden_brew_direct.id)
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_user.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 404)
 
     def test_update_by_owner(self):
         """
