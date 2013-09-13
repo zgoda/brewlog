@@ -144,4 +144,10 @@ def brew_export(brew_id, flavour):
     return render_template('brew/export.html', **ctx)
 
 def brew_print(brew_id):
-    pass
+    brew = get_or_404(Brew, brew_id)
+    if not brew.has_access(current_user):
+        abort(404)
+    ctx = {
+        'brew': brew,
+    }
+    return render_template('brew/print.html', **ctx)
