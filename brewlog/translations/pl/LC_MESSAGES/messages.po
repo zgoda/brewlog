@@ -522,7 +522,7 @@ msgstr "narzędzia receptur"
 
 #: brewlog/templates/brew/details.html:8
 msgid "print recipe"
-msgstr "wydrukreceptury"
+msgstr "wydruk receptury"
 
 #: brewlog/templates/brew/details.html:9
 msgid "print labels"
