@@ -1,6 +1,6 @@
 <h3>{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name|e }}</h3>
 {% if brew.style %}<p>{{ brew.style|e }}</p>{% endif %}
-{% if brew.date_brewed %}<p>{{ gettext("brewed on %(date)s", date=brew.date_brewed) }}{% if brew.bottling_date %}, {{ gettext("packaged on %(date)s", date=brew.bottling_date) }}{% endif %}</p>{% endif %}
+{% if brew.date_brewed %}<p>{{ gettext("brewed on %(date)s", date=format_date(brew.date_brewed, "short")) }}{% if brew.bottling_date %}, {{ gettext("packaged on %(date)s", date=format_date(brew.bottling_date, "short")) }}{% endif %}</p>{% endif %}
 <h3>{{ gettext("stats").capitalize() }}</h3>
 <ul>
     <li><strong>{{ gettext("brew length").capitalize() }}:</strong> {% if brew.brew_length %}{{ '%.1f' % brew.brew_length }}{% endif %}</li>
