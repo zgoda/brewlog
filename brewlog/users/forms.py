@@ -15,7 +15,8 @@ class ProfileForm(BaseForm):
     email = wf.TextField(_('email'), validators=[DataRequired(), Email()])
     location = wf.TextField(_('location'), validators=[Optional()])
     about_me = wf.TextAreaField(_('about me'), validators=[Optional()])
-    is_public = wf.BooleanField(_('profile is public'), validators=[Optional()], default=True)
+    is_public = wf.BooleanField(_('profile is public'), validators=[Optional()], default=True,
+        description=_('all activity of non-public brewers is hidden on site, they are invisible'))
 
     def save(self, obj=None):
         if obj is None:

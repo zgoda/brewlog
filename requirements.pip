@@ -20,6 +20,10 @@ oauth2
 httplib2
 MarkupSafe
 translitcodec
+cssutils==0.9.7
+ll-xist==3.25
+python-dateutil
+six
 
 # database migrations
 alembic

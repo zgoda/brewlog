@@ -24,3 +24,7 @@ class BreweryForm(BaseForm):
         if obj is None:
             obj = Brewery(brewer=current_user)
         return super(BreweryForm, self).save(obj, save=True)
+
+
+class RecipesUploadForm(BaseForm):
+    upload_file = wf.FileField(_('recipes file'))

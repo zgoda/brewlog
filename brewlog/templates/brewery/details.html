@@ -11,6 +11,10 @@
 <form method="post" action="{{ brewery.absolute_url }}" class="custom">
     {{ forms.render(form) }}
 </form>
+<p>{% trans %}Upload your recipes in BeerXML file{% endtrans %}</p>
+<form method="post" action="{{ url_for('brewery-upload-recipes', brewery_id=brewery.id) }}" class="custom" enctype="multipart/form-data">
+    {{ forms.render(upload_form) }}
+</form>
 {% else %}
 {{ modelrender.render(brewery) }}
 {% endif %}

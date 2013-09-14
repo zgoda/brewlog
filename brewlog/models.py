@@ -13,6 +13,8 @@ from brewlog.db import Model
 from brewlog.brewing import choices
 from brewlog.utils.models import DataModelMixin
 from brewlog.utils.text import slugify, stars2deg
+from brewlog.utils.dataimport import import_beerxml
+from brewlog.utils.brewing import abv
 
 
 class BrewerProfile(UserMixin, DataModelMixin, Model):
@@ -255,6 +257,16 @@ class Brewery(Model):
                 return False
         return True
 
+    def create_brew(self, **kwargs):
+        brew = Brew(brewery=self)
+        for k, v in kwargs:
+            setattr(brew, k, v)
+        return brew
+
+    def import_recipes_from(self, source, filetype, save=True):
+        if filetype.lower() == 'beerxml':
+            brews = import_beerxml(source, self, save)
+
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):
     if target.description:
@@ -437,12 +449,11 @@ def brew_pre_save(mapper, connection, target):
         target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
     if target.updated is None:
         target.updated = target.created
-    if target.og and target.fg:
-        result = (target.og - target.fg) / decimal.Decimal(1.938)
+    if target.og and target.fg and target.carbonation_type and target.carbonation_level:
+        from_carbonation = 0
         if target.carbonation_type.endswith(u'priming'):
-            level = target.carbonation_level or u'normal'
-            result = result + choices.CARB_LEVEL_DATA[level]
-        target.abv = result
+            from_carbonation = choices.CARB_LEVEL_DATA[target.carbonation_level or u'normal']
+        target.abv = abv(target.og, target.fg, from_carbonation)
 
 event.listen(Brew, 'before_insert', brew_pre_save)
 event.listen(Brew, 'before_update', brew_pre_save)
