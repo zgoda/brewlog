@@ -6,6 +6,7 @@ from sqlalchemy import desc
 from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.models import BrewerProfile, Brewery, Brew
 from brewlog.users.forms import ProfileForm
+from brewlog.brewing.forms.brew import BrewDeleteForm
 
 
 def profile(userid, **kwargs):
@@ -85,5 +86,6 @@ def brews(userid):
     ctx = {
         'brews': paginate(query, page-1, page_size),
         'pagination': pagination,
+        'delete_form': BrewDeleteForm(),
     }
     return render_template('brew/list.html', **ctx)

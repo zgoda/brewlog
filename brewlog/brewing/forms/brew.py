@@ -86,3 +86,7 @@ class BrewForm(BaseForm):
         if obj is None:
             obj = Brew()
         return super(BrewForm, self).save(obj, save)
+
+
+class BrewDeleteForm(BaseForm):
+    delete_it = wf.BooleanField(_('delete'), default=False)

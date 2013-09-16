@@ -6,10 +6,11 @@ from flask_babel import gettext as _
 from werkzeug import secure_filename
 from sqlalchemy import desc
 
+from brewlog.db import session as dbsession
 from brewlog.models import Brewery, Brew
 from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.brewing.forms.brewery import BreweryForm, RecipesUploadForm
-from brewlog.brewing.forms.brew import BrewForm
+from brewlog.brewing.forms.brew import BrewForm, BrewDeleteForm
 
 
 @login_required
@@ -188,3 +189,17 @@ def brew_labels(brew_id):
         'brew': brew,
     }
     return render_template('brew/labels.html', **ctx)
+
+@login_required
+def brew_delete(brew_id):
+    brew = get_or_404(Brew, brew_id)
+    if brew.brewery.brewer != current_user:
+        abort(403)
+    name = brew.name
+    form = BrewDeleteForm(request.form)
+    if form.validate():
+        dbsession.delete(brew)
+        dbsession.commit()
+        flash(_('brew %(name)s has been deleted', name=name))
+    next_ = request.referrer or current_user.absolute_url
+    return redirect(next_)

@@ -1,8 +1,9 @@
 import os
 
 from ll import sisyphus
+from flask_mail import Message
 
-from brewlog import config
+from brewlog import config, mail
 from brewlog.models import Brewery
 from brewlog.utils.files import sorted_directory_listing
 
@@ -20,9 +21,15 @@ class BeerXMLProcessor(sisyphus.Job):
             brewery = self._get_brewery_for_file(fn)
             if brewery:
                 imported, failed = brewery.import_recipes_from(fn, filetype='beerxml')
-                self.log.info('%d recipes imported, %d failed from file %s' % (imported, failed, fn))
+                msg = u'%d recipes imported, %d failed from file %s' % (imported, failed, fn)
+                self.log.info(msg)
                 if imported > 0:
                     os.unlink(fn)
+                with mail.connect() as connection:
+                    user = brewery.brewer
+                    subject = u'Your BeerXML file has been processed'
+                    message = Message(recipients=[user.email], body=message, subject=subject)
+                    connection.send(message)
 
     def _find_oldest_file(self):
         dirname = os.path.join(config.UPLOAD_DIR, 'import')

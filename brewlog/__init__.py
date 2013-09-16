@@ -4,12 +4,14 @@ from werkzeug.utils import ImportStringError
 from flask import Flask, render_template, get_flashed_messages
 from flask_babel import Babel, lazy_gettext as _, format_date
 from flask_login import LoginManager, current_user
+from flask_mail import Mail
 
 from brewlog.db import init_engine, session
 
 
 login_manager = LoginManager()
 babel = Babel()
+mail = Mail()
 
 def make_app(env):
     app = Flask(__name__)
@@ -45,6 +47,7 @@ def make_app(env):
     login_manager.login_message = _('Please log in to access this page')
     login_manager.login_message_category = 'info'
     babel.init_app(app)
+    mail.init_app(app)
 
     # register url map
     from brewlog.urls import rules
