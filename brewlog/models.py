@@ -265,7 +265,8 @@ class Brewery(Model):
 
     def import_recipes_from(self, source, filetype, save=True):
         if filetype.lower() == 'beerxml':
-            brews = import_beerxml(source, self, save)
+            brews, num_failed = import_beerxml(source, self, save)
+        return len(brews), num_failed
 
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):

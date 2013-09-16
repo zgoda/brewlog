@@ -1,3 +1,5 @@
+import os
+
 from ll import sisyphus
 
 from brewlog import config
@@ -18,6 +20,9 @@ class BeerXMLProcessor(sisyphus.Job):
             brewery = self._get_brewery_for_file(fn)
             if brewery:
                 imported, failed = brewery.import_recipes_from(fn, filetype='beerxml')
+                self.log.info('%d recipes imported, %d failed from file %s' % (imported, failed, fn))
+                if imported > 0:
+                    os.unlink(fn)
 
     def _find_oldest_file(self):
         dirname = os.path.join(config.UPLOAD_DIR, 'import')
