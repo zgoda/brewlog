@@ -9,7 +9,7 @@ MYSQL_PASSWORD = 'brewlog'
 MYSQL_DB_NAME = 'brewlog'
 MYSQL_SOCKET = os.environ['OPENSHIFT_MYSQL_DB_SOCKET']
 
-SQLALCHEMY_DATABASE_URI = 'mysql://%(MYSQL_USER_NAME)s:%(MYSQL_PASSWORD)s@%(MYSQL_HOST)s:%(MYSQL_PORT)s/%(MYSQL_DB_NAME)s?charset=utf8&unix_socket=%(MYSQL_SOCKET)s' % locals()
+SQLALCHEMY_DATABASE_URI = 'mysql://%(MYSQL_USER_NAME)s:%(MYSQL_PASSWORD)s@localhost/%(MYSQL_DB_NAME)s?charset=utf8&unix_socket=%(MYSQL_SOCKET)s' % locals()
 PROD_SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI
 
 UPLOAD_DIR = os.path.join(os.environ['OPENSHIFT_DATA_DIR'], 'uploads')
