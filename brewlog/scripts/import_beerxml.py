@@ -21,10 +21,9 @@ class BeerXMLProcessor(sisyphus.Job):
             brewery = self._get_brewery_for_file(fn)
             if brewery:
                 imported, failed = brewery.import_recipes_from(fn, filetype='beerxml')
-                msg = u'%d recipes imported, %d failed from file %s' % (imported, failed, fn)
+                msg = u'%d recipes imported, %d failed from file %s, file has been removed' % (imported, failed, fn)
                 self.log.info(msg)
-                if imported > 0:
-                    os.unlink(fn)
+                os.unlink(fn)
                 with mail.connect() as connection:
                     user = brewery.brewer
                     subject = u'Your BeerXML file has been processed'

@@ -2,7 +2,7 @@ import os
 
 from werkzeug.utils import ImportStringError
 from flask import Flask, render_template, get_flashed_messages
-from flask_babel import Babel, lazy_gettext as _, format_date
+from flask_babel import Babel, gettext as _, format_date
 from flask_login import LoginManager, current_user
 from flask_mail import Mail
 
