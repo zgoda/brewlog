@@ -8,7 +8,7 @@
 <h3>{% if public_only %}{{ gettext("all public brews").capitalize() }}{% else %}{{ gettext("all brews").capitalize() }}{% endif %}</h3>
 {% if brews %}
 <ul class="no-bullet">
-{% for brew in brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a> <small>({% if brew.is_draft %}<strong>{{ gettext("draft") }}</strong> {% endif %}{{ brew.display_info|e }})</small> {% if delete_form and brew.brewery.brewer == user %}<form method="post" action="{{ url_for('brew-delete', brew_id=brew.id) }}" style="display:inline" class="custom">{{ delete_form.hidden_tag() }}{{ delete_form.delete_it() }} <button type="submit" class="button small radius">{% trans %}delete{% endtrans %}</button></form>{% endif %}</li>{% endfor %}
+{% for brew in brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a> <small>({% if brew.is_draft %}<strong>{{ gettext("draft") }}</strong> {% endif %}{{ brew.display_info|e }})</small> <a href="{{ url_for('brew-delete', brew_id=brew.id) }}" class="button small radius">{{ gettext("delete") }}</a></li>{% endfor %}
 </ul>
 {{ pg.render_pagination(pagination) }}
 {% endif %}

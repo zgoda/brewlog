@@ -8,9 +8,10 @@ from sqlalchemy import desc
 
 from brewlog.db import session as dbsession
 from brewlog.models import Brewery, Brew
+from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.brewing.forms.brewery import BreweryForm, RecipesUploadForm
-from brewlog.brewing.forms.brew import BrewForm, BrewDeleteForm
+from brewlog.brewing.forms.brew import BrewForm
 
 
 @login_required
@@ -29,6 +30,26 @@ def brewery_add():
         'form': form,
     }
     return render_template('brewery/form.html', **ctx)
+
+@login_required
+def brewery_delete(brewery_id):
+    brewery = get_or_404(Brewery, brewery_id)
+    if brewery.brewer != current_user:
+        abort(404)
+    form = DeleteForm(request.form)
+    if request.method == 'POST':
+        name = brewery.name
+        if form.validate():
+            dbsession.delete(brewery)
+            dbsession.commit()
+            flash(_('brewery %(name)s has been deleted', name=name))
+            next_ = request.args.get('next') or url_for('profile-breweries', userid=current_user.id)
+            return redirect(next_)
+    ctx = {
+        'delete_form': form,
+        'brewery': brewery,
+    }
+    return render_template('brewery/delete.html', **ctx)
 
 @login_required
 def upload_recipes(brewery_id):
@@ -196,10 +217,16 @@ def brew_delete(brew_id):
     if brew.brewery.brewer != current_user:
         abort(403)
     name = brew.name
-    form = BrewDeleteForm(request.form)
-    if form.validate():
-        dbsession.delete(brew)
-        dbsession.commit()
-        flash(_('brew %(name)s has been deleted', name=name))
-    next_ = request.referrer or current_user.absolute_url
-    return redirect(next_)
+    form = DeleteForm(request.form)
+    if request.method == 'POST':
+        if form.validate():
+            dbsession.delete(brew)
+            dbsession.commit()
+            flash(_('brew %(name)s has been deleted', name=name))
+            next_ = request.args.get('next') or url_for('profile-brews', userid=current_user.id)
+            return redirect(next_)
+    ctx = {
+        'brew': brew,
+        'delete_form': form,
+    }
+    return render_template('brew/delete.html', **ctx)

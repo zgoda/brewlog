@@ -6,7 +6,6 @@ from sqlalchemy import desc
 from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.models import BrewerProfile, Brewery, Brew
 from brewlog.users.forms import ProfileForm
-from brewlog.brewing.forms.brew import BrewDeleteForm
 
 
 def profile(userid, **kwargs):
@@ -79,13 +78,12 @@ def brews(userid):
     except ValueError:
         page = 1
     query = Brew.query.join(Brewery).filter(Brewery.brewer_id==userid)
-    if current_user.id != userid:
+    if current_user.is_anonymous() or current_user.id != userid:
         query = query.filter_by(is_public=True)
     query = query.order_by(desc(Brew.created))
     pagination = Pagination(page, page_size, query.count())
     ctx = {
         'brews': paginate(query, page-1, page_size),
         'pagination': pagination,
-        'delete_form': BrewDeleteForm(),
     }
     return render_template('brew/list.html', **ctx)

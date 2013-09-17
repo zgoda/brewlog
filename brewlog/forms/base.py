@@ -1,4 +1,6 @@
+from wtforms import BooleanField
 from flask_wtf import Form
+from flask_babel import lazy_gettext as _
 
 from brewlog import session
 
@@ -11,3 +13,7 @@ class BaseForm(Form):
             session.add(obj)
             session.commit()
         return obj
+
+
+class DeleteForm(BaseForm):
+    delete_it = BooleanField(_('delete'), default=False)
