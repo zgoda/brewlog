@@ -27,7 +27,7 @@ class BeerXMLProcessor(sisyphus.Job):
                 with mail.connect() as connection:
                     user = brewery.brewer
                     subject = u'Your BeerXML file has been processed'
-                    message = Message(recipients=[user.email], body=message, subject=subject)
+                    message = Message(recipients=[user.email], body=msg, subject=subject)
                     connection.send(message)
 
     def _find_oldest_file(self):
