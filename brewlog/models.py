@@ -172,7 +172,7 @@ class Brewery(Model):
     updated = Column(DateTime, onupdate=datetime.datetime.utcnow, index=True)
     brewer_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
     brewer = relationship('BrewerProfile')
-    brews = relationship('Brew')
+    brews = relationship('Brew', cascade='all,delete')
 
     def __unicode__(self):
         return self.name
