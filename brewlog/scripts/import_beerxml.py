@@ -36,11 +36,13 @@ class BeerXMLProcessor(sisyphus.Job):
         if not os.path.isdir(dirname):
             os.makedirs(dirname)
         try:
-            return sorted_directory_listing(dirname)[0]
+            ctime, oldest = sorted_directory_listing(dirname)[0]
+            return oldest
         except:
             return None
 
     def _get_brewery_for_file(self, fn):
+        import ipdb; ipdb.set_trace()
         try:
             fname = os.path.split(fn)[-1]
             if not fname.startswith('bid'):

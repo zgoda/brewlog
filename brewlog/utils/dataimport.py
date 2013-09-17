@@ -131,4 +131,4 @@ def import_beerxml(filename, brewery, save=True):
         imported.append(brew)
     if save:
         session.commit()
-    return imported
+    return imported, 0
