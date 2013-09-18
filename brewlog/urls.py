@@ -29,8 +29,6 @@ rules = [
         dict(endpoint='brewery-details', view_func=LazyView('brewlog.brewing.views.brewery'), methods=['POST', 'GET'])),
     ('/brewery/<int:brewery_id>/brews',
         dict(endpoint='brewery-brews', view_func=LazyView('brewlog.brewing.views.brewery_brews'))),
-    ('/brewery/<int:brewery_id>/recipeupload',
-        dict(endpoint='brewery-upload-recipes', view_func=LazyView('brewlog.brewing.views.upload_recipes'), methods=['POST'])),
     ('/brewery/<int:brewery_id>/delete',
         dict(endpoint='brewery-delete', view_func=LazyView('brewlog.brewing.views.brewery_delete'), methods=['POST', 'GET'])),
     ('/brew/add',

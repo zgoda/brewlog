@@ -1,16 +1,13 @@
-import os
-
-from flask import request, flash, url_for, redirect, render_template, abort, current_app
+from flask import request, flash, url_for, redirect, render_template, abort
 from flask_login import current_user, login_required
 from flask_babel import gettext as _
-from werkzeug import secure_filename
 from sqlalchemy import desc
 
 from brewlog.db import session as dbsession
 from brewlog.models import Brewery, Brew
 from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_or_404, Pagination, paginate
-from brewlog.brewing.forms.brewery import BreweryForm, RecipesUploadForm
+from brewlog.brewing.forms.brewery import BreweryForm
 from brewlog.brewing.forms.brew import BrewForm
 
 
@@ -51,30 +48,6 @@ def brewery_delete(brewery_id):
     }
     return render_template('brewery/delete.html', **ctx)
 
-@login_required
-def upload_recipes(brewery_id):
-    brewery = get_or_404(Brewery, brewery_id)
-    if not brewery.has_access(current_user):
-        abort(403)
-    form = RecipesUploadForm(request.form)
-    if form.validate():
-        f = request.files[form.upload_file.name]
-        if f:
-            fname = 'bid_%s_%s' % (brewery_id, secure_filename(f.filename))
-            tgt_dir = os.path.join(current_app.config['UPLOAD_DIR'])
-            if not os.path.isdir(tgt_dir):
-                os.makedirs(tgt_dir)
-            fpath = os.path.join(tgt_dir, fname)
-            if os.path.isfile(fpath):
-                flash(_('unprocessed recipes file with the same name already exists, upload aborted'))
-            else:
-                f.save(fpath)
-                flash(_('thank you for uploading recipes file, email will be sent with processing outcome'))
-    else:
-        flash(_('file upload failed: %s') % form.errors)
-    next_ = request.args.get('next') or request.referrer
-    return redirect(next_)
-
 def brewery_all():
     page_size = 20
     try:
@@ -109,7 +82,6 @@ def brewery(brewery_id, **kwargs):
     }
     if current_user == brewery.brewer:
         ctx['form'] = BreweryForm(obj=brewery)
-        ctx['upload_form'] = RecipesUploadForm()
     return render_template('brewery/details.html', **ctx)
 
 def brewery_brews(brewery_id):
