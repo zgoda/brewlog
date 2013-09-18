@@ -20,13 +20,13 @@
 <h5>{{ gettext("Owned") }}</h5>
 {% if profile.breweries %}
 <ul class="no-bullet">
-    {% for brewery in profile.breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> <small>({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews|count) }})</small></li>{% endfor %}
+    {% for brewery in profile.breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> ({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews|count) }})</li>{% endfor %}
 </ul>
 {% endif %}
 {% if profile.other_breweries %}
 <h5>{{ gettext("Other") }}</h5>
 <ul>
-    {% for brewery in profile.other_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> <small>{{ ngettext("%(num)d brew", "%(num)d brews"), brewery.brews|count }}</small></li>{% endfor %}
+    {% for brewery in profile.other_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> {{ ngettext("%(num)d brew", "%(num)d brews"), brewery.brews|count }}</li>{% endfor %}
 </ul>
 {% endif %}
 {% if form %}
@@ -35,7 +35,7 @@
 {% if profile.latest_brews %}
 <h4>{{ gettext("latest brews").capitalize() }}</h4>
 <ul class="no-bullet">
-    {% for brew in profile.latest_brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a> <small>{{ brew.created|dateformat("short") }}</small></li>{% endfor %}
+    {% for brew in profile.latest_brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a> {{ brew.created|dateformat("short") }}</li>{% endfor %}
 </ul>
 {% endif %}
 {% if form and (profile.breweries or profile.other_breweries) %}
