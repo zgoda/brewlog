@@ -20,6 +20,7 @@ class BreweryTestCase(BrewlogTestCase):
             self.login(client, self.public_brewery.brewer.email)
             rv = client.get(url)
             self.assertNotIn(self.hidden_brewery.name, rv.data)
+            self.assertIn(url_for('brewery-delete', brewery_id=self.public_brewery.id), rv.data)
 
     def test_owner_view_list(self):
         """
@@ -30,6 +31,7 @@ class BreweryTestCase(BrewlogTestCase):
             self.login(client, self.hidden_brewery.brewer.email)
             rv = client.get(url)
             self.assertIn(self.hidden_brewery.name, rv.data)
+            self.assertIn(url_for('brewery-delete', brewery_id=self.hidden_brewery.id), rv.data)
 
     def test_nonowner_view(self):
         """
@@ -83,6 +85,30 @@ class BreweryTestCase(BrewlogTestCase):
             self.assertIn(new_name, rv.data)
             brewery = Brewery.query.get(self.hidden_brewery.id)
             self.assertEqual(brewery.name, new_name)
+
+    def test_owner_delete(self):
+        """
+        Delete brewery by owner:
+            * success
+        """
+        brewery_id = self.hidden_brewery.id
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brewery.brewer.email)
+            url = url_for('brewery-delete', brewery_id=self.hidden_brewery.id)
+            rv = client.post(url, data={'delete_it': True}, follow_redirects=True)
+            self.assertEqual(rv.status_code, 200)
+            self.assertIsNone(Brewery.query.get(brewery_id))
+
+    def test_nonowner_delete(self):
+        """
+        Delete brewery by non owner:
+            * 403
+        """
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brewery.brewer.email)
+            url = url_for('brewery-delete', brewery_id=self.public_brewery.id)
+            rv = client.post(url, data={'delete_it': True})
+            self.assertEqual(rv.status_code, 403)
 
 
 class BreweryBrewsTestCase(BrewlogTestCase):

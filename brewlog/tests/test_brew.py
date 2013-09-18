@@ -21,8 +21,11 @@ class BrewTestCase(BrewlogTestCase):
         """
         with self.app.test_client() as client:
             rv = client.get(self.list_url)
+            self.assertIn(self.brew.name, rv.data)
             self.assertNotIn(self.hidden_brew_indirect.name, rv.data)
             self.assertNotIn(self.hidden_brew_direct.name, rv.data)
+            # delete button is not visible here
+            self.assertNotIn(url_for('brew-delete', brew_id=self.brew.id), rv.data)
 
     def test_hidden_user_view_list(self):
         """
@@ -31,8 +34,11 @@ class BrewTestCase(BrewlogTestCase):
         with self.app.test_client() as client:
             self.login(client, self.hidden_user.email)
             rv = client.get(self.list_url)
+            self.assertIn(self.brew.name, rv.data)
             self.assertIn(self.hidden_brew_indirect.name, rv.data)
             self.assertNotIn(self.hidden_brew_direct.name, rv.data)
+            self.assertNotIn(url_for('brew-delete', brew_id=self.brew.id), rv.data)
+            self.assertIn(url_for('brew-delete', brew_id=self.hidden_brew_indirect.id), rv.data)
 
     def test_hidden_brew_view_list(self):
         """
@@ -41,8 +47,11 @@ class BrewTestCase(BrewlogTestCase):
         with self.app.test_client() as client:
             self.login(client, self.hidden_brew_direct.brewery.brewer.email)
             rv = client.get(self.list_url)
+            self.assertIn(self.brew.name, rv.data)
             self.assertNotIn(self.hidden_brew_indirect.name, rv.data)
             self.assertIn(self.hidden_brew_direct.name, rv.data)
+            self.assertIn(url_for('brew-delete', brew_id=self.brew.id), rv.data)
+            self.assertIn(url_for('brew-delete', brew_id=self.hidden_brew_direct.id), rv.data)
 
     def test_view_public_details(self):
         """
@@ -113,6 +122,27 @@ class BrewTestCase(BrewlogTestCase):
                 'name': 'new name (still hidden)',
             }
             rv = client.post(url, data=data)
+            self.assertEqual(rv.status_code, 403)
+
+    def test_delete_by_owner(self):
+        """
+        Delete brew by owner:
+            * success
+        """
+        brew_id = self.hidden_brew_direct.id
+        url = url_for('brew-delete', brew_id=brew_id)
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brew_direct.brewery.brewer.email)
+            rv = client.post(url, data={'delete_it': True}, follow_redirects=True)
+            self.assertEqual(rv.status_code, 200)
+            self.assertIsNone(Brew.query.get(brew_id))
+
+    def test_delete_by_other(self):
+        brew_id = self.brew.id
+        url = url_for('brew-delete', brew_id=brew_id)
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_user.email)
+            rv = client.post(url, data={'delete_it': True})
             self.assertEqual(rv.status_code, 403)
 
 

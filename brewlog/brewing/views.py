@@ -35,7 +35,7 @@ def brewery_add():
 def brewery_delete(brewery_id):
     brewery = get_or_404(Brewery, brewery_id)
     if brewery.brewer != current_user:
-        abort(404)
+        abort(403)
     form = DeleteForm(request.form)
     if request.method == 'POST':
         name = brewery.name
