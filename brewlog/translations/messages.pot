@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-17 10:14+0200\n"
+"POT-Creation-Date: 2013-09-18 11:30+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,70 +21,70 @@ msgstr ""
 msgid "Please log in to access this page"
 msgstr ""
 
-#: brewlog/models.py:77
+#: brewlog/models.py:76
 msgid "wanting to stay anonymous"
 msgstr ""
 
-#: brewlog/models.py:225 brewlog/models.py:408 brewlog/brewing/forms/brew.py:42
+#: brewlog/models.py:224 brewlog/models.py:407 brewlog/brewing/forms/brew.py:42
 #: brewlog/brewing/forms/brewery.py:19
 msgid "name"
 msgstr ""
 
-#: brewlog/models.py:226 brewlog/brewing/forms/brewery.py:20
+#: brewlog/models.py:225 brewlog/brewing/forms/brewery.py:20
 msgid "description"
 msgstr ""
 
-#: brewlog/models.py:227 brewlog/brewing/forms/brewery.py:21
+#: brewlog/models.py:226 brewlog/brewing/forms/brewery.py:21
 msgid "established"
 msgstr ""
 
-#: brewlog/models.py:409
+#: brewlog/models.py:408
 msgid "created"
 msgstr ""
 
-#: brewlog/models.py:410 brewlog/brewing/forms/brew.py:50
+#: brewlog/models.py:409 brewlog/brewing/forms/brew.py:50
 msgid "date brewed"
 msgstr ""
 
-#: brewlog/models.py:411 brewlog/brewing/forms/brew.py:44
+#: brewlog/models.py:410 brewlog/brewing/forms/brew.py:44
 msgid "style"
 msgstr ""
 
-#: brewlog/models.py:412
+#: brewlog/models.py:411
 msgid "BJCP style"
 msgstr ""
 
-#: brewlog/models.py:413 brewlog/brewing/forms/brew.py:70
+#: brewlog/models.py:412 brewlog/brewing/forms/brew.py:70
 #: brewlog/templates/brew/include/details.html:6
 msgid "brew length"
 msgstr ""
 
-#: brewlog/models.py:414 brewlog/brewing/forms/brew.py:25
+#: brewlog/models.py:413 brewlog/brewing/forms/brew.py:25
 #: brewlog/brewing/forms/brew.py:66
 #: brewlog/templates/brew/include/details.html:7
 msgid "original gravity"
 msgstr ""
 
-#: brewlog/models.py:415 brewlog/brewing/forms/brew.py:26
+#: brewlog/models.py:414 brewlog/brewing/forms/brew.py:26
 #: brewlog/brewing/forms/brew.py:67
 #: brewlog/templates/brew/include/details.html:8
 msgid "final gravity"
 msgstr ""
 
-#: brewlog/models.py:416 brewlog/templates/brew/include/details.html:9
+#: brewlog/models.py:415 brewlog/templates/brew/include/details.html:9
 msgid "abv"
 msgstr ""
 
-#: brewlog/models.py:426
+#: brewlog/models.py:425
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr ""
 
-#: brewlog/models.py:433
+#: brewlog/models.py:432
 msgid "normal"
 msgstr ""
 
-#: brewlog/models.py:435
+#: brewlog/models.py:434
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr ""
@@ -169,42 +169,47 @@ msgstr ""
 msgid "dry hop"
 msgstr ""
 
-#: brewlog/brewing/views.py:22
+#: brewlog/brewing/views.py:23
 #, python-format
 msgid "brewery %(name)s created"
 msgstr ""
 
-#: brewlog/brewing/views.py:48
+#: brewlog/brewing/views.py:45
+#, python-format
+msgid "brewery %(name)s has been deleted"
+msgstr ""
+
+#: brewlog/brewing/views.py:69
 msgid "unprocessed recipes file with the same name already exists, upload aborted"
 msgstr ""
 
-#: brewlog/brewing/views.py:51
+#: brewlog/brewing/views.py:72
 msgid ""
 "thank you for uploading recipes file, email will be sent with processing "
 "outcome"
 msgstr ""
 
-#: brewlog/brewing/views.py:53
+#: brewlog/brewing/views.py:74
 #, python-format
 msgid "file upload failed: %s"
 msgstr ""
 
-#: brewlog/brewing/views.py:82
+#: brewlog/brewing/views.py:103
 #, python-format
 msgid "brewery %(name)s data updated"
 msgstr ""
 
-#: brewlog/brewing/views.py:121
+#: brewlog/brewing/views.py:142
 #, python-format
 msgid "brew %(name)s created"
 msgstr ""
 
-#: brewlog/brewing/views.py:136
+#: brewlog/brewing/views.py:157
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr ""
 
-#: brewlog/brewing/views.py:203
+#: brewlog/brewing/views.py:225
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr ""
@@ -364,16 +369,17 @@ msgstr ""
 msgid "draft"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:92 brewlog/templates/brew/list.html:11
-msgid "delete"
-msgstr ""
-
 #: brewlog/brewing/forms/brewery.py:15
 msgid "brewery name has to be between 4 and 500 characters long"
 msgstr ""
 
 #: brewlog/brewing/forms/brewery.py:30
 msgid "recipes file"
+msgstr ""
+
+#: brewlog/forms/base.py:19 brewlog/templates/brew/list.html:11
+#: brewlog/templates/brewery/list.html:10
+msgid "delete"
 msgstr ""
 
 #: brewlog/templates/404.html:3
@@ -537,6 +543,24 @@ msgstr ""
 msgid "Sign in with"
 msgstr ""
 
+#: brewlog/templates/brew/delete.html:3
+#, python-format
+msgid "confirm removal of your brew %(name)s"
+msgstr ""
+
+#: brewlog/templates/brew/delete.html:7
+#, python-format
+msgid ""
+"Brew %(name)s is about to be deleted with all its content. As this "
+"process is irreversible we're asking you again, is this really what yoy "
+"want do do?"
+msgstr ""
+
+#: brewlog/templates/brew/delete.html:11
+#: brewlog/templates/brewery/delete.html:16
+msgid "Yes, delete it"
+msgstr ""
+
 #: brewlog/templates/brew/details.html:6
 msgid "recipe tools"
 msgstr ""
@@ -637,6 +661,24 @@ msgstr ""
 #: brewlog/templates/brewery/brews.html:7
 #, python-format
 msgid "brews from brewery %(name)s"
+msgstr ""
+
+#: brewlog/templates/brewery/delete.html:3
+#, python-format
+msgid "confirm removal of your brewery %(name)s"
+msgstr ""
+
+#: brewlog/templates/brewery/delete.html:7
+#, python-format
+msgid ""
+"Brewery %(name)s is about to be deleted with all its content. As this "
+"process is irreversible we're asking you again, is this really what yoy "
+"want do do?"
+msgstr ""
+
+#: brewlog/templates/brewery/delete.html:7
+#, python-format
+msgid "Along with brewery %(name)s following items will be removed:"
 msgstr ""
 
 #: brewlog/templates/brewery/details.html:10
@@ -788,7 +830,7 @@ msgstr ""
 msgid "You have been signed in as %(email)s using local handler"
 msgstr ""
 
-#: brewlog/users/views/profile.py:20
+#: brewlog/users/views/profile.py:19
 msgid "your profile data has been updated"
 msgstr ""
 
