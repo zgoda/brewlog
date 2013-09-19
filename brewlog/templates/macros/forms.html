@@ -1,4 +1,5 @@
 {% macro render(form) -%}
+{% set hints = kwargs.pop('hints', None) %}
 {% if form %}
 {{ form.hidden_tag() }}
 <fieldset>
@@ -11,6 +12,8 @@
     {% else %}
         {% if field.type == 'DecimalField' %}
             {{ form_field(field, with_label=True, step=pow(10, field.places * -1)) }}
+        {% elif field.type == 'TextAreaWithHintsField' and hints %}
+            {{ form_field(field, with_label=True, hints=hints) }}
         {% else %}
             {{ form_field(field, with_label=True) }}
         {% endif %}

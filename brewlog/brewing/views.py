@@ -1,6 +1,7 @@
 from flask import request, flash, url_for, redirect, render_template, abort
 from flask_login import current_user, login_required
 from flask_babel import gettext as _
+from flask_babel import lazy_gettext
 from sqlalchemy import desc
 
 from brewlog.db import session as dbsession
@@ -9,6 +10,12 @@ from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.brewing.forms.brewery import BreweryForm
 from brewlog.brewing.forms.brew import BrewForm
+
+
+HINTS = [
+    ("67-66*C - 90'\n75*C - 15'", lazy_gettext('single infusion mash w/ mash out')),
+    ("63-61*C - 30'\n73-71*C - 30'\n75*C - 15'", lazy_gettext('2-step mash w/ mash out')),
+]
 
 
 @login_required
@@ -115,6 +122,7 @@ def brew_add():
             return redirect(brew.absolute_url)
     ctx = {
         'form': form,
+        'mash_hints': HINTS,
     }
     return render_template('brew/form.html', **ctx)
 
@@ -132,6 +140,7 @@ def brew(brew_id, **kwargs):
         abort(404)
     ctx = {
         'brew': brew,
+        'mash_hints': HINTS,
     }
     if current_user in brew.brewery.brewers:
         ctx['form'] = BrewForm(obj=brew)

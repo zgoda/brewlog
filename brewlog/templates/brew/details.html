@@ -22,7 +22,7 @@
 {% include "brew/include/details.html" %}
 {% if form %}
 <form method="post" action="{{ brew.absolute_url }}" class="custom">
-    {{ forms.render(form) }}
+    {{ forms.render(form, hints=mash_hints) }}
 </form>
 {% endif %}
 {% endblock %}

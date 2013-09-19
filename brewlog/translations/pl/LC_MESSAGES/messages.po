@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-19 12:54+0200\n"
+"POT-Creation-Date: 2013-09-19 15:45+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -27,7 +27,7 @@ msgstr "Musisz się zalogować by uzyskać dostęp do tej strony"
 msgid "wanting to stay anonymous"
 msgstr "pragnący pozostać anonimowym"
 
-#: brewlog/models.py:229 brewlog/models.py:412 brewlog/brewing/forms/brew.py:42
+#: brewlog/models.py:229 brewlog/models.py:412 brewlog/brewing/forms/brew.py:44
 #: brewlog/brewing/forms/brewery.py:19 brewlog/users/forms.py:28
 msgid "name"
 msgstr "nazwa"
@@ -44,11 +44,11 @@ msgstr "ustanowiony"
 msgid "created"
 msgstr "utworzona"
 
-#: brewlog/models.py:414 brewlog/brewing/forms/brew.py:50
+#: brewlog/models.py:414 brewlog/brewing/forms/brew.py:52
 msgid "date brewed"
 msgstr "data warzenia"
 
-#: brewlog/models.py:415 brewlog/brewing/forms/brew.py:44
+#: brewlog/models.py:415 brewlog/brewing/forms/brew.py:46
 msgid "style"
 msgstr "styl"
 
@@ -56,19 +56,19 @@ msgstr "styl"
 msgid "BJCP style"
 msgstr "styl BJCP"
 
-#: brewlog/models.py:417 brewlog/brewing/forms/brew.py:70
+#: brewlog/models.py:417 brewlog/brewing/forms/brew.py:73
 #: brewlog/templates/brew/include/details.html:6
 msgid "brew length"
 msgstr "wielkość warki"
 
-#: brewlog/models.py:418 brewlog/brewing/forms/brew.py:25
-#: brewlog/brewing/forms/brew.py:66
+#: brewlog/models.py:418 brewlog/brewing/forms/brew.py:27
+#: brewlog/brewing/forms/brew.py:69
 #: brewlog/templates/brew/include/details.html:7
 msgid "original gravity"
 msgstr "gęstość początkowa"
 
-#: brewlog/models.py:419 brewlog/brewing/forms/brew.py:26
-#: brewlog/brewing/forms/brew.py:67
+#: brewlog/models.py:419 brewlog/brewing/forms/brew.py:28
+#: brewlog/brewing/forms/brew.py:70
 #: brewlog/templates/brew/include/details.html:8
 msgid "final gravity"
 msgstr "gęstość końcowa"
@@ -171,188 +171,196 @@ msgstr "po gotowaniu"
 msgid "dry hop"
 msgstr "na zimno"
 
-#: brewlog/brewing/views.py:20
+#: brewlog/brewing/views.py:16
+msgid "single infusion mash w/ mash out"
+msgstr "jednotemperaturowe z wygrzewem"
+
+#: brewlog/brewing/views.py:17
+msgid "2-step mash w/ mash out"
+msgstr "dwustopniowe z wygrzewem"
+
+#: brewlog/brewing/views.py:27
 #, python-format
 msgid "brewery %(name)s created"
 msgstr "browar %(name)s utworzony"
 
-#: brewlog/brewing/views.py:42
+#: brewlog/brewing/views.py:49
 #, python-format
 msgid "brewery %(name)s has been deleted"
 msgstr "browar %(name)s został usunięty"
 
-#: brewlog/brewing/views.py:76
+#: brewlog/brewing/views.py:83
 #, python-format
 msgid "brewery %(name)s data updated"
 msgstr "dane browaru %(name)s zostały zaktualizowane"
 
-#: brewlog/brewing/views.py:114
+#: brewlog/brewing/views.py:121
 #, python-format
 msgid "brew %(name)s created"
 msgstr "warka %(name)s utworzona"
 
-#: brewlog/brewing/views.py:129
+#: brewlog/brewing/views.py:137
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr "dane warki %(name)s zostały zaktualizowane"
 
-#: brewlog/brewing/views.py:197
+#: brewlog/brewing/views.py:206
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr "warka %(name)s została usunięta"
 
-#: brewlog/brewing/forms/brew.py:14 brewlog/brewing/forms/brew.py:24
+#: brewlog/brewing/forms/brew.py:16 brewlog/brewing/forms/brew.py:26
 msgid "date"
 msgstr "data"
 
-#: brewlog/brewing/forms/brew.py:15 brewlog/users/forms.py:29
+#: brewlog/brewing/forms/brew.py:17 brewlog/users/forms.py:29
 msgid "text"
 msgstr "tekst"
 
-#: brewlog/brewing/forms/brew.py:27
+#: brewlog/brewing/forms/brew.py:29
 msgid "amount collected"
 msgstr "zebrana ilość"
 
-#: brewlog/brewing/forms/brew.py:28
+#: brewlog/brewing/forms/brew.py:30
 msgid "last fermentation step"
 msgstr "ostatni etap fermentacji"
 
-#: brewlog/brewing/forms/brew.py:41 brewlog/templates/index.foundation.html:32
-#: brewlog/templates/index.html:32 brewlog/templates/brewery/base.html:3
+#: brewlog/brewing/forms/brew.py:43 brewlog/templates/index.foundation.html:33
+#: brewlog/templates/index.html:33 brewlog/templates/brewery/base.html:3
 msgid "brewery"
 msgstr "browar"
 
-#: brewlog/brewing/forms/brew.py:43
+#: brewlog/brewing/forms/brew.py:45
 msgid "code"
 msgstr "kod"
 
-#: brewlog/brewing/forms/brew.py:45
+#: brewlog/brewing/forms/brew.py:47
 msgid "descriptive name of style, as you see it"
 msgstr "opisowa nazwa stylu, tak jak Ty to piwo określasz"
 
-#: brewlog/brewing/forms/brew.py:47
+#: brewlog/brewing/forms/brew.py:49
 msgid "BJCP style code"
 msgstr "kod stylu wg BJCP"
 
-#: brewlog/brewing/forms/brew.py:48
+#: brewlog/brewing/forms/brew.py:50
 msgid "BJCP style name"
 msgstr "nazwa stylu wg BJCP"
 
-#: brewlog/brewing/forms/brew.py:49
+#: brewlog/brewing/forms/brew.py:51
 #: brewlog/templates/brew/include/details.html:52
 msgid "notes"
 msgstr "notatki"
 
-#: brewlog/brewing/forms/brew.py:51 brewlog/templates/brew/export/ipboard.txt:4
+#: brewlog/brewing/forms/brew.py:53 brewlog/templates/brew/export/ipboard.txt:4
 #: brewlog/templates/brew/include/details.html:13
 msgid "fermentables"
 msgstr "surowce fermentowalne"
 
-#: brewlog/brewing/forms/brew.py:52
+#: brewlog/brewing/forms/brew.py:54
 msgid "put each fermentable on separate line to make nice list"
 msgstr "umieść każdy surowiec w oddzielnej linii by uzyskać ładną listę"
 
-#: brewlog/brewing/forms/brew.py:53
+#: brewlog/brewing/forms/brew.py:55
 msgid "hop items"
 msgstr "chmiele"
 
-#: brewlog/brewing/forms/brew.py:54
+#: brewlog/brewing/forms/brew.py:56
 msgid "put each hop item on separate line to make nice list"
 msgstr "umieść każdy chmiel w oddzielnej linii by uzyskać ładną listę"
 
-#: brewlog/brewing/forms/brew.py:55
+#: brewlog/brewing/forms/brew.py:57
 msgid "yeast items"
 msgstr "drożdże"
 
-#: brewlog/brewing/forms/brew.py:56
+#: brewlog/brewing/forms/brew.py:58
 msgid "put each yeast item on separate line to make nice list"
 msgstr "umieść każde drożdże w oddzielnej linii by uzyskać ładną listę"
 
-#: brewlog/brewing/forms/brew.py:57
+#: brewlog/brewing/forms/brew.py:59
 msgid "miscellaneous items"
 msgstr "dodatki inne"
 
-#: brewlog/brewing/forms/brew.py:58
+#: brewlog/brewing/forms/brew.py:60
 msgid "put each miscellanea on separare line to make nice list"
 msgstr "umieść każdą rzecz w oddzielnej linii by uzyskać ładną listę"
 
-#: brewlog/brewing/forms/brew.py:59
+#: brewlog/brewing/forms/brew.py:61
 msgid "mash schedule"
 msgstr "schemat zacierania"
 
-#: brewlog/brewing/forms/brew.py:60 brewlog/brewing/forms/brew.py:63
-#: brewlog/brewing/forms/brew.py:69
+#: brewlog/brewing/forms/brew.py:62 brewlog/brewing/forms/brew.py:66
+#: brewlog/brewing/forms/brew.py:72
 msgid "put each step on separate line to make nice list"
 msgstr "umieść każdy krok w oddzielnej linii by uzyskać ładną listę"
 
-#: brewlog/brewing/forms/brew.py:61
+#: brewlog/brewing/forms/brew.py:64
 #: brewlog/templates/brew/export/ipboard.txt:19
 #: brewlog/templates/brew/include/details.html:43
 msgid "sparging"
 msgstr "wysładzanie i filtracja"
 
-#: brewlog/brewing/forms/brew.py:62
+#: brewlog/brewing/forms/brew.py:65
 #: brewlog/templates/brew/export/ipboard.txt:23
 #: brewlog/templates/brew/include/details.html:45
 msgid "hopping schedule"
 msgstr "schemat chmielenia"
 
-#: brewlog/brewing/forms/brew.py:64
+#: brewlog/brewing/forms/brew.py:67
 #: brewlog/templates/brew/export/ipboard.txt:21
 #: brewlog/templates/brew/include/details.html:44
 msgid "boil time"
 msgstr "czas gotowania"
 
-#: brewlog/brewing/forms/brew.py:65
+#: brewlog/brewing/forms/brew.py:68
 #: brewlog/templates/brew/include/details.html:57
 msgid "fermentation start date"
 msgstr "data początku fermentacji"
 
-#: brewlog/brewing/forms/brew.py:68
+#: brewlog/brewing/forms/brew.py:71
 msgid "fermentation steps"
 msgstr "etapy fermentacji"
 
-#: brewlog/brewing/forms/brew.py:71
+#: brewlog/brewing/forms/brew.py:74
 msgid "total volume in fermenter (including yeast starter volume, if any)"
 msgstr "objętość całkowita w fermentorze, łącznie ze starterem/gęstwą"
 
-#: brewlog/brewing/forms/brew.py:73
+#: brewlog/brewing/forms/brew.py:76
 #: brewlog/templates/brew/include/details.html:58
 msgid "fermentation temperature"
 msgstr "temperatura fermentacji"
 
-#: brewlog/brewing/forms/brew.py:74
+#: brewlog/brewing/forms/brew.py:77
 #: brewlog/templates/brew/include/details.html:10
 msgid "final amount"
 msgstr "objętość końcowa"
 
-#: brewlog/brewing/forms/brew.py:75
+#: brewlog/brewing/forms/brew.py:78
 msgid "volume into bottling"
 msgstr "objętość po rozlewie"
 
-#: brewlog/brewing/forms/brew.py:76
+#: brewlog/brewing/forms/brew.py:79
 #: brewlog/templates/brew/include/details.html:59
 msgid "bottling date"
 msgstr "data rozlewu"
 
-#: brewlog/brewing/forms/brew.py:77
+#: brewlog/brewing/forms/brew.py:80
 msgid "type of carbonation"
 msgstr "rodzaj nagazowania"
 
-#: brewlog/brewing/forms/brew.py:79
+#: brewlog/brewing/forms/brew.py:82
 msgid "carbonation level"
 msgstr "poziom nagazowania"
 
-#: brewlog/brewing/forms/brew.py:81
+#: brewlog/brewing/forms/brew.py:84
 #: brewlog/templates/brew/include/details.html:61
 msgid "carbonation used"
 msgstr "użyte nagazowanie"
 
-#: brewlog/brewing/forms/brew.py:82
+#: brewlog/brewing/forms/brew.py:85
 msgid "public"
 msgstr "publiczna"
 
-#: brewlog/brewing/forms/brew.py:83 brewlog/templates/brew/list.html:11
+#: brewlog/brewing/forms/brew.py:86 brewlog/templates/brew/list.html:11
 msgid "draft"
 msgstr "szkic"
 
@@ -426,49 +434,49 @@ msgstr "ostatnio zarejestrowane browary"
 msgid "by %(brewer)s"
 msgstr "przez %(brewer)s"
 
-#: brewlog/templates/index.foundation.html:24 brewlog/templates/index.html:24
+#: brewlog/templates/index.foundation.html:25 brewlog/templates/index.html:25
 msgid "Menu"
 msgstr "Menu"
 
-#: brewlog/templates/index.foundation.html:30 brewlog/templates/index.html:30
+#: brewlog/templates/index.foundation.html:31 brewlog/templates/index.html:31
 msgid "create new"
 msgstr "utwórz"
 
-#: brewlog/templates/index.foundation.html:33 brewlog/templates/index.html:33
+#: brewlog/templates/index.foundation.html:34 brewlog/templates/index.html:34
 #: brewlog/templates/brew/base.html:3
 msgid "brew"
 msgstr "warka"
 
-#: brewlog/templates/index.foundation.html:36 brewlog/templates/index.html:36
+#: brewlog/templates/index.foundation.html:37 brewlog/templates/index.html:37
 msgid "my items"
 msgstr "moje rzeczy"
 
-#: brewlog/templates/index.foundation.html:38 brewlog/templates/index.html:38
+#: brewlog/templates/index.foundation.html:39 brewlog/templates/index.html:39
 msgid "breweries"
 msgstr "browary"
 
-#: brewlog/templates/index.foundation.html:39 brewlog/templates/index.html:39
+#: brewlog/templates/index.foundation.html:40 brewlog/templates/index.html:40
 #: brewlog/templates/brew/list.html:5
 msgid "brews"
 msgstr "warki"
 
-#: brewlog/templates/index.foundation.html:43 brewlog/templates/index.html:43
+#: brewlog/templates/index.foundation.html:44 brewlog/templates/index.html:44
 msgid "user tools"
 msgstr "narzędzia konta"
 
-#: brewlog/templates/index.foundation.html:46 brewlog/templates/index.html:46
+#: brewlog/templates/index.foundation.html:47 brewlog/templates/index.html:47
 msgid "login page"
 msgstr "strona logowania"
 
-#: brewlog/templates/index.foundation.html:48 brewlog/templates/index.html:48
+#: brewlog/templates/index.foundation.html:49 brewlog/templates/index.html:49
 msgid "my profile"
 msgstr "profil"
 
-#: brewlog/templates/index.foundation.html:49 brewlog/templates/index.html:49
+#: brewlog/templates/index.foundation.html:50 brewlog/templates/index.html:50
 msgid "logout"
 msgstr "wyloguj"
 
-#: brewlog/templates/index.foundation.html:84 brewlog/templates/index.html:84
+#: brewlog/templates/index.foundation.html:85 brewlog/templates/index.html:85
 msgid "All rights reserved"
 msgstr "Wszelkie prawa zastrzeżone"
 
@@ -765,7 +773,7 @@ msgstr "lista browarów"
 msgid "List of registered breweries"
 msgstr "Lista zarejestrowanych browarów"
 
-#: brewlog/templates/macros/forms.html:22
+#: brewlog/templates/macros/forms.html:25
 msgid "submit"
 msgstr "zapisz"
 
@@ -894,21 +902,7 @@ msgstr "szablon %(name)s został zapisany"
 #~ msgstr "drukuj"
 
 #~ msgid ""
-#~ "unprocessed recipes file with the same"
-#~ " name already exists, upload aborted"
 #~ msgstr ""
-#~ "nieprzetworzony plik z recepturami o tej"
-#~ " samej nazwie już istnieje, przesyłanie "
-#~ "przerwane"
-
-#~ msgid ""
-#~ "thank you for uploading recipes file,"
-#~ " email will be sent with processing"
-#~ " outcome"
-#~ msgstr ""
-#~ "dziękujemy za przesłanie pliku z "
-#~ "recepturami, o wyniku przetwarzania "
-#~ "poinformujemy cię mailem"
 
 #~ msgid "file upload failed: %s"
 #~ msgstr "przesyłanie pliku się nie powiodło: %s"

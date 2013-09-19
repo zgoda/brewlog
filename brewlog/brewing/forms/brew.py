@@ -6,6 +6,8 @@ from flask_babel import lazy_gettext as _
 from flask_login import current_user
 
 from brewlog.forms.base import BaseForm
+from brewlog.forms.widgets import textarea_with_hints
+from brewlog.forms.fields import TextAreaWithHintsField
 from brewlog.brewing import choices
 from brewlog.models import Brew, Brewery, TastingNote, AdditionalFermentationStep
 
@@ -56,8 +58,9 @@ class BrewForm(BaseForm):
         description=_('put each yeast item on separate line to make nice list'))
     misc = wf.TextAreaField(_('miscellaneous items'), validators=[Optional()],
         description=_('put each miscellanea on separare line to make nice list'))
-    mash_steps = wf.TextAreaField(_('mash schedule'), validators=[Optional()],
-        description=_('put each step on separate line to make nice list'))
+    mash_steps = TextAreaWithHintsField(_('mash schedule'), validators=[Optional()],
+        description=_('put each step on separate line to make nice list'),
+        widget=textarea_with_hints)
     sparging = wf.TextField(_('sparging'), validators=[Optional()])
     hopping_steps = wf.TextAreaField(_('hopping schedule'), validators=[Optional()],
         description=_('put each step on separate line to make nice list'))
