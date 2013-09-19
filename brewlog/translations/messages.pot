@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-18 11:30+0200\n"
+"POT-Creation-Date: 2013-09-19 12:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -25,66 +25,66 @@ msgstr ""
 msgid "wanting to stay anonymous"
 msgstr ""
 
-#: brewlog/models.py:224 brewlog/models.py:407 brewlog/brewing/forms/brew.py:42
-#: brewlog/brewing/forms/brewery.py:19
+#: brewlog/models.py:229 brewlog/models.py:412 brewlog/brewing/forms/brew.py:42
+#: brewlog/brewing/forms/brewery.py:19 brewlog/users/forms.py:28
 msgid "name"
 msgstr ""
 
-#: brewlog/models.py:225 brewlog/brewing/forms/brewery.py:20
+#: brewlog/models.py:230 brewlog/brewing/forms/brewery.py:20
 msgid "description"
 msgstr ""
 
-#: brewlog/models.py:226 brewlog/brewing/forms/brewery.py:21
+#: brewlog/models.py:231 brewlog/brewing/forms/brewery.py:21
 msgid "established"
 msgstr ""
 
-#: brewlog/models.py:408
+#: brewlog/models.py:413
 msgid "created"
 msgstr ""
 
-#: brewlog/models.py:409 brewlog/brewing/forms/brew.py:50
+#: brewlog/models.py:414 brewlog/brewing/forms/brew.py:50
 msgid "date brewed"
 msgstr ""
 
-#: brewlog/models.py:410 brewlog/brewing/forms/brew.py:44
+#: brewlog/models.py:415 brewlog/brewing/forms/brew.py:44
 msgid "style"
 msgstr ""
 
-#: brewlog/models.py:411
+#: brewlog/models.py:416
 msgid "BJCP style"
 msgstr ""
 
-#: brewlog/models.py:412 brewlog/brewing/forms/brew.py:70
+#: brewlog/models.py:417 brewlog/brewing/forms/brew.py:70
 #: brewlog/templates/brew/include/details.html:6
 msgid "brew length"
 msgstr ""
 
-#: brewlog/models.py:413 brewlog/brewing/forms/brew.py:25
+#: brewlog/models.py:418 brewlog/brewing/forms/brew.py:25
 #: brewlog/brewing/forms/brew.py:66
 #: brewlog/templates/brew/include/details.html:7
 msgid "original gravity"
 msgstr ""
 
-#: brewlog/models.py:414 brewlog/brewing/forms/brew.py:26
+#: brewlog/models.py:419 brewlog/brewing/forms/brew.py:26
 #: brewlog/brewing/forms/brew.py:67
 #: brewlog/templates/brew/include/details.html:8
 msgid "final gravity"
 msgstr ""
 
-#: brewlog/models.py:415 brewlog/templates/brew/include/details.html:9
+#: brewlog/models.py:420 brewlog/templates/brew/include/details.html:9
 msgid "abv"
 msgstr ""
 
-#: brewlog/models.py:425
+#: brewlog/models.py:430
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr ""
 
-#: brewlog/models.py:432
+#: brewlog/models.py:437
 msgid "normal"
 msgstr ""
 
-#: brewlog/models.py:434
+#: brewlog/models.py:439
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr ""
@@ -169,47 +169,32 @@ msgstr ""
 msgid "dry hop"
 msgstr ""
 
-#: brewlog/brewing/views.py:23
+#: brewlog/brewing/views.py:20
 #, python-format
 msgid "brewery %(name)s created"
 msgstr ""
 
-#: brewlog/brewing/views.py:45
+#: brewlog/brewing/views.py:42
 #, python-format
 msgid "brewery %(name)s has been deleted"
 msgstr ""
 
-#: brewlog/brewing/views.py:69
-msgid "unprocessed recipes file with the same name already exists, upload aborted"
-msgstr ""
-
-#: brewlog/brewing/views.py:72
-msgid ""
-"thank you for uploading recipes file, email will be sent with processing "
-"outcome"
-msgstr ""
-
-#: brewlog/brewing/views.py:74
-#, python-format
-msgid "file upload failed: %s"
-msgstr ""
-
-#: brewlog/brewing/views.py:103
+#: brewlog/brewing/views.py:76
 #, python-format
 msgid "brewery %(name)s data updated"
 msgstr ""
 
-#: brewlog/brewing/views.py:142
+#: brewlog/brewing/views.py:114
 #, python-format
 msgid "brew %(name)s created"
 msgstr ""
 
-#: brewlog/brewing/views.py:157
+#: brewlog/brewing/views.py:129
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr ""
 
-#: brewlog/brewing/views.py:225
+#: brewlog/brewing/views.py:197
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr ""
@@ -218,7 +203,7 @@ msgstr ""
 msgid "date"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:15
+#: brewlog/brewing/forms/brew.py:15 brewlog/users/forms.py:29
 msgid "text"
 msgstr ""
 
@@ -378,6 +363,7 @@ msgid "recipes file"
 msgstr ""
 
 #: brewlog/forms/base.py:19 brewlog/templates/brew/list.html:11
+#: brewlog/templates/brewery/brews.html:10
 #: brewlog/templates/brewery/list.html:10
 msgid "delete"
 msgstr ""
@@ -418,7 +404,7 @@ msgstr ""
 msgid "view all"
 msgstr ""
 
-#: brewlog/templates/home.html:25 brewlog/templates/account/profile.html:36
+#: brewlog/templates/home.html:25 brewlog/templates/account/profile.html:44
 msgid "latest brews"
 msgstr ""
 
@@ -482,6 +468,36 @@ msgstr ""
 msgid "All rights reserved"
 msgstr ""
 
+#: brewlog/templates/account/export_template.html:4
+#: brewlog/templates/account/export_template.html:7
+#, python-format
+msgid "export template %(name)s"
+msgstr ""
+
+#: brewlog/templates/account/export_template.html:4
+#: brewlog/templates/account/export_template.html:7
+msgid "new export template"
+msgstr ""
+
+#: brewlog/templates/account/export_template.html:11
+msgid "help for template code"
+msgstr ""
+
+#: brewlog/templates/account/export_template.html:12
+msgid ""
+"The template code must be written in Jinja2[1] template language. "
+"Available context variable is named \"brew\" and contains all fields from"
+" single brew data."
+msgstr ""
+
+#: brewlog/templates/account/export_template.html:13
+msgid "As an example, see the default export template:"
+msgstr ""
+
+#: brewlog/templates/account/export_template.html:44
+msgid "Jinja2 Template Designer Documentation"
+msgstr ""
+
 #: brewlog/templates/account/profile.html:5
 #, python-format
 msgid "Profile data for user %(name)s"
@@ -498,16 +514,28 @@ msgid ""
 "below."
 msgstr ""
 
-#: brewlog/templates/account/profile.html:19
+#: brewlog/templates/account/profile.html:15
+msgid "user customizations"
+msgstr ""
+
+#: brewlog/templates/account/profile.html:16
+msgid "custom recipe export templates"
+msgstr ""
+
+#: brewlog/templates/account/profile.html:22
+msgid "add new template"
+msgstr ""
+
+#: brewlog/templates/account/profile.html:27
 msgid "Brewery list"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:20
+#: brewlog/templates/account/profile.html:28
 msgid "Owned"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:23
-#: brewlog/templates/account/profile.html:29
+#: brewlog/templates/account/profile.html:31
+#: brewlog/templates/account/profile.html:37
 #: brewlog/templates/brewery/list.html:10
 #, python-format
 msgid "%(num)d brew"
@@ -515,18 +543,18 @@ msgid_plural "%(num)d brews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: brewlog/templates/account/profile.html:27
+#: brewlog/templates/account/profile.html:35
 msgid "Other"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:33
+#: brewlog/templates/account/profile.html:41
 #: brewlog/templates/brewery/form.html:4 brewlog/templates/brewery/list.html:15
 msgid "add new brewery"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:42 brewlog/templates/brew/form.html:4
+#: brewlog/templates/account/profile.html:50 brewlog/templates/brew/form.html:4
 #: brewlog/templates/brew/form.html:7 brewlog/templates/brew/list.html:16
-#: brewlog/templates/brewery/details.html:37
+#: brewlog/templates/brewery/details.html:33
 msgid "add new brew"
 msgstr ""
 
@@ -685,31 +713,27 @@ msgstr ""
 msgid "You may change brewery data using the form below"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:14
-msgid "Upload your recipes in BeerXML file"
-msgstr ""
-
-#: brewlog/templates/brewery/details.html:21
+#: brewlog/templates/brewery/details.html:17
 msgid "People"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:22
+#: brewlog/templates/brewery/details.html:18
 msgid "Head brewer"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:24
+#: brewlog/templates/brewery/details.html:20
 msgid "Other brewers"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:30
+#: brewlog/templates/brewery/details.html:26
 msgid "Latest brews"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:32
+#: brewlog/templates/brewery/details.html:28
 msgid "not brewed yet"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:34
+#: brewlog/templates/brewery/details.html:30
 msgid "view all brews"
 msgstr ""
 
@@ -784,15 +808,23 @@ msgstr ""
 msgid "all activity of non-public brewers is hidden on site, they are invisible"
 msgstr ""
 
-#: brewlog/users/forms.py:28
-msgid "service name"
+#: brewlog/users/forms.py:30
+msgid "template text"
 msgstr ""
 
 #: brewlog/users/forms.py:31
+msgid "default"
+msgstr ""
+
+#: brewlog/users/forms.py:40
+msgid "service name"
+msgstr ""
+
+#: brewlog/users/forms.py:43
 msgid "topic id"
 msgstr ""
 
-#: brewlog/users/forms.py:32
+#: brewlog/users/forms.py:44
 msgid ""
 "enter numeric ID of your topic in an IP.Board based forum to allow "
 "posting brew data directly"
@@ -832,5 +864,10 @@ msgstr ""
 
 #: brewlog/users/views/profile.py:19
 msgid "your profile data has been updated"
+msgstr ""
+
+#: brewlog/users/views/profile.py:102
+#, python-format
+msgid "your export template %(name)s has been saved"
 msgstr ""
 
