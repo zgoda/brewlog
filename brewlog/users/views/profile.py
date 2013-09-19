@@ -1,11 +1,11 @@
 from flask import render_template, redirect, url_for, flash, request, abort
-from flask_login import current_user
+from flask_login import current_user, login_required
 from flask_babel import gettext as _
 from sqlalchemy import desc
 
 from brewlog.utils.models import get_or_404, Pagination, paginate
-from brewlog.models import BrewerProfile, Brewery, Brew
-from brewlog.users.forms import ProfileForm
+from brewlog.models import BrewerProfile, Brewery, Brew, CustomExportTemplate
+from brewlog.users.forms import ProfileForm, CustomExportTemplateForm
 
 
 def profile(userid, **kwargs):
@@ -87,3 +87,27 @@ def brews(userid):
         'pagination': pagination,
     }
     return render_template('brew/list.html', **ctx)
+
+@login_required
+def export_template(userid, tid=None):
+    template = None
+    if tid is not None:
+        template = get_or_404(CustomExportTemplate, tid)
+        if template.user != current_user:
+            abort(403)
+    form = CustomExportTemplateForm(request.form)
+    if request.method == 'POST':
+        if form.validate():
+            template = form.save(current_user, template)
+            flash(_('your export template %(name)s has been saved', name=template.name))
+            next_ = request.args.get('next')
+            if next_:
+                next_ = url_for(next_)
+            else:
+                next_ = url_for('profile-details', userid=current_user.id)
+            return redirect(next_)
+    ctx = {
+        'form': form,
+        'template': template,
+    }
+    return render_template('account/export_template.html', **ctx)

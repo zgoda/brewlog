@@ -12,6 +12,14 @@
 <form action="{{ profile.absolute_url }}" method="post" class="custom">
     {{ forms.render(form) }}
 </form>
+<h3>{{ gettext("user customizations").capitalize() }}</h3>
+<h4>{{ gettext("custom recipe export templates").capitalize() }}</h4>
+{% if profile.custom_export_templates %}
+<ul>
+    {% for template in profile.custom_export_templates %}<li><a href="{{ template.absolute_url }}">{{ template.name }}</a></li>{% endfor %}
+</ul>
+{% endif %}
+<p><a href="{{ url_for('profile-export_template_add', userid=profile.id) }}" class="small button radius">{{ gettext("add new template") }}</a></p>
 {% endif %}
 {% endblock %}
 

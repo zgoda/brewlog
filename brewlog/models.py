@@ -153,9 +153,14 @@ class CustomExportTemplate(Model):
     user = relationship('BrewerProfile')
     name = Column(String(100), nullable=False)
     text = Column(Text)
+    is_default = Column(Boolean, default=False)
     __table__args__ = (
         Index('user_export_template', 'user_id', 'name'),
     )
+
+    @property
+    def absolute_url(self):
+        return url_for('profile-export_template', tid=self.id, userid=self.user.id)
 
 
 class Brewery(Model):
