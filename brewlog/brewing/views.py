@@ -15,6 +15,7 @@ from brewlog.brewing.forms.brew import BrewForm
 HINTS = [
     ("67-66*C - 90'\n75*C - 15'", lazy_gettext('single infusion mash w/ mash out')),
     ("63-61*C - 30'\n73-71*C - 30'\n75*C - 15'", lazy_gettext('2-step mash w/ mash out')),
+    ("55-54*C - 10'\n63-61*C - 30'\n73-71*C - 30'\n75*C - 15'", lazy_gettext('3-step mash w/ mash out')),
 ]
 
 

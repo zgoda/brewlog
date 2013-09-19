@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-19 15:45+0200\n"
+"POT-Creation-Date: 2013-09-19 15:59+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -179,32 +179,36 @@ msgstr "jednotemperaturowe z wygrzewem"
 msgid "2-step mash w/ mash out"
 msgstr "dwustopniowe z wygrzewem"
 
-#: brewlog/brewing/views.py:27
+#: brewlog/brewing/views.py:18
+msgid "3-step mash w/ mash out"
+msgstr "trójstopniowe z wygrzewem"
+
+#: brewlog/brewing/views.py:28
 #, python-format
 msgid "brewery %(name)s created"
 msgstr "browar %(name)s utworzony"
 
-#: brewlog/brewing/views.py:49
+#: brewlog/brewing/views.py:50
 #, python-format
 msgid "brewery %(name)s has been deleted"
 msgstr "browar %(name)s został usunięty"
 
-#: brewlog/brewing/views.py:83
+#: brewlog/brewing/views.py:84
 #, python-format
 msgid "brewery %(name)s data updated"
 msgstr "dane browaru %(name)s zostały zaktualizowane"
 
-#: brewlog/brewing/views.py:121
+#: brewlog/brewing/views.py:122
 #, python-format
 msgid "brew %(name)s created"
 msgstr "warka %(name)s utworzona"
 
-#: brewlog/brewing/views.py:137
+#: brewlog/brewing/views.py:138
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr "dane warki %(name)s zostały zaktualizowane"
 
-#: brewlog/brewing/views.py:206
+#: brewlog/brewing/views.py:207
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr "warka %(name)s została usunięta"

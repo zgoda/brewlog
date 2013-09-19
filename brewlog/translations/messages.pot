@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-19 15:45+0200\n"
+"POT-Creation-Date: 2013-09-19 15:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -177,32 +177,36 @@ msgstr ""
 msgid "2-step mash w/ mash out"
 msgstr ""
 
-#: brewlog/brewing/views.py:27
+#: brewlog/brewing/views.py:18
+msgid "3-step mash w/ mash out"
+msgstr ""
+
+#: brewlog/brewing/views.py:28
 #, python-format
 msgid "brewery %(name)s created"
 msgstr ""
 
-#: brewlog/brewing/views.py:49
+#: brewlog/brewing/views.py:50
 #, python-format
 msgid "brewery %(name)s has been deleted"
 msgstr ""
 
-#: brewlog/brewing/views.py:83
+#: brewlog/brewing/views.py:84
 #, python-format
 msgid "brewery %(name)s data updated"
 msgstr ""
 
-#: brewlog/brewing/views.py:121
+#: brewlog/brewing/views.py:122
 #, python-format
 msgid "brew %(name)s created"
 msgstr ""
 
-#: brewlog/brewing/views.py:137
+#: brewlog/brewing/views.py:138
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr ""
 
-#: brewlog/brewing/views.py:206
+#: brewlog/brewing/views.py:207
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr ""

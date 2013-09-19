@@ -14,18 +14,25 @@ def textarea_with_hints(field, **kwargs):
         hints = EMPTY_HINTS + hints
     obj_id = kwargs['id']
     hint_elem_id = '%s_hints' % obj_id
-    hint = ['<select %s>' % (html_params(id=hint_elem_id))]
-    for hint_value, hint_label in hints:
-        hint.append('<option value="%s">%s</option>' % (escape(hint_value), escape(hint_label)))
-    hint.append('</select>')
-    hint = HTMLString(''.join(hint))
+    if len(hints) > 1:
+        hint = ['<select %s>' % (html_params(id=hint_elem_id))]
+        for hint_value, hint_label in hints:
+            hint.append('<option value="%s">%s</option>' % (escape(hint_value), escape(hint_label)))
+        hint.append('</select>')
+        hint = HTMLString(''.join(hint))
+    else:
+        hint = ''
     textarea = HTMLString('<textarea %s>%s</textarea>' % (html_params(name=field.name, **kwargs), escape(text_type(field._value()))))
-    script = """
-    <script type="text/javascript">
-    $("#%(hint_elem_id)s").change(function() {
-        var value = $(this).val();
-        $("#%(obj_id)s").val(value);
-    });
-    </script>
-    """ % locals()
-    return HTMLString('<br />'.join([hint, textarea, script]))
+    if hint:
+        script = """
+        <script type="text/javascript">
+        $("#%(hint_elem_id)s").change(function() {
+            var value = $(this).val();
+            $("#%(obj_id)s").val(value);
+        });
+        </script>
+        """ % locals()
+    else:
+        script = ''
+    items = [i for i in [hint, textarea, script] if i]
+    return HTMLString('<br />'.join(items))
