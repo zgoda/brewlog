@@ -1,4 +1,4 @@
-from brewlog.utils.routing import LazyView, UrlMap, Rule
+from brewlog.utils.routing import UrlMap, Rule
 
 rules = UrlMap([
     Rule('/auth/select',
