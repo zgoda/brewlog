@@ -16,10 +16,10 @@ class TastingNoteForm(BaseForm):
     date = DateField(_('date'))
     text = wf.TextAreaField(_('text'))
 
-    def save(self, brew, obj=None, save=False):
+    def save(self, brew, obj=None, save=True):
         if obj is None:
             obj = TastingNote(brew=brew, author=current_user)
-        return super(TastingNoteForm, self).save(obj, save=save)
+        return super(TastingNoteForm, self).save(obj, save)
 
 
 class AdditionalFermentationStepForm(BaseForm):

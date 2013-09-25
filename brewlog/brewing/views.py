@@ -218,7 +218,7 @@ def brew_add_tasting_note(brew_id):
     brew = get_or_404(Brew, brew_id)
     form = TastingNoteForm(request.form)
     if request.method == 'POST' and form.validate():
-        note = form.save(brew, save=True)
+        form.save(brew)
         flash(_('tasting note for %(brew)s saved', brew=brew.name))
         next_ = request.args.get('next') or url_for('brew-details', brew_id=brew.id)
         return redirect(next_)
