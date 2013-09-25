@@ -1,6 +1,5 @@
 {% extends "brew/base.html" %}
 {% import "macros/forms.html" as forms %}
-{% import "macros/modelrender.html" as modelrender %}
 
 {% block topmenu_right %}
 <li class="has-dropdown"><a href="#">{% trans %}recipe tools{% endtrans %}</a>
@@ -20,6 +19,12 @@
 
 {% block content %}
 {% include "brew/include/details.html" %}
+{% if brew.tasting_notes %}
+{% include "brew/include/tasting_notes.html" %}
+{% endif %}
+{% if user.is_authenticated() %}
+<p><a href="{{ url_for('brew-tastingnote-add', brew_id=brew.id) }}" class="button small radius">{{ gettext("add tasting note") }}</a></p>
+{% endif %}
 {% if form %}
 <form method="post" action="{{ brew.absolute_url }}" class="custom">
     {{ forms.render(form) }}

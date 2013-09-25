@@ -305,6 +305,8 @@ class TastingNote(Model):
 
 ## events: TastingNote model
 def tasting_note_pre_save(mapper, connection, target):
+    if target.date is None:
+        target.date = datetime.date.today()
     if target.text:
         target.text_html = markdown.markdown(target.text, safe_mode='remove')
     else:

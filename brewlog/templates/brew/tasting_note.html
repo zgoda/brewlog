@@ -1,0 +1,12 @@
+{% extends "brew/base.html" %}
+{% import "macros/forms.html" as forms %}
+
+{% block headpagetitle %}{{ gettext("tasting note for brew %(brew)s from %(brewery)s", brew=brew.name, brewery=brew.brewery.name) }}{% endblock %}
+
+{% block content %}
+{% if form %}
+<form method="post" action="{{ url_for('brew-tastingnote-add', brew_id=brew.id) }}" class="custom">
+    {{ forms.render(form) }}
+</form>
+{% endif %}
+{% endblock %}

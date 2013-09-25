@@ -5,11 +5,11 @@ from flask_babel import lazy_gettext
 from sqlalchemy import desc
 
 from brewlog.db import session as dbsession
-from brewlog.models import Brewery, Brew
+from brewlog.models import Brewery, Brew, TastingNote
 from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.brewing.forms.brewery import BreweryForm
-from brewlog.brewing.forms.brew import BrewForm
+from brewlog.brewing.forms.brew import BrewForm, TastingNoteForm
 
 
 HINTS = [
@@ -212,3 +212,39 @@ def brew_delete(brew_id):
         'delete_form': form,
     }
     return render_template('brew/delete.html', **ctx)
+
+@login_required
+def brew_add_tasting_note(brew_id):
+    brew = get_or_404(Brew, brew_id)
+    form = TastingNoteForm(request.form)
+    if request.method == 'POST' and form.validate():
+        note = form.save(brew, save=True)
+        flash(_('tasting note for %(brew)s saved', brew=brew.name))
+        next_ = request.args.get('next') or url_for('brew-details', brew_id=brew.id)
+        return redirect(next_)
+    ctx = {
+        'brew': brew,
+        'form': form,
+    }
+    return render_template('brew/tasting_note.html', **ctx)
+
+@login_required
+def brew_delete_tasting_note(note_id):
+    note = get_or_404(TastingNote, note_id)
+    if current_user not in (note.author, note.brew.brewery.brewer):
+        abort(403)
+    brew = note.brew
+    form = DeleteForm(request.form)
+    if request.method == 'POST':
+        if form.validate():
+            dbsession.delete(note)
+            dbsession.commit()
+            flash(_('tasting note for brew %(brew)s has been deleted', brew=brew.name))
+            next_ = request.args.get('next') or url_for('brew-details', brew_id=brew.id)
+            return redirect(next_)
+    ctx = {
+        'brew': brew,
+        'note': note,
+        'delete_form': form,
+    }
+    return render_template('brew/tasting_note_delete.html', **ctx)
