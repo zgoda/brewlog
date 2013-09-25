@@ -7,6 +7,8 @@ from flask_login import LoginManager, current_user
 from flask_mail import Mail
 
 from brewlog.db import init_engine, session
+from brewlog.templates import setup_template_extensions
+from brewlog.urls import rules
 
 
 login_manager = LoginManager()
@@ -48,22 +50,10 @@ def make_app(env):
     login_manager.login_message_category = 'info'
     babel.init_app(app)
     mail.init_app(app)
+    
+    rules.register(app)
 
-    # register url map
-    from brewlog.urls import rules
-    for url, kwargs in rules:
-        app.add_url_rule(url, **kwargs)
-
-    # templates
-    def register_filters(application):
-        application.jinja_env.globals['format_date'] = format_date
-        from utils import templates
-        application.jinja_env.globals['url_for_other_page'] = templates.url_for_other_page
-        import math
-        application.jinja_env.globals['pow'] = math.pow
-        from utils.text import stars2deg
-        application.jinja_env.globals['stars2deg'] = stars2deg
-    register_filters(app)
+    setup_template_extensions(app)
 
     return app
 
