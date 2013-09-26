@@ -39,7 +39,7 @@ $(document).ready(function() {
 {% if brew.tasting_notes %}
 {% include "brew/include/tasting_notes.html" %}
 {% endif %}
-{% if user.is_authenticated() %}
+{% if user.is_authenticated() and brew.date_brewed %}
 <p><a href="{{ url_for('brew-tastingnote-add', brew_id=brew.id) }}" class="button small radius">{{ gettext("add tasting note") }}</a></p>
 {% endif %}
 {% if form %}
