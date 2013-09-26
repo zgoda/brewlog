@@ -43,6 +43,7 @@ def google_remote_login_callback(resp):
             dbsession.add(user)
             dbsession.commit()
             login_user(user)
+            session.permanent = True
             flash(_('You have been signed in as %(email)s using Google', email=data['email']))
             next_ = request.args.get('next') or session.pop('next', None) or url_for('profile-details', userid=user.id)
             return redirect(next_)
@@ -72,6 +73,7 @@ def facebook_remote_login_callback(resp):
         dbsession.add(user)
         dbsession.commit()
         login_user(user)
+        session.permanent = True
         flash(_('You have been signed in as %(email)s using Facebook', email=me.data['email']))
         next_ = request.args.get('next') or session.pop('next', None) or url_for('profile-details', userid=user.id)
         return redirect(next_)
@@ -88,6 +90,7 @@ def local_login_callback(resp):
         dbsession.add(user)
         dbsession.commit()
     login_user(user)
+    session.permanent = True
     flash(_('You have been signed in as %(email)s using local handler', email=email))
     next_ = request.args.get('next') or session.pop('next', None) or url_for('profile-details', userid=user.id)
     return redirect(next_)
