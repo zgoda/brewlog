@@ -1,4 +1,5 @@
 import datetime
+import json
 
 from flask import url_for
 from flask_login import UserMixin
@@ -455,6 +456,12 @@ class Brew(Model):
         if commit:
             session.commit()
         return note
+
+    def notes_to_json(self):
+        notes = {}
+        for note in self.tasting_notes:
+            notes['note_text_%s' % note.id] = note.text
+        return json.dumps(notes)
 
 ## events: Brew model
 def brew_pre_save(mapper, connection, target):

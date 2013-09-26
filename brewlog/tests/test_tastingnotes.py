@@ -1,7 +1,7 @@
 from flask import url_for
 
 from brewlog.tests import BrewlogTestCase
-from brewlog.models import Brew, BrewerProfile
+from brewlog.models import Brew, BrewerProfile, TastingNote
 
 
 class TastingNoteTestCase(BrewlogTestCase):
@@ -88,3 +88,62 @@ class TastingNoteTestCase(BrewlogTestCase):
             self.login(client, self.brew.brewery.brewer.email)
             rv = client.post(url, data={'delete_it': True}, follow_redirects=True)
             self.assertNotIn(note.text, rv.data)
+
+    def test_anon_cant_edit_notes(self):
+        """
+        Anonymous user brew details view does not contain js to edit note texts
+        """
+        url = url_for('brew-details', brew_id=self.brew.id)
+        edit_url = url_for('brew-tastingnote-update')
+        with self.app.test_client() as client:
+            rv = client.get(url)
+            self.assertNotIn(edit_url, rv.data)
+
+    def test_update_note_by_public(self):
+        """
+        Anonymous users can not edit tasting note texts
+        """
+        note = self.brew.add_tasting_note(self.brew.brewery.brewer, 'Nice beer, cheers!', commit=True)
+        url = url_for('brew-tastingnote-update')
+        data = {
+            'id': note.id,
+            'value': 'This brew is horrible!',
+        }
+        with self.app.test_client() as client:
+            self.login(client, self.regular_user.email)
+            rv = client.post(url, data=data)
+            self.assertEqual(rv.status_code, 403)
+
+    def test_update_note_by_author(self):
+        """
+        Author can edit own notes
+        """
+        note = self.brew.add_tasting_note(self.regular_user, 'Nice beer, cheers!', commit=True)
+        url = url_for('brew-tastingnote-update')
+        data = {
+            'id': note.id,
+            'value': 'This brew is horrible!',
+        }
+        with self.app.test_client() as client:
+            self.login(client, self.regular_user.email)
+            rv = client.post(url, data=data)
+            note = TastingNote.query.get(note.id)
+            self.assertEqual(rv.data, note.text_html)
+            self.assertEqual(note.text, data['value'])
+
+    def test_update_note_by_brew_owner(self):
+        """
+        Brew owner can edit notes to his brews regardless of note authorship
+        """
+        note = self.brew.add_tasting_note(self.regular_user, 'Nice beer, cheers!', commit=True)
+        url = url_for('brew-tastingnote-update')
+        data = {
+            'id': note.id,
+            'value': 'This brew is horrible!',
+        }
+        with self.app.test_client() as client:
+            self.login(client, self.brew.brewery.brewer.email)
+            rv = client.post(url, data=data)
+            note = TastingNote.query.get(note.id)
+            self.assertEqual(rv.data, note.text_html)
+            self.assertEqual(note.text, data['value'])

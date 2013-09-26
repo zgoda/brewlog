@@ -3,6 +3,7 @@ from flask_login import current_user, login_required
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext
 from sqlalchemy import desc
+import markdown
 
 from brewlog.db import session as dbsession
 from brewlog.models import Brewery, Brew, TastingNote
@@ -142,6 +143,7 @@ def brew(brew_id, **kwargs):
     ctx = {
         'brew': brew,
         'mash_hints': HINTS,
+        'notes': brew.notes_to_json(),
     }
     if current_user in brew.brewery.brewers:
         ctx['form'] = BrewForm(obj=brew)
@@ -250,3 +252,32 @@ def brew_delete_tasting_note(note_id):
         'delete_form': form,
     }
     return render_template('brew/tasting_note_delete.html', **ctx)
+
+def brew_load_tasting_note_text():
+    provided_id = request.args.get('id')
+    if not provided_id:
+        abort(400)
+    note_id = provided_id.rsplit('_', 1)[-1]
+    note = TastingNote.query.get(note_id)
+    if note is None:
+        abort(404)
+    return note.text
+
+@login_required
+def brew_update_tasting_note():
+    provided_id = request.form.get('id')
+    if not provided_id:
+        abort(400)
+    note_id = provided_id.rsplit('_', 1)[-1]
+    note = TastingNote.query.get(note_id)
+    if note is None:
+        abort(404)
+    if not note.brew.has_access(current_user) or not (current_user in (note.author, note.brew.brewery.brewer)):
+        abort(403)
+    value = request.form.get('value', '').strip()
+    if value:
+        note.text = value
+        dbsession.add(note)
+        dbsession.commit()
+        return markdown.markdown(value, safe_mode='remove')
+    return note.text_html

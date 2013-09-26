@@ -1,6 +1,23 @@
 {% extends "brew/base.html" %}
 {% import "macros/forms.html" as forms %}
 
+{% block scripts %}
+{% if not user.is_anonymous() %}
+<script type="text/javascript" src="/static/js/jquery.jeditable.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    var notes = {{ notes|safe }};
+    $(".edit_area").editable("{{ url_for('brew-tastingnote-update') }}", {
+        type: "textarea",
+        loadurl: "{{ url_for('brew-tastingnote-loadtext') }}",
+        cancel: "<button type='cancel' class='button tiny radius'>{{ gettext('cancel') }}</button>",
+        submit: "<button type='submit' class='button tiny radius'>{{ gettext('send') }}</button>"
+    });
+})
+</script>
+{% endif %}
+{% endblock %}
+
 {% block topmenu_right %}
 <li class="has-dropdown"><a href="#">{% trans %}recipe tools{% endtrans %}</a>
     <ul class="dropdown">
