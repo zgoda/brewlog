@@ -216,6 +216,8 @@ def brew_delete(brew_id):
 @login_required
 def brew_add_tasting_note(brew_id):
     brew = get_or_404(Brew, brew_id)
+    if not brew.has_access(current_user):
+        abort(403)
     form = TastingNoteForm(request.form)
     if request.method == 'POST' and form.validate():
         form.save(brew)

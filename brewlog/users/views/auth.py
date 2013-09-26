@@ -9,6 +9,7 @@ from brewlog.models import BrewerProfile
 
 
 def select_provider():
+    session['next'] = request.args.get('next')
     return render_template('auth/select.html')
 
 def remote_login(provider):
@@ -43,7 +44,8 @@ def google_remote_login_callback(resp):
             dbsession.commit()
             login_user(user)
             flash(_('You have been signed in as %(email)s using Google', email=data['email']))
-            return redirect(url_for('profile-details', userid=user.id))
+            next_ = request.args.get('next') or session.pop('next', None) or url_for('profile-details', userid=user.id)
+            return redirect(next_)
         else:
             flash(_('Error receiving profile data from Google: %(code)s', code=r.status_code))
     return redirect(url_for('auth-select-provider'))
@@ -71,7 +73,8 @@ def facebook_remote_login_callback(resp):
         dbsession.commit()
         login_user(user)
         flash(_('You have been signed in as %(email)s using Facebook', email=me.data['email']))
-        return redirect(url_for('profile-details', userid=user.id))
+        next_ = request.args.get('next') or session.pop('next', None) or url_for('profile-details', userid=user.id)
+        return redirect(next_)
     return redirect(url_for('auth-select-provider'))
 
 def local_login_callback(resp):
@@ -86,7 +89,8 @@ def local_login_callback(resp):
         dbsession.commit()
     login_user(user)
     flash(_('You have been signed in as %(email)s using local handler', email=email))
-    return redirect(url_for('profile-details', userid=user.id))
+    next_ = request.args.get('next') or session.pop('next', None) or url_for('profile-details', userid=user.id)
+    return redirect(next_)
 
 @login_required
 def logout():

@@ -97,6 +97,15 @@ class BrewTestCase(BrewlogTestCase):
             self.assertEqual(rv.status_code, 200)
             self.assertIn('<form', rv.data)
 
+    def test_add_by_anon(self):
+        """
+        Anonymous users can not add brews
+        """
+        url = url_for('brew-add')
+        with self.app.test_client() as client:
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 302)
+
     def test_update_by_owner(self):
         """
         Only brewery owner can update brew data

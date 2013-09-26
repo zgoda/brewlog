@@ -8,7 +8,7 @@ from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Index, 
 from sqlalchemy import event, desc, or_, and_
 from sqlalchemy.orm import relationship
 
-from brewlog.db import Model
+from brewlog.db import Model, session
 from brewlog.brewing import choices
 from brewlog.utils.models import DataModelMixin
 from brewlog.utils.text import slugify, stars2deg
@@ -368,8 +368,8 @@ class Brew(Model):
     is_draft = Column(Boolean, default=False)
     brewery_id = Column(Integer, ForeignKey('brewery.id'), nullable=False)
     brewery = relationship('Brewery')
-    tasting_notes = relationship('TastingNote')
-    additional_fermentation_steps = relationship('AdditionalFermentationStep')
+    tasting_notes = relationship('TastingNote', cascade='all,delete')
+    additional_fermentation_steps = relationship('AdditionalFermentationStep', cascade='all,delete')
 
     def __repr__(self):
         return '<Brew %s by %s>' % (self.name.encode('utf-8'), self.brewery.name.encode('utf-8'))
@@ -446,6 +446,15 @@ class Brew(Model):
             if not (self.is_public and self.brewery.has_access(user)):
                 return False
         return True
+
+    def add_tasting_note(self, user, text, date=None, commit=False):
+        note = TastingNote(author=user, text=text, brew=self)
+        note.date = date or datetime.date.today()
+        session.add(note)
+        session.flush()
+        if commit:
+            session.commit()
+        return note
 
 ## events: Brew model
 def brew_pre_save(mapper, connection, target):
