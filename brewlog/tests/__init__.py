@@ -1,9 +1,10 @@
 from flask_testing import TestCase
 
 from fixture import SQLAlchemyFixture
-from fixture.style import NamedDataStyle
 
-from brewlog import make_app, db, models
+from brewlog import make_app, db
+from brewlog.models.brewing import Brew, Brewery
+from brewlog.models.users import BrewerProfile
 from brewlog.tests.data import BrewData, BreweryData, BrewerProfileData
 
 
@@ -16,7 +17,12 @@ class BrewlogTestCase(TestCase):
 
     def setUp(self):
         db.init_db()
-        fx = SQLAlchemyFixture(env=models, style=NamedDataStyle(), engine=db.engine)
+        env = {
+            'BrewData': Brew,
+            'BreweryData': Brewery,
+            'BrewerProfileData': BrewerProfile,
+        }
+        fx = SQLAlchemyFixture(env=env, engine=db.engine)
         self.data = fx.data(BrewData, BreweryData, BrewerProfileData)
         self.data.setup()
 

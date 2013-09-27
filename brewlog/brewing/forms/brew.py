@@ -9,7 +9,7 @@ from brewlog.forms.base import BaseForm
 from brewlog.forms.widgets import textarea_with_hints
 from brewlog.forms.fields import TextAreaWithHintsField
 from brewlog.brewing import choices
-from brewlog.models import Brew, Brewery, TastingNote, AdditionalFermentationStep
+from brewlog.models.brewing import Brew, Brewery, TastingNote, AdditionalFermentationStep
 
 
 class TastingNoteForm(BaseForm):
