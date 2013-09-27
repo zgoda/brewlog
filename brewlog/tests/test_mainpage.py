@@ -1,7 +1,7 @@
 from flask import url_for
 
 from brewlog.tests import BrewlogTestCase
-from brewlog.models import BrewerProfile
+from brewlog.models.users import BrewerProfile
 
 
 class MainPageTestCase(BrewlogTestCase):

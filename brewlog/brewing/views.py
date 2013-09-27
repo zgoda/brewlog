@@ -6,7 +6,8 @@ from sqlalchemy import desc
 import markdown
 
 from brewlog.db import session as dbsession
-from brewlog.models import Brewery, Brew, TastingNote
+from brewlog.models import breweries, brews
+from brewlog.models.brewing import Brewery, Brew, TastingNote
 from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.brewing.forms.brewery import BreweryForm
@@ -64,9 +65,9 @@ def brewery_all():
     except ValueError:
         page = 1
     if current_user.is_anonymous():
-        query = Brewery.public_query()
+        query = breweries()
     else:
-        query = Brewery.public_query(extra_user=current_user)
+        query = breweries(extra_user=current_user)
     pagination = Pagination(page, page_size, query.count())
     ctx = {
         'pagination': pagination,
@@ -105,11 +106,11 @@ def brewery_brews(brewery_id):
         if not brewery.has_access(current_user):
             abort(404)
         public_only = True
-    brews = brewery.all_brews(public_only)
-    pagination = Pagination(page, page_size, len(brews))
+    brewery_brews = brewery.all_brews(public_only)
+    pagination = Pagination(page, page_size, len(brewery_brews))
     ctx = {
         'brewery': brewery,
-        'brews': brews,
+        'brews': brewery_brews,
         'pagination': pagination,
     }
     return render_template('brewery/brews.html', **ctx)
@@ -156,9 +157,9 @@ def brew_all():
     except ValueError:
         page = 1
     if current_user.is_anonymous():
-        query = Brew.public_query()
+        query = brews()
     else:
-        query = Brew.public_query(extra_user=current_user)
+        query = brews(extra_user=current_user)
     pagination = Pagination(page, page_size, query.count())
     context = {
         'pagination': pagination,

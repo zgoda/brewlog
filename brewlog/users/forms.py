@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Email, Optional
 from flask_babel import lazy_gettext as _
 
 from brewlog.forms.base import BaseForm
-from brewlog.models import BrewerProfile, IPBoardExportSetup, CustomExportTemplate
+from brewlog.models.users import BrewerProfile, IPBoardExportSetup, CustomExportTemplate
 
 
 class ProfileForm(BaseForm):

@@ -60,6 +60,6 @@ def make_app(env):
 
 @login_manager.user_loader
 def get_user(userid):
-    from models import BrewerProfile
+    from models.users import BrewerProfile
     return BrewerProfile.query.get(userid)
 

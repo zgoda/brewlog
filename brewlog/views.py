@@ -1,6 +1,8 @@
 from flask import render_template
 from flask_login import current_user
-from brewlog.models import BrewerProfile, Brew, Brewery
+from brewlog.models import latest_breweries, latest_brews
+from brewlog.models.users import BrewerProfile
+from brewlog.models.brewing import Brew, Brewery
 
 
 def main():
@@ -10,10 +12,10 @@ def main():
     else:
         kw = {}
     ctx = {
-        'latest_brews': Brew.last_created(limit=item_limit, public_only=True, **kw),
-        'latest_breweries': Brewery.last_created(limit=item_limit, public_only=True, **kw),
+        'latest_brews': latest_brews(Brew.created, limit=item_limit, public_only=True, **kw),
+        'latest_breweries': latest_breweries(Brewery.created, limit=item_limit, public_only=True, **kw),
         'latest_brewers': BrewerProfile.last_created(limit=item_limit, public_only=True, **kw),
-        'recently_active_breweries': Brewery.last_updated(limit=item_limit, public_only=True, **kw),
+        'recently_active_breweries': latest_breweries(Brewery.updated, limit=item_limit, public_only=True, **kw),
         'recently_active_brewers': BrewerProfile.last_updated(limit=item_limit, public_only=True, **kw),
     }
     return render_template('home.html', **ctx)
