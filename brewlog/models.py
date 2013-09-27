@@ -442,6 +442,10 @@ class Brew(Model):
             return _('%(carb_type)s: carbonation %(carb_level)s', **data)
         return u''
 
+    @property
+    def is_brewed_yet(self):
+        return self.date_brewed and self.date_brewed < datetime.date.today()
+
     def has_access(self, user):
         if self.brewery.brewer != user:
             if not (self.is_public and self.brewery.has_access(user)):
