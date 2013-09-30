@@ -149,6 +149,9 @@ class CustomExportTemplate(Model):
         Index('user_export_template', 'user_id', 'name'),
     )
 
+    def __repr__(self):
+        return '<ExportTemplate %s for %s>' % (self.name.encode('utf-8'), self.user.email.encode('utf-8'))
+
     @property
     def absolute_url(self):
         return url_for('profile-export_template', tid=self.id, userid=self.user.id)

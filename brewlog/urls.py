@@ -1,6 +1,8 @@
 from brewlog.utils.routing import UrlMap, Rule
 
 rules = UrlMap([
+    Rule('/pages/<path:path>',
+        dict(endpoint='pages-page', view_func='brewlog.views.flatpage')),
     Rule('/auth/select',
         dict(endpoint='auth-select-provider', view_func='brewlog.users.views.auth.select_provider')),
     Rule('/auth/<provider>',

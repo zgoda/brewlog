@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-26 13:09+0200\n"
+"POT-Creation-Date: 2013-09-30 14:57+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,76 +17,8 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 1.3\n"
 
-#: brewlog/__init__.py:49
+#: brewlog/__init__.py:51
 msgid "Please log in to access this page"
-msgstr ""
-
-#: brewlog/models.py:77
-msgid "wanting to stay anonymous"
-msgstr ""
-
-#: brewlog/models.py:230 brewlog/models.py:415 brewlog/brewing/forms/brew.py:44
-#: brewlog/brewing/forms/brewery.py:19 brewlog/users/forms.py:28
-msgid "name"
-msgstr ""
-
-#: brewlog/models.py:231 brewlog/brewing/forms/brewery.py:20
-msgid "description"
-msgstr ""
-
-#: brewlog/models.py:232 brewlog/brewing/forms/brewery.py:21
-msgid "established"
-msgstr ""
-
-#: brewlog/models.py:416
-msgid "created"
-msgstr ""
-
-#: brewlog/models.py:417 brewlog/brewing/forms/brew.py:52
-msgid "date brewed"
-msgstr ""
-
-#: brewlog/models.py:418 brewlog/brewing/forms/brew.py:46
-msgid "style"
-msgstr ""
-
-#: brewlog/models.py:419
-msgid "BJCP style"
-msgstr ""
-
-#: brewlog/models.py:420 brewlog/brewing/forms/brew.py:73
-#: brewlog/templates/brew/include/details.html:6
-msgid "brew length"
-msgstr ""
-
-#: brewlog/models.py:421 brewlog/brewing/forms/brew.py:27
-#: brewlog/brewing/forms/brew.py:69
-#: brewlog/templates/brew/include/details.html:7
-msgid "original gravity"
-msgstr ""
-
-#: brewlog/models.py:422 brewlog/brewing/forms/brew.py:28
-#: brewlog/brewing/forms/brew.py:70
-#: brewlog/templates/brew/include/details.html:8
-msgid "final gravity"
-msgstr ""
-
-#: brewlog/models.py:423 brewlog/templates/brew/include/details.html:9
-msgid "abv"
-msgstr ""
-
-#: brewlog/models.py:433
-#, python-format
-msgid "%(style)s by %(brewer)s in %(brewery)s"
-msgstr ""
-
-#: brewlog/models.py:440
-msgid "normal"
-msgstr ""
-
-#: brewlog/models.py:442
-#, python-format
-msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr ""
 
 #: brewlog/brewing/choices.py:7
@@ -169,64 +101,22 @@ msgstr ""
 msgid "dry hop"
 msgstr ""
 
-#: brewlog/brewing/views.py:17
-msgid "single infusion mash w/ mash out"
-msgstr ""
-
-#: brewlog/brewing/views.py:18
-msgid "2-step mash w/ mash out"
-msgstr ""
-
-#: brewlog/brewing/views.py:19
-msgid "3-step mash w/ mash out"
-msgstr ""
-
-#: brewlog/brewing/views.py:29
-#, python-format
-msgid "brewery %(name)s created"
-msgstr ""
-
-#: brewlog/brewing/views.py:51
-#, python-format
-msgid "brewery %(name)s has been deleted"
-msgstr ""
-
-#: brewlog/brewing/views.py:85
-#, python-format
-msgid "brewery %(name)s data updated"
-msgstr ""
-
-#: brewlog/brewing/views.py:123
-#, python-format
-msgid "brew %(name)s created"
-msgstr ""
-
-#: brewlog/brewing/views.py:139
-#, python-format
-msgid "brew %(name)s data updated"
-msgstr ""
-
-#: brewlog/brewing/views.py:209
-#, python-format
-msgid "brew %(name)s has been deleted"
-msgstr ""
-
-#: brewlog/brewing/views.py:226
-#, python-format
-msgid "tasting note for %(brew)s saved"
-msgstr ""
-
-#: brewlog/brewing/views.py:246
-#, python-format
-msgid "tasting note for brew %(brew)s has been deleted"
-msgstr ""
-
 #: brewlog/brewing/forms/brew.py:16 brewlog/brewing/forms/brew.py:26
 msgid "date"
 msgstr ""
 
 #: brewlog/brewing/forms/brew.py:17 brewlog/users/forms.py:29
 msgid "text"
+msgstr ""
+
+#: brewlog/brewing/forms/brew.py:27 brewlog/brewing/forms/brew.py:69
+#: brewlog/models/brewing.py:222 brewlog/templates/brew/include/details.html:7
+msgid "original gravity"
+msgstr ""
+
+#: brewlog/brewing/forms/brew.py:28 brewlog/brewing/forms/brew.py:70
+#: brewlog/models/brewing.py:223 brewlog/templates/brew/include/details.html:8
+msgid "final gravity"
 msgstr ""
 
 #: brewlog/brewing/forms/brew.py:29
@@ -242,8 +132,18 @@ msgstr ""
 msgid "brewery"
 msgstr ""
 
+#: brewlog/brewing/forms/brew.py:44 brewlog/brewing/forms/brewery.py:19
+#: brewlog/models/brewing.py:81 brewlog/models/brewing.py:216
+#: brewlog/users/forms.py:28
+msgid "name"
+msgstr ""
+
 #: brewlog/brewing/forms/brew.py:45
 msgid "code"
+msgstr ""
+
+#: brewlog/brewing/forms/brew.py:46 brewlog/models/brewing.py:219
+msgid "style"
 msgstr ""
 
 #: brewlog/brewing/forms/brew.py:47
@@ -261,6 +161,10 @@ msgstr ""
 #: brewlog/brewing/forms/brew.py:51
 #: brewlog/templates/brew/include/details.html:52
 msgid "notes"
+msgstr ""
+
+#: brewlog/brewing/forms/brew.py:52 brewlog/models/brewing.py:218
+msgid "date brewed"
 msgstr ""
 
 #: brewlog/brewing/forms/brew.py:53 brewlog/templates/brew/export/ipboard.txt:4
@@ -332,6 +236,11 @@ msgstr ""
 msgid "fermentation steps"
 msgstr ""
 
+#: brewlog/brewing/forms/brew.py:73 brewlog/models/brewing.py:221
+#: brewlog/templates/brew/include/details.html:6
+msgid "brew length"
+msgstr ""
+
 #: brewlog/brewing/forms/brew.py:74
 msgid "total volume in fermenter (including yeast starter volume, if any)"
 msgstr ""
@@ -380,8 +289,68 @@ msgstr ""
 msgid "brewery name has to be between 4 and 500 characters long"
 msgstr ""
 
+#: brewlog/brewing/forms/brewery.py:20 brewlog/models/brewing.py:82
+msgid "description"
+msgstr ""
+
+#: brewlog/brewing/forms/brewery.py:21 brewlog/models/brewing.py:83
+msgid "established"
+msgstr ""
+
 #: brewlog/brewing/forms/brewery.py:30
 msgid "recipes file"
+msgstr ""
+
+#: brewlog/brewing/views/brew.py:17
+msgid "single infusion mash w/ mash out"
+msgstr ""
+
+#: brewlog/brewing/views/brew.py:18
+msgid "2-step mash w/ mash out"
+msgstr ""
+
+#: brewlog/brewing/views/brew.py:19
+msgid "3-step mash w/ mash out"
+msgstr ""
+
+#: brewlog/brewing/views/brew.py:29
+#, python-format
+msgid "brew %(name)s created"
+msgstr ""
+
+#: brewlog/brewing/views/brew.py:45
+#, python-format
+msgid "brew %(name)s data updated"
+msgstr ""
+
+#: brewlog/brewing/views/brew.py:115
+#, python-format
+msgid "brew %(name)s has been deleted"
+msgstr ""
+
+#: brewlog/brewing/views/brew.py:132
+#, python-format
+msgid "tasting note for %(brew)s saved"
+msgstr ""
+
+#: brewlog/brewing/views/brew.py:152
+#, python-format
+msgid "tasting note for brew %(brew)s has been deleted"
+msgstr ""
+
+#: brewlog/brewing/views/brewery.py:19
+#, python-format
+msgid "brewery %(name)s created"
+msgstr ""
+
+#: brewlog/brewing/views/brewery.py:41
+#, python-format
+msgid "brewery %(name)s has been deleted"
+msgstr ""
+
+#: brewlog/brewing/views/brewery.py:75
+#, python-format
+msgid "brewery %(name)s data updated"
 msgstr ""
 
 #: brewlog/forms/base.py:19 brewlog/templates/brew/list.html:11
@@ -391,12 +360,47 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
+#: brewlog/models/brewing.py:217
+msgid "created"
+msgstr ""
+
+#: brewlog/models/brewing.py:220
+msgid "BJCP style"
+msgstr ""
+
+#: brewlog/models/brewing.py:224 brewlog/templates/brew/include/details.html:9
+msgid "abv"
+msgstr ""
+
+#: brewlog/models/brewing.py:234
+#, python-format
+msgid "%(style)s by %(brewer)s in %(brewery)s"
+msgstr ""
+
+#: brewlog/models/brewing.py:241
+msgid "normal"
+msgstr ""
+
+#: brewlog/models/brewing.py:243
+#, python-format
+msgid "%(carb_type)s: carbonation %(carb_level)s"
+msgstr ""
+
+#: brewlog/models/users.py:72
+msgid "wanting to stay anonymous"
+msgstr ""
+
 #: brewlog/templates/404.html:3
 msgid "Page not found (404)"
 msgstr ""
 
 #: brewlog/templates/404.html:6
 msgid "The page you was trying to access was not found on the server."
+msgstr ""
+
+#: brewlog/templates/flatpage.html:8
+#, python-format
+msgid "Updated: %(date)s"
 msgstr ""
 
 #: brewlog/templates/home.html:3
@@ -489,6 +493,18 @@ msgstr ""
 
 #: brewlog/templates/index.foundation.html:85 brewlog/templates/index.html:85
 msgid "All rights reserved"
+msgstr ""
+
+#: brewlog/templates/index.foundation.html:87 brewlog/templates/index.html:87
+msgid "about"
+msgstr ""
+
+#: brewlog/templates/index.foundation.html:88 brewlog/templates/index.html:88
+msgid "user guide"
+msgstr ""
+
+#: brewlog/templates/index.foundation.html:89 brewlog/templates/index.html:89
+msgid "legal mumbo-jumbo"
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:4
@@ -898,38 +914,38 @@ msgstr ""
 msgid "Service \"%(provider)s\" is not supported"
 msgstr ""
 
-#: brewlog/users/views/auth.py:46
+#: brewlog/users/views/auth.py:47
 #, python-format
 msgid "You have been signed in as %(email)s using Google"
 msgstr ""
 
-#: brewlog/users/views/auth.py:50
+#: brewlog/users/views/auth.py:51
 #, python-format
 msgid "Error receiving profile data from Google: %(code)s"
 msgstr ""
 
-#: brewlog/users/views/auth.py:56
+#: brewlog/users/views/auth.py:57
 #, python-format
 msgid ""
 "Facebook login error, reason: %(error_reason)s, description: "
 "%(error_description)s"
 msgstr ""
 
-#: brewlog/users/views/auth.py:75
+#: brewlog/users/views/auth.py:77
 #, python-format
 msgid "You have been signed in as %(email)s using Facebook"
 msgstr ""
 
-#: brewlog/users/views/auth.py:91
+#: brewlog/users/views/auth.py:94
 #, python-format
 msgid "You have been signed in as %(email)s using local handler"
 msgstr ""
 
-#: brewlog/users/views/profile.py:19
+#: brewlog/users/views/profile.py:21
 msgid "your profile data has been updated"
 msgstr ""
 
-#: brewlog/users/views/profile.py:102
+#: brewlog/users/views/profile.py:105
 #, python-format
 msgid "your export template %(name)s has been saved"
 msgstr ""

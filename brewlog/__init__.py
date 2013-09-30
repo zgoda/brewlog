@@ -5,6 +5,7 @@ from flask import Flask, render_template, get_flashed_messages
 from flask_babel import Babel, gettext as _
 from flask_login import LoginManager, current_user
 from flask_mail import Mail
+from flask_flatpages import FlatPages
 
 from brewlog.db import init_engine, session
 from brewlog.templates import setup_template_extensions
@@ -14,6 +15,7 @@ from brewlog.urls import rules
 login_manager = LoginManager()
 babel = Babel()
 mail = Mail()
+pages = FlatPages()
 
 def make_app(env):
     app = Flask(__name__)
@@ -48,9 +50,14 @@ def make_app(env):
     login_manager.login_view = 'auth-select-provider'
     login_manager.login_message = _('Please log in to access this page')
     login_manager.login_message_category = 'info'
+
     babel.init_app(app)
+
     mail.init_app(app)
-    
+
+    pages.init_app(app)
+    pages.get('foo') # preload all static pages
+
     rules.register(app)
 
     setup_template_extensions(app)

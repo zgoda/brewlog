@@ -83,6 +83,11 @@
     {% block footer %}
     <footer class="row full-width">
         <p>Copyright: &copy; 2012, Jarek Zgoda &amp; Z-SOFT. {% trans %}All rights reserved{% endtrans %}.</p>
+        <ul class="inline-list">
+            <li><a href="{{ url_for('pages-page', path='about') }}">{{ gettext("about") }}</a></li>
+            <li><a href="{{ url_for('pages-page', path='guide') }}">{{ gettext("user guide") }}</a></li>
+            <li><a href="{{ url_for('pages-page', path='legal') }}">{{ gettext("legal mumbo-jumbo") }}</a></li>
+        </ul>
     </footer>
     {% endblock %}
     <script src="/static/foundation/js/foundation.min.js"></script>

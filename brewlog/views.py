@@ -1,5 +1,6 @@
 from flask import render_template
 from flask_login import current_user
+from brewlog import pages
 from brewlog.models import latest_breweries, latest_brews
 from brewlog.models.users import BrewerProfile
 from brewlog.models.brewing import Brew, Brewery
@@ -20,3 +21,7 @@ def main():
     }
     return render_template('home.html', **ctx)
 
+def flatpage(path):
+    page = pages.get_or_404(path)
+    template = page.meta.get('template', 'flatpage.html')
+    return render_template(template, page=page, html=page.html)

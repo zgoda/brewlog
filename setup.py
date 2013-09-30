@@ -21,6 +21,8 @@ setup(
         'Flask-OAuth',
         'Flask-Login',
         'Flask-Mail',
+        'Flask-FlatPages',
+        'PyYAML',
         'Markdown',
         'MySQL-python',
         'SQLAlchemy',
