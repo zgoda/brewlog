@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-09-30 14:57+0200\n"
+"POT-Creation-Date: 2013-10-03 19:58+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -110,12 +110,12 @@ msgid "text"
 msgstr ""
 
 #: brewlog/brewing/forms/brew.py:27 brewlog/brewing/forms/brew.py:69
-#: brewlog/models/brewing.py:222 brewlog/templates/brew/include/details.html:7
+#: brewlog/models/brewing.py:226 brewlog/templates/brew/include/details.html:7
 msgid "original gravity"
 msgstr ""
 
 #: brewlog/brewing/forms/brew.py:28 brewlog/brewing/forms/brew.py:70
-#: brewlog/models/brewing.py:223 brewlog/templates/brew/include/details.html:8
+#: brewlog/models/brewing.py:227 brewlog/templates/brew/include/details.html:8
 msgid "final gravity"
 msgstr ""
 
@@ -133,7 +133,7 @@ msgid "brewery"
 msgstr ""
 
 #: brewlog/brewing/forms/brew.py:44 brewlog/brewing/forms/brewery.py:19
-#: brewlog/models/brewing.py:81 brewlog/models/brewing.py:216
+#: brewlog/models/brewing.py:81 brewlog/models/brewing.py:220
 #: brewlog/users/forms.py:28
 msgid "name"
 msgstr ""
@@ -142,7 +142,7 @@ msgstr ""
 msgid "code"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:46 brewlog/models/brewing.py:219
+#: brewlog/brewing/forms/brew.py:46 brewlog/models/brewing.py:223
 msgid "style"
 msgstr ""
 
@@ -163,7 +163,7 @@ msgstr ""
 msgid "notes"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:52 brewlog/models/brewing.py:218
+#: brewlog/brewing/forms/brew.py:52 brewlog/models/brewing.py:222
 msgid "date brewed"
 msgstr ""
 
@@ -236,7 +236,7 @@ msgstr ""
 msgid "fermentation steps"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:73 brewlog/models/brewing.py:221
+#: brewlog/brewing/forms/brew.py:73 brewlog/models/brewing.py:225
 #: brewlog/templates/brew/include/details.html:6
 msgid "brew length"
 msgstr ""
@@ -360,28 +360,28 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
-#: brewlog/models/brewing.py:217
+#: brewlog/models/brewing.py:221
 msgid "created"
 msgstr ""
 
-#: brewlog/models/brewing.py:220
+#: brewlog/models/brewing.py:224
 msgid "BJCP style"
 msgstr ""
 
-#: brewlog/models/brewing.py:224 brewlog/templates/brew/include/details.html:9
+#: brewlog/models/brewing.py:228 brewlog/templates/brew/include/details.html:9
 msgid "abv"
 msgstr ""
 
-#: brewlog/models/brewing.py:234
+#: brewlog/models/brewing.py:238
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr ""
 
-#: brewlog/models/brewing.py:241
+#: brewlog/models/brewing.py:245
 msgid "normal"
 msgstr ""
 
-#: brewlog/models/brewing.py:243
+#: brewlog/models/brewing.py:247
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr ""
@@ -447,6 +447,15 @@ msgstr ""
 #: brewlog/templates/home.html:38
 #, python-format
 msgid "by %(brewer)s"
+msgstr ""
+
+#: brewlog/templates/home.html:49
+msgid "latest tasting notes"
+msgstr ""
+
+#: brewlog/templates/home.html:51
+#, python-format
+msgid "%(author)s on %(date)s"
 msgstr ""
 
 #: brewlog/templates/index.foundation.html:25 brewlog/templates/index.html:25

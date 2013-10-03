@@ -131,6 +131,10 @@ class TastingNote(Model):
     def __repr__(self):
         return '<TastingNote by %s for %s>' % (self.author.name.encode('utf-8'), self.brew.name.encode('utf-8'))
 
+    @classmethod
+    def latest(cls, limit=10):
+        return cls.query.order_by(desc(cls.date)).limit(limit).all()
+
 ## events: TastingNote model
 def tasting_note_pre_save(mapper, connection, target):
     if target.date is None:
