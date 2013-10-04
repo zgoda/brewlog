@@ -30,7 +30,7 @@ class Brewery(Model):
     updated = Column(DateTime, onupdate=datetime.datetime.utcnow, index=True)
     brewer_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
     brewer = relationship('BrewerProfile')
-    brews = relationship('Brew', cascade='all,delete')
+    brews = relationship('Brew', cascade='all,delete', lazy='dynamic')
 
     def __unicode__(self):
         return self.name
@@ -101,18 +101,25 @@ class Brewery(Model):
             brews, num_failed = import_beerxml(source, self, save)
         return len(brews), num_failed
 
-    def recompute_stats(self):
+    def get_stats(self):
         total_volume = 0
         year_volumes = {}
-        for brew in brewery.brews:
+        year_counts = {}
+        for brew in self.brews:
             if brew.final_amount:
                 total_volume = total_volume + brew.final_amount
                 if brew.date_brewed:
                     year = brew.date_brewed.year
                     amount = year_volumes.setdefault(year, 0)
+                    count = year_counts.setdefault(year, 0)
                     year_volumes[year] = amount + brew.final_amount
-        stats = {'total': total_volume, 'volume_by_year': year_volumes}
-        self.stats = json.dumps(stats)
+                    year_counts[year] = count + 1
+        return {
+            'count_total': self.brews.count(),
+            'count_by_year': year_counts,
+            'volume_total': total_volume,
+            'volume_by_year': year_volumes,
+        }
 
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):

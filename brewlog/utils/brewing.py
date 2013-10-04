@@ -11,4 +11,5 @@ def plato2sg(plato):
     return 259.0 / (259.0 - plato)
 
 def abv(og, fg, from_carbonation=0):
-    return ((og - fg) / decimal.Decimal(1.938)) + from_carbonation
+    value = (decimal.Decimal(og - fg) / decimal.Decimal(1.938)) + decimal.Decimal(from_carbonation)
+    return float(value)
