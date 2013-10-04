@@ -25,6 +25,7 @@ class Brewery(Model):
     est_year = Column(Integer)
     est_month = Column(Integer)
     est_day = Column(Integer)
+    stats = Column(Text)
     created = Column(DateTime, default=datetime.datetime.utcnow)
     updated = Column(DateTime, onupdate=datetime.datetime.utcnow, index=True)
     brewer_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
@@ -99,6 +100,19 @@ class Brewery(Model):
         if filetype.lower() == 'beerxml':
             brews, num_failed = import_beerxml(source, self, save)
         return len(brews), num_failed
+
+    def recompute_stats(self):
+        total_volume = 0
+        year_volumes = {}
+        for brew in brewery.brews:
+            if brew.final_amount:
+                total_volume = total_volume + brew.final_amount
+                if brew.date_brewed:
+                    year = brew.date_brewed.year
+                    amount = year_volumes.setdefault(year, 0)
+                    year_volumes[year] = amount + brew.final_amount
+        stats = {'total': total_volume, 'volume_by_year': year_volumes}
+        self.stats = json.dumps(stats)
 
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):
