@@ -30,7 +30,7 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
     oauth_token_secret = Column(Text) # for OAuth1a
     oauth_service = Column(String(50))
     remote_userid = Column(String(100))
-    breweries = relationship('Brewery')
+    breweries = relationship('Brewery', cascade='all,delete', lazy='dynamic')
     ipboard_setups = relationship('IPBoardExportSetup')
     custom_export_templates = relationship('CustomExportTemplate')
     __table_args__ = (

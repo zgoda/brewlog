@@ -221,8 +221,8 @@ class Brew(Model):
     is_draft = Column(Boolean, default=False)
     brewery_id = Column(Integer, ForeignKey('brewery.id'), nullable=False)
     brewery = relationship('Brewery')
-    tasting_notes = relationship('TastingNote', cascade='all,delete')
-    additional_fermentation_steps = relationship('AdditionalFermentationStep', cascade='all,delete')
+    tasting_notes = relationship('TastingNote', cascade='all,delete', lazy='dynamic')
+    additional_fermentation_steps = relationship('AdditionalFermentationStep', cascade='all,delete', lazy='dynamic')
 
     def __repr__(self):
         return '<Brew %s by %s>' % (self.name.encode('utf-8'), self.brewery.name.encode('utf-8'))
