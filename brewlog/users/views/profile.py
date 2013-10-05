@@ -4,7 +4,6 @@ from flask_babel import gettext as _
 from sqlalchemy import desc
 
 from brewlog.utils.models import get_or_404, Pagination, paginate
-from brewlog.models import latest_brews_for
 from brewlog.models.users import BrewerProfile, CustomExportTemplate
 from brewlog.models.brewing import Brewery, Brew
 from brewlog.users.forms import ProfileForm, CustomExportTemplateForm
@@ -29,7 +28,7 @@ def profile(userid, **kwargs):
         'data': user_profile.summary_data(['nick']),
         'data_type': 'summary',
         'profile': user_profile,
-        'latest_brews': latest_brews_for(user_profile),
+        'latest_brews': Brew.get_latest_for(user_profile),
     }
     if user_profile.has_access(current_user):
         context['data'] = user_profile.full_data()

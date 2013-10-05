@@ -293,6 +293,15 @@ class Brew(Model):
             notes['note_text_%s' % note.id] = note.text
         return json.dumps(notes)
 
+    @classmethod
+    def get_latest_for(cls, user, public_only=False, limit=None):
+        query = cls.query.join(Brewery).filter(Brewery.brewer==user)
+        if public_only:
+            query = query.filter_by(is_public=True)
+        if limit is not None:
+            query = query.limit(limit)
+        return query.order_by(desc(cls.created)).all()
+
 ## events: Brew model
 def brew_pre_save(mapper, connection, target):
     bjcp_style = u'%s %s' % (target.bjcp_style_code, target.bjcp_style_name)

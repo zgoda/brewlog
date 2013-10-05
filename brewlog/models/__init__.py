@@ -4,10 +4,6 @@ from brewlog.models.brewing import Brew, Brewery
 from brewlog.models.users import BrewerProfile
 
 
-def latest_brews_for(user):
-    query = Brew.query.join(Brewery).join(BrewerProfile).filter(BrewerProfile.id==user.id).order_by(desc(Brew.created))
-    return query.all()
-
 def breweries(public_only=True, extra_user=None):
     query = Brewery.query
     if public_only:
