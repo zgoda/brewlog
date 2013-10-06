@@ -173,14 +173,27 @@ class AdditionalFermentationStep(Model):
     __tablename__ = 'fermentation_step'
     id = Column(Integer, primary_key=True)
     date = Column(Date, index=True, nullable=False)
+    name = Column(String(200))
     og = Column(Float(precision=1))
     fg = Column(Float(precision=1))
     is_last = Column(Boolean, default=False)
+    notes = Column(Text)
+    hotes_html = Column(Text)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
     brew = relationship('Brew')
 
     def __repr__(self):
         return '<AdditionalFermentationStep for %s @%s>' % (self.brew.name, self.date)
+
+## events: AdditionalFermentationStep model
+def fermentation_step_pre_save(mapper, connection, target):
+    if target.text:
+        target.text_html = markdown.markdown(target.text, safe_mode='remove')
+    else:
+        target.text_html = None
+
+event.listen(AdditionalFermentationStep, 'before_insert', fermentation_step_pre_save)
+event.listen(AdditionalFermentationStep, 'before_update', fermentation_step_pre_save)
 
 
 class Brew(Model):
