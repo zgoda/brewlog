@@ -47,7 +47,7 @@ class CustomLabelTemplateForm(BaseForm):
     def save(self, user, obj=None):
         if obj is None:
             obj = CustomLabelTemplate(user=user)
-        return super(CustomLabelTemplate, self).save(obj, save=True)
+        return super(CustomLabelTemplateForm, self).save(obj, save=True)
 
 
 class IPBoardExportSetupForm(BaseForm):

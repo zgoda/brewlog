@@ -97,8 +97,8 @@ def export_template(userid, tid=None):
         template = get_or_404(CustomExportTemplate, tid)
         if template.user != current_user:
             abort(403)
-    form = CustomExportTemplateForm(request.form)
     if request.method == 'POST':
+        form = CustomExportTemplateForm(request.form)
         if form.validate():
             template = form.save(current_user, template)
             flash(_('your export template %(name)s has been saved', name=template.name))
@@ -108,6 +108,7 @@ def export_template(userid, tid=None):
             else:
                 next_ = url_for('profile-details', userid=current_user.id)
             return redirect(next_)
+    form = CustomExportTemplateForm(obj=template)
     ctx = {
         'form': form,
         'template': template,
@@ -121,8 +122,8 @@ def label_template(userid, tid=None):
         template = get_or_404(CustomLabelTemplate, tid)
         if template.user != current_user:
             abort(403)
-    form = CustomLabelTemplateForm(request.form)
     if request.method == 'POST':
+        form = CustomLabelTemplateForm(request.form)
         if form.validate():
             template = form.save(current_user, template)
             flash(_('your label template %(name)s has been saved', name=template.name))
@@ -132,6 +133,7 @@ def label_template(userid, tid=None):
             else:
                 next_ = url_for('profile-details', userid=current_user.id)
             return redirect(next_)
+    form = CustomLabelTemplateForm(obj=template)
     ctx = {
         'form': form,
         'template': template,
