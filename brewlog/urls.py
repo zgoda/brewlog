@@ -28,7 +28,7 @@ rules = UrlMap([
     Rule('/profile/<int:userid>/extemplate/<int:tid>',
         dict(endpoint='profile-export_template', view_func='brewlog.users.views.profile.export_template', methods=['POST', 'GET'])),
     Rule('/profile/<int:userid>/labeltemplate',
-        dict(endpoint='profile-label_template_add', view_func='brewlog.users.views.profile.export_template', methods=['POST', 'GET'], defaults={'tid': None})),
+        dict(endpoint='profile-label_template_add', view_func='brewlog.users.views.profile.label_template', methods=['POST', 'GET'], defaults={'tid': None})),
     Rule('/profile/<int:userid>/labeltemplate/<int:tid>',
         dict(endpoint='profile-label_template', view_func='brewlog.users.views.profile.label_template', methods=['POST', 'GET'])),
     Rule('/brewery/add',

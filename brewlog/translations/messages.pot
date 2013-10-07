@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-03 19:58+0200\n"
+"POT-Creation-Date: 2013-10-07 16:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,16 +106,17 @@ msgid "date"
 msgstr ""
 
 #: brewlog/brewing/forms/brew.py:17 brewlog/users/forms.py:29
+#: brewlog/users/forms.py:43
 msgid "text"
 msgstr ""
 
 #: brewlog/brewing/forms/brew.py:27 brewlog/brewing/forms/brew.py:69
-#: brewlog/models/brewing.py:226 brewlog/templates/brew/include/details.html:7
+#: brewlog/models/brewing.py:262 brewlog/templates/brew/include/details.html:7
 msgid "original gravity"
 msgstr ""
 
 #: brewlog/brewing/forms/brew.py:28 brewlog/brewing/forms/brew.py:70
-#: brewlog/models/brewing.py:227 brewlog/templates/brew/include/details.html:8
+#: brewlog/models/brewing.py:263 brewlog/templates/brew/include/details.html:8
 msgid "final gravity"
 msgstr ""
 
@@ -133,8 +134,8 @@ msgid "brewery"
 msgstr ""
 
 #: brewlog/brewing/forms/brew.py:44 brewlog/brewing/forms/brewery.py:19
-#: brewlog/models/brewing.py:81 brewlog/models/brewing.py:220
-#: brewlog/users/forms.py:28
+#: brewlog/models/brewing.py:82 brewlog/models/brewing.py:256
+#: brewlog/users/forms.py:28 brewlog/users/forms.py:40
 msgid "name"
 msgstr ""
 
@@ -142,7 +143,7 @@ msgstr ""
 msgid "code"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:46 brewlog/models/brewing.py:223
+#: brewlog/brewing/forms/brew.py:46 brewlog/models/brewing.py:259
 msgid "style"
 msgstr ""
 
@@ -163,7 +164,7 @@ msgstr ""
 msgid "notes"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:52 brewlog/models/brewing.py:222
+#: brewlog/brewing/forms/brew.py:52 brewlog/models/brewing.py:258
 msgid "date brewed"
 msgstr ""
 
@@ -236,7 +237,7 @@ msgstr ""
 msgid "fermentation steps"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:73 brewlog/models/brewing.py:225
+#: brewlog/brewing/forms/brew.py:73 brewlog/models/brewing.py:261
 #: brewlog/templates/brew/include/details.html:6
 msgid "brew length"
 msgstr ""
@@ -289,11 +290,11 @@ msgstr ""
 msgid "brewery name has to be between 4 and 500 characters long"
 msgstr ""
 
-#: brewlog/brewing/forms/brewery.py:20 brewlog/models/brewing.py:82
+#: brewlog/brewing/forms/brewery.py:20 brewlog/models/brewing.py:83
 msgid "description"
 msgstr ""
 
-#: brewlog/brewing/forms/brewery.py:21 brewlog/models/brewing.py:83
+#: brewlog/brewing/forms/brewery.py:21 brewlog/models/brewing.py:84
 msgid "established"
 msgstr ""
 
@@ -360,33 +361,33 @@ msgstr ""
 msgid "delete"
 msgstr ""
 
-#: brewlog/models/brewing.py:221
+#: brewlog/models/brewing.py:257
 msgid "created"
 msgstr ""
 
-#: brewlog/models/brewing.py:224
+#: brewlog/models/brewing.py:260
 msgid "BJCP style"
 msgstr ""
 
-#: brewlog/models/brewing.py:228 brewlog/templates/brew/include/details.html:9
+#: brewlog/models/brewing.py:264 brewlog/templates/brew/include/details.html:9
 msgid "abv"
 msgstr ""
 
-#: brewlog/models/brewing.py:238
+#: brewlog/models/brewing.py:274
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr ""
 
-#: brewlog/models/brewing.py:245
+#: brewlog/models/brewing.py:281
 msgid "normal"
 msgstr ""
 
-#: brewlog/models/brewing.py:247
+#: brewlog/models/brewing.py:283
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr ""
 
-#: brewlog/models/users.py:72
+#: brewlog/models/users.py:73
 msgid "wanting to stay anonymous"
 msgstr ""
 
@@ -417,45 +418,49 @@ msgid ""
 "Have a look to the site and start logging your brews."
 msgstr ""
 
-#: brewlog/templates/home.html:14
-msgid "latest brewers"
+#: brewlog/templates/home.html:8
+msgid "latest site activity"
 msgstr ""
 
-#: brewlog/templates/home.html:16
-#, python-format
-msgid "registered: %(date)s"
-msgstr ""
-
-#: brewlog/templates/home.html:18 brewlog/templates/home.html:29
-#: brewlog/templates/home.html:40
-msgid "view all"
-msgstr ""
-
-#: brewlog/templates/home.html:25 brewlog/templates/account/profile.html:44
+#: brewlog/templates/home.html:15 brewlog/templates/account/profile.html:51
 msgid "latest brews"
 msgstr ""
 
-#: brewlog/templates/home.html:27
+#: brewlog/templates/home.html:17
 #, python-format
 msgid "by %(brewername)s in %(breweryname)s"
 msgstr ""
 
-#: brewlog/templates/home.html:36
-msgid "recently registered breweries"
+#: brewlog/templates/home.html:19 brewlog/templates/home.html:42
+#: brewlog/templates/home.html:53
+msgid "view all"
+msgstr ""
+
+#: brewlog/templates/home.html:26
+msgid "latest tasting notes"
+msgstr ""
+
+#: brewlog/templates/home.html:28
+#, python-format
+msgid "%(author)s on %(date)s"
 msgstr ""
 
 #: brewlog/templates/home.html:38
+msgid "latest brewers"
+msgstr ""
+
+#: brewlog/templates/home.html:40
 #, python-format
-msgid "by %(brewer)s"
+msgid "registered: %(date)s"
 msgstr ""
 
 #: brewlog/templates/home.html:49
-msgid "latest tasting notes"
+msgid "recently registered breweries"
 msgstr ""
 
 #: brewlog/templates/home.html:51
 #, python-format
-msgid "%(author)s on %(date)s"
+msgid "by %(brewer)s"
 msgstr ""
 
 #: brewlog/templates/index.foundation.html:25 brewlog/templates/index.html:25
@@ -528,10 +533,12 @@ msgid "new export template"
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:11
+#: brewlog/templates/account/label_template.html:11
 msgid "help for template code"
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:12
+#: brewlog/templates/account/label_template.html:12
 msgid ""
 "The template code must be written in Jinja2[1] template language. "
 "Available context variable is named \"brew\" and contains all fields from"
@@ -543,7 +550,23 @@ msgid "As an example, see the default export template:"
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:44
+#: brewlog/templates/account/label_template.html:22
 msgid "Jinja2 Template Designer Documentation"
+msgstr ""
+
+#: brewlog/templates/account/label_template.html:4
+#: brewlog/templates/account/label_template.html:7
+#, python-format
+msgid "label template %(name)s"
+msgstr ""
+
+#: brewlog/templates/account/label_template.html:4
+#: brewlog/templates/account/label_template.html:7
+msgid "new label template"
+msgstr ""
+
+#: brewlog/templates/account/label_template.html:13
+msgid "As an example, see the default label template:"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:5
@@ -571,19 +594,24 @@ msgid "custom recipe export templates"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:22
+#: brewlog/templates/account/profile.html:29
 msgid "add new template"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:27
+#: brewlog/templates/account/profile.html:23
+msgid "custom label templates"
+msgstr ""
+
+#: brewlog/templates/account/profile.html:34
 msgid "Brewery list"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:28
+#: brewlog/templates/account/profile.html:35
 msgid "Owned"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:31
-#: brewlog/templates/account/profile.html:37
+#: brewlog/templates/account/profile.html:38
+#: brewlog/templates/account/profile.html:44
 #: brewlog/templates/brewery/list.html:10
 #, python-format
 msgid "%(num)d brew"
@@ -591,16 +619,16 @@ msgid_plural "%(num)d brews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: brewlog/templates/account/profile.html:35
+#: brewlog/templates/account/profile.html:42
 msgid "Other"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:41
+#: brewlog/templates/account/profile.html:48
 #: brewlog/templates/brewery/form.html:4 brewlog/templates/brewery/list.html:15
 msgid "add new brewery"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:50 brewlog/templates/brew/form.html:4
+#: brewlog/templates/account/profile.html:57 brewlog/templates/brew/form.html:4
 #: brewlog/templates/brew/form.html:7 brewlog/templates/brew/list.html:16
 #: brewlog/templates/brewery/details.html:33
 msgid "add new brew"
@@ -896,23 +924,31 @@ msgstr ""
 msgid "all activity of non-public brewers is hidden on site, they are invisible"
 msgstr ""
 
-#: brewlog/users/forms.py:30
+#: brewlog/users/forms.py:30 brewlog/users/forms.py:44
 msgid "template text"
 msgstr ""
 
-#: brewlog/users/forms.py:31
+#: brewlog/users/forms.py:31 brewlog/users/forms.py:45
 msgid "default"
 msgstr ""
 
-#: brewlog/users/forms.py:40
+#: brewlog/users/forms.py:41
+msgid "columns"
+msgstr ""
+
+#: brewlog/users/forms.py:42
+msgid "rows"
+msgstr ""
+
+#: brewlog/users/forms.py:54
 msgid "service name"
 msgstr ""
 
-#: brewlog/users/forms.py:43
+#: brewlog/users/forms.py:57
 msgid "topic id"
 msgstr ""
 
-#: brewlog/users/forms.py:44
+#: brewlog/users/forms.py:58
 msgid ""
 "enter numeric ID of your topic in an IP.Board based forum to allow "
 "posting brew data directly"
@@ -950,12 +986,17 @@ msgstr ""
 msgid "You have been signed in as %(email)s using local handler"
 msgstr ""
 
-#: brewlog/users/views/profile.py:21
+#: brewlog/users/views/profile.py:20
 msgid "your profile data has been updated"
 msgstr ""
 
-#: brewlog/users/views/profile.py:105
+#: brewlog/users/views/profile.py:104
 #, python-format
 msgid "your export template %(name)s has been saved"
+msgstr ""
+
+#: brewlog/users/views/profile.py:128
+#, python-format
+msgid "your label template %(name)s has been saved"
 msgstr ""
 
