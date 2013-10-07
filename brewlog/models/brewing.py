@@ -161,6 +161,7 @@ def tasting_note_pre_save(mapper, connection, target):
     if target.date is None:
         target.date = datetime.date.today()
     if target.text:
+        target.text = stars2deg(target.text)
         target.text_html = markdown.markdown(target.text, safe_mode='remove')
     else:
         target.text_html = None
@@ -187,10 +188,11 @@ class AdditionalFermentationStep(Model):
 
 ## events: AdditionalFermentationStep model
 def fermentation_step_pre_save(mapper, connection, target):
-    if target.text:
-        target.text_html = markdown.markdown(target.text, safe_mode='remove')
+    if target.notes:
+        target.notes = stars2deg(target.notes)
+        target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
     else:
-        target.text_html = None
+        target.notes_html = None
 
 event.listen(AdditionalFermentationStep, 'before_insert', fermentation_step_pre_save)
 event.listen(AdditionalFermentationStep, 'before_update', fermentation_step_pre_save)

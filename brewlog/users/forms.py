@@ -4,7 +4,7 @@ from wtforms.validators import DataRequired, Email, Optional
 from flask_babel import lazy_gettext as _
 
 from brewlog.forms.base import BaseForm
-from brewlog.models.users import BrewerProfile, IPBoardExportSetup, CustomExportTemplate
+from brewlog.models.users import BrewerProfile, IPBoardExportSetup, CustomExportTemplate, CustomLabelTemplate
 
 
 class ProfileForm(BaseForm):
@@ -34,6 +34,20 @@ class CustomExportTemplateForm(BaseForm):
         if obj is None:
             obj = CustomExportTemplate(user=user)
         return super(CustomExportTemplateForm, self).save(obj, save=True)
+
+
+class CustomLabelTemplateForm(BaseForm):
+    name = wf.TextField(_('name'), validators=[DataRequired()])
+    cols = wf.IntegerField(_('columns'), validators=[DataRequired()], default=2)
+    rows = wf.IntegerField(_('rows'), validators=[DataRequired()], default=5)
+    text = wf.TextAreaField(_('text'), validators=[DataRequired()],
+        description=_('template text'))
+    is_default = wf.BooleanField(_('default'), default=False, validators=[Optional()])
+
+    def save(self, user, obj=None):
+        if obj is None:
+            obj = CustomLabelTemplate(user=user)
+        return super(CustomLabelTemplate, self).save(obj, save=True)
 
 
 class IPBoardExportSetupForm(BaseForm):

@@ -31,8 +31,8 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
     oauth_service = Column(String(50))
     remote_userid = Column(String(100))
     breweries = relationship('Brewery', cascade='all,delete', lazy='dynamic')
-    ipboard_setups = relationship('IPBoardExportSetup')
-    custom_export_templates = relationship('CustomExportTemplate')
+    ipboard_setups = relationship('IPBoardExportSetup', cascade='all,delete')
+    custom_export_templates = relationship('CustomExportTemplate', cascade='all,delete')
     __table_args__ = (
         Index('user_remote_id', 'oauth_service', 'remote_userid'),
     )
@@ -155,3 +155,25 @@ class CustomExportTemplate(Model):
     @property
     def absolute_url(self):
         return url_for('profile-export_template', tid=self.id, userid=self.user.id)
+
+
+class CustomLabelTemplate(Model):
+    __tablename__ = 'custom_label_template'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
+    user = relationship('BrewerProfile')
+    name = Column(String(100), nullable=False)
+    cols = Column(Integer, nullable=False, default=2)
+    rows = Column(Integer, nullable=False, default=5)
+    text = Column(Text)
+    is_default = Column(Boolean, default=False)
+    __table_args__ = (
+        Index('user_label_template', 'user_id', 'name'),
+    )
+
+    def __repr__(self):
+        return '<LabelTemplate %s for %s>' % (self.name.encode('utf-8'), self.user.email.encode('utf-8'))
+
+    @property
+    def absolute_url(self):
+        return url_for('profile-label_template', tid=self.id, userid=self.user.id)

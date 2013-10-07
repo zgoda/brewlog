@@ -4,9 +4,9 @@ from flask_babel import gettext as _
 from sqlalchemy import desc
 
 from brewlog.utils.models import get_or_404, Pagination, paginate
-from brewlog.models.users import BrewerProfile, CustomExportTemplate
+from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 from brewlog.models.brewing import Brewery, Brew
-from brewlog.users.forms import ProfileForm, CustomExportTemplateForm
+from brewlog.users.forms import ProfileForm, CustomExportTemplateForm, CustomLabelTemplateForm
 
 
 def profile(userid, **kwargs):
@@ -113,3 +113,27 @@ def export_template(userid, tid=None):
         'template': template,
     }
     return render_template('account/export_template.html', **ctx)
+
+@login_required
+def label_template(userid, tid=None):
+    template = None
+    if tid is not None:
+        template = get_or_404(CustomLabelTemplate, tid)
+        if template.user != current_user:
+            abort(403)
+    form = CustomLabelTemplateForm(request.form)
+    if request.method == 'POST':
+        if form.validate():
+            template = form.save(current_user, template)
+            flash(_('your label template %(name)s has been saved', name=template.name))
+            next_ = request.args.get('next')
+            if next_:
+                next_ = url_for(next_)
+            else:
+                next_ = url_for('profile-details', userid=current_user.id)
+            return redirect(next_)
+    ctx = {
+        'form': form,
+        'template': template,
+    }
+    return render_template('account/label_template.html', **ctx)
