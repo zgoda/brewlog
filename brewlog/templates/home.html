@@ -5,22 +5,12 @@
 {% block widecontent %}
 <h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
 <p>{% trans %}This is BrewLog, brewing log app written by homebrewer for homebrewers. Have a look to the site and start logging your brews.{% endtrans %}</p>
+<h2>{{ gettext("latest site activity").capitalize() }}</h2>
 <div class="row">
     <div class="small-12 columns">
         <div class="row">
-            {% if latest_brewers %}
-            <div class="small-12 large-4 columns">
-                <div class="panel">
-                    <h4>{{ gettext("latest brewers").capitalize() }}</h4>
-                    <ul class="no-bullet">
-                        {% for brewer in latest_brewers %}<li><a href="{{ brewer.absolute_url }}">{{ brewer.name|e }}</a> {{ gettext("registered: %(date)s", date=format_date(brewer.created, "short")) }}</li>{% endfor %}
-                    </ul>
-                    <p><a href="{{ url_for('profile-all') }}">{{ gettext("view all") }}</a></p>
-                </div>
-            </div>
-            {% endif %}
             {% if latest_brews %}
-            <div class="small-12 large-4 columns">
+            <div class="small-12 large-6 columns">
                 <div class="panel">
                     <h4>{{ gettext("latest brews").capitalize() }}</h4>
                     <ul class="no-bullet">
@@ -30,26 +20,37 @@
                 </div>
             </div>
             {% endif %}
+            {% if latest_tasting_notes %}
+            <div class="small-12 large-6 columns">
+                <div class="panel">
+                    <h4>{{ gettext("latest tasting notes").capitalize() }}</h4>
+                    <ul class="no-bullet">
+                        {% for note in latest_tasting_notes %}<li><a href="{{ note.brew.absolute_url }}">{{ note.brew.name }}</a> - {{ gettext("%(author)s on %(date)s", author=note.author.name, date=format_date(note.date, "short")) }}</li>{% endfor %}
+                    </ul>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="row">
+            {% if latest_brewers %}
+            <div class="small-12 large-6 columns">
+                <div class="panel">
+                    <h4>{{ gettext("latest brewers").capitalize() }}</h4>
+                    <ul class="no-bullet">
+                        {% for brewer in latest_brewers %}<li><a href="{{ brewer.absolute_url }}">{{ brewer.name|e }}</a> {{ gettext("registered: %(date)s", date=format_date(brewer.created, "short")) }}</li>{% endfor %}
+                    </ul>
+                    <p><a href="{{ url_for('profile-all') }}">{{ gettext("view all") }}</a></p>
+                </div>
+            </div>
+            {% endif %}
             {% if latest_breweries %}
-            <div class="small-12 large-4 columns">
+            <div class="small-12 large-6 columns">
                 <div class="panel">
                     <h4>{{ gettext("recently registered breweries").capitalize() }}</h4>
                     <ul class="no-bullet">
                         {% for brewery in latest_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> {{ gettext("by %(brewer)s", brewer=brewery.brewer.name)|e }}</li>{% endfor %}
                     </ul>
                     <p><a href="{{ url_for('brewery-all') }}">{{ gettext("view all") }}</a></p>
-                </div>
-            </div>
-            {% endif %}
-        </div>
-        <div class="row">
-            {% if latest_tasting_notes %}
-            <div class="small-12 large-4 columns">
-                <div class="panel">
-                    <h4>{{ gettext("latest tasting notes").capitalize() }}</h4>
-                    <ul class="no-bullet">
-                        {% for note in latest_tasting_notes %}<li><a href="{{ note.brew.absolute_url }}">{{ note.brew.name }}</a> - {{ gettext("%(author)s on %(date)s", author=note.author.name, date=format_date(note.date, "short")) }}</li>{% endfor %}
-                    </ul>
                 </div>
             </div>
             {% endif %}
