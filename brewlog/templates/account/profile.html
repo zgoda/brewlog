@@ -20,6 +20,13 @@
 </ul>
 {% endif %}
 <p><a href="{{ url_for('profile-export_template_add', userid=profile.id) }}" class="small button radius">{{ gettext("add new template") }}</a></p>
+<h4>{{ gettext("custom label templates").capitalize() }}</h4>
+{% if profile.custom_label_templates %}
+<ul>
+    {% for template in profile.custom_label_templates %}<li><a href="{{ template.absolute_url }}">{{ template.name }}</a></li>{% endfor %}
+</ul>
+{% endif %}
+<p><a href="{{ url_for('profile-label_template_add', userid=profile.id) }}" class="small button radius">{{ gettext("add new template") }}</a></p>
 {% endif %}
 {% endblock %}
 
