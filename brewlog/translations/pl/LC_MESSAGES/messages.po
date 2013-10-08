@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-07 16:38+0200\n"
+"POT-Creation-Date: 2013-10-08 12:17+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -108,7 +108,7 @@ msgid "date"
 msgstr "data"
 
 #: brewlog/brewing/forms/brew.py:17 brewlog/users/forms.py:29
-#: brewlog/users/forms.py:43
+#: brewlog/users/forms.py:47
 msgid "text"
 msgstr "tekst"
 
@@ -304,39 +304,39 @@ msgstr "ustanowiony"
 msgid "recipes file"
 msgstr "plik z recepturami"
 
-#: brewlog/brewing/views/brew.py:17
+#: brewlog/brewing/views/brew.py:18
 msgid "single infusion mash w/ mash out"
 msgstr "jednotemperaturowe z wygrzewem"
 
-#: brewlog/brewing/views/brew.py:18
+#: brewlog/brewing/views/brew.py:19
 msgid "2-step mash w/ mash out"
 msgstr "dwustopniowe z wygrzewem"
 
-#: brewlog/brewing/views/brew.py:19
+#: brewlog/brewing/views/brew.py:20
 msgid "3-step mash w/ mash out"
 msgstr "trójstopniowe z wygrzewem"
 
-#: brewlog/brewing/views/brew.py:29
+#: brewlog/brewing/views/brew.py:30
 #, python-format
 msgid "brew %(name)s created"
 msgstr "warka %(name)s utworzona"
 
-#: brewlog/brewing/views/brew.py:45
+#: brewlog/brewing/views/brew.py:46
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr "dane warki %(name)s zostały zaktualizowane"
 
-#: brewlog/brewing/views/brew.py:115
+#: brewlog/brewing/views/brew.py:136
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr "warka %(name)s została usunięta"
 
-#: brewlog/brewing/views/brew.py:132
+#: brewlog/brewing/views/brew.py:153
 #, python-format
 msgid "tasting note for %(brew)s saved"
 msgstr "recenzja do warki %(brew)s została zapisana"
 
-#: brewlog/brewing/views/brew.py:152
+#: brewlog/brewing/views/brew.py:173
 #, python-format
 msgid "tasting note for brew %(brew)s has been deleted"
 msgstr "recenzja do warki %(brew)s została usunięta"
@@ -544,22 +544,27 @@ msgstr "pomoc"
 #: brewlog/templates/account/export_template.html:12
 #: brewlog/templates/account/label_template.html:12
 msgid ""
-"The template code must be written in Jinja2[1] template language. "
-"Available context variable is named \"brew\" and contains all fields from"
-" single brew data."
+"The template code must be written in Jinja2[1] template language using "
+"Markdown[2] markup. Available context variable is named \"brew\" and "
+"contains all fields from single brew data."
 msgstr ""
-"Kod szablonu musi być napisany przy użyciu języka szablonów Jinja2[1]. "
-"Zmienna określająca warkę jest dostępna pod nazwą \"brew\" i zawiera ona "
-"wszystkie pola danych warki."
+"Kod szablonu musi być napisany przy użyciu języka szablonów Jinja2[1] oraz "
+"Markdown[2]. Zmienna określająca warkę jest dostępna pod nazwą \"brew\" i "
+"zawiera ona wszystkie pola danych warki."
 
 #: brewlog/templates/account/export_template.html:13
 msgid "As an example, see the default export template:"
 msgstr "Dla przykładu proszę spojrzeć, jak wygląda szablon domyślny:"
 
 #: brewlog/templates/account/export_template.html:44
-#: brewlog/templates/account/label_template.html:22
+#: brewlog/templates/account/label_template.html:24
 msgid "Jinja2 Template Designer Documentation"
 msgstr "Dokumentacja dla autorów szablonów Jinja2"
+
+#: brewlog/templates/account/export_template.html:45
+#: brewlog/templates/account/label_template.html:25
+msgid "Markdown syntax"
+msgstr "Składnia Markdown"
 
 #: brewlog/templates/account/label_template.html:4
 #: brewlog/templates/account/label_template.html:7
@@ -574,8 +579,7 @@ msgstr "nowy szablon etykiety"
 
 #: brewlog/templates/account/label_template.html:13
 msgid "As an example, see the default label template:"
-msgstr ""
-"Dla przykładu proszę spojrzeć, jak wygląda domyślny szablon etykiety:"
+msgstr "Dla przykładu proszę spojrzeć, jak wygląda domyślny szablon etykiety:"
 
 #: brewlog/templates/account/profile.html:5
 #, python-format
@@ -715,6 +719,11 @@ msgstr "eksport danych warki %(brew)s w formacie %(flavour)s"
 #: brewlog/templates/brew/export.html:8
 msgid "brew link"
 msgstr "link do warki"
+
+#: brewlog/templates/brew/labels.html:8 brewlog/users/forms.py:31
+#: brewlog/users/forms.py:49
+msgid "default"
+msgstr "domyślny"
 
 #: brewlog/templates/brew/list.html:8
 msgid "all public brews"
@@ -945,13 +954,9 @@ msgstr "profil jest publiczny"
 msgid "all activity of non-public brewers is hidden on site, they are invisible"
 msgstr "aktywność użytkowników ukrytych jest niewidoczna w serwisie"
 
-#: brewlog/users/forms.py:30 brewlog/users/forms.py:44
+#: brewlog/users/forms.py:30 brewlog/users/forms.py:48
 msgid "template text"
 msgstr "tekst szablonu"
-
-#: brewlog/users/forms.py:31 brewlog/users/forms.py:45
-msgid "default"
-msgstr "domyślny"
 
 #: brewlog/users/forms.py:41
 msgid "columns"
@@ -961,15 +966,31 @@ msgstr "kolumny"
 msgid "rows"
 msgstr "wiersze"
 
-#: brewlog/users/forms.py:54
+#: brewlog/users/forms.py:43
+msgid "label width"
+msgstr "serokość etykiety"
+
+#: brewlog/users/forms.py:44
+msgid "single label cell width in milimetres"
+msgstr "szerokość pojedynczej etykiety w milimetrach"
+
+#: brewlog/users/forms.py:45
+msgid "label height"
+msgstr "wysokość etykiety"
+
+#: brewlog/users/forms.py:46
+msgid "single label cell height in milimetres"
+msgstr "wysokość pojedynczej etykiety w milimetrach"
+
+#: brewlog/users/forms.py:58
 msgid "service name"
 msgstr "nazwa serwisu"
 
-#: brewlog/users/forms.py:57
+#: brewlog/users/forms.py:61
 msgid "topic id"
 msgstr "ID tematu"
 
-#: brewlog/users/forms.py:58
+#: brewlog/users/forms.py:62
 msgid ""
 "enter numeric ID of your topic in an IP.Board based forum to allow "
 "posting brew data directly"
@@ -1018,7 +1039,7 @@ msgstr "twój profil piwowara został uaktualniony"
 msgid "your export template %(name)s has been saved"
 msgstr "szablon %(name)s został zapisany"
 
-#: brewlog/users/views/profile.py:128
+#: brewlog/users/views/profile.py:129
 #, python-format
 msgid "your label template %(name)s has been saved"
 msgstr "szablon etykiet %(name)s został zapisany"

@@ -9,7 +9,7 @@
     {{ forms.render(form) }}
 </form>
 <h4>{{ gettext("help for template code").capitalize() }}</h4>
-<p>{% trans %}The template code must be written in Jinja2[1] template language. Available context variable is named "brew" and contains all fields from single brew data.{% endtrans %}</p>
+<p>{% trans %}The template code must be written in Jinja2[1] template language using Markdown[2] markup. Available context variable is named "brew" and contains all fields from single brew data.{% endtrans %}</p>
 <p>{% trans %}As an example, see the default export template:{% endtrans %}</p>
 <pre>
 {% raw %}
@@ -41,5 +41,6 @@
 {% if brew.notes %}{{ brew.notes|safe }}{% endif %}
 {% endraw %}
 </pre>
-<p>[1] <a href="http://jinja.pocoo.org/docs/templates/">{% trans %}Jinja2 Template Designer Documentation{% endtrans %}</a></p>
+<p>[1] <a href="http://jinja.pocoo.org/docs/templates/">{% trans %}Jinja2 Template Designer Documentation{% endtrans %}</a><br>
+[2] <a href="http://daringfireball.net/projects/markdown/syntax">{% trans %}Markdown syntax{% endtrans %}</a></p>
 {% endblock %}

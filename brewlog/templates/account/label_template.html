@@ -15,11 +15,12 @@
 {% raw %}
 #### {{ brew.brewery.name|e }}
 ### {% if brew.code %}#{{ brew.code|e }} {% endif %}{{ brew.name|e }}
+
 {% if brew.date_brewed and brew.bottling_date %}{% trans %}brewed{% endtrans %}: {{ brew.date_brewed|dateformat("short" )}} &ndash; {% trans %}packaged{% endtrans %}: {{ brew.bottling_date|dateformat("short" )}}{% endif %}
 
 {% if brew.og and brew.abv %}{% trans %}OG{% endtrans %}: {{ '%.1f' % brew.og }}&deg;Blg / {% trans %}alc. vol.{% endtrans %}: {{ '%.1f' % brew.abv }}%{% endif %}
 {% endraw %}
 </pre>
-<p>[1] <a href="http://jinja.pocoo.org/docs/templates/">{% trans %}Jinja2 Template Designer Documentation{% endtrans %}</a></p>
-<p>[2] <a href="http://daringfireball.net/projects/markdown/syntax">{% trans %}Markdown syntax{% endtrans %}</a></p>
+<p>[1] <a href="http://jinja.pocoo.org/docs/templates/">{% trans %}Jinja2 Template Designer Documentation{% endtrans %}</a><br>
+[2] <a href="http://daringfireball.net/projects/markdown/syntax">{% trans %}Markdown syntax{% endtrans %}</a></p>
 {% endblock %}

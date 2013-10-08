@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2013-10-07 16:38+0200\n"
+"POT-Creation-Date: 2013-10-08 12:17+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -106,7 +106,7 @@ msgid "date"
 msgstr ""
 
 #: brewlog/brewing/forms/brew.py:17 brewlog/users/forms.py:29
-#: brewlog/users/forms.py:43
+#: brewlog/users/forms.py:47
 msgid "text"
 msgstr ""
 
@@ -302,39 +302,39 @@ msgstr ""
 msgid "recipes file"
 msgstr ""
 
-#: brewlog/brewing/views/brew.py:17
+#: brewlog/brewing/views/brew.py:18
 msgid "single infusion mash w/ mash out"
 msgstr ""
 
-#: brewlog/brewing/views/brew.py:18
+#: brewlog/brewing/views/brew.py:19
 msgid "2-step mash w/ mash out"
 msgstr ""
 
-#: brewlog/brewing/views/brew.py:19
+#: brewlog/brewing/views/brew.py:20
 msgid "3-step mash w/ mash out"
 msgstr ""
 
-#: brewlog/brewing/views/brew.py:29
+#: brewlog/brewing/views/brew.py:30
 #, python-format
 msgid "brew %(name)s created"
 msgstr ""
 
-#: brewlog/brewing/views/brew.py:45
+#: brewlog/brewing/views/brew.py:46
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr ""
 
-#: brewlog/brewing/views/brew.py:115
+#: brewlog/brewing/views/brew.py:136
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr ""
 
-#: brewlog/brewing/views/brew.py:132
+#: brewlog/brewing/views/brew.py:153
 #, python-format
 msgid "tasting note for %(brew)s saved"
 msgstr ""
 
-#: brewlog/brewing/views/brew.py:152
+#: brewlog/brewing/views/brew.py:173
 #, python-format
 msgid "tasting note for brew %(brew)s has been deleted"
 msgstr ""
@@ -540,9 +540,9 @@ msgstr ""
 #: brewlog/templates/account/export_template.html:12
 #: brewlog/templates/account/label_template.html:12
 msgid ""
-"The template code must be written in Jinja2[1] template language. "
-"Available context variable is named \"brew\" and contains all fields from"
-" single brew data."
+"The template code must be written in Jinja2[1] template language using "
+"Markdown[2] markup. Available context variable is named \"brew\" and "
+"contains all fields from single brew data."
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:13
@@ -550,8 +550,13 @@ msgid "As an example, see the default export template:"
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:44
-#: brewlog/templates/account/label_template.html:22
+#: brewlog/templates/account/label_template.html:24
 msgid "Jinja2 Template Designer Documentation"
+msgstr ""
+
+#: brewlog/templates/account/export_template.html:45
+#: brewlog/templates/account/label_template.html:25
+msgid "Markdown syntax"
 msgstr ""
 
 #: brewlog/templates/account/label_template.html:4
@@ -701,6 +706,11 @@ msgstr ""
 
 #: brewlog/templates/brew/export.html:8
 msgid "brew link"
+msgstr ""
+
+#: brewlog/templates/brew/labels.html:8 brewlog/users/forms.py:31
+#: brewlog/users/forms.py:49
+msgid "default"
 msgstr ""
 
 #: brewlog/templates/brew/list.html:8
@@ -924,12 +934,8 @@ msgstr ""
 msgid "all activity of non-public brewers is hidden on site, they are invisible"
 msgstr ""
 
-#: brewlog/users/forms.py:30 brewlog/users/forms.py:44
+#: brewlog/users/forms.py:30 brewlog/users/forms.py:48
 msgid "template text"
-msgstr ""
-
-#: brewlog/users/forms.py:31 brewlog/users/forms.py:45
-msgid "default"
 msgstr ""
 
 #: brewlog/users/forms.py:41
@@ -940,15 +946,31 @@ msgstr ""
 msgid "rows"
 msgstr ""
 
-#: brewlog/users/forms.py:54
-msgid "service name"
+#: brewlog/users/forms.py:43
+msgid "label width"
 msgstr ""
 
-#: brewlog/users/forms.py:57
-msgid "topic id"
+#: brewlog/users/forms.py:44
+msgid "single label cell width in milimetres"
+msgstr ""
+
+#: brewlog/users/forms.py:45
+msgid "label height"
+msgstr ""
+
+#: brewlog/users/forms.py:46
+msgid "single label cell height in milimetres"
 msgstr ""
 
 #: brewlog/users/forms.py:58
+msgid "service name"
+msgstr ""
+
+#: brewlog/users/forms.py:61
+msgid "topic id"
+msgstr ""
+
+#: brewlog/users/forms.py:62
 msgid ""
 "enter numeric ID of your topic in an IP.Board based forum to allow "
 "posting brew data directly"
@@ -995,7 +1017,7 @@ msgstr ""
 msgid "your export template %(name)s has been saved"
 msgstr ""
 
-#: brewlog/users/views/profile.py:128
+#: brewlog/users/views/profile.py:129
 #, python-format
 msgid "your label template %(name)s has been saved"
 msgstr ""
