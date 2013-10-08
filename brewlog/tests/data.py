@@ -28,6 +28,13 @@ class BrewerProfileData(DataSet):
         is_public = False
 
 
+class CustomLabelTemplateData(DataSet):
+    class design1:
+        user = BrewerProfileData.user1
+        name = 'custom #1'
+        text = '#### {{ brew.name }}'
+
+
 class BreweryData(DataSet):
     class brewery1:
         name = 'brewery #1'

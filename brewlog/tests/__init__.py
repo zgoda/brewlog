@@ -4,8 +4,8 @@ from fixture import SQLAlchemyFixture
 
 from brewlog import make_app, db
 from brewlog.models.brewing import Brew, Brewery
-from brewlog.models.users import BrewerProfile
-from brewlog.tests.data import BrewData, BreweryData, BrewerProfileData
+from brewlog.models.users import BrewerProfile, CustomLabelTemplate
+from brewlog.tests.data import BrewData, BreweryData, BrewerProfileData, CustomLabelTemplateData
 
 
 class BrewlogTestCase(TestCase):
@@ -21,9 +21,15 @@ class BrewlogTestCase(TestCase):
             'BrewData': Brew,
             'BreweryData': Brewery,
             'BrewerProfileData': BrewerProfile,
+            'CustomLabelTemplateData': CustomLabelTemplate,
         }
         fx = SQLAlchemyFixture(env=env, engine=db.engine)
-        self.data = fx.data(BrewData, BreweryData, BrewerProfileData)
+        self.data = fx.data(*[
+            BrewData,
+            BreweryData,
+            BrewerProfileData,
+            CustomLabelTemplateData,
+        ])
         self.data.setup()
 
     def tearDown(self):

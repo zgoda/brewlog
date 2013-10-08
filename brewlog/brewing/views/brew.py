@@ -76,7 +76,7 @@ def brew_all():
 def brew_export(brew_id, flavour):
     brew = get_or_404(Brew, brew_id)
     if not brew.has_access(current_user):
-        abort(404)
+        abort(403)
     ctx = {
         'brew': brew,
         'flavour': flavour,
@@ -87,7 +87,7 @@ def brew_export(brew_id, flavour):
 def brew_print(brew_id):
     brew = get_or_404(Brew, brew_id)
     if not brew.has_access(current_user):
-        abort(404)
+        abort(403)
     ctx = {
         'brew': brew,
     }
@@ -96,7 +96,7 @@ def brew_print(brew_id):
 def brew_labels(brew_id):
     brew = get_or_404(Brew, brew_id)
     if not brew.has_access(current_user):
-        abort(404)
+        abort(403)
     ctx = {
         'brew': brew,
         'custom_templates': [],
@@ -108,18 +108,18 @@ def brew_labels(brew_id):
     }
     if current_user.is_authenticated():
         ctx['custom_templates'] = current_user.custom_label_templates.order_by(CustomLabelTemplate.name).all()
-    use_template = request.args.get('template')
-    if use_template is not None:
-        template_obj = current_user.custom_label_templates.filter_by(id=use_template).one()
-        if template_obj is not None:
-            custom_data = dict(
-                rendered_cell = render_template_string(markdown.markdown(template_obj.text, safe_mode='remove'), brew=brew),
-                rows = template_obj.rows,
-                cols = template_obj.cols,
-                cell_style = 'width:%smm;height:%smm' % (template_obj.width, template_obj.height),
-                current_template = template_obj.id,
-            )
-            ctx.update(custom_data)
+        use_template = request.args.get('template')
+        if use_template is not None:
+            template_obj = current_user.custom_label_templates.filter_by(id=use_template).one()
+            if template_obj is not None:
+                custom_data = dict(
+                    rendered_cell = render_template_string(markdown.markdown(template_obj.text, safe_mode='remove'), brew=brew),
+                    rows = template_obj.rows,
+                    cols = template_obj.cols,
+                    cell_style = 'width:%smm;height:%smm' % (template_obj.width, template_obj.height),
+                    current_template = template_obj.id,
+                )
+                ctx.update(custom_data)
     return render_template('brew/labels.html', **ctx)
 
 @login_required

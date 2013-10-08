@@ -2,7 +2,7 @@ from flask import url_for
 
 from brewlog.tests import BrewlogTestCase
 from brewlog.models.brewing import Brew, Brewery
-from brewlog.models.users import BrewerProfile
+from brewlog.models.users import BrewerProfile, CustomLabelTemplate
 
 
 class BrewTestCase(BrewlogTestCase):
@@ -174,7 +174,7 @@ class BrewExportTestCase(BrewlogTestCase):
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(url)
-            self.assertEqual(rv.status_code, 404)
+            self.assertEqual(rv.status_code, 403)
 
     def test_print_public(self):
         brew = Brew.query.filter_by(name='pale ale').first()
@@ -192,7 +192,7 @@ class BrewExportTestCase(BrewlogTestCase):
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(url)
-            self.assertEqual(rv.status_code, 404)
+            self.assertEqual(rv.status_code, 403)
 
     def test_print_labels_public(self):
         brew = Brew.query.filter_by(name='pale ale').first()
@@ -202,6 +202,18 @@ class BrewExportTestCase(BrewlogTestCase):
             self.login(client, user.email)
             rv = client.get(url)
             self.assertEqual(rv.status_code, 200)
+            self.assertIn('<h3>#%s %s</h3>' % (brew.code, brew.name), rv.data)
+
+    def test_print_custom_template(self):
+        brew = Brew.query.filter_by(name='pale ale').first()
+        user = BrewerProfile.get_by_email('user1@example.com')
+        template = CustomLabelTemplate.query.filter_by(user=user).first()
+        url = url_for('brew-print-labels', brew_id=brew.id)
+        with self.app.test_client() as client:
+            self.login(client, user.email)
+            rv = client.get(url, query_string={'template': template.id})
+            self.assertEqual(rv.status_code, 200)
+            self.assertIn('<h4>%s</h4>' % brew.name, rv.data)
 
     def test_print_labels_hidden(self):
         brew = Brew.query.filter_by(name='hidden czech pilsener').first()
@@ -210,4 +222,4 @@ class BrewExportTestCase(BrewlogTestCase):
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(url)
-            self.assertEqual(rv.status_code, 404)
+            self.assertEqual(rv.status_code, 403)
