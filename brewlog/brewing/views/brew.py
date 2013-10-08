@@ -1,4 +1,4 @@
-from flask import request, flash, url_for, redirect, render_template, abort
+from flask import request, flash, url_for, redirect, render_template, abort, render_template_string
 from flask_login import current_user, login_required
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext
@@ -8,6 +8,7 @@ import markdown
 from brewlog.db import session as dbsession
 from brewlog.models import brews
 from brewlog.models.brewing import Brew, TastingNote
+from brewlog.models.users import CustomLabelTemplate
 from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.brewing.forms.brew import BrewForm, TastingNoteForm
@@ -98,7 +99,27 @@ def brew_labels(brew_id):
         abort(404)
     ctx = {
         'brew': brew,
+        'custom_templates': [],
+        'rendered_cell': None,
+        'rows': 5,
+        'cols': 2,
+        'cell_style': 'width:90mm;height:50mm',
+        'current_template': 0,
     }
+    if current_user.is_authenticated():
+        ctx['custom_templates'] = current_user.custom_label_templates.order_by(CustomLabelTemplate.name).all()
+    use_template = request.args.get('template')
+    if use_template is not None:
+        template_obj = current_user.custom_label_templates.filter_by(id=use_template).one()
+        if template_obj is not None:
+            custom_data = dict(
+                rendered_cell = render_template_string(markdown.markdown(template_obj.text, safe_mode='remove'), brew=brew),
+                rows = template_obj.rows,
+                cols = template_obj.cols,
+                cell_style = 'width:%smm;height:%smm' % (template_obj.width, template_obj.height),
+                current_template = template_obj.id,
+            )
+            ctx.update(custom_data)
     return render_template('brew/labels.html', **ctx)
 
 @login_required
