@@ -166,6 +166,8 @@ class CustomLabelTemplate(Model):
     name = Column(String(100), nullable=False)
     cols = Column(Integer, nullable=False, default=2)
     rows = Column(Integer, nullable=False, default=5)
+    width = Column(Integer, default=90, server_default='90', nullable=False)
+    height = Column(Integer, default=50, server_default='50', nullable=False)
     text = Column(Text)
     is_default = Column(Boolean, default=False)
     __table_args__ = (

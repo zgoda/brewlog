@@ -40,6 +40,10 @@ class CustomLabelTemplateForm(BaseForm):
     name = wf.TextField(_('name'), validators=[DataRequired()])
     cols = wf.IntegerField(_('columns'), validators=[DataRequired()], default=2)
     rows = wf.IntegerField(_('rows'), validators=[DataRequired()], default=5)
+    width = wf.IntegerField(_('label width'), validators=[DataRequired()], default=90,
+        description=_('single label cell width in milimetres'))
+    height = wf.IntegerField(_('label height'), validators=[DataRequired()], default=50,
+        description=_('single label cell height in milimetres'))
     text = wf.TextAreaField(_('text'), validators=[DataRequired()],
         description=_('template text'))
     is_default = wf.BooleanField(_('default'), default=False, validators=[Optional()])
