@@ -11,7 +11,6 @@ from flask_babel import lazy_gettext as _, format_datetime, format_date
 from brewlog.brewing import choices
 from brewlog.db import Model, session
 from brewlog.utils.text import slugify, stars2deg
-from brewlog.utils.dataimport import import_beerxml
 from brewlog.utils.brewing import abv
 
 
