@@ -73,20 +73,3 @@ class RouteMap(object):
         for rule in self.get_routes():
             app.add_url_rule(rule.url, rule.endpoint, LazyView('.'.join([self.root, rule.view])), **rule.extra_kwargs)
 
-
-class Rule(object):
-
-    def __init__(self, url, rule_args):
-        self.url = url
-        self.rule_args = rule_args
-        self.rule_args['view_func'] = LazyView(rule_args['view_func'])
-
-
-class UrlMap(object):
-
-    def __init__(self, rules):
-        self.rules = rules
-
-    def register(self, app):
-        for rule in self.rules:
-            app.add_url_rule(rule.url, **rule.rule_args)
