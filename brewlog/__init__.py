@@ -8,7 +8,7 @@ from flask_flatpages import FlatPages
 
 from brewlog.db import init_engine, session
 from brewlog.templates import setup_template_extensions
-from brewlog.urls import rules
+from brewlog.routes import routes
 
 
 login_manager = LoginManager()
@@ -54,7 +54,7 @@ def make_app(env):
     pages.init_app(app)
     pages.get('foo') # preload all static pages
 
-    rules.register(app)
+    routes.register(app)
 
     setup_template_extensions(app)
 
