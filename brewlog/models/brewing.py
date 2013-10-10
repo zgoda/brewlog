@@ -96,11 +96,6 @@ class Brewery(Model):
             setattr(brew, k, v)
         return brew
 
-    def import_recipes_from(self, source, filetype, save=True):
-        if filetype.lower() == 'beerxml':
-            brews, num_failed = import_beerxml(source, self, save)
-        return len(brews), num_failed
-
     def get_stats(self):
         total_volume = 0
         year_volumes = {}
