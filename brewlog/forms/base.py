@@ -2,7 +2,7 @@ from wtforms import BooleanField
 from flask_wtf import Form
 from flask_babel import lazy_gettext as _
 
-from brewlog import session
+from brewlog import dbsession as session
 
 
 class BaseForm(Form):

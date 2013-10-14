@@ -1,12 +1,12 @@
 import os
 
 from werkzeug.utils import ImportStringError
-from flask import Flask, render_template, get_flashed_messages
+from flask import Flask, render_template, get_flashed_messages, session, request
 from flask_babel import Babel, gettext as _
 from flask_login import LoginManager, current_user
 from flask_flatpages import FlatPages
 
-from brewlog.db import init_engine, session
+from brewlog.db import init_engine, session as dbsession
 from brewlog.templates import setup_template_extensions
 from brewlog.routes import routes
 
@@ -30,7 +30,7 @@ def make_app(env):
 
     @app.teardown_request
     def shutdown_session(exception=None):
-        session.remove()
+        dbsession.remove()
 
     @app.errorhandler(404)
     def not_found(error):
@@ -51,6 +51,14 @@ def make_app(env):
 
     babel.init_app(app)
 
+    @babel.localeselector
+    def get_locale():
+        lang = session.get('lang')
+        if lang is None:
+            lang = request.accept_languages.best_match(['pl', 'en'])
+        return lang
+
+
     pages.init_app(app)
     pages.get('foo') # preload all static pages
 
@@ -65,4 +73,3 @@ def make_app(env):
 def get_user(userid):
     from models.users import BrewerProfile
     return BrewerProfile.query.get(userid)
-
