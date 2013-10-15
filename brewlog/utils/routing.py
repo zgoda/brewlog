@@ -1,5 +1,3 @@
-import os
-
 from werkzeug import import_string, cached_property
 
 

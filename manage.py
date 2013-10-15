@@ -1,4 +1,3 @@
-import os
 import unittest
 
 from flask.ext.script import Server, Manager, Shell, Command, Option
