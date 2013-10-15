@@ -9,17 +9,7 @@ from brewlog.forms.base import BaseForm
 from brewlog.forms.widgets import textarea_with_hints
 from brewlog.forms.fields import TextAreaWithHintsField
 from brewlog.brewing import choices
-from brewlog.models.brewing import Brew, Brewery, TastingNote, AdditionalFermentationStep
-
-
-class TastingNoteForm(BaseForm):
-    date = DateField(_('date'))
-    text = wf.TextAreaField(_('text'))
-
-    def save(self, brew, obj=None, save=True):
-        if obj is None:
-            obj = TastingNote(brew=brew, author=current_user)
-        return super(TastingNoteForm, self).save(obj, save)
+from brewlog.models.brewing import Brew, Brewery, AdditionalFermentationStep
 
 
 class AdditionalFermentationStepForm(BaseForm):

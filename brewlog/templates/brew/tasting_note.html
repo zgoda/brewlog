@@ -5,7 +5,7 @@
 
 {% block content %}
 {% if form %}
-<form method="post" action="{{ url_for('brew-tastingnote-add', brew_id=brew.id) }}" class="custom">
+<form method="post" action="{{ url_for('tastingnote-add', brew_id=brew.id) }}" class="custom">
     {{ forms.render(form) }}
 </form>
 {% endif %}

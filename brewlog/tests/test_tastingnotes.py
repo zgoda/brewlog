@@ -18,7 +18,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         """
         Anonymous users can not add tasting notes
         """
-        url = url_for('brew-tastingnote-add', brew_id=self.brew.id)
+        url = url_for('tastingnote-add', brew_id=self.brew.id)
         with self.app.test_client() as client:
             rv = client.get(url)
             self.assertEqual(rv.status_code, 302)
@@ -27,7 +27,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         """
         All logged in users can add tasting notes to public brews
         """
-        url = url_for('brew-tastingnote-add', brew_id=self.brew.id)
+        url = url_for('tastingnote-add', brew_id=self.brew.id)
         with self.app.test_client() as client:
             self.login(client, self.regular_user.email)
             rv = client.get(url)
@@ -42,7 +42,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         """
         Users can not add tasting notes to hidden brews
         """
-        url = url_for('brew-tastingnote-add', brew_id=self.hidden_brew_direct.id)
+        url = url_for('tastingnote-add', brew_id=self.hidden_brew_direct.id)
         with self.app.test_client() as client:
             self.login(client, self.regular_user.email)
             rv = client.get(url)
@@ -57,7 +57,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         """
         Users can not add tasting notes to brews of hidden brewery
         """
-        url = url_for('brew-tastingnote-add', brew_id=self.hidden_brew_indirect.id)
+        url = url_for('tastingnote-add', brew_id=self.hidden_brew_indirect.id)
         with self.app.test_client() as client:
             self.login(client, self.regular_user.email)
             rv = client.get(url)
@@ -73,7 +73,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         Note author can delete it
         """
         note = self.brew.add_tasting_note(self.regular_user, 'Nice beer, cheers!', commit=True)
-        url = url_for('brew-tastingnote-delete', note_id=note.id)
+        url = url_for('tastingnote-delete', note_id=note.id)
         with self.app.test_client() as client:
             self.login(client, self.regular_user.email)
             rv = client.post(url, data={'delete_it': True}, follow_redirects=True)
@@ -84,7 +84,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         Brew owner can delete tasting notes
         """
         note = self.brew.add_tasting_note(self.regular_user, 'Nice beer, cheers!', commit=True)
-        url = url_for('brew-tastingnote-delete', note_id=note.id)
+        url = url_for('tastingnote-delete', note_id=note.id)
         with self.app.test_client() as client:
             self.login(client, self.brew.brewery.brewer.email)
             rv = client.post(url, data={'delete_it': True}, follow_redirects=True)
@@ -95,7 +95,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         Anonymous user brew details view does not contain js to edit note texts
         """
         url = url_for('brew-details', brew_id=self.brew.id)
-        edit_url = url_for('brew-tastingnote-update')
+        edit_url = url_for('tastingnote-update')
         with self.app.test_client() as client:
             rv = client.get(url)
             self.assertNotIn(edit_url, rv.data)
@@ -105,7 +105,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         Anonymous users can not edit tasting note texts
         """
         note = self.brew.add_tasting_note(self.brew.brewery.brewer, 'Nice beer, cheers!', commit=True)
-        url = url_for('brew-tastingnote-update')
+        url = url_for('tastingnote-update')
         data = {
             'id': note.id,
             'value': 'This brew is horrible!',
@@ -120,7 +120,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         Author can edit own notes
         """
         note = self.brew.add_tasting_note(self.regular_user, 'Nice beer, cheers!', commit=True)
-        url = url_for('brew-tastingnote-update')
+        url = url_for('tastingnote-update')
         data = {
             'id': note.id,
             'value': 'This brew is horrible!',
@@ -137,7 +137,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         Brew owner can edit notes to his brews regardless of note authorship
         """
         note = self.brew.add_tasting_note(self.regular_user, 'Nice beer, cheers!', commit=True)
-        url = url_for('brew-tastingnote-update')
+        url = url_for('tastingnote-update')
         data = {
             'id': note.id,
             'value': 'This brew is horrible!',

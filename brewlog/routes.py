@@ -29,10 +29,6 @@ routes = RouteMap('brewlog', [
         Route('/<int:brewery_id>/delete', 'delete', 'brewery_delete', methods=['POST', 'GET']),
     ]),
     RouteCluster(endpoint_prefix='brew-', submount='/brew', view_module='brewing.views.brew', rules=[
-        Route('/<int:brew_id>/tastingnote/add', 'tastingnote-add', 'brew_add_tasting_note', methods=['POST', 'GET']),
-        Route('/tastingnote/<int:note_id>/delete', 'tastingnote-delete', 'brew_delete_tasting_note', methods=['POST', 'GET']),
-        Route('/tastingnote/ajaxupdate', 'tastingnote-update', 'brew_update_tasting_note', methods=['POST']),
-        Route('/tastingnote/ajaxtext', 'tastingnote-loadtext', 'brew_load_tasting_note_text'),
         Route('/add', 'add', 'brew_add', methods=['POST', 'GET']),
         Route('/all', 'all', 'brew_all'),
         Route('/<int:brew_id>', 'details', 'brew', methods=['POST', 'GET']),
@@ -40,5 +36,12 @@ routes = RouteMap('brewlog', [
         Route('/<int:brew_id>/export/<flavour>', 'export', 'brew_export'),
         Route('/<int:brew_id>/print', 'print', 'brew_print'),
         Route('/<int:brew_id>/labels', 'print-labels', 'brew_labels'),
+    ]),
+    RouteCluster(endpoint_prefix='tastingnote-', submount='/tastingnote', view_module='tasting.views', rules=[
+        Route('/all', 'all', 'all'),
+        Route('/<int:brew_id>/add', 'add', 'brew_add_tasting_note', methods=['POST', 'GET']),
+        Route('/<int:note_id>/delete', 'delete', 'brew_delete_tasting_note', methods=['POST', 'GET']),
+        Route('/ajaxupdate', 'update', 'brew_update_tasting_note', methods=['POST']),
+        Route('/ajaxtext', 'loadtext', 'brew_load_tasting_note_text'),
     ]),
 ])

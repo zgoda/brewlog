@@ -7,11 +7,11 @@ import markdown
 
 from brewlog.db import session as dbsession
 from brewlog.models import brews
-from brewlog.models.brewing import Brew, TastingNote
+from brewlog.models.brewing import Brew
 from brewlog.models.users import CustomLabelTemplate
 from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_or_404, Pagination, paginate
-from brewlog.brewing.forms.brew import BrewForm, TastingNoteForm
+from brewlog.brewing.forms.brew import BrewForm
 
 
 HINTS = [
@@ -141,70 +141,3 @@ def brew_delete(brew_id):
         'delete_form': form,
     }
     return render_template('brew/delete.html', **ctx)
-
-@login_required
-def brew_add_tasting_note(brew_id):
-    brew = get_or_404(Brew, brew_id)
-    if not brew.has_access(current_user):
-        abort(403)
-    form = TastingNoteForm(request.form)
-    if request.method == 'POST' and form.validate():
-        form.save(brew)
-        flash(_('tasting note for %(brew)s saved', brew=brew.name))
-        next_ = request.args.get('next') or url_for('brew-details', brew_id=brew.id)
-        return redirect(next_)
-    ctx = {
-        'brew': brew,
-        'form': form,
-    }
-    return render_template('brew/tasting_note.html', **ctx)
-
-@login_required
-def brew_delete_tasting_note(note_id):
-    note = get_or_404(TastingNote, note_id)
-    if current_user not in (note.author, note.brew.brewery.brewer):
-        abort(403)
-    brew = note.brew
-    form = DeleteForm(request.form)
-    if request.method == 'POST':
-        if form.validate():
-            dbsession.delete(note)
-            dbsession.commit()
-            flash(_('tasting note for brew %(brew)s has been deleted', brew=brew.name))
-            next_ = request.args.get('next') or url_for('brew-details', brew_id=brew.id)
-            return redirect(next_)
-    ctx = {
-        'brew': brew,
-        'note': note,
-        'delete_form': form,
-    }
-    return render_template('brew/tasting_note_delete.html', **ctx)
-
-def brew_load_tasting_note_text():
-    provided_id = request.args.get('id')
-    if not provided_id:
-        abort(400)
-    note_id = provided_id.rsplit('_', 1)[-1]
-    note = TastingNote.query.get(note_id)
-    if note is None:
-        abort(404)
-    return note.text
-
-@login_required
-def brew_update_tasting_note():
-    provided_id = request.form.get('id')
-    if not provided_id:
-        abort(400)
-    note_id = provided_id.rsplit('_', 1)[-1]
-    note = TastingNote.query.get(note_id)
-    if note is None:
-        abort(404)
-    if not note.brew.has_access(current_user) or not (current_user in (note.author, note.brew.brewery.brewer)):
-        abort(403)
-    value = request.form.get('value', '').strip()
-    if value:
-        note.text = value
-        dbsession.add(note)
-        dbsession.commit()
-        return markdown.markdown(value, safe_mode='remove')
-    return note.text_html
