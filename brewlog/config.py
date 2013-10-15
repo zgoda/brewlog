@@ -15,19 +15,9 @@ CSRF_SESSION_KEY = os.urandom(24)
 FLATPAGES_EXTENSION = '.html.md'
 FLATPAGES_MARKDOWN_EXTENSIONS = []
 
-# file uploads
-MAX_CONTENT_LENGTH = 2 * 1024 * 1024 # 2 MiB
-ALLOWED_EXTENSIONS = set(['xml'])
-
 # babel
 BABEL_DEFAULT_LOCALE = 'pl'
 BABEL_DEFAULT_TIMEZONE = 'Europe/Warsaw'
-
-# emails
-MAIL_SERVER = 'smtp.gmail.com'
-MAIL_PORT = 587
-MAIL_USE_TLS = True
-
 
 if 'OPENSHIFT_DATA_DIR' in os.environ:
     try:
