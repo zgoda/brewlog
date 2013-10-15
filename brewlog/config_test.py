@@ -10,3 +10,7 @@ AUTH_CONFIG = {
   'facebook'    : ('app_id', 'app_secret',
                   'user_about_me'),
 }
+
+IPB_SERVICES = {
+  'piwo.org': ('service url', 'service username', 'service key'),
+}
