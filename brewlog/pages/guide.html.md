@@ -13,7 +13,7 @@ Aplikacja daje 2 możliwości zachowania dyskrecji.
 
 Jeżeli użytkownik nie poda nicka, imienia ani nazwiska, to w serwisie będzie widoczny jako "pragnący zachować anonimowość". Wszystkie jego operacje będą widoczne w serwisie (o ile będą publiczne), ale jego dane osobowe nie będą ujawnione. Taki sposób jest odpowiedni, gdy użytkownik chce w sposób dyskretny zapisać swoje warki i udostępniać je ograniczonemu gronu znajomych, jednak bez ujawniania jego tożsamości.
 
-Użytkownik może również zaznaczyć swój profil jako niepubliczny. W takim przypadku jego operacje będą zupełnie niewidoczne w serwisie, jedynie on może mieć do nich dostęp. Inni użytkownicy, niezależnie od stanu zalogowania, nie będą mieli dostępu do danych jego browarów i warek. Będą natomiast widoczne jego recenzje do cudzych warek.
+Użytkownik może również zaznaczyć swój profil jako niepubliczny. W takim przypadku jego operacje będą zupełnie niewidoczne w serwisie, jedynie on może mieć do nich dostęp. Inni użytkownicy, niezależnie od stanu zalogowania, nie będą mieli dostępu do danych jego browarów i warek. Będą natomiast widoczne jego recenzje do cudzych warek. Jeżeli dodatkowo użytkownik nie wpisze żadnych swoich danych osobowych, to anonimowość będzie całkowita.
 
 ### Browary i warki
 
@@ -21,4 +21,8 @@ Kolejność w jakiej można przystąpić do rejestrowania warek jest następują
 
 #### Widoczność warek w serwisie
 
-Warka może być w serwisie niewidoczna z 2 powodów - albo profil piwowara jest oznaczony jako niepubliczny, albo wyłączona została publiczna widoczność konkretnej warki. Warki piwowarów którzy swój profil ukryją nie będą widoczne nawet wtedy, gdy zostaną oznaczone jako publicznie widoczne - widoczność profilu bierze pierwszeństwo przy określaniu widoczności rzeczy.
+Warka może być w serwisie niewidoczna z 2 powodów - albo profil piwowara jest oznaczony jako niepubliczny, albo wyłączona została publiczna widoczność konkretnej warki. Warki piwowarów którzy swój profil ukryją nie będą widoczne nawet wtedy, gdy zostaną oznaczone jako publicznie widoczne - widoczność profilu bierze pierwszeństwo przy określaniu widoczności rzeczy. Dane ukrytych warek są uwzględniane w statystykach serwisu.
+
+#### Widoczność browarów w serwisie
+
+Browary użytkowników którzy swoje profile oznaczyli jako niewidoczne są również niewidoczne w systemie, ich dane jednak są uwzględnianie w statystykach serwisu.

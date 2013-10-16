@@ -16,7 +16,7 @@ Aplikacja jest rozwijana w modelu OpenSource, dostępna jest na licencji MIT. Ko
 Aplikacja została napisana przy użyciu następujących narzędzi i bibliotek:
 
  * Python
- * [Flask](http://flask.pocoo.org/) i biblioteki rozszerzeń (Flask-Babel, Flask-FlatPages, Flask-Login, Flask-Mail, Flask-OAuth, Flask-Script, Flask-Testing, Flask-WTF)
+ * [Flask](http://flask.pocoo.org/) i biblioteki rozszerzeń (Flask-Babel, Flask-FlatPages, Flask-Login, Flask-OAuth, Flask-Script, Flask-Testing, Flask-WTF)
  * [WTForms](http://wtforms.simplecodes.com/)
  * [SQLAlchemy](http://www.sqlalchemy.org/)
  * [Babel](http://babel.pocoo.org/)
@@ -26,4 +26,6 @@ Aplikacja została napisana przy użyciu następujących narzędzi i bibliotek:
 
 ### Uruchamianie własnej instancji
 
-Aplikacja jest uruchamialna w nieskomplikowany sposób w środowisku dowolnego kontenera `WSGI`, przy użyciu standardowej instalacji Pythona 2.x - nie będzie ona działała na Google AppEngine (co nie znaczy, że nie możnaby nad tym popracować). Do działania wymaga bazy danych - w najprostszym przypadku wystarczy dostarczane z Pythonem `sqlite3`, natomiast pozostałe zależności są instalowane podczas instalacji aplikacji lub przez ręczne zainstalowanie ze standardowego pliku z zależnościami dla `pip`. Konfiguracji należy dokonać przed uruchomieniem przez utworzenie pliku `config_local.py` i wpisanie w nim dyrektyw takich jak `URI` do bazy danych w formacie wymaganym przez bibliotekę [SQLAlchemy](http://www.sqlalchemy.org). Innym zalecanym do utworzenia plikiem jest `secrets.py`, należy go utworzyć z szablonu, który znajduje się w pliku `secrets.py.template`. Zawiera on klucze autoryzacyjne aplikacji dla zdalnego logowania. Aplikacja w wersji oryginalnej wymaga kluczy do identyfikacji przez OAuth w Google i Facebooku.
+Aplikacja jest uruchamialna w nieskomplikowany sposób w środowisku dowolnego kontenera `WSGI`, przy użyciu standardowej instalacji Pythona 2.x - nie będzie ona działała na Google AppEngine (co nie znaczy, że nie możnaby nad tym popracować). Do działania wymaga bazy danych - w najprostszym przypadku wystarczy dostarczane z Pythonem `sqlite3`, natomiast pozostałe zależności są instalowane podczas instalacji aplikacji lub przez ręczne zainstalowanie ze standardowego pliku z zależnościami dla `pip`. Konfiguracji należy dokonać przed uruchomieniem przez utworzenie pliku `config_local.py` i wpisanie w nim dyrektyw takich jak `URI` do bazy danych w formacie wymaganym przez bibliotekę [SQLAlchemy](http://www.sqlalchemy.org). Innym zalecanym do utworzenia plikiem jest `secrets.py`, należy go utworzyć z szablonu, który znajduje się w pliku `secrets.py.template`. Zawiera on klucze autoryzacyjne aplikacji dla zdalnego logowania. Aplikacja w wersji oryginalnej wymaga jedynie kluczy do identyfikacji przez OAuth w Google i Facebooku.
+
+Oryginalna aplikacja jest uruchomiona na platformie [OpenShift](http://www.openshift.com/) i działa w środowisku modułu Apache 2 `mod_wsgi` jako kontenera. Aby uruchomić instancję na tej platformie należy mieć konto na OpenShift Online, sforkować na GitHubie aplikację w żądanej wersji i podłączyć swoje repozytorium z aplikacją do repozytorium OpenShift. Dalsze postępowanie jest już typowe dla innych aplikacji w Pythonie na OpenShift.
