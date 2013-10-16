@@ -67,3 +67,21 @@ class BrewData(DataSet):
         name = 'hidden amber ale'
         code = '1'
         created = datetime.datetime.utcnow()
+
+
+class TastingNoteData(DataSet):
+    class note1:
+        brew = BrewData.brew1
+        author = BrewerProfileData.user0
+        date = datetime.date(2013, 9, 20)
+        text = 'nice brew'
+    class note2:
+        brew = BrewData.brew2
+        author = BrewerProfileData.user0
+        date = datetime.date(2013, 9, 21)
+        text = 'ugly'
+    class note3:
+        brew = BrewData.hidden1
+        author = BrewerProfileData.user0
+        date = datetime.date(2013, 9, 22)
+        text = 'infected'

@@ -16,6 +16,7 @@ class MainPageTestCase(BrewlogTestCase):
             * box with recently registered users with public profiles
             * box with recently created public brews from public breweries
             * box with recently created breweries of users with public profile
+            * box with recent tasting notes to public brews
             * link to main page
             * link to login page
         """

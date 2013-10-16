@@ -1,7 +1,7 @@
 from flask import render_template
 from flask_login import current_user
 from brewlog import pages
-from brewlog.models import latest_breweries, latest_brews
+from brewlog.models import latest_breweries, latest_brews, latest_tasting_notes
 from brewlog.models.users import BrewerProfile
 from brewlog.models.brewing import Brew, Brewery, TastingNote
 
@@ -16,7 +16,7 @@ def main():
         'latest_brews': latest_brews(Brew.created, limit=item_limit, public_only=True, **kw),
         'latest_breweries': latest_breweries(Brewery.created, limit=item_limit, public_only=True, **kw),
         'latest_brewers': BrewerProfile.last_created(limit=item_limit, public_only=True, **kw),
-        'latest_tasting_notes': TastingNote.latest(limit=item_limit),
+        'latest_tasting_notes': latest_tasting_notes(TastingNote.date, limit=item_limit, public_only=True, **kw),
         'recently_active_breweries': latest_breweries(Brewery.updated, limit=item_limit, public_only=True, **kw),
         'recently_active_brewers': BrewerProfile.last_updated(limit=item_limit, public_only=True, **kw),
     }

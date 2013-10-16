@@ -14,6 +14,30 @@ class TastingNoteTestCase(BrewlogTestCase):
         self.hidden_brew_indirect = Brew.query.filter_by(name='hidden amber ale').first()
         self.regular_user = BrewerProfile.get_by_email('user@example.com')
 
+    def test_list_public_only(self):
+        """
+        Regular users can see only notes to public brews on the list
+        """
+        url = url_for('tastingnote-all')
+        with self.app.test_client() as client:
+            rv = client.get(url)
+            self.assertNotIn(self.hidden_brew_direct.absolute_url, rv.data)
+            self.assertNotIn(self.hidden_brew_indirect.absolute_url, rv.data)
+
+    def test_list_hidden_direct(self):
+        url = url_for('tastingnote-all')
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brew_direct.brewery.brewer.email)
+            rv = client.get(url)
+            self.assertIn(self.hidden_brew_direct.absolute_url, rv.data)
+
+    def test_list_hidden_indirect(self):
+        url = url_for('tastingnote-all')
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brew_indirect.brewery.brewer.email)
+            rv = client.get(url)
+            self.assertIn(self.hidden_brew_indirect.absolute_url, rv.data)
+
     def test_create_anon(self):
         """
         Anonymous users can not add tasting notes

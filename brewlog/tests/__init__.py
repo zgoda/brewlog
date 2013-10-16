@@ -3,9 +3,9 @@ from flask_testing import TestCase
 from fixture import SQLAlchemyFixture
 
 from brewlog import make_app, db
-from brewlog.models.brewing import Brew, Brewery
+from brewlog.models.brewing import Brew, Brewery, TastingNote
 from brewlog.models.users import BrewerProfile, CustomLabelTemplate
-from brewlog.tests.data import BrewData, BreweryData, BrewerProfileData, CustomLabelTemplateData
+from brewlog.tests.data import BrewData, BreweryData, BrewerProfileData, CustomLabelTemplateData, TastingNoteData
 
 
 class BrewlogTestCase(TestCase):
@@ -22,6 +22,7 @@ class BrewlogTestCase(TestCase):
             'BreweryData': Brewery,
             'BrewerProfileData': BrewerProfile,
             'CustomLabelTemplateData': CustomLabelTemplate,
+            'TastingNoteData': TastingNote
         }
         fx = SQLAlchemyFixture(env=env, engine=db.engine)
         self.data = fx.data(*[
@@ -29,6 +30,7 @@ class BrewlogTestCase(TestCase):
             BreweryData,
             BrewerProfileData,
             CustomLabelTemplateData,
+            TastingNoteData,
         ])
         self.data.setup()
 

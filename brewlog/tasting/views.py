@@ -1,17 +1,34 @@
 from flask import request, abort, render_template, redirect, url_for, flash
 from flask_login import current_user, login_required
 from flask_babel import gettext as _
+from sqlalchemy import desc
 import markdown
 
 from brewlog.db import session as dbsession
-from brewlog.utils.models import get_or_404
+from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.forms.base import DeleteForm
+from brewlog.models import tasting_notes
 from brewlog.models.brewing import Brew, TastingNote
 from brewlog.tasting.forms import TastingNoteForm
 
 
 def all():
-    return ''
+    page_size = 20
+    try:
+        page = int(request.args.get('p', '1'))
+    except ValueError:
+        page = 1
+    if current_user.is_anonymous():
+        query = tasting_notes()
+    else:
+        query = tasting_notes(extra_user=current_user)
+    pagination = Pagination(page, page_size, query.count())
+    context = {
+        'public_only': True,
+        'pagination': pagination,
+        'notes': paginate(query.order_by(desc(TastingNote.date)), page-1, page_size)
+    }
+    return render_template('tasting/list.html', **context)
 
 @login_required
 def brew_add_tasting_note(brew_id):
@@ -28,7 +45,7 @@ def brew_add_tasting_note(brew_id):
         'brew': brew,
         'form': form,
     }
-    return render_template('brew/tasting_note.html', **ctx)
+    return render_template('tasting/tasting_note.html', **ctx)
 
 @login_required
 def brew_delete_tasting_note(note_id):
@@ -49,7 +66,7 @@ def brew_delete_tasting_note(note_id):
         'note': note,
         'delete_form': form,
     }
-    return render_template('brew/tasting_note_delete.html', **ctx)
+    return render_template('tasting/tasting_note_delete.html', **ctx)
 
 def brew_load_tasting_note_text():
     provided_id = request.args.get('id')
