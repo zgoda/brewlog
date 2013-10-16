@@ -3,7 +3,8 @@ from flask_login import current_user
 from brewlog import pages
 from brewlog.models import latest_breweries, latest_brews, latest_tasting_notes
 from brewlog.models.users import BrewerProfile
-from brewlog.models.brewing import Brew, Brewery, TastingNote
+from brewlog.models.brewing import Brew, Brewery
+from brewlog.models.tasting import TastingNote
 
 
 def main():

@@ -3,7 +3,8 @@ from flask_testing import TestCase
 from fixture import SQLAlchemyFixture
 
 from brewlog import make_app, db
-from brewlog.models.brewing import Brew, Brewery, TastingNote
+from brewlog.models.brewing import Brew, Brewery
+from brewlog.models.tasting import TastingNote
 from brewlog.models.users import BrewerProfile, CustomLabelTemplate
 from brewlog.tests.data import BrewData, BreweryData, BrewerProfileData, CustomLabelTemplateData, TastingNoteData
 

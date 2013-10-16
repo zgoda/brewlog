@@ -8,7 +8,8 @@ from brewlog.db import session as dbsession
 from brewlog.utils.models import get_or_404, Pagination, paginate
 from brewlog.forms.base import DeleteForm
 from brewlog.models import tasting_notes
-from brewlog.models.brewing import Brew, TastingNote
+from brewlog.models.brewing import Brew
+from brewlog.models.tasting import TastingNote
 from brewlog.tasting.forms import TastingNoteForm
 
 

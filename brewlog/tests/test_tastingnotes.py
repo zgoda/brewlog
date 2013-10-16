@@ -1,7 +1,8 @@
 from flask import url_for
 
 from brewlog.tests import BrewlogTestCase
-from brewlog.models.brewing import Brew, TastingNote
+from brewlog.models.brewing import Brew
+from brewlog.models.tasting import TastingNote
 from brewlog.models.users import BrewerProfile
 
 
@@ -96,7 +97,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         """
         Note author can delete it
         """
-        note = self.brew.add_tasting_note(self.regular_user, 'Nice beer, cheers!', commit=True)
+        note = TastingNote.create_for(self.brew, self.regular_user, 'Nice beer, cheers!', commit=True)
         url = url_for('tastingnote-delete', note_id=note.id)
         with self.app.test_client() as client:
             self.login(client, self.regular_user.email)
@@ -107,7 +108,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         """
         Brew owner can delete tasting notes
         """
-        note = self.brew.add_tasting_note(self.regular_user, 'Nice beer, cheers!', commit=True)
+        note = TastingNote.create_for(self.brew, self.regular_user, 'Nice beer, cheers!', commit=True)
         url = url_for('tastingnote-delete', note_id=note.id)
         with self.app.test_client() as client:
             self.login(client, self.brew.brewery.brewer.email)
@@ -128,7 +129,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         """
         Anonymous users can not edit tasting note texts
         """
-        note = self.brew.add_tasting_note(self.brew.brewery.brewer, 'Nice beer, cheers!', commit=True)
+        note = TastingNote.create_for(self.brew, self.brew.brewery.brewer, 'Nice beer, cheers!', commit=True)
         url = url_for('tastingnote-update')
         data = {
             'id': note.id,
@@ -143,7 +144,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         """
         Author can edit own notes
         """
-        note = self.brew.add_tasting_note(self.regular_user, 'Nice beer, cheers!', commit=True)
+        note = TastingNote.create_for(self.brew, self.regular_user, 'Nice beer, cheers!', commit=True)
         url = url_for('tastingnote-update')
         data = {
             'id': note.id,
@@ -160,7 +161,7 @@ class TastingNoteTestCase(BrewlogTestCase):
         """
         Brew owner can edit notes to his brews regardless of note authorship
         """
-        note = self.brew.add_tasting_note(self.regular_user, 'Nice beer, cheers!', commit=True)
+        note = TastingNote.create_for(self.brew, self.regular_user, 'Nice beer, cheers!', commit=True)
         url = url_for('tastingnote-update')
         data = {
             'id': note.id,

@@ -4,7 +4,7 @@ from flask_babel import lazy_gettext as _
 from flask_login import current_user
 
 from brewlog.forms.base import BaseForm
-from brewlog.models.brewing import TastingNote
+from brewlog.models.tasting import TastingNote
 
 
 class TastingNoteForm(BaseForm):

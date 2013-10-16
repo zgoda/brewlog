@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 from flask_babel import lazy_gettext as _, format_datetime, format_date
 
 from brewlog.brewing import choices
-from brewlog.db import Model, session
+from brewlog.db import Model
 from brewlog.utils.text import slugify, stars2deg
 from brewlog.utils.brewing import abv
 
@@ -130,38 +130,6 @@ def brewery_pre_save(mapper, connection, target):
 
 event.listen(Brewery, 'before_insert', brewery_pre_save)
 event.listen(Brewery, 'before_update', brewery_pre_save)
-
-
-class TastingNote(Model):
-    __tablename__ = 'tasting_note'
-    id = Column(Integer, primary_key=True)
-    author_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
-    author = relationship('BrewerProfile')
-    date = Column(Date, nullable=False, index=True)
-    text = Column(Text, nullable=False)
-    text_html = Column(Text)
-    brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('Brew')
-
-    def __repr__(self):
-        return '<TastingNote by %s for %s>' % (self.author.name.encode('utf-8'), self.brew.name.encode('utf-8'))
-
-    @classmethod
-    def latest(cls, limit=10):
-        return cls.query.order_by(desc(cls.date)).limit(limit).all()
-
-## events: TastingNote model
-def tasting_note_pre_save(mapper, connection, target):
-    if target.date is None:
-        target.date = datetime.date.today()
-    if target.text:
-        target.text = stars2deg(target.text)
-        target.text_html = markdown.markdown(target.text, safe_mode='remove')
-    else:
-        target.text_html = None
-
-event.listen(TastingNote, 'before_insert', tasting_note_pre_save)
-event.listen(TastingNote, 'before_update', tasting_note_pre_save)
 
 
 class AdditionalFermentationStep(Model):
@@ -286,15 +254,6 @@ class Brew(Model):
             if not (self.is_public and self.brewery.has_access(user)):
                 return False
         return True
-
-    def add_tasting_note(self, user, text, date=None, commit=False):
-        note = TastingNote(author=user, text=text, brew=self)
-        note.date = date or datetime.date.today()
-        session.add(note)
-        session.flush()
-        if commit:
-            session.commit()
-        return note
 
     def notes_to_json(self):
         notes = {}

@@ -1,6 +1,7 @@
 from sqlalchemy import desc, or_, and_
 
-from brewlog.models.brewing import Brew, Brewery, TastingNote
+from brewlog.models.brewing import Brew, Brewery
+from brewlog.models.tasting import TastingNote
 from brewlog.models.users import BrewerProfile
 
 
