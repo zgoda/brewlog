@@ -132,7 +132,7 @@ event.listen(Brewery, 'before_insert', brewery_pre_save)
 event.listen(Brewery, 'before_update', brewery_pre_save)
 
 
-class AdditionalFermentationStep(Model):
+class FermentationStep(Model):
     __tablename__ = 'fermentation_step'
     id = Column(Integer, primary_key=True)
     date = Column(Date, index=True, nullable=False)
@@ -146,18 +146,28 @@ class AdditionalFermentationStep(Model):
     brew = relationship('Brew')
 
     def __repr__(self):
-        return '<AdditionalFermentationStep for %s @%s>' % (self.brew.name, self.date)
+        return '<FermentationStep %s for %s @%s>' % (self.name, self.brew.name, self.date)
 
-## events: AdditionalFermentationStep model
+    def previous(self):
+        return FermentationStep.query.filter_by(brew=self.brew).filter(FermentationStep.date < self.date).order_by(desc(FermentationStep.date)).first()
+
+    def next(self):
+        return FermentationStep.query.filter_by(brew=self.brew).filter(FermentationStep.date > self.date).order_by(FermentationStep.date).first()
+
+## events: FermentationStep model
 def fermentation_step_pre_save(mapper, connection, target):
     if target.notes:
         target.notes = stars2deg(target.notes)
         target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
     else:
         target.notes_html = None
+    prev_, next_ = target.previous(), target.next()
+    target.is_last = not bool(next_)
+    if next_:
+        target.fg = next_.og
 
-event.listen(AdditionalFermentationStep, 'before_insert', fermentation_step_pre_save)
-event.listen(AdditionalFermentationStep, 'before_update', fermentation_step_pre_save)
+event.listen(FermentationStep, 'before_insert', fermentation_step_pre_save)
+event.listen(FermentationStep, 'before_update', fermentation_step_pre_save)
 
 
 class Brew(Model):
@@ -199,7 +209,7 @@ class Brew(Model):
     brewery_id = Column(Integer, ForeignKey('brewery.id'), nullable=False)
     brewery = relationship('Brewery')
     tasting_notes = relationship('TastingNote', cascade='all,delete', lazy='dynamic')
-    additional_fermentation_steps = relationship('AdditionalFermentationStep', cascade='all,delete', lazy='dynamic')
+    fermentation_steps = relationship('FermentationStep', cascade='all,delete', lazy='dynamic')
 
     def __repr__(self):
         return '<Brew %s by %s>' % (self.name.encode('utf-8'), self.brewery.name.encode('utf-8'))

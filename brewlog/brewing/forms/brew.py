@@ -9,20 +9,22 @@ from brewlog.forms.base import BaseForm
 from brewlog.forms.widgets import textarea_with_hints
 from brewlog.forms.fields import TextAreaWithHintsField
 from brewlog.brewing import choices
-from brewlog.models.brewing import Brew, Brewery, AdditionalFermentationStep
+from brewlog.models.brewing import Brew, Brewery, FermentationStep
 
 
-class AdditionalFermentationStepForm(BaseForm):
+class FermentationStepForm(BaseForm):
     date = DateField(_('date'))
+    name = wf.TextField(_('name'), validators=[DataRequired()])
     og = DecimalField(_('original gravity'))
     fg = DecimalField(_('final gravity'))
     amount = DecimalField(_('amount collected'))
     is_last = wf.BooleanField(_('last fermentation step'))
+    notes = wf.TextAreaField(_('notes'), validators=[Optional()])
 
     def save(self, brew, obj=None):
         if obj is None:
-            obj = AdditionalFermentationStep(brew=brew)
-        return super(AdditionalFermentationStepForm, self).save(obj)
+            obj = FermentationStep(brew=brew)
+        return super(FermentationStepForm, self).save(obj)
 
 
 def user_breweries_query():
