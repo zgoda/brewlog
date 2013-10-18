@@ -6,7 +6,7 @@ from flask import url_for
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, Date, Float, Enum
 from sqlalchemy import event, desc
 from sqlalchemy.orm import relationship
-from flask_babel import lazy_gettext as _, format_datetime, format_date
+from flask_babel import lazy_gettext as _, format_datetime, format_date, gettext
 
 from brewlog.brewing import choices
 from brewlog.db import Model
@@ -140,6 +140,8 @@ class FermentationStep(Model):
     og = Column(Float(precision=1))
     fg = Column(Float(precision=1))
     is_last = Column(Boolean, default=False)
+    volume = Column(Float(precision=2))
+    temperature = Column(Integer)
     notes = Column(Text)
     hotes_html = Column(Text)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
@@ -191,7 +193,6 @@ class Brew(Model):
     mash_steps = Column(Text)
     sparging = Column(String(200))
     hopping_steps = Column(Text)
-    fermentation_steps = Column(Text)
     boil_time = Column(Integer)
     fermentation_start_date = Column(Date)
     og = Column(Float(precision=1))
@@ -270,6 +271,17 @@ class Brew(Model):
         for note in self.tasting_notes:
             notes['note_text_%s' % note.id] = note.text
         return json.dumps(notes)
+
+    def fermentation_step_from_data(self):
+        fs_data = {
+            'name': gettext('primary fermentation'),
+            'date': self.fermentation_start_date,
+            'og': self.og,
+            'brew': self,
+            'temperature': self.fermentation_temperature,
+            'volume': self.brew_length,
+        }
+        return FermentationStep(**fs_data)
 
     @classmethod
     def get_latest_for(cls, user, public_only=False, limit=None):

@@ -26,7 +26,11 @@ def brew_add():
     form = BrewForm(request.form)
     if request.method == 'POST':
         if form.validate():
-            brew = form.save()
+            # FIXME: build 1st fermentation step in some internal procedure
+            brew = form.save(save=False)
+            fs = brew.fermentation_step_from_data()
+            dbsession.add(fs)
+            dbsession.commit()
             flash(_('brew %(name)s created', name=brew.name))
             return redirect(brew.absolute_url)
     ctx = {
