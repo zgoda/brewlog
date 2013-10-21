@@ -3,7 +3,7 @@ from flask import render_template, redirect, url_for, session, flash, request
 from flask_babel import gettext as _
 from flask_login import login_user, logout_user, login_required
 
-from brewlog import session as dbsession
+from brewlog.db import session as dbsession
 from brewlog.users.auth import services, google, facebook
 from brewlog.models.users import BrewerProfile
 
