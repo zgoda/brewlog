@@ -1,7 +1,6 @@
 from flask import request, flash, url_for, redirect, render_template, abort, render_template_string
 from flask_login import current_user, login_required
-from flask_babel import gettext as _
-from flask_babel import lazy_gettext
+from flask_babel import lazy_gettext, gettext as _
 from sqlalchemy import desc
 import markdown
 
@@ -116,11 +115,12 @@ def brew_labels(brew_id):
         if use_template is not None:
             template_obj = current_user.custom_label_templates.filter_by(id=use_template).one()
             if template_obj is not None:
+                cs = 'width:%(width)smm;min-width:%(width)smm;height:%(height)smm;min-height:%(height)s' % {'width': template_obj.width, 'height': template_obj.height}
                 custom_data = dict(
                     rendered_cell = render_template_string(markdown.markdown(template_obj.text, safe_mode='remove'), brew=brew),
                     rows = template_obj.rows,
                     cols = template_obj.cols,
-                    cell_style = 'width:%smm;height:%smm' % (template_obj.width, template_obj.height),
+                    cell_style = cs,
                     current_template = template_obj.id,
                 )
                 ctx.update(custom_data)
