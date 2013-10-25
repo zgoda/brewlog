@@ -107,6 +107,17 @@ class BrewTestCase(BrewlogTestCase):
             rv = client.get(url)
             self.assertEqual(rv.status_code, 302)
 
+    def test_add_by_registered(self):
+        url = url_for('brew-add')
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brew_direct.brewery.brewer.email)
+            data = {
+                'name': 'new brew',
+            }
+            rv = client.post(url, data=data, follow_redirects=True)
+            self.assertEqual(rv.status_code, 200)
+            self.assertIn(data['name'], rv.data)
+
     def test_update_by_owner(self):
         """
         Only brewery owner can update brew data

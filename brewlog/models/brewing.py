@@ -282,6 +282,7 @@ class Brew(Model):
         return json.dumps(notes)
 
     def fermentation_step_from_data(self):
+        fs_data = {}
         if self.fermentation_start_date:
             fs_data = {
                 'name': gettext('primary fermentation'),
@@ -291,7 +292,17 @@ class Brew(Model):
                 'temperature': self.fermentation_temperature,
                 'volume': self.brew_length,
             }
-            return FermentationStep(**fs_data)
+        if self.fermentation_steps.scalar():
+            # return first step updated with brew data
+            if fs_data:
+                step = self.fermentation_steps.order_by(FermentationStep.date).first()
+                for k, v in fs_data.items():
+                    setattr(step, k, v)
+                return step
+        else:
+            # return new step
+            if fs_data:
+                return FermentationStep(**fs_data)
 
     @classmethod
     def get_latest_for(cls, user, public_only=False, limit=None):
