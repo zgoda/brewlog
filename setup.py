@@ -29,7 +29,7 @@ setup(
         'itsdangerous',
         'Jinja2',
         'wtforms',
-        'pytz==2013d',
+        'pytz>0a',
         'speaklater',
         'requests',
         'oauth2',
