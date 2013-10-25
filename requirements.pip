@@ -15,7 +15,7 @@ Werkzeug
 itsdangerous
 Jinja2>2.6
 WTForms>1.0.3
-pytz==2013d
+pytz>0a
 speaklater
 requests
 oauth2
