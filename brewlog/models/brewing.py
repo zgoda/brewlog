@@ -3,7 +3,7 @@ import json
 
 import markdown
 from flask import url_for
-from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, Date, Float, Enum
+from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, Date, Float, Enum, Index
 from sqlalchemy import event, desc
 from sqlalchemy.orm import relationship
 from flask_babel import lazy_gettext as _, format_datetime, format_date, gettext
@@ -146,15 +146,24 @@ class FermentationStep(Model):
     hotes_html = Column(Text)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
     brew = relationship('Brew')
+    __table_args__ = (
+        Index('fermentationstep_brew_date', 'brew_id', 'date'),
+    )
 
     def __repr__(self):
         return '<FermentationStep %s for %s @%s>' % (self.name, self.brew.name, self.date)
 
     def previous(self):
-        return FermentationStep.query.filter_by(brew=self.brew).filter(FermentationStep.date < self.date).order_by(desc(FermentationStep.date)).first()
+        if self.date:
+            return FermentationStep.query.filter_by(brew=self.brew).filter(FermentationStep.date < self.date).order_by(desc(FermentationStep.date)).first()
 
     def next(self):
-        return FermentationStep.query.filter_by(brew=self.brew).filter(FermentationStep.date > self.date).order_by(FermentationStep.date).first()
+        if self.date:
+            return FermentationStep.query.filter_by(brew=self.brew).filter(FermentationStep.date > self.date).order_by(FermentationStep.date).first()
+
+    @classmethod
+    def first_for_brew(cls, brew):
+        return cls.query.filter_by(brew=brew).order_by(cls.date).first()
 
 ## events: FermentationStep model
 def fermentation_step_pre_save(mapper, connection, target):
@@ -273,15 +282,16 @@ class Brew(Model):
         return json.dumps(notes)
 
     def fermentation_step_from_data(self):
-        fs_data = {
-            'name': gettext('primary fermentation'),
-            'date': self.fermentation_start_date,
-            'og': self.og,
-            'brew': self,
-            'temperature': self.fermentation_temperature,
-            'volume': self.brew_length,
-        }
-        return FermentationStep(**fs_data)
+        if self.fermentation_start_date:
+            fs_data = {
+                'name': gettext('primary fermentation'),
+                'date': self.fermentation_start_date,
+                'og': self.og,
+                'brew': self,
+                'temperature': self.fermentation_temperature,
+                'volume': self.brew_length,
+            }
+            return FermentationStep(**fs_data)
 
     @classmethod
     def get_latest_for(cls, user, public_only=False, limit=None):
