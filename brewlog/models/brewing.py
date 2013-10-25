@@ -143,7 +143,7 @@ class FermentationStep(Model):
     volume = Column(Float(precision=2))
     temperature = Column(Integer)
     notes = Column(Text)
-    hotes_html = Column(Text)
+    notes_html = Column(Text)
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
     brew = relationship('Brew')
     __table_args__ = (
