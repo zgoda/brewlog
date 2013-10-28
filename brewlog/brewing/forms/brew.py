@@ -5,6 +5,7 @@ from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flask_babel import lazy_gettext as _
 from flask_login import current_user
 
+from brewlog.db import session as dbsession
 from brewlog.forms.base import BaseForm
 from brewlog.forms.widgets import textarea_with_hints
 from brewlog.forms.fields import TextAreaWithHintsField
@@ -78,4 +79,11 @@ class BrewForm(BaseForm):
     def save(self, obj=None, save=True):
         if obj is None:
             obj = Brew()
-        return super(BrewForm, self).save(obj, save)
+        brew = super(BrewForm, self).save(obj, save=False)
+        fs = brew.fermentation_step_from_data()
+        if save:
+            dbsession.add(brew)
+            if fs:
+                dbsession.add(fs)
+            dbsession.commit()
+        return brew

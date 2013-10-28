@@ -26,12 +26,7 @@ def brew_add():
     if request.method == 'POST':
         if form.validate():
             # FIXME: build 1st fermentation step in some internal procedure
-            brew = form.save(save=False)
-            dbsession.add(brew)
-            fs = brew.fermentation_step_from_data()
-            if fs:
-                dbsession.add(fs)
-            dbsession.commit()
+            brew = form.save()
             flash(_('brew %(name)s created', name=brew.name))
             return redirect(brew.absolute_url)
     ctx = {
@@ -47,13 +42,7 @@ def brew(brew_id, **kwargs):
             abort(403)
         form = BrewForm(request.form)
         if form.validate():
-            brew = form.save(obj=brew, save=False)
-            dbsession.add(brew)
-            # FIXME: rebuilding 1st fermentation step should be done in some internal procedure
-            fs = brew.fermentation_step_from_data()
-            if fs:
-                dbsession.add(fs)
-            dbsession.commit()
+            brew = form.save(obj=brew)
             flash(_('brew %(name)s data updated', name=brew.name))
             return redirect(brew.absolute_url)
     if not brew.has_access(current_user):
