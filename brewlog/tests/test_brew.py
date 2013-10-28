@@ -108,15 +108,20 @@ class BrewTestCase(BrewlogTestCase):
             self.assertEqual(rv.status_code, 302)
 
     def test_add_by_registered(self):
+        """
+        Registered users can add brews.
+        """
         url = url_for('brew-add')
         with self.app.test_client() as client:
             self.login(client, self.hidden_brew_direct.brewery.brewer.email)
             data = {
                 'name': 'new brew',
+                'brewery_id': self.hidden_brew_direct.brewery.id,
             }
             rv = client.post(url, data=data, follow_redirects=True)
             self.assertEqual(rv.status_code, 200)
             self.assertIn(data['name'], rv.data)
+            self.assertIn(self.hidden_brew_direct.brewery.name, rv.data)
 
     def test_update_by_owner(self):
         """

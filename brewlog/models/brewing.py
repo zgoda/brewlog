@@ -292,7 +292,7 @@ class Brew(Model):
                 'temperature': self.fermentation_temperature,
                 'volume': self.brew_length,
             }
-        if self.fermentation_steps.scalar():
+        if self.query.filter(self.fermentation_steps.exists()).count():
             # return first step updated with brew data
             if fs_data:
                 step = self.fermentation_steps.order_by(FermentationStep.date).first()
