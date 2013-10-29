@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, abort
-from flask_login import current_user, login_required
-from flask_babel import gettext as _
+from flask.ext.login import current_user, login_required
+from flask.ext.babel import gettext as _
 from sqlalchemy import desc
 
 from brewlog.utils.models import get_or_404, Pagination, paginate

@@ -1,6 +1,6 @@
 from flask import session
 from flask import current_app as app
-from flask_oauth import OAuth
+from flask.ext.oauth import OAuth
 
 oauth = OAuth()
 

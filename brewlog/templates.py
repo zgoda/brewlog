@@ -1,6 +1,6 @@
 import math
 
-from flask_babel import format_date
+from flask.ext.babel import format_date
 
 from brewlog.utils import templates
 from brewlog.utils.text import stars2deg

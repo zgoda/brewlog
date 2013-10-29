@@ -4,8 +4,8 @@ from flask import url_for
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Index, ForeignKey
 from sqlalchemy import event, desc, or_
 from sqlalchemy.orm import relationship
-from flask_babel import lazy_gettext as _
-from flask_login import UserMixin
+from flask.ext.babel import lazy_gettext as _
+from flask.ext.login import UserMixin
 
 from brewlog.db import Model
 from brewlog.utils.text import slugify

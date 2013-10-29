@@ -1,6 +1,6 @@
 from flask import request, flash, url_for, redirect, render_template, abort, render_template_string
-from flask_login import current_user, login_required
-from flask_babel import lazy_gettext, gettext as _
+from flask.ext.login import current_user, login_required
+from flask.ext.babel import lazy_gettext, gettext as _
 from sqlalchemy import desc
 import markdown
 

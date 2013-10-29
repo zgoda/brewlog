@@ -1,5 +1,6 @@
 from flask import render_template
-from flask_login import current_user
+from flask.ext.login import current_user
+
 from brewlog import pages
 from brewlog.models import latest_breweries, latest_brews, latest_tasting_notes
 from brewlog.models.users import BrewerProfile

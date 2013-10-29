@@ -6,7 +6,7 @@ from flask import url_for
 from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, ForeignKey, Date, Float, Enum, Index
 from sqlalchemy import event, desc
 from sqlalchemy.orm import relationship
-from flask_babel import lazy_gettext as _, format_datetime, format_date, gettext
+from flask.ext.babel import lazy_gettext as _, format_datetime, format_date, gettext
 
 from brewlog.brewing import choices
 from brewlog.db import Model
