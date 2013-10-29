@@ -23,7 +23,7 @@ setup(
         'Flask-FlatPages',
         'PyYAML',
         'Markdown',
-        'MySQL-python',
+        'psycopg2',
         'SQLAlchemy',
         'Werkzeug',
         'itsdangerous',
