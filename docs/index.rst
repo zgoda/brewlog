@@ -15,10 +15,14 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   usage
+
 API:
 
 .. toctree::
    :maxdepth: 2
+
+   api
 
 
 Indices and tables
