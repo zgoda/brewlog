@@ -80,9 +80,9 @@ class BrewForm(BaseForm):
         if obj is None:
             obj = Brew()
         brew = super(BrewForm, self).save(obj, save=False)
-        fs = brew.fermentation_step_from_data()
         if save:
             dbsession.add(brew)
+            fs = brew.fermentation_step_from_data()
             if fs:
                 dbsession.add(fs)
             dbsession.commit()
