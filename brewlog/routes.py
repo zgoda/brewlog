@@ -6,7 +6,7 @@ routes = RouteMap('brewlog', [
     RouteCluster(endpoint_prefix='auth-', submount='/auth', view_module='users.views.auth', rules=[
         Route('/select', 'select-provider', 'select_provider'),
         Route('/<provider>', 'login', 'remote_login'),
-        Route('/google/callback', 'callback-gogle', 'google_remote_login_callback'),
+        Route('/google/callback', 'callback-google', 'google_remote_login_callback'),
         Route('/facebook/callback', 'callback-facebook', 'facebook_remote_login_callback'),
         Route('/local/callback', 'callback-local', 'local_login_callback'),
         Route('/logout', 'logout', 'logout'),
