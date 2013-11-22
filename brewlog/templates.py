@@ -3,6 +3,7 @@ import math
 from flask.ext.babel import format_date
 
 from brewlog.utils import templates
+from brewlog.utils.brewing import plato2sg
 from brewlog.utils.text import stars2deg
 
 
@@ -15,6 +16,7 @@ def setup_globals(application):
         'url_for_other_page': templates.url_for_other_page,
         'pow': math.pow,
         'stars2deg': stars2deg,
+        'plato2sg': plato2sg,
     })
 
 def setup_template_extensions(application):

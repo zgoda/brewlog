@@ -4,8 +4,8 @@
 <h3>{{ gettext("stats").capitalize() }}</h3>
 <ul>
     <li><strong>{{ gettext("brew length").capitalize() }}:</strong> {% if brew.brew_length %}{{ '%.1f' % brew.brew_length }}{% endif %}</li>
-    <li><strong>{{ gettext("original gravity").capitalize() }}:</strong> {% if brew.og %}{{ '%.1f' % brew.og }}&deg;Blg{% endif %}</li>
-    <li><strong>{{ gettext("final gravity").capitalize() }}:</strong> {% if brew.fg %}{{ '%.1f' % brew.fg }}&deg;Blg{% endif %}</li>
+    <li><strong>{{ gettext("original gravity").capitalize() }}:</strong> {% if brew.og %}{{ '%.1f' % brew.og }}&deg;Blg, SG {{ '%.3f' % plato2sg(brew.og) }}{% endif %}</li>
+    <li><strong>{{ gettext("final gravity").capitalize() }}:</strong> {% if brew.fg %}{{ '%.1f' % brew.fg }}&deg;Blg, SG {{ '%.3f' % plato2sg(brew.fg) }}{% endif %}</li>
     <li><strong>{{ gettext("abv").capitalize() }}:</strong> {% if brew.abv %}{{ '%.1f' % brew.abv }}%{% endif %}</li>
     {% if brew.final_amount %}<li><strong>{{ gettext("final amount").capitalize() }}:</strong> {{ '%.1f' % brew.final_amount }}</li>{% endif %}
 </ul>
