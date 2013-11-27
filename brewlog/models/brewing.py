@@ -256,6 +256,25 @@ class Brew(Model):
         return _('%(style)s by %(brewer)s in %(brewery)s', **data)
 
     @property
+    def brew_description(self):
+        data = {
+            'style': self.style or self.bjcp_style or _('unspecified style')
+        }
+        if self.og:
+            data['og'] =  '%.1f*Blg' % self.og
+        else:
+            data['og'] = _('unknown')
+        if self.fg:
+            data['fg'] = '%.1f*Blg' % self.fg
+        else:
+            data['fg'] = _('unknown')
+        if self.abv:
+            data['abv'] = '%.1f%% ABV' % self.abv
+        else:
+            data['abv'] = _('unknown'),
+        return stars2deg(gettext('%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s', **data))
+
+    @property
     def carbonation_data_display(self):
         if self.carbonation_type:
             data = {

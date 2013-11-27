@@ -34,6 +34,8 @@ $(document).ready(function() {
 
 {% block headpagetitle %}{{ super() }} {% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name|e }}{% endblock %}
 
+{% block headdescription %}{{ brew.brew_description }}{% endblock %}
+
 {% block content %}
 {% include "brew/include/details.html" %}
 {% if brew.tasting_notes %}
