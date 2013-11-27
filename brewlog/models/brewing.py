@@ -258,20 +258,20 @@ class Brew(Model):
     @property
     def brew_description(self):
         data = {
-            'style': self.style or self.bjcp_style or _('unspecified style')
+            'style': self.style or self.bjcp_style or gettext('unspecified style')
         }
         if self.og:
             data['og'] =  '%.1f*Blg' % self.og
         else:
-            data['og'] = _('unknown')
+            data['og'] = gettext('unknown')
         if self.fg:
             data['fg'] = '%.1f*Blg' % self.fg
         else:
-            data['fg'] = _('unknown')
+            data['fg'] = gettext('unknown')
         if self.abv:
             data['abv'] = '%.1f%% ABV' % self.abv
         else:
-            data['abv'] = _('unknown'),
+            data['abv'] = gettext('unknown'),
         return stars2deg(gettext('%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s', **data))
 
     @property
