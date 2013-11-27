@@ -271,7 +271,7 @@ class Brew(Model):
         if self.abv:
             data['abv'] = '%.1f%% ABV' % self.abv
         else:
-            data['abv'] = gettext('unknown'),
+            data['abv'] = gettext('unknown')
         return stars2deg(gettext('%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s', **data))
 
     @property
