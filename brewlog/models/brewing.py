@@ -11,7 +11,7 @@ from flask.ext.babel import lazy_gettext as _, format_datetime, format_date, get
 from brewlog.brewing import choices
 from brewlog.db import Model
 from brewlog.utils.text import slugify, stars2deg
-from brewlog.utils.brewing import abv
+from brewlog.utils.brewing import abv, aa, ra
 
 
 class Brewery(Model):
@@ -287,6 +287,15 @@ class Brew(Model):
     @property
     def is_brewed_yet(self):
         return self.date_brewed and self.date_brewed < datetime.date.today()
+
+    @property
+    def attenuation(self):
+        if self.og and self.fg:
+            return {
+                'apparent': aa(self.og, self.fg),
+                'real': ra(self.og, self.fg),
+            }
+        return {'real': 0, 'apparent': 0}
 
     def has_access(self, user):
         if self.brewery.brewer != user:
