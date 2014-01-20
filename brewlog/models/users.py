@@ -39,10 +39,7 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
     )
 
     def __unicode__(self):
-        return self.email
-
-    def __repr__(self):
-        return '<BrewerProfile %s>' % self.email.encode('utf-8')
+        return u'<BrewerProfile %s>' % self.email
 
     @property
     def absolute_url(self):
@@ -150,8 +147,8 @@ class CustomExportTemplate(Model):
         Index('user_export_template', 'user_id', 'name'),
     )
 
-    def __repr__(self):
-        return '<ExportTemplate %s for %s>' % (self.name.encode('utf-8'), self.user.email.encode('utf-8'))
+    def __unicode__(self):
+        return u'<ExportTemplate %s for %s>' % (self.name, self.user.email)
 
     @property
     def absolute_url(self):
@@ -174,8 +171,8 @@ class CustomLabelTemplate(Model):
         Index('user_label_template', 'user_id', 'name'),
     )
 
-    def __repr__(self):
-        return '<LabelTemplate %s for %s>' % (self.name.encode('utf-8'), self.user.email.encode('utf-8'))
+    def __unicode__(self):
+        return u'<LabelTemplate %s for %s>' % (self.name, self.user.email)
 
     @property
     def absolute_url(self):

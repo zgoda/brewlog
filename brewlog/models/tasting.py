@@ -20,8 +20,8 @@ class TastingNote(Model):
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
     brew = relationship('Brew')
 
-    def __repr__(self):
-        return '<TastingNote by %s for %s>' % (self.author.name.encode('utf-8'), self.brew.name.encode('utf-8'))
+    def __unicode__(self):
+        return u'<TastingNote by %s for %s>' % (self.author.name, self.brew.name)
 
     @classmethod
     def latest(cls, limit=10):
@@ -30,7 +30,9 @@ class TastingNote(Model):
     @classmethod
     def create_for(cls, brew, author, text, date=None, commit=False):
         note = cls(brew=brew, author=author, text=text)
-        note.date = date or datetime.date.today()
+        if date is None:
+            date = datetime.date.today()
+        note.date = date
         session.add(note)
         session.flush()
         if commit:

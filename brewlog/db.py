@@ -17,8 +17,15 @@ session = scoped_session(lambda: create_session(
     expire_on_commit=True,
 ))
 
-Model = declarative_base(bind=engine)
+
+class WithRepresentation(object):
+
+    def __repr__(self):
+        return unicode(self).encode('utf-8')
+
+Model = declarative_base(bind=engine, cls=WithRepresentation)
 Model.query = session.query_property()
+
 
 def init_db():
     import models

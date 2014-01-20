@@ -32,10 +32,7 @@ class Brewery(Model):
     brews = relationship('Brew', cascade='all,delete', lazy='dynamic')
 
     def __unicode__(self):
-        return self.name
-
-    def __repr__(self):
-        return '<Brewery %s>' % self.name.encode('utf-8')
+        return u'<Brewery %s>' % self.name
 
     @property
     def absolute_url(self):
@@ -150,8 +147,8 @@ class FermentationStep(Model):
         Index('fermentationstep_brew_date', 'brew_id', 'date'),
     )
 
-    def __repr__(self):
-        return '<FermentationStep %s for %s @%s>' % (self.name, self.brew.name, self.date)
+    def __unicode__(self):
+        return u'<FermentationStep %s for %s @%s>' % (self.name, self.brew.name, self.date.strftime('%Y-%m-%d'))
 
     def previous(self):
         if self.date:
@@ -221,8 +218,8 @@ class Brew(Model):
     tasting_notes = relationship('TastingNote', cascade='all,delete', lazy='dynamic', order_by='desc(TastingNote.date)')
     fermentation_steps = relationship('FermentationStep', cascade='all,delete', lazy='dynamic')
 
-    def __repr__(self):
-        return '<Brew %s by %s>' % (self.name.encode('utf-8'), self.brewery.name.encode('utf-8'))
+    def __unicode__(self):
+        return u'<Brew %s by %s>' % (self.name, self.brewery.name)
 
     @property
     def absolute_url(self):
