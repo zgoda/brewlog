@@ -13,17 +13,17 @@
     <link rel="stylesheet" href="/static/css/app.css">
     <link rel="stylesheet" href="/static/signin-buttons/auth-buttons.css">
     {% block styles %}{% endblock %}
-    <script src="/static/foundation/js/vendor/custom.modernizr.js"></script>
-    <script src="/static/foundation/js/vendor/jquery.min.js"></script>
+    <script src="/static/foundation/js/vendor/modernizr.js"></script>
+    <script src="/static/foundation/js/vendor/jquery.js"></script>
 </head>
 <body>
     <header class="row hide-on-print">
-        <nav class="top-bar">
+        <nav class="top-bar" data-topbar>
             <ul class="title-area">
                 <li class="name">
                     <h1><a href="/">Brew Log</a></h1>
                 </li>
-                <li class="toggle-topbar menu-icon"><a href="#"><span>{% trans %}Menu{% endtrans %}</span></a></li>
+                <li class="toggle-topbar menu-icon"><a href="#">{% trans %}Menu{% endtrans %}</a></li>
             </ul>
             <section class="top-bar-section">
                 <ul class="right">
