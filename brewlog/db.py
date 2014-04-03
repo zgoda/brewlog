@@ -20,6 +20,10 @@ session = scoped_session(lambda: create_session(
 
 class WithRepresentation(object):
 
+    __mapper_args__ = {
+        'confirm_deleted_rows': False,
+    }
+
     def __repr__(self):
         return unicode(self).encode('utf-8')
 
