@@ -169,7 +169,7 @@ def fermentation_step_pre_save(mapper, connection, target):
         target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
     else:
         target.notes_html = None
-    prev_, next_ = target.previous(), target.next()
+    next_ = target.next()
     target.is_last = not bool(next_)
     if next_:
         target.fg = next_.og
@@ -307,7 +307,6 @@ class Brew(Model):
         return json.dumps(notes)
 
     def fermentation_step_from_data(self):
-        fs_data = {}
         if self.fermentation_start_date:
             fs_data = {
                 'name': gettext('primary fermentation'),
@@ -317,17 +316,7 @@ class Brew(Model):
                 'temperature': self.fermentation_temperature,
                 'volume': self.brew_length,
             }
-        if self.query.filter(self.fermentation_steps.exists()).count():
-            # return first step updated with brew data
-            if fs_data:
-                step = self.fermentation_steps.order_by(FermentationStep.date).first()
-                for k, v in fs_data.items():
-                    setattr(step, k, v)
-                return step
-        else:
-            # return new step
-            if fs_data:
-                return FermentationStep(**fs_data)
+            return FermentationStep(**fs_data)
 
     @classmethod
     def get_latest_for(cls, user, public_only=False, limit=None):

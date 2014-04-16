@@ -10,7 +10,7 @@ from brewlog.models.brewing import Brew
 from brewlog.models.users import CustomLabelTemplate
 from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_or_404, Pagination, paginate
-from brewlog.brewing.forms.brew import BrewForm
+from brewlog.brewing.forms.brew import BrewCreateForm, BrewUpdateForm, FermentationStepForm
 
 
 HINTS = [
@@ -22,7 +22,7 @@ HINTS = [
 
 @login_required
 def brew_add():
-    form = BrewForm(request.form)
+    form = BrewCreateForm(request.form)
     if request.method == 'POST':
         if form.validate():
             brew = form.save()
@@ -39,7 +39,7 @@ def brew(brew_id, **kwargs):
     if request.method == 'POST':
         if current_user != brew.brewery.brewer:
             abort(403)
-        form = BrewForm(request.form)
+        form = BrewUpdateForm(request.form)
         if form.validate():
             brew = form.save(obj=brew)
             flash(_('brew %(name)s data updated', name=brew.name))
@@ -52,7 +52,8 @@ def brew(brew_id, **kwargs):
         'notes': brew.notes_to_json(),
     }
     if current_user in brew.brewery.brewers:
-        ctx['form'] = BrewForm(obj=brew)
+        ctx['form'] = BrewUpdateForm(obj=brew)
+        ctx['fermentation_step_form'] = FermentationStepForm()
     return render_template('brew/details.html', **ctx)
 
 def brew_all():

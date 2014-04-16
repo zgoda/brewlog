@@ -58,13 +58,6 @@ class BrewForm(BaseForm):
     hopping_steps = wf.TextAreaField(_('hopping schedule'), validators=[Optional()],
         description=_('put each step on separate line to make nice list'))
     boil_time = IntegerField(_('boil time'), validators=[Optional()])
-    fermentation_start_date = DateField(_('fermentation start date'), validators=[Optional()])
-    og = DecimalField(_('original gravity'), places=1, validators=[Optional()])
-    fg = DecimalField(_('final gravity'), places=1, validators=[Optional()])
-    brew_length = DecimalField(_('brew length'), places=1,
-        description=_('total volume in fermenter (including yeast starter volume, if any)'),
-        validators=[Optional()])
-    fermentation_temperature = IntegerField(_('fermentation temperature'), validators=[Optional()])
     final_amount = DecimalField(_('final amount'), places=1,
         description=_('volume into bottling'), validators=[Optional()])
     bottling_date = DateField(_('bottling date'), validators=[Optional()])
@@ -76,10 +69,18 @@ class BrewForm(BaseForm):
     is_public = wf.BooleanField(_('public'), default=True)
     is_draft = wf.BooleanField(_('draft'), default=False)
 
-    def save(self, obj=None, save=True):
-        if obj is None:
-            obj = Brew()
-        brew = super(BrewForm, self).save(obj, save=False)
+
+class BrewCreateForm(BrewForm):
+    fermentation_start_date = DateField(_('fermentation start date'), validators=[Optional()])
+    og = DecimalField(_('original gravity'), places=1, validators=[Optional()])
+    fg = DecimalField(_('final gravity'), places=1, validators=[Optional()])
+    brew_length = DecimalField(_('brew length'), places=1,
+        description=_('total volume in fermenter (including yeast starter volume, if any)'),
+        validators=[Optional()])
+    fermentation_temperature = IntegerField(_('fermentation temperature'), validators=[Optional()])
+
+    def save(self, save=True):
+        brew = super(BrewForm, self).save(obj=Brew(), save=False)
         if save:
             dbsession.add(brew)
             fs = brew.fermentation_step_from_data()
@@ -87,3 +88,7 @@ class BrewForm(BaseForm):
                 dbsession.add(fs)
             dbsession.commit()
         return brew
+
+
+class BrewUpdateForm(BrewForm):
+    pass
