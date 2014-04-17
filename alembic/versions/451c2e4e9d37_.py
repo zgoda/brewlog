@@ -67,6 +67,8 @@ def upgrade():
     sa.ForeignKeyConstraint(['brewer_id'], ['brewer_profile.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
+    carbtype_enum = sa.Enum(u'forced in keg', u'keg with priming', u'bottles with priming', name='enum_carbtype')
+    carblevel_enum = sa.Enum(u'high', u'normal', u'low', u'very low', u'none', name='enum_carblevel')
     op.create_table('brew',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('created', sa.DateTime(), nullable=True),
@@ -97,8 +99,8 @@ def upgrade():
     sa.Column('fermentation_temperature', sa.Integer(), nullable=True),
     sa.Column('final_amount', sa.Float(precision=2), nullable=True),
     sa.Column('bottling_date', sa.Date(), nullable=True),
-    sa.Column('carbonation_type', sa.Enum(u'forced in keg', u'keg with priming', u'bottles with priming'), nullable=True),
-    sa.Column('carbonation_level', sa.Enum(u'high', u'normal', u'low', u'very low', u'none'), nullable=True),
+    sa.Column('carbonation_type', carbtype_enum, nullable=True),
+    sa.Column('carbonation_level', carblevel_enum, nullable=True),
     sa.Column('carbonation_used', sa.Text(), nullable=True),
     sa.Column('is_public', sa.Boolean(), nullable=True),
     sa.Column('is_draft', sa.Boolean(), nullable=True),

@@ -69,26 +69,7 @@ class BrewForm(BaseForm):
     is_public = wf.BooleanField(_('public'), default=True)
     is_draft = wf.BooleanField(_('draft'), default=False)
 
-
-class BrewCreateForm(BrewForm):
-    fermentation_start_date = DateField(_('fermentation start date'), validators=[Optional()])
-    og = DecimalField(_('original gravity'), places=1, validators=[Optional()])
-    fg = DecimalField(_('final gravity'), places=1, validators=[Optional()])
-    brew_length = DecimalField(_('brew length'), places=1,
-        description=_('total volume in fermenter (including yeast starter volume, if any)'),
-        validators=[Optional()])
-    fermentation_temperature = IntegerField(_('fermentation temperature'), validators=[Optional()])
-
-    def save(self, save=True):
-        brew = super(BrewForm, self).save(obj=Brew(), save=False)
-        if save:
-            dbsession.add(brew)
-            fs = brew.fermentation_step_from_data()
-            if fs:
-                dbsession.add(fs)
-            dbsession.commit()
-        return brew
-
-
-class BrewUpdateForm(BrewForm):
-    pass
+    def save(self, obj=None, save=True):
+        if obj is None:
+            obj = Brew()
+        return super(BrewForm, self).save(obj, save)
