@@ -33,6 +33,7 @@ routes = RouteMap('brewlog', [
         Route('/all', 'all', 'brew_all'),
         Route('/<int:brew_id>', 'details', 'brew', methods=['POST', 'GET']),
         Route('/<int:brew_id>/fermentationstep/add', 'fermentationstep_add', 'fermentation_step_add', methods=['POST']),
+        Route('/fermentationstep/<int:fstep_id>', 'fermentation_step', 'fermentation_step', methods=['GET', 'POST']),
         Route('/<int:brew_id>/delete', 'delete', 'brew_delete', methods=['POST', 'GET']),
         Route('/<int:brew_id>/export/<flavour>', 'export', 'brew_export'),
         Route('/<int:brew_id>/print', 'print', 'brew_print'),

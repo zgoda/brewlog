@@ -166,7 +166,7 @@ class FermentationStep(Model):
         return {
             'og': self.og or _('unspecified'),
             'fg': self.fg or _('unspecified'), 
-            'amount': self.volume or _('unspecified'),
+            'volume': self.volume or _('unspecified'),
         }
 
 ## events: FermentationStep model

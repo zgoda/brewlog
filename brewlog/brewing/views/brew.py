@@ -6,7 +6,7 @@ import markdown
 
 from brewlog.db import session as dbsession
 from brewlog.models import brews
-from brewlog.models.brewing import Brew
+from brewlog.models.brewing import Brew, FermentationStep
 from brewlog.models.users import CustomLabelTemplate
 from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_or_404, Pagination, paginate
@@ -154,3 +154,21 @@ def fermentation_step_add(brew_id):
         flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been created',
             step_name=fermentation_step.name, brew_name=brew.name))
     return redirect(brew.absolute_url)
+
+@login_required
+def fermentation_step(fstep_id):
+    fstep = get_or_404(FermentationStep, fstep_id)
+    if fstep.brew.brewery.brewer != current_user:
+        abort(403)
+    if request.method == 'POST':
+        form = FermentationStepForm(request.form)
+        if form.validate():
+            fstep = form.save(fstep.brew, obj=fstep)
+            flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been updated',
+                step_name=fstep.name, brew_name=fstep.brew.name))
+            return redirect(fstep.brew.absolute_url)
+    ctx = {
+        'form': FermentationStepForm(obj=fstep),
+        'fstep': fstep,
+    }
+    return render_template('brew/fermentation/step.html', **ctx)

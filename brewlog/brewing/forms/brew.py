@@ -18,7 +18,7 @@ class FermentationStepForm(BaseForm):
     name = wf.TextField(_('name'), validators=[DataRequired()])
     og = DecimalField(_('original gravity'), places=1, validators=[Optional()])
     fg = DecimalField(_('final gravity'), places=1, validators=[Optional()])
-    amount = DecimalField(_('amount collected'), places=1, validators=[Optional()])
+    volume = DecimalField(_('volume collected'), places=1, validators=[Optional()])
     notes = wf.TextAreaField(_('notes'), validators=[Optional()])
 
     def save(self, brew, obj=None, save=True):
