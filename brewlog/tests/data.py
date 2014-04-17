@@ -69,6 +69,15 @@ class BrewData(DataSet):
         created = datetime.datetime.utcnow()
 
 
+class FermentationStepData(DataSet):
+    class fstep1:
+        brew = BrewData.brew1
+        name = 'primary'
+        date = datetime.datetime.utcnow()
+        og = 12.5
+        volume = 21
+
+
 class TastingNoteData(DataSet):
     class note1:
         brew = BrewData.brew1

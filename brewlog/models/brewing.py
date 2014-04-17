@@ -136,7 +136,6 @@ class FermentationStep(Model):
     name = Column(String(200))
     og = Column(Float(precision=1))
     fg = Column(Float(precision=1))
-    is_last = Column(Boolean, default=False)
     volume = Column(Float(precision=2))
     temperature = Column(Integer)
     notes = Column(Text)
