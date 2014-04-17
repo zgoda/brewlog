@@ -15,7 +15,7 @@ login_manager = LoginManager()
 babel = Babel()
 pages = FlatPages()
 
-def make_app(env):
+def make_app(env):  # pragma: no cover
     app = Flask(__name__)
     app.config.from_object('brewlog.config')
     env_config = 'brewlog.config_%s' % env

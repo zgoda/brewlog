@@ -81,7 +81,7 @@ def brews(userid):
         page = 1
     query = Brew.query.join(Brewery).filter(Brewery.brewer_id==userid)
     if current_user.is_anonymous() or current_user.id != userid:
-        query = query.filter_by(is_public=True)
+        query = query.filter(Brew.is_public==True)
     query = query.order_by(desc(Brew.created))
     pagination = Pagination(page, page_size, query.count())
     ctx = {

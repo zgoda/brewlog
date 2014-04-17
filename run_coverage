@@ -1,0 +1,5 @@
+#! /bin/bash
+
+coverage run --source=brewlog --omit='*/tests/*,*/config*' manage.py test
+coverage report -m
+
