@@ -172,3 +172,24 @@ def fermentation_step(fstep_id):
         'fstep': fstep,
     }
     return render_template('brew/fermentation/step.html', **ctx)
+
+@login_required
+def fermentation_step_delete(fstep_id):
+    fstep = get_or_404(FermentationStep, fstep_id)
+    if fstep.brew.brewery.brewer != current_user:
+        abort(403)
+    fstep_name = fstep.name
+    brew_name = fstep.brew.name
+    next_ = fstep.brew.absolute_url
+    form = DeleteForm(request.form)
+    if request.method == 'POST':
+        if form.validate():
+            dbsession.delete(fstep)
+            dbsession.commit()
+            flash(_('fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted', fstep_name=fstep_name, brew_name=brew_name))
+            return redirect(next_)
+    ctx = {
+        'fstep': fstep,
+        'delete_form': form,
+    }
+    return render_template('brew/fermentation/step_delete.html', **ctx)
