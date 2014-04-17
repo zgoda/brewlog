@@ -142,3 +142,15 @@ def brew_delete(brew_id):
         'delete_form': form,
     }
     return render_template('brew/delete.html', **ctx)
+
+@login_required
+def fermentation_step_add(brew_id):
+    brew = get_or_404(Brew, brew_id)
+    if brew.brewery.brewer != current_user:
+        abort(403)
+    form = FermentationStepForm(request.form)
+    if form.validate():
+        fermentation_step = form.save(brew=brew)
+        flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been created',
+            step_name=fermentation_step.name, brew_name=brew.name))
+    return redirect(brew.absolute_url)

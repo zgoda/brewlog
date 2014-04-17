@@ -14,18 +14,17 @@ from brewlog.models.brewing import Brew, Brewery, FermentationStep
 
 
 class FermentationStepForm(BaseForm):
-    date = DateField(_('date'))
+    date = DateField(_('date'), validators=[DataRequired()])
     name = wf.TextField(_('name'), validators=[DataRequired()])
-    og = DecimalField(_('original gravity'))
-    fg = DecimalField(_('final gravity'))
-    amount = DecimalField(_('amount collected'))
-    is_last = wf.BooleanField(_('last fermentation step'))
+    og = DecimalField(_('original gravity'), places=1, validators=[Optional()])
+    fg = DecimalField(_('final gravity'), places=1, validators=[Optional()])
+    amount = DecimalField(_('amount collected'), places=1, validators=[Optional()])
     notes = wf.TextAreaField(_('notes'), validators=[Optional()])
 
-    def save(self, brew, obj=None):
+    def save(self, brew, obj=None, save=True):
         if obj is None:
             obj = FermentationStep(brew=brew)
-        return super(FermentationStepForm, self).save(obj)
+        return super(FermentationStepForm, self).save(obj, save)
 
 
 def user_breweries_query():

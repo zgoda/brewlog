@@ -37,13 +37,6 @@ $(document).ready(function() {
 {% block headdescription %}{{ brew.brew_description }}{% endblock %}
 
 {% block content %}
-{% include "brew/include/details.html" %}
-{% if brew.tasting_notes %}
-{% include "tasting/include/tasting_notes.html" %}
-{% endif %}
-{% if user.is_authenticated() and brew.is_brewed_yet %}
-<p><a href="{{ url_for('tastingnote-add', brew_id=brew.id) }}" class="button small radius">{{ gettext("add tasting note") }}</a></p>
-{% endif %}
 {% if form %}
 <h3>{{ gettext("edit brew").capitalize() }}</h3>
 <dl class="accordion" data-accordion>
@@ -58,13 +51,25 @@ $(document).ready(function() {
 <dd>
 <a href="#panel-fermentation-data">{{ gettext("fermentation data").capitalize() }}</a>
 <div id="panel-fermentation-data" class="content">
-{% for fstep in brew.fermentation_steps %}
+{% for fstep in brew.fermentation_steps.all() %}
 <div>
-    <h4>{{ fstep.name }}</h4>
+    <strong>{{ fstep.name }}, {{ format_date(fstep.date, "short") }}</strong>
+    <p>{{ gettext("OG: %(og)s, FG: %(fg)s, amount: %(amount)s", **fstep.step_data()) }}</p>
 </div>
 {% endfor %}
+<h4>{{ gettext("add fermentation step").capitalize() }}</h4>
+<form method="post" action="{{ url_for('brew-fermentationstep_add', brew_id=brew.id) }}" class="custom">
+    {{ forms.render(fermentation_step_form) }}
+</form>
 </div>
 </dd>
 </dl>
+{% endif %}
+{% include "brew/include/details.html" %}
+{% if brew.tasting_notes %}
+{% include "tasting/include/tasting_notes.html" %}
+{% endif %}
+{% if user.is_authenticated() and brew.is_brewed_yet %}
+<p><a href="{{ url_for('tastingnote-add', brew_id=brew.id) }}" class="button small radius">{{ gettext("add tasting note") }}</a></p>
 {% endif %}
 {% endblock %}

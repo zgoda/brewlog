@@ -162,6 +162,13 @@ class FermentationStep(Model):
     def first_for_brew(cls, brew):
         return cls.query.filter_by(brew=brew).order_by(cls.date).first()
 
+    def step_data(self):
+        return {
+            'og': self.og or _('unspecified'),
+            'fg': self.fg or _('unspecified'), 
+            'amount': self.volume or _('unspecified'),
+        }
+
 ## events: FermentationStep model
 def fermentation_step_pre_save(mapper, connection, target):
     if target.notes:
