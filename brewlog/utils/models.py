@@ -4,7 +4,7 @@ from math import ceil
 from flask import abort
 
 
-class Pagination(object):
+class Pagination(object):  # pragma: no cover
 
     def __init__(self, page, per_page, total_count):
         self.page = page
@@ -27,8 +27,7 @@ class Pagination(object):
         last = 0
         for num in xrange(1, self.pages + 1):
             if num <= left_edge or \
-               (num > self.page - left_current - 1 and \
-                num < self.page + right_current) or \
+               (num > self.page - left_current - 1 and num < self.page + right_current) or \
                num > self.pages - right_edge:
                 if last + 1 != num:
                     yield None
@@ -37,7 +36,7 @@ class Pagination(object):
 
 
 def paginate(query, page_num, per_page):
-    return query.offset(page_num*per_page).limit(per_page).all()
+    return query.offset(page_num * per_page).limit(per_page).all()
 
 
 def get_or_404(cls, pk):
@@ -45,29 +44,3 @@ def get_or_404(cls, pk):
     if obj is None:
         abort(404)
     return obj
-
-
-class DataModelMixin(object):
-
-    def data(self, fields):
-        Data = collections.namedtuple('Data', fields)
-        kw = {}
-        for fn in fields:
-            kw[fn] = getattr(self, fn)
-        return Data(**kw)
-
-    def summary_data(self, fields=None):
-        if fields is None:
-            fields = []
-        fields = set(fields)
-        fields.add('id')
-        if hasattr(self, 'absolute_url'):
-            fields.add('absolute_url')
-        fields = list(fields)
-        return self.data(fields)
-
-    def full_data(self):
-        fields = [k for k in self.__dict__.keys() if not k.startswith('_')]
-        if hasattr(self, 'absolute_url'):
-            fields.append('absolute_url')
-        return self.data(fields)

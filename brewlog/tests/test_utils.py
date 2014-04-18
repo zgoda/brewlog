@@ -1,7 +1,7 @@
 from unittest import TestCase
 
 import unicodedata
-from brewlog.utils import text as utl
+from brewlog.utils.text import stars2deg
 
 
 class TextUtilsTestCase(TestCase):
@@ -12,5 +12,5 @@ class TextUtilsTestCase(TestCase):
         pattern = u'OG was 14%sP, pitch temp. 21%sC'
         text = pattern % (orig_char, orig_char)
         expected = pattern % (new_char, new_char)
-        ret = utl.stars2deg(text)
-        self.assertEquals(ret, expected)
+        ret = stars2deg(text)
+        self.assertEqual(ret, expected)

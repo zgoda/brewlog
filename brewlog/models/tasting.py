@@ -20,7 +20,7 @@ class TastingNote(Model):
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
     brew = relationship('Brew')
 
-    def __unicode__(self):
+    def __unicode__(self):  # pragma: no cover
         return u'<TastingNote by %s for %s>' % (self.author.name, self.brew.name)
 
     @classmethod
@@ -38,6 +38,7 @@ class TastingNote(Model):
         if commit:
             session.commit()
         return note
+
 
 ## events: TastingNote model
 def tasting_note_pre_save(mapper, connection, target):

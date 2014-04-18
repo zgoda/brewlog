@@ -17,6 +17,12 @@ class BrewerProfileTestCase(BrewlogTestCase):
             rv = self.login(client, user.email)
             self.assertIn('You have been signed in as %s using local handler' % user.email, rv.data)
 
+    def test_hidden_user(self):
+        user = BrewerProfile.get_by_email('user3@example.com')
+        with self.app.test_client() as client:
+            rv = client.get(url_for('main'))
+            self.assertIn('<a href="%s">%s</a>' % (user.absolute_url, user.name), rv.data)
+
     def test_view_list_by_public(self):
         user = BrewerProfile.get_by_email('user@example.com')
         hidden_user = BrewerProfile.get_by_email('hidden1@example.com')
@@ -135,3 +141,10 @@ class ProfileBreweriesTestCase(BrewlogTestCase):
             self.login(client, self.public_user.email)
             rv = client.get(url)
             self.assertEqual(rv.status_code, 404)
+
+
+class ProfileExportTemplatesTestCase(BrewlogTestCase):
+
+    def setUp(self):
+        super(ProfileExportTemplatesTestCase, self).setUp()
+        self.user = BrewerProfile.get_by_email('user1@example.com')

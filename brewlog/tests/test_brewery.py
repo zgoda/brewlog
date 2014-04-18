@@ -1,3 +1,5 @@
+import urllib
+
 from flask import url_for
 
 from brewlog.tests import BrewlogTestCase
@@ -109,6 +111,26 @@ class BreweryTestCase(BrewlogTestCase):
             url = url_for('brewery-delete', brewery_id=self.public_brewery.id)
             rv = client.post(url, data={'delete_it': True})
             self.assertEqual(rv.status_code, 403)
+
+    def test_create_logged_in_user(self):
+        with self.app.test_client() as client:
+            self.login(client, self.public_brewery.brewer.email)
+            data = {
+                'name': 'new brewery',
+            }
+            url = url_for('brewery-add')
+            rv = client.post(url, data=data, follow_redirects=True)
+            self.assertIn(data['name'], rv.data)
+
+    def test_create_anon(self):
+        with self.app.test_client() as client:
+            data = {
+                'name': 'new brewery',
+            }
+            url = url_for('brewery-add')
+            redirect_url = url_for('auth-select-provider') + '?%s' % urllib.urlencode({'next': url})
+            rv = client.post(url, data=data, follow_redirects=False)
+            self.assertRedirects(rv, redirect_url)
 
 
 class BreweryBrewsTestCase(BrewlogTestCase):

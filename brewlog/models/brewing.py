@@ -10,7 +10,7 @@ from flask.ext.babel import lazy_gettext as _, format_datetime, format_date, get
 
 from brewlog.brewing import choices
 from brewlog.db import Model
-from brewlog.utils.text import slugify, stars2deg
+from brewlog.utils.text import stars2deg
 from brewlog.utils.brewing import abv, aa, ra
 
 
@@ -46,7 +46,7 @@ class Brewery(Model):
     def brewers(self):
         return [self.brewer] + self.other_brewers
 
-    def _brews(self, public_only=False, limit=None, order=None, return_query=False):
+    def _brews(self, public_only=False, limit=None, order=None):
         query = Brew.query.filter_by(brewery_id=self.id, is_draft=False)
         if public_only:
             query = query.filter_by(is_public=True)
@@ -54,8 +54,6 @@ class Brewery(Model):
             query = query.order_by(order)
         if limit is not None:
             query = query.limit(limit)
-        if return_query:
-            return query
         return query.all()
 
     def recent_brews(self, public_only=False, limit=10):
@@ -104,6 +102,7 @@ class Brewery(Model):
             'volume_by_year': year_volumes,
         }
 
+
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):
     if target.description:
@@ -144,9 +143,10 @@ class FermentationStep(Model):
     def step_data(self):
         return {
             'og': self.og or _('unspecified'),
-            'fg': self.fg or _('unspecified'), 
+            'fg': self.fg or _('unspecified'),
             'volume': self.volume or _('unspecified'),
         }
+
 
 ## events: FermentationStep model
 def fermentation_step_pre_save(mapper, connection, target):
@@ -197,10 +197,14 @@ class Brew(Model):
     is_draft = Column(Boolean, default=False)
     brewery_id = Column(Integer, ForeignKey('brewery.id'), nullable=False)
     brewery = relationship('Brewery')
-    tasting_notes = relationship('TastingNote', cascade='all,delete', lazy='dynamic',
-        order_by='desc(TastingNote.date)')
-    fermentation_steps = relationship('FermentationStep', cascade='all,delete', lazy='dynamic',
-        order_by='asc(FermentationStep.date)')
+    tasting_notes = relationship(
+        'TastingNote', cascade='all,delete', lazy='dynamic',
+        order_by='desc(TastingNote.date)'
+    )
+    fermentation_steps = relationship(
+        'FermentationStep', cascade='all,delete', lazy='dynamic',
+        order_by='asc(FermentationStep.date)'
+    )
 
     def __unicode__(self):  # pragma: no cover
         return u'<Brew %s by %s>' % (self.name, self.brewery.name)
@@ -208,10 +212,6 @@ class Brew(Model):
     @property
     def absolute_url(self):
         return url_for('brew-details', brew_id=self.id)
-
-    @property
-    def slug(self):
-        return slugify(self.name)
 
     @property
     def render_fields(self):
@@ -242,7 +242,7 @@ class Brew(Model):
             'style': self.style or self.bjcp_style or gettext('unspecified style')
         }
         if self.og:
-            data['og'] =  '%.1f*Blg' % self.og
+            data['og'] = '%.1f*Blg' % self.og
         else:
             data['og'] = gettext('unknown')
         if self.fg:
@@ -310,6 +310,7 @@ class Brew(Model):
         if limit is not None:
             query = query.limit(limit)
         return query.order_by(desc(cls.created)).all()
+
 
 ## events: Brew model
 def brew_pre_save(mapper, connection, target):

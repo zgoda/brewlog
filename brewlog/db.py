@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declarative_base
 
 engine = None
 
+
 def init_engine(uri, **kwargs):
     global engine
     engine = create_engine(uri, **kwargs)
@@ -24,7 +25,7 @@ class WithRepresentation(object):
         'confirm_deleted_rows': False,
     }
 
-    def __repr__(self):
+    def __repr__(self):  # pragma: no cover
         return unicode(self).encode('utf-8')
 
 Model = declarative_base(bind=engine, cls=WithRepresentation)
@@ -34,6 +35,7 @@ Model.query = session.query_property()
 def init_db():
     import models
     Model.metadata.create_all(bind=engine)
+
 
 def clear_db():
     import models
