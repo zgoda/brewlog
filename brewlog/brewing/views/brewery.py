@@ -17,15 +17,12 @@ def brewery_add():
         if form.validate():
             brewery = form.save()
             flash(_('brewery %(name)s created', name=brewery.name))
-            next_url = request.args.get('next')
-            if next_url:
-                return redirect(url_for(next_url))
-            else:
-                return redirect(url_for('brewery-details', brewery_id=brewery.id))
+            return redirect(brewery.absolute_url)
     ctx = {
         'form': form,
     }
     return render_template('brewery/form.html', **ctx)
+
 
 @login_required
 def brewery_delete(brewery_id):
@@ -47,6 +44,7 @@ def brewery_delete(brewery_id):
     }
     return render_template('brewery/delete.html', **ctx)
 
+
 def brewery_all():
     page_size = 20
     try:
@@ -63,6 +61,7 @@ def brewery_all():
         'breweries': paginate(query.order_by(Brewery.name), page-1, page_size)
     }
     return render_template('brewery/list.html', **ctx)
+
 
 def brewery(brewery_id, **kwargs):
     brewery = get_or_404(Brewery, brewery_id)
@@ -82,6 +81,7 @@ def brewery(brewery_id, **kwargs):
     if current_user == brewery.brewer:
         ctx['form'] = BreweryForm(obj=brewery)
     return render_template('brewery/details.html', **ctx)
+
 
 def brewery_brews(brewery_id):
     page_size = 20
