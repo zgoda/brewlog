@@ -30,7 +30,7 @@ class BrewerProfile(UserMixin, Model):
     remote_userid = Column(String(100))
     breweries = relationship('Brewery', cascade='all,delete', lazy='dynamic')
     ipboard_setups = relationship('IPBoardExportSetup', cascade='all,delete')
-    custom_export_templates = relationship('CustomExportTemplate', cascade='all,delete')
+    custom_export_templates = relationship('CustomExportTemplate', cascade='all,delete', lazy='dynamic')
     custom_label_templates = relationship('CustomLabelTemplate', cascade='all,delete', lazy='dynamic')
     __table_args__ = (
         Index('user_remote_id', 'oauth_service', 'remote_userid'),

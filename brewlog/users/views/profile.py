@@ -16,14 +16,9 @@ def profile(userid, **kwargs):
             abort(403)
         form = ProfileForm(request.form)
         if form.validate():
-            form.save(obj=user_profile)
+            profile = form.save(obj=user_profile)
             flash(_('your profile data has been updated'))
-            next_ = request.args.get('next')
-            if next_ is None:
-                next_ = url_for('profile-details', userid=userid)
-                return redirect(next_)
-            else:
-                return redirect(url_for(next_))
+            return redirect(profile.absolute_url)
     context = {
         'data': user_profile.nick,
         'data_type': 'summary',
@@ -106,12 +101,7 @@ def export_template(userid, tid=None):
         if form.validate():
             template = form.save(current_user, template)
             flash(_('your export template %(name)s has been saved', name=template.name))
-            next_ = request.args.get('next')
-            if next_:
-                next_ = url_for(next_)
-            else:
-                next_ = url_for('profile-details', userid=current_user.id)
-            return redirect(next_)
+            return redirect(template.absolute_url)
     form = CustomExportTemplateForm(obj=template)
     ctx = {
         'form': form,

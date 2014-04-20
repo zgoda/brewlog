@@ -1,7 +1,7 @@
 from flask import url_for
 
 from brewlog.tests import BrewlogTestCase
-from brewlog.models.users import BrewerProfile
+from brewlog.models.users import BrewerProfile, CustomExportTemplate
 
 
 class BrewerProfileTestCase(BrewlogTestCase):
@@ -148,3 +148,26 @@ class ProfileExportTemplatesTestCase(BrewlogTestCase):
     def setUp(self):
         super(ProfileExportTemplatesTestCase, self).setUp()
         self.user = BrewerProfile.get_by_email('user1@example.com')
+        self.template = self.user.custom_export_templates.first()
+
+    def test_list_in_profile_page(self):
+        url = url_for('profile-details', userid=self.user.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            rv = client.get(url)
+            self.assertIn(self.template.name, rv.data)
+
+    def test_access_own(self):
+        url = url_for('profile-export_template', userid=self.user.id, tid=self.template.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            rv = client.get(url)
+            self.assertIn(self.template.name, rv.data)
+
+    def test_access_other(self):
+        template = CustomExportTemplate.query.filter_by(name='custom #2').first()
+        url = url_for('profile-export_template', userid=self.user.id, tid=template.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 403)

@@ -50,7 +50,10 @@ class CustomExportTemplateData(DataSet):
     class export1:
         user = BrewerProfileData.user1
         name = 'custom #1'
-        
+
+    class export2:
+        user = BrewerProfileData.user2
+        name = 'custom #2'
 
 
 class BreweryData(DataSet):
