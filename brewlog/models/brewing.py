@@ -182,12 +182,7 @@ class Brew(Model):
     sparging = Column(String(200))
     hopping_steps = Column(Text)
     boil_time = Column(Integer)
-    fermentation_start_date = Column(Date)
-    og = Column(Float(precision=1))
-    fg = Column(Float(precision=1))
     abv = Column(Float(precision=1))
-    brew_length = Column(Float(precision=2))
-    fermentation_temperature = Column(Integer)
     final_amount = Column(Float(precision=2))
     bottling_date = Column(Date)
     carbonation_type = Column(Enum(*choices.CARBONATION_KEYS))
@@ -212,6 +207,18 @@ class Brew(Model):
     @property
     def absolute_url(self):
         return url_for('brew-details', brew_id=self.id)
+
+    @property
+    def og(self):
+        first_step = FermentationStep.query.filter_by(brew=self).order_by(FermentationStep.date).first()
+        if first_step:
+            return first_step.og
+
+    @property
+    def fg(self):
+        last_step = FermentationStep.query.filter_by(brew=self).order_by(desc(FermentationStep.date)).first()
+        if last_step:
+            return last_step.fg
 
     @property
     def render_fields(self):
