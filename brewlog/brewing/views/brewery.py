@@ -7,7 +7,7 @@ from brewlog.models import breweries
 from brewlog.models.brewing import Brewery
 from brewlog.forms.base import DeleteForm
 from brewlog.brewing.forms.brewery import BreweryForm
-from brewlog.utils.models import get_or_404, Pagination, paginate
+from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 
 
 @login_required
@@ -47,10 +47,7 @@ def brewery_delete(brewery_id):
 
 def brewery_all():
     page_size = 20
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     if current_user.is_anonymous():
         query = breweries()
     else:
@@ -85,10 +82,7 @@ def brewery(brewery_id, **kwargs):
 
 def brewery_brews(brewery_id):
     page_size = 20
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     brewery = get_or_404(Brewery, brewery_id)
     public_only = False
     if current_user.is_anonymous() or (current_user != brewery.brewer):

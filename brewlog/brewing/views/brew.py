@@ -9,7 +9,7 @@ from brewlog.models import brews
 from brewlog.models.brewing import Brew, FermentationStep
 from brewlog.models.users import CustomLabelTemplate
 from brewlog.forms.base import DeleteForm
-from brewlog.utils.models import get_or_404, Pagination, paginate
+from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 from brewlog.brewing.forms.brew import BrewForm, FermentationStepForm
 
 
@@ -60,10 +60,7 @@ def brew(brew_id, **kwargs):
 
 def brew_all():
     page_size = 20
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     if current_user.is_anonymous():
         query = brews()
     else:

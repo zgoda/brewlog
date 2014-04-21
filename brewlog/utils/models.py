@@ -1,4 +1,3 @@
-import collections
 from math import ceil
 
 from flask import abort
@@ -37,6 +36,13 @@ class Pagination(object):  # pragma: no cover
 
 def paginate(query, page_num, per_page):
     return query.offset(page_num * per_page).limit(per_page).all()
+
+
+def get_page(request, arg_name='p'):
+    try:
+        return int(request.args.get(arg_name, '1'))
+    except ValueError:
+        return 1
 
 
 def get_or_404(cls, pk):

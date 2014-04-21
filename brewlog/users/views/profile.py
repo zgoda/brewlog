@@ -3,7 +3,7 @@ from flask.ext.login import current_user, login_required
 from flask.ext.babel import gettext as _
 from sqlalchemy import desc
 
-from brewlog.utils.models import get_or_404, Pagination, paginate
+from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 from brewlog.models.brewing import Brewery, Brew
 from brewlog.users.forms import ProfileForm, CustomExportTemplateForm, CustomLabelTemplateForm
@@ -37,10 +37,7 @@ def profile(userid, **kwargs):
 
 def profile_list():
     page_size = 20
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     query = BrewerProfile.query.filter_by(is_public=True).order_by(BrewerProfile.created)
     pagination = Pagination(page, page_size, query.count())
     ctx = {
@@ -55,10 +52,7 @@ def breweries(userid):
     if not brewer or (not brewer.is_public and current_user.id != userid):
         abort(404)
     page_size = 10
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     query = Brewery.query.filter_by(brewer_id=userid).order_by(Brewery.name)
     pagination = Pagination(page, page_size, query.count())
     ctx = {
@@ -73,10 +67,7 @@ def brews(userid):
     if not brewer or (not brewer.is_public and current_user.id != userid):
         abort(404)
     page_size = 10
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     query = Brew.query.join(Brewery).filter(Brewery.brewer_id==userid)
     if current_user.is_anonymous() or current_user.id != userid:
         query = query.filter(Brew.is_public==True)

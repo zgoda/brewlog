@@ -147,10 +147,13 @@ class BrewTestCase(BrewlogTestCase):
             self.login(client, self.hidden_brew_direct.brewery.brewer.email)
             data = {
                 'name': 'new name (still hidden)',
+                'brewery': self.hidden_brew_direct.brewery.id,
+                'carbonation_type': 'bottles with priming',
+                'carbonation_level': 'normal',
             }
             rv = client.post(url, data=data, follow_redirects=True)
             self.assertEqual(rv.status_code, 200)
-            self.assertIn(data['name'], rv.data)
+            self.assertIn('<h3>%s</h3>' % data['name'], rv.data)
 
     def test_update_by_public(self):
         """
@@ -164,6 +167,15 @@ class BrewTestCase(BrewlogTestCase):
             }
             rv = client.post(url, data=data)
             self.assertEqual(rv.status_code, 403)
+
+    def test_owner_access_delete_form(self):
+        brew_id = self.hidden_brew_direct.id
+        url = url_for('brew-delete', brew_id=brew_id)
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brew_direct.brewery.brewer.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 200)
+            self.assertIn('action="%s"' % url, rv.data)
 
     def test_delete_by_owner(self):
         """
@@ -322,3 +334,27 @@ class FermentationStepsTestCase(BrewlogTestCase):
             }
             rv = self.client.post(url, data=data, follow_redirects=True)
             self.assertNotIn(fstep_name.encode('utf-8'), rv.data)
+
+    def test_edit_fermentation_step_owner_sees_form(self):
+        fstep = self.brew.fermentation_steps.first()
+        url = url_for('brew-fermentation_step', fstep_id=fstep.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            rv = self.client.get(url)
+            self.assertEqual(rv.status_code, 200)
+            self.assertIn(fstep.name, rv.data)
+
+    def test_edit_fermentation_step_owner_can_modify(self):
+        fstep = self.brew.fermentation_steps.first()
+        url = url_for('brew-fermentation_step', fstep_id=fstep.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            data = {
+                'name': 'primary (mod)',
+                'date': fstep.date.strftime('%Y-%m-%d'),
+                'og': fstep.og,
+                'fg': fstep.fg,
+            }
+            rv = self.client.post(url, data=data, follow_redirects=True)
+            self.assertEqual(rv.status_code, 200)
+            self.assertIn(data['name'].encode('utf-8'), rv.data)
