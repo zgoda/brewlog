@@ -7,6 +7,7 @@ from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Foreign
 from sqlalchemy import event, desc
 from sqlalchemy.orm import relationship
 from flask.ext.babel import lazy_gettext as _, format_datetime, format_date, gettext
+from werkzeug.utils import cached_property
 
 from brewlog.brewing import choices
 from brewlog.db import Model
@@ -208,17 +209,25 @@ class Brew(Model):
     def absolute_url(self):
         return url_for('brew-details', brew_id=self.id)
 
+    @cached_property
+    def first_step(self):
+        return FermentationStep.query.filter_by(brew=self).order_by(FermentationStep.date).first()
+
     @property
     def og(self):
-        first_step = FermentationStep.query.filter_by(brew=self).order_by(FermentationStep.date).first()
-        if first_step:
-            return first_step.og
+        if self.first_step:
+            return self.first_step.og
 
     @property
     def fg(self):
         last_step = FermentationStep.query.filter_by(brew=self).order_by(desc(FermentationStep.date)).first()
         if last_step:
             return last_step.fg
+
+    @property
+    def fermentation_start_date(self):
+        if self.first_step:
+            return self.first_step.date
 
     @property
     def render_fields(self):

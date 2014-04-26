@@ -1,0 +1,5 @@
+<div>
+    <strong>{{ fstep.name }}, {{ format_date(fstep.date, "short") }}</strong>
+    <p>{{ gettext("OG: %(og)s&deg;Blg, FG: %(fg)s&deg;Blg, volume: %(volume)s ltr", **fstep.step_data()) }} <a href="{{ url_for('brew-fermentation_step', fstep_id=fstep.id) }}" class="button tiny radius">{{ gettext("change") }}</a> <a href="{{ url_for('brew-fermentationstep_delete', fstep_id=fstep.id) }}" class="button tiny radius alert">{{ gettext("delete") }}</a></p>
+    {% if fstep.notes_html %}{{ fstep.notes_html|safe }}{% endif %}
+</div>
