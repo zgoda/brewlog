@@ -45,7 +45,7 @@ class Route(object):
         self.view = view
         self.extra_kwargs = kwargs
 
-    def __repr__(self):
+    def __repr__(self):  # pragma: no cover
         return '<Route url=%(url)s endpoint=%(endpoint)s view=%(view)s>' % self.__dict__
 
     def get_rules(self):
@@ -61,13 +61,9 @@ class RouteMap(object):
     def get_routes(self):
         rules = []
         for item in self._rules:
-            try:
-                rules.extend(item.get_rules())
-            except AttributeError:
-                rules.append(item)
+            rules.extend(item.get_rules())
         return rules
 
     def register(self, app):
         for rule in self.get_routes():
             app.add_url_rule(rule.url, rule.endpoint, LazyView('.'.join([self.root, rule.view])), **rule.extra_kwargs)
-

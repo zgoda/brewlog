@@ -107,6 +107,17 @@ class BrewTestCase(BrewlogTestCase):
             rv = client.get(url)
             self.assertEqual(rv.status_code, 302)
 
+    def test_add_form_visible_for_registered(self):
+        """
+        Registered users can access brew form.
+        """
+        url = url_for('brew-add')
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brew_direct.brewery.brewer.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 200)
+            self.assertIn('action="%s"' % url, rv.data)
+
     def test_add_by_registered(self):
         """
         Registered users can add brews.
@@ -116,12 +127,16 @@ class BrewTestCase(BrewlogTestCase):
             self.login(client, self.hidden_brew_direct.brewery.brewer.email)
             data = {
                 'name': 'new brew',
-                'brewery_id': self.hidden_brew_direct.brewery.id,
+                'brewery': self.hidden_brew_direct.brewery.id,
+                'carbonation_type': 'bottles with priming',
+                'carbonation_level': 'normal',
             }
             rv = client.post(url, data=data, follow_redirects=True)
             self.assertEqual(rv.status_code, 200)
-            self.assertIn(data['name'], rv.data)
+            self.assertIn('<h3>%s</h3>' % data['name'], rv.data)
             self.assertIn(self.hidden_brew_direct.brewery.name, rv.data)
+            brew = Brew.query.filter_by(name=data['name']).first()
+            self.assertEqual(brew.fermentation_steps.count(), 0)
 
     def test_update_by_owner(self):
         """
@@ -132,10 +147,13 @@ class BrewTestCase(BrewlogTestCase):
             self.login(client, self.hidden_brew_direct.brewery.brewer.email)
             data = {
                 'name': 'new name (still hidden)',
+                'brewery': self.hidden_brew_direct.brewery.id,
+                'carbonation_type': 'bottles with priming',
+                'carbonation_level': 'normal',
             }
             rv = client.post(url, data=data, follow_redirects=True)
             self.assertEqual(rv.status_code, 200)
-            self.assertIn(data['name'], rv.data)
+            self.assertIn('<h3>%s</h3>' % data['name'], rv.data)
 
     def test_update_by_public(self):
         """
@@ -149,6 +167,15 @@ class BrewTestCase(BrewlogTestCase):
             }
             rv = client.post(url, data=data)
             self.assertEqual(rv.status_code, 403)
+
+    def test_owner_access_delete_form(self):
+        brew_id = self.hidden_brew_direct.id
+        url = url_for('brew-delete', brew_id=brew_id)
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brew_direct.brewery.brewer.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 200)
+            self.assertIn('action="%s"' % url, rv.data)
 
     def test_delete_by_owner(self):
         """

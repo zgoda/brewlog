@@ -3,7 +3,7 @@ from flask.ext.login import current_user, login_required
 from flask.ext.babel import gettext as _
 from sqlalchemy import desc
 
-from brewlog.utils.models import get_or_404, Pagination, paginate
+from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 from brewlog.models.brewing import Brewery, Brew
 from brewlog.users.forms import ProfileForm, CustomExportTemplateForm, CustomLabelTemplateForm
@@ -16,16 +16,11 @@ def profile(userid, **kwargs):
             abort(403)
         form = ProfileForm(request.form)
         if form.validate():
-            form.save(obj=user_profile)
+            profile = form.save(obj=user_profile)
             flash(_('your profile data has been updated'))
-            next_ = request.args.get('next')
-            if next_ is None:
-                next_ = url_for('profile-details', userid=userid)
-                return redirect(next_)
-            else:
-                return redirect(url_for(next_))
+            return redirect(profile.absolute_url)
     context = {
-        'data': user_profile.summary_data(['nick']),
+        'data': user_profile.nick,
         'data_type': 'summary',
         'profile': user_profile,
         'latest_brews': Brew.get_latest_for(user_profile),
@@ -33,18 +28,16 @@ def profile(userid, **kwargs):
     if user_profile.has_access(current_user):
         context['data'] = user_profile.full_data()
         context['data_type'] = 'full'
-    else:        
+    else:
         abort(404)
     if user_profile == current_user:
         context['form'] = ProfileForm(obj=user_profile)
     return render_template('account/profile.html', **context)
 
+
 def profile_list():
     page_size = 20
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     query = BrewerProfile.query.filter_by(is_public=True).order_by(BrewerProfile.created)
     pagination = Pagination(page, page_size, query.count())
     ctx = {
@@ -53,15 +46,13 @@ def profile_list():
     }
     return render_template('account/profile_list.html', **ctx)
 
+
 def breweries(userid):
     brewer = BrewerProfile.query.get(userid)
     if not brewer or (not brewer.is_public and current_user.id != userid):
         abort(404)
     page_size = 10
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     query = Brewery.query.filter_by(brewer_id=userid).order_by(Brewery.name)
     pagination = Pagination(page, page_size, query.count())
     ctx = {
@@ -70,18 +61,16 @@ def breweries(userid):
     }
     return render_template('brewery/list.html', **ctx)
 
+
 def brews(userid):
     brewer = BrewerProfile.query.get(userid)
     if not brewer or (not brewer.is_public and current_user.id != userid):
         abort(404)
     page_size = 10
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     query = Brew.query.join(Brewery).filter(Brewery.brewer_id==userid)
     if current_user.is_anonymous() or current_user.id != userid:
-        query = query.filter_by(is_public=True)
+        query = query.filter(Brew.is_public==True)
     query = query.order_by(desc(Brew.created))
     pagination = Pagination(page, page_size, query.count())
     ctx = {
@@ -89,6 +78,7 @@ def brews(userid):
         'pagination': pagination,
     }
     return render_template('brew/list.html', **ctx)
+
 
 @login_required
 def export_template(userid, tid=None):
@@ -102,18 +92,14 @@ def export_template(userid, tid=None):
         if form.validate():
             template = form.save(current_user, template)
             flash(_('your export template %(name)s has been saved', name=template.name))
-            next_ = request.args.get('next')
-            if next_:
-                next_ = url_for(next_)
-            else:
-                next_ = url_for('profile-details', userid=current_user.id)
-            return redirect(next_)
+            return redirect(template.absolute_url)
     form = CustomExportTemplateForm(obj=template)
     ctx = {
         'form': form,
         'template': template,
     }
     return render_template('account/export_template.html', **ctx)
+
 
 @login_required
 def label_template(userid, tid=None):

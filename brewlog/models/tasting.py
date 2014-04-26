@@ -1,7 +1,7 @@
 import datetime
 
 import markdown
-from sqlalchemy import event, desc
+from sqlalchemy import event
 from sqlalchemy.orm import relationship
 from sqlalchemy import Column, Integer, Text, ForeignKey, Date
 
@@ -20,12 +20,8 @@ class TastingNote(Model):
     brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
     brew = relationship('Brew')
 
-    def __unicode__(self):
+    def __unicode__(self):  # pragma: no cover
         return u'<TastingNote by %s for %s>' % (self.author.name, self.brew.name)
-
-    @classmethod
-    def latest(cls, limit=10):
-        return cls.query.order_by(desc(cls.date)).limit(limit).all()
 
     @classmethod
     def create_for(cls, brew, author, text, date=None, commit=False):
@@ -39,6 +35,7 @@ class TastingNote(Model):
             session.commit()
         return note
 
+
 ## events: TastingNote model
 def tasting_note_pre_save(mapper, connection, target):
     if target.date is None:
@@ -46,8 +43,6 @@ def tasting_note_pre_save(mapper, connection, target):
     if target.text:
         target.text = stars2deg(target.text)
         target.text_html = markdown.markdown(target.text, safe_mode='remove')
-    else:
-        target.text_html = None
 
 event.listen(TastingNote, 'before_insert', tasting_note_pre_save)
 event.listen(TastingNote, 'before_update', tasting_note_pre_save)

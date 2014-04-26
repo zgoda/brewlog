@@ -8,11 +8,9 @@ from flask.ext.babel import lazy_gettext as _
 from flask.ext.login import UserMixin
 
 from brewlog.db import Model
-from brewlog.utils.text import slugify
-from brewlog.utils.models import DataModelMixin
 
 
-class BrewerProfile(UserMixin, DataModelMixin, Model):
+class BrewerProfile(UserMixin, Model):
     __tablename__ = 'brewer_profile'
     id = Column(Integer, primary_key=True)
     first_name = Column(String(50))
@@ -25,20 +23,20 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
     is_public = Column(Boolean, default=True)
     created = Column(DateTime, default=datetime.datetime.utcnow)
     updated = Column(DateTime, onupdate=datetime.datetime.utcnow, index=True)
-    access_token = Column(Text) # for OAuth2
-    oauth_token = Column(Text) # for OAuth1a
-    oauth_token_secret = Column(Text) # for OAuth1a
+    access_token = Column(Text)  # for OAuth2
+    oauth_token = Column(Text)  # for OAuth1a
+    oauth_token_secret = Column(Text)  # for OAuth1a
     oauth_service = Column(String(50))
     remote_userid = Column(String(100))
     breweries = relationship('Brewery', cascade='all,delete', lazy='dynamic')
     ipboard_setups = relationship('IPBoardExportSetup', cascade='all,delete')
-    custom_export_templates = relationship('CustomExportTemplate', cascade='all,delete')
+    custom_export_templates = relationship('CustomExportTemplate', cascade='all,delete', lazy='dynamic')
     custom_label_templates = relationship('CustomLabelTemplate', cascade='all,delete', lazy='dynamic')
     __table_args__ = (
         Index('user_remote_id', 'oauth_service', 'remote_userid'),
     )
 
-    def __unicode__(self):
+    def __unicode__(self):  # pragma: no cover
         return u'<BrewerProfile %s>' % self.email
 
     @property
@@ -52,14 +50,6 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
     @property
     def brews_list_url(self):
         return url_for('profile-brews', userid=self.id)
-
-    @property
-    def slug(self):
-        return slugify(self.name)
-
-    @property
-    def safe_email(self):
-        return self.email.replace('@', '-at-').replace('.', '-dot-')
 
     @property
     def name(self):
@@ -97,19 +87,15 @@ class BrewerProfile(UserMixin, DataModelMixin, Model):
         extra_user = kwargs.get('extra_user', None)
         return cls._last(cls.updated, public_only, limit, extra_user)
 
-    @property
-    def ipb_export_setups(self, active_only=False):
-        query = IPBoardExportSetup.query.join(BrewerProfile).filter(BrewerProfile.id==self.id)
-        if active_only:
-            query = query.filter_by(is_active=True)
-        query.order_by(IPBoardExportSetup.service_name)
-        return query.all()
-
     def has_access(self, user):
         if self != user:
             if not self.is_public:
                 return False
         return True
+
+    def full_data(self):
+        return self.__dict__
+
 
 # mapper events
 def profile_pre_save(mapper, connection, target):
@@ -147,7 +133,7 @@ class CustomExportTemplate(Model):
         Index('user_export_template', 'user_id', 'name'),
     )
 
-    def __unicode__(self):
+    def __unicode__(self):  # pragma: no cover
         return u'<ExportTemplate %s for %s>' % (self.name, self.user.email)
 
     @property
@@ -171,7 +157,7 @@ class CustomLabelTemplate(Model):
         Index('user_label_template', 'user_id', 'name'),
     )
 
-    def __unicode__(self):
+    def __unicode__(self):  # pragma: no cover
         return u'<LabelTemplate %s for %s>' % (self.name, self.user.email)
 
     @property

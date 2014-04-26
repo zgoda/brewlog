@@ -1,3 +1,5 @@
+import urllib
+
 from flask import url_for
 
 from brewlog.tests import BrewlogTestCase
@@ -32,6 +34,14 @@ class BreweryTestCase(BrewlogTestCase):
             rv = client.get(url)
             self.assertIn(self.hidden_brewery.name, rv.data)
             self.assertIn(url_for('brewery-delete', brewery_id=self.hidden_brewery.id), rv.data)
+
+    def test_anon_view_list(self):
+        url = url_for('brewery-all')
+        with self.app.test_client() as client:
+            rv = client.get(url)
+            self.assertNotIn(self.hidden_brewery.name, rv.data)
+            self.assertIn(self.public_brewery.name, rv.data)
+            self.assertNotIn(url_for('brewery-delete', brewery_id=self.public_brewery.id), rv.data)
 
     def test_nonowner_view(self):
         """
@@ -86,6 +96,13 @@ class BreweryTestCase(BrewlogTestCase):
             brewery = Brewery.query.get(self.hidden_brewery.id)
             self.assertEqual(brewery.name, new_name)
 
+    def test_owner_access_delete_form(self):
+        url = url_for('brewery-delete', brewery_id=self.hidden_brewery.id)
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brewery.brewer.email)
+            rv = client.get(url)
+            self.assertIn('action="%s"' % url, rv.data)
+
     def test_owner_delete(self):
         """
         Delete brewery by owner:
@@ -109,6 +126,33 @@ class BreweryTestCase(BrewlogTestCase):
             url = url_for('brewery-delete', brewery_id=self.public_brewery.id)
             rv = client.post(url, data={'delete_it': True})
             self.assertEqual(rv.status_code, 403)
+
+    def test_add_form_visible_for_registered(self):
+        url = url_for('brewery-add')
+        with self.app.test_client() as client:
+            self.login(client, self.public_brewery.brewer.email)
+            rv = client.get(url)
+            self.assertIn('action="%s"' % url, rv.data)
+
+    def test_create_logged_in_user(self):
+        with self.app.test_client() as client:
+            self.login(client, self.public_brewery.brewer.email)
+            data = {
+                'name': 'new brewery',
+            }
+            url = url_for('brewery-add')
+            rv = client.post(url, data=data, follow_redirects=True)
+            self.assertIn(data['name'], rv.data)
+
+    def test_create_anon(self):
+        with self.app.test_client() as client:
+            data = {
+                'name': 'new brewery',
+            }
+            url = url_for('brewery-add')
+            redirect_url = url_for('auth-select-provider') + '?%s' % urllib.urlencode({'next': url})
+            rv = client.post(url, data=data, follow_redirects=False)
+            self.assertRedirects(rv, redirect_url)
 
 
 class BreweryBrewsTestCase(BrewlogTestCase):

@@ -58,9 +58,12 @@
         {% block flash %}
         {% if flashes %}
         <div class="small-12 columns">
-            <ul class="no-bullet">
-                {% for flash in flashes %}<li>{{ flash|e }}</li>{% endfor %}
-            </ul>
+            {% for flash in flashes %}
+            <div data-alert class="alert-box">
+                {{ flash }}
+                <a href="#" class="close">&times;</a>
+            </div>
+            {% endfor %}
         </div>
         {% endif %}
         {% endblock %}
@@ -93,7 +96,17 @@
     {% endblock %}
     <script src="/static/foundation/js/foundation.min.js"></script>
     <script>
-        $(document).foundation();
+        $(document).foundation({
+            accordion: {
+                // specify the class used for active (or open) accordion panels
+                active_class: 'active',
+                // allow multiple accordion panels to be active at the same time
+                multi_expand: true,
+                // allow accordion panels to be closed by clicking on their headers
+                // setting to false only closes accordion panels when another is opened
+                toggleable: true
+            }
+        });
     </script>
     {% block scripts %}{% endblock %}
 </body>

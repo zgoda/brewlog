@@ -1,7 +1,7 @@
 from flask import url_for
 
 from brewlog.tests import BrewlogTestCase
-from brewlog.models.users import BrewerProfile
+from brewlog.models.users import BrewerProfile, CustomExportTemplate
 
 
 class BrewerProfileTestCase(BrewlogTestCase):
@@ -16,6 +16,12 @@ class BrewerProfileTestCase(BrewlogTestCase):
             # check target resource
             rv = self.login(client, user.email)
             self.assertIn('You have been signed in as %s using local handler' % user.email, rv.data)
+
+    def test_hidden_user(self):
+        user = BrewerProfile.get_by_email('user3@example.com')
+        with self.app.test_client() as client:
+            rv = client.get(url_for('main'))
+            self.assertIn('<a href="%s">%s</a>' % (user.absolute_url, user.name), rv.data)
 
     def test_view_list_by_public(self):
         user = BrewerProfile.get_by_email('user@example.com')
@@ -135,3 +141,33 @@ class ProfileBreweriesTestCase(BrewlogTestCase):
             self.login(client, self.public_user.email)
             rv = client.get(url)
             self.assertEqual(rv.status_code, 404)
+
+
+class ProfileExportTemplatesTestCase(BrewlogTestCase):
+
+    def setUp(self):
+        super(ProfileExportTemplatesTestCase, self).setUp()
+        self.user = BrewerProfile.get_by_email('user1@example.com')
+        self.template = self.user.custom_export_templates.first()
+
+    def test_list_in_profile_page(self):
+        url = url_for('profile-details', userid=self.user.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            rv = client.get(url)
+            self.assertIn(self.template.name, rv.data)
+
+    def test_access_own(self):
+        url = url_for('profile-export_template', userid=self.user.id, tid=self.template.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            rv = client.get(url)
+            self.assertIn(self.template.name, rv.data)
+
+    def test_access_other(self):
+        template = CustomExportTemplate.query.filter_by(name='custom #2').first()
+        url = url_for('profile-export_template', userid=self.user.id, tid=template.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 403)

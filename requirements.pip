@@ -35,3 +35,6 @@ Mako
 Flask-Testing
 twill
 fixture
+coverage
+mock
+

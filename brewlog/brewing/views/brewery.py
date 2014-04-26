@@ -7,7 +7,7 @@ from brewlog.models import breweries
 from brewlog.models.brewing import Brewery
 from brewlog.forms.base import DeleteForm
 from brewlog.brewing.forms.brewery import BreweryForm
-from brewlog.utils.models import get_or_404, Pagination, paginate
+from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 
 
 @login_required
@@ -17,15 +17,12 @@ def brewery_add():
         if form.validate():
             brewery = form.save()
             flash(_('brewery %(name)s created', name=brewery.name))
-            next_url = request.args.get('next')
-            if next_url:
-                return redirect(url_for(next_url))
-            else:
-                return redirect(url_for('brewery-details', brewery_id=brewery.id))
+            return redirect(brewery.absolute_url)
     ctx = {
         'form': form,
     }
     return render_template('brewery/form.html', **ctx)
+
 
 @login_required
 def brewery_delete(brewery_id):
@@ -47,12 +44,10 @@ def brewery_delete(brewery_id):
     }
     return render_template('brewery/delete.html', **ctx)
 
+
 def brewery_all():
     page_size = 20
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     if current_user.is_anonymous():
         query = breweries()
     else:
@@ -63,6 +58,7 @@ def brewery_all():
         'breweries': paginate(query.order_by(Brewery.name), page-1, page_size)
     }
     return render_template('brewery/list.html', **ctx)
+
 
 def brewery(brewery_id, **kwargs):
     brewery = get_or_404(Brewery, brewery_id)
@@ -83,12 +79,10 @@ def brewery(brewery_id, **kwargs):
         ctx['form'] = BreweryForm(obj=brewery)
     return render_template('brewery/details.html', **ctx)
 
+
 def brewery_brews(brewery_id):
     page_size = 20
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     brewery = get_or_404(Brewery, brewery_id)
     public_only = False
     if current_user.is_anonymous() or (current_user != brewery.brewer):

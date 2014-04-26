@@ -2,15 +2,15 @@ from flask import request, flash, url_for, redirect, render_template, abort, ren
 from flask.ext.login import current_user, login_required
 from flask.ext.babel import lazy_gettext, gettext as _
 from sqlalchemy import desc
-import markdown
+from markdown import markdown
 
 from brewlog.db import session as dbsession
 from brewlog.models import brews
-from brewlog.models.brewing import Brew
+from brewlog.models.brewing import Brew, FermentationStep
 from brewlog.models.users import CustomLabelTemplate
 from brewlog.forms.base import DeleteForm
-from brewlog.utils.models import get_or_404, Pagination, paginate
-from brewlog.brewing.forms.brew import BrewForm
+from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
+from brewlog.brewing.forms.brew import BrewForm, FermentationStepForm
 
 
 HINTS = [
@@ -34,6 +34,7 @@ def brew_add():
     }
     return render_template('brew/form.html', **ctx)
 
+
 def brew(brew_id, **kwargs):
     brew = get_or_404(Brew, brew_id)
     if request.method == 'POST':
@@ -53,14 +54,13 @@ def brew(brew_id, **kwargs):
     }
     if current_user in brew.brewery.brewers:
         ctx['form'] = BrewForm(obj=brew)
+        ctx['fermentation_step_form'] = FermentationStepForm()
     return render_template('brew/details.html', **ctx)
+
 
 def brew_all():
     page_size = 20
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     if current_user.is_anonymous():
         query = brews()
     else:
@@ -71,6 +71,7 @@ def brew_all():
         'brews': paginate(query.order_by(desc(Brew.created)), page-1, page_size)
     }
     return render_template('brew/list.html', **context)
+
 
 def brew_export(brew_id, flavour):
     brew = get_or_404(Brew, brew_id)
@@ -83,6 +84,7 @@ def brew_export(brew_id, flavour):
     }
     return render_template('brew/export.html', **ctx)
 
+
 def brew_print(brew_id):
     brew = get_or_404(Brew, brew_id)
     if not brew.has_access(current_user):
@@ -91,6 +93,7 @@ def brew_print(brew_id):
         'brew': brew,
     }
     return render_template('brew/print.html', **ctx)
+
 
 def brew_labels(brew_id):
     brew = get_or_404(Brew, brew_id)
@@ -111,16 +114,18 @@ def brew_labels(brew_id):
         if use_template is not None:
             template_obj = current_user.custom_label_templates.filter_by(id=use_template).one()
             if template_obj is not None:
-                cs = 'width:%(width)smm;min-width:%(width)smm;height:%(height)smm;min-height:%(height)s' % {'width': template_obj.width, 'height': template_obj.height}
+                cs = 'width:%(width)smm;min-width:%(width)smm;height:%(height)smm;min-height:%(height)s' % \
+                    {'width': template_obj.width, 'height': template_obj.height}
                 custom_data = dict(
-                    rendered_cell = render_template_string(markdown.markdown(template_obj.text, safe_mode='remove'), brew=brew),
-                    rows = template_obj.rows,
-                    cols = template_obj.cols,
-                    cell_style = cs,
-                    current_template = template_obj.id,
+                    rendered_cell=render_template_string(markdown(template_obj.text, safe_mode='remove'), brew=brew),
+                    rows=template_obj.rows,
+                    cols=template_obj.cols,
+                    cell_style=cs,
+                    current_template=template_obj.id,
                 )
                 ctx.update(custom_data)
     return render_template('brew/labels.html', **ctx)
+
 
 @login_required
 def brew_delete(brew_id):
@@ -141,3 +146,64 @@ def brew_delete(brew_id):
         'delete_form': form,
     }
     return render_template('brew/delete.html', **ctx)
+
+
+@login_required
+def fermentation_step_add(brew_id):
+    brew = get_or_404(Brew, brew_id)
+    if brew.brewery.brewer != current_user:
+        abort(403)
+    form = FermentationStepForm(request.form)
+    if form.validate():
+        fermentation_step = form.save(brew=brew)
+        flash(_(
+            'fermentation step %(step_name)s for brew %(brew_name)s has been created',
+            step_name=fermentation_step.name, brew_name=brew.name
+        ))
+    return redirect(brew.absolute_url)
+
+
+@login_required
+def fermentation_step(fstep_id):
+    fstep = get_or_404(FermentationStep, fstep_id)
+    if fstep.brew.brewery.brewer != current_user:
+        abort(403)
+    if request.method == 'POST':
+        form = FermentationStepForm(request.form)
+        if form.validate():
+            fstep = form.save(fstep.brew, obj=fstep)
+            flash(_(
+                'fermentation step %(step_name)s for brew %(brew_name)s has been updated',
+                step_name=fstep.name, brew_name=fstep.brew.name
+            ))
+            return redirect(fstep.brew.absolute_url)
+    ctx = {
+        'form': FermentationStepForm(obj=fstep),
+        'fstep': fstep,
+    }
+    return render_template('brew/fermentation/step.html', **ctx)
+
+
+@login_required
+def fermentation_step_delete(fstep_id):
+    fstep = get_or_404(FermentationStep, fstep_id)
+    if fstep.brew.brewery.brewer != current_user:
+        abort(403)
+    fstep_name = fstep.name
+    brew_name = fstep.brew.name
+    next_ = fstep.brew.absolute_url
+    form = DeleteForm(request.form)
+    if request.method == 'POST':
+        if form.validate():
+            dbsession.delete(fstep)
+            dbsession.commit()
+            flash(_(
+                'fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted',
+                fstep_name=fstep_name, brew_name=brew_name
+            ))
+            return redirect(next_)
+    ctx = {
+        'fstep': fstep,
+        'delete_form': form,
+    }
+    return render_template('brew/fermentation/step_delete.html', **ctx)

@@ -10,7 +10,7 @@ from flask.ext.babel import lazy_gettext as _, format_datetime, format_date, get
 
 from brewlog.brewing import choices
 from brewlog.db import Model
-from brewlog.utils.text import slugify, stars2deg
+from brewlog.utils.text import stars2deg
 from brewlog.utils.brewing import abv, aa, ra
 
 
@@ -31,16 +31,12 @@ class Brewery(Model):
     brewer = relationship('BrewerProfile')
     brews = relationship('Brew', cascade='all,delete', lazy='dynamic')
 
-    def __unicode__(self):
+    def __unicode__(self):  # pragma: no cover
         return u'<Brewery %s>' % self.name
 
     @property
     def absolute_url(self):
         return url_for('brewery-details', brewery_id=self.id)
-
-    @property
-    def slug(self):
-        return slugify(self.name)
 
     @property
     def other_brewers(self):
@@ -50,11 +46,7 @@ class Brewery(Model):
     def brewers(self):
         return [self.brewer] + self.other_brewers
 
-    @property
-    def is_public(self):
-        return self.brewer.is_public
-
-    def _brews(self, public_only=False, limit=None, order=None, return_query=False):
+    def _brews(self, public_only=False, limit=None, order=None):
         query = Brew.query.filter_by(brewery_id=self.id, is_draft=False)
         if public_only:
             query = query.filter_by(is_public=True)
@@ -62,8 +54,6 @@ class Brewery(Model):
             query = query.order_by(order)
         if limit is not None:
             query = query.limit(limit)
-        if return_query:
-            return query
         return query.all()
 
     def recent_brews(self, public_only=False, limit=10):
@@ -112,6 +102,7 @@ class Brewery(Model):
             'volume_by_year': year_volumes,
         }
 
+
 ## events: Brewery model
 def brewery_pre_save(mapper, connection, target):
     if target.description:
@@ -136,7 +127,6 @@ class FermentationStep(Model):
     name = Column(String(200))
     og = Column(Float(precision=1))
     fg = Column(Float(precision=1))
-    is_last = Column(Boolean, default=False)
     volume = Column(Float(precision=2))
     temperature = Column(Integer)
     notes = Column(Text)
@@ -147,20 +137,16 @@ class FermentationStep(Model):
         Index('fermentationstep_brew_date', 'brew_id', 'date'),
     )
 
-    def __unicode__(self):
+    def __unicode__(self):  # pragma: no cover
         return u'<FermentationStep %s for %s @%s>' % (self.name, self.brew.name, self.date.strftime('%Y-%m-%d'))
 
-    def previous(self):
-        if self.date:
-            return FermentationStep.query.filter_by(brew=self.brew).filter(FermentationStep.date < self.date).order_by(desc(FermentationStep.date)).first()
+    def step_data(self):
+        return {
+            'og': self.og or _('unspecified'),
+            'fg': self.fg or _('unspecified'),
+            'volume': self.volume or _('unspecified'),
+        }
 
-    def next(self):
-        if self.date:
-            return FermentationStep.query.filter_by(brew=self.brew).filter(FermentationStep.date > self.date).order_by(FermentationStep.date).first()
-
-    @classmethod
-    def first_for_brew(cls, brew):
-        return cls.query.filter_by(brew=brew).order_by(cls.date).first()
 
 ## events: FermentationStep model
 def fermentation_step_pre_save(mapper, connection, target):
@@ -169,10 +155,6 @@ def fermentation_step_pre_save(mapper, connection, target):
         target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
     else:
         target.notes_html = None
-    prev_, next_ = target.previous(), target.next()
-    target.is_last = not bool(next_)
-    if next_:
-        target.fg = next_.og
 
 event.listen(FermentationStep, 'before_insert', fermentation_step_pre_save)
 event.listen(FermentationStep, 'before_update', fermentation_step_pre_save)
@@ -200,12 +182,7 @@ class Brew(Model):
     sparging = Column(String(200))
     hopping_steps = Column(Text)
     boil_time = Column(Integer)
-    fermentation_start_date = Column(Date)
-    og = Column(Float(precision=1))
-    fg = Column(Float(precision=1))
     abv = Column(Float(precision=1))
-    brew_length = Column(Float(precision=2))
-    fermentation_temperature = Column(Integer)
     final_amount = Column(Float(precision=2))
     bottling_date = Column(Date)
     carbonation_type = Column(Enum(*choices.CARBONATION_KEYS))
@@ -215,10 +192,16 @@ class Brew(Model):
     is_draft = Column(Boolean, default=False)
     brewery_id = Column(Integer, ForeignKey('brewery.id'), nullable=False)
     brewery = relationship('Brewery')
-    tasting_notes = relationship('TastingNote', cascade='all,delete', lazy='dynamic', order_by='desc(TastingNote.date)')
-    fermentation_steps = relationship('FermentationStep', cascade='all,delete', lazy='dynamic')
+    tasting_notes = relationship(
+        'TastingNote', cascade='all,delete', lazy='dynamic',
+        order_by='desc(TastingNote.date)'
+    )
+    fermentation_steps = relationship(
+        'FermentationStep', cascade='all,delete', lazy='dynamic',
+        order_by='asc(FermentationStep.date)'
+    )
 
-    def __unicode__(self):
+    def __unicode__(self):  # pragma: no cover
         return u'<Brew %s by %s>' % (self.name, self.brewery.name)
 
     @property
@@ -226,8 +209,16 @@ class Brew(Model):
         return url_for('brew-details', brew_id=self.id)
 
     @property
-    def slug(self):
-        return slugify(self.name)
+    def og(self):
+        first_step = FermentationStep.query.filter_by(brew=self).order_by(FermentationStep.date).first()
+        if first_step:
+            return first_step.og
+
+    @property
+    def fg(self):
+        last_step = FermentationStep.query.filter_by(brew=self).order_by(desc(FermentationStep.date)).first()
+        if last_step:
+            return last_step.fg
 
     @property
     def render_fields(self):
@@ -258,7 +249,7 @@ class Brew(Model):
             'style': self.style or self.bjcp_style or gettext('unspecified style')
         }
         if self.og:
-            data['og'] =  '%.1f*Blg' % self.og
+            data['og'] = '%.1f*Blg' % self.og
         else:
             data['og'] = gettext('unknown')
         if self.fg:
@@ -307,7 +298,6 @@ class Brew(Model):
         return json.dumps(notes)
 
     def fermentation_step_from_data(self):
-        fs_data = {}
         if self.fermentation_start_date:
             fs_data = {
                 'name': gettext('primary fermentation'),
@@ -317,17 +307,7 @@ class Brew(Model):
                 'temperature': self.fermentation_temperature,
                 'volume': self.brew_length,
             }
-        if self.query.filter(self.fermentation_steps.exists()).count():
-            # return first step updated with brew data
-            if fs_data:
-                step = self.fermentation_steps.order_by(FermentationStep.date).first()
-                for k, v in fs_data.items():
-                    setattr(step, k, v)
-                return step
-        else:
-            # return new step
-            if fs_data:
-                return FermentationStep(**fs_data)
+            return FermentationStep(**fs_data)
 
     @classmethod
     def get_latest_for(cls, user, public_only=False, limit=None):
@@ -337,6 +317,15 @@ class Brew(Model):
         if limit is not None:
             query = query.limit(limit)
         return query.order_by(desc(cls.created)).all()
+
+    @property
+    def full_name(self):
+        parts = []
+        if self.code:
+            parts.append('#%s' % self.code)
+        parts.append(self.name)
+        return u' '.join(parts)
+
 
 ## events: Brew model
 def brew_pre_save(mapper, connection, target):

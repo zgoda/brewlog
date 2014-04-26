@@ -5,7 +5,7 @@ from sqlalchemy import desc
 import markdown
 
 from brewlog.db import session as dbsession
-from brewlog.utils.models import get_or_404, Pagination, paginate
+from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 from brewlog.forms.base import DeleteForm
 from brewlog.models import tasting_notes
 from brewlog.models.brewing import Brew
@@ -15,10 +15,7 @@ from brewlog.tasting.forms import TastingNoteForm
 
 def all():
     page_size = 20
-    try:
-        page = int(request.args.get('p', '1'))
-    except ValueError:
-        page = 1
+    page = get_page(request)
     if current_user.is_anonymous():
         query = tasting_notes()
     else:
@@ -30,6 +27,7 @@ def all():
         'notes': paginate(query.order_by(desc(TastingNote.date)), page-1, page_size)
     }
     return render_template('tasting/list.html', **context)
+
 
 @login_required
 def brew_add_tasting_note(brew_id):
@@ -47,6 +45,7 @@ def brew_add_tasting_note(brew_id):
         'form': form,
     }
     return render_template('tasting/tasting_note.html', **ctx)
+
 
 @login_required
 def brew_delete_tasting_note(note_id):
@@ -69,6 +68,7 @@ def brew_delete_tasting_note(note_id):
     }
     return render_template('tasting/tasting_note_delete.html', **ctx)
 
+
 def brew_load_tasting_note_text():
     provided_id = request.args.get('id')
     if not provided_id:
@@ -78,6 +78,7 @@ def brew_load_tasting_note_text():
     if note is None:
         abort(404)
     return note.text
+
 
 @login_required
 def brew_update_tasting_note():

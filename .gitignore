@@ -9,3 +9,5 @@ docs/_build/
 *.log
 secrets.py
 config_local.py
+.coverage
+

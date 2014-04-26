@@ -13,6 +13,6 @@
 <form method="post" action="{{ url_for('brewery-delete', brewery_id=brewery.id) }}">
     {{ delete_form.hidden_tag() }}
     {{ delete_form.delete_it() }}
-    <button type="submit" class="button small radius">{{ gettext("Yes, delete it") }}</button>
+    <button type="submit" class="button small radius alert">{{ gettext("Yes, delete it") }}</button>
 </form>
 {% endblock %}
