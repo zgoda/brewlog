@@ -15,6 +15,7 @@ login_manager = LoginManager()
 babel = Babel()
 pages = FlatPages()
 
+
 def make_app(env):  # pragma: no cover
     app = Flask(__name__)
     app.config.from_object('brewlog.config')
@@ -58,9 +59,8 @@ def make_app(env):  # pragma: no cover
             lang = request.accept_languages.best_match(['pl', 'en'])
         return lang
 
-
     pages.init_app(app)
-    pages.get('foo') # preload all static pages
+    pages.get('foo')  # preload all static pages
 
     routes.register(app)
 

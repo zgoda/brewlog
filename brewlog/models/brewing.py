@@ -318,6 +318,14 @@ class Brew(Model):
             query = query.limit(limit)
         return query.order_by(desc(cls.created)).all()
 
+    @property
+    def full_name(self):
+        parts = []
+        if self.code:
+            parts.append('#%s' % self.code)
+        parts.append(self.name)
+        return u' '.join(parts)
+
 
 ## events: Brew model
 def brew_pre_save(mapper, connection, target):
