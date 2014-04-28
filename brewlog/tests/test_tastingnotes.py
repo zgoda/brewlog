@@ -115,6 +115,17 @@ class TastingNoteTestCase(BrewlogTestCase):
             rv = client.post(url, data={'delete_it': True}, follow_redirects=True)
             self.assertNotIn(note.text.encode('utf-8'), rv.data)
 
+    def test_delete_by_public(self):
+        """
+        Not involved in logged users can't delete notes
+        """
+        note = TastingNote.create_for(self.brew, self.regular_user, 'Nice beer, cheers!', commit=True)
+        url = url_for('tastingnote-delete', note_id=note.id)
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brew_indirect.brewery.brewer.email)
+            rv = client.post(url, data={'delete_it': True}, follow_redirects=True)
+            self.assertEqual(rv.status_code, 403)
+
     def test_anon_cant_edit_notes(self):
         """
         Anonymous user brew details view does not contain js to edit note texts
