@@ -56,7 +56,6 @@
 <h3>{{ gettext("fermentation and packaging").capitalize() }}</h3>
 <ul>
     <li><strong>{{ gettext("fermentation start date").capitalize() }}:</strong> {% if brew.fermentation_start_date %}{{ brew.fermentation_start_date|dateformat("short") }}{% endif %}</li>
-    <li><strong>{{ gettext("fermentation temperature").capitalize() }}:</strong> {% if brew.fermentation_temperature %}{{ brew.fermentation_temperature }}&deg;C{% endif %}</li>
     <li><strong>{{ gettext("bottling date").capitalize() }}:</strong> {% if brew.bottling_date %}{{ brew.bottling_date|dateformat("short") }}{% endif %}</li>
     <li><strong>{{ gettext("carbonation data").capitalize() }}:</strong> {{ brew.carbonation_data_display|e }}</li>
     {% if brew.carbonation_used %}<li><strong>{{ gettext("carbonation used").capitalize() }}: </strong> {{ brew.carbonation_used|e }}</li>{% endif %}

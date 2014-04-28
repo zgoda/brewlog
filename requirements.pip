@@ -9,7 +9,6 @@ Flask-Login
 Flask-FlatPages
 PyYAML
 Markdown
-MySQL-python
 psycopg2
 SQLAlchemy
 Werkzeug
@@ -37,4 +36,3 @@ twill
 fixture
 coverage
 mock
-

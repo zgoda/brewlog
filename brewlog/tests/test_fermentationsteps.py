@@ -90,3 +90,44 @@ class FermentationStepsTestCase(BrewlogTestCase):
             rv = client.post(url, data=data, follow_redirects=True)
             self.assertEqual(rv.status_code, 200)
             self.assertIn(data['name'].encode('utf-8'), rv.data)
+
+    def test_set_og_sets_fg(self):
+        url = url_for('brew-fermentationstep_add', brew_id=self.brew.id)
+        with self.app.test_client() as client:
+            self.login(client, self.brew.brewery.brewer.email)
+            date = datetime.datetime.utcnow() + datetime.timedelta(days=1)
+            data = {
+                'date': date.strftime('%Y-%m-%d'),
+                'name': 'secondary',
+                'og': 2.5,
+            }
+            rv = client.post(url, data=data, follow_redirects=True)
+            self.assertEqual(rv.status_code, 200)
+            step = FermentationStep.query.filter_by(brew=self.brew, name=data['name']).first()
+            prev_step = step.previous()
+            self.assertEqual(prev_step.fg, step.og)
+
+    def test_set_fg_changes_og(self):
+        url = url_for('brew-fermentationstep_add', brew_id=self.brew.id)
+        with self.app.test_client() as client:
+            self.login(client, self.brew.brewery.brewer.email)
+            date = datetime.datetime.utcnow() + datetime.timedelta(days=1)
+            data_secondary = {
+                'date': date.strftime('%Y-%m-%d'),
+                'name': 'secondary',
+                'og': 3,
+                'notes': 'secondary fermentation',
+            }
+            rv = client.post(url, data=data_secondary, follow_redirects=True)
+            self.assertEqual(rv.status_code, 200)
+            url = url_for('brew-fermentation_step', fstep_id=self.fstep.id)
+            data_primary = {
+                'name': 'primary (mod)',
+                'date': self.fstep.date.strftime('%Y-%m-%d'),
+                'og': self.fstep.og,
+                'fg': 2,
+            }
+            rv = client.post(url, data=data_primary, follow_redirects=True)
+            self.assertEqual(rv.status_code, 200)
+            next_step = FermentationStep.query.filter_by(name=data_secondary['name']).first()
+            self.assertEqual(next_step.og, data_primary['fg'])

@@ -155,10 +155,21 @@ def fermentation_step_add(brew_id):
         abort(403)
     form = FermentationStepForm(request.form)
     if form.validate():
-        fermentation_step = form.save(brew=brew)
+        fstep = form.save(brew=brew, save=False)
+        dbsession.add(fstep)
+        previous_step = fstep.previous()
+        if previous_step:
+            previous_step.fg = fstep.og
+            dbsession.add(previous_step)
+        if fstep.fg is not None:
+            next_step = fstep.next()
+            if next_step:
+                next_step.og = fstep.fg
+                dbsession.add(next_step)
+        dbsession.commit()
         flash(_(
             'fermentation step %(step_name)s for brew %(brew_name)s has been created',
-            step_name=fermentation_step.name, brew_name=brew.name
+            step_name=fstep.name, brew_name=brew.name
         ))
     return redirect(brew.absolute_url)
 
@@ -171,7 +182,18 @@ def fermentation_step(fstep_id):
     if request.method == 'POST':
         form = FermentationStepForm(request.form)
         if form.validate():
-            fstep = form.save(fstep.brew, obj=fstep)
+            fstep = form.save(fstep.brew, obj=fstep, save=False)
+            dbsession.add(fstep)
+            previous_step = fstep.previous()
+            if previous_step:
+                previous_step.fg = fstep.og
+                dbsession.add(previous_step)
+            if fstep.fg is not None:
+                next_step = fstep.next()
+                if next_step:
+                    next_step.og = fstep.fg
+                    dbsession.add(next_step)
+            dbsession.commit()
             flash(_(
                 'fermentation step %(step_name)s for brew %(brew_name)s has been updated',
                 step_name=fstep.name, brew_name=fstep.brew.name

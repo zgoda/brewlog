@@ -1,4 +1,5 @@
 import urllib
+import datetime
 
 from flask import url_for
 
@@ -139,6 +140,8 @@ class BreweryTestCase(BrewlogTestCase):
             self.login(client, self.public_brewery.brewer.email)
             data = {
                 'name': 'new brewery',
+                'description': 'new brewery in town',
+                'established_date': datetime.datetime.utcnow().strftime('%Y-%m-%d')
             }
             url = url_for('brewery-add')
             rv = client.post(url, data=data, follow_redirects=True)
