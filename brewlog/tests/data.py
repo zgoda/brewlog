@@ -81,6 +81,8 @@ class BrewData(DataSet):
         name = 'pale ale'
         code = '1'
         created = datetime.datetime.utcnow()
+        carbonation_type = 'bottles with priming'
+        carbonation_level = 'normal'
 
     class brew2:
         brewery = BreweryData.brewery1

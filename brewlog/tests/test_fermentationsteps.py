@@ -204,3 +204,19 @@ class FermentationStepsTestCase(BrewlogTestCase):
             self.assertEqual(rv.status_code, 200)
             step = FermentationStep.query.filter_by(name=self.fstep.name).first()
             self.assertEqual(step.og, data['fg'])
+
+    def test_complete_fermentation_display(self):
+        url = url_for('brew-fermentationstep_add', brew_id=self.brew.id)
+        with self.app.test_client() as client:
+            self.login(client, self.brew.brewery.brewer.email)
+            date = datetime.datetime.utcnow() + datetime.timedelta(days=1)
+            data_secondary = {
+                'date': date.strftime('%Y-%m-%d'),
+                'name': 'secondary',
+                'og': 3,
+                'fg': 2.5,
+                'notes': 'secondary fermentation',
+            }
+            rv = client.post(url, data=data_secondary, follow_redirects=True)
+            self.assertEqual(rv.status_code, 200)
+            self.assertIn('5.5% ABV', rv.data)

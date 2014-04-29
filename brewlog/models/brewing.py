@@ -167,7 +167,6 @@ class Brew(Model):
     sparging = Column(String(200))
     hopping_steps = Column(Text)
     boil_time = Column(Integer)
-    abv = Column(Float(precision=1))
     final_amount = Column(Float(precision=2))
     bottling_date = Column(Date)
     carbonation_type = Column(Enum(*choices.CARBONATION_KEYS))
@@ -301,6 +300,14 @@ class Brew(Model):
         parts.append(self.name)
         return u' '.join(parts)
 
+    @property
+    def abv(self):
+        if self.fg and self.og:
+            from_carbonation = 0
+            if self.carbonation_type.endswith('priming'):
+                from_carbonation = choices.CARB_LEVEL_DATA[self.carbonation_level or 'normal']
+            return abv(self.og, self.fg, from_carbonation)
+
 
 ## events: Brew model
 def brew_pre_save(mapper, connection, target):
@@ -311,11 +318,6 @@ def brew_pre_save(mapper, connection, target):
         target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
     if target.updated is None:
         target.updated = target.created
-    if target.og and target.fg and target.carbonation_type and target.carbonation_level:
-        from_carbonation = 0
-        if target.carbonation_type.endswith(u'priming'):
-            from_carbonation = choices.CARB_LEVEL_DATA[target.carbonation_level or u'normal']
-        target.abv = abv(target.og, target.fg, from_carbonation)
 
 event.listen(Brew, 'before_insert', brew_pre_save)
 event.listen(Brew, 'before_update', brew_pre_save)

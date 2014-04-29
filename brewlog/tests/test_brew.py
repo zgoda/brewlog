@@ -130,6 +130,7 @@ class BrewTestCase(BrewlogTestCase):
                 'brewery': self.hidden_brew_direct.brewery.id,
                 'carbonation_type': 'bottles with priming',
                 'carbonation_level': 'normal',
+                'notes': 'new brew',
             }
             rv = client.post(url, data=data, follow_redirects=True)
             self.assertEqual(rv.status_code, 200)
