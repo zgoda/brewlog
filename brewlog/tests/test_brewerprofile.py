@@ -1,7 +1,7 @@
 from flask import url_for
 
 from brewlog.tests import BrewlogTestCase
-from brewlog.models.users import BrewerProfile, CustomExportTemplate
+from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 
 
 class BrewerProfileTestCase(BrewlogTestCase):
@@ -171,3 +171,51 @@ class ProfileExportTemplatesTestCase(BrewlogTestCase):
             self.login(client, self.user.email)
             rv = client.get(url)
             self.assertEqual(rv.status_code, 403)
+
+    def test_create(self):
+        url = url_for('profile-export_template_add', userid=self.user.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            data = dict(name='new template', text='template')
+            rv = client.post(url, data=data, follow_redirects=True)
+            self.assertEqual(CustomExportTemplate.query.filter_by(user=self.user).count(), 2)
+            self.assertIn(data['name'], rv.data)
+
+
+class LabelTemplatesTestCase(BrewlogTestCase):
+
+    def setUp(self):
+        super(LabelTemplatesTestCase, self).setUp()
+        self.user = BrewerProfile.get_by_email('user1@example.com')
+        self.template = self.user.custom_label_templates.first()
+
+    def test_list_in_profile_page(self):
+        url = url_for('profile-details', userid=self.user.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            rv = client.get(url)
+            self.assertIn(self.template.name, rv.data)
+
+    def test_access_own(self):
+        url = url_for('profile-label_template', userid=self.user.id, tid=self.template.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            rv = client.get(url)
+            self.assertIn(self.template.name, rv.data)
+
+    def test_access_other(self):
+        template = CustomLabelTemplate.query.filter_by(name='custom #2').first()
+        url = url_for('profile-label_template', userid=self.user.id, tid=template.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 403)
+
+    def test_create(self):
+        url = url_for('profile-label_template_add', userid=self.user.id)
+        with self.app.test_client() as client:
+            self.login(client, self.user.email)
+            data = dict(name='new template', text='template')
+            rv = client.post(url, data=data, follow_redirects=True)
+            self.assertEqual(CustomLabelTemplate.query.filter_by(user=self.user).count(), 2)
+            self.assertIn(data['name'], rv.data)

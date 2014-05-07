@@ -44,6 +44,11 @@ class CustomLabelTemplateData(DataSet):
         name = 'custom #1'
         text = '#### {{ brew.name }}'
 
+    class design2:
+        user = BrewerProfileData.user2
+        name = 'custom #2'
+        text = '#### {{ brew.name }}'
+
 
 class CustomExportTemplateData(DataSet):
 
