@@ -8,10 +8,13 @@ from setuptools import setup, find_packages
 setup(
     name='BrewLog',
     version='0.6',
+    author='Jarek Zgoda',
+    author_email='jarek.zgoda@gmail.com',
     long_description=__doc__,
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
+    url='http://github.com/zgoda/brewlog',
     install_requires=(
         'Babel',
         'Flask',
@@ -46,4 +49,3 @@ setup(
         'fixture',
     )
 )
-

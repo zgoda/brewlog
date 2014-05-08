@@ -1,4 +1,8 @@
 recursive-include brewlog/static *
 recursive-include brewlog/templates *
 recursive-include brewlog/translations *
+recursive-include brewlog/pages *
 
+exclude brewlog/secrets.py
+exclude brewlog/config_local.py
+exclude brewlog/config_openshift.py
