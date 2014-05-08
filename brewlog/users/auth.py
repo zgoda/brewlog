@@ -38,5 +38,5 @@ services = {
 
 @google.tokengetter
 @facebook.tokengetter
-def get_access_token():
+def get_access_token():  # pragma: no cover
     return session.get('access_token')

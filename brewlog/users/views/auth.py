@@ -8,7 +8,7 @@ from brewlog.users.auth import services, google, facebook
 from brewlog.models.users import BrewerProfile
 
 
-def select_provider():
+def select_provider():  # pragma: no cover
     session['next'] = request.args.get('next')
     return render_template('auth/select.html')
 
@@ -22,7 +22,7 @@ def remote_login(provider):
     service = services[provider][0]
     if provider == 'local':
         return local_login_callback(request.args.get('email', None))
-    return service.authorize(callback=callback)
+    return service.authorize(callback=callback)  # pragma: no cover
 
 
 @google.authorized_handler
@@ -89,7 +89,7 @@ def local_login_callback(resp):
     else:
         email = 'user@example.com'
     user = BrewerProfile.query.filter_by(email=email).first()
-    if user is None:
+    if user is None:  # pragma: no cover
         user = BrewerProfile(email=email, nick='example user')
         dbsession.add(user)
         dbsession.commit()
