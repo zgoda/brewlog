@@ -113,11 +113,7 @@ def label_template(userid, tid=None):
         if form.validate():
             template = form.save(current_user, template)
             flash(_('your label template %(name)s has been saved', name=template.name))
-            next_ = request.args.get('next')
-            if next_:
-                next_ = url_for(next_)
-            else:
-                next_ = url_for('profile-details', userid=current_user.id)
+            next_ = url_for('profile-details', userid=current_user.id)
             return redirect(next_)
     form = CustomLabelTemplateForm(obj=template)
     ctx = {

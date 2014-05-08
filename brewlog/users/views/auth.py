@@ -12,6 +12,7 @@ def select_provider():
     session['next'] = request.args.get('next')
     return render_template('auth/select.html')
 
+
 def remote_login(provider):
     if services.get(provider) is None:
         flash(_('Service "%(provider)s" is not supported', provider=provider))
@@ -23,8 +24,9 @@ def remote_login(provider):
         return local_login_callback(request.args.get('email', None))
     return service.authorize(callback=callback)
 
+
 @google.authorized_handler
-def google_remote_login_callback(resp):
+def google_remote_login_callback(resp):  # pragma: no cover
     access_token = resp['access_token']
     session['access_token'] = access_token, ''
     if access_token:
@@ -51,8 +53,9 @@ def google_remote_login_callback(resp):
             flash(_('Error receiving profile data from Google: %(code)s', code=r.status_code))
     return redirect(url_for('auth-select-provider'))
 
+
 @facebook.authorized_handler
-def facebook_remote_login_callback(resp):
+def facebook_remote_login_callback(resp):  # pragma: no cover
     if resp is None:
         flash(_('Facebook login error, reason: %(error_reason)s, description: %(error_description)s', **request.args))
         return redirect(url_for('auth-select-provider'))
@@ -79,6 +82,7 @@ def facebook_remote_login_callback(resp):
         return redirect(next_)
     return redirect(url_for('auth-select-provider'))
 
+
 def local_login_callback(resp):
     if resp is not None:
         email = resp
@@ -94,6 +98,7 @@ def local_login_callback(resp):
     flash(_('You have been signed in as %(email)s using local handler', email=email))
     next_ = request.args.get('next') or session.pop('next', None) or url_for('profile-details', userid=user.id)
     return redirect(next_)
+
 
 @login_required
 def logout():

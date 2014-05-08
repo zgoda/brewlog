@@ -29,7 +29,6 @@ class BrewerProfile(UserMixin, Model):
     oauth_service = Column(String(50))
     remote_userid = Column(String(100))
     breweries = relationship('Brewery', cascade='all,delete', lazy='dynamic')
-    ipboard_setups = relationship('IPBoardExportSetup', cascade='all,delete')
     custom_export_templates = relationship('CustomExportTemplate', cascade='all,delete', lazy='dynamic')
     custom_label_templates = relationship('CustomLabelTemplate', cascade='all,delete', lazy='dynamic')
     __table_args__ = (
@@ -106,19 +105,6 @@ def profile_pre_save(mapper, connection, target):
 
 event.listen(BrewerProfile, 'before_insert', profile_pre_save)
 event.listen(BrewerProfile, 'before_update', profile_pre_save)
-
-
-class IPBoardExportSetup(Model):
-    __tablename__ = 'ipboard_export_setup'
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
-    user = relationship('BrewerProfile')
-    service_name = Column(String(50), nullable=False)
-    topic_id = Column(String(50), nullable=False)
-    is_active = Column(Boolean, default=True)
-    __table_args__ = (
-        Index('ipb_user_service', 'user_id', 'service_name'),
-    )
 
 
 class CustomExportTemplate(Model):

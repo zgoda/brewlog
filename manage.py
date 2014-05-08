@@ -9,8 +9,10 @@ from brewlog.db import init_db, clear_db
 class RunTests(Command):
 
     option_list = (
-        Option('labels', nargs='*',
-            help='specify individual tests to be run, in form module_name[.TestCaseName[.test_method]]'),
+        Option(
+            'labels', nargs='*',
+            help='specify individual tests to be run, in form module_name[.TestCaseName[.test_method]]'
+        ),
         Option('-v', '--verbosity', type=int, default=1)
     )
 
@@ -42,10 +44,12 @@ manager.add_command('runserver', Server(port=8080))
 manager.add_command('shell', Shell())
 manager.add_command('test', RunTests(testdir='brewlog/tests'))
 
+
 @manager.command
 def initdb():
     "Initialize empty database if does not exist"
     init_db()
+
 
 @manager.command
 def cleardb():
