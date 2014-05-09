@@ -17,7 +17,7 @@ def profile(userid, **kwargs):
         form = ProfileForm(request.form)
         if form.validate():
             profile = form.save(obj=user_profile)
-            flash(_('your profile data has been updated'))
+            flash(_('your profile data has been updated'), category='success')
             return redirect(profile.absolute_url)
     context = {
         'data': user_profile.nick,
@@ -91,7 +91,7 @@ def export_template(userid, tid=None):
         form = CustomExportTemplateForm(request.form)
         if form.validate():
             template = form.save(current_user, template)
-            flash(_('your export template %(name)s has been saved', name=template.name))
+            flash(_('your export template %(name)s has been saved', name=template.name), category='success')
             return redirect(template.absolute_url)
     form = CustomExportTemplateForm(obj=template)
     ctx = {
@@ -112,7 +112,7 @@ def label_template(userid, tid=None):
         form = CustomLabelTemplateForm(request.form)
         if form.validate():
             template = form.save(current_user, template)
-            flash(_('your label template %(name)s has been saved', name=template.name))
+            flash(_('your label template %(name)s has been saved', name=template.name), category='success')
             next_ = url_for('profile-details', userid=current_user.id)
             return redirect(next_)
     form = CustomLabelTemplateForm(obj=template)

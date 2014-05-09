@@ -1,8 +1,8 @@
 from flask import session
 from flask import current_app as app
-from flask.ext.oauth import OAuth
+from flask.ext.oauthlib.client import OAuth
 
-oauth = OAuth()
+oauth = OAuth(app)
 
 facebook = oauth.remote_app('facebook',
     base_url='https://graph.facebook.com',
@@ -20,23 +20,36 @@ google = oauth.remote_app('google',
     request_token_url=None,
     request_token_params={
         'scope': 'https://www.googleapis.com/auth/userinfo.email',
-        'response_type': 'code',
     },
     access_token_url='https://accounts.google.com/o/oauth2/token',
     access_token_method='POST',
-    access_token_params={'grant_type': 'authorization_code'},
     consumer_key=app.config['AUTH_CONFIG']['google'][0],
     consumer_secret=app.config['AUTH_CONFIG']['google'][1],
+)
+
+github = oauth.remote_app('github',
+    consumer_key=app.config['AUTH_CONFIG']['github'][0],
+    consumer_secret=app.config['AUTH_CONFIG']['github'][1],
+    request_token_params={
+        'scope': 'user:email',
+    },
+    base_url='https://api.github.com/',
+    request_token_url=None,
+    access_token_method='POST',
+    access_token_url='https://github.com/login/oauth/access_token',
+    authorize_url='https://github.com/login/oauth/authorize',
 )
 
 services = {
     'google': (google, 'oauth2'),
     'facebook': (facebook, 'oauth2'),
+    'github': (github, 'oauth2'),
     'local': (None, None),
 }
 
 
 @google.tokengetter
 @facebook.tokengetter
+@github.tokengetter
 def get_access_token():  # pragma: no cover
     return session.get('access_token')

@@ -19,6 +19,7 @@ def login_success(email, access_token, remote_id, service_name, **kwargs):
     dbsession.commit()
     login_user(user)
     session.permanent = True
-    flash(_('You have been signed in as %(email)s using %(service)s', email=email, service=service_name))
+    flash(_('You have been signed in as %(email)s using %(service)s', email=email, service=service_name),
+        category='success')
     next_ = request.args.get('next') or session.pop('next', None) or url_for('profile-details', userid=user.id)
     return redirect(next_)

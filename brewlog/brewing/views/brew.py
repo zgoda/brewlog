@@ -26,7 +26,7 @@ def brew_add():
     if request.method == 'POST':
         if form.validate():
             brew = form.save()
-            flash(_('brew %(name)s created', name=brew.name))
+            flash(_('brew %(name)s created', name=brew.name), category='success')
             return redirect(brew.absolute_url)
     ctx = {
         'form': form,
@@ -43,7 +43,7 @@ def brew(brew_id, **kwargs):
         form = BrewForm(request.form)
         if form.validate():
             brew = form.save(obj=brew)
-            flash(_('brew %(name)s data updated', name=brew.name))
+            flash(_('brew %(name)s data updated', name=brew.name), category='success')
             return redirect(brew.absolute_url)
     if not brew.has_access(current_user):
         abort(404)
@@ -138,7 +138,7 @@ def brew_delete(brew_id):
         if form.validate():
             dbsession.delete(brew)
             dbsession.commit()
-            flash(_('brew %(name)s has been deleted', name=name))
+            flash(_('brew %(name)s has been deleted', name=name), category='success')
             next_ = request.args.get('next') or url_for('profile-brews', userid=current_user.id)
             return redirect(next_)
     ctx = {
@@ -167,10 +167,8 @@ def fermentation_step_add(brew_id):
                 next_step.og = fstep.fg
                 dbsession.add(next_step)
         dbsession.commit()
-        flash(_(
-            'fermentation step %(step_name)s for brew %(brew_name)s has been created',
-            step_name=fstep.name, brew_name=brew.name
-        ))
+        flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been created', step_name=fstep.name,
+            brew_name=brew.name), category='success')
     return redirect(brew.absolute_url)
 
 
@@ -194,10 +192,8 @@ def fermentation_step(fstep_id):
                     next_step.og = fstep.fg
                     dbsession.add(next_step)
             dbsession.commit()
-            flash(_(
-                'fermentation step %(step_name)s for brew %(brew_name)s has been updated',
-                step_name=fstep.name, brew_name=fstep.brew.name
-            ))
+            flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been updated', step_name=fstep.name,
+                brew_name=fstep.brew.name), category='success')
             return redirect(fstep.brew.absolute_url)
     ctx = {
         'form': FermentationStepForm(obj=fstep),
@@ -219,10 +215,8 @@ def fermentation_step_delete(fstep_id):
         if form.validate():
             dbsession.delete(fstep)
             dbsession.commit()
-            flash(_(
-                'fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted',
-                fstep_name=fstep_name, brew_name=brew_name
-            ))
+            flash(_('fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted', fstep_name=fstep_name,
+                brew_name=brew_name), category='success')
             return redirect(next_)
     ctx = {
         'fstep': fstep,

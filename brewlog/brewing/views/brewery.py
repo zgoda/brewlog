@@ -16,7 +16,7 @@ def brewery_add():
     if request.method == 'POST':
         if form.validate():
             brewery = form.save()
-            flash(_('brewery %(name)s created', name=brewery.name))
+            flash(_('brewery %(name)s created', name=brewery.name), category='success')
             return redirect(brewery.absolute_url)
     ctx = {
         'form': form,
@@ -35,7 +35,7 @@ def brewery_delete(brewery_id):
         if form.validate():
             dbsession.delete(brewery)
             dbsession.commit()
-            flash(_('brewery %(name)s has been deleted', name=name))
+            flash(_('brewery %(name)s has been deleted', name=name), category='success')
             next_ = request.args.get('next') or url_for('profile-breweries', userid=current_user.id)
             return redirect(next_)
     ctx = {
@@ -68,7 +68,7 @@ def brewery(brewery_id, **kwargs):
         form = BreweryForm(request.form)
         if form.validate():
             brewery = form.save(obj=brewery)
-            flash(_('brewery %(name)s data updated', name=brewery.name))
+            flash(_('brewery %(name)s data updated', name=brewery.name), category='success')
             return redirect(brewery.absolute_url)
     if not brewery.has_access(current_user):
         abort(404)
