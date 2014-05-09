@@ -27,7 +27,7 @@ class BrewerProfileData(DataSet):
     class hidden0:
         email = 'hidden0@example.com'
         nick = 'hidden user'
-        created = datetime.datetime.utcnow()
+        created = datetime.datetime.utcnow() + datetime.timedelta(days=1)
         is_public = False
 
     class hidden1:

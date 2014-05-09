@@ -30,3 +30,9 @@ class AuthTestCase(BrewlogTestCase):
             rv = client.get(url)
             self.assertEqual(rv.status_code, 302)
             self.assertIn(url_for('main'), rv.headers['Location'])
+
+    def test_create_new_user_on_login(self):
+        email = 'john.doe@acme.com'
+        with self.app.test_client() as client:
+            self.login(client, email)
+            self.assertIsNotNone(BrewerProfile.get_by_email(email))

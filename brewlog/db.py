@@ -15,7 +15,7 @@ session = scoped_session(lambda: create_session(
     bind=engine,
     autocommit=False,
     autoflush=True,
-    expire_on_commit=True,
+    expire_on_commit=False,
 ))
 
 

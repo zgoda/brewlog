@@ -1,11 +1,10 @@
 import requests
 from flask import render_template, redirect, url_for, session, flash, request
 from flask.ext.babel import gettext as _
-from flask.ext.login import login_user, logout_user, login_required
+from flask.ext.login import logout_user, login_required
 
-from brewlog.db import session as dbsession
 from brewlog.users.auth import services, google, facebook
-from brewlog.models.users import BrewerProfile
+from brewlog.users.utils import login_success
 
 
 def select_provider():  # pragma: no cover
@@ -36,19 +35,7 @@ def google_remote_login_callback(resp):  # pragma: no cover
         r = requests.get('https://www.googleapis.com/oauth2/v1/userinfo', headers=headers)
         if r.ok:
             data = r.json()
-            user = BrewerProfile.query.filter_by(email=data['email']).first()
-            if user is None:
-                user = BrewerProfile(email=data['email'])
-            user.access_token = access_token
-            user.remote_userid = data['id']
-            user.oauth_service = 'google'
-            dbsession.add(user)
-            dbsession.commit()
-            login_user(user)
-            session.permanent = True
-            flash(_('You have been signed in as %(email)s using Google', email=data['email']))
-            next_ = request.args.get('next') or session.pop('next', None) or url_for('profile-details', userid=user.id)
-            return redirect(next_)
+            return login_success(data['email'], access_token, data['id'], 'google')
         else:
             flash(_('Error receiving profile data from Google: %(code)s', code=r.status_code))
     return redirect(url_for('auth-select-provider'))
@@ -63,23 +50,11 @@ def facebook_remote_login_callback(resp):  # pragma: no cover
     session['access_token'] = access_token, ''
     if access_token:
         me = facebook.get('/me')
-        user = BrewerProfile.query.filter_by(email=me.data['email']).first()
-        if user is None:
-            user = BrewerProfile(
-                email=me.data['email'],
-                first_name=me.data['first_name'],
-                last_name=me.data['last_name'],
-            )
-        user.access_token = access_token
-        user.oauth_service = 'facebook'
-        user.remote_userid = me.data['id']
-        dbsession.add(user)
-        dbsession.commit()
-        login_user(user)
-        session.permanent = True
-        flash(_('You have been signed in as %(email)s using Facebook', email=me.data['email']))
-        next_ = request.args.get('next') or session.pop('next', None) or url_for('profile-details', userid=user.id)
-        return redirect(next_)
+        kw = {
+            'first_name': me.data['first_name'],
+            'last_name': me.data['last_name'],
+        }
+        return login_success(me.data['email'], access_token, me.data['id'], 'facebook', **kw)
     return redirect(url_for('auth-select-provider'))
 
 
@@ -88,16 +63,7 @@ def local_login_callback(resp):
         email = resp
     else:
         email = 'user@example.com'
-    user = BrewerProfile.query.filter_by(email=email).first()
-    if user is None:  # pragma: no cover
-        user = BrewerProfile(email=email, nick='example user')
-        dbsession.add(user)
-        dbsession.commit()
-    login_user(user)
-    session.permanent = True
-    flash(_('You have been signed in as %(email)s using local handler', email=email))
-    next_ = request.args.get('next') or session.pop('next', None) or url_for('profile-details', userid=user.id)
-    return redirect(next_)
+    return login_success(email, 'dummy', 'dummy', 'local handler', nick='example user')
 
 
 @login_required

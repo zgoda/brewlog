@@ -53,7 +53,7 @@ class MainPageTestCase(BrewlogTestCase):
             rv = client.get(self.main_url)
             self.assertIn('>my profile</a>', rv.data)
             # public profiles only
-            self.assertIn('example user', rv.data)
+            self.assertIn(user.name, rv.data)
             self.assertNotIn('hidden user', rv.data)
             # public breweries only
             self.assertIn('brewery #1', rv.data)
@@ -69,7 +69,7 @@ class MainPageTestCase(BrewlogTestCase):
             rv = client.get(self.main_url)
             # public profiles and own
             self.assertIn('example user', rv.data)
-            self.assertIn('hidden user', rv.data)
+            self.assertIn(user.name, rv.data)
             # public breweries and own
             self.assertIn('brewery #1', rv.data)
             self.assertIn('hidden brewery #1', rv.data)
