@@ -41,6 +41,7 @@ def make_app(env):  # pragma: no cover
     def inject():
         return {
             'DEV': app.config['DEBUG'],
+            'TESTING': app.config['TESTING'],
             'user': current_user,
             'flashes': get_flashed_messages(with_categories=True),
         }
@@ -48,7 +49,7 @@ def make_app(env):  # pragma: no cover
     login_manager.init_app(app)
     login_manager.login_view = 'auth-select-provider'
     login_manager.login_message = _('Please log in to access this page')
-    login_manager.login_message_category = 'info'
+    login_manager.login_message_category = 'warning'
 
     babel.init_app(app)
 

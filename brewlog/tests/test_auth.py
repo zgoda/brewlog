@@ -11,7 +11,7 @@ class AuthTestCase(BrewlogTestCase):
         with self.app.test_client() as client:
             rv = client.get(url)
             self.assertEqual(rv.status_code, 200)
-            for x in [url_for('auth-login', provider=p) for p in ('google', 'facebook', 'local')]:
+            for x in [url_for('auth-login', provider=p) for p in ('google', 'facebook', 'local', 'github')]:
                 self.assertIn('href="%s"' % x, rv.data)
 
     def test_invalid_provider_selected(self):
