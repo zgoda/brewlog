@@ -8,6 +8,7 @@ routes = RouteMap('brewlog', [
         Route('/<provider>', 'login', 'remote_login'),
         Route('/google/callback', 'callback-google', 'google_remote_login_callback'),
         Route('/facebook/callback', 'callback-facebook', 'facebook_remote_login_callback'),
+        Route('/github/callback', 'callback-github', 'github_remote_login_callback'),
         Route('/local/callback', 'callback-local', 'local_login_callback'),
         Route('/logout', 'logout', 'logout'),
     ]),
@@ -18,7 +19,7 @@ routes = RouteMap('brewlog', [
         Route('/<int:userid>/brews', 'brews', 'brews'),
         Route('/<int:userid>/extemplate', 'export_template_add', 'export_template', methods=['POST', 'GET'], defaults={'tid': None}),
         Route('/<int:userid>/extemplate/<int:tid>', 'export_template', 'export_template', methods=['POST', 'GET']),
-        Route('/<int:userid>/lbtemplate', 'label_template_add', 'label_template',  methods=['POST', 'GET'], defaults={'tid': None}),
+        Route('/<int:userid>/lbtemplate', 'label_template_add', 'label_template', methods=['POST', 'GET'], defaults={'tid': None}),
         Route('/<int:userid>/lbtemplate/<int:tid>', 'label_template', 'label_template', methods=['POST', 'GET']),
     ]),
     RouteCluster(endpoint_prefix='brewery-', submount='/brewery', view_module='brewing.views.brewery', rules=[

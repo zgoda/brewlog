@@ -42,7 +42,7 @@ def make_app(env):  # pragma: no cover
         return {
             'DEV': app.config['DEBUG'],
             'user': current_user,
-            'flashes': get_flashed_messages(),
+            'flashes': get_flashed_messages(with_categories=True),
         }
 
     login_manager.init_app(app)

@@ -58,8 +58,8 @@
         {% block flash %}
         {% if flashes %}
         <div class="small-12 columns">
-            {% for flash in flashes %}
-            <div data-alert class="alert-box">
+            {% for category, flash in flashes %}
+            <div data-alert class="alert-box radius {{ category }}">
                 {{ flash }}
                 <a href="#" class="close">&times;</a>
             </div>
