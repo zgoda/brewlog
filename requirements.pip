@@ -19,12 +19,10 @@ pytz>0a
 speaklater
 requests
 oauthlib
-httplib2
 MarkupSafe
 translitcodec
 python-dateutil
 six
-blinker
 
 # database migrations
 alembic
