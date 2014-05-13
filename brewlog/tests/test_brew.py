@@ -1,5 +1,7 @@
 from flask import url_for
 
+from brewlog.db import session as dbsession
+from brewlog.utils.brewing import aa, ra
 from brewlog.tests import BrewlogTestCase
 from brewlog.models.brewing import Brew, Brewery
 from brewlog.models.users import BrewerProfile, CustomLabelTemplate
@@ -198,6 +200,31 @@ class BrewTestCase(BrewlogTestCase):
             self.login(client, self.hidden_user.email)
             rv = client.post(url, data={'delete_it': True})
             self.assertEqual(rv.status_code, 403)
+
+
+class BrewAttenuationTestCase(BrewlogTestCase):
+
+    def setUp(self):
+        super(BrewAttenuationTestCase, self).setUp()
+        self.brew = Brew.query.filter_by(name='pale ale').first()
+
+    def test_attenuation_none_display(self):
+        url = url_for('brew-details', brew_id=self.brew.id)
+        with self.app.test_client() as client:
+            self.login(client, self.brew.brewery.brewer.email)
+            rv = client.get(url)
+            self.assertEqual(self.brew.attenuation['apparent'], 0)
+            self.assertEqual(self.brew.attenuation['real'], 0)
+            self.assertNotIn('apparent', rv.data)
+
+    def test_og_fg_set(self):
+        fs = self.brew.fermentation_steps.first()
+        fs.fg = 2.5
+        dbsession.add(fs)
+        dbsession.flush()
+        attenuation = self.brew.attenuation
+        self.assertEqual(attenuation['apparent'], aa(self.brew.og, self.brew.fg))
+        self.assertEqual(attenuation['real'], ra(self.brew.og, self.brew.fg))
 
 
 class BrewExportTestCase(BrewlogTestCase):
