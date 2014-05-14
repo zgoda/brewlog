@@ -15,6 +15,7 @@ routes = RouteMap('brewlog', [
     RouteCluster(endpoint_prefix='profile-', submount='/profile', view_module='users.views.profile', rules=[
         Route('/all', 'all', 'profile_list'),
         Route('/<int:userid>', 'details', 'profile', methods=['POST', 'GET']),
+        Route('/<int:userid>/delete', 'delete', 'profile_delete', methods=['POST', 'GET']),
         Route('/<int:userid>/breweries', 'breweries', 'breweries'),
         Route('/<int:userid>/brews', 'brews', 'brews'),
         Route('/<int:userid>/extemplate', 'export_template_add', 'export_template', methods=['POST', 'GET'], defaults={'tid': None}),

@@ -91,6 +91,33 @@ class BrewerProfileTestCase(BrewlogTestCase):
             rv = client.get(profile_url)
             self.assertEqual(rv.status_code, 404)
 
+    def test_owner_sees_delete_form(self):
+        user = BrewerProfile.get_by_email('user@example.com')
+        url = url_for('profile-delete', userid=user.id)
+        with self.app.test_client() as client:
+            self.login(client, user.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 200)
+            self.assertIn('action="%s"' % url, rv.data)
+
+    def test_public_cant_access_delete_form(self):
+        hidden = BrewerProfile.get_by_email('hidden1@example.com')
+        user = BrewerProfile.get_by_email('user@example.com')
+        url = url_for('profile-delete', userid=user.id)
+        with self.app.test_client() as client:
+            self.login(client, hidden.email)
+            rv = client.get(url)
+            self.assertEqual(rv.status_code, 403)
+
+    def test_delete_profile(self):
+        hidden = BrewerProfile.get_by_email('hidden1@example.com')
+        user_id = hidden.id
+        url = url_for('profile-delete', userid=user_id)
+        with self.app.test_client() as client:
+            self.login(client, hidden.email)
+            client.post(url, data={'delete_it': True}, follow_redirects=True)
+            self.assertIsNone(BrewerProfile.query.get(user_id))
+
 
 class ProfileBrewsTestCase(BrewlogTestCase):
 

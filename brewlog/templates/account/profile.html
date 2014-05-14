@@ -12,6 +12,8 @@
 <form action="{{ profile.absolute_url }}" method="post" class="custom">
     {{ forms.render(form) }}
 </form>
+<h3>{{ gettext("delete account").capitalize() }}</h3>
+<p><a href="{{ url_for('profile-delete', userid=profile.id) }}" class="button tiny radius alert">{{ gettext("delete my account") }}</a></p>
 <h3>{{ gettext("user customizations").capitalize() }}</h3>
 <h4>{{ gettext("custom recipe export templates").capitalize() }}</h4>
 {% if profile.custom_export_templates %}

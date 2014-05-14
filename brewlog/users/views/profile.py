@@ -1,12 +1,14 @@
 from flask import render_template, redirect, url_for, flash, request, abort
-from flask.ext.login import current_user, login_required
+from flask.ext.login import current_user, login_required, logout_user
 from flask.ext.babel import gettext as _
 from sqlalchemy import desc
 
+from brewlog.db import session as dbsession
 from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 from brewlog.models.brewing import Brewery, Brew
 from brewlog.users.forms import ProfileForm, CustomExportTemplateForm, CustomLabelTemplateForm
+from brewlog.forms.base import DeleteForm
 
 
 def profile(userid, **kwargs):
@@ -33,6 +35,27 @@ def profile(userid, **kwargs):
     if user_profile == current_user:
         context['form'] = ProfileForm(obj=user_profile)
     return render_template('account/profile.html', **context)
+
+
+@login_required
+def profile_delete(userid):
+    profile = get_or_404(BrewerProfile, userid)
+    if current_user != profile:
+        abort(403)
+    email = profile.email
+    form = DeleteForm(request.form)
+    if request.method == 'POST':
+        if form.validate():
+            logout_user()
+            dbsession.delete(profile)
+            dbsession.commit()
+            flash(_('profile for %(email)s has been deleted', email=email), category='success')
+            return redirect(url_for('main'))
+    ctx = {
+        'profile': profile,
+        'delete_form': form,
+    }
+    return render_template('account/delete.html', **ctx)
 
 
 def profile_list():
