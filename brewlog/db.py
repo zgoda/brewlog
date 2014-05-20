@@ -34,9 +34,11 @@ Model.query = session.query_property()
 
 def init_db():
     import models
+    import models.calendar
     Model.metadata.create_all(bind=engine)
 
 
 def clear_db():
     import models
+    import models.calendar
     Model.metadata.drop_all(bind=engine)

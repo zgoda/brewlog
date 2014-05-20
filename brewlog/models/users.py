@@ -29,8 +29,11 @@ class BrewerProfile(UserMixin, Model):
     oauth_service = Column(String(50))
     remote_userid = Column(String(100))
     breweries = relationship('Brewery', cascade='all,delete', lazy='dynamic')
-    custom_export_templates = relationship('CustomExportTemplate', cascade='all,delete', lazy='dynamic')
-    custom_label_templates = relationship('CustomLabelTemplate', cascade='all,delete', lazy='dynamic')
+    custom_export_templates = relationship('CustomExportTemplate', cascade='all,delete', lazy='dynamic',
+        order_by='CustomExportTemplate.name')
+    custom_label_templates = relationship('CustomLabelTemplate', cascade='all,delete', lazy='dynamic',
+        order_by='CustomLabelTemplate.name')
+    calendars = relationship('RemoteCalendar', cascade='all,delete', lazy='dynamic', order_by='RemoteCalendar.name')
     __table_args__ = (
         Index('user_remote_id', 'oauth_service', 'remote_userid'),
     )

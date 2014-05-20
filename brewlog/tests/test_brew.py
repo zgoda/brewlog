@@ -202,6 +202,40 @@ class BrewTestCase(BrewlogTestCase):
             self.assertEqual(rv.status_code, 403)
 
 
+class BrewListsTestCase(BrewlogTestCase):
+
+    def setUp(self):
+        super(BrewListsTestCase, self).setUp()
+        self.brewer = BrewerProfile.get_by_email('user1@example.com')
+        self.hidden_user = BrewerProfile.get_by_email('hidden1@example.com')
+
+    def test_list_public_only_in_public_brewery(self):
+        brew_ids = [x.id for x in Brew.get_latest_for(self.brewer, public_only=True)]
+        hidden_brews = [x.id for x in Brew.query.join(Brewery).filter(
+            Brewery.brewer==self.brewer, Brew.is_public==False
+        ).all()]
+        for x in hidden_brews:
+            self.assertNotIn(x, brew_ids)
+
+    def test_list_all_in_public_brewery(self):
+        brew_ids = [x.id for x in Brew.get_latest_for(self.brewer, public_only=False)]
+        self.assertEqual(len(brew_ids), 2)
+
+    def test_list_public_in_hidden_brewery(self):
+        brew_ids = [x.id for x in Brew.get_latest_for(self.hidden_user, public_only=True)]
+        self.assertEqual(len(brew_ids), 0)
+
+    def test_limit_public_only_in_public_brewery(self):
+        limit = 0
+        brew_ids = [x.id for x in Brew.get_latest_for(self.brewer, public_only=True, limit=limit)]
+        self.assertEqual(len(brew_ids), limit)
+
+    def test_limit_all_in_public_brewery(self):
+        limit = 1
+        brew_ids = [x.id for x in Brew.get_latest_for(self.brewer, public_only=False, limit=limit)]
+        self.assertEqual(len(brew_ids), limit)
+
+
 class BrewAttenuationTestCase(BrewlogTestCase):
 
     def setUp(self):

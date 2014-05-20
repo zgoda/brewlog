@@ -26,9 +26,9 @@ def remote_login(provider):
 
 @google.authorized_handler
 def google_remote_login_callback(resp):  # pragma: no cover
-    access_token = resp['access_token']
-    session['access_token'] = access_token, ''
+    access_token = resp.get('access_token')
     if access_token:
+        session['access_token'] = access_token, ''
         headers = {
             'Authorization': 'OAuth %s' % access_token,
         }

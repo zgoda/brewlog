@@ -115,7 +115,8 @@ class FermentationStep(Model):
     def __unicode__(self):  # pragma: no cover
         return u'<FermentationStep %s for %s @%s>' % (self.name, self.brew.name, self.date.strftime('%Y-%m-%d'))
 
-    def step_data(self):
+    def step_data(self):  # pragma: no cover
+        # FIXME: this is not used by now
         return {
             'og': self.og or _('unspecified'),
             'fg': self.fg or _('unspecified'),
@@ -176,14 +177,11 @@ class Brew(Model):
     is_draft = Column(Boolean, default=False)
     brewery_id = Column(Integer, ForeignKey('brewery.id'), nullable=False)
     brewery = relationship('Brewery')
-    tasting_notes = relationship(
-        'TastingNote', cascade='all,delete', lazy='dynamic',
-        order_by='desc(TastingNote.date)'
-    )
-    fermentation_steps = relationship(
-        'FermentationStep', cascade='all,delete', lazy='dynamic',
-        order_by='asc(FermentationStep.date)'
-    )
+    tasting_notes = relationship('TastingNote', cascade='all,delete', lazy='dynamic',
+        order_by='desc(TastingNote.date)')
+    fermentation_steps = relationship('FermentationStep', cascade='all,delete', lazy='dynamic',
+        order_by='asc(FermentationStep.date)')
+    events = relationship('Event', cascade='all,delete', lazy='dynamic', order_by='asc(Event.date)')
 
     def __unicode__(self):  # pragma: no cover
         return u'<Brew %s by %s>' % (self.name, self.brewery.name)
@@ -285,12 +283,15 @@ class Brew(Model):
 
     @classmethod
     def get_latest_for(cls, user, public_only=False, limit=None):
+        if public_only and not user.is_public:
+            return []
         query = cls.query.join(Brewery).filter(Brewery.brewer==user)
         if public_only:
-            query = query.filter_by(is_public=True)
+            query = query.filter(Brew.is_public==True)
+        query = query.order_by(desc(cls.created))
         if limit is not None:
             query = query.limit(limit)
-        return query.order_by(desc(cls.created)).all()
+        return query.all()
 
     @property
     def full_name(self):

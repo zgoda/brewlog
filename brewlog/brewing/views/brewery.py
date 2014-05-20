@@ -32,7 +32,7 @@ def brewery_delete(brewery_id):
     form = DeleteForm(request.form)
     if request.method == 'POST':
         name = brewery.name
-        if form.validate():
+        if form.validate() and form.delete_it.data:
             dbsession.delete(brewery)
             dbsession.commit()
             flash(_('brewery %(name)s has been deleted', name=name), category='success')

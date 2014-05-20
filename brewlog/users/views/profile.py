@@ -7,6 +7,7 @@ from brewlog.db import session as dbsession
 from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 from brewlog.models.brewing import Brewery, Brew
+from brewlog.models.calendar import Event
 from brewlog.users.forms import ProfileForm, CustomExportTemplateForm, CustomLabelTemplateForm
 from brewlog.forms.base import DeleteForm
 
@@ -26,6 +27,7 @@ def profile(userid, **kwargs):
         'data_type': 'summary',
         'profile': user_profile,
         'latest_brews': Brew.get_latest_for(user_profile),
+        'latest_events': Event.get_latest_for(user_profile),
     }
     if user_profile.has_access(current_user):
         context['data'] = user_profile.full_data()
@@ -45,7 +47,7 @@ def profile_delete(userid):
     email = profile.email
     form = DeleteForm(request.form)
     if request.method == 'POST':
-        if form.validate():
+        if form.validate() and form.delete_it.data:
             logout_user()
             dbsession.delete(profile)
             dbsession.commit()

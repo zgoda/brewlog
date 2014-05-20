@@ -1,0 +1,13 @@
+{% extends "account/base.html" %}
+{% import "macros/forms.html" as forms %}
+
+{% block headpagetitle %}{% if calendar %}{{ gettext("remote calendar %(name)s", name=calendar.name)|e }}{% else %}{{ gettext("new remote calendar") }}{% endif %}{% endblock %}
+
+{% block content %}
+<h3>{% if calendar %}{{ gettext("remote calendar %(name)s", name=calendar.name).capitalize() }}{% else %}{{ gettext("new remote calendar").capitalize() }}{% endif %}</h3>
+{% if remote_calendars %}
+<ul>
+	{% for item in remote_calendars %}<li>{{ item['summary'] }}</li>{% endfor %}
+</ul>
+{% endif %}
+{% endblock %}

@@ -24,6 +24,7 @@ def main():
     }
     return render_template('home.html', **ctx)
 
+
 def flatpage(path):  # pragma: no cover
     page = pages.get_or_404(path)
     template = page.meta.get('template', 'flatpage.html')

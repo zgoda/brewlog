@@ -72,5 +72,6 @@ def make_app(env):  # pragma: no cover
 
 @login_manager.user_loader
 def get_user(userid):
+    import models.calendar
     from models.users import BrewerProfile
     return BrewerProfile.query.get(userid)

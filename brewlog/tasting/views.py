@@ -55,7 +55,7 @@ def brew_delete_tasting_note(note_id):
     brew = note.brew
     form = DeleteForm(request.form)
     if request.method == 'POST':
-        if form.validate():
+        if form.validate() and form.delete_it.data:
             dbsession.delete(note)
             dbsession.commit()
             flash(_('tasting note for brew %(brew)s has been deleted', brew=brew.name), category='success')
