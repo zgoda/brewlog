@@ -1,17 +1,27 @@
-from wtforms import BooleanField
-from flask.ext.wtf import Form
+import datetime
+
+from flask import current_app, session
+from wtforms import BooleanField, Form
+from wtforms.csrf.session import SessionCSRF
 from flask.ext.babel import lazy_gettext as _
 
-from brewlog import dbsession as session
+from brewlog import dbsession
 
 
 class BaseForm(Form):
 
+    class Meta:
+        csrf = current_app.config['CSRF_ENABLED']
+        csrf_class = SessionCSRF
+        csrf_secret = current_app.config['CSRF_SESSION_KEY']
+        csrf_time_limit = datetime.timedelta(minutes=20)
+        csrf_context = session
+
     def save(self, obj, save=False):
         self.populate_obj(obj)
         if save:
-            session.add(obj)
-            session.commit()
+            dbsession.add(obj)
+            dbsession.commit()
         return obj
 
 

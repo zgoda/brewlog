@@ -3,7 +3,6 @@ Babel
 Flask
 Flask-Babel
 Flask-Script
-Flask-WTF
 Flask-OAuthlib
 Flask-Login
 Flask-FlatPages
@@ -14,7 +13,7 @@ SQLAlchemy
 Werkzeug
 itsdangerous
 Jinja2>2.6
-WTForms>1.0.3,<2
+WTForms
 pytz>0a
 speaklater
 requests

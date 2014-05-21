@@ -1,7 +1,7 @@
 {% macro render(form) -%}
 {% set hints = kwargs.pop('hints', None) %}
 {% if form %}
-{{ form.hidden_tag() }}
+{{ form.csrf_token }}
 <fieldset>
 {% for field in form %}
 {% if not field.type in ['CSRFTokenField', 'HiddenField'] %}
