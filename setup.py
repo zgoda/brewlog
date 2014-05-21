@@ -20,7 +20,6 @@ setup(
         'Flask',
         'Flask-Babel',
         'Flask-Script',
-        'Flask-WTF',
         'Flask-OAuthlib',
         'Flask-Login',
         'Flask-FlatPages',

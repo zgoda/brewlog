@@ -6,7 +6,7 @@
 <h3>{{ brew.name }}</h3>
 <p>{{ gettext("Brew %(name)s is about to be deleted with all its content. As this process is irreversible we're asking you again, is this really what you want do do?", name=brew.name) }}</p>
 <form method="post" action="{{ url_for('brew-delete', brew_id=brew.id) }}">
-    {{ delete_form.hidden_tag() }}
+    {{ delete_form.csrf_token }}
     {{ delete_form.delete_it() }}
     <button type="submit" class="button small radius alert">{{ gettext("Yes, delete it") }}</button>
 </form>
