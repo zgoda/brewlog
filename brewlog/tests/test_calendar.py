@@ -77,6 +77,7 @@ class CalendarTestCase(BrewlogTestCase):
             }
             rv = client.post(url, data=data, follow_redirects=True)
             self.assertEqual(rv.status_code, 200)
+            self.assertIn(data['title'], rv.data)
             event = Event.query.get(event.id)
             self.assertEqual(event.title, data['title'])
 
@@ -106,6 +107,16 @@ class CalendarTestCase(BrewlogTestCase):
             rv = client.post(url, data={'delete_it': True}, follow_redirects=True)
             self.assertEqual(rv.status_code, 200)
             self.assertIsNone(Event.query.get(event_id))
+
+    def test_delete_attempt_not_checked(self):
+        event = Event.query.filter_by(brew=self.brew).first()
+        event_id = event.id
+        url = url_for('brew-brewevent_delete', event_id=event_id)
+        with self.app.test_client() as client:
+            self.login(client, self.brew.brewery.brewer.email)
+            rv = client.post(url, data={'delete_it': 'false'}, follow_redirects=True)
+            self.assertEqual(rv.status_code, 200)
+            self.assertIsNotNone(Event.query.get(event_id))
 
 
 class EventListsTestCase(BrewlogTestCase):
