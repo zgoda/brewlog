@@ -49,6 +49,18 @@ $(document).ready(function() {
 </div>
 </dd>
 <dd>
+<a href="#panel-fermentation-data">{{ gettext("fermentation data").capitalize() }}</a>
+<div id="panel-fermentation-data" class="content">
+{% for fstep in brew.fermentation_steps.all() %}
+{% include "brew/include/fermentation_step.html" %}
+{% endfor %}
+<h4>{{ gettext("add fermentation step").capitalize() }}</h4>
+<form method="post" action="{{ url_for('brew-fermentationstep_add', brew_id=brew.id) }}" class="custom">
+{{ forms.render(fermentation_step_form) }}
+</form>
+</div>
+</dd>
+<dd>
 <a href="#panel-event-data">{{ gettext("events").capitalize() }}</a>
 <div id="panel-event-data" class="content">
 {% for event in brew.events.all() %}

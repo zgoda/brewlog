@@ -115,8 +115,7 @@ class FermentationStep(Model):
     def __unicode__(self):  # pragma: no cover
         return u'<FermentationStep %s for %s @%s>' % (self.name, self.brew.name, self.date.strftime('%Y-%m-%d'))
 
-    def step_data(self):  # pragma: no cover
-        # FIXME: this is not used by now
+    def step_data(self):
         return {
             'og': self.og or _('unspecified'),
             'fg': self.fg or _('unspecified'),
