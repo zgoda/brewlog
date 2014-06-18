@@ -27,7 +27,7 @@ def make_app(env):  # pragma: no cover
         pass
     if os.environ.get('BREWLOG_CONFIG', ''):
         app.config.from_evvar('BREWLOG_CONFIG')
-    init_engine(app.config['%s_SQLALCHEMY_DATABASE_URI' % env.upper()])
+    init_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 
     @app.teardown_request
     def shutdown_session(exception=None):
