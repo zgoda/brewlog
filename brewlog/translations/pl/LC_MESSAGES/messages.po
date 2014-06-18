@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-05-22 13:43+0200\n"
+"POT-Creation-Date: 2014-06-19 00:07+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -325,9 +325,7 @@ msgstr "wydarzenie %(event)s dla warki %(brew)s zostało utworzone"
 #: brewlog/brewing/views/brew.py:253
 #, python-format
 msgid "event %(event_name)s for brew %(brew_name)s has been updated"
-msgstr ""
-"wydarzenie %(event_name)s dla warki %(brew_name)s zostało "
-"zaktualizowane"
+msgstr "wydarzenie %(event_name)s dla warki %(brew_name)s zostało zaktualizowane"
 
 #: brewlog/brewing/views/brew.py:276
 #, python-format
@@ -588,10 +586,9 @@ msgstr "prawniczy bełkot"
 
 #: brewlog/templates/index.foundation.html:94 brewlog/templates/index.html:94
 msgid "privacy statement"
-msgstr ""
+msgstr "informacje o warunkach prywatności"
 
 #: brewlog/templates/account/delete.html:3
-#, python-format
 msgid "confirm removal of your account"
 msgstr "potwierdź usunięcie konta"
 
@@ -603,8 +600,8 @@ msgid ""
 " you want to do?"
 msgstr ""
 "Konto użytkownika %(email)s zostanie usunięte całkowicie. Ponieważ ten "
-"proces jest nieodwracalny, proszę potwierdzić, czy rzeczywiście chcesz "
-"je usunąć?"
+"proces jest nieodwracalny, proszę potwierdzić, czy rzeczywiście chcesz je"
+" usunąć?"
 
 #: brewlog/templates/account/delete.html:8
 msgid "Big fat warning!"
@@ -615,8 +612,8 @@ msgid ""
 "All related content will be deleted too: breweries, brews, tasting notes "
 "and so on."
 msgstr ""
-"Cała powiązana zawartość (browary, warki, notatki z degustacji) "
-"zostanie również usunięta"
+"Cała powiązana zawartość (browary, warki, notatki z degustacji) zostanie "
+"również usunięta"
 
 #: brewlog/templates/account/delete.html:12
 #: brewlog/templates/brew/delete.html:11
@@ -840,11 +837,11 @@ msgstr "dodaj etap fermentacji"
 
 #: brewlog/templates/brew/details.html:64
 msgid "events"
-msgstr ""
+msgstr "zdarzenia"
 
 #: brewlog/templates/brew/details.html:69
 msgid "add event"
-msgstr ""
+msgstr "dodaj zdarzenie"
 
 #: brewlog/templates/brew/details.html:82
 msgid "add tasting note"
@@ -874,11 +871,11 @@ msgstr "wszystkie warki"
 
 #: brewlog/templates/brew/calendar/base.html:3
 msgid "event"
-msgstr ""
+msgstr "zdarzenie"
 
 #: brewlog/templates/brew/calendar/event.html:7
 msgid "edit event data"
-msgstr ""
+msgstr "zmień dane zdarzenia"
 
 #: brewlog/templates/brew/calendar/event.html:8
 #, python-format
@@ -888,9 +885,7 @@ msgstr "wydarzenie %(event_name)s dla warki %(brew_name)s"
 #: brewlog/templates/brew/calendar/event_delete.html:3
 #, python-format
 msgid "confirm removal of event %(event_name)s for your brew %(brew_name)s"
-msgstr ""
-"potwierdź usunięcie wydarzenia %(event_name)s dla warki "
-"%(brew_name)s"
+msgstr "potwierdź usunięcie wydarzenia %(event_name)s dla warki %(brew_name)s"
 
 #: brewlog/templates/brew/calendar/event_delete.html:7
 #, python-format
@@ -899,9 +894,9 @@ msgid ""
 "with all its content. As this process is irreversible we're asking you "
 "again, is this really what you want do do?"
 msgstr ""
-"Wydarzenie %(event_name)s dla warki %(brew_name)s zostanie "
-"usunięte. Ponieważ jest to proces całkowicie nieodwracalny, proszę "
-"potwierdź czy na pewno chcesz je usunąć?"
+"Wydarzenie %(event_name)s dla warki %(brew_name)s zostanie usunięte. "
+"Ponieważ jest to proces całkowicie nieodwracalny, proszę potwierdź czy na"
+" pewno chcesz je usunąć?"
 
 #: brewlog/templates/brew/export/ipboard.txt:2
 #: brewlog/templates/brew/include/details.html:3
@@ -1183,7 +1178,7 @@ msgstr "nazwisko"
 
 #: brewlog/users/forms.py:13
 msgid "one of above fields should be provided"
-msgstr ""
+msgstr "jedno z powyższych pól powinno zostać wypełnione"
 
 #: brewlog/users/forms.py:14
 msgid "email"
