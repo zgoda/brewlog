@@ -10,4 +10,5 @@ docs/_build/
 secrets.py
 config_local.py
 .coverage
+.vagrant
 

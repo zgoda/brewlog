@@ -12,6 +12,7 @@ apt-get install -y htop mc git python-virtualenv postgresql nginx python-dev lib
 VENV_DIR=/opt/venv
 virtualenv $VENV_DIR
 source $VENV_DIR/bin/activate
+pip install -U ipython
 
 # source and deps
 DEPLOY_DIR=/opt/dist
