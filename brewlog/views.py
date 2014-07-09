@@ -1,6 +1,7 @@
 from flask import render_template
 from flask.ext.login import current_user
 
+import brewlog.models.calendar  # NOQA
 from brewlog import pages
 from brewlog.models import latest_breweries, latest_brews, latest_tasting_notes
 from brewlog.models.users import BrewerProfile

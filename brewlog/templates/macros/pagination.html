@@ -1,21 +1,21 @@
 {% macro render_pagination(pagination) %}
 {% if pagination.pages > 1 %}
-<div class=pagination>
-{% if pagination.has_prev %}<a href="{{ url_for_other_page(pagination.page - 1) }}">&laquo; {{ gettext("previous") }}</a>{% endif %}
+<div class="pagination-centered">
+<ul class="pagination">
+<li class="arrow{% if not pagination.has_prev %} unavailable{% endif %}" ><a href="{{ url_for_other_page(pagination.page - 1) }}">&laquo;</a></li>
 {%- for page in pagination.iter_pages() %}
 {% if page %}
 {% if page != pagination.page %}
-<a href="{{ url_for_other_page(page) }}">{{ page }}</a>
+<li><a href="{{ url_for_other_page(page) }}">{{ page }}</a></li>
 {% else %}
-<strong>{{ page }}</strong>
+<li class="current"><a href="">{{ page }}</a></li>
 {% endif %}
 {% else %}
-<span class="ellipsis">…</span>
+<li class="unavailable"><span class="ellipsis">&hellip;</span></li>
 {% endif %}
 {%- endfor %}
-{% if pagination.has_next %}
-<a href="{{ url_for_other_page(pagination.page + 1) }}">{{ gettext("next") }} &raquo;</a>
-{% endif %}
+<li class="arrow{% if not pagination.has_next %} unavailable{% endif %}"><a href="{{ url_for_other_page(pagination.page + 1) }}">&raquo;</a></li>
+</ul>
 </div>
 {% endif %}
 {% endmacro %}

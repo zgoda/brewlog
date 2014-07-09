@@ -2,6 +2,7 @@ from flask import redirect, url_for, session, flash, request
 from flask.ext.babel import gettext as _
 from flask.ext.login import login_user
 
+import brewlog.models.calendar  # NOQA
 from brewlog.models.users import BrewerProfile
 from brewlog.db import session as dbsession
 

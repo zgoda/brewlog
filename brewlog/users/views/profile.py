@@ -7,6 +7,7 @@ from brewlog.db import session as dbsession
 from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 from brewlog.models.brewing import Brewery, Brew
+from brewlog.models.calendar import RemoteCalendar  # NOQA
 from brewlog.models.calendar import Event
 from brewlog.users.forms import ProfileForm, CustomExportTemplateForm, CustomLabelTemplateForm
 from brewlog.forms.base import DeleteForm

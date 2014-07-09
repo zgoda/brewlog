@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-19 00:07+0200\n"
+"POT-Creation-Date: 2014-07-09 22:10+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -108,7 +108,8 @@ msgstr ""
 
 #: brewlog/brewing/forms/brew.py:17 brewlog/brewing/forms/brew.py:39
 #: brewlog/brewing/forms/brewery.py:19 brewlog/models/brewing.py:69
-#: brewlog/users/forms.py:25 brewlog/users/forms.py:36
+#: brewlog/templates/brew/list.html:12 brewlog/users/forms.py:25
+#: brewlog/users/forms.py:36
 msgid "name"
 msgstr ""
 
@@ -250,7 +251,7 @@ msgstr ""
 msgid "public"
 msgstr ""
 
-#: brewlog/brewing/forms/brew.py:92 brewlog/templates/brew/list.html:11
+#: brewlog/brewing/forms/brew.py:92 brewlog/templates/brew/list.html:20
 msgid "draft"
 msgstr ""
 
@@ -387,7 +388,7 @@ msgstr ""
 msgid "event type"
 msgstr ""
 
-#: brewlog/forms/base.py:29 brewlog/templates/brew/list.html:11
+#: brewlog/forms/base.py:29 brewlog/templates/brew/list.html:21
 #: brewlog/templates/brew/include/event.html:3
 #: brewlog/templates/brew/include/fermentation_step.html:3
 #: brewlog/templates/brewery/brews.html:10
@@ -734,7 +735,7 @@ msgid "add new brewery"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:59 brewlog/templates/brew/form.html:4
-#: brewlog/templates/brew/form.html:7 brewlog/templates/brew/list.html:16
+#: brewlog/templates/brew/form.html:7 brewlog/templates/brew/list.html:29
 #: brewlog/templates/brewery/details.html:33
 msgid "add new brew"
 msgstr ""
@@ -848,6 +849,14 @@ msgstr ""
 
 #: brewlog/templates/brew/list.html:8
 msgid "all brews"
+msgstr ""
+
+#: brewlog/templates/brew/list.html:13
+msgid "informations"
+msgstr ""
+
+#: brewlog/templates/brew/list.html:14
+msgid "operations"
 msgstr ""
 
 #: brewlog/templates/brew/calendar/base.html:3
@@ -1070,14 +1079,6 @@ msgstr ""
 msgid "submit"
 msgstr ""
 
-#: brewlog/templates/macros/pagination.html:4
-msgid "previous"
-msgstr ""
-
-#: brewlog/templates/macros/pagination.html:17
-msgid "next"
-msgstr ""
-
 #: brewlog/templates/macros/users.html:3
 msgid "full name"
 msgstr ""
@@ -1191,7 +1192,7 @@ msgstr ""
 msgid "single label cell height in milimetres"
 msgstr ""
 
-#: brewlog/users/utils.py:22
+#: brewlog/users/utils.py:23
 #, python-format
 msgid "You have been signed in as %(email)s using %(service)s"
 msgstr ""
@@ -1223,21 +1224,21 @@ msgstr ""
 msgid "GitHub profile for user %(name)s lacks public email, skipping as unusable."
 msgstr ""
 
-#: brewlog/users/views/profile.py:23
+#: brewlog/users/views/profile.py:24
 msgid "your profile data has been updated"
 msgstr ""
 
-#: brewlog/users/views/profile.py:54
+#: brewlog/users/views/profile.py:55
 #, python-format
 msgid "profile for %(email)s has been deleted"
 msgstr ""
 
-#: brewlog/users/views/profile.py:119
+#: brewlog/users/views/profile.py:120
 #, python-format
 msgid "your export template %(name)s has been saved"
 msgstr ""
 
-#: brewlog/users/views/profile.py:140
+#: brewlog/users/views/profile.py:141
 #, python-format
 msgid "your label template %(name)s has been saved"
 msgstr ""

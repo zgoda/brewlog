@@ -180,7 +180,7 @@ class Brew(Model):
         order_by='desc(TastingNote.date)')
     fermentation_steps = relationship('FermentationStep', cascade='all,delete', lazy='dynamic',
         order_by='asc(FermentationStep.date)')
-    events = relationship('Event', cascade='all,delete', lazy='dynamic', order_by='asc(Event.date)')
+    events = relationship('Event', cascade='all,delete', lazy='dynamic')
 
     def __unicode__(self):  # pragma: no cover
         return u'<Brew %s by %s>' % (self.name, self.brewery.name)

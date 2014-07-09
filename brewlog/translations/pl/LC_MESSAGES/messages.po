@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2014-06-19 00:07+0200\n"
+"POT-Creation-Date: 2014-07-09 22:10+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -110,7 +110,8 @@ msgstr "data"
 
 #: brewlog/brewing/forms/brew.py:17 brewlog/brewing/forms/brew.py:39
 #: brewlog/brewing/forms/brewery.py:19 brewlog/models/brewing.py:69
-#: brewlog/users/forms.py:25 brewlog/users/forms.py:36
+#: brewlog/templates/brew/list.html:12 brewlog/users/forms.py:25
+#: brewlog/users/forms.py:36
 msgid "name"
 msgstr "nazwa"
 
@@ -252,7 +253,7 @@ msgstr "użyte nagazowanie"
 msgid "public"
 msgstr "publiczna"
 
-#: brewlog/brewing/forms/brew.py:92 brewlog/templates/brew/list.html:11
+#: brewlog/brewing/forms/brew.py:92 brewlog/templates/brew/list.html:20
 msgid "draft"
 msgstr "szkic"
 
@@ -391,7 +392,7 @@ msgstr "tytuł"
 msgid "event type"
 msgstr "typ wydarzenia"
 
-#: brewlog/forms/base.py:29 brewlog/templates/brew/list.html:11
+#: brewlog/forms/base.py:29 brewlog/templates/brew/list.html:21
 #: brewlog/templates/brew/include/event.html:3
 #: brewlog/templates/brew/include/fermentation_step.html:3
 #: brewlog/templates/brewery/brews.html:10
@@ -751,7 +752,7 @@ msgid "add new brewery"
 msgstr "dodaj nowy browar"
 
 #: brewlog/templates/account/profile.html:59 brewlog/templates/brew/form.html:4
-#: brewlog/templates/brew/form.html:7 brewlog/templates/brew/list.html:16
+#: brewlog/templates/brew/form.html:7 brewlog/templates/brew/list.html:29
 #: brewlog/templates/brewery/details.html:33
 msgid "add new brew"
 msgstr "dodaj nową warkę"
@@ -868,6 +869,14 @@ msgstr "wszystkie publiczne warki"
 #: brewlog/templates/brew/list.html:8
 msgid "all brews"
 msgstr "wszystkie warki"
+
+#: brewlog/templates/brew/list.html:13
+msgid "informations"
+msgstr "informacje"
+
+#: brewlog/templates/brew/list.html:14
+msgid "operations"
+msgstr "operacje"
 
 #: brewlog/templates/brew/calendar/base.html:3
 msgid "event"
@@ -1100,14 +1109,6 @@ msgstr "Lista zarejestrowanych browarów"
 msgid "submit"
 msgstr "zapisz"
 
-#: brewlog/templates/macros/pagination.html:4
-msgid "previous"
-msgstr "poprzednia"
-
-#: brewlog/templates/macros/pagination.html:17
-msgid "next"
-msgstr "następna"
-
 #: brewlog/templates/macros/users.html:3
 msgid "full name"
 msgstr "pełna nazwa"
@@ -1224,7 +1225,7 @@ msgstr "wysokość etykiety"
 msgid "single label cell height in milimetres"
 msgstr "wysokość pojedynczej etykiety w milimetrach"
 
-#: brewlog/users/utils.py:22
+#: brewlog/users/utils.py:23
 #, python-format
 msgid "You have been signed in as %(email)s using %(service)s"
 msgstr "Użytkownik zalogowany jako %(email)s przez %(service)s"
@@ -1262,22 +1263,28 @@ msgstr ""
 "W profilu publicznym użytkownika %(name)s brak adresu email, pominięty "
 "jako bezużyteczny."
 
-#: brewlog/users/views/profile.py:23
+#: brewlog/users/views/profile.py:24
 msgid "your profile data has been updated"
 msgstr "twój profil piwowara został uaktualniony"
 
-#: brewlog/users/views/profile.py:54
+#: brewlog/users/views/profile.py:55
 #, python-format
 msgid "profile for %(email)s has been deleted"
 msgstr "konto użytkownika %(email)s zostało usunięte"
 
-#: brewlog/users/views/profile.py:119
+#: brewlog/users/views/profile.py:120
 #, python-format
 msgid "your export template %(name)s has been saved"
 msgstr "szablon %(name)s został zapisany"
 
-#: brewlog/users/views/profile.py:140
+#: brewlog/users/views/profile.py:141
 #, python-format
 msgid "your label template %(name)s has been saved"
 msgstr "szablon etykiet %(name)s został zapisany"
+
+#~ msgid "previous"
+#~ msgstr "poprzednia"
+
+#~ msgid "next"
+#~ msgstr "następna"
 
