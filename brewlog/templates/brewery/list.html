@@ -6,9 +6,22 @@
 {% block content %}
 <h3>{{ gettext("List of registered breweries") }}</h3>
 {% if breweries %}
-<ul class="no-bullet">
-    {% for brewery in breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> ({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }}) {% if user == brewery.brewer %}<a href="{{ url_for('brewery-delete', brewery_id=brewery.id) }}" class="button tiny radius alert">{{ gettext("delete") }}</a>{% endif %}</li>{% endfor %}
-</ul>
+<table class="small-12 columns">
+<thead>
+    <th>{{ gettext("name") }}</th>
+    <th>{{ gettext("brews") }}</th>
+    <th>{{ gettext("operations") }}</th>
+</thead>
+<tbody>
+{% for brewery in breweries %}
+<tr>
+    <td><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a></td>
+    <td>{{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }}</td>
+    <td>{% if user == brewery.brewer %}<a href="{{ url_for('brewery-delete', brewery_id=brewery.id) }}" class="button tiny radius alert">{{ gettext("delete") }}</a>{% endif %}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
 {{ pg.render_pagination(pagination) }}
 {% endif %}
 {% if user.is_authenticated() %}
