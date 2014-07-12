@@ -43,13 +43,10 @@
     {% if not with_label %}
         {% set placeholder = field.label.text|safe %}
     {% endif %}
-    <div class="field-enclosure {% if field.type == 'FormField' %}subform{% endif %}">
+    <div class="field-enclosure {% if field.type == 'FormField' %}subform{% endif %} {% if field.flags.required %}required{% endif %}">
         {% if field.type != 'BooleanField' and with_label %}<label for="{{ field.id }}">{{ field.label.text|safe }}</label>{% endif %}
         <div>
             {% set cssclass_ = kwargs.pop('class_', '') %}
-            {% if field.flags.required %}
-                {% set cssclass_ = cssclass_ + ' required' %}
-            {% endif %}
             {% if field.type == 'BooleanField' %}
                 <label>
                     {{ field(class_=cssclass_, **kwargs) }}

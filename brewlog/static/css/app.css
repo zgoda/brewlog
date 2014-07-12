@@ -20,3 +20,7 @@ table.printlabel td {
     vertical-align: center;
     border: 1px solid black;
 }
+
+.required label {
+    font-weight: bold;
+}
