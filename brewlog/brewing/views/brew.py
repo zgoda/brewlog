@@ -56,8 +56,6 @@ def brew(brew_id, **kwargs):
     }
     if current_user in brew.brewery.brewers:
         ctx['form'] = BrewForm(obj=brew)
-        ctx['fermentation_step_form'] = FermentationStepForm()
-        ctx['event_form'] = EventForm()
     return render_template('brew/details.html', **ctx)
 
 
@@ -157,22 +155,28 @@ def fermentation_step_add(brew_id):
     if brew.brewery.brewer != current_user:
         abort(403)
     form = FermentationStepForm(request.form)
-    if form.validate():
-        fstep = form.save(brew=brew, save=False)
-        dbsession.add(fstep)
-        previous_step = fstep.previous()
-        if previous_step:
-            previous_step.fg = fstep.og
-            dbsession.add(previous_step)
-        if fstep.fg is not None:
-            next_step = fstep.next()
-            if next_step:
-                next_step.og = fstep.fg
-                dbsession.add(next_step)
-        dbsession.commit()
-        flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been created', step_name=fstep.name,
-            brew_name=brew.name), category='success')
-    return redirect(brew.absolute_url)
+    if request.method == 'POST':
+        if form.validate():
+            fstep = form.save(brew=brew, save=False)
+            dbsession.add(fstep)
+            previous_step = fstep.previous()
+            if previous_step:
+                previous_step.fg = fstep.og
+                dbsession.add(previous_step)
+            if fstep.fg is not None:
+                next_step = fstep.next()
+                if next_step:
+                    next_step.og = fstep.fg
+                    dbsession.add(next_step)
+            dbsession.commit()
+            flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been created', step_name=fstep.name,
+                brew_name=brew.name), category='success')
+            return redirect(brew.absolute_url)
+    ctx = {
+        'brew': brew,
+        'form': form,
+    }
+    return render_template('brew/fermentation/form.html', **ctx)
 
 
 @login_required

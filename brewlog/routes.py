@@ -18,11 +18,11 @@ routes = RouteMap('brewlog', [
         Route('/<int:userid>/delete', 'delete', 'profile_delete', methods=['POST', 'GET']),
         Route('/<int:userid>/breweries', 'breweries', 'breweries'),
         Route('/<int:userid>/brews', 'brews', 'brews'),
-        Route('/<int:userid>/extemplate', 'export_template_add', 'export_template', methods=['POST', 'GET'], defaults={'tid': None}),
+        Route('/<int:userid>/extemplate', 'export_template_add', 'export_template', methods=['POST', 'GET'], defaults={'tid': None}),  # NOQA
         Route('/<int:userid>/extemplate/<int:tid>', 'export_template', 'export_template', methods=['POST', 'GET']),
-        Route('/<int:userid>/lbtemplate', 'label_template_add', 'label_template', methods=['POST', 'GET'], defaults={'tid': None}),
+        Route('/<int:userid>/lbtemplate', 'label_template_add', 'label_template', methods=['POST', 'GET'], defaults={'tid': None}),  # NOQA
         Route('/<int:userid>/lbtemplate/<int:tid>', 'label_template', 'label_template', methods=['POST', 'GET']),
-        Route('/<int:userid>/rcal', 'remote_calendar_add', 'remote_calendar', methods=['POST', 'GET'], defaults={'cid': None}),
+        Route('/<int:userid>/rcal', 'remote_calendar_add', 'remote_calendar', methods=['POST', 'GET'], defaults={'cid': None}),  # NOQA
         Route('/<int:userid>/rcal/<int:cid>', 'remote_calendar', 'remote_calendar', methods=['POST', 'GET']),
     ]),
     RouteCluster(endpoint_prefix='brewery-', submount='/brewery', view_module='brewing.views.brewery', rules=[
@@ -37,9 +37,9 @@ routes = RouteMap('brewlog', [
         Route('/all', 'all', 'brew_all'),
         Route('/<int:brew_id>', 'details', 'brew', methods=['POST', 'GET']),
         # fermentation steps
-        Route('/<int:brew_id>/fermentationstep/add', 'fermentationstep_add', 'fermentation_step_add', methods=['POST']),
+        Route('/<int:brew_id>/fermentationstep/add', 'fermentationstep_add', 'fermentation_step_add', methods=['POST', 'GET']),  # NOQA
         Route('/fermentationstep/<int:fstep_id>', 'fermentation_step', 'fermentation_step', methods=['GET', 'POST']),
-        Route('/fermentationstep/<int:fstep_id>/delete', 'fermentationstep_delete', 'fermentation_step_delete', methods=['GET', 'POST']),
+        Route('/fermentationstep/<int:fstep_id>/delete', 'fermentationstep_delete', 'fermentation_step_delete', methods=['GET', 'POST']),  # NOQA
         # events
         Route('/<int:brew_id>/event/add', 'brewevent_add', 'brew_event_add', methods=['POST']),
         Route('/event/<int:event_id>', 'brew_event', 'brew_event', methods=['GET', 'POST']),
