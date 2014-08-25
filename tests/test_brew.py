@@ -2,7 +2,7 @@ from flask import url_for
 
 from brewlog.db import session as dbsession
 from brewlog.utils.brewing import aa, ra
-from brewlog.tests import BrewlogTestCase
+from tests import BrewlogTestCase
 from brewlog.models.brewing import Brew, Brewery
 from brewlog.models.users import BrewerProfile, CustomLabelTemplate
 

@@ -16,7 +16,7 @@ class RunTests(Command):
         Option('-v', '--verbosity', type=int, default=1)
     )
 
-    def __init__(self, testdir='', pattern='test_*.py'):
+    def __init__(self, testdir='tests', pattern='test_*.py'):
         self.dirparts = testdir.split('/')
         self.test_pattern = pattern
 
@@ -42,7 +42,7 @@ manager.add_option('-e', '--env', dest='env', default='dev')
 
 manager.add_command('runserver', Server(port=8080))
 manager.add_command('shell', Shell())
-manager.add_command('test', RunTests(testdir='brewlog/tests'))
+manager.add_command('test', RunTests())
 
 
 @manager.command

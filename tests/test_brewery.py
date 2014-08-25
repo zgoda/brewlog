@@ -3,7 +3,7 @@ import datetime
 
 from flask import url_for
 
-from brewlog.tests import BrewlogTestCase
+from tests import BrewlogTestCase
 from brewlog.models.brewing import Brewery, Brew
 
 
