@@ -37,7 +37,7 @@ class Brewery(Model):
 
     @property
     def absolute_url(self):
-        return url_for('brewery-details', brewery_id=self.id)
+        return url_for('brewery.details', brewery_id=self.id)
 
     @property
     def other_brewers(self):

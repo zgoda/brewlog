@@ -63,6 +63,10 @@ def make_app(env):  # pragma: no cover
     pages.init_app(app)
     pages.get('foo')  # preload all static pages
 
+    # register blueprints
+    from brewlog.brewery import brewery_bp
+    app.register_blueprint(brewery_bp, url_prefix='/brewery')
+
     routes.register(app)
 
     setup_template_extensions(app)
@@ -72,6 +76,6 @@ def make_app(env):  # pragma: no cover
 
 @login_manager.user_loader
 def get_user(userid):
-    import models.calendar
+    import models.calendar  # noqa
     from models.users import BrewerProfile
     return BrewerProfile.query.get(userid)

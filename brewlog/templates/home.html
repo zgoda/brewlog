@@ -51,7 +51,7 @@
                     <ul class="no-bullet">
                         {% for brewery in latest_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> {{ gettext("by %(brewer)s", brewer=brewery.brewer.name)|e }}</li>{% endfor %}
                     </ul>
-                    <p><a href="{{ url_for('brewery-all') }}">{{ gettext("view all") }}</a></p>
+                    <p><a href="{{ url_for('brewery.all') }}">{{ gettext("view all") }}</a></p>
                 </div>
             </div>
             {% endif %}

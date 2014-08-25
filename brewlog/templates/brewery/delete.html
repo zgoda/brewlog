@@ -10,7 +10,7 @@
     {% for brew in brewery.brews %}<li>{{ brew.name }}</li>{% endfor %}
 </ul>
 {% endif %}
-<form method="post" action="{{ url_for('brewery-delete', brewery_id=brewery.id) }}">
+<form method="post" action="{{ url_for('brewery.delete', brewery_id=brewery.id) }}">
     {{ delete_form.csrf_token }}
     {{ delete_form.delete_it() }}
     <button type="submit" class="button small radius alert">{{ gettext("Yes, delete it") }}</button>

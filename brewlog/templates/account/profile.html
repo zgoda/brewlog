@@ -47,7 +47,7 @@
 </ul>
 {% endif %}
 {% if form %}
-<p><a href="{{ url_for('brewery-add') }}" class="small button radius">{{ gettext("add new brewery") }}</a></p>
+<p><a href="{{ url_for('brewery.add') }}" class="small button radius">{{ gettext("add new brewery") }}</a></p>
 {% endif %}
 {% if latest_brews %}
 <h4>{{ gettext("latest brews").capitalize() }}</h4>

@@ -25,13 +25,6 @@ routes = RouteMap('brewlog', [
         Route('/<int:userid>/rcal', 'remote_calendar_add', 'remote_calendar', methods=['POST', 'GET'], defaults={'cid': None}),  # NOQA
         Route('/<int:userid>/rcal/<int:cid>', 'remote_calendar', 'remote_calendar', methods=['POST', 'GET']),
     ]),
-    RouteCluster(endpoint_prefix='brewery-', submount='/brewery', view_module='brewery.views', rules=[
-        Route('/add', 'add', 'brewery_add', methods=['POST', 'GET']),
-        Route('/all', 'all', 'brewery_all'),
-        Route('/<int:brewery_id>', 'details', 'brewery', methods=['POST', 'GET']),
-        Route('/<int:brewery_id>/brews', 'brews', 'brewery_brews'),
-        Route('/<int:brewery_id>/delete', 'delete', 'brewery_delete', methods=['POST', 'GET']),
-    ]),
     RouteCluster(endpoint_prefix='brew-', submount='/brew', view_module='brew.views', rules=[
         Route('/add', 'add', 'brew_add', methods=['POST', 'GET']),
         Route('/all', 'all', 'brew_all'),

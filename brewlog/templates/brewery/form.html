@@ -4,7 +4,7 @@
 {% block headpagetitle %}{% if brewery %}{{ gettext("modify your %(breweryname)s brewery data", breweryname=brewery.name)|e }}{% else %}{% trans %}add new brewery{% endtrans %}{% endif %}{% endblock %}
 
 {% block content %}
-<form method="post" action="{{ url_for('brewery-add') }}" class="custom">
+<form method="post" action="{{ url_for('brewery.add') }}" class="custom">
     {{ forms.render(form) }}
 </form>
 {% endblock %}

@@ -27,7 +27,7 @@
 <ul class="no-bullet">
     {% for brew in brewery.recent_brews(public_only=True) %}<li>{% if brew.date_brewed %}{{ brew.date_brewed|dateformat("short") }}{% else %}{% trans %}not brewed yet{% endtrans %}{% endif %} &mdash; <a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a></li>{% endfor %}
 </ul>
-<p><a href="{{ url_for('brewery-brews', brewery_id=brewery.id) }}">{{ gettext("view all brews") }}</a></p>
+<p><a href="{{ url_for('brewery.brews', brewery_id=brewery.id) }}">{{ gettext("view all brews") }}</a></p>
 {% endif %}
 {% if form %}
 <p><a href="{{ url_for('brew-add') }}" class="button small radius">{{ gettext("add new brew") }}</a></p>

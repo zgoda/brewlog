@@ -10,12 +10,16 @@ from brewlog import dbsession
 
 class BaseForm(Form):
 
-    class Meta:
-        csrf = current_app.config['CSRF_ENABLED']
-        csrf_class = SessionCSRF
-        csrf_secret = current_app.config['CSRF_SESSION_KEY']
-        csrf_time_limit = datetime.timedelta(minutes=20)
-        csrf_context = session
+    def __init__(self, *args, **kwargs):
+        if not 'meta' in kwargs:
+            kwargs['meta'] = dict(
+                csrf=current_app.config['CSRF_ENABLED'],
+                csrf_class=SessionCSRF,
+                csrf_secret=current_app.config['CSRF_SESSION_KEY'],
+                csrf_time_limit=datetime.timedelta(minutes=20),
+                csrf_context=session,
+            )
+        return super(BaseForm, self).__init__(*args, **kwargs)
 
     def save(self, obj, save=False):
         self.populate_obj(obj)

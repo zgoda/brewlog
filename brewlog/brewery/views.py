@@ -2,6 +2,7 @@ from flask import url_for, abort, redirect, render_template, request, flash
 from flask.ext.login import current_user, login_required
 from flask.ext.babel import gettext as _
 
+from brewlog.brewery import brewery_bp
 from brewlog.db import session as dbsession
 from brewlog.models import breweries
 from brewlog.models.brewing import Brewery
@@ -10,6 +11,7 @@ from brewlog.brewery.forms import BreweryForm
 from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 
 
+@brewery_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
 @login_required
 def brewery_add():
     form = BreweryForm(request.form)
@@ -24,6 +26,7 @@ def brewery_add():
     return render_template('brewery/form.html', **ctx)
 
 
+@brewery_bp.route('/<int:brewery_id>/delete', methods=['POST', 'GET'], endpoint='delete')
 @login_required
 def brewery_delete(brewery_id):
     brewery = get_or_404(Brewery, brewery_id)
@@ -45,6 +48,7 @@ def brewery_delete(brewery_id):
     return render_template('brewery/delete.html', **ctx)
 
 
+@brewery_bp.route('all', endpoint='all')
 def brewery_all():
     page_size = 20
     page = get_page(request)
@@ -60,6 +64,7 @@ def brewery_all():
     return render_template('brewery/list.html', **ctx)
 
 
+@brewery_bp.route('/<int:brewery_id>', methods=['POST', 'GET'], endpoint='details')
 def brewery(brewery_id, **kwargs):
     brewery = get_or_404(Brewery, brewery_id)
     if request.method == 'POST':
@@ -80,6 +85,7 @@ def brewery(brewery_id, **kwargs):
     return render_template('brewery/details.html', **ctx)
 
 
+@brewery_bp.route('/<int:brewery_id>/brews', endpoint='brews')
 def brewery_brews(brewery_id):
     page_size = 20
     page = get_page(request)
