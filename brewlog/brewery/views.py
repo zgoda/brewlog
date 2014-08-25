@@ -6,7 +6,7 @@ from brewlog.db import session as dbsession
 from brewlog.models import breweries
 from brewlog.models.brewing import Brewery
 from brewlog.forms.base import DeleteForm
-from brewlog.brewing.forms.brewery import BreweryForm
+from brewlog.brewery.forms import BreweryForm
 from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 
 

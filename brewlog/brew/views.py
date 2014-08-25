@@ -10,7 +10,7 @@ from brewlog.models.brewing import Brew, FermentationStep
 from brewlog.models.users import CustomLabelTemplate
 from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
-from brewlog.brewing.forms.brew import BrewForm, FermentationStepForm
+from brewlog.brew.forms import BrewForm, FermentationStepForm
 from brewlog.models.calendar import Event
 from brewlog.calendar.forms import EventForm
 

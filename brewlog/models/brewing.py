@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 from flask.ext.babel import lazy_gettext as _, format_date, gettext
 from werkzeug.utils import cached_property
 
-from brewlog.brewing import choices
+from brewlog.models import choices
 from brewlog.db import Model
 from brewlog.utils.text import stars2deg
 from brewlog.utils.brewing import abv, aa, ra
