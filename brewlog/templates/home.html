@@ -27,7 +27,7 @@
                     <ul class="no-bullet">
                         {% for note in latest_tasting_notes %}<li><a href="{{ note.brew.absolute_url }}">{{ note.brew.name }}</a> - {{ gettext("%(author)s on %(date)s", author=note.author.name, date=format_date(note.date, "short")) }}</li>{% endfor %}
                     </ul>
-                    <p><a href="{{ url_for('tastingnote-all') }}">{{ gettext("view all") }}</a></p>
+                    <p><a href="{{ url_for('tastingnote.all') }}">{{ gettext("view all") }}</a></p>
                 </div>
             </div>
             {% endif %}

@@ -11,8 +11,10 @@ from brewlog.models import tasting_notes
 from brewlog.models.brewing import Brew
 from brewlog.models.tasting import TastingNote
 from brewlog.tasting.forms import TastingNoteForm
+from brewlog.tasting import tasting_bp
 
 
+@tasting_bp.route('/all', endpoint='all')
 def all():
     page_size = 20
     page = get_page(request)
@@ -29,6 +31,7 @@ def all():
     return render_template('tasting/list.html', **context)
 
 
+@tasting_bp.route('/<int:brew_id>/add', methods=['GET', 'POST'], endpoint='add')
 @login_required
 def brew_add_tasting_note(brew_id):
     brew = get_or_404(Brew, brew_id)
@@ -47,6 +50,7 @@ def brew_add_tasting_note(brew_id):
     return render_template('tasting/tasting_note.html', **ctx)
 
 
+@tasting_bp.route('/<int:note_id>/delete', methods=['GET', 'POST'], endpoint='delete')
 @login_required
 def brew_delete_tasting_note(note_id):
     note = get_or_404(TastingNote, note_id)
@@ -69,6 +73,7 @@ def brew_delete_tasting_note(note_id):
     return render_template('tasting/tasting_note_delete.html', **ctx)
 
 
+@tasting_bp.route('/ajaxtext', endpoint='loadtext')
 def brew_load_tasting_note_text():
     provided_id = request.args.get('id')
     if not provided_id:
@@ -80,6 +85,7 @@ def brew_load_tasting_note_text():
     return note.text
 
 
+@tasting_bp.route('/ajaxupdate', methods=['POST'], endpoint='update')
 @login_required
 def brew_update_tasting_note():
     provided_id = request.form.get('id')

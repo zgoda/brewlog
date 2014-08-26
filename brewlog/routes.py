@@ -25,11 +25,4 @@ routes = RouteMap('brewlog', [
         Route('/<int:userid>/rcal', 'remote_calendar_add', 'remote_calendar', methods=['POST', 'GET'], defaults={'cid': None}),  # NOQA
         Route('/<int:userid>/rcal/<int:cid>', 'remote_calendar', 'remote_calendar', methods=['POST', 'GET']),
     ]),
-    RouteCluster(endpoint_prefix='tastingnote-', submount='/tastingnote', view_module='tasting.views', rules=[
-        Route('/all', 'all', 'all'),
-        Route('/<int:brew_id>/add', 'add', 'brew_add_tasting_note', methods=['POST', 'GET']),
-        Route('/<int:note_id>/delete', 'delete', 'brew_delete_tasting_note', methods=['POST', 'GET']),
-        Route('/ajaxupdate', 'update', 'brew_update_tasting_note', methods=['POST']),
-        Route('/ajaxtext', 'loadtext', 'brew_load_tasting_note_text'),
-    ]),
 ])
