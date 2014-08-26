@@ -8,7 +8,7 @@ class MainPageTestCase(BrewlogTestCase):
 
     def setUp(self):
         super(MainPageTestCase, self).setUp()
-        self.main_url = url_for('main')
+        self.main_url = url_for('home.index')
 
     def test_anon(self):
         """

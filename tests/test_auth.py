@@ -29,7 +29,7 @@ class AuthTestCase(BrewlogTestCase):
             self.login(client, user.email)
             rv = client.get(url)
             self.assertEqual(rv.status_code, 302)
-            self.assertIn(url_for('main'), rv.headers['Location'])
+            self.assertIn(url_for('home.index'), rv.headers['Location'])
 
     def test_create_new_user_on_login(self):
         email = 'john.doe@acme.com'

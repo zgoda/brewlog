@@ -20,7 +20,7 @@ class BrewerProfileTestCase(BrewlogTestCase):
     def test_hidden_user(self):
         user = BrewerProfile.get_by_email('user3@example.com')
         with self.app.test_client() as client:
-            rv = client.get(url_for('main'))
+            rv = client.get(url_for('home.index'))
             self.assertIn('<a href="%s">%s</a>' % (user.absolute_url, user.name), rv.data)
 
     def test_view_list_by_public(self):

@@ -8,7 +8,6 @@ from flask.ext.flatpages import FlatPages
 
 from brewlog.db import init_engine, session as dbsession
 from brewlog.templates import setup_template_extensions
-from brewlog.routes import routes
 
 
 login_manager = LoginManager()
@@ -67,6 +66,8 @@ def make_app(env):  # pragma: no cover
     oauth.init_app(app)
 
     # register blueprints
+    from brewlog.home import home_bp
+    app.register_blueprint(home_bp)
     from brewlog.auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
     from brewlog.profile import profile_bp
@@ -78,8 +79,6 @@ def make_app(env):  # pragma: no cover
     from brewlog.tasting import tasting_bp
     app.register_blueprint(tasting_bp, url_prefix='/tastingnote')
 
-    routes.register(app)
-
     setup_template_extensions(app)
 
     return app
@@ -87,6 +86,5 @@ def make_app(env):  # pragma: no cover
 
 @login_manager.user_loader
 def get_user(userid):
-    import models.calendar  # noqa
     from models.users import BrewerProfile
     return BrewerProfile.query.get(userid)

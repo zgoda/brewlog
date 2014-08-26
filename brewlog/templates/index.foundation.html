@@ -88,10 +88,10 @@
     <footer class="row full-width">
         <p>Copyright: &copy; 2012, Jarek Zgoda &amp; Z-SOFT. {% trans %}All rights reserved{% endtrans %}.</p>
         <ul class="inline-list hide-on-print">
-            <li><a href="{{ url_for('pages-page', path='about') }}">{{ gettext("about") }}</a></li>
-            <li><a href="{{ url_for('pages-page', path='guide') }}">{{ gettext("user guide") }}</a></li>
-            <li><a href="{{ url_for('pages-page', path='legal') }}">{{ gettext("legal mumbo-jumbo") }}</a></li>
-            <li><a href="{{ url_for('pages-page', path='privacy') }}">{{ gettext("privacy statement") }}</a></li>
+            <li><a href="{{ url_for('home.flatpage', path='about') }}">{{ gettext("about") }}</a></li>
+            <li><a href="{{ url_for('home.flatpage', path='guide') }}">{{ gettext("user guide") }}</a></li>
+            <li><a href="{{ url_for('home.flatpage', path='legal') }}">{{ gettext("legal mumbo-jumbo") }}</a></li>
+            <li><a href="{{ url_for('home.flatpage', path='privacy') }}">{{ gettext("privacy statement") }}</a></li>
         </ul>
     </footer>
     {% endblock %}

@@ -57,7 +57,7 @@ def profile_delete(userid):
             dbsession.delete(profile)
             dbsession.commit()
             flash(_('profile for %(email)s has been deleted', email=email), category='success')
-            return redirect(url_for('main'))
+            return redirect(url_for('home.index'))
     ctx = {
         'profile': profile,
         'delete_form': form,

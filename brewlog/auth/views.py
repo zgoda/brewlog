@@ -101,4 +101,4 @@ def local_login_callback(resp):
 @login_required
 def logout():
     logout_user()
-    return redirect(url_for('main'))
+    return redirect(url_for('home.index'))
