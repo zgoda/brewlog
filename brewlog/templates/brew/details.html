@@ -21,11 +21,11 @@ $(document).ready(function() {
 {% block topmenu_right %}
 <li class="has-dropdown"><a href="#">{% trans %}recipe tools{% endtrans %}</a>
     <ul class="dropdown">
-        <li><a href="{{ url_for('brew-print', brew_id=brew.id) }}">{{ gettext("print recipe") }}</a></li>
-        <li><a href="{{ url_for('brew-print-labels', brew_id=brew.id) }}">{{ gettext("print labels") }}</a></li>
+        <li><a href="{{ url_for('brew.print', brew_id=brew.id) }}">{{ gettext("print recipe") }}</a></li>
+        <li><a href="{{ url_for('brew.labels', brew_id=brew.id) }}">{{ gettext("print labels") }}</a></li>
         <li class="has-dropdown"><a href="#">{{ gettext("export recipe") }}</a>
             <ul class="dropdown">
-                <li><a href="{{ url_for('brew-export', flavour='ipboard', brew_id=brew.id) }}">IP.Board</a></li>
+                <li><a href="{{ url_for('brew.export', flavour='ipboard', brew_id=brew.id) }}">IP.Board</a></li>
             </ul>
         </li>
     </ul>
@@ -45,7 +45,7 @@ $(document).ready(function() {
 {% for fstep in brew.fermentation_steps.all() %}
 {% include "brew/include/fermentation_step.html" %}
 {% endfor %}
-<p><a href="{{ url_for('brew-fermentationstep_add', brew_id=brew.id) }}" class="button small radius">{{ gettext("add fermentation step") }}</a></p>
+<p><a href="{{ url_for('brew.fermentationstep_add', brew_id=brew.id) }}" class="button small radius">{{ gettext("add fermentation step") }}</a></p>
 </div>
 </dd>
 </dl>

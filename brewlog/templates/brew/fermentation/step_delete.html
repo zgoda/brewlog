@@ -5,7 +5,7 @@
 {% block content %}
 <h3>{{ fstep.name }} ({{ fstep.brew.name }})</h3>
 <p>{{ gettext("Fermentation step %(fstep_name)s for your brew %(brew_name)s is about to be deleted with all its content. As this process is irreversible we're asking you again, is this really what you want do do?", fstep_name=fstep.name, brew_name=fstep.brew.name) }}</p>
-<form method="post" action="{{ url_for('brew-fermentationstep_delete', fstep_id=fstep.id) }}">
+<form method="post" action="{{ url_for('brew.fermentationstep_delete', fstep_id=fstep.id) }}">
     {{ delete_form.csrf_token }}
     {{ delete_form.delete_it() }}
     <button type="submit" class="button small radius alert">{{ gettext("Yes, delete it") }}</button>

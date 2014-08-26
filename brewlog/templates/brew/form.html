@@ -5,7 +5,7 @@
 
 {% block content %}
 <h3>{{ gettext("add new brew").capitalize() }}</h3>
-<form method="post" action="{{ url_for('brew-add') }}" class="custom">
+<form method="post" action="{{ url_for('brew.add') }}" class="custom">
     {{ forms.render(form, hints=mash_hints) }}
 </form>
 {% endblock %}

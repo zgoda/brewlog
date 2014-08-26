@@ -165,7 +165,7 @@ class TastingNoteAjaxTestCase(BrewlogTestCase):
         """
         Anonymous user brew details view does not contain js to edit note texts
         """
-        url = url_for('brew-details', brew_id=self.brew.id)
+        url = url_for('brew.details', brew_id=self.brew.id)
         edit_url = url_for('tastingnote-update')
         with self.app.test_client() as client:
             rv = client.get(url)

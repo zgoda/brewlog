@@ -66,6 +66,8 @@ def make_app(env):  # pragma: no cover
     # register blueprints
     from brewlog.brewery import brewery_bp
     app.register_blueprint(brewery_bp, url_prefix='/brewery')
+    from brewlog.brew import brew_bp
+    app.register_blueprint(brew_bp, url_prefix='/brew')
 
     routes.register(app)
 

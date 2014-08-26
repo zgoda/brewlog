@@ -38,7 +38,7 @@ def brew_add_tasting_note(brew_id):
     if request.method == 'POST' and form.validate():
         form.save(brew)
         flash(_('tasting note for %(brew)s saved', brew=brew.name), category='success')
-        next_ = request.args.get('next') or url_for('brew-details', brew_id=brew.id)
+        next_ = request.args.get('next') or url_for('brew.details', brew_id=brew.id)
         return redirect(next_)
     ctx = {
         'brew': brew,
@@ -59,7 +59,7 @@ def brew_delete_tasting_note(note_id):
             dbsession.delete(note)
             dbsession.commit()
             flash(_('tasting note for brew %(brew)s has been deleted', brew=brew.name), category='success')
-            next_ = request.args.get('next') or url_for('brew-details', brew_id=brew.id)
+            next_ = request.args.get('next') or url_for('brew.details', brew_id=brew.id)
             return redirect(next_)
     ctx = {
         'brew': brew,

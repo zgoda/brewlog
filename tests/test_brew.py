@@ -16,7 +16,7 @@ class BrewTestCase(BrewlogTestCase):
         self.hidden_brew_direct = Brew.query.filter_by(name='hidden czech pilsener').first()
         self.hidden_user = BrewerProfile.get_by_email('hidden0@example.com')
         self.hidden_brewery = Brewery.query.filter_by(name='hidden brewery #1').first()
-        self.list_url = url_for('brew-all')
+        self.list_url = url_for('brew.all')
 
     def test_regular_view_list(self):
         """
@@ -28,7 +28,7 @@ class BrewTestCase(BrewlogTestCase):
             self.assertNotIn(self.hidden_brew_indirect.name, rv.data)
             self.assertNotIn(self.hidden_brew_direct.name, rv.data)
             # delete button is not visible here
-            self.assertNotIn(url_for('brew-delete', brew_id=self.brew.id), rv.data)
+            self.assertNotIn(url_for('brew.delete', brew_id=self.brew.id), rv.data)
 
     def test_hidden_user_view_list(self):
         """
@@ -40,8 +40,8 @@ class BrewTestCase(BrewlogTestCase):
             self.assertIn(self.brew.name, rv.data)
             self.assertIn(self.hidden_brew_indirect.name, rv.data)
             self.assertNotIn(self.hidden_brew_direct.name, rv.data)
-            self.assertNotIn(url_for('brew-delete', brew_id=self.brew.id), rv.data)
-            self.assertIn(url_for('brew-delete', brew_id=self.hidden_brew_indirect.id), rv.data)
+            self.assertNotIn(url_for('brew.delete', brew_id=self.brew.id), rv.data)
+            self.assertIn(url_for('brew.delete', brew_id=self.hidden_brew_indirect.id), rv.data)
 
     def test_hidden_brew_view_list(self):
         """
@@ -53,14 +53,14 @@ class BrewTestCase(BrewlogTestCase):
             self.assertIn(self.brew.name, rv.data)
             self.assertNotIn(self.hidden_brew_indirect.name, rv.data)
             self.assertIn(self.hidden_brew_direct.name, rv.data)
-            self.assertIn(url_for('brew-delete', brew_id=self.brew.id), rv.data)
-            self.assertIn(url_for('brew-delete', brew_id=self.hidden_brew_direct.id), rv.data)
+            self.assertIn(url_for('brew.delete', brew_id=self.brew.id), rv.data)
+            self.assertIn(url_for('brew.delete', brew_id=self.hidden_brew_direct.id), rv.data)
 
     def test_view_public_details(self):
         """
         Only owner sees form for modify brew data
         """
-        url = url_for('brew-details', brew_id=self.brew.id)
+        url = url_for('brew.details', brew_id=self.brew.id)
         with self.app.test_client() as client:
             # anon first
             rv = client.get(url)
@@ -71,21 +71,21 @@ class BrewTestCase(BrewlogTestCase):
             self.assertIn('<form', rv.data)
 
     def test_view_hidden_details_indirect(self):
-        url = url_for('brew-details', brew_id=self.hidden_brew_indirect.id)
+        url = url_for('brew.details', brew_id=self.hidden_brew_indirect.id)
         with self.app.test_client() as client:
             self.login(client, self.brew.brewery.brewer.email)
             rv = client.get(url)
             self.assertEqual(rv.status_code, 404)
 
     def test_view_hidden_details_direct(self):
-        url = url_for('brew-details', brew_id=self.hidden_brew_direct.id)
+        url = url_for('brew.details', brew_id=self.hidden_brew_direct.id)
         with self.app.test_client() as client:
             self.login(client, self.hidden_user.email)
             rv = client.get(url)
             self.assertEqual(rv.status_code, 404)
 
     def test_view_hidden_details_by_owner_indirect(self):
-        url = url_for('brew-details', brew_id=self.hidden_brew_indirect.id)
+        url = url_for('brew.details', brew_id=self.hidden_brew_indirect.id)
         with self.app.test_client() as client:
             self.login(client, self.hidden_brew_indirect.brewery.brewer.email)
             rv = client.get(url)
@@ -93,7 +93,7 @@ class BrewTestCase(BrewlogTestCase):
             self.assertIn('<form', rv.data)
 
     def test_view_hidden_details_by_owner_direct(self):
-        url = url_for('brew-details', brew_id=self.hidden_brew_direct.id)
+        url = url_for('brew.details', brew_id=self.hidden_brew_direct.id)
         with self.app.test_client() as client:
             self.login(client, self.hidden_brew_direct.brewery.brewer.email)
             rv = client.get(url)
@@ -104,7 +104,7 @@ class BrewTestCase(BrewlogTestCase):
         """
         Anonymous users can not add brews
         """
-        url = url_for('brew-add')
+        url = url_for('brew.add')
         with self.app.test_client() as client:
             rv = client.get(url)
             self.assertEqual(rv.status_code, 302)
@@ -113,7 +113,7 @@ class BrewTestCase(BrewlogTestCase):
         """
         Registered users can access brew form.
         """
-        url = url_for('brew-add')
+        url = url_for('brew.add')
         with self.app.test_client() as client:
             self.login(client, self.hidden_brew_direct.brewery.brewer.email)
             rv = client.get(url)
@@ -124,7 +124,7 @@ class BrewTestCase(BrewlogTestCase):
         """
         Registered users can add brews.
         """
-        url = url_for('brew-add')
+        url = url_for('brew.add')
         with self.app.test_client() as client:
             self.login(client, self.hidden_brew_direct.brewery.brewer.email)
             data = {
@@ -145,7 +145,7 @@ class BrewTestCase(BrewlogTestCase):
         """
         Only brewery owner can update brew data
         """
-        url = url_for('brew-details', brew_id=self.hidden_brew_direct.id)
+        url = url_for('brew.details', brew_id=self.hidden_brew_direct.id)
         with self.app.test_client() as client:
             self.login(client, self.hidden_brew_direct.brewery.brewer.email)
             data = {
@@ -162,7 +162,7 @@ class BrewTestCase(BrewlogTestCase):
         """
         Non-owner can not update brew data
         """
-        url = url_for('brew-details', brew_id=self.hidden_brew_direct.id)
+        url = url_for('brew.details', brew_id=self.hidden_brew_direct.id)
         with self.app.test_client() as client:
             self.login(client, self.hidden_brewery.brewer.email)
             data = {
@@ -173,7 +173,7 @@ class BrewTestCase(BrewlogTestCase):
 
     def test_owner_access_delete_form(self):
         brew_id = self.hidden_brew_direct.id
-        url = url_for('brew-delete', brew_id=brew_id)
+        url = url_for('brew.delete', brew_id=brew_id)
         with self.app.test_client() as client:
             self.login(client, self.hidden_brew_direct.brewery.brewer.email)
             rv = client.get(url)
@@ -186,7 +186,7 @@ class BrewTestCase(BrewlogTestCase):
             * success
         """
         brew_id = self.hidden_brew_direct.id
-        url = url_for('brew-delete', brew_id=brew_id)
+        url = url_for('brew.delete', brew_id=brew_id)
         with self.app.test_client() as client:
             self.login(client, self.hidden_brew_direct.brewery.brewer.email)
             rv = client.post(url, data={'delete_it': True}, follow_redirects=True)
@@ -195,7 +195,7 @@ class BrewTestCase(BrewlogTestCase):
 
     def test_delete_by_other(self):
         brew_id = self.brew.id
-        url = url_for('brew-delete', brew_id=brew_id)
+        url = url_for('brew.delete', brew_id=brew_id)
         with self.app.test_client() as client:
             self.login(client, self.hidden_user.email)
             rv = client.post(url, data={'delete_it': True})
@@ -243,7 +243,7 @@ class BrewAttenuationTestCase(BrewlogTestCase):
         self.brew = Brew.query.filter_by(name='pale ale').first()
 
     def test_attenuation_none_display(self):
-        url = url_for('brew-details', brew_id=self.brew.id)
+        url = url_for('brew.details', brew_id=self.brew.id)
         with self.app.test_client() as client:
             self.login(client, self.brew.brewery.brewer.email)
             rv = client.get(url)
@@ -266,7 +266,7 @@ class BrewExportTestCase(BrewlogTestCase):
     def test_public(self):
         brew = Brew.query.filter_by(name='pale ale').first()
         user = BrewerProfile.get_by_email('hidden1@example.com')
-        url = url_for('brew-export', brew_id=brew.id, flavour='ipboard')
+        url = url_for('brew.export', brew_id=brew.id, flavour='ipboard')
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(url)
@@ -275,7 +275,7 @@ class BrewExportTestCase(BrewlogTestCase):
     def test_hidden(self):
         brew = Brew.query.filter_by(name='hidden czech pilsener').first()
         user = BrewerProfile.get_by_email('hidden1@example.com')
-        url = url_for('brew-export', brew_id=brew.id, flavour='ipboard')
+        url = url_for('brew.export', brew_id=brew.id, flavour='ipboard')
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(url)
@@ -284,7 +284,7 @@ class BrewExportTestCase(BrewlogTestCase):
     def test_print_public(self):
         brew = Brew.query.filter_by(name='pale ale').first()
         user = BrewerProfile.get_by_email('hidden1@example.com')
-        url = url_for('brew-print', brew_id=brew.id)
+        url = url_for('brew.print', brew_id=brew.id)
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(url)
@@ -293,7 +293,7 @@ class BrewExportTestCase(BrewlogTestCase):
     def test_print_hidden(self):
         brew = Brew.query.filter_by(name='hidden czech pilsener').first()
         user = BrewerProfile.get_by_email('hidden1@example.com')
-        url = url_for('brew-print', brew_id=brew.id)
+        url = url_for('brew.print', brew_id=brew.id)
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(url)
@@ -302,7 +302,7 @@ class BrewExportTestCase(BrewlogTestCase):
     def test_print_labels_public(self):
         brew = Brew.query.filter_by(name='pale ale').first()
         user = BrewerProfile.get_by_email('hidden1@example.com')
-        url = url_for('brew-print-labels', brew_id=brew.id)
+        url = url_for('brew.labels', brew_id=brew.id)
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(url)
@@ -313,7 +313,7 @@ class BrewExportTestCase(BrewlogTestCase):
         brew = Brew.query.filter_by(name='pale ale').first()
         user = BrewerProfile.get_by_email('user1@example.com')
         template = CustomLabelTemplate.query.filter_by(user=user).first()
-        url = url_for('brew-print-labels', brew_id=brew.id)
+        url = url_for('brew.labels', brew_id=brew.id)
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(url, query_string={'template': template.id})
@@ -323,7 +323,7 @@ class BrewExportTestCase(BrewlogTestCase):
     def test_print_labels_hidden(self):
         brew = Brew.query.filter_by(name='hidden czech pilsener').first()
         user = BrewerProfile.get_by_email('hidden1@example.com')
-        url = url_for('brew-print-labels', brew_id=brew.id)
+        url = url_for('brew.labels', brew_id=brew.id)
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(url)

@@ -15,7 +15,7 @@
 {% for brew in brews %}
 <tr>
     <td><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a></td>
-    <td>{% if user == brew.brewery.brewer %}<a href="{{ url_for('brew-delete', brew_id=brew.id) }}" class="button tiny radius">{{ gettext("delete") }}</a>{% endif %}</td>
+    <td>{% if user == brew.brewery.brewer %}<a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="button tiny radius">{{ gettext("delete") }}</a>{% endif %}</td>
 </tr>
 {% endfor %}
 </tbody>

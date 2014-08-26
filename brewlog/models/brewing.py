@@ -187,7 +187,7 @@ class Brew(Model):
 
     @property
     def absolute_url(self):
-        return url_for('brew-details', brew_id=self.id)
+        return url_for('brew.details', brew_id=self.id)
 
     @cached_property
     def first_step(self):

@@ -5,7 +5,7 @@
 {% block content %}
 <h3>{{ event.title }} ({{ event.brew.name }})</h3>
 <p>{{ gettext("Event %(event_name)s for your brew %(brew_name)s is about to be deleted with all its content. As this process is irreversible we're asking you again, is this really what you want do do?", event_name=event.title, brew_name=event.brew.name) }}</p>
-<form method="post" action="{{ url_for('brew-brewevent_delete', event_id=event.id) }}">
+<form method="post" action="{{ url_for('brew.event_delete', event_id=event.id) }}">
     {{ delete_form.csrf_token }}
     {{ delete_form.delete_it() }}
     <button type="submit" class="button small radius alert">{{ gettext("Yes, delete it") }}</button>

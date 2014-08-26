@@ -13,6 +13,7 @@ from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 from brewlog.brew.forms import BrewForm, FermentationStepForm
 from brewlog.models.calendar import Event
 from brewlog.calendar.forms import EventForm
+from brewlog.brew import brew_bp
 
 
 HINTS = [
@@ -22,6 +23,7 @@ HINTS = [
 ]
 
 
+@brew_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
 @login_required
 def brew_add():
     form = BrewForm(request.form)
@@ -37,6 +39,7 @@ def brew_add():
     return render_template('brew/form.html', **ctx)
 
 
+@brew_bp.route('/<int:brew_id>', methods=['POST', 'GET'], endpoint='details')
 def brew(brew_id, **kwargs):
     brew = get_or_404(Brew, brew_id)
     if request.method == 'POST':
@@ -59,6 +62,7 @@ def brew(brew_id, **kwargs):
     return render_template('brew/details.html', **ctx)
 
 
+@brew_bp.route('/all', endpoint='all')
 def brew_all():
     page_size = 20
     page = get_page(request)
@@ -74,6 +78,7 @@ def brew_all():
     return render_template('brew/list.html', **context)
 
 
+@brew_bp.route('/<int:brew_id>/export/<flavour>', endpoint='export')
 def brew_export(brew_id, flavour):
     brew = get_or_404(Brew, brew_id)
     if not brew.has_access(current_user):
@@ -86,6 +91,7 @@ def brew_export(brew_id, flavour):
     return render_template('brew/export.html', **ctx)
 
 
+@brew_bp.route('/<int:brew_id>/print', endpoint='print')
 def brew_print(brew_id):
     brew = get_or_404(Brew, brew_id)
     if not brew.has_access(current_user):
@@ -96,6 +102,7 @@ def brew_print(brew_id):
     return render_template('brew/print.html', **ctx)
 
 
+@brew_bp.route('/<int:brew_id>/labels', endpoint='labels')
 def brew_labels(brew_id):
     brew = get_or_404(Brew, brew_id)
     if not brew.has_access(current_user):
@@ -128,6 +135,7 @@ def brew_labels(brew_id):
     return render_template('brew/labels.html', **ctx)
 
 
+@brew_bp.route('/<int:brew_id>/delete', methods=['GET', 'POST'], endpoint='delete')
 @login_required
 def brew_delete(brew_id):
     brew = get_or_404(Brew, brew_id)
@@ -149,6 +157,7 @@ def brew_delete(brew_id):
     return render_template('brew/delete.html', **ctx)
 
 
+@brew_bp.route('/<int:brew_id>/fermentationstep/add', methods=['GET', 'POST'], endpoint='fermentationstep_add')
 @login_required
 def fermentation_step_add(brew_id):
     brew = get_or_404(Brew, brew_id)
@@ -179,6 +188,7 @@ def fermentation_step_add(brew_id):
     return render_template('brew/fermentation/form.html', **ctx)
 
 
+@brew_bp.route('/fermentationstep/<int:fstep_id>', methods=['GET', 'POST'], endpoint='fermentation_step')
 @login_required
 def fermentation_step(fstep_id):
     fstep = get_or_404(FermentationStep, fstep_id)
@@ -209,6 +219,7 @@ def fermentation_step(fstep_id):
     return render_template('brew/fermentation/step.html', **ctx)
 
 
+@brew_bp.route('/fermentationstep/<int:fstep_id>/delete', methods=['GET', 'POST'], endpoint='fermentationstep_delete')
 @login_required
 def fermentation_step_delete(fstep_id):
     fstep = get_or_404(FermentationStep, fstep_id)
@@ -232,6 +243,7 @@ def fermentation_step_delete(fstep_id):
     return render_template('brew/fermentation/step_delete.html', **ctx)
 
 
+@brew_bp.route('/<int:brew_id>/event/add', methods=['POST'], endpoint='event_add')
 @login_required
 def brew_event_add(brew_id):
     brew = get_or_404(Brew, brew_id)
@@ -245,6 +257,7 @@ def brew_event_add(brew_id):
     return redirect(brew.absolute_url)
 
 
+@brew_bp.route('/event/<int:event_id>', methods=['GET', 'POST'], endpoint='event')
 @login_required
 def brew_event(event_id):
     event = get_or_404(Event, event_id)
@@ -264,6 +277,7 @@ def brew_event(event_id):
     return render_template('brew/calendar/event.html', **ctx)
 
 
+@brew_bp.route('/event/<int:event_id>/delete', methods=['GET', 'POST'], endpoint='event_delete')
 @login_required
 def brew_event_delete(event_id):
     event = get_or_404(Event, event_id)

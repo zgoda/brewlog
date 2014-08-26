@@ -16,7 +16,7 @@ class CalendarTestCase(BrewlogTestCase):
         self.other_brewer = BrewerProfile.get_by_email('hidden1@example.com')
 
     def test_add_by_owner(self):
-        url = url_for('brew-brewevent_add', brew_id=self.brew.id)
+        url = url_for('brew.event_add', brew_id=self.brew.id)
         with self.app.test_client() as client:
             self.login(client, self.brew.brewery.brewer.email)
             date = datetime.datetime.utcnow()
@@ -32,7 +32,7 @@ class CalendarTestCase(BrewlogTestCase):
             self.assertEqual(Event.query.filter_by(brew=self.brew).count(), 3)
 
     def test_others_cant_add(self):
-        url = url_for('brew-brewevent_add', brew_id=self.brew.id)
+        url = url_for('brew.event_add', brew_id=self.brew.id)
         with self.app.test_client() as client:
             self.login(client, self.other_brewer.email)
             date = datetime.datetime.utcnow()
@@ -48,7 +48,7 @@ class CalendarTestCase(BrewlogTestCase):
 
     def test_owner_sees_edit_form(self):
         event = Event.query.filter_by(brew=self.brew).first()
-        url = url_for('brew-brew_event', event_id=event.id)
+        url = url_for('brew.event', event_id=event.id)
         with self.app.test_client() as client:
             self.login(client, event.brew.brewery.brewer.email)
             rv = client.get(url)
@@ -57,7 +57,7 @@ class CalendarTestCase(BrewlogTestCase):
 
     def test_others_cant_access_edit_form(self):
         event = Event.query.filter_by(brew=self.brew).first()
-        url = url_for('brew-brew_event', event_id=event.id)
+        url = url_for('brew.event', event_id=event.id)
         with self.app.test_client() as client:
             self.login(client, self.other_brewer.email)
             rv = client.get(url)
@@ -65,7 +65,7 @@ class CalendarTestCase(BrewlogTestCase):
 
     def test_modify(self):
         event = Event.query.filter_by(brew=self.brew).first()
-        url = url_for('brew-brew_event', event_id=event.id)
+        url = url_for('brew.event', event_id=event.id)
         with self.app.test_client() as client:
             self.login(client, event.brew.brewery.brewer.email)
             data = {
@@ -83,7 +83,7 @@ class CalendarTestCase(BrewlogTestCase):
 
     def test_owner_sees_delete_form(self):
         event = Event.query.filter_by(brew=self.brew).first()
-        url = url_for('brew-brewevent_delete', event_id=event.id)
+        url = url_for('brew.event_delete', event_id=event.id)
         with self.app.test_client() as client:
             self.login(client, self.brew.brewery.brewer.email)
             rv = client.get(url)
@@ -92,7 +92,7 @@ class CalendarTestCase(BrewlogTestCase):
 
     def test_others_cant_access_delete_form(self):
         event = Event.query.filter_by(brew=self.brew).first()
-        url = url_for('brew-brewevent_delete', event_id=event.id)
+        url = url_for('brew.event_delete', event_id=event.id)
         with self.app.test_client() as client:
             self.login(client, self.other_brewer.email)
             rv = client.get(url)
@@ -101,7 +101,7 @@ class CalendarTestCase(BrewlogTestCase):
     def test_delete(self):
         event = Event.query.filter_by(brew=self.brew).first()
         event_id = event.id
-        url = url_for('brew-brewevent_delete', event_id=event_id)
+        url = url_for('brew.event_delete', event_id=event_id)
         with self.app.test_client() as client:
             self.login(client, self.brew.brewery.brewer.email)
             rv = client.post(url, data={'delete_it': True}, follow_redirects=True)
@@ -111,7 +111,7 @@ class CalendarTestCase(BrewlogTestCase):
     def test_delete_attempt_not_checked(self):
         event = Event.query.filter_by(brew=self.brew).first()
         event_id = event.id
-        url = url_for('brew-brewevent_delete', event_id=event_id)
+        url = url_for('brew.event_delete', event_id=event_id)
         with self.app.test_client() as client:
             self.login(client, self.brew.brewery.brewer.email)
             rv = client.post(url, data={'delete_it': 'false'}, follow_redirects=True)

@@ -56,6 +56,6 @@
 </ul>
 {% endif %}
 {% if form and (profile.breweries or profile.other_breweries) %}
-<p><a href="{{ url_for('brew-add') }}" class="small button radius">{{ gettext("add new brew") }}</a></p>
+<p><a href="{{ url_for('brew.add') }}" class="small button radius">{{ gettext("add new brew") }}</a></p>
 {% endif %}
 {% endblock %}
