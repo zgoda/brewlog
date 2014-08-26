@@ -153,7 +153,7 @@ class BreweryTestCase(BrewlogTestCase):
                 'name': 'new brewery',
             }
             url = url_for('brewery.add')
-            redirect_url = url_for('auth-select-provider') + '?%s' % urllib.urlencode({'next': url})
+            redirect_url = url_for('auth.select') + '?%s' % urllib.urlencode({'next': url})
             rv = client.post(url, data=data, follow_redirects=False)
             self.assertRedirects(rv, redirect_url)
 

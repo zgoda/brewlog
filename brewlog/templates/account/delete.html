@@ -6,7 +6,7 @@
 <h3>{{ profile.full_name }}</h3>
 <p>{{ gettext("Account for %(email)s is about to be deleted with all related content. As this process is irreversible we're asking you again, is this really what you want to do?", email=profile.email) }}</p>
 <p><strong>{{ gettext("Big fat warning!") }}</strong> {{ gettext("All related content will be deleted too: breweries, brews, tasting notes and so on.") }}</p>
-<form method="post" action="{{ url_for('profile-delete', userid=profile.id) }}">
+<form method="post" action="{{ url_for('profile.delete', userid=profile.id) }}">
     {{ delete_form.csrf_token }}
     {{ delete_form.delete_it() }}
     <button type="submit" class="button small radius alert">{{ gettext("Yes, delete it") }}</button>

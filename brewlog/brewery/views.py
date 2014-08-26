@@ -39,7 +39,7 @@ def brewery_delete(brewery_id):
             dbsession.delete(brewery)
             dbsession.commit()
             flash(_('brewery %(name)s has been deleted', name=name), category='success')
-            next_ = request.args.get('next') or url_for('profile-breweries', userid=current_user.id)
+            next_ = request.args.get('next') or url_for('profile.breweries', userid=current_user.id)
             return redirect(next_)
     ctx = {
         'delete_form': form,

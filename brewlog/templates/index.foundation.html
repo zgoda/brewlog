@@ -45,10 +45,10 @@
                     <li class="has-dropdown"><a href="#">{% trans %}user tools{% endtrans %}</a>
                         <ul class="dropdown">
                             {% if user.is_anonymous() %}
-                            <li><a href="{{ url_for('auth-select-provider') }}">{% trans %}login page{% endtrans %}</a></li>
+                            <li><a href="{{ url_for('auth.select') }}">{% trans %}login page{% endtrans %}</a></li>
                             {% else %}
                             <li><a href="{{ user.absolute_url }}">{% trans %}my profile{% endtrans %}</a></li>
-                            <li><a href="{{ url_for('auth-logout') }}">{% trans %}logout{% endtrans %}</a></li>
+                            <li><a href="{{ url_for('auth.logout') }}">{% trans %}logout{% endtrans %}</a></li>
                             {% endif %}
                         </ul>
                     </li>

@@ -47,7 +47,7 @@ def make_app(env):  # pragma: no cover
         }
 
     login_manager.init_app(app)
-    login_manager.login_view = 'auth-select-provider'
+    login_manager.login_view = 'auth.select'
     login_manager.login_message = _('Please log in to access this page')
     login_manager.login_message_category = 'warning'
 
@@ -63,7 +63,14 @@ def make_app(env):  # pragma: no cover
     pages.init_app(app)
     pages.get('foo')  # preload all static pages
 
+    from brewlog.auth.providers import oauth
+    oauth.init_app(app)
+
     # register blueprints
+    from brewlog.auth import auth_bp
+    app.register_blueprint(auth_bp, url_prefix='/auth')
+    from brewlog.profile import profile_bp
+    app.register_blueprint(profile_bp, url_prefix='/profile')
     from brewlog.brewery import brewery_bp
     app.register_blueprint(brewery_bp, url_prefix='/brewery')
     from brewlog.brew import brew_bp

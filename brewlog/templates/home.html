@@ -40,7 +40,7 @@
                     <ul class="no-bullet">
                         {% for brewer in latest_brewers %}<li><a href="{{ brewer.absolute_url }}">{{ brewer.name|e }}</a> {{ gettext("registered: %(date)s", date=format_date(brewer.created, "short")) }}</li>{% endfor %}
                     </ul>
-                    <p><a href="{{ url_for('profile-all') }}">{{ gettext("view all") }}</a></p>
+                    <p><a href="{{ url_for('profile.all') }}">{{ gettext("view all") }}</a></p>
                 </div>
             </div>
             {% endif %}

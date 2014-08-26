@@ -3,16 +3,19 @@ from flask.ext.login import current_user, login_required, logout_user
 from flask.ext.babel import gettext as _
 from sqlalchemy import desc
 
+
 from brewlog.db import session as dbsession
 from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
 from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 from brewlog.models.brewing import Brewery, Brew
 from brewlog.models.calendar import RemoteCalendar  # NOQA
 from brewlog.models.calendar import Event
-from brewlog.users.forms import ProfileForm, CustomExportTemplateForm, CustomLabelTemplateForm
+from brewlog.profile.forms import ProfileForm, CustomExportTemplateForm, CustomLabelTemplateForm
 from brewlog.forms.base import DeleteForm
+from brewlog.profile import profile_bp
 
 
+@profile_bp.route('/<int:userid>', methods=['GET', 'POST'], endpoint='details')
 def profile(userid, **kwargs):
     user_profile = get_or_404(BrewerProfile, userid)
     if request.method == 'POST':
@@ -40,6 +43,7 @@ def profile(userid, **kwargs):
     return render_template('account/profile.html', **context)
 
 
+@profile_bp.route('<int:userid>/delete', methods=['GET', 'POST'], endpoint='delete')
 @login_required
 def profile_delete(userid):
     profile = get_or_404(BrewerProfile, userid)
@@ -61,6 +65,7 @@ def profile_delete(userid):
     return render_template('account/delete.html', **ctx)
 
 
+@profile_bp.route('/all', endpoint='all')
 def profile_list():
     page_size = 20
     page = get_page(request)
@@ -73,6 +78,7 @@ def profile_list():
     return render_template('account/profile_list.html', **ctx)
 
 
+@profile_bp.route('/<int:userid>/breweries', endpoint='breweries')
 def breweries(userid):
     brewer = BrewerProfile.query.get(userid)
     if not brewer or (not brewer.is_public and current_user.id != userid):
@@ -88,6 +94,7 @@ def breweries(userid):
     return render_template('brewery/list.html', **ctx)
 
 
+@profile_bp.route('/<int:userid>/brews', endpoint='brews')
 def brews(userid):
     brewer = BrewerProfile.query.get(userid)
     if not brewer or (not brewer.is_public and current_user.id != userid):
@@ -106,6 +113,8 @@ def brews(userid):
     return render_template('brew/list.html', **ctx)
 
 
+@profile_bp.route('/<int:userid>/extemplate', methods=['GET', 'POST'], defaults={'tid': None}, endpoint='export_template_add')  # noqa
+@profile_bp.route('/<int:userid>/extemplate/<int:tid>', methods=['GET', 'POST'], endpoint='export_template')
 @login_required
 def export_template(userid, tid=None):
     template = None
@@ -126,7 +135,8 @@ def export_template(userid, tid=None):
     }
     return render_template('account/export_template.html', **ctx)
 
-
+@profile_bp.route('/<int:userid>/lbtemplate', methods=['GET', 'POST'], defaults={'tid': None}, endpoint='label_template_add')  # noqa
+@profile_bp.route('/<int:userid>/lbtemplate/<int:tid>', methods=['GET', 'POST'], endpoint='label_template')
 @login_required
 def label_template(userid, tid=None):
     template = None
@@ -139,7 +149,7 @@ def label_template(userid, tid=None):
         if form.validate():
             template = form.save(current_user, template)
             flash(_('your label template %(name)s has been saved', name=template.name), category='success')
-            next_ = url_for('profile-details', userid=current_user.id)
+            next_ = url_for('profile.details', userid=current_user.id)
             return redirect(next_)
     form = CustomLabelTemplateForm(obj=template)
     ctx = {

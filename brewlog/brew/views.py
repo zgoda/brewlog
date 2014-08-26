@@ -148,7 +148,7 @@ def brew_delete(brew_id):
             dbsession.delete(brew)
             dbsession.commit()
             flash(_('brew %(name)s has been deleted', name=name), category='success')
-            next_ = request.args.get('next') or url_for('profile-brews', userid=current_user.id)
+            next_ = request.args.get('next') or url_for('profile.brews', userid=current_user.id)
             return redirect(next_)
     ctx = {
         'brew': brew,
