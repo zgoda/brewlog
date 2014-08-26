@@ -1,7 +1,15 @@
 from flask import session
 from flask.ext.oauthlib.client import OAuth
 
-from brewlog import secrets
+try:
+    from brewlog.secrets import AUTH_CONFIG
+except ImportError:
+    AUTH_CONFIG = {
+        'google': ('app_id', 'app_secret'),
+        'facebook': ('app_id', 'app_secret'),
+        'github': ('app_id', 'app_secret'),
+    }
+
 
 oauth = OAuth()
 
@@ -10,8 +18,8 @@ facebook = oauth.remote_app('facebook',
     request_token_url=None,
     access_token_url='/oauth/access_token',
     authorize_url='https://www.facebook.com/dialog/oauth',
-    consumer_key=secrets.AUTH_CONFIG['facebook'][0],
-    consumer_secret=secrets.AUTH_CONFIG['facebook'][1],
+    consumer_key=AUTH_CONFIG['facebook'][0],
+    consumer_secret=AUTH_CONFIG['facebook'][1],
     request_token_params={'scope': 'email'},
 )
 
@@ -27,13 +35,13 @@ google = oauth.remote_app('google',
     },
     access_token_url='https://accounts.google.com/o/oauth2/token',
     access_token_method='POST',
-    consumer_key=secrets.AUTH_CONFIG['google'][0],
-    consumer_secret=secrets.AUTH_CONFIG['google'][1],
+    consumer_key=AUTH_CONFIG['google'][0],
+    consumer_secret=AUTH_CONFIG['google'][1],
 )
 
 github = oauth.remote_app('github',
-    consumer_key=secrets.AUTH_CONFIG['github'][0],
-    consumer_secret=secrets.AUTH_CONFIG['github'][1],
+    consumer_key=AUTH_CONFIG['github'][0],
+    consumer_secret=AUTH_CONFIG['github'][1],
     request_token_params={
         'scope': 'user:email',
     },
