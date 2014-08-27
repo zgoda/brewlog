@@ -3,12 +3,11 @@ from flask.ext.login import current_user, login_required
 from flask.ext.babel import gettext as _
 
 from brewlog.brewery import brewery_bp
-from brewlog.db import session as dbsession
-from brewlog.models import breweries
+from brewlog.models import breweries, db
 from brewlog.models.brewing import Brewery
 from brewlog.forms.base import DeleteForm
 from brewlog.brewery.forms import BreweryForm
-from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
+from brewlog.utils.models import Pagination, paginate, get_page
 
 
 @brewery_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
@@ -29,15 +28,15 @@ def brewery_add():
 @brewery_bp.route('/<int:brewery_id>/delete', methods=['POST', 'GET'], endpoint='delete')
 @login_required
 def brewery_delete(brewery_id):
-    brewery = get_or_404(Brewery, brewery_id)
+    brewery = Brewery.query.get_or_404(brewery_id)
     if brewery.brewer != current_user:
         abort(403)
     form = DeleteForm(request.form)
     if request.method == 'POST':
         name = brewery.name
         if form.validate() and form.delete_it.data:
-            dbsession.delete(brewery)
-            dbsession.commit()
+            db.session.delete(brewery)
+            db.session.commit()
             flash(_('brewery %(name)s has been deleted', name=name), category='success')
             next_ = request.args.get('next') or url_for('profile.breweries', userid=current_user.id)
             return redirect(next_)
@@ -66,7 +65,7 @@ def brewery_all():
 
 @brewery_bp.route('/<int:brewery_id>', methods=['POST', 'GET'], endpoint='details')
 def brewery(brewery_id, **kwargs):
-    brewery = get_or_404(Brewery, brewery_id)
+    brewery = Brewery.query.get_or_404(brewery_id)
     if request.method == 'POST':
         if current_user != brewery.brewer:
             abort(403)
@@ -89,7 +88,7 @@ def brewery(brewery_id, **kwargs):
 def brewery_brews(brewery_id):
     page_size = 20
     page = get_page(request)
-    brewery = get_or_404(Brewery, brewery_id)
+    brewery = Brewery.query.get_or_404(brewery_id)
     public_only = False
     if current_user.is_anonymous() or (current_user != brewery.brewer):
         if not brewery.has_access(current_user):

@@ -6,6 +6,7 @@ Flask-Script
 Flask-OAuthlib
 Flask-Login
 Flask-FlatPages
+Flask-SQLAlchemy
 PyYAML
 Markdown
 psycopg2
@@ -22,6 +23,7 @@ MarkupSafe
 translitcodec
 python-dateutil
 six
+setuptools
 
 # database migrations
 alembic

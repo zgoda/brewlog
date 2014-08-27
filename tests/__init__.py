@@ -19,7 +19,7 @@ class BrewlogTestCase(TestCase):
         return app
 
     def setUp(self):
-        db.init_db()
+        db.create_all()
         env = {
             'BrewData': Brew,
             'BreweryData': Brewery,
@@ -46,7 +46,7 @@ class BrewlogTestCase(TestCase):
     def tearDown(self):
         self.data.teardown()
         db.session.remove()
-        db.clear_db()
+        db.drop_all()
 
     def login(self, client, email=None):
         if email is None:

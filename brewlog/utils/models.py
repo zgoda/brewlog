@@ -1,6 +1,14 @@
 from math import ceil
 
-from flask import abort
+
+class DefaultModelMixin(object):
+
+    __mapper_args__ = {
+        'confirm_deleted_rows': False,
+    }
+
+    def __repr__(self):  # pragma: no cover
+        return unicode(self).encode('utf-8')
 
 
 class Pagination(object):  # pragma: no cover
@@ -43,10 +51,3 @@ def get_page(request, arg_name='p'):
         return int(request.args.get(arg_name, '1'))
     except ValueError:
         return 1
-
-
-def get_or_404(cls, pk):
-    obj = cls.query.get(pk)
-    if obj is None:
-        abort(404)
-    return obj

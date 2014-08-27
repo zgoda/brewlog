@@ -1,12 +1,11 @@
 from flask import request, abort, render_template, redirect, url_for, flash
 from flask.ext.login import current_user, login_required
 from flask.ext.babel import gettext as _
-from sqlalchemy import desc
 import markdown
 
-from brewlog.db import session as dbsession
-from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
+from brewlog.utils.models import Pagination, paginate, get_page
 from brewlog.forms.base import DeleteForm
+from brewlog import db
 from brewlog.models import tasting_notes
 from brewlog.models.brewing import Brew
 from brewlog.models.tasting import TastingNote
@@ -26,7 +25,7 @@ def all():
     context = {
         'public_only': True,
         'pagination': pagination,
-        'notes': paginate(query.order_by(desc(TastingNote.date)), page-1, page_size)
+        'notes': paginate(query.order_by(db.desc(TastingNote.date)), page-1, page_size)
     }
     return render_template('tasting/list.html', **context)
 
@@ -34,7 +33,7 @@ def all():
 @tasting_bp.route('/<int:brew_id>/add', methods=['GET', 'POST'], endpoint='add')
 @login_required
 def brew_add_tasting_note(brew_id):
-    brew = get_or_404(Brew, brew_id)
+    brew = Brew.query.get_or_404(brew_id)
     if not brew.has_access(current_user):
         abort(403)
     form = TastingNoteForm(request.form)
@@ -53,15 +52,15 @@ def brew_add_tasting_note(brew_id):
 @tasting_bp.route('/<int:note_id>/delete', methods=['GET', 'POST'], endpoint='delete')
 @login_required
 def brew_delete_tasting_note(note_id):
-    note = get_or_404(TastingNote, note_id)
+    note = TastingNote.query.get_or_404(note_id)
     if current_user not in (note.author, note.brew.brewery.brewer):
         abort(403)
     brew = note.brew
     form = DeleteForm(request.form)
     if request.method == 'POST':
         if form.validate() and form.delete_it.data:
-            dbsession.delete(note)
-            dbsession.commit()
+            db.session.delete(note)
+            db.session.commit()
             flash(_('tasting note for brew %(brew)s has been deleted', brew=brew.name), category='success')
             next_ = request.args.get('next') or url_for('brew.details', brew_id=brew.id)
             return redirect(next_)
@@ -100,7 +99,7 @@ def brew_update_tasting_note():
     value = request.form.get('value', '').strip()
     if value:
         note.text = value
-        dbsession.add(note)
-        dbsession.commit()
+        db.session.add(note)
+        db.session.commit()
         return markdown.markdown(value, safe_mode='remove')
     return note.text_html

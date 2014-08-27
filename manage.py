@@ -2,8 +2,7 @@ import unittest
 
 from flask.ext.script import Server, Manager, Shell, Command, Option
 
-from brewlog import make_app
-from brewlog.db import init_db, clear_db
+from brewlog import make_app, db
 
 
 class RunTests(Command):
@@ -48,13 +47,13 @@ manager.add_command('test', RunTests())
 @manager.command
 def initdb():
     "Initialize empty database if does not exist"
-    init_db()
+    db.create_all()
 
 
 @manager.command
 def cleardb():
     "Clear all database tables"
-    clear_db()
+    db.drop_all()
 
 if __name__ == '__main__':
     manager.run()
