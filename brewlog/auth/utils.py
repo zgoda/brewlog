@@ -3,7 +3,7 @@ from flask.ext.babel import gettext as _
 from flask.ext.login import login_user
 
 from brewlog.models.users import BrewerProfile
-from brewlog.db import session as dbsession
+from brewlog import db
 
 
 def login_success(email, access_token, remote_id, service_name, **kwargs):
@@ -15,8 +15,8 @@ def login_success(email, access_token, remote_id, service_name, **kwargs):
     user.oauth_service = service_name
     for k, v in kwargs.items():
         setattr(user, k, v)
-    dbsession.add(user)
-    dbsession.commit()
+    db.session.add(user)
+    db.session.commit()
     login_user(user)
     session.permanent = True
     flash(_('You have been signed in as %(email)s using %(service)s', email=email, service=service_name),

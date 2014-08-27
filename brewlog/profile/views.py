@@ -1,11 +1,9 @@
 from flask import render_template, redirect, url_for, flash, request, abort
 from flask.ext.login import current_user, login_required, logout_user
 from flask.ext.babel import gettext as _
-from sqlalchemy import desc
 
-
-from brewlog.db import session as dbsession
-from brewlog.utils.models import get_or_404, Pagination, paginate, get_page
+from brewlog import db
+from brewlog.utils.models import Pagination, paginate, get_page
 from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 from brewlog.models.brewing import Brewery, Brew
 from brewlog.models.calendar import Event
@@ -16,7 +14,7 @@ from brewlog.profile import profile_bp
 
 @profile_bp.route('/<int:userid>', methods=['GET', 'POST'], endpoint='details')
 def profile(userid, **kwargs):
-    user_profile = get_or_404(BrewerProfile, userid)
+    user_profile = BrewerProfile.query.get_or_404(userid)
     if request.method == 'POST':
         if current_user != user_profile:
             abort(403)
@@ -45,7 +43,7 @@ def profile(userid, **kwargs):
 @profile_bp.route('<int:userid>/delete', methods=['GET', 'POST'], endpoint='delete')
 @login_required
 def profile_delete(userid):
-    profile = get_or_404(BrewerProfile, userid)
+    profile = BrewerProfile.query.get_or_404(userid)
     if current_user != profile:
         abort(403)
     email = profile.email
@@ -53,8 +51,8 @@ def profile_delete(userid):
     if request.method == 'POST':
         if form.validate() and form.delete_it.data:
             logout_user()
-            dbsession.delete(profile)
-            dbsession.commit()
+            db.session.delete(profile)
+            db.session.commit()
             flash(_('profile for %(email)s has been deleted', email=email), category='success')
             return redirect(url_for('home.index'))
     ctx = {
@@ -103,7 +101,7 @@ def brews(userid):
     query = Brew.query.join(Brewery).filter(Brewery.brewer_id==userid)
     if current_user.is_anonymous() or current_user.id != userid:
         query = query.filter(Brew.is_public==True)
-    query = query.order_by(desc(Brew.created))
+    query = query.order_by(db.desc(Brew.created))
     pagination = Pagination(page, page_size, query.count())
     ctx = {
         'brews': paginate(query, page-1, page_size),
@@ -118,7 +116,7 @@ def brews(userid):
 def export_template(userid, tid=None):
     template = None
     if tid is not None:
-        template = get_or_404(CustomExportTemplate, tid)
+        template = CustomExportTemplate.query.get_or_404(tid)
         if template.user != current_user:
             abort(403)
     if request.method == 'POST':
@@ -140,7 +138,7 @@ def export_template(userid, tid=None):
 def label_template(userid, tid=None):
     template = None
     if tid is not None:
-        template = get_or_404(CustomLabelTemplate, tid)
+        template = CustomLabelTemplate.query.get_or_404(tid)
         if template.user != current_user:
             abort(403)
     if request.method == 'POST':

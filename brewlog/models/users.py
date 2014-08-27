@@ -1,41 +1,39 @@
 import datetime
 
 from flask import url_for
-from sqlalchemy import Column, Integer, String, Text, Boolean, DateTime, Index, ForeignKey
-from sqlalchemy import event, desc, or_
-from sqlalchemy.orm import relationship
 from flask.ext.babel import lazy_gettext as _
 from flask.ext.login import UserMixin
 
-from brewlog.db import Model
+from brewlog import db
+from brewlog.utils.models import DefaultModelMixin
 
 
-class BrewerProfile(UserMixin, Model):
+class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
     __tablename__ = 'brewer_profile'
-    id = Column(Integer, primary_key=True)
-    first_name = Column(String(50))
-    last_name = Column(String(50))
-    nick = Column(String(50))
-    email = Column(String(200), index=True, nullable=False)
-    full_name = Column(String(100))
-    location = Column(String(100))
-    about_me = Column(Text)
-    is_public = Column(Boolean, default=True)
-    created = Column(DateTime, default=datetime.datetime.utcnow)
-    updated = Column(DateTime, onupdate=datetime.datetime.utcnow, index=True)
-    access_token = Column(Text)  # for OAuth2
-    oauth_token = Column(Text)  # for OAuth1a
-    oauth_token_secret = Column(Text)  # for OAuth1a
-    oauth_service = Column(String(50))
-    remote_userid = Column(String(100))
-    breweries = relationship('Brewery', cascade='all,delete', lazy='dynamic')
-    custom_export_templates = relationship('CustomExportTemplate', cascade='all,delete', lazy='dynamic',
+    id = db.Column(db.Integer, primary_key=True)
+    first_name = db.Column(db.String(50))
+    last_name = db.Column(db.String(50))
+    nick = db.Column(db.String(50))
+    email = db.Column(db.String(200), index=True, nullable=False)
+    full_name = db.Column(db.String(100))
+    location = db.Column(db.String(100))
+    about_me = db.Column(db.Text)
+    is_public = db.Column(db.Boolean, default=True)
+    created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    updated = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow, index=True)
+    access_token = db.Column(db.Text)  # for OAuth2
+    oauth_token = db.Column(db.Text)  # for OAuth1a
+    oauth_token_secret = db.Column(db.Text)  # for OAuth1a
+    oauth_service = db.Column(db.String(50))
+    remote_userid = db.Column(db.String(100))
+    breweries = db.relationship('Brewery', cascade='all,delete', lazy='dynamic')
+    custom_export_templates = db.relationship('CustomExportTemplate', cascade='all,delete', lazy='dynamic',
         order_by='CustomExportTemplate.name')
-    custom_label_templates = relationship('CustomLabelTemplate', cascade='all,delete', lazy='dynamic',
+    custom_label_templates = db.relationship('CustomLabelTemplate', cascade='all,delete', lazy='dynamic',
         order_by='CustomLabelTemplate.name')
-    calendars = relationship('RemoteCalendar', cascade='all,delete', lazy='dynamic', order_by='RemoteCalendar.name')
+    calendars = db.relationship('RemoteCalendar', cascade='all,delete', lazy='dynamic', order_by='RemoteCalendar.name')
     __table_args__ = (
-        Index('user_remote_id', 'oauth_service', 'remote_userid'),
+        db.Index('user_remote_id', 'oauth_service', 'remote_userid'),
     )
 
     def __unicode__(self):  # pragma: no cover
@@ -74,10 +72,10 @@ class BrewerProfile(UserMixin, Model):
         query = cls.query
         if public_only:
             if extra_user:
-                query = query.filter(or_(cls.is_public==True, cls.id==extra_user.id))
+                query = query.filter(db.or_(cls.is_public==True, cls.id==extra_user.id))
             else:
                 query = query.filter_by(is_public=True)
-        return query.order_by(desc(ordering)).limit(limit).all()
+        return query.order_by(db.desc(ordering)).limit(limit).all()
 
     @classmethod
     def last_created(cls, public_only=False, limit=5, **kwargs):
@@ -106,20 +104,20 @@ def profile_pre_save(mapper, connection, target):
     if target.updated is None:
         target.updated = target.created
 
-event.listen(BrewerProfile, 'before_insert', profile_pre_save)
-event.listen(BrewerProfile, 'before_update', profile_pre_save)
+db.event.listen(BrewerProfile, 'before_insert', profile_pre_save)
+db.event.listen(BrewerProfile, 'before_update', profile_pre_save)
 
 
-class CustomExportTemplate(Model):
+class CustomExportTemplate(db.Model, DefaultModelMixin):
     __tablename__ = 'custom_export_template'
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
-    user = relationship('BrewerProfile')
-    name = Column(String(100), nullable=False)
-    text = Column(Text)
-    is_default = Column(Boolean, default=False)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'), nullable=False)
+    user = db.relationship('BrewerProfile')
+    name = db.Column(db.String(100), nullable=False)
+    text = db.Column(db.Text)
+    is_default = db.Column(db.Boolean, default=False)
     __table__args__ = (
-        Index('user_export_template', 'user_id', 'name'),
+        db.Index('user_export_template', 'user_id', 'name'),
     )
 
     def __unicode__(self):  # pragma: no cover
@@ -130,20 +128,20 @@ class CustomExportTemplate(Model):
         return url_for('profile.export_template', tid=self.id, userid=self.user.id)
 
 
-class CustomLabelTemplate(Model):
+class CustomLabelTemplate(db.Model, DefaultModelMixin):
     __tablename__ = 'custom_label_template'
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
-    user = relationship('BrewerProfile')
-    name = Column(String(100), nullable=False)
-    cols = Column(Integer, nullable=False, default=2)
-    rows = Column(Integer, nullable=False, default=5)
-    width = Column(Integer, default=90, server_default='90', nullable=False)
-    height = Column(Integer, default=50, server_default='50', nullable=False)
-    text = Column(Text)
-    is_default = Column(Boolean, default=False)
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'), nullable=False)
+    user = db.relationship('BrewerProfile')
+    name = db.Column(db.String(100), nullable=False)
+    cols = db.Column(db.Integer, nullable=False, default=2)
+    rows = db.Column(db.Integer, nullable=False, default=5)
+    width = db.Column(db.Integer, default=90, server_default='90', nullable=False)
+    height = db.Column(db.Integer, default=50, server_default='50', nullable=False)
+    text = db.Column(db.Text)
+    is_default = db.Column(db.Boolean, default=False)
     __table_args__ = (
-        Index('user_label_template', 'user_id', 'name'),
+        db.Index('user_label_template', 'user_id', 'name'),
     )
 
     def __unicode__(self):  # pragma: no cover

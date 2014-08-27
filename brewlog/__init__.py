@@ -5,14 +5,15 @@ from flask import Flask, render_template, get_flashed_messages, session, request
 from flask.ext.babel import Babel, gettext as _
 from flask.ext.login import LoginManager, current_user
 from flask.ext.flatpages import FlatPages
+from flask.ext.sqlalchemy import SQLAlchemy
 
-from brewlog.db import init_engine, session as dbsession
 from brewlog.templates import setup_template_extensions
 
 
 login_manager = LoginManager()
 babel = Babel()
 pages = FlatPages()
+db = SQLAlchemy()
 
 
 def make_app(env):  # pragma: no cover
@@ -26,11 +27,8 @@ def make_app(env):  # pragma: no cover
         pass
     if os.environ.get('BREWLOG_CONFIG', ''):
         app.config.from_evvar('BREWLOG_CONFIG')
-    init_engine(app.config['SQLALCHEMY_DATABASE_URI'])
 
-    @app.teardown_request
-    def shutdown_session(exception=None):
-        dbsession.remove()
+    db.init_app(app)
 
     @app.errorhandler(404)
     def not_found(error):

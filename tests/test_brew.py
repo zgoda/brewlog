@@ -1,6 +1,6 @@
 from flask import url_for
 
-from brewlog.db import session as dbsession
+from brewlog import db
 from brewlog.utils.brewing import aa, ra
 from tests import BrewlogTestCase
 from brewlog.models.brewing import Brew, Brewery
@@ -254,8 +254,8 @@ class BrewAttenuationTestCase(BrewlogTestCase):
     def test_og_fg_set(self):
         fs = self.brew.fermentation_steps.first()
         fs.fg = 2.5
-        dbsession.add(fs)
-        dbsession.flush()
+        db.session.add(fs)
+        db.session.flush()
         attenuation = self.brew.attenuation
         self.assertEqual(attenuation['apparent'], aa(self.brew.og, self.brew.fg))
         self.assertEqual(attenuation['real'], ra(self.brew.og, self.brew.fg))

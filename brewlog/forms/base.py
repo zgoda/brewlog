@@ -5,7 +5,7 @@ from wtforms import BooleanField, Form
 from wtforms.csrf.session import SessionCSRF
 from flask.ext.babel import lazy_gettext as _
 
-from brewlog import dbsession
+from brewlog import db
 
 
 class BaseForm(Form):
@@ -24,8 +24,8 @@ class BaseForm(Form):
     def save(self, obj, save=False):
         self.populate_obj(obj)
         if save:
-            dbsession.add(obj)
-            dbsession.commit()
+            db.session.add(obj)
+            db.session.commit()
         return obj
 
 

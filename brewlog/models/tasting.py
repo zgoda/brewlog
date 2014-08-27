@@ -1,24 +1,22 @@
 import datetime
 
 import markdown
-from sqlalchemy import event
-from sqlalchemy.orm import relationship
-from sqlalchemy import Column, Integer, Text, ForeignKey, Date
 
-from brewlog.db import Model, session
+from brewlog import db
+from brewlog.utils.models import DefaultModelMixin
 from brewlog.utils.text import stars2deg
 
 
-class TastingNote(Model):
+class TastingNote(db.Model, DefaultModelMixin):
     __tablename__ = 'tasting_note'
-    id = Column(Integer, primary_key=True)
-    author_id = Column(Integer, ForeignKey('brewer_profile.id'), nullable=False)
-    author = relationship('BrewerProfile')
-    date = Column(Date, nullable=False, index=True)
-    text = Column(Text, nullable=False)
-    text_html = Column(Text)
-    brew_id = Column(Integer, ForeignKey('brew.id'), nullable=False)
-    brew = relationship('Brew')
+    id = db.Column(db.Integer, primary_key=True)
+    author_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'), nullable=False)
+    author = db.relationship('BrewerProfile')
+    date = db.Column(db.Date, nullable=False, index=True)
+    text = db.Column(db.Text, nullable=False)
+    text_html = db.Column(db.Text)
+    brew_id = db.Column(db.Integer, db.ForeignKey('brew.id'), nullable=False)
+    brew = db.relationship('Brew')
 
     def __unicode__(self):  # pragma: no cover
         return u'<TastingNote by %s for %s>' % (self.author.name, self.brew.name)
@@ -29,10 +27,10 @@ class TastingNote(Model):
         if date is None:
             date = datetime.date.today()
         note.date = date
-        session.add(note)
-        session.flush()
+        db.session.add(note)
+        db.session.flush()
         if commit:
-            session.commit()
+            db.session.commit()
         return note
 
 
@@ -44,5 +42,5 @@ def tasting_note_pre_save(mapper, connection, target):
         target.text = stars2deg(target.text)
         target.text_html = markdown.markdown(target.text, safe_mode='remove')
 
-event.listen(TastingNote, 'before_insert', tasting_note_pre_save)
-event.listen(TastingNote, 'before_update', tasting_note_pre_save)
+db.event.listen(TastingNote, 'before_insert', tasting_note_pre_save)
+db.event.listen(TastingNote, 'before_update', tasting_note_pre_save)
