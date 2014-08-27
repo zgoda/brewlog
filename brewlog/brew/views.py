@@ -3,7 +3,8 @@ from flask.ext.login import current_user, login_required
 from flask.ext.babel import lazy_gettext, gettext as _
 from markdown import markdown
 
-from brewlog.models import brews, db
+from brewlog import db
+from brewlog.models import brews
 from brewlog.models.brewing import Brew, FermentationStep
 from brewlog.models.users import CustomLabelTemplate
 from brewlog.forms.base import DeleteForm

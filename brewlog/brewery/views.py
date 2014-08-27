@@ -2,8 +2,9 @@ from flask import url_for, abort, redirect, render_template, request, flash
 from flask.ext.login import current_user, login_required
 from flask.ext.babel import gettext as _
 
+from brewlog import db
 from brewlog.brewery import brewery_bp
-from brewlog.models import breweries, db
+from brewlog.models import breweries
 from brewlog.models.brewing import Brewery
 from brewlog.forms.base import DeleteForm
 from brewlog.brewery.forms import BreweryForm
