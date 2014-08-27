@@ -5,7 +5,7 @@
 
 {% block content %}
 <h3>{{ gettext("List of registered breweries") }}</h3>
-{% if breweries %}
+{% if pagination.items %}
 <table class="small-12 columns">
 <thead>
     <th>{{ gettext("name") }}</th>
@@ -13,7 +13,7 @@
     <th>{{ gettext("operations") }}</th>
 </thead>
 <tbody>
-{% for brewery in breweries %}
+{% for brewery in pagination.items %}
 <tr>
     <td><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a></td>
     <td>{{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }}</td>

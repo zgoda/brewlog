@@ -3,7 +3,7 @@ from flask.ext.login import current_user, login_required, logout_user
 from flask.ext.babel import gettext as _
 
 from brewlog import db
-from brewlog.utils.models import Pagination, paginate, get_page
+from brewlog.utils.models import get_page
 from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 from brewlog.models.brewing import Brewery, Brew
 from brewlog.models.calendar import Event
@@ -67,9 +67,8 @@ def profile_list():
     page_size = 20
     page = get_page(request)
     query = BrewerProfile.query.filter_by(is_public=True).order_by(BrewerProfile.created)
-    pagination = Pagination(page, page_size, query.count())
+    pagination = query.paginate(page, page_size)
     ctx = {
-        'users': paginate(query, page-1, page_size),
         'pagination': pagination,
     }
     return render_template('account/profile_list.html', **ctx)
@@ -83,9 +82,8 @@ def breweries(userid):
     page_size = 10
     page = get_page(request)
     query = Brewery.query.filter_by(brewer_id=userid).order_by(Brewery.name)
-    pagination = Pagination(page, page_size, query.count())
+    pagination = query.paginate(page, page_size)
     ctx = {
-        'breweries': paginate(query, page-1, page_size),
         'pagination': pagination,
     }
     return render_template('brewery/list.html', **ctx)
@@ -102,9 +100,8 @@ def brews(userid):
     if current_user.is_anonymous() or current_user.id != userid:
         query = query.filter(Brew.is_public==True)
     query = query.order_by(db.desc(Brew.created))
-    pagination = Pagination(page, page_size, query.count())
+    pagination = query.paginate(page, page_size)
     ctx = {
-        'brews': paginate(query, page-1, page_size),
         'pagination': pagination,
     }
     return render_template('brew/list.html', **ctx)

@@ -8,7 +8,7 @@ from brewlog.models import brews
 from brewlog.models.brewing import Brew, FermentationStep
 from brewlog.models.users import CustomLabelTemplate
 from brewlog.forms.base import DeleteForm
-from brewlog.utils.models import Pagination, paginate, get_page
+from brewlog.utils.models import get_page
 from brewlog.brew.forms import BrewForm, FermentationStepForm
 from brewlog.models.calendar import Event
 from brewlog.calendar.forms import EventForm
@@ -69,10 +69,10 @@ def brew_all():
         query = brews()
     else:
         query = brews(extra_user=current_user)
-    pagination = Pagination(page, page_size, query.count())
+    query = query.order_by(db.desc(Brew.created))
+    pagination = query.paginate(page, page_size)
     context = {
         'pagination': pagination,
-        'brews': paginate(query.order_by(db.desc(Brew.created)), page-1, page_size)
     }
     return render_template('brew/list.html', **context)
 

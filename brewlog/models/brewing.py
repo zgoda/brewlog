@@ -53,7 +53,7 @@ class Brewery(db.Model, DefaultModelMixin):
             query = query.order_by(order)
         if limit is not None:
             query = query.limit(limit)
-        return query.all()
+        return query
 
     def recent_brews(self, public_only=False, limit=10):
         return self._brews(public_only=public_only, limit=limit, order=db.desc(Brew.created))

@@ -5,9 +5,9 @@
 
 {% block content %}
 <h3>{% if public_only %}{{ gettext("all tasting notes to public brews").capitalize() }}{% else %}{{ gettext("all tasting notes to brews").capitalize() }}{% endif %}</h3>
-{% if notes %}
+{% if pagination.items %}
 <ul class="no-bullet">
-    {% for note in notes %}<li><a href="{{ note.brew.absolute_url }}">{{ gettext("%(user)s tasted %(brew)s", user=note.author.name, brew=note.brew.name) }}</a> {{ format_date(note.date, "short") }}</li>{% endfor %}
+    {% for note in pagination.items %}<li><a href="{{ note.brew.absolute_url }}">{{ gettext("%(user)s tasted %(brew)s", user=note.author.name, brew=note.brew.name) }}</a> {{ format_date(note.date, "short") }}</li>{% endfor %}
 </ul>
 {{ pg.render_pagination(pagination) }}
 {% endif %}

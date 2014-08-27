@@ -3,7 +3,7 @@ from flask.ext.login import current_user, login_required
 from flask.ext.babel import gettext as _
 import markdown
 
-from brewlog.utils.models import Pagination, paginate, get_page
+from brewlog.utils.models import get_page
 from brewlog.forms.base import DeleteForm
 from brewlog import db
 from brewlog.models import tasting_notes
@@ -21,11 +21,11 @@ def all():
         query = tasting_notes()
     else:
         query = tasting_notes(extra_user=current_user)
-    pagination = Pagination(page, page_size, query.count())
+    query = query.order_by(db.desc(TastingNote.date))
+    pagination = query.paginate(page, page_size)
     context = {
         'public_only': True,
         'pagination': pagination,
-        'notes': paginate(query.order_by(db.desc(TastingNote.date)), page-1, page_size)
     }
     return render_template('tasting/list.html', **context)
 

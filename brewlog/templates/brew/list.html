@@ -6,7 +6,7 @@
 
 {% block content %}
 <h3>{% if public_only %}{{ gettext("all public brews").capitalize() }}{% else %}{{ gettext("all brews").capitalize() }}{% endif %}</h3>
-{% if brews %}
+{% if pagination.items %}
 <table class="small-12 columns">
 <thead>
     <th>{{ gettext("name") }}</th>
@@ -14,7 +14,7 @@
     <th>{{ gettext("operations") }}</th>
 </thead>
 <tbody>
-{% for brew in brews %}
+{% for brew in pagination.items %}
 <tr>
 <td><a href="{{ brew.absolute_url }}">{{ brew.full_name|e }}</a></td>
 <td>{% if brew.is_draft %}<strong>{{ gettext("draft") }}</strong> {% endif %}{{ brew.display_info|e }}</td>

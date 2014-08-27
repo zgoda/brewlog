@@ -5,9 +5,9 @@
 
 {% block content %}
 <h3>{{ gettext("registered brewers").capitalize() }}</h3>
-{% if users %}
+{% if pagination.items %}
 <ul class="no-bullet">
-{% for user in users %}<li><a href="{{ user.absolute_url }}">{{ user.name|e }}</a></li>{% endfor %}
+{% for user in pagination.items %}<li><a href="{{ user.absolute_url }}">{{ user.name|e }}</a></li>{% endfor %}
 </ul>
 {{ pg.render_pagination(pagination) }}
 {% endif %}

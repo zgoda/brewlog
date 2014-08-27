@@ -8,7 +8,7 @@ from brewlog.models import breweries
 from brewlog.models.brewing import Brewery
 from brewlog.forms.base import DeleteForm
 from brewlog.brewery.forms import BreweryForm
-from brewlog.utils.models import Pagination, paginate, get_page
+from brewlog.utils.models import get_page
 
 
 @brewery_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
@@ -56,10 +56,10 @@ def brewery_all():
         query = breweries()
     else:
         query = breweries(extra_user=current_user)
-    pagination = Pagination(page, page_size, query.count())
+    query = query.order_by(Brewery.name)
+    pagination = query.paginate(page, page_size)
     ctx = {
         'pagination': pagination,
-        'breweries': paginate(query.order_by(Brewery.name), page-1, page_size)
     }
     return render_template('brewery/list.html', **ctx)
 
@@ -96,7 +96,7 @@ def brewery_brews(brewery_id):
             abort(404)
         public_only = True
     brewery_brews = brewery.all_brews(public_only)
-    pagination = Pagination(page, page_size, len(brewery_brews))
+    pagination = brewery_brews.paginate(page, page_size)
     ctx = {
         'brewery': brewery,
         'brews': brewery_brews,
