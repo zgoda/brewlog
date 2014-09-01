@@ -24,6 +24,7 @@ translitcodec
 python-dateutil
 six
 setuptools
+certifi
 
 # database migrations
 alembic
