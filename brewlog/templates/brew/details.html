@@ -39,7 +39,7 @@ $(document).ready(function() {
 {% block content %}
 {% if form %}
 <dl class="accordion" data-accordion>
-<dd>
+<dd class="accordion-navigation">
 <a href="#panel-fermentation-data">{{ gettext("fermentation data").capitalize() }}</a>
 <div id="panel-fermentation-data" class="content">
 {% for fstep in brew.fermentation_steps.all() %}
