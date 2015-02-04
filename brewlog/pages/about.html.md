@@ -1,5 +1,5 @@
 title: O aplikacji
-updated: 2013-09-30
+updated: 2015-02-04
 
 ## O aplikacji
 
@@ -9,7 +9,7 @@ Aplikacja została zoptymalizowana pod kątem użytkowania jej na urządzeniach 
 
 ### Udział w rozwoju aplikacji
 
-Aplikacja jest rozwijana w modelu OpenSource, dostępna jest na licencji MIT. Kod źródłowy można pobrać z [repozytorium Git](https://github.com/zgoda/brew-log), zachęcam do zapoznania się z kodem i w miarę możliwości wkład w rozwój przez utworzenie forka i wprowadzenie zmian, chętnie skorzystam z sugestii użytkowników. Na stronie projektu znajduje się również [prosty system do zgłaszania nieprawidłowości](https://github.com/zgoda/brew-log/issues) w działaniu aplikacji. W przypadku natrafienia na dziwne lub niezrozumiałe działanie zachęcam do zgłaszania takich znalezisk. Do aplikacji dołączony jest zestaw testów, który musi przechodzić bez błędu jeżeli zostałyby wprowadzone jakieś poprawki w kodzie.
+Aplikacja jest rozwijana w modelu OpenSource, dostępna jest na licencji MIT. Kod źródłowy można pobrać z prywatnego [repozytorium Git](https://bitbucket.org/zgoda/brew-log). Dostępu do repozytorium udzielam na życzenie.
 
 #### Na zachętę
 
@@ -27,5 +27,3 @@ Aplikacja została napisana przy użyciu następujących narzędzi i bibliotek:
 ### Uruchamianie własnej instancji
 
 Aplikacja jest uruchamialna w nieskomplikowany sposób w środowisku dowolnego kontenera `WSGI`, przy użyciu standardowej instalacji Pythona 2.x - nie będzie ona działała na Google AppEngine (co nie znaczy, że nie możnaby nad tym popracować). Do działania wymaga bazy danych - w najprostszym przypadku wystarczy dostarczane z Pythonem `sqlite3`, natomiast pozostałe zależności są instalowane podczas instalacji aplikacji lub przez ręczne zainstalowanie ze standardowego pliku z zależnościami dla `pip`. Konfiguracji należy dokonać przed uruchomieniem przez utworzenie pliku `config_local.py` i wpisanie w nim dyrektyw takich jak `URI` do bazy danych w formacie wymaganym przez bibliotekę [SQLAlchemy](http://www.sqlalchemy.org). Innym zalecanym do utworzenia plikiem jest `secrets.py`, należy go utworzyć z szablonu, który znajduje się w pliku `secrets.py.template`. Zawiera on klucze autoryzacyjne aplikacji dla zdalnego logowania. Aplikacja w wersji oryginalnej wymaga jedynie kluczy do identyfikacji przez OAuth w Google i Facebooku.
-
-Oryginalna aplikacja jest uruchomiona na platformie [OpenShift](http://www.openshift.com/) i działa w środowisku modułu Apache 2 `mod_wsgi` jako kontenera. Aby uruchomić instancję na tej platformie należy mieć konto na OpenShift Online, sforkować na GitHubie aplikację w żądanej wersji i podłączyć swoje repozytorium z aplikacją do repozytorium OpenShift. Dalsze postępowanie jest już typowe dla innych aplikacji w Pythonie na OpenShift.
