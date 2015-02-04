@@ -48,14 +48,15 @@ def make_app(env):  # pragma: no cover
     login_manager.login_message = _('Please log in to access this page')
     login_manager.login_message_category = 'warning'
 
-    babel.init_app(app)
+    if not app.testing:
+        @babel.localeselector
+        def get_locale():
+            lang = session.get('lang')
+            if lang is None:
+                lang = request.accept_languages.best_match(['pl', 'en'])
+            return lang
 
-    @babel.localeselector
-    def get_locale():
-        lang = session.get('lang')
-        if lang is None:
-            lang = request.accept_languages.best_match(['pl', 'en'])
-        return lang
+    babel.init_app(app)
 
     pages.init_app(app)
     pages.get('foo')  # preload all static pages

@@ -1,5 +1,5 @@
 from flask import session
-from flask.ext.oauthlib.client import OAuth
+from flask_oauthlib.client import OAuth
 
 try:
     from brewlog.secrets import AUTH_CONFIG

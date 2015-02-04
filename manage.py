@@ -1,6 +1,6 @@
 import unittest
 
-from flask.ext.script import Server, Manager, Shell, Command, Option
+from flask_script import Server, Manager, Shell, Command, Option
 
 from brewlog import make_app, db
 

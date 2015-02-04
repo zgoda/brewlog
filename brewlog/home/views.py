@@ -1,5 +1,5 @@
 from flask import render_template
-from flask.ext.login import current_user
+from flask_login import current_user
 
 from brewlog.home import home_bp
 from brewlog import pages
