@@ -6,7 +6,6 @@ from brewlog import db
 from brewlog.utils.models import get_page
 from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 from brewlog.models.brewing import Brewery, Brew
-from brewlog.models.calendar import Event
 from brewlog.profile.forms import ProfileForm, CustomExportTemplateForm, CustomLabelTemplateForm
 from brewlog.forms.base import DeleteForm
 from brewlog.profile import profile_bp
@@ -28,7 +27,6 @@ def profile(userid, **kwargs):
         'data_type': 'summary',
         'profile': user_profile,
         'latest_brews': Brew.get_latest_for(user_profile),
-        'latest_events': Event.get_latest_for(user_profile),
     }
     if user_profile.has_access(current_user):
         context['data'] = user_profile.full_data()

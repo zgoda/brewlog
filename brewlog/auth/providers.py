@@ -30,7 +30,6 @@ google = oauth.remote_app('google',
     request_token_params={
         'scope': [
             'https://www.googleapis.com/auth/userinfo.email',
-            'https://www.googleapis.com/auth/calendar',
         ],
     },
     access_token_url='https://accounts.google.com/o/oauth2/token',

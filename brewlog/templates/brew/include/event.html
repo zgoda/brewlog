@@ -1,5 +1,0 @@
-<div>
-    <strong>{{ event.title }}, {{ format_date(event.date, "short") }}</strong>
-    <p><a href="{{ url_for('brew.event', event_id=event.id) }}" class="button tiny radius">{{ gettext("change") }}</a> <a href="{{ url_for('brew.event_delete', event_id=event.id) }}" class="button tiny radius alert">{{ gettext("delete") }}</a></p>
-    {% if event.description %}{{ event.description_html|safe }}{% endif %}
-</div>

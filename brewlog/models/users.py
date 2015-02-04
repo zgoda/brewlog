@@ -31,7 +31,7 @@ class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
         order_by='CustomExportTemplate.name')
     custom_label_templates = db.relationship('CustomLabelTemplate', cascade='all,delete', lazy='dynamic',
         order_by='CustomLabelTemplate.name')
-    calendars = db.relationship('RemoteCalendar', cascade='all,delete', lazy='dynamic', order_by='RemoteCalendar.name')
+
     __table_args__ = (
         db.Index('user_remote_id', 'oauth_service', 'remote_userid'),
     )

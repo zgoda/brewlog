@@ -103,37 +103,6 @@ class BrewData(DataSet):
         created = datetime.datetime.utcnow()
 
 
-class EventData(DataSet):
-
-    class event1:
-        brew = BrewData.brew1
-        title = 'brewed'
-        event_type = 'brewing'
-        date = BrewData.brew1.created.date()
-        is_public = True
-
-    class event2:
-        brew = BrewData.brew1
-        title = 'racked'
-        event_type = 'racked'
-        date = BrewData.brew1.created.date() + datetime.timedelta(days=1)
-        is_public = False
-
-    class event3:
-        brew = BrewData.brew2
-        title = 'brewed'
-        event_type = 'brewing'
-        date = BrewData.brew2.created.date()
-        is_public = True
-
-    class event4:
-        brew = BrewData.hidden1
-        title = 'brewed'
-        event_type = 'brewing'
-        date = BrewData.hidden1.created.date()
-        is_public = True
-
-
 class FermentationStepData(DataSet):
 
     class fstep1:

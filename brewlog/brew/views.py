@@ -10,8 +10,6 @@ from brewlog.models.users import CustomLabelTemplate
 from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_page
 from brewlog.brew.forms import BrewForm, FermentationStepForm
-from brewlog.models.calendar import Event
-from brewlog.calendar.forms import EventForm
 from brewlog.brew import brew_bp
 
 
@@ -240,61 +238,3 @@ def fermentation_step_delete(fstep_id):
         'delete_form': form,
     }
     return render_template('brew/fermentation/step_delete.html', **ctx)
-
-
-@brew_bp.route('/<int:brew_id>/event/add', methods=['POST'], endpoint='event_add')
-@login_required
-def brew_event_add(brew_id):
-    brew = Brew.query.get_or_404(brew_id)
-    if brew.brewery.brewer != current_user:
-        abort(403)
-    form = EventForm(request.form)
-    if form.validate():
-        event = form.save(brew)
-        flash(_('event %(event)s for brew %(brew)s has been created', event=event.title, brew=brew.name),
-            category='success')
-    return redirect(brew.absolute_url)
-
-
-@brew_bp.route('/event/<int:event_id>', methods=['GET', 'POST'], endpoint='event')
-@login_required
-def brew_event(event_id):
-    event = Event.query.get_or_404(event_id)
-    if event.brew.brewery.brewer != current_user:
-        abort(403)
-    if request.method == 'POST':
-        form = EventForm(request.form)
-        if form.validate():
-            event = form.save(event.brew, obj=event)
-            flash(_('event %(event_name)s for brew %(brew_name)s has been updated', event_name=event.title,
-                brew_name=event.brew.name), category='success')
-            return redirect(event.brew.absolute_url)
-    ctx = {
-        'event': event,
-        'form': EventForm(obj=event),
-    }
-    return render_template('brew/calendar/event.html', **ctx)
-
-
-@brew_bp.route('/event/<int:event_id>/delete', methods=['GET', 'POST'], endpoint='event_delete')
-@login_required
-def brew_event_delete(event_id):
-    event = Event.query.get_or_404(event_id)
-    if event.brew.brewery.brewer != current_user:
-        abort(403)
-    event_title = event.title
-    brew_name = event.brew.name
-    next_ = event.brew.absolute_url
-    form = DeleteForm(request.form)
-    if request.method == 'POST':
-        if form.validate() and form.delete_it.data:
-            db.session.delete(event)
-            db.session.commit()
-            flash(_('event %(event_title)s for brew %(brew_name)s has been deleted', event_title=event_title,
-                brew_name=brew_name), category='success')
-            return redirect(next_)
-    ctx = {
-        'event': event,
-        'delete_form': form,
-    }
-    return render_template('brew/calendar/event_delete.html', **ctx)

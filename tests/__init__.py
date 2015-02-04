@@ -5,10 +5,9 @@ from fixture import SQLAlchemyFixture
 from brewlog import make_app, db
 from brewlog.models.brewing import Brew, Brewery, FermentationStep
 from brewlog.models.tasting import TastingNote
-from brewlog.models.calendar import Event
 from brewlog.models.users import BrewerProfile, CustomLabelTemplate, CustomExportTemplate
 from tests.data import BrewData, BreweryData, BrewerProfileData, CustomLabelTemplateData, \
-    TastingNoteData, FermentationStepData, CustomExportTemplateData, EventData
+    TastingNoteData, FermentationStepData, CustomExportTemplateData
 
 
 class BrewlogTestCase(TestCase):
@@ -28,7 +27,6 @@ class BrewlogTestCase(TestCase):
             'CustomExportTemplateData': CustomExportTemplate,
             'TastingNoteData': TastingNote,
             'FermentationStepData': FermentationStep,
-            'EventData': Event,
         }
         fx = SQLAlchemyFixture(env=env, engine=db.engine)
         self.data = fx.data(*[
@@ -39,7 +37,6 @@ class BrewlogTestCase(TestCase):
             CustomExportTemplateData,
             TastingNoteData,
             FermentationStepData,
-            EventData,
         ])
         self.data.setup()
 
