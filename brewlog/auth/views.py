@@ -1,7 +1,7 @@
 import requests
 from flask import render_template, redirect, url_for, session, flash, request
-from flask.ext.babel import gettext as _
-from flask.ext.login import logout_user, login_required
+from flask_babelex import gettext as _
+from flask_login import logout_user, login_required
 
 from brewlog.auth.providers import services, google, facebook, github
 from brewlog.auth.utils import login_success

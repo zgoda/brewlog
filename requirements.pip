@@ -1,7 +1,7 @@
 # core
 Babel
 Flask
-Flask-Babel
+Flask-BabelEx
 Flask-Script
 Flask-OAuthlib
 Flask-Login

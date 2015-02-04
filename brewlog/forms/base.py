@@ -3,7 +3,7 @@ import datetime
 from flask import current_app, session
 from wtforms import BooleanField, Form
 from wtforms.csrf.session import SessionCSRF
-from flask.ext.babel import lazy_gettext as _
+from flask_babelex import lazy_gettext as _
 
 from brewlog import db
 
@@ -11,7 +11,7 @@ from brewlog import db
 class BaseForm(Form):
 
     def __init__(self, *args, **kwargs):
-        if not 'meta' in kwargs:
+        if 'meta' not in kwargs:
             kwargs['meta'] = dict(
                 csrf=current_app.config['CSRF_ENABLED'],
                 csrf_class=SessionCSRF,

@@ -1,4 +1,4 @@
-from flask.ext.babel import lazy_gettext as _
+from flask_babelex import lazy_gettext as _
 
 
 EVENT_TYPE_KEYS = (

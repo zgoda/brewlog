@@ -3,7 +3,7 @@ import json
 
 import markdown
 from flask import url_for
-from flask.ext.babel import lazy_gettext as _, format_date, gettext
+from flask_babelex import lazy_gettext as _, format_date, gettext
 from werkzeug.utils import cached_property
 
 from brewlog import db
@@ -76,7 +76,7 @@ class Brewery(db.Model, DefaultModelMixin):
         return True
 
 
-## events: Brewery model
+# events: Brewery model
 def brewery_pre_save(mapper, connection, target):
     if target.description:
         target.description_html = markdown.markdown(target.description, safe_mode='remove')
@@ -131,7 +131,7 @@ class FermentationStep(db.Model, DefaultModelMixin):
         ).order_by(FermentationStep.date).first()
 
 
-## events: FermentationStep model
+# events: FermentationStep model
 def fermentation_step_pre_save(mapper, connection, target):
     if target.notes:
         target.notes = stars2deg(target.notes)
@@ -307,7 +307,7 @@ class Brew(db.Model, DefaultModelMixin):
             return abv(self.og, self.fg, from_carbonation)
 
 
-## events: Brew model
+# events: Brew model
 def brew_pre_save(mapper, connection, target):
     bjcp_style = u'%s %s' % (target.bjcp_style_code, target.bjcp_style_name)
     target.bjcp_style = bjcp_style.strip()

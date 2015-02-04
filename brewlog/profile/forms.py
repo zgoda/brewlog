@@ -1,6 +1,6 @@
 import wtforms as wf
 from wtforms.validators import DataRequired, Email, Optional
-from flask.ext.babel import lazy_gettext as _
+from flask_babelex import lazy_gettext as _
 
 from brewlog.forms.base import BaseForm
 from brewlog.models.users import CustomExportTemplate, CustomLabelTemplate

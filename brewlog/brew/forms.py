@@ -2,8 +2,8 @@ import wtforms as wf
 from wtforms.fields.html5 import DateField, IntegerField, DecimalField
 from wtforms.validators import DataRequired, Optional
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from flask.ext.babel import lazy_gettext as _
-from flask.ext.login import current_user
+from flask_babelex import lazy_gettext as _
+from flask_login import current_user
 
 from brewlog.forms.base import BaseForm
 from brewlog.forms.widgets import textarea_with_hints

@@ -1,7 +1,7 @@
 import wtforms as wf
 from wtforms.validators import DataRequired, Optional
 from wtforms.fields.html5 import DateField
-from flask.ext.babel import lazy_gettext as _
+from flask_babelex import lazy_gettext as _
 
 from brewlog.forms.base import BaseForm
 from brewlog.calendar import choices

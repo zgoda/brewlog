@@ -2,10 +2,10 @@ import os
 
 from werkzeug.utils import ImportStringError
 from flask import Flask, render_template, get_flashed_messages, session, request
-from flask.ext.babel import Babel, gettext as _
-from flask.ext.login import LoginManager, current_user
-from flask.ext.flatpages import FlatPages
-from flask.ext.sqlalchemy import SQLAlchemy
+from flask_babelex import Babel, gettext as _
+from flask_login import LoginManager, current_user
+from flask_flatpages import FlatPages
+from flask_sqlalchemy import SQLAlchemy
 
 from brewlog.templates import setup_template_extensions
 
