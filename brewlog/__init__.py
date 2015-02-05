@@ -3,7 +3,7 @@ import os
 from werkzeug.utils import ImportStringError
 from flask import Flask, render_template, get_flashed_messages, session, request
 from flask_babelex import Babel, gettext as _
-from flask_login import LoginManager, current_user
+from flask_login import LoginManager
 from flask_flatpages import FlatPages
 from flask_sqlalchemy import SQLAlchemy
 
@@ -26,7 +26,7 @@ def make_app(env):  # pragma: no cover
         # no special configuration for this environment
         pass
     if os.environ.get('BREWLOG_CONFIG', ''):
-        app.config.from_evvar('BREWLOG_CONFIG')
+        app.config.from_envvar('BREWLOG_CONFIG')
 
     db.init_app(app)
 
@@ -39,7 +39,6 @@ def make_app(env):  # pragma: no cover
         return {
             'DEV': app.config['DEBUG'],
             'TESTING': app.config['TESTING'],
-            'user': current_user,
             'flashes': get_flashed_messages(with_categories=True),
         }
 

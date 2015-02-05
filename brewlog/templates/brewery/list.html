@@ -24,7 +24,7 @@
 </table>
 {{ pg.render_pagination(pagination) }}
 {% endif %}
-{% if user.is_authenticated() %}
+{% if current_user.is_authenticated() %}
 <p><a href="{{ url_for('brewery.add') }}" class="button small radius">{{ gettext("add new brewery") }}</a></p>
 {% endif %}
 {% endblock %}
