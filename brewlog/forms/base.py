@@ -5,7 +5,7 @@ from wtforms import BooleanField, Form
 from wtforms.csrf.session import SessionCSRF
 from flask_babelex import lazy_gettext as _
 
-from brewlog import db
+from brewlog.ext import db
 
 
 class BaseForm(Form):

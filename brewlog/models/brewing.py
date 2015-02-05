@@ -6,7 +6,7 @@ from flask import url_for
 from flask_babelex import lazy_gettext as _, format_date, gettext
 from werkzeug.utils import cached_property
 
-from brewlog import db
+from brewlog.ext import db
 from brewlog.models import choices
 from brewlog.utils.models import DefaultModelMixin
 from brewlog.utils.text import stars2deg

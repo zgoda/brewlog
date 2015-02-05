@@ -2,7 +2,7 @@ import datetime
 
 import markdown
 
-from brewlog import db
+from brewlog.ext import db
 from brewlog.utils.models import DefaultModelMixin
 from brewlog.utils.text import stars2deg
 
@@ -34,7 +34,7 @@ class TastingNote(db.Model, DefaultModelMixin):
         return note
 
 
-## events: TastingNote model
+# events: TastingNote model
 def tasting_note_pre_save(mapper, connection, target):
     if target.date is None:
         target.date = datetime.date.today()

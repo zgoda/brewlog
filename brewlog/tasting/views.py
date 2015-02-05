@@ -5,7 +5,7 @@ import markdown
 
 from brewlog.utils.models import get_page
 from brewlog.forms.base import DeleteForm
-from brewlog import db
+from brewlog.ext import db
 from brewlog.models import tasting_notes
 from brewlog.models.brewing import Brew
 from brewlog.models.tasting import TastingNote

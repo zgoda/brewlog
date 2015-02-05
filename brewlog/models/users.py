@@ -4,7 +4,7 @@ from flask import url_for
 from flask_babelex import lazy_gettext as _
 from flask_login import UserMixin
 
-from brewlog import db
+from brewlog.ext import db
 from brewlog.utils.models import DefaultModelMixin
 
 

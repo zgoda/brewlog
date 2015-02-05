@@ -2,7 +2,8 @@ from flask_testing import TestCase
 
 from fixture import SQLAlchemyFixture
 
-from brewlog import make_app, db
+from brewlog import make_app
+from brewlog.ext import db
 from brewlog.models.brewing import Brew, Brewery, FermentationStep
 from brewlog.models.tasting import TastingNote
 from brewlog.models.users import BrewerProfile, CustomLabelTemplate, CustomExportTemplate

@@ -3,7 +3,7 @@ from flask_babelex import gettext as _
 from flask_login import login_user
 
 from brewlog.models.users import BrewerProfile
-from brewlog import db
+from brewlog.ext import db
 
 
 def login_success(email, access_token, remote_id, service_name, **kwargs):

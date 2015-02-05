@@ -2,7 +2,7 @@ from flask import render_template
 from flask_login import current_user
 
 from brewlog.home import home_bp
-from brewlog import pages
+from brewlog.ext import pages
 from brewlog.models import latest_breweries, latest_brews, latest_tasting_notes
 from brewlog.models.users import BrewerProfile
 from brewlog.models.brewing import Brew, Brewery

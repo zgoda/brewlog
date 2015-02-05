@@ -2,7 +2,8 @@ import unittest
 
 from flask_script import Server, Manager, Shell, Command, Option
 
-from brewlog import make_app, db
+from brewlog import make_app
+from brewlog.ext import db
 
 
 class RunTests(Command):

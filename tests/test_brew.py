@@ -1,6 +1,6 @@
 from flask import url_for
 
-from brewlog import db
+from brewlog.ext import db
 from brewlog.utils.brewing import aa, ra
 from tests import BrewlogTestCase
 from brewlog.models.brewing import Brew, Brewery

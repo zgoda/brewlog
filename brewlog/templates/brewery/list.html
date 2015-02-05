@@ -17,7 +17,7 @@
 <tr>
     <td><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a></td>
     <td>{{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }}</td>
-    <td>{% if user == brewery.brewer %}<a href="{{ url_for('brewery.delete', brewery_id=brewery.id) }}" class="button tiny radius alert">{{ gettext("delete") }}</a>{% endif %}</td>
+    <td>{% if current_user == brewery.brewer %}<a href="{{ url_for('brewery.delete', brewery_id=brewery.id) }}" class="button tiny radius alert">{{ gettext("delete") }}</a>{% endif %}</td>
 </tr>
 {% endfor %}
 </tbody>

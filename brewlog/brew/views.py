@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from flask_babelex import lazy_gettext, gettext as _
 from markdown import markdown
 
-from brewlog import db
+from brewlog.ext import db
 from brewlog.models import brews
 from brewlog.models.brewing import Brew, FermentationStep
 from brewlog.models.users import CustomLabelTemplate

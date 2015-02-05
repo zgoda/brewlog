@@ -1,4 +1,4 @@
-from brewlog import db
+from brewlog.ext import db
 from brewlog.models.brewing import Brew, Brewery
 from brewlog.models.tasting import TastingNote
 from brewlog.models.users import BrewerProfile
