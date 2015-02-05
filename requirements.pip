@@ -19,6 +19,7 @@ pytz>0a
 speaklater
 requests
 oauthlib
+requests-oauthlib
 MarkupSafe
 translitcodec
 python-dateutil
