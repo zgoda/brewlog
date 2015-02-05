@@ -1,5 +1,3 @@
-import decimal
-
 """
 Formulas used in brewing calculations.
 """
@@ -20,7 +18,7 @@ def plato2sg(plato):  # pragma: no cover
 def abv(og, fg, from_carbonation=0):  # pragma: no cover
     """Work out alcohol content from fermentation data (optionally including carbonation)
     """
-    value = (decimal.Decimal(og - fg) / decimal.Decimal(1.938)) + decimal.Decimal(from_carbonation)
+    value = (float(og - fg) / 1.938) + float(from_carbonation)
     return float(value)
 
 
