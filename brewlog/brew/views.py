@@ -23,12 +23,11 @@ HINTS = [
 @brew_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
 @login_required
 def brew_add():
-    form = BrewForm(request.form)
-    if request.method == 'POST':
-        if form.validate():
-            brew = form.save()
-            flash(_('brew %(name)s created', name=brew.name), category='success')
-            return redirect(brew.absolute_url)
+    form = BrewForm()
+    if form.validate_on_submit():
+        brew = form.save()
+        flash(_('brew %(name)s created', name=brew.name), category='success')
+        return redirect(brew.absolute_url)
     ctx = {
         'form': form,
         'mash_hints': HINTS,
@@ -42,8 +41,8 @@ def brew(brew_id, **kwargs):
     if request.method == 'POST':
         if current_user != brew.brewery.brewer:
             abort(403)
-        form = BrewForm(request.form)
-        if form.validate():
+        form = BrewForm()
+        if form.validate_on_submit():
             brew = form.save(obj=brew)
             flash(_('brew %(name)s data updated', name=brew.name), category='success')
             return redirect(brew.absolute_url)
@@ -139,14 +138,13 @@ def brew_delete(brew_id):
     if brew.brewery.brewer != current_user:
         abort(403)
     name = brew.name
-    form = DeleteForm(request.form)
-    if request.method == 'POST':
-        if form.validate() and form.delete_it.data:
-            db.session.delete(brew)
-            db.session.commit()
-            flash(_('brew %(name)s has been deleted', name=name), category='success')
-            next_ = request.args.get('next') or url_for('profile.brews', userid=current_user.id)
-            return redirect(next_)
+    form = DeleteForm()
+    if form.validate_on_submit() and form.delete_it.data:
+        db.session.delete(brew)
+        db.session.commit()
+        flash(_('brew %(name)s has been deleted', name=name), category='success')
+        next_ = request.args.get('next') or url_for('profile.brews', userid=current_user.id)
+        return redirect(next_)
     ctx = {
         'brew': brew,
         'delete_form': form,
@@ -160,24 +158,23 @@ def fermentation_step_add(brew_id):
     brew = Brew.query.get_or_404(brew_id)
     if brew.brewery.brewer != current_user:
         abort(403)
-    form = FermentationStepForm(request.form)
-    if request.method == 'POST':
-        if form.validate():
-            fstep = form.save(brew=brew, save=False)
-            db.session.add(fstep)
-            previous_step = fstep.previous()
-            if previous_step:
-                previous_step.fg = fstep.og
-                db.session.add(previous_step)
-            if fstep.fg is not None:
-                next_step = fstep.next()
-                if next_step:
-                    next_step.og = fstep.fg
-                    db.session.add(next_step)
-            db.session.commit()
-            flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been created', step_name=fstep.name,
-                brew_name=brew.name), category='success')
-            return redirect(brew.absolute_url)
+    form = FermentationStepForm()
+    if form.validate_on_submit():
+        fstep = form.save(brew=brew, save=False)
+        db.session.add(fstep)
+        previous_step = fstep.previous()
+        if previous_step:
+            previous_step.fg = fstep.og
+            db.session.add(previous_step)
+        if fstep.fg is not None:
+            next_step = fstep.next()
+            if next_step:
+                next_step.og = fstep.fg
+                db.session.add(next_step)
+        db.session.commit()
+        flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been created', step_name=fstep.name,
+            brew_name=brew.name), category='success')
+        return redirect(brew.absolute_url)
     ctx = {
         'brew': brew,
         'form': form,
@@ -191,24 +188,23 @@ def fermentation_step(fstep_id):
     fstep = FermentationStep.query.get_or_404(fstep_id)
     if fstep.brew.brewery.brewer != current_user:
         abort(403)
-    if request.method == 'POST':
-        form = FermentationStepForm(request.form)
-        if form.validate():
-            fstep = form.save(fstep.brew, obj=fstep, save=False)
-            db.session.add(fstep)
-            previous_step = fstep.previous()
-            if previous_step:
-                previous_step.fg = fstep.og
-                db.session.add(previous_step)
-            if fstep.fg is not None:
-                next_step = fstep.next()
-                if next_step:
-                    next_step.og = fstep.fg
-                    db.session.add(next_step)
-            db.session.commit()
-            flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been updated', step_name=fstep.name,
-                brew_name=fstep.brew.name), category='success')
-            return redirect(fstep.brew.absolute_url)
+    form = FermentationStepForm()
+    if form.validate_on_submit():
+        fstep = form.save(fstep.brew, obj=fstep, save=False)
+        db.session.add(fstep)
+        previous_step = fstep.previous()
+        if previous_step:
+            previous_step.fg = fstep.og
+            db.session.add(previous_step)
+        if fstep.fg is not None:
+            next_step = fstep.next()
+            if next_step:
+                next_step.og = fstep.fg
+                db.session.add(next_step)
+        db.session.commit()
+        flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been updated', step_name=fstep.name,
+            brew_name=fstep.brew.name), category='success')
+        return redirect(fstep.brew.absolute_url)
     ctx = {
         'form': FermentationStepForm(obj=fstep),
         'fstep': fstep,
@@ -225,14 +221,13 @@ def fermentation_step_delete(fstep_id):
     fstep_name = fstep.name
     brew_name = fstep.brew.name
     next_ = fstep.brew.absolute_url
-    form = DeleteForm(request.form)
-    if request.method == 'POST':
-        if form.validate() and form.delete_it.data:
-            db.session.delete(fstep)
-            db.session.commit()
-            flash(_('fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted', fstep_name=fstep_name,
-                brew_name=brew_name), category='success')
-            return redirect(next_)
+    form = DeleteForm()
+    if form.validate_on_submit() and form.delete_it.data:
+        db.session.delete(fstep)
+        db.session.commit()
+        flash(_('fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted', fstep_name=fstep_name,
+            brew_name=brew_name), category='success')
+        return redirect(next_)
     ctx = {
         'fstep': fstep,
         'delete_form': form,

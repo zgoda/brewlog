@@ -5,14 +5,14 @@ from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flask_babelex import lazy_gettext as _
 from flask_login import current_user
 
-from brewlog.forms.base import BaseForm
+from brewlog.forms.base import BaseObjectForm
 from brewlog.forms.widgets import textarea_with_hints
 from brewlog.forms.fields import TextAreaWithHintsField
 from brewlog.models import choices
 from brewlog.models.brewing import Brewery, FermentationStep, Brew
 
 
-class FermentationStepForm(BaseForm):
+class FermentationStepForm(BaseObjectForm):
     date = DateField(_('date'), validators=[DataRequired()])
     name = wf.TextField(_('name'), validators=[DataRequired()])
     og = DecimalField(_('original gravity'), places=1, validators=[Optional()])
@@ -31,7 +31,7 @@ def user_breweries_query():
     return Brewery.query.filter_by(brewer=current_user).order_by(Brewery.name)
 
 
-class BrewForm(BaseForm):
+class BrewForm(BaseObjectForm):
     brewery = QuerySelectField(
         _('brewery'), query_factory=user_breweries_query, get_label='name',
         validators=[DataRequired()]

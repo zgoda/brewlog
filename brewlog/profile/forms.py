@@ -2,11 +2,11 @@ import wtforms as wf
 from wtforms.validators import DataRequired, Email, Optional
 from flask_babelex import lazy_gettext as _
 
-from brewlog.forms.base import BaseForm
+from brewlog.forms.base import BaseObjectForm
 from brewlog.models.users import CustomExportTemplate, CustomLabelTemplate
 
 
-class ProfileForm(BaseForm):
+class ProfileForm(BaseObjectForm):
     first_name = wf.TextField(_('first name'), validators=[Optional()])
     last_name = wf.TextField(_('last name'), validators=[Optional()])
     nick = wf.TextField(_('nick'), validators=[Optional()],
@@ -21,7 +21,7 @@ class ProfileForm(BaseForm):
         return super(ProfileForm, self).save(obj, save=True)
 
 
-class CustomExportTemplateForm(BaseForm):
+class CustomExportTemplateForm(BaseObjectForm):
     name = wf.TextField(_('name'), validators=[DataRequired()])
     text = wf.TextAreaField(_('text'), validators=[DataRequired()], description=_('template text'))
     is_default = wf.BooleanField(_('default'), default=False, validators=[Optional()])
@@ -32,7 +32,7 @@ class CustomExportTemplateForm(BaseForm):
         return super(CustomExportTemplateForm, self).save(obj, save=True)
 
 
-class CustomLabelTemplateForm(BaseForm):
+class CustomLabelTemplateForm(BaseObjectForm):
     name = wf.TextField(_('name'), validators=[DataRequired()])
     cols = wf.IntegerField(_('columns'), validators=[DataRequired()], default=2)
     rows = wf.IntegerField(_('rows'), validators=[DataRequired()], default=5)

@@ -17,8 +17,8 @@ def profile(userid, **kwargs):
     if request.method == 'POST':
         if current_user != user_profile:
             abort(403)
-        form = ProfileForm(request.form)
-        if form.validate():
+        form = ProfileForm()
+        if form.validate_on_submit():
             profile = form.save(obj=user_profile)
             flash(_('your profile data has been updated'), category='success')
             return redirect(profile.absolute_url)
@@ -45,14 +45,13 @@ def profile_delete(userid):
     if current_user != profile:
         abort(403)
     email = profile.email
-    form = DeleteForm(request.form)
-    if request.method == 'POST':
-        if form.validate() and form.delete_it.data:
-            logout_user()
-            db.session.delete(profile)
-            db.session.commit()
-            flash(_('profile for %(email)s has been deleted', email=email), category='success')
-            return redirect(url_for('home.index'))
+    form = DeleteForm()
+    if form.validate_on_submit() and form.delete_it.data:
+        logout_user()
+        db.session.delete(profile)
+        db.session.commit()
+        flash(_('profile for %(email)s has been deleted', email=email), category='success')
+        return redirect(url_for('home.index'))
     ctx = {
         'profile': profile,
         'delete_form': form,
@@ -114,12 +113,11 @@ def export_template(userid, tid=None):
         template = CustomExportTemplate.query.get_or_404(tid)
         if template.user != current_user:
             abort(403)
-    if request.method == 'POST':
-        form = CustomExportTemplateForm(request.form)
-        if form.validate():
-            template = form.save(current_user, template)
-            flash(_('your export template %(name)s has been saved', name=template.name), category='success')
-            return redirect(template.absolute_url)
+    form = CustomExportTemplateForm()
+    if form.validate_on_submit():
+        template = form.save(current_user, template)
+        flash(_('your export template %(name)s has been saved', name=template.name), category='success')
+        return redirect(template.absolute_url)
     form = CustomExportTemplateForm(obj=template)
     ctx = {
         'form': form,
@@ -136,13 +134,12 @@ def label_template(userid, tid=None):
         template = CustomLabelTemplate.query.get_or_404(tid)
         if template.user != current_user:
             abort(403)
-    if request.method == 'POST':
-        form = CustomLabelTemplateForm(request.form)
-        if form.validate():
-            template = form.save(current_user, template)
-            flash(_('your label template %(name)s has been saved', name=template.name), category='success')
-            next_ = url_for('profile.details', userid=current_user.id)
-            return redirect(next_)
+    form = CustomLabelTemplateForm()
+    if form.validate_on_submit():
+        template = form.save(current_user, template)
+        flash(_('your label template %(name)s has been saved', name=template.name), category='success')
+        next_ = url_for('profile.details', userid=current_user.id)
+        return redirect(next_)
     form = CustomLabelTemplateForm(obj=template)
     ctx = {
         'form': form,

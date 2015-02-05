@@ -1,10 +1,10 @@
 import os
 
 from werkzeug.utils import ImportStringError
-from flask import Flask, render_template, session, request
+from flask import Flask, render_template, session, request, send_from_directory
 from flask_babelex import gettext as _
 
-from .ext import login_manager, babel, pages, db
+from .ext import login_manager, babel, pages, db, csrf
 from .templates import setup_template_extensions
 
 
@@ -30,6 +30,11 @@ def configure_app(app, env):
         pass
     if os.environ.get('BREWLOG_CONFIG', ''):
         app.config.from_envvar('BREWLOG_CONFIG')
+    if app.config['DEBUG']:
+        @app.route('/favicon.ico')
+        def favicon():
+            return send_from_directory(os.path.join(app.root_path, 'static'),
+                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
 def configure_hooks(app, env):
@@ -58,6 +63,8 @@ def configure_blueprints(app, env):
 
 def configure_extensions(app, env):
     db.init_app(app)
+
+    csrf.init_app(app)
 
     login_manager.init_app(app)
     login_manager.login_view = 'auth.select'

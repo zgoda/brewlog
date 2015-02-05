@@ -14,12 +14,11 @@ from brewlog.utils.models import get_page
 @brewery_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
 @login_required
 def brewery_add():
-    form = BreweryForm(request.form)
-    if request.method == 'POST':
-        if form.validate():
-            brewery = form.save()
-            flash(_('brewery %(name)s created', name=brewery.name), category='success')
-            return redirect(brewery.absolute_url)
+    form = BreweryForm()
+    if form.validate_on_submit():
+        brewery = form.save()
+        flash(_('brewery %(name)s created', name=brewery.name), category='success')
+        return redirect(brewery.absolute_url)
     ctx = {
         'form': form,
     }
@@ -32,15 +31,14 @@ def brewery_delete(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
     if brewery.brewer != current_user:
         abort(403)
-    form = DeleteForm(request.form)
-    if request.method == 'POST':
+    form = DeleteForm()
+    if form.validate_on_submit() and form.delete_it.data:
         name = brewery.name
-        if form.validate() and form.delete_it.data:
-            db.session.delete(brewery)
-            db.session.commit()
-            flash(_('brewery %(name)s has been deleted', name=name), category='success')
-            next_ = request.args.get('next') or url_for('profile.breweries', userid=current_user.id)
-            return redirect(next_)
+        db.session.delete(brewery)
+        db.session.commit()
+        flash(_('brewery %(name)s has been deleted', name=name), category='success')
+        next_ = request.args.get('next') or url_for('profile.breweries', userid=current_user.id)
+        return redirect(next_)
     ctx = {
         'delete_form': form,
         'brewery': brewery,
@@ -70,8 +68,8 @@ def brewery(brewery_id, **kwargs):
     if request.method == 'POST':
         if current_user != brewery.brewer:
             abort(403)
-        form = BreweryForm(request.form)
-        if form.validate():
+        form = BreweryForm()
+        if form.validate_on_submit():
             brewery = form.save(obj=brewery)
             flash(_('brewery %(name)s data updated', name=brewery.name), category='success')
             return redirect(brewery.absolute_url)

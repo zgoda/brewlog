@@ -3,11 +3,11 @@ from wtforms.fields.html5 import DateField
 from flask_babelex import lazy_gettext as _
 from flask_login import current_user
 
-from brewlog.forms.base import BaseForm
+from brewlog.forms.base import BaseObjectForm
 from brewlog.models.tasting import TastingNote
 
 
-class TastingNoteForm(BaseForm):
+class TastingNoteForm(BaseObjectForm):
     date = DateField(_('date'))
     text = wf.TextAreaField(_('text'))
 
