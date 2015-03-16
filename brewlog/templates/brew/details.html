@@ -1,5 +1,6 @@
 {% extends "brew/base.html" %}
 {% import "macros/forms.html" as forms %}
+{% import "macros/bootstrap.html" as bsu %}
 
 {% block scripts %}
 {% if not current_user.is_anonymous() %}
@@ -10,8 +11,8 @@ $(document).ready(function() {
     $(".edit_area").editable("{{ url_for('tastingnote.update') }}", {
         type: "textarea",
         loadurl: "{{ url_for('tastingnote.loadtext') }}",
-        cancel: "<button type='cancel' class='button tiny radius'>{{ gettext('cancel') }}</button>",
-        submit: "<button type='submit' class='button tiny radius'>{{ gettext('send') }}</button>"
+        cancel: "<button type='cancel' class='btn btn-sm btn-default'>{{ gettext('cancel') }}</button>",
+        submit: "<button type='submit' class='btn btn-sm btn-primary'>{{ gettext('send') }}</button>"
     });
 })
 </script>
@@ -19,48 +20,57 @@ $(document).ready(function() {
 {% endblock %}
 
 {% block topmenu_right %}
-<li class="has-dropdown"><a href="#">{% trans %}recipe tools{% endtrans %}</a>
-    <ul class="dropdown">
-        <li><a href="{{ url_for('brew.print', brew_id=brew.id) }}">{{ gettext("print recipe") }}</a></li>
-        <li><a href="{{ url_for('brew.labels', brew_id=brew.id) }}">{{ gettext("print labels") }}</a></li>
-        <li class="has-dropdown"><a href="#">{{ gettext("export recipe") }}</a>
-            <ul class="dropdown">
-                <li><a href="{{ url_for('brew.export', flavour='ipboard', brew_id=brew.id) }}">IP.Board</a></li>
-            </ul>
-        </li>
-    </ul>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{% trans %}recipe tools{% endtrans %} <span class="caret"></span></a>
+  <ul class="dropdown-menu" role="menu">
+    <li><a href="{{ url_for('brew.print', brew_id=brew.id) }}">{{ gettext("print recipe") }}</a></li>
+    <li><a href="{{ url_for('brew.labels', brew_id=brew.id) }}">{{ gettext("print labels") }}</a></li>
+    <li class="divider"></li>
+    <li><a href="{{ url_for('brew.export', flavour='ipboard', brew_id=brew.id) }}">{{ gettext("export")}}: IP.Board</a></li>
+  </ul>
 </li>
 {% endblock %}
 
-{% block headpagetitle %}{{ super() }} {% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name|e }}{% endblock %}
+{% block headpagetitle %}{{ super() }} {% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name }}{% endblock %}
 
 {% block headdescription %}{{ brew.brew_description }}{% endblock %}
 
 {% block content %}
-{% if form %}
-<dl class="accordion" data-accordion>
-<dd class="accordion-navigation">
-<a href="#panel-fermentation-data">{{ gettext("fermentation data").capitalize() }}</a>
-<div id="panel-fermentation-data" class="content">
-{% for fstep in brew.fermentation_steps.all() %}
-{% include "brew/include/fermentation_step.html" %}
-{% endfor %}
-<p><a href="{{ url_for('brew.fermentationstep_add', brew_id=brew.id) }}" class="button small radius">{{ gettext("add fermentation step") }}</a></p>
-</div>
-</dd>
-</dl>
-{% endif %}
 {% include "brew/include/details.html" %}
+{% if form %}
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="heading-panel-fermentation-data">
+      <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#panel-fermentation-data" aria-expanded="false" aria-controls="#panel-fermentation-data">{{ gettext("fermentation data").capitalize() }}</a>
+      </h4>
+    </div>
+    <div id="panel-fermentation-data" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-panel-fermentation-data">
+      <div class="panel-body">
+        {% for fstep in brew.fermentation_steps.all() %}
+        {% include "brew/include/fermentation_step.html" %}
+        {% endfor %}
+        <p><a href="{{ url_for('brew.fermentationstep_add', brew_id=brew.id) }}" class="btn btn-primary">{{ gettext("add fermentation step") }}</a></p>        
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
 {% if brew.tasting_notes %}
 {% include "tasting/include/tasting_notes.html" %}
 {% endif %}
 {% if current_user.is_authenticated() and brew.is_brewed_yet %}
-<p><a href="{{ url_for('tastingnote.add', brew_id=brew.id) }}" class="button small radius">{{ gettext("add tasting note") }}</a></p>
+<p><a href="{{ url_for('tastingnote.add', brew_id=brew.id) }}" class="btn btn-primary">{{ gettext("add tasting note") }}</a></p>
 {% endif %}
 {% if form %}
 <h3>{{ gettext("edit brew").capitalize() }}</h3>
-<form method="post" action="{{ brew.absolute_url }}" class="custom">
-    {{ forms.render(form) }}
+<form method="post" action="{{ brew.absolute_url }}" class="form form-horizontal" role="form">
+  {{ forms.render(form) }}
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+    </div>
+  </div>
 </form>
 {% endif %}
 {% endblock %}

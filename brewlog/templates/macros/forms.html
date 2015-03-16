@@ -1,66 +1,34 @@
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "macros/bootstrap.html" as bsu %}
+
 {% macro render(form) -%}
 {% set hints = kwargs.pop('hints', None) %}
 {% if form %}
 {{ form.hidden_tag() }}
-<fieldset>
+{% for field in form %}
+  {% if field.type == 'HiddenField' %}
+    {{ field }}
+  {% endif %}
+{% endfor %}
+{{ wtf.form_errors(form, hiddens="only") }}
 {% for field in form %}
 {% if not field.type in ['CSRFTokenField', 'HiddenField'] %}
-    {% if field.type == 'FieldList' %}
-        {% for subfield in field %}
-            {% if loop.first %}{{ form_field(subfield, with_label=True) }}{% else %}{{ form_field(subfield, with_label=False) }}{% endif %}
-        {% endfor %}
-    {% else %}
-        {% if field.type == 'DecimalField' %}
-            {{ form_field(field, with_label=True, step=pow(10, field.places * -1)) }}
-        {% elif field.type == 'TextAreaWithHintsField' and hints %}
-            {{ form_field(field, with_label=True, hints=hints) }}
-        {% else %}
-            {{ form_field(field, with_label=True) }}
-        {% endif %}
-    {% endif %}
+  {% if field.type == 'DecimalField' %}
+    {{ wtf.form_field(field, form_type="horizontal", horizontal_columns=('sm', 2, 10), step=pow(10, field.places * -1)) }}
+  {% elif field.type == 'TextAreaWithHintsField' and hints %}
+    {{ wtf.form_field(field, form_type="horizontal", horizontal_columns=('sm', 2, 10), hints=hints) }}
+  {% else %}
+    {{ wtf.form_field(field, form_type="horizontal", horizontal_columns=('sm', 2, 10)) }}
+  {% endif %}
 {% endif %}
 {% endfor %}
-</fieldset>
-<div class="form-actions">
-    <button type="submit" class="button small radius">{% trans %}submit{% endtrans %}</button>
-</div>
 {% endif %}
 {%- endmacro %}
 
-
-{% macro render_subform(form, all_forms) -%}
-    {% set subform = all_forms[form.name] %}
-    <ul id="{{ subform.name }}" class="subform">
-        <li><label for="{{ subform.name }}-0">{{ subform.label }}</label>
-        </li>
-    </ul>
-{%- endmacro %}
-
-
-{% macro form_field(field) -%}
-    {% set with_label = kwargs.pop('with_label', False) %}
-    {% set placeholder = '' %}
-    {% if not with_label %}
-        {% set placeholder = field.label.text|safe %}
-    {% endif %}
-    <div class="field-enclosure {% if field.type == 'FormField' %}subform{% endif %} {% if field.flags.required %}required{% endif %}">
-        {% if field.type != 'BooleanField' and with_label %}<label for="{{ field.id }}">{{ field.label.text|safe }}</label>{% endif %}
-        <div>
-            {% set cssclass_ = kwargs.pop('class_', '') %}
-            {% if field.type == 'BooleanField' %}
-                <label>
-                    {{ field(class_=cssclass_, **kwargs) }}
-                    {{ field.label.text|safe }}
-                </label>
-            {% else %}
-                {{ field(class_=cssclass_, placeholder=placeholder, **kwargs) }}
-            {% endif %}
-            {% if field.errors %}
-                <span class="error">{{ field.errors|join(', ') }}</span>
-            {% endif %}
-            {% if field.description %}
-                <p class="help">{{ field.description|safe }}</p>
-            {% endif %}
-        </div>
-    </div>
+{% macro delete_form(form, action) -%}
+<form method="post" action="{{ action }}" role="form">
+  {{ form.csrf_token }}
+  {{ form.delete_it() }}
+  <button type="submit" class="btn btn-sm btn-danger">{{ bsu.icon("remove") }} {{ gettext("Yes, delete it") }}</button>
+</form>
 {%- endmacro %}

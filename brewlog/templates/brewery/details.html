@@ -1,35 +1,41 @@
 {% extends "brewery/base.html" %}
 {% import "macros/forms.html" as forms %}
+{% import "macros/bootstrap.html" as bsu %}
 {% import "macros/modelrender.html" as modelrender %}
 
-{% block headpagetitle %}{{ super() }} {{ brewery.name|e }}{% endblock %}
+{% block headpagetitle %}{{ super() }} {{ brewery.name }}{% endblock %}
 
 {% block content %}
-<h3>{{ brewery.name|e }}</h3>
+<h3>{{ brewery.name }}</h3>
 {% if form %}
 <p>{% trans %}You may change brewery data using the form below{% endtrans %}:</p>
-<form method="post" action="{{ brewery.absolute_url }}" class="custom">
-    {{ forms.render(form) }}
+<form method="post" action="{{ brewery.absolute_url }}" class="form form-horizontal" role="form">
+  {{ forms.render(form) }}
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+    </div>
+  </div>
 </form>
 {% else %}
 {{ modelrender.render(brewery) }}
 {% endif %}
 <h3>{{ gettext("People") }}</h3>
-<p>{{ gettext("Head brewer") }}: <a href="{{ brewery.brewer.absolute_url }}">{{ brewery.brewer.name|e }}</a></p>
+<p>{{ gettext("Head brewer") }}: <a href="{{ brewery.brewer.absolute_url }}">{{ brewery.brewer.name }}</a></p>
 {% if brewery.other_brewers %}
 <p>{{ gettext("Other brewers") }}:</p>
-<ul class="no-bullet">
-    {% for brewer in brewery.other_brewers %}<li><a href="{{ brewer.absolute_url }}">{{ brewer.name|e }}</a></li>{% endfor %}
+<ul class="list-unstyled">
+  {% for brewer in brewery.other_brewers %}<li><a href="{{ brewer.absolute_url }}">{{ brewer.name }}</a></li>{% endfor %}
 </ul>
 {% endif %}
 {% if brewery.recent_brews() %}
 <h3>{% trans %}Latest brews{% endtrans %}</h3>
-<ul class="no-bullet">
-    {% for brew in brewery.recent_brews(public_only=True) %}<li>{% if brew.date_brewed %}{{ brew.date_brewed|dateformat("short") }}{% else %}{% trans %}not brewed yet{% endtrans %}{% endif %} &mdash; <a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a></li>{% endfor %}
+<ul class="list-unstyled">
+  {% for brew in brewery.recent_brews(public_only=True) %}<li>{% if brew.date_brewed %}{{ brew.date_brewed|dateformat("short") }}{% else %}{% trans %}not brewed yet{% endtrans %}{% endif %} &mdash; <a href="{{ brew.absolute_url }}">{{ brew.name }}</a></li>{% endfor %}
 </ul>
 <p><a href="{{ url_for('brewery.brews', brewery_id=brewery.id) }}">{{ gettext("view all brews") }}</a></p>
 {% endif %}
 {% if form %}
-<p><a href="{{ url_for('brew.add') }}" class="button small radius">{{ gettext("add new brew") }}</a></p>
+<p><a href="{{ url_for('brew.add') }}" class="btn btn-sm btn-primary">{{ gettext("add new brew") }}</a></p>
 {% endif %}
 {% endblock %}

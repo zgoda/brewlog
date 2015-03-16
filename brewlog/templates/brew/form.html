@@ -1,11 +1,17 @@
 {% extends "brewery/base.html" %}
 {% import "macros/forms.html" as forms %}
+{% import "macros/bootstrap.html" as bsu %}
 
 {% block headpagetitle %}{{ gettext("add new brew") }} {% endblock %}
 
 {% block content %}
 <h3>{{ gettext("add new brew").capitalize() }}</h3>
-<form method="post" action="{{ url_for('brew.add') }}" class="custom">
-    {{ forms.render(form, hints=mash_hints) }}
+<form method="post" action="{{ url_for('brew.add') }}" class="form form-horizontal" role="form">
+  {{ forms.render(form, hints=mash_hints) }}
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+    </div>
+  </div>
 </form>
 {% endblock %}

@@ -1,12 +1,18 @@
 {% extends "brew/fermentation/base.html" %}
 {% import "macros/forms.html" as forms %}
+{% import "macros/bootstrap.html" as bsu %}
 
 {% block headpagetitle %}{{ gettext("fermentation step for %(brew)s", brew=brew.name) }}{% endblock %}
 
 {% block content %}
 <h3>{{ gettext("create fermentation step").capitalize() }}</h3>
 <p>{{ gettext("fermentation step for brew %(brew)s", brew=brew.name).capitalize() }}.</p>
-<form method="post" action="{{ url_for('brew.fermentationstep_add', brew_id=brew.id) }}" class="custom">
-    {{ forms.render(form) }}
+<form method="post" action="{{ url_for('brew.fermentationstep_add', brew_id=brew.id) }}" class="form form-horizontal" role="form">
+  {{ forms.render(form) }}
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+    </div>
+  </div>
 </form>
 {% endblock %}

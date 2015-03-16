@@ -2,24 +2,20 @@
 
 {% block widecontent %}
 <div class="row">
-    <div class="small-12 columns">
-        <div class="row">
-            <p>{% trans %}Sign in with{% endtrans %}:</p>
-            <div class="small-12 large-4 columns">
-                <div class="panel text-center"><a class="btn-auth btn-google" href="{{ url_for('auth.login', provider='google') }}">Google</a></div>
-            </div>
-            <div class="small-12 large-4 columns">
-                <div class="panel text-center"><a class="btn-auth btn-facebook" href="{{ url_for('auth.login', provider='facebook') }}">Facebook</a></div>
-            </div>
-            <div class="small-12 large-4 columns">
-                <div class="panel text-center"><a class="btn-auth btn-github" href="{{ url_for('auth.login', provider='github') }}">GitHub</a></div>
-            </div>
-            {% if DEV or TESTING %}
-            <div class="large-12 columns">
-                <div class="panel text-center"><a class="small button radius" href="{{ url_for('auth.login', provider='local') }}">local</a></div>
-            </div>
-            {% endif %}
-        </div>
+  <p>{% trans %}Sign in with{% endtrans %}:</p>
+  <div class="col-md-4">
+    <div class="well well-lg text-center"><a class="btn btn-social btn-google-plus" href="{{ url_for('auth.login', provider='google') }}"><i class="fa fa-google"></i> Google</a></div>
     </div>
+  <div class="col-md-4">
+    <div class="well well-lg text-center"><a class="btn btn-social btn-facebook" href="{{ url_for('auth.login', provider='facebook') }}"><i class="fa fa-facebook"></i> Facebook</a></div>
+  </div>
+  <div class="col-md-4">
+    <div class="well well-lg text-center"><a class="btn btn-social btn-github" href="{{ url_for('auth.login', provider='github') }}"><i class="fa fa-github"></i> GitHub</a></div>
+  </div>
+  {% if DEV or TESTING %}
+  <div class="col-md-12">
+    <div class="well well-lg text-center"><a class="btn btn-primary" href="{{ url_for('auth.login', provider='local') }}">local</a></div>
+  </div>
+  {% endif %}
 </div>
 {% endblock %}

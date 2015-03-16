@@ -1,14 +1,16 @@
 {% extends "account/base.html" %}
-{% import "macros/pagination.html" as pg %}
+{% from "bootstrap/pagination.html" import render_pagination %}
 
 {% block headpagetitle %}{{ gettext("registered brewers") }}{% endblock %}
 
 {% block content %}
 <h3>{{ gettext("registered brewers").capitalize() }}</h3>
 {% if pagination.items %}
-<ul class="no-bullet">
+<ul class="list-unstyled">
 {% for user in pagination.items %}<li><a href="{{ user.absolute_url }}">{{ user.name|e }}</a></li>{% endfor %}
 </ul>
-{{ pg.render_pagination(pagination) }}
+{% if pagination.pages > 1 %}
+  {{ render_pagination(pagination) }}
+{% endif %}
 {% endif %}
 {% endblock %}

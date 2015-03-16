@@ -8,6 +8,7 @@ Flask-Login
 Flask-FlatPages
 Flask-SQLAlchemy
 Flask-WTF
+Flask-Bootstrap
 PyYAML
 Markdown
 psycopg2
