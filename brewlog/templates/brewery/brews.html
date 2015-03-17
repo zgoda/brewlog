@@ -3,7 +3,7 @@
 
 {% block headpagetitle %}{{ gettext("brews from brewery %(name)s", name=brewery.name) }}{% endblock %}
 
-{% block content %}
+{% block widecontent %}
 <h3>{{ gettext("brews from brewery %(name)s", name=brewery.name).capitalize() }}</h3>
 {% if pagination.items %}
 <table class="col-sm-12 table table-striped">
@@ -14,7 +14,7 @@
 <tbody>
 {% for brew in pagination.items %}
 <tr>
-  <td><a href="{{ brew.absolute_url }}">{{ brew.name }}</a></td>
+  <td><a href="{{ brew.absolute_url }}">{{ brew.full_name }}</a></td>
   <td>{% if current_user == brew.brewery.brewer %}<a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>{% endif %}</td>
 </tr>
 {% endfor %}

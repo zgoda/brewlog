@@ -2,7 +2,7 @@
 
 {% block headpagetitle %}{{ gettext("%(flavour)s export of brew %(brew)s", flavour=flavour, brew=brew.name) }}{% endblock %}
 
-{% block content %}
+{% block widecontent %}
 <h2>{{ gettext("%(flavour)s export of brew %(brew)s", flavour=flavour, brew=brew.name) }}</h2>
 <p><textarea readonly class="export">{{ exported }}</textarea></p>
 <p><a href="{{ brew.absolute_url }}">{{ gettext("brew link") }}</a></p>

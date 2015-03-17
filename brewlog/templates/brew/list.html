@@ -4,7 +4,7 @@
 
 {% block headpagetitle %}{{ gettext("brews") }}{% endblock %}
 
-{% block content %}
+{% block widecontent %}
 <h3>{% if public_only %}{{ gettext("all public brews").capitalize() }}{% else %}{{ gettext("all brews").capitalize() }}{% endif %}</h3>
 {% if pagination.items %}
 <table class="col-sm-12 table table-striped">

@@ -5,7 +5,7 @@
 
 {% block headpagetitle %}{{ super() }} {{ brewery.name }}{% endblock %}
 
-{% block content %}
+{% block widecontent %}
 <h3>{{ brewery.name }}</h3>
 {% if form %}
 <p>{% trans %}You may change brewery data using the form below{% endtrans %}:</p>

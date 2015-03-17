@@ -4,7 +4,7 @@
 
 {% block headpagetitle %}{{ super() }} {{ fstep.name }}{% endblock %}
 
-{% block content %}
+{% block widecontent %}
 <h3>{{ gettext("edit fermentation step").capitalize() }}</h3>
 <p>{{ gettext("fermentation step %(step_name)s for brew %(brew_name)s", step_name=fstep.name, brew_name=fstep.brew.name).capitalize() }}.</p>
 <form method="post" action="{{ url_for('brew.fermentation_step', fstep_id=fstep.id) }}" class="form form-horizontal" role="form">
