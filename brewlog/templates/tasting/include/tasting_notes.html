@@ -1,14 +1,14 @@
 <h3>{{ gettext("tasting notes").capitalize() }}</h3>
 {% for note in brew.tasting_notes %}
 <div>
-    <h4><small>{{ gettext("by %(user)s on %(date)s", user=note.author.name, date=format_date(note.date, "short")) }}</small></h4>
-    {% if user in (note.author, note.brew.brewery.brewer) %}
-    <div class="edit_area" id="note_text_{{ note.id }}">
-        {{ note.text_html|safe }}
-    </div>
-    {% else %}
+  <h4><small>{{ gettext("by %(user)s on %(date)s", user=note.author.name, date=format_date(note.date, "short")) }}</small></h4>
+  {% if user in (note.author, note.brew.brewery.brewer) %}
+  <div class="edit_area" id="note_text_{{ note.id }}">
     {{ note.text_html|safe }}
-    {% endif %}
-    {% if user in (note.brew.brewery.brewer, note.author) %}<p><a href="{{ url_for('tastingnote.delete', note_id=note.id) }}" class="button tiny radius alert">{{ gettext("delete") }}</a></p>{% endif %}
+  </div>
+  {% else %}
+  {{ note.text_html|safe }}
+  {% endif %}
+  {% if user in (note.brew.brewery.brewer, note.author) %}<p><a href="{{ url_for('tastingnote.delete', note_id=note.id) }}" class="btn btn-sm btn-danger">{{ gettext("delete") }}</a></p>{% endif %}
 </div>
 {% endfor %}

@@ -1,34 +1,40 @@
 {% extends "account/base.html" %}
 {% import "macros/forms.html" as forms %}
+{% import "macros/bootstrap.html" as bsu %}
 {% import "macros/users.html" as users %}
 
-{% block headpagetitle %}{{ gettext("Profile data for user %(name)s", name=profile.name)|e }}{% endblock %}
+{% block headpagetitle %}{{ gettext("Profile data for user %(name)s", name=profile.name) }}{% endblock %}
 
 {% block content %}
-<h3>{{ gettext("Brewer profile for user %(name)s", name=profile.name)|e }}</h3>
+<h3>{{ gettext("Brewer profile for user %(name)s", name=profile.name) }}</h3>
 {{ users.display_profile(profile) }}
 {% if form %}
 <p>{% trans %}This is your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
-<form action="{{ profile.absolute_url }}" method="post" class="custom">
-    {{ forms.render(form) }}
+<form action="{{ profile.absolute_url }}" method="post" class="form form-horizontal" role="form">
+  {{ forms.render(form) }}
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+    </div>
+  </div>
 </form>
 <h3>{{ gettext("delete account").capitalize() }}</h3>
-<p><a href="{{ url_for('profile.delete', userid=profile.id) }}" class="button tiny radius alert">{{ gettext("delete my account") }}</a></p>
+<p><a href="{{ url_for('profile.delete', userid=profile.id) }}" class="btn btn-danger">{{ gettext("delete my account") }}</a></p>
 <h3>{{ gettext("user customizations").capitalize() }}</h3>
 <h4>{{ gettext("custom recipe export templates").capitalize() }}</h4>
 {% if profile.custom_export_templates %}
 <ul>
-    {% for template in profile.custom_export_templates %}<li><a href="{{ template.absolute_url }}">{{ template.name }}</a></li>{% endfor %}
+  {% for template in profile.custom_export_templates %}<li><a href="{{ template.absolute_url }}">{{ template.name }}</a></li>{% endfor %}
 </ul>
 {% endif %}
-<p><a href="{{ url_for('profile.export_template_add', userid=profile.id) }}" class="small button radius">{{ gettext("add new template") }}</a></p>
+<p><a href="{{ url_for('profile.export_template_add', userid=profile.id) }}" class="btn btn-primary">{{ gettext("add new template") }}</a></p>
 <h4>{{ gettext("custom label templates").capitalize() }}</h4>
 {% if profile.custom_label_templates %}
 <ul>
-    {% for template in profile.custom_label_templates %}<li><a href="{{ template.absolute_url }}">{{ template.name }}</a></li>{% endfor %}
+  {% for template in profile.custom_label_templates %}<li><a href="{{ template.absolute_url }}">{{ template.name }}</a></li>{% endfor %}
 </ul>
 {% endif %}
-<p><a href="{{ url_for('profile.label_template_add', userid=profile.id) }}" class="small button radius">{{ gettext("add new template") }}</a></p>
+<p><a href="{{ url_for('profile.label_template_add', userid=profile.id) }}" class="btn btn-primary">{{ gettext("add new template") }}</a></p>
 {% endif %}
 {% endblock %}
 
@@ -36,26 +42,26 @@
 <h4>{% trans %}Brewery list{% endtrans %}</h4>
 <h5>{{ gettext("Owned") }}</h5>
 {% if profile.breweries %}
-<ul class="no-bullet">
-    {% for brewery in profile.breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> ({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }})</li>{% endfor %}
+<ul class="list-unstyled">
+  {% for brewery in profile.breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name }}</a> ({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }})</li>{% endfor %}
 </ul>
 {% endif %}
 {% if profile.other_breweries %}
 <h5>{{ gettext("Other") }}</h5>
-<ul>
-    {% for brewery in profile.other_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name|e }}</a> {{ ngettext("%(num)d brew", "%(num)d brews"), brewery.brews.count() }}</li>{% endfor %}
+<ul class="list-unstyled">
+  {% for brewery in profile.other_breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name }}</a> {{ ngettext("%(num)d brew", "%(num)d brews"), brewery.brews.count() }}</li>{% endfor %}
 </ul>
 {% endif %}
 {% if form %}
-<p><a href="{{ url_for('brewery.add') }}" class="small button radius">{{ gettext("add new brewery") }}</a></p>
+<p><a href="{{ url_for('brewery.add') }}" class="btn btn-sm btn-primary">{{ gettext("add new brewery") }}</a></p>
 {% endif %}
 {% if latest_brews %}
 <h4>{{ gettext("latest brews").capitalize() }}</h4>
-<ul class="no-bullet">
-    {% for brew in latest_brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name|e }}</a> {{ brew.created|dateformat("short") }}</li>{% endfor %}
+<ul class="list-unstyled">
+  {% for brew in latest_brews %}<li><a href="{{ brew.absolute_url }}">{{ brew.name }}</a> {{ brew.created|dateformat("short") }}</li>{% endfor %}
 </ul>
 {% endif %}
 {% if form and (profile.breweries or profile.other_breweries) %}
-<p><a href="{{ url_for('brew.add') }}" class="small button radius">{{ gettext("add new brew") }}</a></p>
+<p><a href="{{ url_for('brew.add') }}" class="btn btn-sm btn-primary">{{ gettext("add new brew") }}</a></p>
 {% endif %}
 {% endblock %}

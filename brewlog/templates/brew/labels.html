@@ -1,22 +1,22 @@
 {% extends "print.html" %}
 
-{% block headpagetitle %}{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name|e }}{% endblock %}
+{% block headpagetitle %}{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name }}{% endblock %}
 
 {% block widecontent %}
 {% if custom_templates %}
-    <select id="available_templates" class="hide-on-print">
-        <option value="0" {% if current_template == 0 %}selected{% endif %}>{{ gettext("default") }}</option>
-        {% for template in custom_templates %}<option value="{{ template.id }}" {% if current_template == template.id %}selected{% endif %}>{{ template.name }}</option>{% endfor %}
-    </select>
+  <select id="available_templates" class="hide-on-print">
+    <option value="0" {% if current_template == 0 %}selected{% endif %}>{{ gettext("default") }}</option>
+    {% for template in custom_templates %}<option value="{{ template.id }}" {% if current_template == template.id %}selected{% endif %}>{{ template.name }}</option>{% endfor %}
+  </select>
 {% endif %}
 <table class="printlabel">
-    {% for i in range(rows) %}
-    <tr>
-        {% for j in range(cols) %}
-        <td style="{{ cell_style }}">{% if rendered_cell %}{{ rendered_cell|safe }}{% else %}{% include "brew/include/label.html" %}{% endif %}</td>
-        {% endfor %}
-    </tr>
+  {% for i in range(rows) %}
+  <tr>
+    {% for j in range(cols) %}
+    <td style="{{ cell_style }}">{% if rendered_cell %}{{ rendered_cell|safe }}{% else %}{% include "brew/include/label.html" %}{% endif %}</td>
     {% endfor %}
+  </tr>
+  {% endfor %}
 </table>
 {% endblock %}
 

@@ -1,5 +1,5 @@
 {% extends "brew/base.html" %}
-{% import "macros/pagination.html" as pg %}
+{% from "bootstrap/pagination.html" import render_pagination %}
 {% import "macros/forms.html" as forms %}
 
 {% block headpagetitle %}{{ gettext("brews") }}{% endblock %}
@@ -7,25 +7,27 @@
 {% block content %}
 <h3>{% if public_only %}{{ gettext("all public brews").capitalize() }}{% else %}{{ gettext("all brews").capitalize() }}{% endif %}</h3>
 {% if pagination.items %}
-<table class="small-12 columns">
+<table class="col-sm-12 table table-striped">
 <thead>
-    <th>{{ gettext("name") }}</th>
-    <th>{{ gettext("informations") }}</th>
-    <th>{{ gettext("operations") }}</th>
+  <th>{{ gettext("name") }}</th>
+  <th>{{ gettext("informations") }}</th>
+  <th>{{ gettext("operations") }}</th>
 </thead>
 <tbody>
 {% for brew in pagination.items %}
 <tr>
-<td><a href="{{ brew.absolute_url }}">{{ brew.full_name|e }}</a></td>
-<td>{% if brew.is_draft %}<strong>{{ gettext("draft") }}</strong> {% endif %}{{ brew.display_info|e }}</td>
-<td>{% if current_user == brew.brewery.brewer %}<a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="button tiny radius alert">{{ gettext("delete") }}</a>{% endif %}</td>
+<td><a href="{{ brew.absolute_url }}">{{ brew.full_name }}</a></td>
+<td>{% if brew.is_draft %}<strong>{{ gettext("draft") }}</strong> {% endif %}{{ brew.display_info }}</td>
+<td>{% if current_user == brew.brewery.brewer %}<a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>{% endif %}</td>
 </tr>
 {% endfor %}
 </tbody>
 </table>
-{{ pg.render_pagination(pagination) }}
+{% if pagination.pages > 1 %}
+  {{ render_pagination(pagination) }}
+{% endif %}
 {% endif %}
 {% if current_user.is_authenticated() %}
-<p><a href="{{ url_for('brew.add') }}" class="button small radius">{{ gettext("add new brew") }}</a></p>
+<p><a href="{{ url_for('brew.add') }}" class="btn btn-primary">{{ gettext("add new brew") }}</a></p>
 {% endif %}
 {% endblock %}

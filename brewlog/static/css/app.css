@@ -6,7 +6,7 @@ textarea.export, textarea#text {
     height: 34.6875em;
 }
 
-.help {
+.help-block, .help {
     font-size: 75%;
     font-style: italic;
     color: gray;

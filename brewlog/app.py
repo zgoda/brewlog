@@ -4,7 +4,7 @@ from werkzeug.utils import ImportStringError
 from flask import Flask, render_template, session, request, send_from_directory
 from flask_babelex import gettext as _
 
-from .ext import login_manager, babel, pages, db, csrf
+from .ext import login_manager, babel, pages, db, csrf, bootstrap
 from .templates import setup_template_extensions
 
 
@@ -65,6 +65,8 @@ def configure_extensions(app, env):
     db.init_app(app)
 
     csrf.init_app(app)
+
+    bootstrap.init_app(app)
 
     login_manager.init_app(app)
     login_manager.login_view = 'auth.select'

@@ -1,12 +1,18 @@
 {% extends "account/base.html" %}
 {% import "macros/forms.html" as forms %}
+{% import "macros/bootstrap.html" as bsu %}
 
-{% block headpagetitle %}{% if template %}{{ gettext("export template %(name)s", name=template.name)|e }}{% else %}{{ gettext("new export template") }}{% endif %}{% endblock %}
+{% block headpagetitle %}{% if template %}{{ gettext("export template %(name)s", name=template.name) }}{% else %}{{ gettext("new export template") }}{% endif %}{% endblock %}
 
-{% block content %}
+{% block widecontent %}
 <h3>{% if template %}{{ gettext("export template %(name)s", name=template.name).capitalize() }}{% else %}{{ gettext("new export template").capitalize() }}{% endif %}</h3>
-<form action="{% if template %}{{ url_for('profile.export_template', tid=template.id, userid=current_user.id) }}{% else %}{{ url_for('profile.export_template_add', userid=current_user.id) }}{% endif %}" method="post" class="custom">
-    {{ forms.render(form) }}
+<form action="{% if template %}{{ url_for('profile.export_template', tid=template.id, userid=current_user.id) }}{% else %}{{ url_for('profile.export_template_add', userid=current_user.id) }}{% endif %}" method="post" class="form form-horizontal" role="form">
+  {{ forms.render(form) }}
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+    </div>
+  </div>
 </form>
 <h4>{{ gettext("help for template code").capitalize() }}</h4>
 <p>{% trans %}The template code must be written in Jinja2[1] template language using Markdown[2] markup. Available context variable is named "brew" and contains all fields from single brew data.{% endtrans %}</p>
