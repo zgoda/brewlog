@@ -1,5 +1,5 @@
 {% extends "brewery/base.html" %}
-{% from "bootstrap/pagination.html" import render_pagination %}
+{% from "macros/bootstrap.html" import render_pagination %}
 
 {% block headpagetitle %}{% trans %}brewery list{% endtrans %}{% endblock %}
 
@@ -22,9 +22,7 @@
 {% endfor %}
 </tbody>
 </table>
-{% if pagination.pages > 1 %}
-  {{ render_pagination(pagination) }}
-{% endif %}
+{{ render_pagination(pagination) }}
 {% endif %}
 {% if current_user.is_authenticated() %}
 <p><a href="{{ url_for('brewery.add') }}" class="btn btn-sm btn-primary">{{ gettext("add new brewery") }}</a></p>

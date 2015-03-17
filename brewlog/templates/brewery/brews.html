@@ -1,5 +1,5 @@
 {% extends "brewery/base.html" %}
-{% from "bootstrap/pagination.html" import render_pagination %}
+{% from "macros/bootstrap.html" import render_pagination %}
 
 {% block headpagetitle %}{{ gettext("brews from brewery %(name)s", name=brewery.name) }}{% endblock %}
 
@@ -20,8 +20,6 @@
 {% endfor %}
 </tbody>
 </table>
-{% if pagination.pages > 1 %}
-  {{ render_pagination(pagination) }}
-{% endif %}
+{{ render_pagination(pagination) }}
 {% endif %}
 {% endblock %}

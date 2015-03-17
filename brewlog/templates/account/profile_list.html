@@ -1,5 +1,5 @@
 {% extends "account/base.html" %}
-{% from "bootstrap/pagination.html" import render_pagination %}
+{% from "macros/bootstrap.html" import render_pagination %}
 
 {% block headpagetitle %}{{ gettext("registered brewers") }}{% endblock %}
 
@@ -9,8 +9,6 @@
 <ul class="list-unstyled">
 {% for user in pagination.items %}<li><a href="{{ user.absolute_url }}">{{ user.name|e }}</a></li>{% endfor %}
 </ul>
-{% if pagination.pages > 1 %}
-  {{ render_pagination(pagination) }}
-{% endif %}
+{{ render_pagination(pagination) }}
 {% endif %}
 {% endblock %}

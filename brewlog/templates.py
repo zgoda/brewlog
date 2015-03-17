@@ -4,6 +4,7 @@ from flask_babelex import format_date
 
 from brewlog.utils.brewing import plato2sg
 from brewlog.utils.text import stars2deg
+from brewlog.utils.pagination import url_for_other_page
 
 
 def setup_filters(application):
@@ -16,6 +17,7 @@ def setup_globals(application):
         'pow': math.pow,
         'stars2deg': stars2deg,
         'plato2sg': plato2sg,
+        'url_for_other_page': url_for_other_page,
     })
 
 
