@@ -219,4 +219,4 @@ class FermentationStepsTestCase(BrewlogTestCase):
             }
             rv = client.post(url, data=data_secondary, follow_redirects=True)
             self.assertEqual(rv.status_code, 200)
-            self.assertIn('5.5% ABV', rv.data)
+            self.assertIn('5.5%', rv.data)
