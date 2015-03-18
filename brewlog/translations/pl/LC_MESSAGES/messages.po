@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-17 16:46+0100\n"
+"POT-Creation-Date: 2015-03-18 15:05+0100\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language-Team: pl <LL@li.org>\n"
@@ -512,11 +512,11 @@ msgstr "recenzja do warki %(brew)s została usunięta"
 msgid "Updated: %(date)s"
 msgstr "Aktualizacja: %(date)s"
 
-#: brewlog/templates/home.html:3
+#: brewlog/templates/home.html:3 brewlog/templates/misc/dashboard.html:3
 msgid "Welcome"
 msgstr "Witamy"
 
-#: brewlog/templates/home.html:6
+#: brewlog/templates/home.html:6 brewlog/templates/misc/dashboard.html:6
 msgid "Welcome to BrewLog"
 msgstr "Witaj na stronie BrewLog"
 
@@ -810,12 +810,12 @@ msgid "Other"
 msgstr "Inne"
 
 #: brewlog/templates/account/profile.html:56
-#: brewlog/templates/brewery/form.html:5 brewlog/templates/brewery/list.html:30
+#: brewlog/templates/brewery/form.html:5 brewlog/templates/brewery/list.html:28
 msgid "add new brewery"
 msgstr "dodaj nowy browar"
 
 #: brewlog/templates/account/profile.html:65 brewlog/templates/brew/form.html:5
-#: brewlog/templates/brew/form.html:8 brewlog/templates/brew/list.html:31
+#: brewlog/templates/brew/form.html:8 brewlog/templates/brew/list.html:29
 #: brewlog/templates/brewery/details.html:39
 msgid "add new brew"
 msgstr "dodaj nową warkę"
@@ -1036,8 +1036,8 @@ msgstr "nagazowanie"
 #, python-format
 msgid "OG: %(og)s&deg;Blg, FG: %(fg)s&deg;Blg, volume: %(volume)s ltr"
 msgstr ""
-"gęstość pocz. %(og)s&deg;Blg, gęstość końcowa %(fg)s&deg;Blg, "
-"obj. %(volume)s l"
+"gęstość pocz. %(og)s&deg;Blg, gęstość końcowa %(fg)s&deg;Blg, obj. "
+"%(volume)s l"
 
 #: brewlog/templates/brew/include/fermentation_step.html:3
 msgid "change"
@@ -1163,6 +1163,18 @@ msgstr "pełna nazwa"
 msgid "registered"
 msgstr "rejestracja"
 
+#: brewlog/templates/misc/dashboard.html:11
+msgid "My latest recipes"
+msgstr "Ostatnio dodane receptury"
+
+#: brewlog/templates/misc/dashboard.html:25
+msgid "My recent reviews"
+msgstr "Ostatnie recenzje"
+
+#: brewlog/templates/misc/dashboard.html:39
+msgid "Recently brewed"
+msgstr "Ostatnio uwarzone"
+
 #: brewlog/templates/tasting/list.html:4
 #: brewlog/templates/tasting/include/tasting_notes.html:1
 msgid "tasting notes"
@@ -1206,3 +1218,4 @@ msgstr ""
 #, python-format
 msgid "by %(user)s on %(date)s"
 msgstr "przez %(user)s dnia %(date)s"
+

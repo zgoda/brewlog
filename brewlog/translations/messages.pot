@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2015-03-17 16:46+0100\n"
+"POT-Creation-Date: 2015-03-18 15:05+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -502,11 +502,11 @@ msgstr ""
 msgid "Updated: %(date)s"
 msgstr ""
 
-#: brewlog/templates/home.html:3
+#: brewlog/templates/home.html:3 brewlog/templates/misc/dashboard.html:3
 msgid "Welcome"
 msgstr ""
 
-#: brewlog/templates/home.html:6
+#: brewlog/templates/home.html:6 brewlog/templates/misc/dashboard.html:6
 msgid "Welcome to BrewLog"
 msgstr ""
 
@@ -787,12 +787,12 @@ msgid "Other"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:56
-#: brewlog/templates/brewery/form.html:5 brewlog/templates/brewery/list.html:30
+#: brewlog/templates/brewery/form.html:5 brewlog/templates/brewery/list.html:28
 msgid "add new brewery"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:65 brewlog/templates/brew/form.html:5
-#: brewlog/templates/brew/form.html:8 brewlog/templates/brew/list.html:31
+#: brewlog/templates/brew/form.html:8 brewlog/templates/brew/list.html:29
 #: brewlog/templates/brewery/details.html:39
 msgid "add new brew"
 msgstr ""
@@ -1126,6 +1126,18 @@ msgstr ""
 
 #: brewlog/templates/macros/users.html:6
 msgid "registered"
+msgstr ""
+
+#: brewlog/templates/misc/dashboard.html:11
+msgid "My latest recipes"
+msgstr ""
+
+#: brewlog/templates/misc/dashboard.html:25
+msgid "My recent reviews"
+msgstr ""
+
+#: brewlog/templates/misc/dashboard.html:39
+msgid "Recently brewed"
 msgstr ""
 
 #: brewlog/templates/tasting/list.html:4

@@ -21,5 +21,5 @@ def login_success(email, access_token, remote_id, service_name, **kwargs):
     session.permanent = True
     flash(_('You have been signed in as %(email)s using %(service)s', email=email, service=service_name),
         category='success')
-    next_ = request.args.get('next') or session.pop('next', None) or url_for('profile.details', userid=user.id)
+    next_ = request.args.get('next') or session.pop('next', None) or url_for('home.index')
     return redirect(next_)

@@ -1,4 +1,4 @@
-from flask import render_template
+from flask import render_template, current_app
 from flask_login import current_user
 
 from brewlog.home import home_bp
@@ -11,7 +11,9 @@ from brewlog.models.tasting import TastingNote
 
 @home_bp.route('/', endpoint='index')
 def main():
-    item_limit = 5
+    if current_user.is_authenticated():
+        return dashboard()
+    item_limit = current_app.config.get('SHORTLIST_DEFAULT_LIMIT', 5)
     if current_user.is_authenticated():
         kw = {'extra_user': current_user}
     else:
@@ -25,6 +27,21 @@ def main():
         'recently_active_brewers': BrewerProfile.last_updated(limit=item_limit, public_only=True, **kw),
     }
     return render_template('home.html', **ctx)
+
+
+def dashboard():
+    item_limit = current_app.config.get('SHORTLIST_DEFAULT_LIMIT', 5)
+    kw = {
+        'user': current_user,
+        'public_only': False,
+        'limit': item_limit,
+    }
+    ctx = {
+        'latest_recipes': latest_brews(Brew.created, **kw),
+        'recently_brewed': latest_brews(Brew.date_brewed, **kw),
+        'recent_reviews': latest_tasting_notes(TastingNote.date, **kw),
+    }
+    return render_template('misc/dashboard.html', **ctx)
 
 
 @home_bp.route('/pages/<path:path>', endpoint='flatpage')

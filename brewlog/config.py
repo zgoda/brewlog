@@ -19,18 +19,16 @@ FLATPAGES_MARKDOWN_EXTENSIONS = []
 BABEL_DEFAULT_LOCALE = 'pl'
 BABEL_DEFAULT_TIMEZONE = 'Europe/Warsaw'
 
-if 'OPENSHIFT_DATA_DIR' in os.environ:
-    try:
-        from config_openshift import *
-    except ImportError:
-        pass
+# display limits
+SHORTLIST_DEFAULT_LIMIT = 5
+LIST_DEFAULT_LIMIT = 10
 
 try:
-    from config_local import *
+    from config_local import *  # noqa
 except ImportError:
     pass
 
 try:
-    from secrets import *
+    from secrets import *  # noqa
 except ImportError:
     pass

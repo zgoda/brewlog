@@ -38,42 +38,16 @@ class MainPageTestCase(BrewlogTestCase):
             self.assertIn('login page', rv.data)
 
     def test_loggedin(self):
-        """
-        case: what logged in user sees on main site page:
-            * box with recently registered users with public profiles and self if hidden
-            * box with recently created public brews from public breweries and own if hidden
-            * box with recently created breweries of users with public profile and own if hidden
-            * link to main page
-            * link to profile page
-        """
         # normal (public) profile user
         user = BrewerProfile.get_by_email('user@example.com')
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(self.main_url)
             self.assertIn('>my profile</a>', rv.data)
-            # public profiles only
-            self.assertIn(user.name, rv.data)
-            self.assertNotIn('hidden user', rv.data)
-            # public breweries only
-            self.assertIn('brewery #1', rv.data)
-            self.assertNotIn('hidden brewery #1', rv.data)
-            # public brews only
             self.assertIn('pale ale', rv.data)
-            self.assertNotIn('hidden czech pilsener', rv.data)
-            self.assertNotIn('hidden amber ale', rv.data)
         # hidden profile user
         user = BrewerProfile.get_by_email('hidden0@example.com')
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(self.main_url)
-            # public profiles and own
-            self.assertIn('example user', rv.data)
-            self.assertIn(user.name, rv.data)
-            # public breweries and own
-            self.assertIn('brewery #1', rv.data)
-            self.assertIn('hidden brewery #1', rv.data)
-            # public brews and own
-            self.assertIn('pale ale', rv.data)
-            self.assertNotIn('hidden czech pilsener', rv.data)
             self.assertIn('hidden amber ale', rv.data)
