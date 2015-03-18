@@ -19,7 +19,7 @@
 <p>{% trans %}As an example, see the default export template:{% endtrans %}</p>
 <pre>
 {% raw %}
-{% import "macros/display.html" as display %}[b][size=5]{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name|e }}[/size][/b]
+{% import "macros/display.html" as display %}[b][size=5]{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name }}[/size][/b]
 {% if brew.date_brewed %}{{ gettext("brewed on %(date)s", date=format_date(brew.date_brewed, "short")) }}{% endif %}
 
 [b]{{ gettext("fermentables").capitalize() }}:[/b]
