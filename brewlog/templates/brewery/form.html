@@ -5,12 +5,14 @@
 {% block headpagetitle %}{% if brewery %}{{ gettext("modify your %(breweryname)s brewery data", breweryname=brewery.name) }}{% else %}{% trans %}add new brewery{% endtrans %}{% endif %}{% endblock %}
 
 {% block widecontent %}
-<form method="post" action="{{ url_for('brewery.add') }}" class="form form-horizontal" role="form">
-  {{ forms.render(form) }}
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+<div class="col-xs-12">
+  <form method="post" action="{{ url_for('brewery.add') }}" class="form form-horizontal" role="form">
+    {{ forms.render(form) }}
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+      </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>
 {% endblock %}

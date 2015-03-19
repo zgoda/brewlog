@@ -5,48 +5,50 @@
 {% block headpagetitle %}{% if template %}{{ gettext("export template %(name)s", name=template.name) }}{% else %}{{ gettext("new export template") }}{% endif %}{% endblock %}
 
 {% block widecontent %}
-<h3>{% if template %}{{ gettext("export template %(name)s", name=template.name).capitalize() }}{% else %}{{ gettext("new export template").capitalize() }}{% endif %}</h3>
-<form action="{% if template %}{{ url_for('profile.export_template', tid=template.id, userid=current_user.id) }}{% else %}{{ url_for('profile.export_template_add', userid=current_user.id) }}{% endif %}" method="post" class="form form-horizontal" role="form">
-  {{ forms.render(form) }}
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+<div class="col-xs-12">
+  <h3>{% if template %}{{ gettext("export template %(name)s", name=template.name).capitalize() }}{% else %}{{ gettext("new export template").capitalize() }}{% endif %}</h3>
+  <form action="{% if template %}{{ url_for('profile.export_template', tid=template.id, userid=current_user.id) }}{% else %}{{ url_for('profile.export_template_add', userid=current_user.id) }}{% endif %}" method="post" class="form form-horizontal" role="form">
+    {{ forms.render(form) }}
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+      </div>
     </div>
-  </div>
-</form>
-<h4>{{ gettext("help for template code").capitalize() }}</h4>
-<p>{% trans %}The template code must be written in Jinja2[1] template language using Markdown[2] markup. Available context variable is named "brew" and contains all fields from single brew data.{% endtrans %}</p>
-<p>{% trans %}As an example, see the default export template:{% endtrans %}</p>
-<pre>
-{% raw %}
-{% import "macros/display.html" as display %}[b][size=5]{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name }}[/size][/b]
-{% if brew.date_brewed %}{{ gettext("brewed on %(date)s", date=format_date(brew.date_brewed, "short")) }}{% endif %}
+  </form>
+  <h4>{{ gettext("help for template code").capitalize() }}</h4>
+  <p>{% trans %}The template code must be written in Jinja2[1] template language using Markdown[2] markup. Available context variable is named "brew" and contains all fields from single brew data.{% endtrans %}</p>
+  <p>{% trans %}As an example, see the default export template:{% endtrans %}</p>
+  <pre>
+  {% raw %}
+  {% import "macros/display.html" as display %}[b][size=5]{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name }}[/size][/b]
+  {% if brew.date_brewed %}{{ gettext("brewed on %(date)s", date=format_date(brew.date_brewed, "short")) }}{% endif %}
 
-[b]{{ gettext("fermentables").capitalize() }}:[/b]
-{% if brew.fermentables %}{{ display.makelist(brew.fermentables, prefix="[*]") }}{% endif %}
+  [b]{{ gettext("fermentables").capitalize() }}:[/b]
+  {% if brew.fermentables %}{{ display.makelist(brew.fermentables, prefix="[*]") }}{% endif %}
 
-[b]{{ gettext("hops").capitalize() }}:[/b]
-{% if brew.hops %}{{ display.makelist(brew.hops, prefix="[*]") }}{% endif %}
+  [b]{{ gettext("hops").capitalize() }}:[/b]
+  {% if brew.hops %}{{ display.makelist(brew.hops, prefix="[*]") }}{% endif %}
 
-[b]{{ gettext("yeast").capitalize() }}:[/b]
-{% if brew.yeast %}{{ display.makelist(brew.yeast, prefix="[*]") }}{% endif %}
+  [b]{{ gettext("yeast").capitalize() }}:[/b]
+  {% if brew.yeast %}{{ display.makelist(brew.yeast, prefix="[*]") }}{% endif %}
 
-[b]{{ gettext("misc. items").capitalize() }}:[/b]
-{% if brew.misc %}{{ display.makelist(brew.misc, prefix="[*]") }}{% endif %}
+  [b]{{ gettext("misc. items").capitalize() }}:[/b]
+  {% if brew.misc %}{{ display.makelist(brew.misc, prefix="[*]") }}{% endif %}
 
-[b]{{ gettext("mash steps").capitalize() }}:[/b]
-{% if brew.mash_steps %}{{ display.makelist(brew.mash_steps, prefix="[*]") }}{% endif %}
+  [b]{{ gettext("mash steps").capitalize() }}:[/b]
+  {% if brew.mash_steps %}{{ display.makelist(brew.mash_steps, prefix="[*]") }}{% endif %}
 
-[b]{{ gettext("sparging").capitalize() }}:[/b] {% if brew.sparging %}{{ brew.sparging|safe }}{% endif %}
+  [b]{{ gettext("sparging").capitalize() }}:[/b] {% if brew.sparging %}{{ brew.sparging|safe }}{% endif %}
 
-[b]{{ gettext("boil time").capitalize() }}:[/b] {% if brew.boil_time %}{{ brew.boil_time }}{% endif %}
+  [b]{{ gettext("boil time").capitalize() }}:[/b] {% if brew.boil_time %}{{ brew.boil_time }}{% endif %}
 
-[b]{{ gettext("hopping schedule").capitalize() }}:[/b]
-{% if brew.hopping_steps %}{{ display.makelist(brew.hopping_steps, prefix="[*]") }}{% endif %}
+  [b]{{ gettext("hopping schedule").capitalize() }}:[/b]
+  {% if brew.hopping_steps %}{{ display.makelist(brew.hopping_steps, prefix="[*]") }}{% endif %}
 
-{% if brew.notes %}{{ brew.notes|safe }}{% endif %}
-{% endraw %}
-</pre>
-<p>[1] <a href="http://jinja.pocoo.org/docs/templates/">{% trans %}Jinja2 Template Designer Documentation{% endtrans %}</a><br>
-[2] <a href="http://daringfireball.net/projects/markdown/syntax">{% trans %}Markdown syntax{% endtrans %}</a></p>
+  {% if brew.notes %}{{ brew.notes|safe }}{% endif %}
+  {% endraw %}
+  </pre>
+  <p>[1] <a href="http://jinja.pocoo.org/docs/templates/">{% trans %}Jinja2 Template Designer Documentation{% endtrans %}</a><br>
+  [2] <a href="http://daringfireball.net/projects/markdown/syntax">{% trans %}Markdown syntax{% endtrans %}</a></p>
+</div>
 {% endblock %}

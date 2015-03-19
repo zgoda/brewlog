@@ -3,47 +3,51 @@
 {% block headpagetitle %}{% trans %}Welcome{% endtrans %}{% endblock %}
 
 {% block widecontent %}
-<h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
-<div class="row">
-  <div class="col-xs-12 col-md-4">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">{% trans %}My latest recipes{% endtrans %}</h3>
-      </div>
-      <div class="panel-body">
-        {% if latest_recipes %}
-        <ul>
-          {% for brew in latest_recipes %}<li><a href="{{ brew.absolute_url }}">{{ brew.full_name }}</a></li>{% endfor %}
-        </ul>
-        {% endif %}
+<div class="col-xs-12">
+  <div class="row">
+    <div class="col-xs-12">
+      <h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans %}My latest recipes{% endtrans %}</h3>
+        </div>
+        <div class="panel-body">
+          {% if latest_recipes %}
+          <ul>
+            {% for brew in latest_recipes %}<li><a href="{{ brew.absolute_url }}">{{ brew.full_name }}</a></li>{% endfor %}
+          </ul>
+          {% endif %}
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-xs-12 col-md-4">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">{% trans %}My recent reviews{% endtrans %}</h3>
-      </div>
-      <div class="panel-body">
-        {% if recent_reviews %}
-        <ul>
-          {% for note in recent_reviews %}<li><a href="{{ note.brew.absolute_url }}">{{ note.brew.full_name }}</a> - {{ note.date|dateformat("short") }}</li>{% endfor %}
-        </ul>
-        {% endif %}
+    <div class="col-xs-12 col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans %}My recent reviews{% endtrans %}</h3>
+        </div>
+        <div class="panel-body">
+          {% if recent_reviews %}
+          <ul>
+            {% for note in recent_reviews %}<li><a href="{{ note.brew.absolute_url }}">{{ note.brew.full_name }}</a> - {{ note.date|dateformat("short") }}</li>{% endfor %}
+          </ul>
+          {% endif %}
+        </div>
       </div>
     </div>
-  </div>
-  <div class="col-xs-12 col-md-4">
-    <div class="panel panel-primary">
-      <div class="panel-heading">
-        <h3 class="panel-title">{% trans %}Recently brewed{% endtrans %}</h3>
-      </div>
-      <div class="panel-body">
-        {% if recently_brewed %}
-        <ul>
-          {% for brew in recently_brewed %}<li><a href="{{ brew.absolute_url }}">{{ brew.full_name }}</a></li>{% endfor %}
-        </ul>
-        {% endif %}
+    <div class="col-xs-12 col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans %}Recently brewed{% endtrans %}</h3>
+        </div>
+        <div class="panel-body">
+          {% if recently_brewed %}
+          <ul>
+            {% for brew in recently_brewed %}<li><a href="{{ brew.absolute_url }}">{{ brew.full_name }}</a></li>{% endfor %}
+          </ul>
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>

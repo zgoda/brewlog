@@ -4,11 +4,13 @@
 {% block headpagetitle %}{{ gettext("registered brewers") }}{% endblock %}
 
 {% block widecontent %}
-<h3>{{ gettext("registered brewers").capitalize() }}</h3>
-{% if pagination.items %}
-<ul class="list-unstyled">
-{% for user in pagination.items %}<li><a href="{{ user.absolute_url }}">{{ user.name }}</a></li>{% endfor %}
-</ul>
-{{ render_pagination(pagination) }}
-{% endif %}
+<div class="col-xs-12">
+  <h3>{{ gettext("registered brewers").capitalize() }}</h3>
+  {% if pagination.items %}
+  <ul class="list-unstyled">
+  {% for user in pagination.items %}<li><a href="{{ user.absolute_url }}">{{ user.name }}</a></li>{% endfor %}
+  </ul>
+  {{ render_pagination(pagination) }}
+  {% endif %}
+</div>
 {% endblock %}

@@ -4,27 +4,29 @@
 {% block headpagetitle %}{% trans %}brewery list{% endtrans %}{% endblock %}
 
 {% block widecontent %}
-<h3>{{ gettext("List of registered breweries") }}</h3>
-{% if pagination.items %}
-<table class="col-sm-12 table table-striped">
-<thead>
-  <th>{{ gettext("name") }}</th>
-  <th>{{ gettext("brews") }}</th>
-  <th>{{ gettext("operations") }}</th>
-</thead>
-<tbody>
-{% for brewery in pagination.items %}
-<tr>
-  <td><a href="{{ brewery.absolute_url }}">{{ brewery.name }}</a></td>
-  <td>{{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }}</td>
-  <td>{% if current_user == brewery.brewer %}<a href="{{ url_for('brewery.delete', brewery_id=brewery.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>{% endif %}</td>
-</tr>
-{% endfor %}
-</tbody>
-</table>
-{{ render_pagination(pagination) }}
-{% endif %}
-{% if current_user.is_authenticated() %}
-<p><a href="{{ url_for('brewery.add') }}" class="btn btn-sm btn-primary">{{ gettext("add new brewery") }}</a></p>
-{% endif %}
+<div class="col-xs-12">
+  <h3>{{ gettext("List of registered breweries") }}</h3>
+  {% if pagination.items %}
+  <table class="table table-striped">
+  <thead>
+    <th>{{ gettext("name") }}</th>
+    <th>{{ gettext("brews") }}</th>
+    <th>{{ gettext("operations") }}</th>
+  </thead>
+  <tbody>
+  {% for brewery in pagination.items %}
+  <tr>
+    <td><a href="{{ brewery.absolute_url }}">{{ brewery.name }}</a></td>
+    <td>{{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }}</td>
+    <td>{% if current_user == brewery.brewer %}<a href="{{ url_for('brewery.delete', brewery_id=brewery.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>{% endif %}</td>
+  </tr>
+  {% endfor %}
+  </tbody>
+  </table>
+  {{ render_pagination(pagination) }}
+  {% endif %}
+  {% if current_user.is_authenticated() %}
+  <p><a href="{{ url_for('brewery.add') }}" class="btn btn-sm btn-primary">{{ gettext("add new brewery") }}</a></p>
+  {% endif %}
+</div>
 {% endblock %}

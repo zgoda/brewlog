@@ -62,19 +62,18 @@
     <div class="container content">
       <div class="row">
         {% with flashes = get_flashed_messages(with_categories=True) %}
-          {% for category, flash in flashes %}
-          <div class="alert alert-{{ category }} alert-dismissible" role="alert">
-            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">close</span></button>
-            {{ flash }}
+          <div class="col-xs-12">
+            {% for category, flash in flashes %}
+            <div class="alert alert-{{ category }} alert-dismissible" role="alert">
+              <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">close</span></button>
+              {{ flash }}
+            </div>
+            {% endfor %}
           </div>
-          {% endfor %}
         {% endwith %}
       </div>
       <div class="row">
         {% block widecontent %}
-        {% endblock %}
-      </div>
-      <div class="row">
         <div class="col-md-10 col-md-push-2">
           {% block content %}
           {% endblock %}
@@ -83,6 +82,7 @@
           {% block sidebar %}
           {% endblock %}
         </div>
+        {% endblock %}
       </div>
     </div>
     <div id="page-footer">

@@ -3,8 +3,10 @@
 {% block headpagetitle %}{{ page.title }}{% endblock %}
 
 {% block widecontent %}
-{{ html|safe }}
-{% if page.meta.updated %}
-<p>{{ gettext("Updated: %(date)s", date=format_date(page.meta.updated, "short")) }}</p>
-{% endif %}
+<div class="col-xs-12">
+  {{ html|safe }}
+  {% if page.meta.updated %}
+  <p>{{ gettext("Updated: %(date)s", date=format_date(page.meta.updated, "short")) }}</p>
+  {% endif %}
+</div>
 {% endblock %}

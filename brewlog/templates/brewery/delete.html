@@ -4,14 +4,16 @@
 {% block headpagetitle %}{{ gettext("confirm removal of your brewery %(name)s", name=brewery.name) }}{% endblock %}
 
 {% block widecontent %}
-<h3>{{ brewery.name }}</h3>
-<p>{{ gettext("Brewery %(name)s is about to be deleted with all its content. As this process is irreversible we're asking you again, is this really what yoy want do do?", name=brewery.name) }} {% if brewery.brews %}{{ gettext("Along with brewery %(name)s following items will be removed:", name=brewery.name) }}{% endif %}</p>
-{% if brewery.brews %}
-<ul>
-  {% for brew in brewery.brews %}<li>{{ brew.name }}</li>{% endfor %}
-</ul>
-{% endif %}
-{% with action = url_for('brewery.delete', brewery_id=brewery.id) %}
-  {{ forms.delete_form(delete_form, action) }}
-{% endwith %}
+<div class="col-xs-12">
+  <h3>{{ brewery.name }}</h3>
+  <p>{{ gettext("Brewery %(name)s is about to be deleted with all its content. As this process is irreversible we're asking you again, is this really what yoy want do do?", name=brewery.name) }} {% if brewery.brews %}{{ gettext("Along with brewery %(name)s following items will be removed:", name=brewery.name) }}{% endif %}</p>
+  {% if brewery.brews %}
+  <ul>
+    {% for brew in brewery.brews %}<li>{{ brew.name }}</li>{% endfor %}
+  </ul>
+  {% endif %}
+  {% with action = url_for('brewery.delete', brewery_id=brewery.id) %}
+    {{ forms.delete_form(delete_form, action) }}
+  {% endwith %}
+</div>
 {% endblock %}

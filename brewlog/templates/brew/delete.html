@@ -4,9 +4,11 @@
 {% block headpagetitle %}{{ gettext("confirm removal of your brew %(name)s", name=brew.name) }}{% endblock %}
 
 {% block widecontent %}
-<h3>{{ brew.name }}</h3>
-<p>{{ gettext("Brew %(name)s is about to be deleted with all its content. As this process is irreversible we're asking you again, is this really what you want do do?", name=brew.name) }}</p>
-{% with action = url_for('brew.delete', brew_id=brew.id) %}
-  {{ forms.delete_form(delete_form, action) }}
-{% endwith %}
+<div class="col-xs-12">
+  <h3>{{ brew.name }}</h3>
+  <p>{{ gettext("Brew %(name)s is about to be deleted with all its content. As this process is irreversible we're asking you again, is this really what you want do do?", name=brew.name) }}</p>
+  {% with action = url_for('brew.delete', brew_id=brew.id) %}
+    {{ forms.delete_form(delete_form, action) }}
+  {% endwith %}
+</div>
 {% endblock %}
