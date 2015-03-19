@@ -36,9 +36,11 @@ def dashboard():
         'public_only': False,
         'limit': item_limit,
     }
+    brewed_kw = kw.copy()
+    brewed_kw.update({'brewed_only': True})
     ctx = {
         'latest_recipes': latest_brews(Brew.created, **kw),
-        'recently_brewed': latest_brews(Brew.date_brewed, **kw),
+        'recently_brewed': latest_brews(Brew.date_brewed, **brewed_kw),
         'recent_reviews': latest_tasting_notes(TastingNote.date, **kw),
     }
     return render_template('misc/dashboard.html', **ctx)

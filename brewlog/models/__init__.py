@@ -32,8 +32,11 @@ def brews(public_only=True, extra_user=None, user=None):
     return query
 
 
-def latest_brews(ordering, limit=5, public_only=False, extra_user=None, user=None):
-    return brews(public_only, extra_user, user).order_by(db.desc(ordering)).limit(limit)
+def latest_brews(ordering, limit=5, public_only=False, extra_user=None, user=None, brewed_only=False):
+    query = brews(public_only, extra_user, user)
+    if brewed_only:
+        query = query.filter(Brew.date_brewed!=None)  # noqa
+    return query.order_by(db.desc(ordering)).limit(limit)
 
 
 def tasting_notes(public_only=True, extra_user=None, user=None):
