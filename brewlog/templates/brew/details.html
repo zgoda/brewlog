@@ -31,7 +31,7 @@ $(document).ready(function() {
 </li>
 {% endblock %}
 
-{% block headpagetitle %}{{ super() }} {% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name }}{% endblock %}
+{% block headpagetitle %}{{ super() }} {{ brew.full_name }}{% endblock %}
 
 {% block headdescription %}{{ brew.brew_description }}{% endblock %}
 

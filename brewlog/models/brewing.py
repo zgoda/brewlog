@@ -308,8 +308,9 @@ class Brew(db.Model, DefaultModelMixin):
 
 # events: Brew model
 def brew_pre_save(mapper, connection, target):
-    bjcp_style = u'%s %s' % (target.bjcp_style_code, target.bjcp_style_name)
-    target.bjcp_style = bjcp_style.strip()
+    bjcp_style = u'%s %s' % (target.bjcp_style_code or u'', target.bjcp_style_name or u'')
+    bjcp_style = bjcp_style.strip()
+    target.bjcp_style = bjcp_style or None
     if target.notes:
         target.notes = stars2deg(target.notes)
         target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
