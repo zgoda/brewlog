@@ -8,6 +8,8 @@
     <div class="col-xs-12">
       <h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
     </div>
+  </div>
+  <div class="row">
     <div class="col-xs-12 col-md-4">
       <div class="panel panel-primary">
         <div class="panel-heading">
@@ -44,8 +46,58 @@
         <div class="panel-body">
           {% if recently_brewed %}
           <ul>
-            {% for brew in recently_brewed %}<li><a href="{{ brew.absolute_url }}">{{ brew.full_name }}</a></li>{% endfor %}
+            {% for brew in recently_brewed %}<li><a href="{{ brew.absolute_url }}">{{ brew.full_name }}</a> - {{ brew.date_brewed|dateformat("short") }}</li>{% endfor %}
           </ul>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans %}Fermenting{% endtrans %}</h3>
+        </div>
+        <div class="panel-body">
+          {% if fermenting %}
+          <ul>
+            {% for brew in fermenting %}<li><a href="{{ brew.absolute_url }}">{{ brew.full_name }}</a> - {{ brew.fermentation_start_date|dateformat("short") }}</li>{% endfor %}
+          </ul>
+          {% else %}
+          <p>{% trans %}Nothing{% endtrans %}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans %}Maturing{% endtrans %}</h3>
+        </div>
+        <div class="panel-body">
+          {% if maturing %}
+          <ul>
+            {% for brew in maturing %}<li><a href="{{ brew.absolute_url }}">{{ brew.full_name }}</a> - {{ brew.bottling_date|dateformat("short") }}</li>{% endfor %}
+          </ul>
+          {% else %}
+          <p>{% trans %}Nothing{% endtrans %}</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-12 col-md-4">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">{% trans %}On tap{% endtrans %}</h3>
+        </div>
+        <div class="panel-body">
+          {% if on_tap %}
+          <ul>
+            {% for brew in on_tap %}<li><a href="{{ brew.absolute_url }}">{{ brew.full_name }}</a> - {{ brew.tapped|dateformat("short") }}</li>{% endfor %}
+          </ul>
+          {% else %}
+          <p>{% trans %}Nothing{% endtrans %}</p>
           {% endif %}
         </div>
       </div>

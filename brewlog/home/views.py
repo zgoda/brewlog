@@ -42,6 +42,9 @@ def dashboard():
         'latest_recipes': latest_brews(Brew.created, **kw),
         'recently_brewed': latest_brews(Brew.date_brewed, **brewed_kw),
         'recent_reviews': latest_tasting_notes(TastingNote.date, **kw),
+        'fermenting': Brew.fermenting(**kw),
+        'maturing': Brew.maturing(**kw),
+        'on_tap': Brew.on_tap(**kw),
     }
     return render_template('misc/dashboard.html', **ctx)
 

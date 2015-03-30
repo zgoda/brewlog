@@ -178,6 +178,8 @@ class Brew(db.Model, DefaultModelMixin):
         order_by='desc(TastingNote.date)')
     fermentation_steps = db.relationship('FermentationStep', cascade='all,delete', lazy='dynamic',
         order_by='asc(FermentationStep.date)')
+    tapped = db.Column(db.Date)
+    finished = db.Column(db.Date)
 
     def __unicode__(self):  # pragma: no cover
         return u'<Brew %s by %s>' % (self.name, self.brewery.name)
@@ -304,6 +306,51 @@ class Brew(db.Model, DefaultModelMixin):
             if self.carbonation_type.endswith('priming'):
                 from_carbonation = choices.CARB_LEVEL_DATA[self.carbonation_level or 'normal']
             return abv(self.og, self.fg, from_carbonation)
+
+    @classmethod
+    def fermenting(cls, user=None, public_only=True, limit=5):
+        if user is not None and (not user.is_public and public_only):
+            return []
+        now = datetime.datetime.utcnow()
+        query = cls.query.filter(Brew.date_brewed<=now, Brew.date_brewed!=None, Brew.bottling_date==None)  # noqa
+        if public_only:
+            query = query.filter(Brew.is_public==True)
+        if user is not None:
+            query = query.join(Brewery).filter(Brewery.brewer==user)
+        query = query.order_by(db.desc(Brew.date_brewed))
+        if limit is not None:
+            query = query.limit(limit)
+        return query.all()
+
+    @classmethod
+    def maturing(cls, user=None, public_only=True, limit=5):
+        if user is not None and (not user.is_public and public_only):
+            return []
+        now = datetime.datetime.utcnow()
+        query = cls.query.filter(Brew.bottling_date<=now, Brew.tapped==None)  # noqa
+        if public_only:
+            query = query.filter(Brew.is_public==True)
+        if user is not None:
+            query = query.join(Brewery).filter(Brewery.brewer==user)
+        query = query.order_by(db.desc(Brew.date_brewed))
+        if limit is not None:
+            query = query.limit(limit)
+        return query.all()
+
+    @classmethod
+    def on_tap(cls, user=None, public_only=True, limit=5):
+        if user is not None and (not user.is_public and public_only):
+            return []
+        now = datetime.datetime.utcnow()
+        query = cls.query.filter(Brew.tapped<=now, Brew.finished==None)  # noqa
+        if public_only:
+            query = query.filter(Brew.is_public==True)
+        if user is not None:
+            query = query.join(Brewery).filter(Brewery.brewer==user)
+        query = query.order_by(db.desc(Brew.date_brewed))
+        if limit is not None:
+            query = query.limit(limit)
+        return query.all()
 
 
 # events: Brew model
