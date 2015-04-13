@@ -144,6 +144,11 @@ db.event.listen(FermentationStep, 'before_update', fermentation_step_pre_save)
 
 
 class Brew(db.Model, DefaultModelMixin):
+    STATE_PLANNED = _('planned')
+    STATE_FERMENTING = _('fermenting')
+    STATE_FINISHED = _('finished')
+    STATE_TAPPED = _('tapped')
+    STATE_MATURING = _('maturing')
     __tablename__ = 'brew'
     id = db.Column(db.Integer, primary_key=True)
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
@@ -219,7 +224,7 @@ class Brew(db.Model, DefaultModelMixin):
     @property
     def display_info(self):
         data = {
-            'style': self.style or self.bjcp_style,
+            'style': self.style or self.bjcp_style or _('not in particular style'),
             'brewery': self.brewery.name,
             'brewer': self.brewery.brewer.name,
         }
@@ -351,6 +356,20 @@ class Brew(db.Model, DefaultModelMixin):
         if limit is not None:
             query = query.limit(limit)
         return query.all()
+
+    @property
+    def current_state(self):
+        if not self.date_brewed:
+            return (self.STATE_PLANNED, None)  # not brewed yet
+        if not self.bottling_date:
+            return (self.STATE_FERMENTING, self.date_brewed)  # still in fv
+        if self.finished:
+            return (self.STATE_FINISHED, self.finished)  # finished
+        else:
+            if self.tapped:
+                return (self.STATE_TAPPED, self.tapped)  # beer is tapped
+            else:
+                return (self.STATE_MATURING, self.bottling_date)  # beer is maturing
 
 
 # events: Brew model

@@ -43,7 +43,7 @@ class MainPageTestCase(BrewlogTestCase):
         with self.app.test_client() as client:
             self.login(client, user.email)
             rv = client.get(self.main_url)
-            self.assertIn('>my profile</a>', rv.data)
+            self.assertIn('my profile</a>', rv.data)
             self.assertIn('pale ale', rv.data)
         # hidden profile user
         user = BrewerProfile.get_by_email('hidden0@example.com')

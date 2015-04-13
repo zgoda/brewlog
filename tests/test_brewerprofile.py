@@ -8,11 +8,11 @@ class BrewerProfileTestCase(BrewlogTestCase):
 
     def test_login(self):
         user = BrewerProfile.get_by_email('user@example.com')
-        profile_url = url_for('profile.details', userid=user.id)
+        target_url = url_for('home.index')
         with self.app.test_client() as client:
             # check redirect
             rv = client.get(url_for('auth.login', provider='local'), follow_redirects=False)
-            self.assertRedirects(rv, profile_url)
+            self.assertRedirects(rv, target_url)
             # check target resource
             rv = self.login(client, user.email)
             self.assertIn('You have been signed in as %s using local handler' % user.email, rv.data)

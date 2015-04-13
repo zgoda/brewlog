@@ -5,7 +5,7 @@ from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from flask_babelex import lazy_gettext as _
 from flask_login import current_user
 
-from brewlog.forms.base import BaseObjectForm
+from brewlog.forms.base import BaseObjectForm, BaseForm
 from brewlog.forms.widgets import textarea_with_hints
 from brewlog.forms.fields import TextAreaWithHintsField
 from brewlog.models import choices
@@ -95,3 +95,7 @@ class BrewForm(BaseObjectForm):
         if obj is None:
             obj = Brew()
         return super(BrewForm, self).save(obj, save)
+
+
+class ChangeStateForm(BaseForm):
+    action = wf.RadioField(_('action'), choices=choices.ACTION_CHOICES, default='available')

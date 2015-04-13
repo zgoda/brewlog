@@ -7,13 +7,13 @@
 <script type="text/javascript" src="/static/js/jquery.jeditable.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    var notes = {{ notes|safe }};
-    $(".edit_area").editable("{{ url_for('tastingnote.update') }}", {
-        type: "textarea",
-        loadurl: "{{ url_for('tastingnote.loadtext') }}",
-        cancel: "<button type='cancel' class='btn btn-sm btn-default'>{{ gettext('cancel') }}</button>",
-        submit: "<button type='submit' class='btn btn-sm btn-primary'>{{ gettext('send') }}</button>"
-    });
+  var notes = {{ notes|safe }};
+  $(".edit_area").editable("{{ url_for('tastingnote.update') }}", {
+    type: "textarea",
+    loadurl: "{{ url_for('tastingnote.loadtext') }}",
+    cancel: "<button type='cancel' class='btn btn-sm btn-default'>{{ gettext('cancel') }}</button>",
+    submit: "<button type='submit' class='btn btn-sm btn-primary'>{{ gettext('send') }}</button>"
+  });
 })
 </script>
 {% endif %}
@@ -56,6 +56,18 @@ $(document).ready(function() {
       </div>
     </div>
   </div>
+  {% endif %}
+  {% if action_form %}
+  <h3>{{ gettext("change state").capitalize() }}</h3>
+  <p><strong>{{ gettext('current state').capitalize() }}</strong>: {{ brew.current_state[0] }}{% if brew.current_state[1] %} {{ gettext('since %(date)s', date=format_date(brew.current_state[1], 'short')) }}{% endif %}</p>
+  <form method="post" action="{{ url_for('brew.chgstate', brew_id=brew.id) }}" class="form form-horizontal" role="form">
+    {{ forms.render(action_form) }}
+    <div class="form-group">
+      <div class="col-sm-offset-2 col-sm-10">
+        <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+      </div>
+    </div>
+  </form>  
   {% endif %}
   {% if brew.tasting_notes %}
   {% include "tasting/include/tasting_notes.html" %}

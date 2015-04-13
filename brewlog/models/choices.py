@@ -35,6 +35,9 @@ HOPSTEP_TYPE_KEYS = (u'mash', u'first wort', u'boil', u'post-boil', u'dry hop')
 HOPSTEP_TYPE_VALUES = (_('mash'), _('first wort'), _('boil'), _('post-boil'), _('dry hop'))
 HOPSTEP_TYPE_CHOICES = zip(HOPSTEP_TYPE_KEYS, HOPSTEP_TYPE_VALUES)
 
+ACTION_KEYS = (u'tap', u'untap', u'finish', u'available')
+ACTION_VALUES = (_('tap'), _('untap'), _('finish'), _('available'))
+ACTION_CHOICES = zip(ACTION_KEYS, ACTION_VALUES)
 
 BJCP_STYLE_CODES = ('1A', '1B', '1C', '1D', '1E', '2A', '2B', '2C', '3A', '3B', '4A', '4B', '4C',
     '5A', '5B', '5C', '5D', '6A', '6B', '6C', '6D', '7A', '7B', '7C', '8A', '8B', '8C',

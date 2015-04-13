@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import request, flash, url_for, redirect, render_template, abort, render_template_string
 from flask_login import current_user, login_required
 from flask_babelex import lazy_gettext, gettext as _
@@ -9,7 +11,7 @@ from brewlog.models.brewing import Brew, FermentationStep
 from brewlog.models.users import CustomLabelTemplate
 from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_page
-from brewlog.brew.forms import BrewForm, FermentationStepForm
+from brewlog.brew.forms import BrewForm, FermentationStepForm, ChangeStateForm
 from brewlog.brew import brew_bp
 
 
@@ -55,6 +57,8 @@ def brew(brew_id, **kwargs):
     }
     if current_user in brew.brewery.brewers:
         ctx['form'] = BrewForm(obj=brew)
+        if brew.current_state[0] in (brew.STATE_FINISHED, brew.STATE_TAPPED, brew.STATE_MATURING):
+            ctx['action_form'] = ChangeStateForm()
     return render_template('brew/details.html', **ctx)
 
 
@@ -233,3 +237,28 @@ def fermentation_step_delete(fstep_id):
         'delete_form': form,
     }
     return render_template('brew/fermentation/step_delete.html', **ctx)
+
+
+@brew_bp.route('/<int:brew_id>/chgstate', methods=['POST'], endpoint='chgstate')
+@login_required
+def change_state(brew_id):
+    brew = Brew.query.get_or_404(brew_id)
+    if brew.brewery.brewer != current_user:
+        abort(403)
+    form = ChangeStateForm()
+    now = datetime.utcnow()
+    action = form.data['action']
+    if action == 'tap':
+        brew.tapped = now
+        brew.finished = None
+    elif action == 'untap':
+        brew.finished = None
+        brew.tapped = None
+    elif action == 'finish':
+        brew.finished = now
+    elif action == 'available':
+        brew.finished = None
+        brew.tapped = None
+    db.session.add(brew)
+    db.session.commit()
+    return redirect(brew.absolute_url)
