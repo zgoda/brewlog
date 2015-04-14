@@ -332,7 +332,7 @@ class Brew(db.Model, DefaultModelMixin):
         if user is not None and (not user.is_public and public_only):
             return []
         now = datetime.datetime.utcnow()
-        query = cls.query.filter(Brew.bottling_date<=now, Brew.tapped==None)  # noqa
+        query = cls.query.filter(Brew.bottling_date<=now, Brew.tapped==None, Brew.finished==None)  # noqa
         if public_only:
             query = query.filter(Brew.is_public==True)
         if user is not None:
