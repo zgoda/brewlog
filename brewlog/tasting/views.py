@@ -17,7 +17,7 @@ from brewlog.tasting import tasting_bp
 def all():
     page_size = 20
     page = get_page(request)
-    if current_user.is_anonymous():
+    if current_user.is_anonymous:
         query = tasting_notes()
     else:
         query = tasting_notes(extra_user=current_user)

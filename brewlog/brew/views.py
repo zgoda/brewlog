@@ -66,7 +66,7 @@ def brew(brew_id, **kwargs):
 def brew_all():
     page_size = 20
     page = get_page(request)
-    if current_user.is_anonymous():
+    if current_user.is_anonymous:
         query = brews()
     else:
         query = brews(extra_user=current_user)
@@ -116,7 +116,7 @@ def brew_labels(brew_id):
         'cell_style': 'width:90mm;height:50mm',
         'current_template': 0,
     }
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         ctx['custom_templates'] = current_user.custom_label_templates.order_by(CustomLabelTemplate.name).all()
         use_template = request.args.get('template')
         if use_template is not None:

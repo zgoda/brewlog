@@ -11,10 +11,10 @@ from brewlog.models.tasting import TastingNote
 
 @home_bp.route('/', endpoint='index')
 def main():
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         return dashboard()
     item_limit = current_app.config.get('SHORTLIST_DEFAULT_LIMIT', 5)
-    if current_user.is_authenticated():
+    if current_user.is_authenticated:
         kw = {'extra_user': current_user}
     else:
         kw = {}

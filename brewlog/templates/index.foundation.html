@@ -28,7 +28,7 @@
             <section class="top-bar-section">
                 <ul class="right">
                     {% block topmenu_right %}{% endblock %}
-                    {% if not current_user.is_anonymous() %}
+                    {% if not current_user.is_anonymous %}
                     <li class="has-dropdown"><a href="#">{% trans %}create new{% endtrans %}</a>
                         <ul class="dropdown">
                             <li><a href="{{ url_for('brewery.add') }}">{% trans %}brewery{% endtrans %}</a></li>
@@ -44,7 +44,7 @@
                     {% endif %}
                     <li class="has-dropdown"><a href="#">{% trans %}user tools{% endtrans %}</a>
                         <ul class="dropdown">
-                            {% if current_user.is_anonymous() %}
+                            {% if current_user.is_anonymous %}
                             <li><a href="{{ url_for('auth.select') }}">{% trans %}login page{% endtrans %}</a></li>
                             {% else %}
                             <li><a href="{{ current_user.absolute_url }}">{% trans %}my profile{% endtrans %}</a></li>

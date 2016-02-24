@@ -50,7 +50,7 @@ def brewery_delete(brewery_id):
 def brewery_all():
     page_size = 20
     page = get_page(request)
-    if current_user.is_anonymous():
+    if current_user.is_anonymous:
         query = breweries()
     else:
         query = breweries(extra_user=current_user)
@@ -89,7 +89,7 @@ def brewery_brews(brewery_id):
     page = get_page(request)
     brewery = Brewery.query.get_or_404(brewery_id)
     public_only = False
-    if current_user.is_anonymous() or (current_user != brewery.brewer):
+    if current_user.is_anonymous or (current_user != brewery.brewer):
         if not brewery.has_access(current_user):
             abort(404)
         public_only = True

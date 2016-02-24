@@ -3,7 +3,7 @@
 {% import "macros/bootstrap.html" as bsu %}
 
 {% block scripts %}
-{% if not current_user.is_anonymous() %}
+{% if not current_user.is_anonymous %}
 <script type="text/javascript" src="/static/js/jquery.jeditable.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -72,7 +72,7 @@ $(document).ready(function() {
   {% if brew.tasting_notes %}
   {% include "tasting/include/tasting_notes.html" %}
   {% endif %}
-  {% if current_user.is_authenticated() and brew.is_brewed_yet %}
+  {% if current_user.is_authenticated and brew.is_brewed_yet %}
   <p><a href="{{ url_for('tastingnote.add', brew_id=brew.id) }}" class="btn btn-primary">{{ gettext("add tasting note") }}</a></p>
   {% endif %}
   {% if form %}
