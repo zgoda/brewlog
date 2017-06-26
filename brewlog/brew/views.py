@@ -69,11 +69,11 @@ def brew(brew_id, **kwargs):
 def brew_all():
     page_size = 20
     page = get_page(request)
-    if current_user.is_anonymous:
-        query = brews()
-    else:
-        query = brews(extra_user=current_user)
     if request.is_xhr:
+        if current_user.is_anonymous:
+            query = brews()
+        else:
+            query = brews(public_only=False, user=current_user)
         query = query.order_by(Brew.name)
         brew_list = []
         for brew_id, name in query.values(Brew.id, Brew.name):
@@ -81,6 +81,10 @@ def brew_all():
             brew_list.append(dict(name=name, url=url))
         return json_response(brew_list)
     else:
+        if current_user.is_anonymous:
+            query = brews()
+        else:
+            query = brews(extra_user=current_user)
         query = query.order_by(db.desc(Brew.created))
         pagination = query.paginate(page, page_size)
         context = {
@@ -94,7 +98,7 @@ def search():
     if current_user.is_anonymous:
         query = brews()
     else:
-        query = brews(extra_user=current_user)
+        query = brews(public_only=False, user=current_user)
     term = request.args.getlist('q')
     if term:
         query = query.filter(Brew.name.like(term[0]+'%'))

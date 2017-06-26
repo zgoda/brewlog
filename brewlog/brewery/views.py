@@ -51,11 +51,11 @@ def brewery_delete(brewery_id):
 def brewery_all():
     page_size = 20
     page = get_page(request)
-    if current_user.is_anonymous:
-        query = breweries()
-    else:
-        query = breweries(extra_user=current_user)
     if request.is_xhr:
+        if current_user.is_anonymous:
+            query = breweries()
+        else:
+            query = current_user.breweries
         query = query.order_by(Brewery.name)
         breweries_list = []
         for brewery_id, name in query.values(Brewery.id, Brewery.name):
@@ -63,6 +63,10 @@ def brewery_all():
             breweries_list.append(dict(name=name, url=url))
         return json_response(breweries_list)
     else:
+        if current_user.is_anonymous:
+            query = breweries()
+        else:
+            query = breweries(extra_user=current_user)
         query = query.order_by(Brewery.name)
         pagination = query.paginate(page, page_size)
         ctx = {
@@ -76,7 +80,7 @@ def search():
     if current_user.is_anonymous:
         query = breweries()
     else:
-        query = breweries(extra_user=current_user)
+        query = current_user.breweries
     term = request.args.getlist('q')
     if term:
         query = query.filter(Brewery.name.like(term[0]+'%'))
