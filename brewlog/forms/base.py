@@ -1,4 +1,4 @@
-from flask_wtf import Form
+from flask_wtf import FlaskForm as Form
 from wtforms import BooleanField
 from flask_babelex import lazy_gettext as _
 

@@ -10,8 +10,8 @@ pages = FlatPages()
 from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
-from flask_wtf.csrf import CsrfProtect
-csrf = CsrfProtect()
+from flask_wtf.csrf import CSRFProtect
+csrf = CSRFProtect()
 
 from flask_bootstrap import Bootstrap
 bootstrap = Bootstrap()
