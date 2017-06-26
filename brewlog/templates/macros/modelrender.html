@@ -1,7 +1,10 @@
 {% macro render(obj) -%}
-<table>
+<dl class="dl-horizontal">
 {% for field, data in obj.render_fields %}
-    {% if data %}<tr><th>{{ gettext(field) }}</th><td>{{ data }}</td></tr>{% endif %}
+  {% if data %}
+  <dt>{{ gettext(field) }}</dt>
+  <dd>{{ data }}</dd>
+  {% endif %}
 {% endfor %}
-</table>
+</ul>
 {%- endmacro %}
