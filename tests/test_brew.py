@@ -201,6 +201,25 @@ class BrewTestCase(BrewlogTestCase):
             rv = client.post(url, data={'delete_it': True})
             self.assertEqual(rv.status_code, 403)
 
+    def test_next(self):
+        brew_id = self.brew.id
+        url = url_for('brew.details', brew_id=brew_id)
+        with self.app.test_client() as client:
+            self.login(client, self.brew.brewery.brewer.email)
+            rv = client.get(url)
+            next_url = url_for('brew.details', brew_id=self.hidden_brew_direct.id)
+            self.assertIn('<a href="%s">next</a>' % next_url, rv.data)
+            self.assertNotIn('>previous</a>', rv.data)
+
+    def test_previous(self):
+        url = url_for('brew.details', brew_id=self.hidden_brew_direct.id)
+        with self.app.test_client() as client:
+            self.login(client, self.hidden_brew_direct.brewery.brewer.email)
+            rv = client.get(url)
+            prev_url = url_for('brew.details', brew_id=self.brew.id)
+            self.assertIn('<a href="%s">previous</a>' % prev_url, rv.data)
+            self.assertNotIn('>next</a>', rv.data)
+
 
 class BrewListsTestCase(BrewlogTestCase):
 
