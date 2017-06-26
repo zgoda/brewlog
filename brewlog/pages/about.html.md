@@ -1,5 +1,5 @@
 title: O aplikacji
-updated: 2015-02-04
+updated: 2017-06-26
 
 ## O aplikacji
 
@@ -9,7 +9,7 @@ Aplikacja została zoptymalizowana pod kątem użytkowania jej na urządzeniach 
 
 ### Udział w rozwoju aplikacji
 
-Aplikacja jest rozwijana w modelu OpenSource, dostępna jest na licencji MIT. Kod źródłowy można pobrać z prywatnego [repozytorium Git](https://bitbucket.org/zgoda/brew-log). Dostępu do repozytorium udzielam na życzenie.
+Aplikacja jest rozwijana w modelu OpenSource, dostępna jest na licencji BSD (3-clause new/revised BSD). Kod źródłowy można pobrać z [repozytorium Git](https://github.com/zgoda/brewlog).
 
 #### Na zachętę
 

@@ -1,11 +1,11 @@
 title: Przewodnik
-updated: 2013-09-30
+updated: 2017-06-26
 
 ## Przewodnik użytkownika
 
 ### Rejestracja
 
-Jakkolwiek możliwe jest korzystanie z aplikacji jako użytkownik nie zalogowany, to jednak dostępna funkcjonalność jest bardzo ograniczona, taki używkownik ma w zasadzie całą aplikację dostępną tylko do odczytu. W serwisie nie ma potrzeby przeprowadzać jakiejkolwiek rejestracji - wystarczy zalogować się do aplikacji przy użyciu konta Google lub Facebook. Odpowiedni profil użytkownika zostanie założony w aplikacji i nowy użytkownik zostanie od razu po zalogowaniu przeniesiony na stronę edycji profilu.
+Jakkolwiek możliwe jest korzystanie z aplikacji jako użytkownik nie zalogowany, to jednak dostępna funkcjonalność jest bardzo ograniczona, taki używkownik ma w zasadzie całą aplikację dostępną tylko do odczytu. W serwisie nie ma potrzeby przeprowadzać jakiejkolwiek rejestracji - wystarczy zalogować się do aplikacji przy użyciu konta Google, Facebook lub GitHub (w tym przypadku konieczne jest ustawienie emaila użytkownika jako "publiczny" w danych konta na GitHubie). Odpowiedni profil użytkownika zostanie założony w aplikacji i nowy użytkownik zostanie od razu po zalogowaniu przeniesiony na stronę edycji profilu.
 
 #### Użytkownicy anonimowi i niewidoczni
 
