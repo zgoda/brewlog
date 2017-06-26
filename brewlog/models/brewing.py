@@ -371,6 +371,12 @@ class Brew(db.Model, DefaultModelMixin):
             else:
                 return (self.STATE_MATURING, self.bottling_date)  # beer is maturing
 
+    def get_next(self):
+        return Brew.query.order_by(Brew.id).filter(Brew.id>self.id, Brew.brewery_id==self.brewery_id).first()
+
+    def get_previous(self):
+        return Brew.query.order_by(db.desc(Brew.id)).filter(Brew.id<self.id, Brew.brewery_id==self.brewery_id).first()
+
 
 # events: Brew model
 def brew_pre_save(mapper, connection, target):

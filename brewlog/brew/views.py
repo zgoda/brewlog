@@ -54,6 +54,8 @@ def brew(brew_id, **kwargs):
         'brew': brew,
         'mash_hints': HINTS,
         'notes': brew.notes_to_json(),
+        'next': brew.get_next(),
+        'previous': brew.get_previous(),
     }
     if current_user in brew.brewery.brewers:
         ctx['form'] = BrewForm(obj=brew)

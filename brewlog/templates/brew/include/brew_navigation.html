@@ -1,0 +1,6 @@
+{% if previous %}
+<a href="{{ url_for('brew.details', brew_id=previous.id) }}">{{ gettext("previous") }}</a>
+{% endif %}
+{% if next %}
+<span class="pull-right"><a href="{{ url_for('brew.details', brew_id=next.id) }}">{{ gettext("next") }}</a></span>
+{% endif %}

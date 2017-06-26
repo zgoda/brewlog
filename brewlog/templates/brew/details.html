@@ -37,6 +37,7 @@ $(document).ready(function() {
 
 {% block widecontent %}
 <div class="col-xs-12">
+  {% include "brew/include/brew_navigation.html" %}
   {% include "brew/include/details.html" %}
   {% if form %}
   <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
