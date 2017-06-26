@@ -89,6 +89,23 @@ def brew_all():
         return render_template('brew/list.html', **context)
 
 
+@brew_bp.route('/search', endpoint='search')
+def search():
+    if current_user.is_anonymous:
+        query = brews()
+    else:
+        query = brews(extra_user=current_user)
+    term = request.args.getlist('q')
+    if term:
+        query = query.filter(Brew.name.like(term[0]+'%'))
+    query = query.order_by(Brew.name)
+    brew_list = []
+    for brew_id, name in query.values(Brew.id, Brew.name):
+        url = url_for('brew.details', brew_id=brew_id)
+        brew_list.append(dict(name=name, url=url))
+    return json_response(brew_list)
+
+
 @brew_bp.route('/<int:brew_id>/export/<flavour>', endpoint='export')
 def brew_export(brew_id, flavour):
     brew = Brew.query.get_or_404(brew_id)

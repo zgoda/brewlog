@@ -114,12 +114,26 @@
       var brews = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        prefetch: "{{ url_for('brew.all') }}"
+        prefetch: {
+          url: "{{ url_for('brew.all') }}",
+          ttl: 900000
+        },
+        remote: {
+          url: "{{ url_for('brew.search') }}?q=%QUERY",
+          wildcard: "%QUERY"
+        }
       });
       var breweries = new Bloodhound({
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
-        prefetch: "{{ url_for('brewery.all') }}"
+        prefetch: {
+          url: "{{ url_for('brewery.all') }}",
+          ttl: 900000
+        },
+        remote: {
+          url: "{{ url_for('brewery.search') }}?q=%QUERY",
+          wildcard: "%QUERY"
+        }
       });
       $('#bloodhound .typeahead').typeahead({
         highlight: true
