@@ -11,6 +11,7 @@ from brewlog.models.brewing import Brew, FermentationStep
 from brewlog.models.users import CustomLabelTemplate
 from brewlog.forms.base import DeleteForm
 from brewlog.utils.models import get_page
+from brewlog.utils.http import json_response
 from brewlog.brew.forms import BrewForm, FermentationStepForm, ChangeStateForm
 from brewlog.brew import brew_bp
 
@@ -72,12 +73,20 @@ def brew_all():
         query = brews()
     else:
         query = brews(extra_user=current_user)
-    query = query.order_by(db.desc(Brew.created))
-    pagination = query.paginate(page, page_size)
-    context = {
-        'pagination': pagination,
-    }
-    return render_template('brew/list.html', **context)
+    if request.is_xhr:
+        query = query.order_by(Brew.name)
+        brew_list = []
+        for brew_id, name in query.values(Brew.id, Brew.name):
+            url = url_for('brew.details', brew_id=brew_id)
+            brew_list.append(dict(name=name, url=url))
+        return json_response(brew_list)
+    else:
+        query = query.order_by(db.desc(Brew.created))
+        pagination = query.paginate(page, page_size)
+        context = {
+            'pagination': pagination,
+        }
+        return render_template('brew/list.html', **context)
 
 
 @brew_bp.route('/<int:brew_id>/export/<flavour>', endpoint='export')

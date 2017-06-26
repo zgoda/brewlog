@@ -24,3 +24,13 @@ table.printlabel td {
 .required label {
     font-weight: bold;
 }
+
+#bloodhound .dataset-name {
+  margin: 0 20px 5px 20px;
+  padding: 3px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+#bloodhound .tt-cursor {
+    color: cadetblue;
+}

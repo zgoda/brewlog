@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-06-26 11:09+0200\n"
+"POT-Creation-Date: 2017-06-26 14:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -87,8 +87,7 @@ msgid "notes"
 msgstr ""
 
 #: brewlog/brew/forms.py:36 brewlog/templates/brewery/base.html:3
-#: brewlog/templates/index.bootstrap.html:36
-#: brewlog/templates/index.foundation.html:34 brewlog/templates/index.html:36
+#: brewlog/templates/index.html:42
 msgid "brewery"
 msgstr ""
 
@@ -208,44 +207,44 @@ msgstr ""
 msgid "action"
 msgstr ""
 
-#: brewlog/brew/views.py:19
+#: brewlog/brew/views.py:20
 msgid "single infusion mash w/ mash out"
 msgstr ""
 
-#: brewlog/brew/views.py:20
+#: brewlog/brew/views.py:21
 msgid "2-step mash w/ mash out"
 msgstr ""
 
-#: brewlog/brew/views.py:21
+#: brewlog/brew/views.py:22
 msgid "3-step mash w/ mash out"
 msgstr ""
 
-#: brewlog/brew/views.py:31
+#: brewlog/brew/views.py:32
 #, python-format
 msgid "brew %(name)s created"
 msgstr ""
 
-#: brewlog/brew/views.py:49
+#: brewlog/brew/views.py:50
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr ""
 
-#: brewlog/brew/views.py:151
+#: brewlog/brew/views.py:160
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr ""
 
-#: brewlog/brew/views.py:181
+#: brewlog/brew/views.py:190
 #, python-format
 msgid "fermentation step %(step_name)s for brew %(brew_name)s has been created"
 msgstr ""
 
-#: brewlog/brew/views.py:211
+#: brewlog/brew/views.py:220
 #, python-format
 msgid "fermentation step %(step_name)s for brew %(brew_name)s has been updated"
 msgstr ""
 
-#: brewlog/brew/views.py:234
+#: brewlog/brew/views.py:243
 #, python-format
 msgid "fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted"
 msgstr ""
@@ -262,17 +261,17 @@ msgstr ""
 msgid "established"
 msgstr ""
 
-#: brewlog/brewery/views.py:20
+#: brewlog/brewery/views.py:21
 #, python-format
 msgid "brewery %(name)s created"
 msgstr ""
 
-#: brewlog/brewery/views.py:39
+#: brewlog/brewery/views.py:40
 #, python-format
 msgid "brewery %(name)s has been deleted"
 msgstr ""
 
-#: brewlog/brewery/views.py:74
+#: brewlog/brewery/views.py:83
 #, python-format
 msgid "brewery %(name)s data updated"
 msgstr ""
@@ -605,79 +604,65 @@ msgstr ""
 msgid "by %(brewer)s"
 msgstr ""
 
-#: brewlog/templates/index.bootstrap.html:34
-#: brewlog/templates/index.foundation.html:32 brewlog/templates/index.html:34
+#: brewlog/templates/index.html:33
+msgid "search"
+msgstr ""
+
+#: brewlog/templates/index.html:40
 msgid "create new"
 msgstr ""
 
-#: brewlog/templates/brew/base.html:3 brewlog/templates/index.bootstrap.html:37
-#: brewlog/templates/index.foundation.html:35 brewlog/templates/index.html:37
+#: brewlog/templates/brew/base.html:3 brewlog/templates/index.html:43
 msgid "brew"
 msgstr ""
 
-#: brewlog/templates/index.bootstrap.html:41
-#: brewlog/templates/index.foundation.html:38 brewlog/templates/index.html:41
+#: brewlog/templates/index.html:47
 msgid "my items"
 msgstr ""
 
-#: brewlog/templates/index.bootstrap.html:43
-#: brewlog/templates/index.foundation.html:40 brewlog/templates/index.html:43
+#: brewlog/templates/index.html:49 brewlog/templates/index.html:140
 msgid "breweries"
 msgstr ""
 
 #: brewlog/templates/brew/list.html:5 brewlog/templates/brewery/list.html:13
-#: brewlog/templates/index.bootstrap.html:44
-#: brewlog/templates/index.foundation.html:41 brewlog/templates/index.html:44
+#: brewlog/templates/index.html:50 brewlog/templates/index.html:132
 msgid "brews"
 msgstr ""
 
-#: brewlog/templates/index.bootstrap.html:49
-#: brewlog/templates/index.foundation.html:45 brewlog/templates/index.html:49
+#: brewlog/templates/index.html:55
 msgid "user tools"
 msgstr ""
 
-#: brewlog/templates/index.bootstrap.html:52
-#: brewlog/templates/index.foundation.html:48 brewlog/templates/index.html:52
+#: brewlog/templates/index.html:58
 msgid "login page"
 msgstr ""
 
-#: brewlog/templates/index.bootstrap.html:54
-#: brewlog/templates/index.foundation.html:50 brewlog/templates/index.html:54
+#: brewlog/templates/index.html:60
 msgid "my profile"
 msgstr ""
 
-#: brewlog/templates/index.bootstrap.html:55
-#: brewlog/templates/index.foundation.html:51 brewlog/templates/index.html:55
+#: brewlog/templates/index.html:61
 msgid "logout"
 msgstr ""
 
-#: brewlog/templates/index.bootstrap.html:93
-#: brewlog/templates/index.foundation.html:91 brewlog/templates/index.html:93
+#: brewlog/templates/index.html:99
 msgid "All rights reserved"
 msgstr ""
 
-#: brewlog/templates/index.bootstrap.html:96
-#: brewlog/templates/index.foundation.html:93 brewlog/templates/index.html:96
+#: brewlog/templates/index.html:102
 msgid "about"
 msgstr ""
 
-#: brewlog/templates/index.bootstrap.html:97
-#: brewlog/templates/index.foundation.html:94 brewlog/templates/index.html:97
+#: brewlog/templates/index.html:103
 msgid "user guide"
 msgstr ""
 
-#: brewlog/templates/index.bootstrap.html:98
-#: brewlog/templates/index.foundation.html:95 brewlog/templates/index.html:98
+#: brewlog/templates/index.html:104
 msgid "legal mumbo-jumbo"
 msgstr ""
 
-#: brewlog/templates/index.bootstrap.html:99
-#: brewlog/templates/index.foundation.html:96 brewlog/templates/index.html:99
+#: brewlog/templates/index.html:105
 msgid "privacy statement"
-msgstr ""
-
-#: brewlog/templates/index.foundation.html:26
-msgid "Menu"
 msgstr ""
 
 #: brewlog/templates/account/delete.html:4

@@ -9,6 +9,7 @@ from brewlog.models.brewing import Brewery
 from brewlog.forms.base import DeleteForm
 from brewlog.brewery.forms import BreweryForm
 from brewlog.utils.models import get_page
+from brewlog.utils.http import json_response
 
 
 @brewery_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
@@ -46,7 +47,7 @@ def brewery_delete(brewery_id):
     return render_template('brewery/delete.html', **ctx)
 
 
-@brewery_bp.route('all', endpoint='all')
+@brewery_bp.route('/all', endpoint='all')
 def brewery_all():
     page_size = 20
     page = get_page(request)
@@ -54,12 +55,20 @@ def brewery_all():
         query = breweries()
     else:
         query = breweries(extra_user=current_user)
-    query = query.order_by(Brewery.name)
-    pagination = query.paginate(page, page_size)
-    ctx = {
-        'pagination': pagination,
-    }
-    return render_template('brewery/list.html', **ctx)
+    if request.is_xhr:
+        query = query.order_by(Brewery.name)
+        breweries_list = []
+        for brewery_id, name in query.values(Brewery.id, Brewery.name):
+            url = url_for('brewery.details', brewery_id=brewery_id)
+            breweries_list.append(dict(name=name, url=url))
+            return json_response(breweries_list)
+    else:
+        query = query.order_by(Brewery.name)
+        pagination = query.paginate(page, page_size)
+        ctx = {
+            'pagination': pagination,
+        }
+        return render_template('brewery/list.html', **ctx)
 
 
 @brewery_bp.route('/<int:brewery_id>', methods=['POST', 'GET'], endpoint='details')
