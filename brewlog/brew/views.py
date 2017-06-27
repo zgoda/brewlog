@@ -42,7 +42,7 @@ def brew_add():
 def brew(brew_id, **kwargs):
     brew = Brew.query.get_or_404(brew_id)
     if request.method == 'POST':
-        if current_user != brew.brewery.brewer:
+        if current_user not in brew.brewery.brewers:
             abort(403)
         form = BrewForm()
         if form.validate_on_submit():
@@ -55,8 +55,8 @@ def brew(brew_id, **kwargs):
         'brew': brew,
         'mash_hints': HINTS,
         'notes': brew.notes_to_json(),
-        'next': brew.get_next(),
-        'previous': brew.get_previous(),
+        'next': brew.get_next(current_user not in brew.brewery.brewers),
+        'previous': brew.get_previous(current_user not in brew.brewery.brewers),
     }
     if current_user in brew.brewery.brewers:
         ctx['form'] = BrewForm(obj=brew)
