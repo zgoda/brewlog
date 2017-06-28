@@ -82,6 +82,7 @@ class BreweryData(DataSet):
 class BrewData(DataSet):
 
     class brew1:
+        id = 1
         brewery = BreweryData.brewery1
         name = 'pale ale'
         code = '1'
@@ -90,6 +91,7 @@ class BrewData(DataSet):
         carbonation_level = 'normal'
 
     class brew2:
+        id = 2
         brewery = BreweryData.brewery1
         name = 'hidden czech pilsener'
         code = '2'
@@ -97,9 +99,29 @@ class BrewData(DataSet):
         is_public = False
 
     class hidden1:
+        id = 3
         brewery = BreweryData.hidden1
         name = 'hidden amber ale'
         code = '1'
+        created = datetime.datetime.utcnow()
+
+    class public1:
+        id = 4
+        brewery = BreweryData.brewery1
+        name = 'p1'
+        created = datetime.datetime.utcnow()
+
+    class nonpublic1:
+        id = 5
+        brewery = BreweryData.brewery1
+        name = 'np1'
+        created = datetime.datetime.utcnow()
+        is_public = False
+
+    class public2:
+        id = 6
+        brewery = BreweryData.brewery1
+        name = 'p2'
         created = datetime.datetime.utcnow()
 
 

@@ -219,7 +219,23 @@ class BrewTestCase(BrewlogTestCase):
             rv = client.get(url)
             prev_url = url_for('brew.details', brew_id=self.brew.id)
             self.assertIn('<a href="%s">previous</a>' % prev_url, rv.data)
-            self.assertNotIn('>next</a>', rv.data)
+
+    def test_previous_anon(self):
+        """non-public brews should not be accessible in prev/next navigation for anonymous user"""
+        brew = Brew.query.get(6)
+        url = url_for('brew.details', brew_id=brew.id)
+        with self.app.test_client() as client:
+            rv = client.get(url)
+            self.assertIn('<a href="%s">previous</a>' % url_for('brew.details', brew_id=4), rv.data)
+            self.assertNotIn(url_for('brew.details', brew_id=5), rv.data)
+
+    def test_next_anon(self):
+        brew = Brew.query.get(4)
+        url = url_for('brew.details', brew_id=brew.id)
+        with self.app.test_client() as client:
+            rv = client.get(url)
+            self.assertIn('<a href="%s">next</a>' % url_for('brew.details', brew_id=6), rv.data)
+            self.assertNotIn(url_for('brew.details', brew_id=5), rv.data)
 
 
 class BrewListsTestCase(BrewlogTestCase):
@@ -239,7 +255,7 @@ class BrewListsTestCase(BrewlogTestCase):
 
     def test_list_all_in_public_brewery(self):
         brew_ids = [x.id for x in Brew.get_latest_for(self.brewer, public_only=False)]
-        self.assertEqual(len(brew_ids), 2)
+        self.assertEqual(len(brew_ids), 5)
 
     def test_list_public_in_hidden_brewery(self):
         brew_ids = [x.id for x in Brew.get_latest_for(self.hidden_user, public_only=True)]
