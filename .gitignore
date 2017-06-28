@@ -11,4 +11,4 @@ secrets.py
 config_local.py
 .coverage
 .vagrant
-
+.vscode
