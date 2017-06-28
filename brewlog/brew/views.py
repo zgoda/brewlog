@@ -51,12 +51,13 @@ def brew(brew_id, **kwargs):
             return redirect(brew.absolute_url)
     if not brew.has_access(current_user):
         abort(404)
+    public_only=current_user not in brew.brewery.brewers
     ctx = {
         'brew': brew,
         'mash_hints': HINTS,
         'notes': brew.notes_to_json(),
-        'next': brew.get_next(current_user not in brew.brewery.brewers),
-        'previous': brew.get_previous(current_user not in brew.brewery.brewers),
+        'next': brew.get_next(public_only=public_only),
+        'previous': brew.get_previous(public_only=public_only),
     }
     if current_user in brew.brewery.brewers:
         ctx['form'] = BrewForm(obj=brew)

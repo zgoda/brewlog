@@ -53,7 +53,7 @@ class BreweryTestCase(BrewlogTestCase):
         with self.app.test_client() as client:
             rv = client.get(url_for('brewery.details', brewery_id=self.public_brewery.id))
             self.assertIn(self.public_brewery.name, rv.data)
-            self.assertNotIn('<form', rv.data)
+            self.assertNotIn('action="%s"' % self.public_brewery.absolute_url, rv.data)
             rv = client.get(url_for('brewery.details', brewery_id=self.hidden_brewery.id))
             self.assertEqual(rv.status_code, 404)
 
@@ -67,7 +67,7 @@ class BreweryTestCase(BrewlogTestCase):
             self.login(client, self.hidden_brewery.brewer.email)
             rv = client.get(url_for('brewery.details', brewery_id=self.public_brewery.id))
             self.assertIn(self.public_brewery.name, rv.data)
-            self.assertNotIn('<form', rv.data)
+            self.assertNotIn('action="%s"' % self.public_brewery.absolute_url, rv.data)
             rv = client.get(url_for('brewery.details', brewery_id=self.hidden_brewery.id))
             self.assertIn('<form', rv.data)
 

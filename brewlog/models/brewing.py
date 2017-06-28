@@ -371,13 +371,13 @@ class Brew(db.Model, DefaultModelMixin):
             else:
                 return (self.STATE_MATURING, self.bottling_date)  # beer is maturing
 
-    def get_next(self, public_only=False):
+    def get_next(self, public_only=True):
         query = Brew.query
         if public_only:
             query = query.filter(Brew.is_public==True)
         return query.order_by(Brew.id).filter(Brew.id>self.id, Brew.brewery_id==self.brewery_id).first()
 
-    def get_previous(self, public_only=False):
+    def get_previous(self, public_only=True):
         query = Brew.query
         if public_only:
             query = query.filter(Brew.is_public==True)

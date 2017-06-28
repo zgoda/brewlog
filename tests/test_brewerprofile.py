@@ -45,7 +45,7 @@ class BrewerProfileTestCase(BrewlogTestCase):
         profile_url = url_for('profile.details', userid=user.id)
         with self.app.test_client() as client:
             rv = client.get(profile_url)
-            self.assertNotIn('<form', rv.data)
+            self.assertNotIn('action="%s"' % user.absolute_url, rv.data)
 
     def test_update_other_profile(self):
         user1 = BrewerProfile.get_by_email('user1@example.com')

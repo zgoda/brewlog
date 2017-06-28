@@ -62,13 +62,14 @@ class BrewTestCase(BrewlogTestCase):
         """
         url = url_for('brew.details', brew_id=self.brew.id)
         with self.app.test_client() as client:
+            search_text = 'action="%s"' % self.brew.absolute_url
             # anon first
             rv = client.get(url)
-            self.assertNotIn('<form', rv.data)
+            self.assertNotIn(search_text, rv.data)
             # owner
             self.login(client, self.brew.brewery.brewer.email)
             rv = client.get(url)
-            self.assertIn('<form', rv.data)
+            self.assertIn(search_text, rv.data)
 
     def test_view_hidden_details_indirect(self):
         url = url_for('brew.details', brew_id=self.hidden_brew_indirect.id)
@@ -201,7 +202,7 @@ class BrewTestCase(BrewlogTestCase):
             rv = client.post(url, data={'delete_it': True})
             self.assertEqual(rv.status_code, 403)
 
-    def test_next(self):
+    def test_next_own_brews(self):
         brew_id = self.brew.id
         url = url_for('brew.details', brew_id=brew_id)
         with self.app.test_client() as client:
@@ -211,7 +212,7 @@ class BrewTestCase(BrewlogTestCase):
             self.assertIn('<a href="%s">next</a>' % next_url, rv.data)
             self.assertNotIn('>previous</a>', rv.data)
 
-    def test_previous(self):
+    def test_previous_own_brews(self):
         url = url_for('brew.details', brew_id=self.hidden_brew_direct.id)
         with self.app.test_client() as client:
             self.login(client, self.hidden_brew_direct.brewery.brewer.email)
