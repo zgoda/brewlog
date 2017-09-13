@@ -14,10 +14,10 @@ except ImportError:
 oauth = OAuth()
 
 facebook = oauth.remote_app('facebook',
-    base_url='https://graph.facebook.com',
+    base_url='https://graph.facebook.com/v2.10',
     request_token_url=None,
     access_token_url='/oauth/access_token',
-    authorize_url='https://www.facebook.com/dialog/oauth',
+    authorize_url='https://www.facebook.com/v2.10/dialog/oauth',
     consumer_key=AUTH_CONFIG['facebook'][0],
     consumer_secret=AUTH_CONFIG['facebook'][1],
     request_token_params={'scope': 'email'},
