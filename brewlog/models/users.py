@@ -104,6 +104,7 @@ def profile_pre_save(mapper, connection, target):
     if target.updated is None:
         target.updated = target.created
 
+
 db.event.listen(BrewerProfile, 'before_insert', profile_pre_save)
 db.event.listen(BrewerProfile, 'before_update', profile_pre_save)
 

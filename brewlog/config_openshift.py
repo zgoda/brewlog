@@ -8,4 +8,4 @@ PG_USER_NAME = os.environ['OPENSHIFT_POSTGRESQL_DB_USERNAME']
 PG_PASSWORD = os.environ['OPENSHIFT_POSTGRESQL_DB_PASSWORD']
 PG_DB_NAME = 'brewlog'
 
-SQLALCHEMY_DATABASE_URI = 'postgresql://%(PG_USER_NAME)s:%(PG_PASSWORD)s@%(PG_HOST)s:%(PG_PORT)s/%(PG_DB_NAME)s' % locals()
+SQLALCHEMY_DATABASE_URI = 'postgresql://%(PG_USER_NAME)s:%(PG_PASSWORD)s@%(PG_HOST)s:%(PG_PORT)s/%(PG_DB_NAME)s' % locals()  # noqa

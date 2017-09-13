@@ -89,6 +89,7 @@ def brewery_pre_save(mapper, connection, target):
         target.est_month = target.established_date.month
         target.est_day = target.established_date.day
 
+
 db.event.listen(Brewery, 'before_insert', brewery_pre_save)
 db.event.listen(Brewery, 'before_update', brewery_pre_save)
 
@@ -138,6 +139,7 @@ def fermentation_step_pre_save(mapper, connection, target):
         target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
     else:
         target.notes_html = None
+
 
 db.event.listen(FermentationStep, 'before_insert', fermentation_step_pre_save)
 db.event.listen(FermentationStep, 'before_update', fermentation_step_pre_save)
@@ -394,6 +396,7 @@ def brew_pre_save(mapper, connection, target):
         target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
     if target.updated is None:
         target.updated = target.created
+
 
 db.event.listen(Brew, 'before_insert', brew_pre_save)
 db.event.listen(Brew, 'before_update', brew_pre_save)

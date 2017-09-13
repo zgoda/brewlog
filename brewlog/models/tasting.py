@@ -42,5 +42,6 @@ def tasting_note_pre_save(mapper, connection, target):
         target.text = stars2deg(target.text)
         target.text_html = markdown.markdown(target.text, safe_mode='remove')
 
+
 db.event.listen(TastingNote, 'before_insert', tasting_note_pre_save)
 db.event.listen(TastingNote, 'before_update', tasting_note_pre_save)
