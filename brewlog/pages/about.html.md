@@ -15,14 +15,14 @@ Aplikacja jest rozwijana w modelu OpenSource, dostępna jest na licencji BSD (3-
 
 Aplikacja została napisana przy użyciu następujących narzędzi i bibliotek:
 
- * Python
- * [Flask](http://flask.pocoo.org/) i biblioteki rozszerzeń (Flask-Babel, Flask-FlatPages, Flask-Login, Flask-OAuth, Flask-Script, Flask-Testing, Flask-WTF)
- * [WTForms](http://wtforms.simplecodes.com/)
- * [SQLAlchemy](http://www.sqlalchemy.org/)
- * [Babel](http://babel.pocoo.org/)
- * [Jinja2](http://jinja.pocoo.org/)
- * [requests](http://python-requests.org/)
- * [fixture](http://farmdev.com/projects/fixture/)
+* Python
+* [Flask](http://flask.pocoo.org/) i biblioteki rozszerzeń (Flask-Babel, Flask-FlatPages, Flask-Login, Flask-OAuth, Flask-Script, Flask-Testing, Flask-WTF)
+* [WTForms](http://wtforms.simplecodes.com/)
+* [SQLAlchemy](http://www.sqlalchemy.org/)
+* [Babel](http://babel.pocoo.org/)
+* [Jinja2](http://jinja.pocoo.org/)
+* [requests](http://python-requests.org/)
+* [fixture](http://farmdev.com/projects/fixture/)
 
 ### Uruchamianie własnej instancji
 

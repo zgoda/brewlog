@@ -39,7 +39,11 @@ def google_remote_login_callback(resp):  # pragma: no cover
         r = requests.get('https://www.googleapis.com/oauth2/v1/userinfo', headers=headers)
         if r.ok:
             data = r.json()
-            return login_success(data['email'], access_token, data['id'], 'google')
+            kw = {
+                'first_name': data.get('given_name', ''),
+                'last_name': data.get('family_name', ''),
+            }
+            return login_success(data['email'], access_token, data['id'], 'google', **kw)
         else:
             flash(_('Error receiving profile data from Google: %(code)s', code=r.status_code), category='error')
     return redirect(url_for('auth.select'))
@@ -57,8 +61,8 @@ def facebook_remote_login_callback(resp):  # pragma: no cover
     if access_token:
         me = facebook.get('/me', data=dict(fields='id,email,first_name,last_name'))
         kw = {
-            'first_name': me.data['first_name'],
-            'last_name': me.data['last_name'],
+            'first_name': me.data.get('first_name', ''),
+            'last_name': me.data.get('last_name', ''),
         }
         return login_success(me.data['email'], access_token, me.data['id'], 'facebook', **kw)
     return redirect(url_for('auth.select'))
@@ -79,7 +83,7 @@ def github_remote_login_callback(resp):  # pragma: no cover
         return skip
     session['access_token'] = access_token, ''
     if access_token:
-        me = github.get('user')
+        me = github.get('/user')
         if not me.data.get('email'):
             flash(_('GitHub profile for user %(name)s lacks public email, skipping as unusable.', **me.data),
                 category='warning')
