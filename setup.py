@@ -39,8 +39,6 @@ setup(
         'translitcodec',
         'python-dateutil',
         'six',
-        'alembic',
-        'mako',
         'Flask-Testing',
         'twill',
         'fixture',
