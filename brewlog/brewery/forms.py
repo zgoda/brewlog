@@ -1,7 +1,7 @@
 import wtforms as wf
 from wtforms.fields.html5 import DateField
 from wtforms.validators import Length, Optional, DataRequired
-from flask_babelex import lazy_gettext as _
+from flask_babel import lazy_gettext as _
 from flask_login import current_user
 
 from brewlog.forms.base import BaseObjectForm

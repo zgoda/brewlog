@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm as Form
 from wtforms import BooleanField
-from flask_babelex import lazy_gettext as _
+from flask_babel import lazy_gettext as _
 
 from brewlog.ext import db
 

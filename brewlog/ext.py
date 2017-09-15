@@ -1,7 +1,7 @@
 from flask_login import LoginManager
 login_manager = LoginManager()
 
-from flask_babelex import Babel
+from flask_babel import Babel
 babel = Babel()
 
 from flask_flatpages import FlatPages

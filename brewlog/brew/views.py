@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import request, flash, url_for, redirect, render_template, abort, render_template_string
 from flask_login import current_user, login_required
-from flask_babelex import lazy_gettext, gettext as _
+from flask_babel import lazy_gettext, gettext as _
 from markdown import markdown
 
 from brewlog.ext import db

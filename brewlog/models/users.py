@@ -1,7 +1,7 @@
 import datetime
 
 from flask import url_for
-from flask_babelex import lazy_gettext as _
+from flask_babel import lazy_gettext as _
 from flask_login import UserMixin
 
 from brewlog.ext import db

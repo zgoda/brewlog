@@ -1,6 +1,6 @@
 from decimal import Decimal
 
-from flask_babelex import lazy_gettext as _
+from flask_babel import lazy_gettext as _
 
 
 CARBONATION_KEYS = (u'forced in keg', u'keg with priming', u'bottles with priming')

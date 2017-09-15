@@ -1,6 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request, abort
 from flask_login import current_user, login_required, logout_user
-from flask_babelex import gettext as _
+from flask_babel import gettext as _
 
 from brewlog.ext import db
 from brewlog.utils.models import get_page

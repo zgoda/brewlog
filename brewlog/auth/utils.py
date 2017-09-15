@@ -1,5 +1,5 @@
 from flask import redirect, url_for, session, flash, request
-from flask_babelex import gettext as _
+from flask_babel import gettext as _
 from flask_login import login_user
 
 from brewlog.models.users import BrewerProfile

@@ -2,7 +2,7 @@ import os
 
 from werkzeug.utils import ImportStringError
 from flask import Flask, render_template, session, request, send_from_directory
-from flask_babelex import gettext as _
+from flask_babel import gettext as _
 
 from .ext import login_manager, babel, pages, db, csrf, bootstrap
 from .templates import setup_template_extensions

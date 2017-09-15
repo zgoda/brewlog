@@ -1,6 +1,6 @@
 from flask import url_for, abort, redirect, render_template, request, flash
 from flask_login import current_user, login_required
-from flask_babelex import gettext as _
+from flask_babel import gettext as _
 
 from brewlog.ext import db
 from brewlog.brewery import brewery_bp

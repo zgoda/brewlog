@@ -1,5 +1,10 @@
 # Changelog
 
+## not yet released
+
+* switch back to Flask-Babel
+* retrieve user name from Google data (if available)
+
 ## 2017-09-15
 
 * explicitly set Facebook API version to 2.10
