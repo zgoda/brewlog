@@ -55,7 +55,7 @@ def facebook_remote_login_callback(resp):  # pragma: no cover
     access_token = resp['access_token']
     session['access_token'] = access_token, ''
     if access_token:
-        me = facebook.get('/me')
+        me = facebook.get('/me', data=dict(fields='id,email,first_name,last_name'))
         kw = {
             'first_name': me.data['first_name'],
             'last_name': me.data['last_name'],
