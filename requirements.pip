@@ -33,10 +33,6 @@ python-editor
 funcsigs
 pbr
 
-# database migrations
-alembic
-Mako
-
 # tests
 Flask-Testing
 twill
