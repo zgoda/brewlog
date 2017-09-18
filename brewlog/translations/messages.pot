@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-06-26 14:21+0200\n"
+"POT-Creation-Date: 2017-09-18 10:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.4.0\n"
+"Generated-By: Babel 2.5.1\n"
 
 #: brewlog/app.py:73
 msgid "Please log in to access this page"
@@ -31,24 +31,24 @@ msgstr ""
 msgid "Service \"%(provider)s\" is not supported"
 msgstr ""
 
-#: brewlog/auth/views.py:44
+#: brewlog/auth/views.py:48
 #, python-format
 msgid "Error receiving profile data from Google: %(code)s"
 msgstr ""
 
-#: brewlog/auth/views.py:52
+#: brewlog/auth/views.py:56
 #, python-format
 msgid ""
 "Facebook login error, reason: %(error_reason)s, description: "
 "%(error_description)s"
 msgstr ""
 
-#: brewlog/auth/views.py:72 brewlog/auth/views.py:77
+#: brewlog/auth/views.py:76 brewlog/auth/views.py:81
 #, python-format
 msgid "GitHub login error, reason: %(error)s, description: %(error_description)s"
 msgstr ""
 
-#: brewlog/auth/views.py:84
+#: brewlog/auth/views.py:88
 #, python-format
 msgid "GitHub profile for user %(name)s lacks public email, skipping as unusable."
 msgstr ""
@@ -60,7 +60,7 @@ msgstr ""
 #: brewlog/brew/forms.py:17 brewlog/brew/forms.py:39
 #: brewlog/brewery/forms.py:19 brewlog/models/brewing.py:67
 #: brewlog/profile/forms.py:25 brewlog/profile/forms.py:36
-#: brewlog/templates/brew/list.html:13 brewlog/templates/brewery/brews.html:12
+#: brewlog/templates/brew/list.html:12 brewlog/templates/brewery/brews.html:12
 #: brewlog/templates/brewery/list.html:12
 msgid "name"
 msgstr ""
@@ -229,22 +229,22 @@ msgstr ""
 msgid "brew %(name)s data updated"
 msgstr ""
 
-#: brewlog/brew/views.py:160
+#: brewlog/brew/views.py:182
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr ""
 
-#: brewlog/brew/views.py:190
+#: brewlog/brew/views.py:212
 #, python-format
 msgid "fermentation step %(step_name)s for brew %(brew_name)s has been created"
 msgstr ""
 
-#: brewlog/brew/views.py:220
+#: brewlog/brew/views.py:242
 #, python-format
 msgid "fermentation step %(step_name)s for brew %(brew_name)s has been updated"
 msgstr ""
 
-#: brewlog/brew/views.py:243
+#: brewlog/brew/views.py:265
 #, python-format
 msgid "fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted"
 msgstr ""
@@ -271,72 +271,72 @@ msgstr ""
 msgid "brewery %(name)s has been deleted"
 msgstr ""
 
-#: brewlog/brewery/views.py:83
+#: brewlog/brewery/views.py:104
 #, python-format
 msgid "brewery %(name)s data updated"
 msgstr ""
 
 #: brewlog/forms/base.py:23
 #: brewlog/templates/brew/include/fermentation_step.html:3
-#: brewlog/templates/brew/list.html:22 brewlog/templates/brewery/brews.html:19
+#: brewlog/templates/brew/list.html:24 brewlog/templates/brewery/brews.html:19
 #: brewlog/templates/brewery/list.html:21
 #: brewlog/templates/tasting/include/tasting_notes.html:12
 msgid "delete"
 msgstr ""
 
-#: brewlog/models/brewing.py:118 brewlog/models/brewing.py:119
-#: brewlog/models/brewing.py:120
+#: brewlog/models/brewing.py:119 brewlog/models/brewing.py:120
+#: brewlog/models/brewing.py:121
 msgid "unspecified"
 msgstr ""
 
-#: brewlog/models/brewing.py:147
+#: brewlog/models/brewing.py:149
 msgid "planned"
 msgstr ""
 
-#: brewlog/models/brewing.py:148
+#: brewlog/models/brewing.py:150
 msgid "fermenting"
 msgstr ""
 
-#: brewlog/models/brewing.py:149
+#: brewlog/models/brewing.py:151
 msgid "finished"
 msgstr ""
 
-#: brewlog/models/brewing.py:150
+#: brewlog/models/brewing.py:152
 msgid "tapped"
 msgstr ""
 
-#: brewlog/models/brewing.py:151
+#: brewlog/models/brewing.py:153
 msgid "maturing"
 msgstr ""
 
-#: brewlog/models/brewing.py:227
+#: brewlog/models/brewing.py:229
 msgid "not in particular style"
 msgstr ""
 
-#: brewlog/models/brewing.py:231
+#: brewlog/models/brewing.py:233
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr ""
 
-#: brewlog/models/brewing.py:236
+#: brewlog/models/brewing.py:238
 msgid "unspecified style"
 msgstr ""
 
-#: brewlog/models/brewing.py:241 brewlog/models/brewing.py:245
-#: brewlog/models/brewing.py:249
+#: brewlog/models/brewing.py:243 brewlog/models/brewing.py:247
+#: brewlog/models/brewing.py:251
 msgid "unknown"
 msgstr ""
 
-#: brewlog/models/brewing.py:250
+#: brewlog/models/brewing.py:252
 #, python-format
 msgid "%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s"
 msgstr ""
 
-#: brewlog/models/brewing.py:257
+#: brewlog/models/brewing.py:259
 msgid "normal"
 msgstr ""
 
-#: brewlog/models/brewing.py:259
+#: brewlog/models/brewing.py:261
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr ""
@@ -620,12 +620,12 @@ msgstr ""
 msgid "my items"
 msgstr ""
 
-#: brewlog/templates/index.html:49 brewlog/templates/index.html:140
+#: brewlog/templates/index.html:49 brewlog/templates/index.html:154
 msgid "breweries"
 msgstr ""
 
-#: brewlog/templates/brew/list.html:5 brewlog/templates/brewery/list.html:13
-#: brewlog/templates/index.html:50 brewlog/templates/index.html:132
+#: brewlog/templates/brew/list.html:4 brewlog/templates/brewery/list.html:13
+#: brewlog/templates/index.html:50 brewlog/templates/index.html:146
 msgid "brews"
 msgstr ""
 
@@ -822,7 +822,7 @@ msgid "add new brewery"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:65 brewlog/templates/brew/form.html:5
-#: brewlog/templates/brew/form.html:9 brewlog/templates/brew/list.html:30
+#: brewlog/templates/brew/form.html:9 brewlog/templates/brew/list.html:36
 #: brewlog/templates/brewery/details.html:40
 msgid "add new brew"
 msgstr ""
@@ -893,7 +893,7 @@ msgstr ""
 msgid "current state"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:63
+#: brewlog/templates/brew/details.html:63 brewlog/templates/brew/list.html:23
 #, python-format
 msgid "since %(date)s"
 msgstr ""
@@ -915,21 +915,29 @@ msgstr ""
 msgid "brew link"
 msgstr ""
 
-#: brewlog/templates/brew/list.html:9
+#: brewlog/templates/brew/list.html:8
 msgid "all public brews"
 msgstr ""
 
-#: brewlog/templates/brew/list.html:9
+#: brewlog/templates/brew/list.html:8
 msgid "all brews"
 msgstr ""
 
-#: brewlog/templates/brew/list.html:14
+#: brewlog/templates/brew/list.html:13
 msgid "informations"
+msgstr ""
+
+#: brewlog/templates/brew/list.html:14
+msgid "status"
 msgstr ""
 
 #: brewlog/templates/brew/list.html:15 brewlog/templates/brewery/brews.html:13
 #: brewlog/templates/brewery/list.html:14
 msgid "operations"
+msgstr ""
+
+#: brewlog/templates/brew/list.html:24
+msgid "edit"
 msgstr ""
 
 #: brewlog/templates/brew/export/ipboard.txt:2

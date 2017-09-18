@@ -4,6 +4,7 @@
 
 * switch back to Flask-Babel
 * retrieve user name from Google data (if available)
+* show status on brew list page
 
 ## 2017-09-15
 
