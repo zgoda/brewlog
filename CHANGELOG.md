@@ -1,6 +1,6 @@
 # Changelog
 
-## not yet released
+## 2017-09-18
 
 * switch back to Flask-Babel
 * retrieve user name from Google data (if available)
