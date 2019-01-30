@@ -3,14 +3,15 @@ import json
 
 import markdown
 from flask import url_for
-from flask_babel import lazy_gettext as _, format_date, gettext
+from flask_babel import format_date, gettext
+from flask_babel import lazy_gettext as _
 from werkzeug.utils import cached_property
 
-from brewlog.ext import db
-from brewlog.models import choices
-from brewlog.utils.models import DefaultModelMixin
-from brewlog.utils.text import stars2deg
-from brewlog.utils.brewing import abv, aa, ra
+from ..ext import db
+from ..models import choices
+from ..utils.brewing import aa, abv, ra
+from ..utils.models import DefaultModelMixin
+from ..utils.text import stars2deg
 
 
 class Brewery(db.Model, DefaultModelMixin):
@@ -29,9 +30,6 @@ class Brewery(db.Model, DefaultModelMixin):
     brewer_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'), nullable=False)
     brewer = db.relationship('BrewerProfile')
     brews = db.relationship('Brew', cascade='all,delete', lazy='dynamic')
-
-    def __unicode__(self):  # pragma: no cover
-        return u'<Brewery %s>' % self.name
 
     @property
     def absolute_url(self):
@@ -111,9 +109,6 @@ class FermentationStep(db.Model, DefaultModelMixin):
         db.Index('fermentationstep_brew_date', 'brew_id', 'date'),
     )
 
-    def __unicode__(self):  # pragma: no cover
-        return u'<FermentationStep %s for %s @%s>' % (self.name, self.brew.name, self.date.strftime('%Y-%m-%d'))
-
     def step_data(self):
         return {
             'og': self.og or _('unspecified'),
@@ -123,12 +118,12 @@ class FermentationStep(db.Model, DefaultModelMixin):
 
     def previous(self):
         return FermentationStep.query.filter(
-            FermentationStep.brew==self.brew, FermentationStep.date<self.date
+            FermentationStep.brew == self.brew, FermentationStep.date < self.date
         ).order_by(db.desc(FermentationStep.date)).first()
 
     def next(self):
         return FermentationStep.query.filter(
-            FermentationStep.brew==self.brew, FermentationStep.date>self.date
+            FermentationStep.brew == self.brew, FermentationStep.date > self.date
         ).order_by(FermentationStep.date).first()
 
 
@@ -158,8 +153,8 @@ class Brew(db.Model, DefaultModelMixin):
     name = db.Column(db.String(200), nullable=False)
     code = db.Column(db.String(20))
     style = db.Column(db.String(200))
-    bjcp_style_code = db.Column(db.String(20), default=u'')
-    bjcp_style_name = db.Column(db.String(50), default=u'')
+    bjcp_style_code = db.Column(db.String(20), default='')
+    bjcp_style_name = db.Column(db.String(50), default='')
     bjcp_style = db.Column(db.String(100))
     date_brewed = db.Column(db.Date, index=True)
     notes = db.Column(db.Text)
@@ -175,7 +170,7 @@ class Brew(db.Model, DefaultModelMixin):
     final_amount = db.Column(db.Float(precision=2))
     bottling_date = db.Column(db.Date)
     carbonation_type = db.Column(db.Enum(*choices.CARBONATION_KEYS, name='carbtype_enum'))
-    carbonation_level = db.Column(db.Enum(*choices.CARB_LEVEL_KEYS, name='carblevel_enum'), default=u'normal')
+    carbonation_level = db.Column(db.Enum(*choices.CARB_LEVEL_KEYS, name='carblevel_enum'), default='normal')
     carbonation_used = db.Column(db.Text)
     is_public = db.Column(db.Boolean, default=True)
     is_draft = db.Column(db.Boolean, default=False)
@@ -187,9 +182,6 @@ class Brew(db.Model, DefaultModelMixin):
         order_by='asc(FermentationStep.date)')
     tapped = db.Column(db.Date)
     finished = db.Column(db.Date)
-
-    def __unicode__(self):  # pragma: no cover
-        return u'<Brew %s by %s>' % (self.name, self.brewery.name)
 
     @property
     def absolute_url(self):
@@ -256,10 +248,10 @@ class Brew(db.Model, DefaultModelMixin):
         if self.carbonation_type:
             data = {
                 'carb_type': _(dict(choices.CARBONATION_CHOICES)[self.carbonation_type]),
-                'carb_level': _(dict(choices.CARB_LEVEL_CHOICES)[self.carbonation_level or u'normal']),
+                'carb_level': _(dict(choices.CARB_LEVEL_CHOICES)[self.carbonation_level or 'normal']),
             }
             return _('%(carb_type)s: carbonation %(carb_level)s', **data)
-        return u''
+        return ''
 
     @property
     def is_brewed_yet(self):
@@ -290,9 +282,9 @@ class Brew(db.Model, DefaultModelMixin):
     def get_latest_for(cls, user, public_only=False, limit=None):
         if public_only and not user.is_public:
             return []
-        query = cls.query.join(Brewery).filter(Brewery.brewer==user)
+        query = cls.query.join(Brewery).filter(Brewery.brewer == user)
         if public_only:
-            query = query.filter(Brew.is_public==True)
+            query = query.filter(Brew.is_public.is_(True))
         query = query.order_by(db.desc(cls.created))
         if limit is not None:
             query = query.limit(limit)
@@ -304,7 +296,7 @@ class Brew(db.Model, DefaultModelMixin):
         if self.code:
             parts.append('#%s' % self.code)
         parts.append(self.name)
-        return u' '.join(parts)
+        return ' '.join(parts)
 
     @property
     def abv(self):
@@ -319,11 +311,15 @@ class Brew(db.Model, DefaultModelMixin):
         if user is not None and (not user.is_public and public_only):
             return []
         now = datetime.datetime.utcnow()
-        query = cls.query.filter(Brew.date_brewed<=now, Brew.date_brewed!=None, Brew.bottling_date==None)  # noqa
+        query = cls.query.filter(
+            Brew.date_brewed <= now,
+            Brew.date_brewed.isnot(None),
+            Brew.bottling_date.is_(None)
+        )
         if public_only:
-            query = query.filter(Brew.is_public==True)
+            query = query.filter(Brew.is_public.is_(True))
         if user is not None:
-            query = query.join(Brewery).filter(Brewery.brewer==user)
+            query = query.join(Brewery).filter(Brewery.brewer == user)
         query = query.order_by(db.desc(Brew.date_brewed))
         if limit is not None:
             query = query.limit(limit)
@@ -334,11 +330,13 @@ class Brew(db.Model, DefaultModelMixin):
         if user is not None and (not user.is_public and public_only):
             return []
         now = datetime.datetime.utcnow()
-        query = cls.query.filter(Brew.bottling_date<=now, Brew.tapped==None, Brew.finished==None)  # noqa
+        query = cls.query.filter(
+            Brew.bottling_date <= now, Brew.tapped.is_(None), Brew.finished.is_(None)
+        )
         if public_only:
-            query = query.filter(Brew.is_public==True)
+            query = query.filter(Brew.is_public.is_(True))
         if user is not None:
-            query = query.join(Brewery).filter(Brewery.brewer==user)
+            query = query.join(Brewery).filter(Brewery.brewer == user)
         query = query.order_by(db.desc(Brew.date_brewed))
         if limit is not None:
             query = query.limit(limit)
@@ -349,11 +347,13 @@ class Brew(db.Model, DefaultModelMixin):
         if user is not None and (not user.is_public and public_only):
             return []
         now = datetime.datetime.utcnow()
-        query = cls.query.filter(Brew.tapped<=now, Brew.finished==None)  # noqa
+        query = cls.query.filter(
+            Brew.tapped <= now, Brew.finished.is_(None)
+        )
         if public_only:
-            query = query.filter(Brew.is_public==True)
+            query = query.filter(Brew.is_public.is_(True))
         if user is not None:
-            query = query.join(Brewery).filter(Brewery.brewer==user)
+            query = query.join(Brewery).filter(Brewery.brewer == user)
         query = query.order_by(db.desc(Brew.date_brewed))
         if limit is not None:
             query = query.limit(limit)
@@ -376,19 +376,23 @@ class Brew(db.Model, DefaultModelMixin):
     def get_next(self, public_only=True):
         query = Brew.query
         if public_only:
-            query = query.filter(Brew.is_public==True)
-        return query.order_by(Brew.id).filter(Brew.id>self.id, Brew.brewery_id==self.brewery_id).first()
+            query = query.filter(Brew.is_public.is_(True))
+        return query.order_by(Brew.id).filter(
+            Brew.id > self.id, Brew.brewery_id == self.brewery_id
+        ).first()
 
     def get_previous(self, public_only=True):
         query = Brew.query
         if public_only:
-            query = query.filter(Brew.is_public==True)
-        return query.order_by(db.desc(Brew.id)).filter(Brew.id<self.id, Brew.brewery_id==self.brewery_id).first()
+            query = query.filter(Brew.is_public.is_(True))
+        return query.order_by(db.desc(Brew.id)).filter(
+            Brew.id < self.id, Brew.brewery_id == self.brewery_id
+        ).first()
 
 
 # events: Brew model
 def brew_pre_save(mapper, connection, target):
-    bjcp_style = u'%s %s' % (target.bjcp_style_code or u'', target.bjcp_style_name or u'')
+    bjcp_style = '%s %s' % (target.bjcp_style_code or '', target.bjcp_style_name or '')
     bjcp_style = bjcp_style.strip()
     target.bjcp_style = bjcp_style or None
     if target.notes:

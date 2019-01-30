@@ -1,16 +1,16 @@
-from flask import request, abort, render_template, redirect, url_for, flash
-from flask_login import current_user, login_required
-from flask_babel import gettext as _
 import markdown
+from flask import abort, flash, redirect, render_template, request, url_for
+from flask_babel import gettext as _
+from flask_login import current_user, login_required
 
-from brewlog.utils.models import get_page
-from brewlog.forms.base import DeleteForm
-from brewlog.ext import db
-from brewlog.models import tasting_notes
-from brewlog.models.brewing import Brew
-from brewlog.models.tasting import TastingNote
-from brewlog.tasting.forms import TastingNoteForm
-from brewlog.tasting import tasting_bp
+from . import tasting_bp
+from ..ext import db
+from ..forms.base import DeleteForm
+from ..models import tasting_notes
+from ..models.brewing import Brew
+from ..models.tasting import TastingNote
+from ..utils.pagination import get_page
+from .forms import TastingNoteForm
 
 
 @tasting_bp.route('/all', endpoint='all')
@@ -93,7 +93,7 @@ def brew_update_tasting_note():
     note = TastingNote.query.get(note_id)
     if note is None:
         abort(404)
-    if not note.brew.has_access(current_user) or not (current_user in (note.author, note.brew.brewery.brewer)):
+    if current_user not in (note.author, note.brew.brewery.brewer) or not note.brew.has_access(current_user):
         abort(403)
     value = request.form.get('value', '').strip()
     if value:

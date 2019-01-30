@@ -1,0 +1,9 @@
+engines:
+  bandit:
+    enabled: true
+plugins:
+  sonar-python:
+    enabled: true
+    config:
+      test_patterns:
+        - tests/**

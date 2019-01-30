@@ -1,4 +1,4 @@
-from cgi import escape
+from html import escape
 
 from wtforms.compat import text_type
 from wtforms.widgets.core import HTMLString, html_params

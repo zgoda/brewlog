@@ -1,46 +1,66 @@
-"""
-BrewLog, homebrewer's log application
-=====================================
-"""
+from os import path
 
 from setuptools import setup, find_packages
 
+import versioneer
+
+
+here = path.abspath(path.dirname(__file__))
+
+with open(path.join(here, 'README.md'), encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name='BrewLog',
-    version='0.6',
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     author='Jarek Zgoda',
     author_email='jarek.zgoda@gmail.com',
-    long_description=__doc__,
-    packages=find_packages(),
+    long_description=long_description,
+    long_description_content_type='text/markdown',
+    license='BSD',
+    packages=find_packages(exclude=['docs', 'tests', 'secrets']),
     include_package_data=True,
     zip_safe=False,
     url='http://github.com/zgoda/brewlog',
+    classifiers=[
+        'Development Status :: 5 - Production/Stable',
+        'Environment :: Web Environment',
+        'Framework :: Flask',
+        'License :: OSI Approved :: BSD License',
+        'Operating System :: POSIX',
+        'Programming Language :: Python :: 3 :: Only',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
+    ],
     install_requires=(
-        'Babel',
         'Flask',
         'Flask-Babel',
-        'Flask-Script',
-        'Flask-OAuthlib',
         'Flask-Login',
         'Flask-FlatPages',
-        'PyYAML',
+        'Flask-SQLAlchemy',
+        'Flask-WTF',
+        'Flask-Bootstrap',
+        'Authlib',
         'Markdown',
-        'psycopg2',
-        'SQLAlchemy',
-        'Werkzeug',
-        'itsdangerous',
-        'Jinja2',
-        'wtforms',
-        'pytz>0a',
-        'speaklater',
-        'requests',
-        'oauthlib',
-        'MarkupSafe',
         'translitcodec',
         'python-dateutil',
-        'six',
-        'Flask-Testing',
-        'twill',
+        'WTForms-Alchemy',
+    ),
+    setup_requires=(
+        'pytest-runner',
+    ),
+    tests_require=(
+        'pytest',
+        'pytest-mock',
+        'pytest-cov',
+        'pytest-flask',
         'fixture',
-    )
+    ),
+    extras_require={
+        'pg': ['psycopg2']
+    },
+    python_requires='~=3.7',
 )

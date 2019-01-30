@@ -1,60 +1,40 @@
-import unittest
+import os
 
-from flask_script import Server, Manager, Shell, Command, Option
+from flask.cli import FlaskGroup
 
-from brewlog import make_app
-from brewlog.ext import db
-
-
-class RunTests(Command):
-
-    option_list = (
-        Option(
-            'labels', nargs='*',
-            help='specify individual tests to be run, in form module_name[.TestCaseName[.test_method]]'
-        ),
-        Option('-v', '--verbosity', type=int, default=1)
-    )
-
-    def __init__(self, testdir='tests', pattern='test_*.py'):
-        self.dirparts = testdir.split('/')
-        self.test_pattern = pattern
-
-    def run(self, labels, verbosity):
-        if labels:
-            prefix = '.'.join(self.dirparts)
-            if prefix:
-                names = ['%s.%s' % (prefix, name) for name in labels]
-            else:
-                names = labels
-            suite = unittest.TestLoader().loadTestsFromNames(names)
-        else:
-            if self.dirparts:
-                testdir = '/'.join(self.dirparts)
-            else:
-                testdir = '.'
-            suite = unittest.TestLoader().discover(testdir, pattern=self.test_pattern)
-        unittest.TextTestRunner(verbosity=verbosity).run(suite)
+os.environ['FLASK_ENV'] = 'development'
+os.environ['FLASK_RUN_PORT'] = '8080'
+os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
+os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
 
 
-manager = Manager(make_app)
-manager.add_option('-e', '--env', dest='env', default='dev')
-
-manager.add_command('runserver', Server(port=8080))
-manager.add_command('shell', Shell())
-manager.add_command('test', RunTests())
+def create_app(info):
+    from brewlog import make_app
+    return make_app('dev')
 
 
-@manager.command
+cli = FlaskGroup(create_app=create_app)
+cli.help = 'This is a management script for the Brewlog application.'
+
+
+@cli.command('initdb', short_help='Initialize missing database objects')
 def initdb():
-    "Initialize empty database if does not exist"
+    from brewlog.ext import db
     db.create_all()
 
 
-@manager.command
+@cli.command('cleardb', short_help='Remove all database objects')
 def cleardb():
-    "Clear all database tables"
+    from brewlog.ext import db
     db.drop_all()
 
+
+@cli.command('recreatedb', short_help='Recreate all database objects from scratch')
+def recreatedb():
+    from brewlog.ext import db
+    db.drop_all()
+    db.create_all()
+
+
 if __name__ == '__main__':
-    manager.run()
+    cli()

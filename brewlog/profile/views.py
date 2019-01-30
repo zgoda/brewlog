@@ -1,14 +1,18 @@
-from flask import render_template, redirect, url_for, flash, request, abort
-from flask_login import current_user, login_required, logout_user
+from flask import abort, flash, redirect, render_template, request, url_for
 from flask_babel import gettext as _
+from flask_login import current_user, login_required, logout_user
 
-from brewlog.ext import db
-from brewlog.utils.models import get_page
-from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
-from brewlog.models.brewing import Brewery, Brew
-from brewlog.profile.forms import ProfileForm, CustomExportTemplateForm, CustomLabelTemplateForm
-from brewlog.forms.base import DeleteForm
-from brewlog.profile import profile_bp
+from . import profile_bp
+from ..ext import db
+from ..forms.base import DeleteForm
+from ..models.brewing import Brew, Brewery
+from ..models.users import (
+    BrewerProfile, CustomExportTemplate, CustomLabelTemplate
+)
+from ..profile.forms import (
+    CustomExportTemplateForm, CustomLabelTemplateForm, ProfileForm
+)
+from ..utils.pagination import get_page
 
 
 @profile_bp.route('/<int:userid>', methods=['GET', 'POST'], endpoint='details')
@@ -93,9 +97,9 @@ def brews(userid):
         abort(404)
     page_size = 10
     page = get_page(request)
-    query = Brew.query.join(Brewery).filter(Brewery.brewer_id==userid)
+    query = Brew.query.join(Brewery).filter(Brewery.brewer_id == userid)
     if current_user.is_anonymous or current_user.id != userid:
-        query = query.filter(Brew.is_public==True)
+        query = query.filter(Brew.is_public.is_(True))
     query = query.order_by(db.desc(Brew.created))
     pagination = query.paginate(page, page_size)
     ctx = {
@@ -104,8 +108,16 @@ def brews(userid):
     return render_template('brew/list.html', **ctx)
 
 
-@profile_bp.route('/<int:userid>/extemplate', methods=['GET', 'POST'], defaults={'tid': None}, endpoint='export_template_add')  # noqa
-@profile_bp.route('/<int:userid>/extemplate/<int:tid>', methods=['GET', 'POST'], endpoint='export_template')
+@profile_bp.route(
+    '/<int:userid>/extemplate',
+    methods=['GET', 'POST'], defaults={'tid': None},
+    endpoint='export_template_add'
+)
+@profile_bp.route(
+    '/<int:userid>/extemplate/<int:tid>',
+    methods=['GET', 'POST'],
+    endpoint='export_template'
+)
 @login_required
 def export_template(userid, tid=None):
     template = None
@@ -125,8 +137,17 @@ def export_template(userid, tid=None):
     }
     return render_template('account/export_template.html', **ctx)
 
-@profile_bp.route('/<int:userid>/lbtemplate', methods=['GET', 'POST'], defaults={'tid': None}, endpoint='label_template_add')  # noqa
-@profile_bp.route('/<int:userid>/lbtemplate/<int:tid>', methods=['GET', 'POST'], endpoint='label_template')
+
+@profile_bp.route(
+    '/<int:userid>/lbtemplate',
+    methods=['GET', 'POST'], defaults={'tid': None},
+    endpoint='label_template_add'
+)
+@profile_bp.route(
+    '/<int:userid>/lbtemplate/<int:tid>',
+    methods=['GET', 'POST'],
+    endpoint='label_template'
+)
 @login_required
 def label_template(userid, tid=None):
     template = None

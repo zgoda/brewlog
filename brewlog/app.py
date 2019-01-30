@@ -1,19 +1,20 @@
 import os
 
-from werkzeug.utils import ImportStringError
-from flask import Flask, render_template, session, request, send_from_directory
+from flask import Flask, render_template, request, send_from_directory, session
 from flask_babel import gettext as _
+from werkzeug.utils import ImportStringError
 
-from .ext import login_manager, babel, pages, db, csrf, bootstrap
+from .ext import babel, bootstrap, csrf, db, login_manager, oauth, pages
 from .templates import setup_template_extensions
 
 
 def make_app(env):
     app = Flask(__name__)
     configure_app(app, env)
+    configure_extensions(app, env)
+    configure_auth(app, env)
     configure_hooks(app, env)
     configure_blueprints(app, env)
-    configure_extensions(app, env)
     configure_logging(app, env)
     configure_error_handlers(app, env)
     setup_template_extensions(app)
@@ -66,6 +67,8 @@ def configure_extensions(app, env):
 
     csrf.init_app(app)
 
+    oauth.init_app(app)
+
     bootstrap.init_app(app)
 
     login_manager.init_app(app)
@@ -75,7 +78,7 @@ def configure_extensions(app, env):
 
     @login_manager.user_loader
     def get_user(userid):
-        from models.users import BrewerProfile
+        from .models.users import BrewerProfile
         return BrewerProfile.query.get(userid)
 
     if not app.testing:
@@ -91,8 +94,9 @@ def configure_extensions(app, env):
     pages.init_app(app)
     pages.get('foo')  # preload all static pages
 
-    from brewlog.auth.providers import oauth
-    oauth.init_app(app)
+
+def configure_auth(app, env):
+    pass
 
 
 def configure_logging(app, env):

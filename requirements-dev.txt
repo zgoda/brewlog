@@ -1,0 +1,20 @@
+-r requirements.txt
+
+pytest
+pytest-flask
+pytest-cov
+pytest-mock
+pytest-runner
+fixture
+
+ipdb
+flake8
+doc8
+rope
+
+Sphinx
+
+pip
+setuptools
+
+flask-shell-ipython

@@ -1,20 +1,22 @@
 from datetime import datetime
 
-from flask import request, flash, url_for, redirect, render_template, abort, render_template_string
+from flask import (
+    abort, flash, jsonify, redirect, render_template,
+    render_template_string, request, url_for
+)
+from flask_babel import gettext as _
+from flask_babel import lazy_gettext
 from flask_login import current_user, login_required
-from flask_babel import lazy_gettext, gettext as _
 from markdown import markdown
 
-from brewlog.ext import db
-from brewlog.models import brews
-from brewlog.models.brewing import Brew, FermentationStep
-from brewlog.models.users import CustomLabelTemplate
-from brewlog.forms.base import DeleteForm
-from brewlog.utils.models import get_page
-from brewlog.utils.http import json_response
-from brewlog.brew.forms import BrewForm, FermentationStepForm, ChangeStateForm
-from brewlog.brew import brew_bp
-
+from . import brew_bp
+from ..ext import db
+from ..forms.base import DeleteForm
+from ..models import brews
+from ..models.brewing import Brew, FermentationStep
+from ..models.users import CustomLabelTemplate
+from ..utils.pagination import get_page
+from .forms import BrewForm, ChangeStateForm, FermentationStepForm
 
 HINTS = [
     ("67-66*C - 90'\n75*C - 15'", lazy_gettext('single infusion mash w/ mash out')),
@@ -51,7 +53,7 @@ def brew(brew_id, **kwargs):
             return redirect(brew.absolute_url)
     if not brew.has_access(current_user):
         abort(404)
-    public_only=current_user not in brew.brewery.brewers
+    public_only = current_user not in brew.brewery.brewers
     ctx = {
         'brew': brew,
         'mash_hints': HINTS,
@@ -70,7 +72,7 @@ def brew(brew_id, **kwargs):
 def brew_all():
     page_size = 20
     page = get_page(request)
-    if request.is_xhr:
+    if request.accept_mimetypes.best == 'application/json':
         if current_user.is_anonymous:
             query = brews()
         else:
@@ -80,7 +82,7 @@ def brew_all():
         for brew_id, name in query.values(Brew.id, Brew.name):
             url = url_for('brew.details', brew_id=brew_id)
             brew_list.append(dict(name=name, url=url))
-        return json_response(brew_list)
+        return jsonify(brew_list)
     else:
         if current_user.is_anonymous:
             query = brews()
@@ -102,13 +104,13 @@ def search():
         query = brews(public_only=False, user=current_user)
     term = request.args.getlist('q')
     if term:
-        query = query.filter(Brew.name.like(term[0]+'%'))
+        query = query.filter(Brew.name.like(term[0] + '%'))
     query = query.order_by(Brew.name)
     brew_list = []
     for brew_id, name in query.values(Brew.id, Brew.name):
         url = url_for('brew.details', brew_id=brew_id)
         brew_list.append(dict(name=name, url=url))
-    return json_response(brew_list)
+    return jsonify(brew_list)
 
 
 @brew_bp.route('/<int:brew_id>/export/<flavour>', endpoint='export')
