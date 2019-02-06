@@ -36,12 +36,8 @@ class Brewery(db.Model, DefaultModelMixin):
         return url_for('brewery.details', brewery_id=self.id)
 
     @property
-    def other_brewers(self):
-        return []
-
-    @property
     def brewers(self):
-        return [self.brewer] + self.other_brewers
+        return [self.brewer]
 
     def _brews(self, public_only=False, limit=None, order=None):
         query = Brew.query.filter_by(brewery_id=self.id, is_draft=False)
@@ -267,9 +263,8 @@ class Brew(db.Model, DefaultModelMixin):
         return {'real': 0, 'apparent': 0}
 
     def has_access(self, user):
-        if self.brewery.brewer != user:
-            if not (self.is_public and self.brewery.has_access(user)):
-                return False
+        if self.brewery.brewer != user and not (self.is_public and self.brewery.has_access(user)):
+            return False
         return True
 
     def notes_to_json(self):
@@ -331,7 +326,9 @@ class Brew(db.Model, DefaultModelMixin):
             return []
         now = datetime.datetime.utcnow()
         query = cls.query.filter(
-            Brew.bottling_date <= now, Brew.tapped.is_(None), Brew.finished.is_(None)
+            Brew.bottling_date <= now,
+            Brew.tapped.is_(None),
+            Brew.finished.is_(None)
         )
         if public_only:
             query = query.filter(Brew.is_public.is_(True))
@@ -348,7 +345,8 @@ class Brew(db.Model, DefaultModelMixin):
             return []
         now = datetime.datetime.utcnow()
         query = cls.query.filter(
-            Brew.tapped <= now, Brew.finished.is_(None)
+            Brew.tapped <= now,
+            Brew.finished.is_(None)
         )
         if public_only:
             query = query.filter(Brew.is_public.is_(True))
@@ -378,7 +376,8 @@ class Brew(db.Model, DefaultModelMixin):
         if public_only:
             query = query.filter(Brew.is_public.is_(True))
         return query.order_by(Brew.id).filter(
-            Brew.id > self.id, Brew.brewery_id == self.brewery_id
+            Brew.id > self.id,
+            Brew.brewery_id == self.brewery_id
         ).first()
 
     def get_previous(self, public_only=True):
@@ -386,7 +385,8 @@ class Brew(db.Model, DefaultModelMixin):
         if public_only:
             query = query.filter(Brew.is_public.is_(True))
         return query.order_by(db.desc(Brew.id)).filter(
-            Brew.id < self.id, Brew.brewery_id == self.brewery_id
+            Brew.id < self.id,
+            Brew.brewery_id == self.brewery_id
         ).first()
 
 

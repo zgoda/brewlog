@@ -23,12 +23,6 @@
   {% endif %}
   <h3>{{ gettext("People") }}</h3>
   <p>{{ gettext("Head brewer") }}: <a href="{{ brewery.brewer.absolute_url }}">{{ brewery.brewer.name }}</a></p>
-  {% if brewery.other_brewers %}
-  <p>{{ gettext("Other brewers") }}:</p>
-  <ul class="list-unstyled">
-    {% for brewer in brewery.other_brewers %}<li><a href="{{ brewer.absolute_url }}">{{ brewer.name }}</a></li>{% endfor %}
-  </ul>
-  {% endif %}
   {% if brewery.recent_brews() %}
   <h3>{% trans %}Latest brews{% endtrans %}</h3>
   <ul class="list-unstyled">
