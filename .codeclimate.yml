@@ -1,7 +1,7 @@
-engines:
+verssion: "2"
+plugins:
   bandit:
     enabled: true
-plugins:
   sonar-python:
     enabled: true
     config:
