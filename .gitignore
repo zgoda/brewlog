@@ -109,8 +109,7 @@ _venv
 .vscode
 *.code-workspace
 
-# misc files
-secrets.*
+**/secrets/*.py
 
 # pycharm and others
 .idea
