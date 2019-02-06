@@ -2,9 +2,9 @@ import math
 
 from flask_babel import format_date
 
-from brewlog.utils.brewing import plato2sg
-from brewlog.utils.text import stars2deg
-from brewlog.utils.pagination import url_for_other_page
+from .utils.brewing import plato2sg
+from .utils.text import stars2deg
+from .utils.pagination import url_for_other_page
 
 
 def setup_filters(application):

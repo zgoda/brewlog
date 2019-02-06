@@ -1,65 +1,56 @@
-import requests
-from flask import render_template, redirect, url_for, session, flash, request
+from flask import flash, redirect, render_template, request, session, url_for
 from flask_babel import gettext as _
-from flask_login import logout_user, login_required
+from flask_login import login_required, logout_user
 
-from brewlog.auth.providers import services, google, facebook, github
-from brewlog.auth.utils import login_success
-from brewlog.auth import auth_bp
+from . import auth_bp
+from .providers import services
+from .utils import login_success
+from ..ext import oauth
 
 
 @auth_bp.route('/select', endpoint='select')
-def select_provider():  # pragma: no cover
+def select_provider():
     session['next'] = request.args.get('next')
     return render_template('auth/select.html')
 
 
 @auth_bp.route('/<provider>', endpoint='login')
 def remote_login(provider):
-    if services.get(provider) is None:
+    svc = services.get(provider)
+    if svc is None:
         flash(_('Service "%(provider)s" is not supported', provider=provider), category='error')
         return redirect(url_for('auth.select'))
     view_name = 'auth.callback-%s' % provider
     callback = url_for(view_name, _external=True)
-    service = services[provider][0]
     if provider == 'local':
-        return local_login_callback(request.args.get('email', None))
-    return service.authorize(callback=callback)  # pragma: no cover
+        return local_login_callback(request.args.get('email'))
+    return svc.authorize_redirect(callback)
 
 
 @auth_bp.route('/google/callback', endpoint='callback-google')
-@google.authorized_handler
-def google_remote_login_callback(resp):  # pragma: no cover
-    access_token = resp.get('access_token')
-    if access_token:
-        session['access_token'] = access_token, ''
-        headers = {
-            'Authorization': 'OAuth %s' % access_token,
-        }
-        r = requests.get('https://www.googleapis.com/oauth2/v1/userinfo', headers=headers)
+def google_remote_login_callback():  # pragma: nocover
+    resp = oauth.google.authorize_access_token()
+    if resp:
+        session['access_token'] = resp['access_token'], ''
+        r = oauth.google.get('oauth2/v2/userinfo')
         if r.ok:
             data = r.json()
             kw = {
                 'first_name': data.get('given_name', ''),
                 'last_name': data.get('family_name', ''),
             }
-            return login_success(data['email'], access_token, data['id'], 'google', **kw)
+            return login_success(data['email'], resp['access_token'], data['id'], 'google', **kw)
         else:
             flash(_('Error receiving profile data from Google: %(code)s', code=r.status_code), category='error')
     return redirect(url_for('auth.select'))
 
 
 @auth_bp.route('/facebook/callback', endpoint='callback-facebook')
-@facebook.authorized_handler
-def facebook_remote_login_callback(resp):  # pragma: no cover
-    if resp is None:
-        flash(_('Facebook login error, reason: %(error_reason)s, description: %(error_description)s', **request.args),
-            category='error')
-        return redirect(url_for('auth.select'))
-    access_token = resp['access_token']
+def facebook_remote_login_callback():  # pragma: nocover
+    access_token = oauth.facebook.authorize_access_token()
     session['access_token'] = access_token, ''
     if access_token:
-        me = facebook.get('/me', data=dict(fields='id,email,first_name,last_name'))
+        me = oauth.facebook.get('/me', data=dict(fields='id,email,first_name,last_name'))
         kw = {
             'first_name': me.data.get('first_name', ''),
             'last_name': me.data.get('last_name', ''),
@@ -69,21 +60,15 @@ def facebook_remote_login_callback(resp):  # pragma: no cover
 
 
 @auth_bp.route('/github/callback', endpoint='callback-github')
-@github.authorized_handler
-def github_remote_login_callback(resp):  # pragma: no cover
+def github_remote_login_callback():  # pragma: nocover
     skip = redirect(url_for('auth.select'))
-    if resp is None:
-        flash(_('GitHub login error, reason: %(error)s, description: %(error_description)s', **request.args),
-            category='error')
-        return skip
-    access_token = resp.get('access_token')
+    access_token = oauth.github.get('access_token')
     if access_token is None:
-        flash(_('GitHub login error, reason: %(error)s, description: %(error_description)s', **resp),
-            category='error')
+        flash(_('GitHub login error'), category='error')
         return skip
     session['access_token'] = access_token, ''
     if access_token:
-        me = github.get('/user')
+        me = oauth.github.get('/user')
         if not me.data.get('email'):
             flash(_('GitHub profile for user %(name)s lacks public email, skipping as unusable.', **me.data),
                 category='warning')

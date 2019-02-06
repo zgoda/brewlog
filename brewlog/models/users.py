@@ -4,8 +4,8 @@ from flask import url_for
 from flask_babel import lazy_gettext as _
 from flask_login import UserMixin
 
-from brewlog.ext import db
-from brewlog.utils.models import DefaultModelMixin
+from ..ext import db
+from ..utils.models import DefaultModelMixin
 
 
 class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
@@ -35,9 +35,6 @@ class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
     __table_args__ = (
         db.Index('user_remote_id', 'oauth_service', 'remote_userid'),
     )
-
-    def __unicode__(self):  # pragma: no cover
-        return u'<BrewerProfile %s>' % self.email
 
     @property
     def absolute_url(self):
@@ -72,7 +69,9 @@ class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
         query = cls.query
         if public_only:
             if extra_user:
-                query = query.filter(db.or_(cls.is_public==True, cls.id==extra_user.id))
+                query = query.filter(
+                    db.or_(cls.is_public.is_(True), cls.id == extra_user.id)
+                )
             else:
                 query = query.filter_by(is_public=True)
         return query.order_by(db.desc(ordering)).limit(limit).all()
@@ -99,7 +98,7 @@ class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
 
 # mapper events
 def profile_pre_save(mapper, connection, target):
-    full_name = u'%s %s' % (target.first_name or u'', target.last_name or u'')
+    full_name = '%s %s' % (target.first_name or '', target.last_name or '')
     target.full_name = full_name.strip()
     if target.updated is None:
         target.updated = target.created
@@ -121,9 +120,6 @@ class CustomExportTemplate(db.Model, DefaultModelMixin):
         db.Index('user_export_template', 'user_id', 'name'),
     )
 
-    def __unicode__(self):  # pragma: no cover
-        return u'<ExportTemplate %s for %s>' % (self.name, self.user.email)
-
     @property
     def absolute_url(self):
         return url_for('profile.export_template', tid=self.id, userid=self.user.id)
@@ -144,9 +140,6 @@ class CustomLabelTemplate(db.Model, DefaultModelMixin):
     __table_args__ = (
         db.Index('user_label_template', 'user_id', 'name'),
     )
-
-    def __unicode__(self):  # pragma: no cover
-        return u'<LabelTemplate %s for %s>' % (self.name, self.user.email)
 
     @property
     def absolute_url(self):

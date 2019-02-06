@@ -4,8 +4,8 @@ from wtforms.validators import Length, Optional, DataRequired
 from flask_babel import lazy_gettext as _
 from flask_login import current_user
 
-from brewlog.forms.base import BaseObjectForm
-from brewlog.models.brewing import Brewery
+from ..forms.base import BaseObjectForm
+from ..models.brewing import Brewery
 
 
 class BreweryNameLength(Length):
@@ -16,7 +16,7 @@ class BreweryNameLength(Length):
 
 
 class BreweryForm(BaseObjectForm):
-    name = wf.TextField(_('name'), validators=[BreweryNameLength(), DataRequired()])
+    name = wf.StringField(_('name'), validators=[BreweryNameLength(), DataRequired()])
     description = wf.TextAreaField(_('description'), validators=[Optional()])
     established_date = DateField(_('established'), validators=[Optional()])
 

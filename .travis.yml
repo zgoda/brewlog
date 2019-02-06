@@ -1,5 +1,22 @@
+dist: xenial
 language: python
+env:
+  global:
+    - CC_TEST_REPORTER_ID=5cd7559a300294cda9e507e854492c76e6fa208e5c9f157690e31a2d49805066
+    - CODECOV_TOKEN=3cab38d3-f1e4-4d1f-bdd4-612fc2180e9d
 python:
-  - "2.7"
-install: "pip install -U -r requirements.pip"
-script: nosetests
+  - "3.7"
+  - "3.6"
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+install:
+  - pip install -U -r requirements-test.txt
+  - pip install codecov
+script:
+  - pytest --cov-branch --cov-report xml --cov=brewlog tests
+after_script:
+  - ./cc-test-reporter after-build -t coverage.py --exit-code $TRAVIS_TEST_RESULT
+after_success:
+  - codecov

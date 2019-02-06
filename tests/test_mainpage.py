@@ -1,14 +1,13 @@
 from flask import url_for
+import pytest
 
-from tests import BrewlogTestCase
 from brewlog.models.users import BrewerProfile
 
+from . import BrewlogTests
 
-class MainPageTestCase(BrewlogTestCase):
 
-    def setUp(self):
-        super(MainPageTestCase, self).setUp()
-        self.main_url = url_for('home.index')
+@pytest.mark.usefixtures('client_class')
+class TestMainPage(BrewlogTests):
 
     def test_anon(self):
         """
@@ -20,34 +19,35 @@ class MainPageTestCase(BrewlogTestCase):
             * link to main page
             * link to login page
         """
-        with self.app.test_client() as client:
-            rv = client.get(self.main_url)
-            # public profiles
-            self.assertIn('example user', rv.data)
-            self.assertNotIn('hidden user', rv.data)
-            # public breweries
-            self.assertIn('brewery #1', rv.data)
-            self.assertNotIn('hidden brewery #1', rv.data)
-            # public brews
-            self.assertIn('pale ale', rv.data)
-            self.assertNotIn('hidden czech pilsener', rv.data)
-            self.assertNotIn('hidden amber ale', rv.data)
-            # link to main page
-            self.assertIn('>Brew Log</a>', rv.data)
-            # link to login page
-            self.assertIn('login page', rv.data)
+        main_url = url_for('home.index')
+        rv = self.client.get(main_url)
+        content = rv.data.decode('utf-8')
+        # public profiles
+        assert 'example user' in content
+        assert 'hidden user' not in content
+        # public breweries
+        assert 'brewery #1' in content
+        assert 'hidden brewery #1' not in content
+        # public brews
+        assert 'pale ale' in content
+        assert 'hidden czech pilsener' not in content
+        assert 'hidden amber ale' not in content
+        # link to main page
+        assert '>Brew Log</a>' in content
+        # link to login page
+        assert 'login page' in content
 
     def test_loggedin(self):
+        main_url = url_for('home.index')
         # normal (public) profile user
         user = BrewerProfile.get_by_email('user@example.com')
-        with self.app.test_client() as client:
-            self.login(client, user.email)
-            rv = client.get(self.main_url)
-            self.assertIn('my profile</a>', rv.data)
-            self.assertIn('pale ale', rv.data)
+        self.login(self.client, user.email)
+        rv = self.client.get(main_url)
+        content = rv.data.decode('utf-8')
+        assert 'my profile</a>' in content
+        assert 'pale ale' in content
         # hidden profile user
         user = BrewerProfile.get_by_email('hidden0@example.com')
-        with self.app.test_client() as client:
-            self.login(client, user.email)
-            rv = client.get(self.main_url)
-            self.assertIn('hidden amber ale', rv.data)
+        self.login(self.client, user.email)
+        rv = self.client.get(main_url)
+        assert 'hidden amber ale' in rv.data.decode('utf-8')

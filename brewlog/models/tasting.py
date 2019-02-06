@@ -2,9 +2,9 @@ import datetime
 
 import markdown
 
-from brewlog.ext import db
-from brewlog.utils.models import DefaultModelMixin
-from brewlog.utils.text import stars2deg
+from ..ext import db
+from ..utils.models import DefaultModelMixin
+from ..utils.text import stars2deg
 
 
 class TastingNote(db.Model, DefaultModelMixin):
@@ -17,9 +17,6 @@ class TastingNote(db.Model, DefaultModelMixin):
     text_html = db.Column(db.Text)
     brew_id = db.Column(db.Integer, db.ForeignKey('brew.id'), nullable=False)
     brew = db.relationship('Brew')
-
-    def __unicode__(self):  # pragma: no cover
-        return u'<TastingNote by %s for %s>' % (self.author.name, self.brew.name)
 
     @classmethod
     def create_for(cls, brew, author, text, date=None, commit=False):

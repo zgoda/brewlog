@@ -2,8 +2,8 @@ from flask import redirect, url_for, session, flash, request
 from flask_babel import gettext as _
 from flask_login import login_user
 
-from brewlog.models.users import BrewerProfile
-from brewlog.ext import db
+from ..models.users import BrewerProfile
+from ..ext import db
 
 
 def login_success(email, access_token, remote_id, service_name, **kwargs):

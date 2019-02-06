@@ -16,14 +16,13 @@ Aplikacja jest rozwijana w modelu OpenSource, dostępna jest na licencji BSD (3-
 Aplikacja została napisana przy użyciu następujących narzędzi i bibliotek:
 
 * Python
-* [Flask](http://flask.pocoo.org/) i biblioteki rozszerzeń (Flask-Babel, Flask-FlatPages, Flask-Login, Flask-OAuth, Flask-Script, Flask-Testing, Flask-WTF)
+* [Flask](http://flask.pocoo.org/) i biblioteki rozszerzeń (Flask-Babel, Flask-FlatPages, Flask-Login, Flask-WTF)
+* [Authlib](https://authlib.org/)
 * [WTForms](http://wtforms.simplecodes.com/)
 * [SQLAlchemy](http://www.sqlalchemy.org/)
 * [Babel](http://babel.pocoo.org/)
 * [Jinja2](http://jinja.pocoo.org/)
-* [requests](http://python-requests.org/)
-* [fixture](http://farmdev.com/projects/fixture/)
 
 ### Uruchamianie własnej instancji
 
-Aplikacja jest uruchamialna w nieskomplikowany sposób w środowisku dowolnego kontenera `WSGI`, przy użyciu standardowej instalacji Pythona 2.x - nie będzie ona działała na Google AppEngine (co nie znaczy, że nie możnaby nad tym popracować). Do działania wymaga bazy danych - w najprostszym przypadku wystarczy dostarczane z Pythonem `sqlite3`, natomiast pozostałe zależności są instalowane podczas instalacji aplikacji lub przez ręczne zainstalowanie ze standardowego pliku z zależnościami dla `pip`. Konfiguracji należy dokonać przed uruchomieniem przez utworzenie pliku `config_local.py` i wpisanie w nim dyrektyw takich jak `URI` do bazy danych w formacie wymaganym przez bibliotekę [SQLAlchemy](http://www.sqlalchemy.org). Innym zalecanym do utworzenia plikiem jest `secrets.py`, należy go utworzyć z szablonu, który znajduje się w pliku `secrets.py.template`. Zawiera on klucze autoryzacyjne aplikacji dla zdalnego logowania. Aplikacja w wersji oryginalnej wymaga jedynie kluczy do identyfikacji przez OAuth w Google i Facebooku.
+Aplikacja jest uruchamialna w nieskomplikowany sposób w środowisku dowolnego kontenera `WSGI`, przy użyciu standardowej instalacji Pythona 3.x - nie będzie ona działała na Google AppEngine (co nie znaczy, że nie możnaby nad tym popracować). Do działania wymaga bazy danych - w najprostszym przypadku wystarczy dostarczane z Pythonem `sqlite3`, natomiast pozostałe zależności są instalowane podczas instalacji aplikacji lub przez ręczne zainstalowanie ze standardowego pliku z zależnościami dla `pip`. Konfiguracji należy dokonać przed uruchomieniem przez utworzenie pliku `config_local.py` i wpisanie w nim dyrektyw takich jak `URI` do bazy danych w formacie wymaganym przez bibliotekę [SQLAlchemy](http://www.sqlalchemy.org). Innym zalecanym do utworzenia plikiem jest `secrets.py`, należy go utworzyć z szablonu, który znajduje się w pliku `secrets.py.template`. Zawiera on klucze autoryzacyjne aplikacji dla zdalnego logowania. Aplikacja w wersji oryginalnej wymaga jedynie kluczy do identyfikacji przez OAuth w Google i Facebooku.

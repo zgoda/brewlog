@@ -1,15 +1,17 @@
-from flask import url_for, abort, redirect, render_template, request, flash
-from flask_login import current_user, login_required
+from flask import (
+    abort, flash, jsonify, redirect, render_template, request,
+    url_for
+)
 from flask_babel import gettext as _
+from flask_login import current_user, login_required
 
-from brewlog.ext import db
-from brewlog.brewery import brewery_bp
-from brewlog.models import breweries
-from brewlog.models.brewing import Brewery
-from brewlog.forms.base import DeleteForm
-from brewlog.brewery.forms import BreweryForm
-from brewlog.utils.models import get_page
-from brewlog.utils.http import json_response
+from ..brewery import brewery_bp
+from ..brewery.forms import BreweryForm
+from ..ext import db
+from ..forms.base import DeleteForm
+from ..models import breweries
+from ..models.brewing import Brewery
+from ..utils.pagination import get_page
 
 
 @brewery_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
@@ -51,7 +53,7 @@ def brewery_delete(brewery_id):
 def brewery_all():
     page_size = 20
     page = get_page(request)
-    if request.is_xhr:
+    if request.accept_mimetypes.best == 'application/json':
         if current_user.is_anonymous:
             query = breweries()
         else:
@@ -61,7 +63,7 @@ def brewery_all():
         for brewery_id, name in query.values(Brewery.id, Brewery.name):
             url = url_for('brewery.details', brewery_id=brewery_id)
             breweries_list.append(dict(name=name, url=url))
-        return json_response(breweries_list)
+        return jsonify(breweries_list)
     else:
         if current_user.is_anonymous:
             query = breweries()
@@ -83,13 +85,13 @@ def search():
         query = current_user.breweries
     term = request.args.getlist('q')
     if term:
-        query = query.filter(Brewery.name.like(term[0]+'%'))
+        query = query.filter(Brewery.name.like(term[0] + '%'))
     query = query.order_by(Brewery.name)
     breweries_list = []
     for brewery_id, name in query.values(Brewery.id, Brewery.name):
         url = url_for('brewery.details', brewery_id=brewery_id)
         breweries_list.append(dict(name=name, url=url))
-    return json_response(breweries_list)
+    return jsonify(breweries_list)
 
 
 @brewery_bp.route('/<int:brewery_id>', methods=['POST', 'GET'], endpoint='details')

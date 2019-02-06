@@ -1,5 +1,4 @@
-brew-log
-========
+# Brewlog
 
 Brewer's log application.
 

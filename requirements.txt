@@ -1,0 +1,12 @@
+Flask
+Flask-Babel
+Flask-Login
+Flask-FlatPages
+Flask-SQLAlchemy
+Flask-WTF
+Flask-Bootstrap
+Authlib
+Markdown
+translitcodec
+python-dateutil
+WTForms-Alchemy
