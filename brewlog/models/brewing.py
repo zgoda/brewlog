@@ -9,7 +9,7 @@ from werkzeug.utils import cached_property
 
 from ..ext import db
 from ..models import choices
-from ..utils.brewing import aa, abv, ra
+from ..utils.brewing import apparent_attenuation, abv, real_attenuation
 from ..utils.models import DefaultModelMixin
 from ..utils.text import stars2deg
 
@@ -261,8 +261,8 @@ class Brew(db.Model, DefaultModelMixin):
     def attenuation(self):
         if self.og and self.fg:
             return {
-                'apparent': aa(self.og, self.fg),
-                'real': ra(self.og, self.fg),
+                'apparent': apparent_attenuation(self.og, self.fg),
+                'real': real_attenuation(self.og, self.fg),
             }
         return {'real': 0, 'apparent': 0}
 

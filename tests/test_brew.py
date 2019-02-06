@@ -4,7 +4,7 @@ import pytest
 from brewlog.ext import db
 from brewlog.models.brewing import Brew, Brewery
 from brewlog.models.users import BrewerProfile, CustomLabelTemplate
-from brewlog.utils.brewing import aa, ra
+from brewlog.utils.brewing import apparent_attenuation, real_attenuation
 
 from . import BrewlogTests
 
@@ -284,8 +284,8 @@ class TestBrewAttenuation(BrewlogTests):
         db.session.add(fs)
         db.session.flush()
         attenuation = self.brew.attenuation
-        assert attenuation['apparent'] == aa(self.brew.og, self.brew.fg)
-        assert attenuation['real'] == ra(self.brew.og, self.brew.fg)
+        assert attenuation['apparent'] == apparent_attenuation(self.brew.og, self.brew.fg)
+        assert attenuation['real'] == real_attenuation(self.brew.og, self.brew.fg)
 
 
 @pytest.mark.usefixtures('client_class')

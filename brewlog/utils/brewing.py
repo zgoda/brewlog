@@ -22,13 +22,13 @@ def abv(og, fg, from_carbonation=0):
     return float(value)
 
 
-def aa(og, fg):
+def apparent_attenuation(og, fg):
     """Apparent attenuation
     """
     return 100.0 * (og - fg) / og
 
 
-def ra(og, fg):
+def real_attenuation(og, fg):
     """Real attenuation
     """
-    return 0.8192 * aa(og, fg)
+    return 0.8192 * apparent_attenuation(og, fg)
