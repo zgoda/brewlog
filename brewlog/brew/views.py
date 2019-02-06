@@ -286,14 +286,11 @@ def change_state(brew_id):
     if action == 'tap':
         brew.tapped = now
         brew.finished = None
-    elif action == 'untap':
+    elif action in ('untap', 'available'):
         brew.finished = None
         brew.tapped = None
     elif action == 'finish':
         brew.finished = now
-    elif action == 'available':
-        brew.finished = None
-        brew.tapped = None
     db.session.add(brew)
     db.session.commit()
     return redirect(brew.absolute_url)
