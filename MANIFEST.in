@@ -3,6 +3,7 @@ include brewlog/secrets/*.template
 include versioneer.py
 include brewlog/_version.py
 
+recursive-include brewlog/pages *
 recursive-include brewlog/static *
 recursive-include brewlog/templates *
 recursive-include brewlog/translations *
