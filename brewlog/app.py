@@ -1,4 +1,5 @@
 import os
+from logging.config import dictConfig
 
 from flask import Flask, render_template, request, send_from_directory, session
 from flask_babel import gettext as _
@@ -8,14 +9,14 @@ from .ext import babel, bootstrap, csrf, db, login_manager, oauth, pages
 from .templates import setup_template_extensions
 
 
-def make_app(env):
+def make_app(env=None):
+    configure_logging()
     app = Flask(__name__)
     configure_app(app, env)
     configure_extensions(app, env)
     configure_auth(app, env)
     configure_hooks(app, env)
     configure_blueprints(app, env)
-    configure_logging(app, env)
     configure_error_handlers(app, env)
     setup_template_extensions(app)
     return app
@@ -23,14 +24,16 @@ def make_app(env):
 
 def configure_app(app, env):
     app.config.from_object('brewlog.config')
-    env_config = 'brewlog.config_%s' % env
-    try:
-        app.config.from_object(env_config)
-    except ImportStringError:
-        # no special configuration for this environment
-        pass
-    if os.environ.get('BREWLOG_CONFIG', ''):
-        app.config.from_envvar('BREWLOG_CONFIG')
+    if env is not None:
+        try:
+            app.config.from_object('brewlog.config_%s' % env)
+        except ImportStringError:
+            # module is not importable
+            pass
+    if os.environ.get('BREWLOG_CONFIG_LOCAL'):
+        app.config.from_envvar('BREWLOG_CONFIG_LOCAL')
+    if os.environ.get('BREWLOG_CONFIG_SECRETS'):
+        app.config.from_envvar('BREWLOG_CONFIG_SECRETS')
     if app.config['DEBUG']:
         @app.route('/favicon.ico')
         def favicon():
@@ -99,8 +102,22 @@ def configure_auth(app, env):
     pass
 
 
-def configure_logging(app, env):
-    pass
+def configure_logging():
+    dictConfig({
+        'version': 1,
+        'formatters': {'default': {
+            'format': '[%(asctime)s] %(levelname)s in %(module)s: %(message)s',
+        }},
+        'handlers': {'wsgi': {
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://flask.logging.wsgi_errors_stream',
+            'formatter': 'default'
+        }},
+        'root': {
+            'level': 'INFO',
+            'handlers': ['wsgi']
+        }
+    })
 
 
 def configure_error_handlers(app, env):
