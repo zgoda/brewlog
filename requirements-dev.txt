@@ -1,11 +1,4 @@
--r requirements.txt
-
-pytest
-pytest-flask
-pytest-cov
-pytest-mock
-pytest-runner
-fixture
+-r requirements-test.txt
 
 ipdb
 flake8
@@ -16,5 +9,6 @@ Sphinx
 
 pip
 setuptools
+wheel
 
 flask-shell-ipython
