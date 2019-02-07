@@ -2,3 +2,6 @@ exclude brewlog/secrets/*.py
 include brewlog/secrets/*.template
 include versioneer.py
 include brewlog/_version.py
+
+recursive-include brewlog/static *
+recursive-include brewlog/templates *

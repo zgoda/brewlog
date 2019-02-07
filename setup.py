@@ -30,7 +30,6 @@ setup(
         'License :: OSI Approved :: BSD License',
         'Operating System :: POSIX',
         'Programming Language :: Python :: 3 :: Only',
-        'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
@@ -60,7 +59,7 @@ setup(
         'fixture',
     ),
     extras_require={
-        'pg': ['psycopg2']
+        'prod': ['psycopg2', 'uwsgi']
     },
-    python_requires='~=3.7',
+    python_requires='~=3.6',
 )
