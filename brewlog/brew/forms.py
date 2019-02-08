@@ -2,7 +2,7 @@ import wtforms as wf
 from flask_babel import lazy_gettext as _
 from flask_login import current_user
 from wtforms.fields.html5 import DateField, DecimalField, IntegerField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, Optional
 from wtforms_alchemy import QuerySelectField
 
 from ..forms.base import BaseForm, BaseObjectForm
@@ -15,10 +15,10 @@ from ..models.brewing import Brew, Brewery, FermentationStep
 class FermentationStepForm(BaseObjectForm):
     date = DateField(_('date'), validators=[DataRequired()])
     name = wf.StringField(_('name'), validators=[DataRequired()])
-    og = DecimalField(_('original gravity'), places=1)
-    fg = DecimalField(_('final gravity'), places=1)
-    temperature = wf.IntegerField(_('temperature'))
-    volume = DecimalField(_('volume collected'), places=1)
+    og = DecimalField(_('original gravity'), places=1, validators=[Optional()])
+    fg = DecimalField(_('final gravity'), places=1, validators=[Optional()])
+    temperature = wf.IntegerField(_('temperature'), validators=[Optional()])
+    volume = DecimalField(_('volume collected'), places=1, validators=[Optional()])
     notes = wf.TextAreaField(_('notes'))
 
     def save(self, brew, obj=None, save=True):
@@ -75,9 +75,10 @@ class BrewForm(BaseObjectForm):
     boil_time = IntegerField(_('boil time'))
     final_amount = DecimalField(
         _('final amount'), places=1,
-        description=_('volume into bottling')
+        description=_('volume into bottling'),
+        validators=[Optional()]
     )
-    bottling_date = DateField(_('bottling date'))
+    bottling_date = DateField(_('bottling date'), validators=[Optional()])
     carbonation_type = wf.SelectField(
         _('type of carbonation'), choices=choices.CARBONATION_CHOICES
     )

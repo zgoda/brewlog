@@ -10,7 +10,8 @@ from .templates import setup_template_extensions
 
 
 def make_app(env=None):
-    configure_logging()
+    if not os.environ.get('FLASK_ENV', '') == 'development':
+        configure_logging()
     app = Flask(__name__)
     configure_app(app, env)
     configure_extensions(app, env)
