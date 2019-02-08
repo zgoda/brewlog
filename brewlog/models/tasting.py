@@ -16,7 +16,12 @@ class TastingNote(db.Model, DefaultModelMixin):
     text = db.Column(db.Text, nullable=False)
     text_html = db.Column(db.Text)
     brew_id = db.Column(db.Integer, db.ForeignKey('brew.id'), nullable=False)
-    brew = db.relationship('Brew')
+    brew = db.relationship(
+        'Brew',
+        backref=db.backref(
+            'tasting_notes', cascade='all,delete', lazy='dynamic', order_by='desc(TastingNote.date)'
+        )
+    )
 
     @classmethod
     def create_for(cls, brew, author, text, date=None, commit=False):

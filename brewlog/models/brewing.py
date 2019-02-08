@@ -28,8 +28,10 @@ class Brewery(db.Model, DefaultModelMixin):
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     updated = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow, index=True)
     brewer_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'), nullable=False)
-    brewer = db.relationship('BrewerProfile')
-    brews = db.relationship('Brew', cascade='all,delete', lazy='dynamic')
+    brewer = db.relationship(
+        'BrewerProfile',
+        backref=db.backref('breweries', lazy='dynamic', cascade='all,delete')
+    )
 
     @property
     def absolute_url(self):
@@ -100,7 +102,13 @@ class FermentationStep(db.Model, DefaultModelMixin):
     notes = db.Column(db.Text)
     notes_html = db.Column(db.Text)
     brew_id = db.Column(db.Integer, db.ForeignKey('brew.id'), nullable=False)
-    brew = db.relationship('Brew')
+    brew = db.relationship(
+        'Brew',
+        backref=db.backref(
+            'fermentation_steps', cascade='all,delete', lazy='dynamic', order_by='FermentationStep.date'
+        )
+    )
+
     __table_args__ = (
         db.Index('fermentationstep_brew_date', 'brew_id', 'date'),
     )
@@ -171,11 +179,10 @@ class Brew(db.Model, DefaultModelMixin):
     is_public = db.Column(db.Boolean, default=True)
     is_draft = db.Column(db.Boolean, default=False)
     brewery_id = db.Column(db.Integer, db.ForeignKey('brewery.id'), nullable=False)
-    brewery = db.relationship('Brewery')
-    tasting_notes = db.relationship('TastingNote', cascade='all,delete', lazy='dynamic',
-        order_by='desc(TastingNote.date)')
-    fermentation_steps = db.relationship('FermentationStep', cascade='all,delete', lazy='dynamic',
-        order_by='asc(FermentationStep.date)')
+    brewery = db.relationship(
+        'Brewery',
+        backref=db.backref('brews', lazy='dynamic', cascade='all,delete')
+    )
     tapped = db.Column(db.Date)
     finished = db.Column(db.Date)
 
@@ -185,11 +192,11 @@ class Brew(db.Model, DefaultModelMixin):
 
     @cached_property
     def first_step(self):
-        return FermentationStep.query.filter_by(brew=self).order_by(FermentationStep.date).first()
+        return self.fermentation_steps.order_by(FermentationStep.date).first()
 
     @cached_property
     def last_step(self):
-        return FermentationStep.query.filter_by(brew=self).order_by(db.desc(FermentationStep.date)).first()
+        return self.fermentation_steps.order_by(db.desc(FermentationStep.date)).first()
 
     @property
     def og(self):

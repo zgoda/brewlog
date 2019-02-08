@@ -26,7 +26,6 @@ class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
     oauth_token_secret = db.Column(db.Text)  # for OAuth1a
     oauth_service = db.Column(db.String(50))
     remote_userid = db.Column(db.String(100))
-    breweries = db.relationship('Brewery', cascade='all,delete', lazy='dynamic')
     custom_export_templates = db.relationship('CustomExportTemplate', cascade='all,delete', lazy='dynamic',
         order_by='CustomExportTemplate.name')
     custom_label_templates = db.relationship('CustomLabelTemplate', cascade='all,delete', lazy='dynamic',

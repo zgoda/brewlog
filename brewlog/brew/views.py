@@ -191,7 +191,10 @@ def brew_delete(brew_id):
     return render_template('brew/delete.html', **ctx)
 
 
-@brew_bp.route('/<int:brew_id>/fermentationstep/add', methods=['GET', 'POST'], endpoint='fermentationstep_add')
+@brew_bp.route(
+    '/<int:brew_id>/fermentationstep/add',
+    methods=['GET', 'POST'], endpoint='fermentationstep_add'
+)
 @login_required
 def fermentation_step_add(brew_id):
     brew = Brew.query.get_or_404(brew_id)
