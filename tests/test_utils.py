@@ -1,8 +1,13 @@
 import unicodedata
 
+import pytest
+from werkzeug.exceptions import Forbidden, NotFound
+
+from brewlog.models.users import BrewerProfile, CustomLabelTemplate
 from brewlog.utils.brewing import sg2plato
 from brewlog.utils.pagination import get_page, url_for_other_page
 from brewlog.utils.text import stars2deg
+from brewlog.utils.views import get_user_object
 
 
 class TestTextUtils:
@@ -49,3 +54,43 @@ class TestBrewingFormulas:
         sg = 1.040
         plato = 10
         assert round(sg2plato(sg)) == plato
+
+
+@pytest.mark.usefixtures('client_class')
+class TestViewUtils:
+
+    @pytest.fixture(autouse=True)
+    def set_up(self):
+        self.regular_user = BrewerProfile.get_by_email('user@example.com')
+        self.template = CustomLabelTemplate.query.filter_by(name='custom #1').first()
+        self.template_user = self.template.user
+
+    def test_user_object_objid_none(self, mocker):
+        mocker.patch('brewlog.utils.views.current_user', self.template_user)
+        ret = get_user_object(CustomLabelTemplate)
+        assert ret is None
+
+    def test_user_object_default_user_raise_403(self, mocker):
+        mocker.patch('brewlog.utils.views.current_user', self.regular_user)
+        with pytest.raises(Forbidden):
+            get_user_object(CustomLabelTemplate, self.template.id)
+
+    def test_user_object_default_user_no_raise_403(self, mocker):
+        mocker.patch('brewlog.utils.views.current_user', self.regular_user)
+        ret = get_user_object(CustomLabelTemplate, self.template.id, raise_403=False)
+        assert ret is None
+
+    def test_user_object_default_owner_obj_not_found(self, mocker):
+        mocker.patch('brewlog.utils.views.current_user', self.template_user)
+        with pytest.raises(NotFound):
+            get_user_object(CustomLabelTemplate, 666)
+
+    def test_user_object_default_owner_ok(self, mocker):
+        mocker.patch('brewlog.utils.views.current_user', self.template_user)
+        ret = get_user_object(CustomLabelTemplate, self.template.id)
+        assert ret == self.template
+
+    def test_user_object_owner_ok(self, mocker):
+        mocker.patch('brewlog.utils.views.current_user', self.regular_user)
+        ret = get_user_object(CustomLabelTemplate, self.template.id, user=self.template_user)
+        assert ret == self.template

@@ -65,26 +65,26 @@ class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
         return cls.query.filter_by(email=email).first()
 
     @classmethod
-    def _last(cls, ordering, public_only=False, limit=5, extra_user=None):
+    def _last(cls, ordering, public_only=False, limit=5):
         query = cls.query
         if public_only:
-            if extra_user:
-                query = query.filter(
-                    db.or_(cls.is_public.is_(True), cls.id == extra_user.id)
-                )
-            else:
-                query = query.filter_by(is_public=True)
+            query = query.filter_by(is_public=True)
         return query.order_by(db.desc(ordering)).limit(limit).all()
 
     @classmethod
     def last_created(cls, public_only=False, limit=5, **kwargs):
-        extra_user = kwargs.get('extra_user', None)
-        return cls._last(cls.created, public_only, limit, extra_user)
+        return cls._last(cls.created, public_only, limit)
 
     @classmethod
-    def last_updated(cls, public_only=False, limit=5, **kwargs):
-        extra_user = kwargs.get('extra_user', None)
-        return cls._last(cls.updated, public_only, limit, extra_user)
+    def last_updated(cls, public_only=False, limit=5):
+        return cls._last(cls.updated, public_only, limit)
+
+    @classmethod
+    def public(cls, order_by=None):
+        query = cls.query.filter_by(is_public=True)
+        if order_by is not None:
+            query = query.order_by(order_by)
+        return query
 
     def has_access(self, user):
         if self != user:

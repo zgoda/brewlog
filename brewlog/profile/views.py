@@ -13,6 +13,7 @@ from ..profile.forms import (
     CustomExportTemplateForm, CustomLabelTemplateForm, ProfileForm
 )
 from ..utils.pagination import get_page
+from ..utils.views import get_user_object
 
 
 @profile_bp.route('/<int:userid>', methods=['GET', 'POST'], endpoint='details')
@@ -67,7 +68,7 @@ def profile_delete(userid):
 def profile_list():
     page_size = 20
     page = get_page(request)
-    query = BrewerProfile.query.filter_by(is_public=True).order_by(BrewerProfile.created)
+    query = BrewerProfile.public(order_by=BrewerProfile.created)
     pagination = query.paginate(page, page_size)
     ctx = {
         'pagination': pagination,
@@ -77,8 +78,8 @@ def profile_list():
 
 @profile_bp.route('/<int:userid>/breweries', endpoint='breweries')
 def breweries(userid):
-    brewer = BrewerProfile.query.get(userid)
-    if not brewer or (not brewer.is_public and current_user.id != userid):
+    brewer = BrewerProfile.query.get_or_404(userid)
+    if current_user != brewer and not brewer.is_public:
         abort(404)
     page_size = 10
     page = get_page(request)
@@ -92,8 +93,8 @@ def breweries(userid):
 
 @profile_bp.route('/<int:userid>/brews', endpoint='brews')
 def brews(userid):
-    brewer = BrewerProfile.query.get(userid)
-    if not brewer or (not brewer.is_public and current_user.id != userid):
+    brewer = BrewerProfile.query.get_or_404(userid)
+    if current_user != brewer and not brewer.is_public:
         abort(404)
     page_size = 10
     page = get_page(request)
@@ -120,16 +121,10 @@ def brews(userid):
 )
 @login_required
 def export_template(userid, tid=None):
-    template = None
-    if tid is not None:
-        template = CustomExportTemplate.query.get_or_404(tid)
-        if template.user != current_user:
-            abort(403)
+    template = get_user_object(CustomExportTemplate, tid)
     form = CustomExportTemplateForm()
     if form.validate_on_submit():
-        template = form.save(current_user, template)
-        flash(_('your export template %(name)s has been saved', name=template.name), category='success')
-        return redirect(template.absolute_url)
+        return form.save_and_redirect(current_user, template)
     form = CustomExportTemplateForm(obj=template)
     ctx = {
         'form': form,
@@ -150,17 +145,10 @@ def export_template(userid, tid=None):
 )
 @login_required
 def label_template(userid, tid=None):
-    template = None
-    if tid is not None:
-        template = CustomLabelTemplate.query.get_or_404(tid)
-        if template.user != current_user:
-            abort(403)
+    template = get_user_object(CustomLabelTemplate, tid)
     form = CustomLabelTemplateForm()
     if form.validate_on_submit():
-        template = form.save(current_user, template)
-        flash(_('your label template %(name)s has been saved', name=template.name), category='success')
-        next_ = url_for('profile.details', userid=current_user.id)
-        return redirect(next_)
+        return form.save_and_redirect(current_user, template)
     form = CustomLabelTemplateForm(obj=template)
     ctx = {
         'form': form,

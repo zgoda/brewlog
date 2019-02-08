@@ -1,4 +1,5 @@
 import wtforms as wf
+from flask import flash, redirect
 from flask_babel import lazy_gettext as _
 from wtforms.validators import DataRequired, Email
 
@@ -24,7 +25,15 @@ class ProfileForm(BaseObjectForm):
         return super(ProfileForm, self).save(obj, save=True)
 
 
-class CustomExportTemplateForm(BaseObjectForm):
+class CustomTemplateForm(BaseObjectForm):
+
+    def save_and_redirect(self, user, obj=None):
+        obj = self.save(user, obj)
+        flash(_('your template %(name)s has been saved', name=obj.name), category='success')
+        return redirect(obj.absolute_url)
+
+
+class CustomExportTemplateForm(CustomTemplateForm):
     name = wf.StringField(_('name'), validators=[DataRequired()])
     text = wf.TextAreaField(_('text'), validators=[DataRequired()], description=_('template text'))
     is_default = wf.BooleanField(_('default'), default=False)
@@ -35,7 +44,7 @@ class CustomExportTemplateForm(BaseObjectForm):
         return super(CustomExportTemplateForm, self).save(obj, save=True)
 
 
-class CustomLabelTemplateForm(BaseObjectForm):
+class CustomLabelTemplateForm(CustomTemplateForm):
     name = wf.StringField(_('name'), validators=[DataRequired()])
     cols = wf.IntegerField(_('columns'), validators=[DataRequired()], default=2)
     rows = wf.IntegerField(_('rows'), validators=[DataRequired()], default=5)
