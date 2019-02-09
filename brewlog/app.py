@@ -15,11 +15,12 @@ def make_app(env=None):
     app = Flask(__name__)
     configure_app(app, env)
     configure_extensions(app, env)
-    configure_auth(app, env)
-    configure_hooks(app, env)
-    configure_blueprints(app, env)
-    configure_error_handlers(app, env)
-    setup_template_extensions(app)
+    with app.app_context():
+        configure_auth(app, env)
+        configure_hooks(app, env)
+        configure_blueprints(app, env)
+        configure_error_handlers(app, env)
+        setup_template_extensions(app)
     return app
 
 
@@ -32,8 +33,10 @@ def configure_app(app, env):
             # module is not importable
             pass
     if os.environ.get('BREWLOG_CONFIG_LOCAL'):
+        app.logger.info('local configuration loaded from %s' % os.environ.get('BREWLOG_CONFIG_LOCAL'))
         app.config.from_envvar('BREWLOG_CONFIG_LOCAL')
     if os.environ.get('BREWLOG_CONFIG_SECRETS'):
+        app.logger.info('secrets loaded from %s' % os.environ.get('BREWLOG_CONFIG_SECRETS'))
         app.config.from_envvar('BREWLOG_CONFIG_SECRETS')
     if app.config['DEBUG']:
         @app.route('/favicon.ico')

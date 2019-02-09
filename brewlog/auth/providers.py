@@ -1,14 +1,13 @@
-from flask import session
+from flask import current_app, session
 
 from ..ext import oauth
-from ..config import AUTH_CONFIG
 
 
 def get_access_token():  # pragma: nocover
     return session.get('access_token')
 
 
-auth_config = AUTH_CONFIG
+auth_config = current_app.config['AUTH_CONFIG']
 
 
 facebook = oauth.register(
