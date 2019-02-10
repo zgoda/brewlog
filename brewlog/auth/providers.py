@@ -14,12 +14,12 @@ facebook = oauth.register(
     'facebook',
     api_base_url='https://graph.facebook.com/v3.2',
     request_token_url=None,
-    access_token_url='/oauth/access_token',
+    access_token_url='https://graph.facebook.com/v3.2/oauth/access_token',
     authorize_url='https://www.facebook.com/v3.2/dialog/oauth',
     client_id=auth_config['facebook'][0],
     client_secret=auth_config['facebook'][1],
     client_kwargs={
-        'scope': 'email'
+        'scope': 'email public_profile'
     },
     fetch_token=get_access_token,
 )

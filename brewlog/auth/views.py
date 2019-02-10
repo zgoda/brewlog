@@ -50,12 +50,16 @@ def facebook_remote_login_callback():  # pragma: nocover
     access_token = oauth.facebook.authorize_access_token()
     session['access_token'] = access_token, ''
     if access_token:
-        me = oauth.facebook.get('/me', data=dict(fields='id,email,first_name,last_name'))
-        kw = {
-            'first_name': me.data.get('first_name', ''),
-            'last_name': me.data.get('last_name', ''),
-        }
-        return login_success(me.data['email'], access_token, me.data['id'], 'facebook', **kw)
+        r = oauth.facebook.get('/me', params=dict(fields='id,email,first_name,last_name'))
+        if r.ok:
+            data = r.json()
+            kw = {
+                'first_name': data.get('first_name', ''),
+                'last_name': data.get('last_name', ''),
+            }
+            return login_success(
+                data['email'], access_token.get('access_token'), data['id'], 'facebook', **kw
+            )
     return redirect(url_for('auth.select'))
 
 
@@ -68,12 +72,14 @@ def github_remote_login_callback():  # pragma: nocover
         return skip
     session['access_token'] = access_token, ''
     if access_token:
-        me = oauth.github.get('/user')
-        if not me.data.get('email'):
-            flash(_('GitHub profile for user %(name)s lacks public email, skipping as unusable.', **me.data),
-                category='warning')
-            return skip
-        return login_success(me.data['email'], access_token, me.data['id'], 'github')
+        r = oauth.github.get('/user')
+        if r.ok:
+            data = r.json()
+            if not data.get('email'):
+                flash(_('GitHub profile for user %(name)s lacks public email, skipping as unusable.', **data),
+                    category='warning')
+                return skip
+            return login_success(data['email'], access_token, data['id'], 'github')
     return skip
 
 
