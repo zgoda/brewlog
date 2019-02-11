@@ -105,7 +105,7 @@ class FermentationStep(db.Model, DefaultModelMixin):
     brew = db.relationship(
         'Brew',
         backref=db.backref(
-            'fermentation_steps', cascade='all,delete', lazy='dynamic', order_by='FermentationStep.date'
+            'fermentation_steps', cascade='all,delete', lazy='dynamic'
         )
     )
 
