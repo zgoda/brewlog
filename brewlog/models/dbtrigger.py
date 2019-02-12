@@ -5,7 +5,7 @@ import markdown
 from ..ext import db
 from ..utils.text import stars2deg
 from .brewery import Brewery
-from .brewing import Brew
+from .brewing import Brew, FermentationStep
 from .tasting import TastingNote
 from .users import BrewerProfile
 
@@ -57,7 +57,7 @@ db.event.listen(TastingNote, 'before_insert', tasting_note_pre_save)
 db.event.listen(TastingNote, 'before_update', tasting_note_pre_save)
 
 
-# mapper events
+# events: BrewerProfile model
 def profile_pre_save(mapper, connection, target):
     full_name = '%s %s' % (target.first_name or '', target.last_name or '')
     target.full_name = full_name.strip()
@@ -67,3 +67,16 @@ def profile_pre_save(mapper, connection, target):
 
 db.event.listen(BrewerProfile, 'before_insert', profile_pre_save)
 db.event.listen(BrewerProfile, 'before_update', profile_pre_save)
+
+
+# events: FermentationStep model
+def fermentation_step_pre_save(mapper, connection, target):
+    if target.notes:
+        target.notes = stars2deg(target.notes)
+        target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
+    else:
+        target.notes_html = None
+
+
+db.event.listen(FermentationStep, 'before_insert', fermentation_step_pre_save)
+db.event.listen(FermentationStep, 'before_update', fermentation_step_pre_save)

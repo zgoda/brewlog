@@ -1,7 +1,6 @@
 import datetime
 import json
 
-import markdown
 from flask import url_for
 from flask_babel import gettext
 from flask_babel import lazy_gettext as _
@@ -54,19 +53,6 @@ class FermentationStep(db.Model, DefaultModelMixin):
         return FermentationStep.query.filter(
             FermentationStep.brew == self.brew, FermentationStep.date > self.date
         ).order_by(FermentationStep.date).first()
-
-
-# events: FermentationStep model
-def fermentation_step_pre_save(mapper, connection, target):
-    if target.notes:
-        target.notes = stars2deg(target.notes)
-        target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
-    else:
-        target.notes_html = None
-
-
-db.event.listen(FermentationStep, 'before_insert', fermentation_step_pre_save)
-db.event.listen(FermentationStep, 'before_update', fermentation_step_pre_save)
 
 
 class Brew(db.Model, DefaultModelMixin):
