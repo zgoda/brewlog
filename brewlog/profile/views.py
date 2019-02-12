@@ -20,25 +20,23 @@ from ..utils.views import get_user_object
 @profile_bp.route('/<int:userid>', methods=['GET', 'POST'], endpoint='details')
 def profile(userid, **kwargs):
     user_profile = BrewerProfile.query.get_or_404(userid)
-    if request.method == 'POST':
-        if current_user != user_profile:
-            abort(403)
-        form = ProfileForm()
-        if form.validate_on_submit():
-            profile = form.save(obj=user_profile)
-            flash(_('your profile data has been updated'), category='success')
-            return redirect(profile.absolute_url)
+    if not user_profile.has_access(current_user):
+        abort(404)
+    if request.method == 'POST' and current_user != user_profile:
+        abort(403)
+    form = ProfileForm()
+    if form.validate_on_submit():
+        profile = form.save(obj=user_profile)
+        flash(_('your profile data has been updated'), category='success')
+        return redirect(profile.absolute_url)
     context = {
         'data': user_profile.nick,
         'data_type': 'summary',
         'profile': user_profile,
         'latest_brews': Brew.get_latest_for(user_profile),
     }
-    if user_profile.has_access(current_user):
-        context['data'] = user_profile.full_data()
-        context['data_type'] = 'full'
-    else:
-        abort(404)
+    context['data'] = user_profile.full_data()
+    context['data_type'] = 'full'
     if user_profile == current_user:
         context['form'] = ProfileForm(obj=user_profile)
     return render_template('account/profile.html', **context)

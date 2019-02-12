@@ -86,9 +86,8 @@ class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
         return query
 
     def has_access(self, user):
-        if self != user:
-            if not self.is_public:
-                return False
+        if self != user and not self.is_public:
+            return False
         return True
 
     def full_data(self):
@@ -103,6 +102,7 @@ class CustomExportTemplate(db.Model, DefaultModelMixin):
     name = db.Column(db.String(100), nullable=False)
     text = db.Column(db.Text)
     is_default = db.Column(db.Boolean, default=False)
+
     __table__args__ = (
         db.Index('user_export_template', 'user_id', 'name'),
     )
@@ -124,6 +124,7 @@ class CustomLabelTemplate(db.Model, DefaultModelMixin):
     height = db.Column(db.Integer, default=50, server_default='50', nullable=False)
     text = db.Column(db.Text)
     is_default = db.Column(db.Boolean, default=False)
+
     __table_args__ = (
         db.Index('user_label_template', 'user_id', 'name'),
     )
