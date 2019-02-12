@@ -6,21 +6,20 @@ from flask_babel import lazy_gettext as _
 from ..ext import db
 from ..models.brewing import Brew
 from ..models.brewery import Brewery
+from ..models.users import BrewerProfile
 from ..utils.text import stars2deg
 
 
 class BrewUtils:
 
-    def __init__(self, brew):
-        self.brew = brew
-
-    def brew_description(self):
+    @staticmethod
+    def description(brew):
         data = {
-            'style': self.brew.style or self.brew.bjcp_style or gettext('unspecified style')
+            'style': brew.style or brew.bjcp_style or gettext('unspecified style')
         }
-        data['og'] = '%.1f*Blg' % self.brew.og if self.brew.og else gettext('unknown')
-        data['fg'] = '%.1f*Blg' % self.brew.fg if self.brew.fg else gettext('unknown')
-        data['abv'] = '%.1f%%' % self.brew.abv if self.brew.abv else gettext('unknown')
+        data['og'] = '%.1f*Blg' % brew.og if brew.og else gettext('unknown')
+        data['fg'] = '%.1f*Blg' % brew.fg if brew.fg else gettext('unknown')
+        data['abv'] = '%.1f%%' % brew.abv if brew.abv else gettext('unknown')
         return stars2deg(gettext('%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s', **data))
 
     @staticmethod
@@ -66,6 +65,13 @@ class BrewUtils:
         return BrewUtils._in_state(query, user, public_only, limit)
 
     @staticmethod
+    def latest(ordering, limit=5, public_only=False, extra_user=None, user=None, brewed_only=False):
+        query = BrewUtils.brew_list_query(public_only, extra_user, user)
+        if brewed_only:
+            query = query.filter(Brew.date_brewed.isnot(None))
+        return query.order_by(db.desc(ordering)).limit(limit)
+
+    @staticmethod
     def _in_state(state_query, user, public_only, limit):
         if user is not None and (not user.is_public and public_only):
             return []
@@ -78,3 +84,22 @@ class BrewUtils:
         if limit is not None:
             query = query.limit(limit)
         return query.all()
+
+    @staticmethod
+    def brew_list_query(public_only=True, extra_user=None, user=None):
+        query = Brew.query
+        if user is not None or public_only:
+            query = query.join(Brewery).join(BrewerProfile)
+            if user is not None:
+                query = query.filter(BrewerProfile.id == user.id)
+            if public_only:
+                if extra_user is not None:
+                    query = query.filter(
+                        db.or_(BrewerProfile.id == extra_user.id,
+                            db.and_(BrewerProfile.is_public.is_(True), Brew.is_public.is_(True)))
+                    )
+                else:
+                    query = query.filter(
+                        BrewerProfile.is_public.is_(True), Brew.is_public.is_(True)
+                    )
+        return query

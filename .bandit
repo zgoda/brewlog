@@ -1,2 +1,2 @@
 [bandit]
-exclude: /tests,/build,/conf,/dist,/docs,/sql
+exclude = tests,build,conf,dist,docs,sql

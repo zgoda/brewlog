@@ -15,8 +15,7 @@ class TestBrewUtils(BrewlogTests):
         self.brew2 = Brew.query.get(2)
 
     def test_brew_description(self):
-        utils = BrewUtils(self.brew1)
-        ret = utils.brew_description()
+        ret = BrewUtils.description(self.brew1)
         assert 'unspecified style' in ret
         assert 'unknown' in ret
 

@@ -2,18 +2,27 @@
 {% import "macros/forms.html" as forms %}
 {% import "macros/bootstrap.html" as bsu %}
 
+{% block styles %}
+{% if current_user.is_authenticated %}
+<link href="/static/vendor/xeditable/css/bootstrap-editable.css" rel="stylesheet">
+{% endif %}
+{% endblock %}
+
 {% block scripts %}
 {% if current_user.is_authenticated %}
-<script type="text/javascript" src="/static/js/jquery.jeditable.min.js"></script>
+<script type="text/javascript" src="/static/vendor/xeditable/js/bootstrap-editable.min.js"></script>
 <script type="text/javascript">
+$.fn.editable.defaults.mode = 'inline';
+var csrf_token = "{{ csrf_token() }}";
+$.ajaxSetup({
+  beforeSend: function(xhr, settings) {
+    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
+      xhr.setRequestHeader("X-CSRFToken", csrf_token);
+    }
+  }
+});
 $(document).ready(function() {
-  var notes = {{ notes|safe }};
-  $(".edit_area").editable("{{ url_for('tastingnote.update') }}", {
-    type: "textarea",
-    loadurl: "{{ url_for('tastingnote.loadtext') }}",
-    cancel: "<button type='cancel' class='btn btn-sm btn-default'>{{ gettext('cancel') }}</button>",
-    submit: "<button type='submit' class='btn btn-sm btn-primary'>{{ gettext('send') }}</button>"
-  });
+  $(".edit_area").editable();
 })
 </script>
 {% endif %}
@@ -33,7 +42,7 @@ $(document).ready(function() {
 
 {% block headpagetitle %}{{ super() }} {{ brew.full_name }}{% endblock %}
 
-{% block headdescription %}{{ utils.brew_description }}{% endblock %}
+{% block headdescription %}{{ utils.description }}{% endblock %}
 
 {% block widecontent %}
 <div class="col-xs-12">

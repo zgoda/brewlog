@@ -12,7 +12,6 @@ from markdown import markdown
 from . import brew_bp
 from ..ext import db
 from ..forms.base import DeleteForm
-from ..models import brews
 from ..models.brewing import Brew, FermentationStep
 from ..models.users import CustomLabelTemplate
 from ..utils.pagination import get_page
@@ -57,7 +56,7 @@ def brew(brew_id, **kwargs):
     public_only = current_user not in brew.brewery.brewers
     ctx = {
         'brew': brew,
-        'utils': BrewUtils(brew),
+        'utils': BrewUtils,
         'mash_hints': HINTS,
         'notes': brew.notes_to_json(),
         'next': brew.get_next(public_only=public_only),
@@ -76,9 +75,9 @@ def brew_all():
     page = get_page(request)
     if request.accept_mimetypes.best == 'application/json':
         if current_user.is_anonymous:
-            query = brews()
+            query = BrewUtils.brew_list_query()
         else:
-            query = brews(public_only=False, user=current_user)
+            query = BrewUtils.brew_list_query(public_only=False, user=current_user)
         query = query.order_by(Brew.name)
         brew_list = []
         for brew_id, name in query.values(Brew.id, Brew.name):
@@ -87,9 +86,9 @@ def brew_all():
         return jsonify(brew_list)
     else:
         if current_user.is_anonymous:
-            query = brews()
+            query = BrewUtils.brew_list_query()
         else:
-            query = brews(extra_user=current_user)
+            query = BrewUtils.brew_list_query(extra_user=current_user)
         query = query.order_by(db.desc(Brew.created))
         pagination = query.paginate(page, page_size)
         context = {
@@ -102,9 +101,9 @@ def brew_all():
 @brew_bp.route('/search', endpoint='search')
 def search():
     if current_user.is_anonymous:
-        query = brews()
+        query = BrewUtils.brew_list_query()
     else:
-        query = brews(public_only=False, user=current_user)
+        query = BrewUtils.brew_list_query(public_only=False, user=current_user)
     term = request.args.getlist('q')
     if term:
         query = query.filter(Brew.name.like(term[0] + '%'))

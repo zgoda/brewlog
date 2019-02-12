@@ -1,13 +1,13 @@
-from flask import render_template, current_app
+from flask import current_app, render_template
 from flask_login import current_user
 
 from . import home_bp
 from ..brew.utils import BrewUtils
 from ..ext import pages
-from ..models import latest_breweries, latest_brews, latest_tasting_notes
-from ..models.users import BrewerProfile
+from ..models import latest_breweries, latest_tasting_notes
 from ..models.brewing import Brew, Brewery
 from ..models.tasting import TastingNote
+from ..models.users import BrewerProfile
 
 
 @home_bp.route('/', endpoint='index')
@@ -16,7 +16,7 @@ def main():
         return dashboard()
     item_limit = current_app.config.get('SHORTLIST_DEFAULT_LIMIT', 5)
     ctx = {
-        'latest_brews': latest_brews(Brew.created, limit=item_limit, public_only=True),
+        'latest_brews': BrewUtils.latest(Brew.created, limit=item_limit, public_only=True),
         'latest_breweries': latest_breweries(Brewery.created, limit=item_limit, public_only=True),
         'latest_brewers': BrewerProfile.last_created(limit=item_limit, public_only=True),
         'latest_tasting_notes': latest_tasting_notes(TastingNote.date, limit=item_limit, public_only=True),
@@ -36,8 +36,8 @@ def dashboard():
     brewed_kw = kw.copy()
     brewed_kw.update({'brewed_only': True})
     ctx = {
-        'latest_recipes': latest_brews(Brew.created, **kw),
-        'recently_brewed': latest_brews(Brew.date_brewed, **brewed_kw),
+        'latest_recipes': BrewUtils.latest(Brew.created, **kw),
+        'recently_brewed': BrewUtils.latest(Brew.date_brewed, **brewed_kw),
         'recent_reviews': latest_tasting_notes(TastingNote.date, **kw),
         'fermenting': BrewUtils.fermenting(**kw),
         'maturing': BrewUtils.maturing(**kw),

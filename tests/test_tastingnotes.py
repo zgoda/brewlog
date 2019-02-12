@@ -170,7 +170,7 @@ class TestTastingNoteAjax(BrewlogTests):
         )
         url = url_for('tastingnote.update')
         data = {
-            'id': note.id,
+            'pk': note.id,
             'value': 'This brew is horrible!',
         }
         self.login(self.client, self.regular_user.email)
@@ -184,7 +184,7 @@ class TestTastingNoteAjax(BrewlogTests):
         note = TastingNote.create_for(self.brew, self.regular_user, 'Nice beer, cheers!', commit=True)
         url = url_for('tastingnote.update')
         data = {
-            'id': note.id,
+            'pk': note.id,
             'value': 'This brew is horrible!',
         }
         self.login(self.client, self.regular_user.email)
@@ -200,7 +200,7 @@ class TestTastingNoteAjax(BrewlogTests):
         note = TastingNote.create_for(self.brew, self.regular_user, 'Nice beer, cheers!', commit=True)
         url = url_for('tastingnote.update')
         data = {
-            'id': note.id,
+            'pk': note.id,
             'value': 'This brew is horrible!',
         }
         self.login(self.client, self.brew.brewery.brewer.email)
@@ -213,7 +213,7 @@ class TestTastingNoteAjax(BrewlogTests):
         note = TastingNote.create_for(self.brew, self.regular_user, 'Nice beer, cheers!', commit=True)
         url = url_for('tastingnote.update')
         data = {
-            'id': note.id,
+            'pk': note.id,
             'value': '',
         }
         self.login(self.client, self.brew.brewery.brewer.email)
@@ -232,7 +232,7 @@ class TestTastingNoteAjax(BrewlogTests):
     def test_update_nonexisting_note(self):
         url = url_for('tastingnote.update')
         data = {
-            'id': 666,
+            'pk': 666,
             'value': 'This brew is horrible!',
         }
         self.login(self.client, self.regular_user.email)

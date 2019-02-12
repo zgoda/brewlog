@@ -86,10 +86,9 @@ def brew_load_tasting_note_text():
 @tasting_bp.route('/ajaxupdate', methods=['POST'], endpoint='update')
 @login_required
 def brew_update_tasting_note():
-    provided_id = request.form.get('id')
-    if not provided_id:
+    note_id = request.form.get('pk')
+    if not note_id:
         abort(400)
-    note_id = provided_id.rsplit('_', 1)[-1]
     note = TastingNote.query.get(note_id)
     if note is None:
         abort(404)
