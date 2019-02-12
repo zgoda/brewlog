@@ -10,7 +10,7 @@ from ..brewery.forms import BreweryForm
 from ..ext import db
 from ..forms.base import DeleteForm
 from ..models import breweries
-from ..models.brewing import Brewery
+from ..models.brewery import Brewery
 from ..utils.pagination import get_page
 
 

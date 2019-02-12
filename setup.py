@@ -42,6 +42,7 @@ setup(
         'Flask-SQLAlchemy',
         'Flask-WTF',
         'Flask-Bootstrap',
+        'SQLAlchemy-Utils',
         'Authlib',
         'Markdown',
         'translitcodec',
