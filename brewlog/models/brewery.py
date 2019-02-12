@@ -62,9 +62,8 @@ class Brewery(db.Model, DefaultModelMixin):
         )
 
     def has_access(self, user):
-        if self.brewer != user:
-            if not self.brewer.has_access(user):
-                return False
+        if self.brewer != user and not self.brewer.has_access(user):
+            return False
         return True
 
 
