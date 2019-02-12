@@ -8,7 +8,7 @@
     <meta name="description" content="{% block headdescription %}{% endblock %}">
     <link rel="stylesheet" type="text/css" href="/static/vendor/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="/static/vendor/bootstrap/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/vendor/fontawesome/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/vendor/fontawesome/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="/static/vendor/typeaheadjs.css">
     <link rel="stylesheet" type="text/css" href="/static/css/app.css">
     {% block styles %}{% endblock %}
@@ -57,8 +57,8 @@
                 {% if current_user.is_anonymous %}
                 <li><a href="{{ url_for('auth.select') }}">{% trans %}login page{% endtrans %}</a></li>
                 {% else %}
-                <li><a href="{{ current_user.absolute_url }}"><span class="glyphicon glyphicon-user"></span> {% trans %}my profile{% endtrans %}</a></li>
-                <li><a href="{{ url_for('auth.logout') }}"><span class="glyphicon glyphicon-off"></span> {% trans %}logout{% endtrans %}</a></li>
+                <li><a href="{{ current_user.absolute_url }}"><span class="fas fa-user"></span> {% trans %}my profile{% endtrans %}</a></li>
+                <li><a href="{{ url_for('auth.logout') }}"><span class="fas fa-sign-out-alt"></span> {% trans %}logout{% endtrans %}</a></li>
                 {% endif %}
               </ul>
             </li>

@@ -3,7 +3,7 @@
 {% import "macros/bootstrap.html" as bsu %}
 
 {% block scripts %}
-{% if not current_user.is_anonymous %}
+{% if current_user.is_authenticated %}
 <script type="text/javascript" src="/static/js/jquery.jeditable.min.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
@@ -65,7 +65,7 @@ $(document).ready(function() {
     {{ forms.render(action_form) }}
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+        <button type="submit" class="btn btn-primary">{{ bsu.icon("check") }} {{ gettext("submit") }}</button>
       </div>
     </div>
   </form>  
@@ -82,7 +82,7 @@ $(document).ready(function() {
     {{ forms.render(form) }}
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">{{ bsu.icon("ok") }} {{ gettext("submit") }}</button>
+        <button type="submit" class="btn btn-primary">{{ bsu.icon("check") }} {{ gettext("submit") }}</button>
       </div>
     </div>
   </form>

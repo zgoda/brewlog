@@ -16,14 +16,14 @@ def select_provider():
 
 @auth_bp.route('/<provider>', endpoint='login')
 def remote_login(provider):
+    if provider == 'local':
+        return local_login_callback(request.args.get('email'))
     svc = services.get(provider)
     if svc is None:
         flash(_('Service "%(provider)s" is not supported', provider=provider), category='error')
         return redirect(url_for('auth.select'))
     view_name = 'auth.callback-%s' % provider
     callback = url_for(view_name, _external=True)
-    if provider == 'local':
-        return local_login_callback(request.args.get('email'))
     return svc.authorize_redirect(callback)
 
 

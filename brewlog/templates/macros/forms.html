@@ -29,6 +29,6 @@
 <form method="post" action="{{ action }}" role="form">
   {{ form.csrf_token }}
   {{ form.delete_it() }}
-  <button type="submit" class="btn btn-sm btn-danger">{{ bsu.icon("remove") }} {{ gettext("Yes, delete it") }}</button>
+  <button type="submit" class="btn btn-sm btn-danger">{{ bsu.icon("trash") }} {{ gettext("Yes, delete it") }}</button>
 </form>
 {%- endmacro %}

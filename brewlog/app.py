@@ -46,12 +46,7 @@ def configure_app(app, env):
 
 
 def configure_hooks(app, env):
-    @app.context_processor
-    def inject():
-        return {
-            'DEV': app.config['DEBUG'],
-            'TESTING': app.config['TESTING'],
-        }
+    pass
 
 
 def configure_blueprints(app, env):
