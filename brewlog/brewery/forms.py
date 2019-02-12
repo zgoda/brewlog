@@ -5,7 +5,7 @@ from wtforms.fields.html5 import DateField
 from wtforms.validators import DataRequired, Length
 
 from ..forms.base import BaseObjectForm
-from ..models.brewing import Brewery
+from ..models.brewery import Brewery
 
 
 class BreweryNameLength(Length):
