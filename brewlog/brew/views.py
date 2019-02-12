@@ -94,6 +94,7 @@ def brew_all():
         pagination = query.paginate(page, page_size)
         context = {
             'pagination': pagination,
+            'utils': BrewUtils,
         }
         return render_template('brew/list.html', **context)
 

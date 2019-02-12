@@ -18,7 +18,7 @@
   {% for brew in pagination.items %}
   <tr>
   <td><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a></td>
-  <td>{% if brew.is_draft %}<strong>{{ gettext("draft") }}</strong> {% endif %}{{ brew.display_info }}</td>
+  <td>{% if brew.is_draft %}<strong>{{ gettext("draft") }}</strong> {% endif %}{{ utils.display_info(brew) }}</td>
   {% if current_user == brew.brewery.brewer %}
   <td>{{ brew.current_state[0] }}{% if brew.current_state[1] %} ({{ gettext("since %(date)s", date=format_date(brew.current_state[1], 'short')) }}){% endif %}</td>
   <td><a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>&nbsp;<a href="{{ url_for('brew.details', brew_id=brew.id) }}" class="btn btn-xs btn-primary">{{ gettext("edit") }}</a></td>

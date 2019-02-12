@@ -128,15 +128,6 @@ class Brew(db.Model, DefaultModelMixin):
             return self.first_step.volume
 
     @property
-    def display_info(self):
-        data = {
-            'style': self.style or self.bjcp_style or _('not in particular style'),
-            'brewery': self.brewery.name,
-            'brewer': self.brewery.brewer.name,
-        }
-        return _('%(style)s by %(brewer)s in %(brewery)s', **data)
-
-    @property
     def carbonation_data_display(self):
         if self.carbonation_type:
             data = {

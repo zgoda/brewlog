@@ -3,6 +3,7 @@ from flask_babel import gettext as _
 from flask_login import current_user, login_required, logout_user
 
 from . import profile_bp
+from ..brew.utils import BrewUtils
 from ..ext import db
 from ..forms.base import DeleteForm
 from ..models.brewing import Brew, Brewery
@@ -105,6 +106,7 @@ def brews(userid):
     pagination = query.paginate(page, page_size)
     ctx = {
         'pagination': pagination,
+        'utils': BrewUtils,
     }
     return render_template('brew/list.html', **ctx)
 

@@ -23,6 +23,15 @@ class BrewUtils:
         return stars2deg(gettext('%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s', **data))
 
     @staticmethod
+    def display_info(brew):
+        data = {
+            'style': brew.style or brew.bjcp_style or gettext('not in particular style'),
+            'brewery': brew.brewery.name,
+            'brewer': brew.brewery.brewer.name,
+        }
+        return gettext('%(style)s by %(brewer)s in %(brewery)s', **data)
+
+    @staticmethod
     def fermenting(user=None, public_only=True, limit=5):
         now = datetime.datetime.utcnow()
         query = Brew.query.filter(
