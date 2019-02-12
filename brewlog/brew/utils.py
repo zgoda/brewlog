@@ -1,6 +1,7 @@
 import datetime
 
-from flask_babel import lazy_gettext as gettext
+from flask_babel import gettext
+from flask_babel import lazy_gettext as _
 
 from ..ext import db
 from ..models.brewing import Brew
@@ -19,17 +20,17 @@ class BrewUtils:
         }
         data['og'] = '%.1f*Blg' % self.brew.og if self.brew.og else gettext('unknown')
         data['fg'] = '%.1f*Blg' % self.brew.fg if self.brew.fg else gettext('unknown')
-        data['abv'] = '%.1f%% ABV' % self.brew.abv if self.brew.abv else gettext('unknown')
+        data['abv'] = '%.1f%%' % self.brew.abv if self.brew.abv else gettext('unknown')
         return stars2deg(gettext('%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s', **data))
 
     @staticmethod
     def display_info(brew):
         data = {
-            'style': brew.style or brew.bjcp_style or gettext('not in particular style'),
+            'style': brew.style or brew.bjcp_style or _('not in particular style'),
             'brewery': brew.brewery.name,
             'brewer': brew.brewery.brewer.name,
         }
-        return gettext('%(style)s by %(brewer)s in %(brewery)s', **data)
+        return _('%(style)s by %(brewer)s in %(brewery)s', **data)
 
     @staticmethod
     def fermenting(user=None, public_only=True, limit=5):
