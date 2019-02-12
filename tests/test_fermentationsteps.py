@@ -210,4 +210,4 @@ class TestFermentationSteps(BrewlogTests):
         }
         rv = self.client.post(url, data=data_secondary, follow_redirects=True)
         assert rv.status_code == 200
-        assert '5.3%' in rv.data.decode('utf-8')
+        assert '5.5%' in rv.data.decode('utf-8')
