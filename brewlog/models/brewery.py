@@ -3,7 +3,6 @@ import datetime
 from flask import url_for
 from flask_babel import format_date
 from flask_babel import lazy_gettext as _
-import markdown
 from sqlalchemy_utils import sort_query
 
 from ..ext import db
@@ -65,21 +64,3 @@ class Brewery(db.Model, DefaultModelMixin):
         if self.brewer != user and not self.brewer.has_access(user):
             return False
         return True
-
-
-# events: Brewery model
-def brewery_pre_save(mapper, connection, target):
-    if target.description:
-        target.description_html = markdown.markdown(target.description, safe_mode='remove')
-    else:
-        target.description_html = None
-    if target.updated is None:
-        target.updated = target.created
-    if target.established_date:
-        target.est_year = target.established_date.year
-        target.est_month = target.established_date.month
-        target.est_day = target.established_date.day
-
-
-db.event.listen(Brewery, 'before_insert', brewery_pre_save)
-db.event.listen(Brewery, 'before_update', brewery_pre_save)

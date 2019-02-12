@@ -320,19 +320,3 @@ class Brew(db.Model, DefaultModelMixin):
             Brew.id < self.id,
             Brew.brewery_id == self.brewery_id
         ).first()
-
-
-# events: Brew model
-def brew_pre_save(mapper, connection, target):
-    bjcp_style = '%s %s' % (target.bjcp_style_code or '', target.bjcp_style_name or '')
-    bjcp_style = bjcp_style.strip()
-    target.bjcp_style = bjcp_style or None
-    if target.notes:
-        target.notes = stars2deg(target.notes)
-        target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
-    if target.updated is None:
-        target.updated = target.created
-
-
-db.event.listen(Brew, 'before_insert', brew_pre_save)
-db.event.listen(Brew, 'before_update', brew_pre_save)

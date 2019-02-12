@@ -1,7 +1,9 @@
 from ..ext import db
-from ..models.brewing import Brew, Brewery
-from ..models.tasting import TastingNote
-from ..models.users import BrewerProfile
+from .brewing import Brew, Brewery
+from .tasting import TastingNote
+from .users import BrewerProfile
+
+from . import dbtrigger  # noqa
 
 
 def breweries(public_only=True, extra_user=None):

@@ -95,18 +95,6 @@ class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
         return self.__dict__
 
 
-# mapper events
-def profile_pre_save(mapper, connection, target):
-    full_name = '%s %s' % (target.first_name or '', target.last_name or '')
-    target.full_name = full_name.strip()
-    if target.updated is None:
-        target.updated = target.created
-
-
-db.event.listen(BrewerProfile, 'before_insert', profile_pre_save)
-db.event.listen(BrewerProfile, 'before_update', profile_pre_save)
-
-
 class CustomExportTemplate(db.Model, DefaultModelMixin):
     __tablename__ = 'custom_export_template'
     id = db.Column(db.Integer, primary_key=True)
