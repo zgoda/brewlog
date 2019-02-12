@@ -66,10 +66,7 @@ def facebook_remote_login_callback():  # pragma: nocover
 @auth_bp.route('/github/callback', endpoint='callback-github')
 def github_remote_login_callback():  # pragma: nocover
     skip = redirect(url_for('auth.select'))
-    access_token = oauth.github.get('access_token')
-    if access_token is None:
-        flash(_('GitHub login error'), category='error')
-        return skip
+    access_token = oauth.github.authorize_access_token()
     session['access_token'] = access_token, ''
     if access_token:
         r = oauth.github.get('/user')
@@ -79,7 +76,9 @@ def github_remote_login_callback():  # pragma: nocover
                 flash(_('GitHub profile for user %(name)s lacks public email, skipping as unusable.', **data),
                     category='warning')
                 return skip
-            return login_success(data['email'], access_token, data['id'], 'github')
+            return login_success(
+                data['email'], access_token.get('access_token'), data['id'], 'github'
+            )
     return skip
 
 
