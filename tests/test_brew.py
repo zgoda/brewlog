@@ -64,7 +64,7 @@ class TestBrew(BrewlogTests):
         Only owner sees form for modify brew data
         """
         url = url_for('brew.details', brew_id=self.brew.id)
-        search_text = 'action="%s"' % self.brew.absolute_url
+        search_text = 'action="%s"' % url_for('brew.details', brew_id=self.brew.id)
         # anon first
         rv = self.client.get(url)
         assert search_text not in rv.data.decode('utf-8')

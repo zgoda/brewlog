@@ -2,6 +2,7 @@ from flask import render_template, current_app
 from flask_login import current_user
 
 from . import home_bp
+from ..brew.utils import BrewUtils
 from ..ext import pages
 from ..models import latest_breweries, latest_brews, latest_tasting_notes
 from ..models.users import BrewerProfile
@@ -38,9 +39,9 @@ def dashboard():
         'latest_recipes': latest_brews(Brew.created, **kw),
         'recently_brewed': latest_brews(Brew.date_brewed, **brewed_kw),
         'recent_reviews': latest_tasting_notes(TastingNote.date, **kw),
-        'fermenting': Brew.fermenting(**kw),
-        'maturing': Brew.maturing(**kw),
-        'on_tap': Brew.on_tap(**kw),
+        'fermenting': BrewUtils.fermenting(**kw),
+        'maturing': BrewUtils.maturing(**kw),
+        'on_tap': BrewUtils.on_tap(**kw),
     }
     return render_template('misc/dashboard.html', **ctx)
 

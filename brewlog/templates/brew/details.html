@@ -33,7 +33,7 @@ $(document).ready(function() {
 
 {% block headpagetitle %}{{ super() }} {{ brew.full_name }}{% endblock %}
 
-{% block headdescription %}{{ brew.brew_description }}{% endblock %}
+{% block headdescription %}{{ utils.brew_description }}{% endblock %}
 
 {% block widecontent %}
 <div class="col-xs-12">
@@ -78,7 +78,7 @@ $(document).ready(function() {
   {% endif %}
   {% if form %}
   <h3>{{ gettext("edit brew").capitalize() }}</h3>
-  <form method="post" action="{{ brew.absolute_url }}" class="form form-horizontal" role="form">
+  <form method="post" action="{{ url_for('brew.details', brew_id=brew.id) }}" class="form form-horizontal" role="form">
     {{ forms.render(form) }}
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">

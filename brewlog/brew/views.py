@@ -17,6 +17,7 @@ from ..models.brewing import Brew, FermentationStep
 from ..models.users import CustomLabelTemplate
 from ..utils.pagination import get_page
 from .forms import BrewForm, ChangeStateForm, FermentationStepForm
+from .utils import BrewUtils
 
 HINTS = [
     ("67-66*C - 90'\n75*C - 15'", lazy_gettext('single infusion mash w/ mash out')),
@@ -32,7 +33,7 @@ def brew_add():
     if form.validate_on_submit():
         brew = form.save()
         flash(_('brew %(name)s created', name=brew.name), category='success')
-        return redirect(brew.absolute_url)
+        return redirect(url_for('brew.details', brew_id=brew.id))
     ctx = {
         'form': form,
         'mash_hints': HINTS,
@@ -50,12 +51,13 @@ def brew(brew_id, **kwargs):
         if form.validate_on_submit():
             brew = form.save(obj=brew)
             flash(_('brew %(name)s data updated', name=brew.name), category='success')
-            return redirect(brew.absolute_url)
+            return redirect(url_for('brew.details', brew_id=brew.id))
     if not brew.has_access(current_user):
         abort(404)
     public_only = current_user not in brew.brewery.brewers
     ctx = {
         'brew': brew,
+        'utils': BrewUtils(brew),
         'mash_hints': HINTS,
         'notes': brew.notes_to_json(),
         'next': brew.get_next(public_only=public_only),
@@ -216,7 +218,7 @@ def fermentation_step_add(brew_id):
         db.session.commit()
         flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been created', step_name=fstep.name,
             brew_name=brew.name), category='success')
-        return redirect(brew.absolute_url)
+        return redirect(url_for('brew.details', brew_id=brew.id))
     ctx = {
         'brew': brew,
         'form': form,
@@ -246,7 +248,7 @@ def fermentation_step(fstep_id):
         db.session.commit()
         flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been updated', step_name=fstep.name,
             brew_name=fstep.brew.name), category='success')
-        return redirect(fstep.brew.absolute_url)
+        return redirect(url_for('brew.details', brew_id=fstep.brew.id))
     ctx = {
         'form': FermentationStepForm(obj=fstep),
         'fstep': fstep,
@@ -262,7 +264,7 @@ def fermentation_step_delete(fstep_id):
         abort(403)
     fstep_name = fstep.name
     brew_name = fstep.brew.name
-    next_ = fstep.brew.absolute_url
+    next_ = url_for('brew.details', brew_id=fstep.brew.id)
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
         db.session.delete(fstep)
@@ -296,4 +298,4 @@ def change_state(brew_id):
         brew.finished = now
     db.session.add(brew)
     db.session.commit()
-    return redirect(brew.absolute_url)
+    return redirect(url_for('brew.details', brew_id=brew.id))

@@ -2,7 +2,6 @@ import datetime
 import json
 
 from flask import url_for
-from flask_babel import gettext
 from flask_babel import lazy_gettext as _
 from werkzeug.utils import cached_property
 
@@ -11,7 +10,6 @@ from ..models import choices
 from ..models.brewery import Brewery
 from ..utils.brewing import apparent_attenuation, abv, real_attenuation
 from ..utils.models import DefaultModelMixin
-from ..utils.text import stars2deg
 
 
 class FermentationStep(db.Model, DefaultModelMixin):
@@ -139,25 +137,6 @@ class Brew(db.Model, DefaultModelMixin):
         return _('%(style)s by %(brewer)s in %(brewery)s', **data)
 
     @property
-    def brew_description(self):
-        data = {
-            'style': self.style or self.bjcp_style or gettext('unspecified style')
-        }
-        if self.og:
-            data['og'] = '%.1f*Blg' % self.og
-        else:
-            data['og'] = gettext('unknown')
-        if self.fg:
-            data['fg'] = '%.1f*Blg' % self.fg
-        else:
-            data['fg'] = gettext('unknown')
-        if self.abv:
-            data['abv'] = '%.1f%% ABV' % self.abv
-        else:
-            data['abv'] = gettext('unknown')
-        return stars2deg(gettext('%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s', **data))
-
-    @property
     def carbonation_data_display(self):
         if self.carbonation_type:
             data = {
@@ -218,62 +197,6 @@ class Brew(db.Model, DefaultModelMixin):
             if self.carbonation_type.endswith('priming'):
                 from_carbonation = choices.CARB_LEVEL_DATA[self.carbonation_level or 'normal']
             return abv(self.og, self.fg, from_carbonation)
-
-    @classmethod
-    def fermenting(cls, user=None, public_only=True, limit=5):
-        if user is not None and (not user.is_public and public_only):
-            return []
-        now = datetime.datetime.utcnow()
-        query = cls.query.filter(
-            Brew.date_brewed <= now,
-            Brew.date_brewed.isnot(None),
-            Brew.bottling_date.is_(None)
-        )
-        if public_only:
-            query = query.filter(Brew.is_public.is_(True))
-        if user is not None:
-            query = query.join(Brewery).filter(Brewery.brewer == user)
-        query = query.order_by(db.desc(Brew.date_brewed))
-        if limit is not None:
-            query = query.limit(limit)
-        return query.all()
-
-    @classmethod
-    def maturing(cls, user=None, public_only=True, limit=5):
-        if user is not None and (not user.is_public and public_only):
-            return []
-        now = datetime.datetime.utcnow()
-        query = cls.query.filter(
-            Brew.bottling_date <= now,
-            Brew.tapped.is_(None),
-            Brew.finished.is_(None)
-        )
-        if public_only:
-            query = query.filter(Brew.is_public.is_(True))
-        if user is not None:
-            query = query.join(Brewery).filter(Brewery.brewer == user)
-        query = query.order_by(db.desc(Brew.date_brewed))
-        if limit is not None:
-            query = query.limit(limit)
-        return query.all()
-
-    @classmethod
-    def on_tap(cls, user=None, public_only=True, limit=5):
-        if user is not None and (not user.is_public and public_only):
-            return []
-        now = datetime.datetime.utcnow()
-        query = cls.query.filter(
-            Brew.tapped <= now,
-            Brew.finished.is_(None)
-        )
-        if public_only:
-            query = query.filter(Brew.is_public.is_(True))
-        if user is not None:
-            query = query.join(Brewery).filter(Brewery.brewer == user)
-        query = query.order_by(db.desc(Brew.date_brewed))
-        if limit is not None:
-            query = query.limit(limit)
-        return query.all()
 
     @property
     def current_state(self):
