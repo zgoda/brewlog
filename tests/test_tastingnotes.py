@@ -1,9 +1,7 @@
 from flask import url_for
 import pytest
 
-from brewlog.models.brewing import Brew
-from brewlog.models.tasting import TastingNote
-from brewlog.models.users import BrewerProfile
+from brewlog.models import Brew, TastingNote, BrewerProfile
 
 from . import BrewlogTests
 

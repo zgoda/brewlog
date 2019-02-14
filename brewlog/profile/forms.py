@@ -4,7 +4,7 @@ from flask_babel import lazy_gettext as _
 from wtforms.validators import DataRequired, Email
 
 from ..forms.base import BaseObjectForm
-from ..models.users import CustomExportTemplate, CustomLabelTemplate
+from ..models import CustomExportTemplate, CustomLabelTemplate
 
 
 class ProfileForm(BaseObjectForm):

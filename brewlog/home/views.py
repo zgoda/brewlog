@@ -4,11 +4,9 @@ from flask_login import current_user
 from . import home_bp
 from ..brew.utils import BrewUtils
 from ..brewery.utils import BreweryUtils
-from ..tasting.utils import TastingUtils
 from ..ext import pages
-from ..models.brewing import Brew, Brewery
-from ..models.tasting import TastingNote
-from ..models.users import BrewerProfile
+from ..models import Brew, BrewerProfile, Brewery, TastingNote
+from ..tasting.utils import TastingUtils
 
 
 @home_bp.route('/', endpoint='index')

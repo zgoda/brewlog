@@ -1,7 +1,10 @@
 import datetime
 
+import markdown
+
 from ..ext import db
 from ..utils.models import DefaultModelMixin
+from ..utils.text import stars2deg
 
 
 class TastingNote(db.Model, DefaultModelMixin):
@@ -31,3 +34,16 @@ class TastingNote(db.Model, DefaultModelMixin):
         if commit:
             db.session.commit()
         return note
+
+
+# events: TastingNote model
+def tasting_note_pre_save(mapper, connection, target):
+    if target.date is None:
+        target.date = datetime.date.today()
+    if target.text:
+        target.text = stars2deg(target.text)
+        target.text_html = markdown.markdown(target.text, safe_mode='remove')
+
+
+db.event.listen(TastingNote, 'before_insert', tasting_note_pre_save)
+db.event.listen(TastingNote, 'before_update', tasting_note_pre_save)

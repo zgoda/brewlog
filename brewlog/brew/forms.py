@@ -8,8 +8,7 @@ from wtforms_alchemy import QuerySelectField
 from ..forms.base import BaseForm, BaseObjectForm
 from ..forms.fields import TextAreaWithHintsField
 from ..forms.widgets import textarea_with_hints
-from ..models import choices
-from ..models.brewing import Brew, Brewery, FermentationStep
+from ..models import Brew, Brewery, FermentationStep, choices
 
 
 class FermentationStepForm(BaseObjectForm):

@@ -3,9 +3,9 @@ from fixture import SQLAlchemyFixture
 
 from brewlog import make_app
 from brewlog.ext import db
-from brewlog.models.brewing import Brew, Brewery, FermentationStep
-from brewlog.models.tasting import TastingNote
-from brewlog.models.users import (
+from brewlog.models import (
+    Brew, Brewery, FermentationStep,
+    TastingNote,
     BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 )
 

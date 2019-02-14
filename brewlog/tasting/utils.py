@@ -1,8 +1,5 @@
 from ..ext import db
-from ..models.brewery import Brewery
-from ..models.brewing import Brew
-from ..models.tasting import TastingNote
-from ..models.users import BrewerProfile
+from ..models import Brew, BrewerProfile, Brewery, TastingNote
 
 
 class TastingUtils:

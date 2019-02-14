@@ -6,9 +6,8 @@ from . import profile_bp
 from ..brew.utils import BrewUtils
 from ..ext import db
 from ..forms.base import DeleteForm
-from ..models.brewing import Brew, Brewery
-from ..models.users import (
-    BrewerProfile, CustomExportTemplate, CustomLabelTemplate
+from ..models import (
+    Brew, BrewerProfile, Brewery, CustomExportTemplate, CustomLabelTemplate
 )
 from ..profile.forms import (
     CustomExportTemplateForm, CustomLabelTemplateForm, ProfileForm

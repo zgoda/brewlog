@@ -1,8 +1,8 @@
 from datetime import datetime
 
 from flask import (
-    abort, flash, jsonify, redirect, render_template,
-    render_template_string, request, url_for
+    abort, flash, jsonify, redirect, render_template, render_template_string,
+    request, url_for
 )
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext
@@ -12,8 +12,7 @@ from markdown import markdown
 from . import brew_bp
 from ..ext import db
 from ..forms.base import DeleteForm
-from ..models.brewing import Brew, FermentationStep
-from ..models.users import CustomLabelTemplate
+from ..models import Brew, CustomLabelTemplate, FermentationStep
 from ..utils.pagination import get_page
 from .forms import BrewForm, ChangeStateForm, FermentationStepForm
 from .utils import BrewUtils

@@ -1,9 +1,8 @@
-from flask import url_for
 import pytest
+from flask import url_for
 
 from brewlog.ext import db
-from brewlog.models.brewing import Brew, Brewery
-from brewlog.models.users import BrewerProfile, CustomLabelTemplate
+from brewlog.models import Brew, BrewerProfile, Brewery, CustomLabelTemplate
 from brewlog.utils.brewing import apparent_attenuation, real_attenuation
 
 from . import BrewlogTests

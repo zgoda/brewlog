@@ -4,9 +4,7 @@ from flask_babel import gettext
 from flask_babel import lazy_gettext as _
 
 from ..ext import db
-from ..models.brewing import Brew
-from ..models.brewery import Brewery
-from ..models.users import BrewerProfile
+from ..models import Brew, BrewerProfile, Brewery
 from ..utils.text import stars2deg
 
 

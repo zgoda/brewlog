@@ -1,7 +1,7 @@
 from flask import url_for
 import pytest
 
-from brewlog.models.users import BrewerProfile
+from brewlog.models import BrewerProfile
 
 from . import BrewlogTests
 

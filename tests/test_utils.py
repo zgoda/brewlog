@@ -3,7 +3,7 @@ import unicodedata
 import pytest
 from werkzeug.exceptions import Forbidden, NotFound
 
-from brewlog.models.users import BrewerProfile, CustomLabelTemplate
+from brewlog.models import BrewerProfile, CustomLabelTemplate
 from brewlog.utils.brewing import sg2plato
 from brewlog.utils.pagination import get_page, url_for_other_page
 from brewlog.utils.text import stars2deg

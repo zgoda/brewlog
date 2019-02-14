@@ -4,8 +4,7 @@ import datetime
 from flask import url_for
 import pytest
 
-from brewlog.models.brewing import Brew
-from brewlog.models.brewery import Brewery
+from brewlog.models import Brew, Brewery
 
 from . import BrewlogTests
 

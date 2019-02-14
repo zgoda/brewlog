@@ -1,10 +1,9 @@
 import datetime
 
-from flask import url_for
 import pytest
+from flask import url_for
 
-from brewlog.models.brewing import Brew, FermentationStep
-from brewlog.models.users import BrewerProfile
+from brewlog.models import Brew, BrewerProfile, FermentationStep
 
 from . import BrewlogTests
 

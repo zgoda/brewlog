@@ -1,6 +1,5 @@
 from ..ext import db
-from ..models.users import BrewerProfile
-from ..models.brewery import Brewery
+from ..models import BrewerProfile, Brewery
 
 
 class BreweryUtils:

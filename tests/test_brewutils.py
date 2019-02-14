@@ -1,7 +1,7 @@
 import pytest
 
-from brewlog.models.brewing import Brew
 from brewlog.brew.utils import BrewUtils
+from brewlog.models import Brew
 
 from . import BrewlogTests
 

@@ -1,7 +1,9 @@
-from flask import url_for
 import pytest
+from flask import url_for
 
-from brewlog.models.users import BrewerProfile, CustomExportTemplate, CustomLabelTemplate
+from brewlog.models import (
+    BrewerProfile, CustomExportTemplate, CustomLabelTemplate
+)
 
 from . import BrewlogTests
 

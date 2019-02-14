@@ -1,56 +1,17 @@
 import datetime
 import json
 
+import markdown
 from flask import url_for
 from flask_babel import lazy_gettext as _
+from sqlalchemy_utils import sort_query
 from werkzeug.utils import cached_property
 
 from ..ext import db
-from ..models import choices
-from ..models.brewery import Brewery
-from ..utils.brewing import apparent_attenuation, abv, real_attenuation
+from ..models import Brewery, choices
+from ..utils.brewing import abv, apparent_attenuation, real_attenuation
 from ..utils.models import DefaultModelMixin
-
-
-class FermentationStep(db.Model, DefaultModelMixin):
-    __tablename__ = 'fermentation_step'
-    id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.Date, index=True, nullable=False)
-    name = db.Column(db.String(200))
-    og = db.Column(db.Float(precision=1))
-    fg = db.Column(db.Float(precision=1))
-    volume = db.Column(db.Float(precision=2))
-    temperature = db.Column(db.Integer)
-    notes = db.Column(db.Text)
-    notes_html = db.Column(db.Text)
-    brew_id = db.Column(db.Integer, db.ForeignKey('brew.id'), nullable=False)
-    brew = db.relationship(
-        'Brew',
-        backref=db.backref(
-            'fermentation_steps', cascade='all,delete', lazy='dynamic'
-        )
-    )
-
-    __table_args__ = (
-        db.Index('fermentationstep_brew_date', 'brew_id', 'date'),
-    )
-
-    def step_data(self):
-        return {
-            'og': self.og or _('unspecified'),
-            'fg': self.fg or _('unspecified'),
-            'volume': self.volume or _('unspecified'),
-        }
-
-    def previous(self):
-        return FermentationStep.query.filter(
-            FermentationStep.brew == self.brew, FermentationStep.date < self.date
-        ).order_by(db.desc(FermentationStep.date)).first()
-
-    def next(self):
-        return FermentationStep.query.filter(
-            FermentationStep.brew == self.brew, FermentationStep.date > self.date
-        ).order_by(FermentationStep.date).first()
+from ..utils.text import stars2deg
 
 
 class Brew(db.Model, DefaultModelMixin):
@@ -101,11 +62,11 @@ class Brew(db.Model, DefaultModelMixin):
 
     @cached_property
     def first_step(self):
-        return self.fermentation_steps.order_by(FermentationStep.date).first()
+        return sort_query(self.fermentation_steps, 'date').first()
 
     @cached_property
     def last_step(self):
-        return self.fermentation_steps.order_by(db.desc(FermentationStep.date)).first()
+        return sort_query(self.fermentation_steps, '-date').first()
 
     @property
     def og(self):
@@ -220,3 +181,19 @@ class Brew(db.Model, DefaultModelMixin):
             Brew.id < self.id,
             Brew.brewery_id == self.brewery_id
         ).first()
+
+
+# events: Brew model
+def brew_pre_save(mapper, connection, target):
+    bjcp_style = '%s %s' % (target.bjcp_style_code or '', target.bjcp_style_name or '')
+    bjcp_style = bjcp_style.strip()
+    target.bjcp_style = bjcp_style or None
+    if target.notes:
+        target.notes = stars2deg(target.notes)
+        target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
+    if target.updated is None:
+        target.updated = target.created
+
+
+db.event.listen(Brew, 'before_insert', brew_pre_save)
+db.event.listen(Brew, 'before_update', brew_pre_save)

@@ -2,7 +2,7 @@ from flask import redirect, url_for, session, flash, request
 from flask_babel import gettext as _
 from flask_login import login_user
 
-from ..models.users import BrewerProfile
+from ..models import BrewerProfile
 from ..ext import db
 
 
