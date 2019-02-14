@@ -115,7 +115,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: {
-          url: "{{ url_for('brew.all') }}",
+          url: "{{ url_for('brew.prefetch') }}",
           ttl: 900000
         },
         remote: {
@@ -127,7 +127,7 @@
         datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: {
-          url: "{{ url_for('brewery.all') }}",
+          url: "{{ url_for('brewery.prefetch') }}",
           ttl: 900000
         },
         remote: {

@@ -53,28 +53,30 @@ def brewery_delete(brewery_id):
 def brewery_all():
     page_size = 20
     page = get_page(request)
-    if request.accept_mimetypes.best == 'application/json':
-        if current_user.is_anonymous:
-            query = BreweryUtils.breweries()
-        else:
-            query = current_user.breweries
-        query = query.order_by(Brewery.name)
-        breweries_list = []
-        for brewery_id, name in query.values(Brewery.id, Brewery.name):
-            url = url_for('brewery.details', brewery_id=brewery_id)
-            breweries_list.append(dict(name=name, url=url))
-        return jsonify(breweries_list)
+    if current_user.is_anonymous:
+        query = BreweryUtils.breweries()
     else:
-        if current_user.is_anonymous:
-            query = BreweryUtils.breweries()
-        else:
-            query = BreweryUtils.breweries(extra_user=current_user)
-        query = query.order_by(Brewery.name)
-        pagination = query.paginate(page, page_size)
-        ctx = {
-            'pagination': pagination,
-        }
-        return render_template('brewery/list.html', **ctx)
+        query = BreweryUtils.breweries(extra_user=current_user)
+    query = query.order_by(Brewery.name)
+    pagination = query.paginate(page, page_size)
+    ctx = {
+        'pagination': pagination,
+    }
+    return render_template('brewery/list.html', **ctx)
+
+
+@brewery_bp.route('/prefetch', endpoint='prefetch')
+def bloodhound_prefetch():
+    if current_user.is_anonymous:
+        query = BreweryUtils.breweries()
+    else:
+        query = current_user.breweries
+    query = query.order_by(Brewery.name)
+    breweries_list = []
+    for brewery_id, name in query.values(Brewery.id, Brewery.name):
+        url = url_for('brewery.details', brewery_id=brewery_id)
+        breweries_list.append(dict(name=name, url=url))
+    return jsonify(breweries_list)
 
 
 @brewery_bp.route('/search', endpoint='search')

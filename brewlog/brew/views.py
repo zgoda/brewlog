@@ -72,29 +72,31 @@ def brew(brew_id, **kwargs):
 def brew_all():
     page_size = 20
     page = get_page(request)
-    if request.accept_mimetypes.best == 'application/json':
-        if current_user.is_anonymous:
-            query = BrewUtils.brew_list_query()
-        else:
-            query = BrewUtils.brew_list_query(public_only=False, user=current_user)
-        query = query.order_by(Brew.name)
-        brew_list = []
-        for brew_id, name in query.values(Brew.id, Brew.name):
-            url = url_for('brew.details', brew_id=brew_id)
-            brew_list.append(dict(name=name, url=url))
-        return jsonify(brew_list)
+    if current_user.is_anonymous:
+        query = BrewUtils.brew_list_query()
     else:
-        if current_user.is_anonymous:
-            query = BrewUtils.brew_list_query()
-        else:
-            query = BrewUtils.brew_list_query(extra_user=current_user)
-        query = query.order_by(db.desc(Brew.created))
-        pagination = query.paginate(page, page_size)
-        context = {
-            'pagination': pagination,
-            'utils': BrewUtils,
-        }
-        return render_template('brew/list.html', **context)
+        query = BrewUtils.brew_list_query(extra_user=current_user)
+    query = query.order_by(db.desc(Brew.created))
+    pagination = query.paginate(page, page_size)
+    context = {
+        'pagination': pagination,
+        'utils': BrewUtils,
+    }
+    return render_template('brew/list.html', **context)
+
+
+@brew_bp.route('/prefetch', endpoint='prefetch')
+def bloodhound_prefetch():
+    if current_user.is_anonymous:
+        query = BrewUtils.brew_list_query()
+    else:
+        query = BrewUtils.brew_list_query(public_only=False, user=current_user)
+    query = query.order_by(Brew.name)
+    brew_list = []
+    for brew_id, name in query.values(Brew.id, Brew.name):
+        url = url_for('brew.details', brew_id=brew_id)
+        brew_list.append(dict(name=name, url=url))
+    return jsonify(brew_list)
 
 
 @brew_bp.route('/search', endpoint='search')
@@ -205,12 +207,12 @@ def fermentation_step_add(brew_id):
     if form.validate_on_submit():
         fstep = form.save(brew=brew, save=False)
         db.session.add(fstep)
-        previous_step = fstep.previous()
+        previous_step = fstep.previous_step()
         if previous_step:
             previous_step.fg = fstep.og
             db.session.add(previous_step)
         if fstep.fg is not None:
-            next_step = fstep.next()
+            next_step = fstep.next_step()
             if next_step:
                 next_step.og = fstep.fg
                 db.session.add(next_step)
@@ -235,12 +237,12 @@ def fermentation_step(fstep_id):
     if form.validate_on_submit():
         fstep = form.save(fstep.brew, obj=fstep, save=False)
         db.session.add(fstep)
-        previous_step = fstep.previous()
+        previous_step = fstep.previous_step()
         if previous_step:
             previous_step.fg = fstep.og
             db.session.add(previous_step)
         if fstep.fg is not None:
-            next_step = fstep.next()
+            next_step = fstep.next_step()
             if next_step:
                 next_step.og = fstep.fg
                 db.session.add(next_step)

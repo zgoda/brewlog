@@ -34,12 +34,12 @@ class FermentationStep(db.Model, DefaultModelMixin):
             'volume': self.volume or _('unspecified'),
         }
 
-    def previous(self):
+    def previous_step(self):
         return FermentationStep.query.filter(
             FermentationStep.brew == self.brew, FermentationStep.date < self.date
         ).order_by(db.desc(FermentationStep.date)).first()
 
-    def next(self):
+    def next_step(self):
         return FermentationStep.query.filter(
             FermentationStep.brew == self.brew, FermentationStep.date > self.date
         ).order_by(FermentationStep.date).first()
