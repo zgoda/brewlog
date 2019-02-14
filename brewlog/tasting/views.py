@@ -6,11 +6,11 @@ from flask_login import current_user, login_required
 from . import tasting_bp
 from ..ext import db
 from ..forms.base import DeleteForm
-from ..models import tasting_notes
 from ..models.brewing import Brew
 from ..models.tasting import TastingNote
 from ..utils.pagination import get_page
 from .forms import TastingNoteForm
+from .utils import TastingUtils
 
 
 @tasting_bp.route('/all', endpoint='all')
@@ -18,9 +18,9 @@ def all():
     page_size = 20
     page = get_page(request)
     if current_user.is_anonymous:
-        query = tasting_notes()
+        query = TastingUtils.notes()
     else:
-        query = tasting_notes(extra_user=current_user)
+        query = TastingUtils.notes(extra_user=current_user)
     query = query.order_by(db.desc(TastingNote.date))
     pagination = query.paginate(page, page_size)
     context = {
