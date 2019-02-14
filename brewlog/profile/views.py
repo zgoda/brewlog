@@ -82,7 +82,7 @@ def breweries(userid):
         abort(404)
     page_size = 10
     page = get_page(request)
-    query = Brewery.query.filter_by(brewer_id=userid).order_by(Brewery.name)
+    query = brewer.breweries.order_by(Brewery.name)
     pagination = query.paginate(page, page_size)
     ctx = {
         'pagination': pagination,

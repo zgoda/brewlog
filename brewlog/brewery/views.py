@@ -9,9 +9,9 @@ from ..brewery import brewery_bp
 from ..brewery.forms import BreweryForm
 from ..ext import db
 from ..forms.base import DeleteForm
-from ..models import breweries
 from ..models.brewery import Brewery
 from ..utils.pagination import get_page
+from .utils import BreweryUtils
 
 
 @brewery_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
@@ -55,7 +55,7 @@ def brewery_all():
     page = get_page(request)
     if request.accept_mimetypes.best == 'application/json':
         if current_user.is_anonymous:
-            query = breweries()
+            query = BreweryUtils.breweries()
         else:
             query = current_user.breweries
         query = query.order_by(Brewery.name)
@@ -66,9 +66,9 @@ def brewery_all():
         return jsonify(breweries_list)
     else:
         if current_user.is_anonymous:
-            query = breweries()
+            query = BreweryUtils.breweries()
         else:
-            query = breweries(extra_user=current_user)
+            query = BreweryUtils.breweries(extra_user=current_user)
         query = query.order_by(Brewery.name)
         pagination = query.paginate(page, page_size)
         ctx = {
@@ -80,7 +80,7 @@ def brewery_all():
 @brewery_bp.route('/search', endpoint='search')
 def search():
     if current_user.is_anonymous:
-        query = breweries()
+        query = BreweryUtils.breweries()
     else:
         query = current_user.breweries
     term = request.args.getlist('q')
