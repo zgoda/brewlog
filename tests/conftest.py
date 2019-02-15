@@ -1,5 +1,6 @@
 import pytest
 from fixture import SQLAlchemyFixture
+from pytest_factoryboy import register
 
 from brewlog import make_app
 from brewlog.ext import db
@@ -9,6 +10,19 @@ from brewlog.models import (
 )
 
 from . import fixtures
+from .factories import (
+    BreweryFactory, BrewFactory, ExportTemplateFactory,
+    FermentationStepFactory, LabelTemplateFactory, TastingNoteFactory,
+    UserFactory
+)
+
+register(UserFactory)
+register(ExportTemplateFactory)
+register(LabelTemplateFactory)
+register(BreweryFactory)
+register(BrewFactory)
+register(FermentationStepFactory)
+register(TastingNoteFactory)
 
 
 @pytest.fixture

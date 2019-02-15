@@ -57,6 +57,8 @@ setup(
         'pytest-mock',
         'pytest-cov',
         'pytest-flask',
+        'pytest-factoryboy',
+        'faker',
         'fixture',
     ),
     extras_require={

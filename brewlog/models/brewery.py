@@ -26,7 +26,7 @@ class Brewery(db.Model, DefaultModelMixin):
     brewer_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'), nullable=False)
     brewer = db.relationship(
         'BrewerProfile',
-        backref=db.backref('breweries', lazy='dynamic', cascade='all,delete')
+        backref=db.backref('breweries', lazy='dynamic', cascade='all,delete'),
     )
 
     @property

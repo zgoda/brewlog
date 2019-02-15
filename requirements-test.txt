@@ -6,4 +6,5 @@ pytest-cov
 pytest-mock
 pytest-runner
 pytest-factoryboy
+faker
 fixture
