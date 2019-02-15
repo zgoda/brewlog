@@ -4,8 +4,8 @@ from flask.cli import FlaskGroup
 
 os.environ['FLASK_ENV'] = 'development'
 os.environ['FLASK_RUN_PORT'] = '8080'
-os.environ['OAUTHLIB_INSECURE_TRANSPORT'] = '1'
-os.environ['OAUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
+os.environ['AUTHLIB_INSECURE_TRANSPORT'] = '1'
+os.environ['AUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
 
 
 def create_app(info):
