@@ -44,7 +44,7 @@ class BrewForm(BaseObjectForm):
     bjcp_style_code = wf.StringField(_('BJCP style code'))
     bjcp_style_name = wf.StringField(_('BJCP style name'))
     notes = wf.TextAreaField(_('notes'))
-    date_brewed = DateField(_('date brewed'))
+    date_brewed = DateField(_('date brewed'), validators=[Optional()])
     fermentables = wf.TextAreaField(
         _('fermentables'),
         description=_('put each fermentable on separate line to make nice list')
