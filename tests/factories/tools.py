@@ -1,18 +1,15 @@
 import factory
 from factory.alchemy import SQLAlchemyModelFactory
-from faker import Factory as FakerFactory
 
 from brewlog.ext import db
 from brewlog.models import CustomExportTemplate, CustomLabelTemplate
 
 from .user import UserFactory
 
-faker = FakerFactory.create()
-
 
 class ExportTemplateFactory(SQLAlchemyModelFactory):
 
-    name = factory.LazyAttribute(lambda x: faker.sentence(nb_words=2))
+    name = factory.Faker('word')
     user = factory.SubFactory(UserFactory)
 
     class Meta:
@@ -23,7 +20,7 @@ class ExportTemplateFactory(SQLAlchemyModelFactory):
 
 class LabelTemplateFactory(SQLAlchemyModelFactory):
 
-    name = factory.LazyAttribute(lambda x: faker.sentence(nb_words=2))
+    name = factory.Faker('word')
     user = factory.SubFactory(UserFactory)
 
     class Meta:
