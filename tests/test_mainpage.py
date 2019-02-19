@@ -1,53 +1,138 @@
 from flask import url_for
 import pytest
 
-from brewlog.models import BrewerProfile
-
 from . import BrewlogTests
 
 
 @pytest.mark.usefixtures('client_class')
-class TestMainPage(BrewlogTests):
+class TestMainPageAnonUser(BrewlogTests):
 
-    def test_anon(self):
-        """
-        case: what anonymous user sees on main site page:
-            * box with recently registered users with public profiles
-            * box with recently created public brews from public breweries
-            * box with recently created breweries of users with public profile
-            * box with recent tasting notes to public brews
-            * link to main page
-            * link to login page
-        """
-        main_url = url_for('home.index')
-        rv = self.client.get(main_url)
-        content = rv.data.decode('utf-8')
-        # public profiles
-        assert 'example user' in content
-        assert 'hidden user' not in content
-        # public breweries
-        assert 'brewery #1' in content
-        assert 'hidden brewery #1' not in content
-        # public brews
-        assert 'pale ale' in content
-        assert 'hidden czech pilsener' not in content
-        assert 'hidden amber ale' not in content
-        # link to main page
-        assert '>Brew Log</a>' in content
-        # link to login page
-        assert 'login page' in content
+    @pytest.fixture(autouse=True)
+    def set_up(self, user_factory):
+        self.url = url_for('home.index')
+        self.regular_brewery_name = 'regular brewery no 1'
+        self.hidden_brewery_name = 'hidden brewery no 1'
+        self.regular_brew_name = 'regular brew no 1'
+        self.hidden_brew_name = 'hidden brew no 1'
+        self.hidden_user = user_factory(is_public=False)
+        self.regular_user = user_factory()
 
-    def test_loggedin(self):
-        main_url = url_for('home.index')
-        # normal (public) profile user
-        user = BrewerProfile.get_by_email('user@example.com')
-        self.login(self.client, user.email)
-        rv = self.client.get(main_url)
-        content = rv.data.decode('utf-8')
-        assert 'my profile</a>' in content
-        assert 'pale ale' in content
-        # hidden profile user
-        user = BrewerProfile.get_by_email('hidden0@example.com')
-        self.login(self.client, user.email)
-        rv = self.client.get(main_url)
-        assert 'hidden amber ale' in rv.data.decode('utf-8')
+    def test_common_elements(self):
+        rv = self.client.get(self.url)
+        assert b'>Brew Log</a>' in rv.data
+        assert b'login page' in rv.data
+
+    def test_profile_visibility(self):
+        rv = self.client.get(self.url)
+        page = rv.data.decode('utf-8')
+        assert self.regular_user.full_name in page
+        assert self.hidden_user.full_name not in page
+
+    def test_brewery_visibility_regular_user(self, brewery_factory):
+        brewery = brewery_factory(brewer=self.regular_user, name=self.regular_brewery_name)
+        rv = self.client.get(self.url)
+        page = rv.data.decode('utf-8')
+        assert self.regular_user.full_name in page
+        assert brewery.name in page
+
+    def test_brewery_visibility_hidden_user(self, brewery_factory):
+        brewery = brewery_factory(brewer=self.hidden_user, name=self.hidden_brewery_name)
+        rv = self.client.get(self.url)
+        page = rv.data.decode('utf-8')
+        assert self.hidden_user.full_name not in page
+        assert brewery.name not in page
+
+    def test_brew_visibility_regular_brew_regular_user(self, brew_factory, brewery_factory):
+        brewery = brewery_factory(brewer=self.regular_user, name=self.regular_brewery_name)
+        brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
+        rv = self.client.get(self.url)
+        page = rv.data.decode('utf-8')
+        assert self.regular_user.full_name in page
+        assert brewery.name in page
+        assert brew.name in page
+
+    def test_brew_visibility_regular_brew_hidden_user(self, brew_factory, brewery_factory):
+        brewery = brewery_factory(brewer=self.hidden_user, name=self.regular_brewery_name)
+        brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
+        rv = self.client.get(self.url)
+        page = rv.data.decode('utf-8')
+        assert self.hidden_user.full_name not in page
+        assert brewery.name not in page
+        assert brew.name not in page
+
+    def test_brew_visibility_hidden_brew_hidden_user(self, brew_factory, brewery_factory):
+        brewery = brewery_factory(brewer=self.hidden_user, name=self.regular_brewery_name)
+        brew = brew_factory(brewery=brewery, name=self.regular_brew_name, is_public=False)
+        rv = self.client.get(self.url)
+        page = rv.data.decode('utf-8')
+        assert self.hidden_user.full_name not in page
+        assert brewery.name not in page
+        assert brew.name not in page
+
+    def test_brew_visibility_hidden_brew_regular_user(self, brew_factory, brewery_factory):
+        brewery = brewery_factory(brewer=self.regular_user, name=self.regular_brewery_name)
+        brew = brew_factory(brewery=brewery, name=self.regular_brew_name, is_public=False)
+        rv = self.client.get(self.url)
+        page = rv.data.decode('utf-8')
+        assert self.regular_user.full_name in page
+        assert brewery.name in page
+        assert brew.name not in page
+
+
+@pytest.mark.usefixtures('client_class')
+class TestMainPageLoggedInRegularUser(BrewlogTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self, user_factory):
+        self.url = url_for('home.index')
+        self.regular_brewery_name = 'regular brewery no 1'
+        self.hidden_brewery_name = 'hidden brewery no 1'
+        self.regular_brew_name = 'regular brew no 1'
+        self.hidden_brew_name = 'hidden brew no 1'
+        self.user = user_factory()
+
+    def test_common_elements(self):
+        self.login(self.client, self.user.email)
+        rv = self.client.get(self.url)
+        assert b'>Brew Log</a>' in rv.data
+        assert b'my profile' in rv.data
+        assert b'login page' not in rv.data
+
+    def test_dashboard_brews(self, brew_factory, brewery_factory):
+        self.login(self.client, self.user.email)
+        brewery = brewery_factory(brewer=self.user, name=self.regular_brewery_name)
+        regular_brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
+        hidden_brew = brew_factory(brewery=brewery, name=self.hidden_brew_name)
+        rv = self.client.get(self.url)
+        page = rv.data.decode('utf-8')
+        assert regular_brew.name in page
+        assert hidden_brew.name in page
+
+
+@pytest.mark.usefixtures('client_class')
+class TestMainPageLoggedInHiddenUser(BrewlogTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self, user_factory):
+        self.url = url_for('home.index')
+        self.brewery_name = 'regular brewery no 1'
+        self.regular_brew_name = 'regular brew no 1'
+        self.hidden_brew_name = 'hidden brew no 1'
+        self.user = user_factory(is_public=False)
+
+    def test_common_elements(self):
+        self.login(self.client, self.user.email)
+        rv = self.client.get(self.url)
+        assert b'>Brew Log</a>' in rv.data
+        assert b'my profile' in rv.data
+        assert b'login page' not in rv.data
+
+    def test_dashboard_brews(self, brew_factory, brewery_factory):
+        self.login(self.client, self.user.email)
+        brewery = brewery_factory(brewer=self.user, name=self.brewery_name)
+        regular_brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
+        hidden_brew = brew_factory(brewery=brewery, name=self.hidden_brew_name)
+        rv = self.client.get(self.url)
+        page = rv.data.decode('utf-8')
+        assert regular_brew.name in page
+        assert hidden_brew.name in page

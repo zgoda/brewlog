@@ -14,7 +14,7 @@ class BreweryFactory(SQLAlchemyModelFactory):
     name = factory.Faker('word')
     brewer = factory.SubFactory(UserFactory)
     established_date = factory.Faker('date_this_decade')
-    description = factory.Faker('sentences', nb=3)
+    description = factory.Faker('paragraph')
 
     class Meta:
         model = Brewery
