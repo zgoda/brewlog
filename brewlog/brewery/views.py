@@ -11,6 +11,7 @@ from ..ext import db
 from ..forms.base import DeleteForm
 from ..models import Brewery
 from ..utils.pagination import get_page
+from ..utils.views import next_redirect
 from .utils import BreweryUtils
 
 
@@ -40,7 +41,7 @@ def brewery_delete(brewery_id):
         db.session.delete(brewery)
         db.session.commit()
         flash(_('brewery %(name)s has been deleted', name=name), category='success')
-        next_ = request.args.get('next') or url_for('profile.breweries', userid=current_user.id)
+        next_ = next_redirect('profile.breweries', userid=current_user.id)
         return redirect(next_)
     ctx = {
         'delete_form': form,

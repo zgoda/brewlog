@@ -14,6 +14,7 @@ from ..ext import db
 from ..forms.base import DeleteForm
 from ..models import Brew, CustomLabelTemplate, FermentationStep
 from ..utils.pagination import get_page
+from ..utils.views import next_redirect
 from .forms import BrewForm, ChangeStateForm, FermentationStepForm
 from .utils import BrewUtils
 
@@ -185,7 +186,7 @@ def brew_delete(brew_id):
         db.session.delete(brew)
         db.session.commit()
         flash(_('brew %(name)s has been deleted', name=name), category='success')
-        next_ = request.args.get('next') or url_for('profile.brews', userid=current_user.id)
+        next_ = next_redirect('profile.brews', userid=current_user.id)
         return redirect(next_)
     ctx = {
         'brew': brew,

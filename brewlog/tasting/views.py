@@ -1,5 +1,5 @@
 import markdown
-from flask import abort, flash, redirect, render_template, request, url_for
+from flask import abort, flash, redirect, render_template, request
 from flask_babel import gettext as _
 from flask_login import current_user, login_required
 
@@ -8,6 +8,7 @@ from ..ext import db
 from ..forms.base import DeleteForm
 from ..models import Brew, TastingNote
 from ..utils.pagination import get_page
+from ..utils.views import next_redirect
 from .forms import TastingNoteForm
 from .utils import TastingUtils
 
@@ -39,7 +40,7 @@ def brew_add_tasting_note(brew_id):
     if form.validate_on_submit():
         form.save(brew)
         flash(_('tasting note for %(brew)s saved', brew=brew.name), category='success')
-        next_ = request.args.get('next') or url_for('brew.details', brew_id=brew.id)
+        next_ = next_redirect('brew.details', brew_id=brew.id)
         return redirect(next_)
     ctx = {
         'brew': brew,
@@ -60,7 +61,7 @@ def brew_delete_tasting_note(note_id):
         db.session.delete(note)
         db.session.commit()
         flash(_('tasting note for brew %(brew)s has been deleted', brew=brew.name), category='success')
-        next_ = request.args.get('next') or url_for('brew.details', brew_id=brew.id)
+        next_ = next_redirect('brew.details', brew_id=brew.id)
         return redirect(next_)
     ctx = {
         'brew': brew,

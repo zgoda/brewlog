@@ -1,13 +1,14 @@
-from flask import redirect, url_for, session, flash, request
+from flask import flash, redirect, session
 from flask_babel import gettext as _
 from flask_login import login_user
 
-from ..models import BrewerProfile
 from ..ext import db
+from ..models import BrewerProfile
+from ..utils.views import next_redirect
 
 
 def login_success(email, access_token, remote_id, service_name, **kwargs):
-    user = BrewerProfile.query.filter_by(email=email).first()
+    user = BrewerProfile.get_by_email(email)
     if user is None:
         user = BrewerProfile(email=email)
     user.access_token = access_token
@@ -21,5 +22,5 @@ def login_success(email, access_token, remote_id, service_name, **kwargs):
     session.permanent = True
     flash(_('You have been signed in as %(email)s using %(service)s', email=email, service=service_name),
         category='success')
-    next_ = request.args.get('next') or session.pop('next', None) or url_for('home.index')
+    next_ = next_redirect('home.index')
     return redirect(next_)
