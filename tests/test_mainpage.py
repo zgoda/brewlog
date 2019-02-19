@@ -1,11 +1,11 @@
 from flask import url_for
 import pytest
 
-from . import BrewlogTests
+from . import BrewlogTestsBase
 
 
 @pytest.mark.usefixtures('client_class')
-class TestMainPageAnonUser(BrewlogTests):
+class TestMainPageAnonUser(BrewlogTestsBase):
 
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory):
@@ -80,7 +80,7 @@ class TestMainPageAnonUser(BrewlogTests):
 
 
 @pytest.mark.usefixtures('client_class')
-class TestMainPageLoggedInRegularUser(BrewlogTests):
+class TestMainPageLoggedInRegularUser(BrewlogTestsBase):
 
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory):
@@ -92,14 +92,14 @@ class TestMainPageLoggedInRegularUser(BrewlogTests):
         self.user = user_factory()
 
     def test_common_elements(self):
-        self.login(self.client, self.user.email)
+        self.login(self.user.email)
         rv = self.client.get(self.url)
         assert b'>Brew Log</a>' in rv.data
         assert b'my profile' in rv.data
         assert b'login page' not in rv.data
 
     def test_dashboard_brews(self, brew_factory, brewery_factory):
-        self.login(self.client, self.user.email)
+        self.login(self.user.email)
         brewery = brewery_factory(brewer=self.user, name=self.regular_brewery_name)
         regular_brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
         hidden_brew = brew_factory(brewery=brewery, name=self.hidden_brew_name)
@@ -110,7 +110,7 @@ class TestMainPageLoggedInRegularUser(BrewlogTests):
 
 
 @pytest.mark.usefixtures('client_class')
-class TestMainPageLoggedInHiddenUser(BrewlogTests):
+class TestMainPageLoggedInHiddenUser(BrewlogTestsBase):
 
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory):
@@ -121,14 +121,14 @@ class TestMainPageLoggedInHiddenUser(BrewlogTests):
         self.user = user_factory(is_public=False)
 
     def test_common_elements(self):
-        self.login(self.client, self.user.email)
+        self.login(self.user.email)
         rv = self.client.get(self.url)
         assert b'>Brew Log</a>' in rv.data
         assert b'my profile' in rv.data
         assert b'login page' not in rv.data
 
     def test_dashboard_brews(self, brew_factory, brewery_factory):
-        self.login(self.client, self.user.email)
+        self.login(self.user.email)
         brewery = brewery_factory(brewer=self.user, name=self.brewery_name)
         regular_brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
         hidden_brew = brew_factory(brewery=brewery, name=self.hidden_brew_name)

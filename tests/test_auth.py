@@ -3,15 +3,18 @@ import pytest
 
 from brewlog.models import BrewerProfile
 
-from . import BrewlogTests
+from . import BrewlogTestsBase
 
 
 @pytest.mark.usefixtures('client_class')
-class TestAuth(BrewlogTests):
+class TestAuth(BrewlogTestsBase):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self):
+        self.select_url = url_for('auth.select')
 
     def test_provider_selector(self):
-        url = url_for('auth.select')
-        rv = self.client.get(url)
+        rv = self.client.get(self.select_url)
         assert rv.status_code == 200
         content = rv.data.decode('utf-8')
         for x in [url_for('auth.login', provider=p) for p in ('google', 'facebook', 'local', 'github')]:
@@ -23,19 +26,19 @@ class TestAuth(BrewlogTests):
         url = url_for('auth.login', provider=provider_name)
         rv = self.client.get(url)
         assert rv.status_code == 302
-        assert url_for('auth.select') in rv.headers['Location']
+        assert self.select_url in rv.headers['Location']
 
-    def test_logout(self):
-        user = BrewerProfile.get_by_email('user@example.com')
+    def test_logout(self, user_factory):
+        user = user_factory()
         url = url_for('auth.logout')
-        self.login(self.client, user.email)
+        self.login(user.email)
         rv = self.client.get(url)
         assert rv.status_code == 302
         assert url_for('home.index') in rv.headers['Location']
 
     def test_create_new_user_on_login(self):
         email = 'john.doe@acme.com'
-        self.login(self.client, email)
+        self.login(email)
         assert BrewerProfile.get_by_email(email) is not None
 
     def test_remote_login(self, mocker):
