@@ -58,8 +58,6 @@ setup(
         'pytest-cov',
         'pytest-flask',
         'pytest-factoryboy',
-        'faker',
-        'fixture',
     ),
     extras_require={
         'prod': ['psycopg2', 'uwsgi']

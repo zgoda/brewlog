@@ -4,7 +4,7 @@ import pytest
 from werkzeug.exceptions import Forbidden, NotFound
 
 from brewlog.models import CustomLabelTemplate
-from brewlog.utils.brewing import sg2plato
+from brewlog.utils.brewing import sg2plato, abv
 from brewlog.utils.pagination import get_page, url_for_other_page
 from brewlog.utils.text import stars2deg
 from brewlog.utils.views import get_user_object
@@ -54,6 +54,11 @@ class TestBrewingFormulas:
         sg = 1.040
         plato = 10
         assert round(sg2plato(sg)) == plato
+
+    def test_abv(self):
+        og = 10
+        fg = 2.5
+        assert round(abv(og, fg)) == 4
 
 
 @pytest.mark.usefixtures('client_class')

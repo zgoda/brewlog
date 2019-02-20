@@ -13,13 +13,13 @@ class BrewerProfileTests(BrewlogTests):
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory, brewery_factory, brew_factory):
         self.public_user = user_factory()
-        self.public_brewery = brewery_factory(brewer=self.public_user)
-        self.pb_public_brew = brew_factory(brewery=self.public_brewery)
-        self.pb_hidden_brew = brew_factory(brewery=self.public_brewery, is_public=False)
+        self.public_brewery = brewery_factory(brewer=self.public_user, name='public brewery no 1')
+        self.pb_public_brew = brew_factory(brewery=self.public_brewery, name='public brew no 1')
+        self.pb_hidden_brew = brew_factory(brewery=self.public_brewery, is_public=False, name='hidden brew no 1')
         self.hidden_user = user_factory(is_public=False)
-        self.hidden_brewery = brewery_factory(brewer=self.hidden_user)
-        self.hb_public_brew = brew_factory(brewery=self.hidden_brewery)
-        self.hb_hidden_brew = brew_factory(brewery=self.hidden_brewery, is_public=False)
+        self.hidden_brewery = brewery_factory(brewer=self.hidden_user, name='hidden brewery no 1')
+        self.hb_public_brew = brew_factory(brewery=self.hidden_brewery, name='hidden brew no 2')
+        self.hb_hidden_brew = brew_factory(brewery=self.hidden_brewery, is_public=False, name='hidden brew no 2')
 
 
 @pytest.mark.usefixtures('client_class')

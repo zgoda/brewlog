@@ -14,12 +14,12 @@ class TestFermentationSteps(BrewlogTests):
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory, brewery_factory, brew_factory, fermentation_step_factory):
         self.public_user = user_factory()
-        self.public_brewery = brewery_factory(brewer=self.public_user)
-        self.public_brew = brew_factory(brewery=self.public_brewery)
-        self.fstep = fermentation_step_factory(brew=self.public_brew, og=12.5, volume=21)
+        self.public_brewery = brewery_factory(brewer=self.public_user, name='public brewery no 1')
+        self.public_brew = brew_factory(brewery=self.public_brewery, name='public brew no 1')
+        self.fstep = fermentation_step_factory(brew=self.public_brew, og=12.5, volume=21, name='primary')
         self.hidden_user = user_factory(is_public=False)
-        self.hidden_brewery = brewery_factory(brewer=self.hidden_user)
-        self.hidden_brew = brew_factory(brewery=self.hidden_brewery)
+        self.hidden_brewery = brewery_factory(brewer=self.hidden_user, name='hidden brewery no 1')
+        self.hidden_brew = brew_factory(brewery=self.hidden_brewery, name='hidden brew no 1')
 
     def test_add_fermentation_step_by_owner(self):
         url = url_for('brew.fermentationstep_add', brew_id=self.hidden_brew.id)
