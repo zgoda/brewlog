@@ -1,3 +1,5 @@
+from datetime import date, timedelta
+
 import pytest
 
 from brewlog.brew.utils import BrewUtils
@@ -19,3 +21,54 @@ class TestBrewUtils:
     def test_display_info(self):
         ret = BrewUtils.display_info(self.brew1)
         assert 'not in particular style' in ret
+
+
+@pytest.mark.usefixtures('client_class')
+class TestBrewUtilsStateFermenting:
+
+    @pytest.fixture(autouse=True)
+    def set_up(self, brew_factory, user_factory):
+        today = date.today()
+        self.brew_1 = brew_factory(
+            name='fermenting 1',
+            date_brewed=today - timedelta(days=7),
+        )
+        self.brew_2 = brew_factory(
+            name='fermenting 2',
+            date_brewed=today - timedelta(days=9),
+        )
+        self.brew_3 = brew_factory(
+            name='fermenting 3 (hidden)',
+            date_brewed=today - timedelta(days=12),
+            is_public=False,
+        )
+        self.hidden_user = user_factory(is_public=False)
+
+    def test_public_only(self):
+        ret = BrewUtils.fermenting()
+        assert len(ret) == 2
+
+    def test_public_only_for_public_user(self):
+        ret = BrewUtils.fermenting(user=self.brew_3.brewery.brewer)
+        assert len(ret) == 0
+
+    def test_public_only_for_hidden_user(self, brewery_factory, brew_factory):
+        date_brewed = date.today() - timedelta(days=4)
+        brewery = brewery_factory(name='hidden brewery', brewer=self.hidden_user)
+        brew_factory(name='hidden 1', brewery=brewery, date_brewed=date_brewed)
+        brew_factory(name='hidden 2', brewery=brewery, date_brewed=date_brewed)
+        ret = BrewUtils.fermenting(user=self.hidden_user, public_only=True)
+        assert len(ret) == 0
+
+    def test_all(self):
+        ret = BrewUtils.fermenting(public_only=False)
+        assert len(ret) == 3
+
+    def test_all_for_public_user(self, brew_factory):
+        extra_brew = brew_factory(
+            name='extra brew',
+            date_brewed=date.today() - timedelta(days=2),
+            brewery=self.brew_3.brewery
+        )
+        ret = BrewUtils.fermenting(user=extra_brew.brewery.brewer, public_only=False)
+        assert len(ret) == 2
