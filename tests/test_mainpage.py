@@ -1,11 +1,11 @@
 from flask import url_for
 import pytest
 
-from . import BrewlogTestsBase
+from . import BrewlogTests
 
 
 @pytest.mark.usefixtures('client_class')
-class TestMainPageAnonUser(BrewlogTestsBase):
+class TestMainPageAnonUser(BrewlogTests):
 
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory):
@@ -80,7 +80,7 @@ class TestMainPageAnonUser(BrewlogTestsBase):
 
 
 @pytest.mark.usefixtures('client_class')
-class TestMainPageLoggedInRegularUser(BrewlogTestsBase):
+class TestMainPageLoggedInRegularUser(BrewlogTests):
 
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory):
@@ -110,7 +110,7 @@ class TestMainPageLoggedInRegularUser(BrewlogTestsBase):
 
 
 @pytest.mark.usefixtures('client_class')
-class TestMainPageLoggedInHiddenUser(BrewlogTestsBase):
+class TestMainPageLoggedInHiddenUser(BrewlogTests):
 
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory):

@@ -3,11 +3,9 @@ import pytest
 from brewlog.brew.utils import BrewUtils
 from brewlog.models import Brew
 
-from . import BrewlogTests
-
 
 @pytest.mark.usefixtures('client_class')
-class TestBrewUtils(BrewlogTests):
+class TestBrewUtils:
 
     @pytest.fixture(autouse=True)
     def set_up(self):

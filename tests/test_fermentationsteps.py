@@ -19,7 +19,7 @@ class TestFermentationSteps(BrewlogTests):
 
     def test_add_fermentation_step_by_owner(self):
         url = url_for('brew.fermentationstep_add', brew_id=self.brew.id)
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         data = {
             'date': datetime.datetime.utcnow().strftime('%Y-%m-%d'),
             'name': 'secondary',
@@ -34,7 +34,7 @@ class TestFermentationSteps(BrewlogTests):
 
     def test_add_fermentation_step_by_public(self):
         url = url_for('brew.fermentationstep_add', brew_id=self.brew.id)
-        self.login(self.client, self.another_user.email)
+        self.login(self.another_user.email)
         data = {
             'date': datetime.datetime.utcnow().strftime('%Y-%m-%d'),
             'name': 'secondary',
@@ -48,7 +48,7 @@ class TestFermentationSteps(BrewlogTests):
     def test_add_fermentation_step_to_nonexisting_brew(self):
         brew_id = 666
         url = url_for('brew.fermentationstep_add', brew_id=brew_id)
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         data = {
             'date': datetime.datetime.utcnow().strftime('%Y-%m-%d'),
             'name': 'primary',
@@ -61,7 +61,7 @@ class TestFermentationSteps(BrewlogTests):
     def test_delete_fermentation_step(self):
         fstep_id = self.fstep.id
         url = url_for('brew.fermentationstep_delete', fstep_id=fstep_id)
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
         content = rv.data.decode('utf-8')
         assert rv.status_code == 200
@@ -72,27 +72,27 @@ class TestFermentationSteps(BrewlogTests):
     def test_delete_fermentation_step_by_public(self):
         fstep_id = self.fstep.id
         url = url_for('brew.fermentationstep_delete', fstep_id=fstep_id)
-        self.login(self.client, self.another_user.email)
+        self.login(self.another_user.email)
         rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
         assert rv.status_code == 403
 
     def test_delete_fermentation_step_owner_sees_form(self):
         url = url_for('brew.fermentationstep_delete', fstep_id=self.fstep.id)
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         rv = self.client.get(url)
         assert rv.status_code == 200
         assert 'action="%s"' % url in rv.data.decode('utf-8')
 
     def test_edit_fermentation_step_owner_sees_form(self):
         url = url_for('brew.fermentation_step', fstep_id=self.fstep.id)
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         rv = self.client.get(url)
         assert rv.status_code == 200
         assert self.fstep.name in rv.data.decode('utf-8')
 
     def test_edit_fermentation_step_owner_can_modify(self):
         url = url_for('brew.fermentation_step', fstep_id=self.fstep.id)
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         data = {
             'name': 'primary (mod)',
             'date': self.fstep.date.strftime('%Y-%m-%d'),
@@ -105,7 +105,7 @@ class TestFermentationSteps(BrewlogTests):
 
     def test_edit_fermentation_step_by_public(self):
         url = url_for('brew.fermentation_step', fstep_id=self.fstep.id)
-        self.login(self.client, self.another_user.email)
+        self.login(self.another_user.email)
         data = {
             'name': 'primary (mod)',
             'date': self.fstep.date.strftime('%Y-%m-%d'),
@@ -117,7 +117,7 @@ class TestFermentationSteps(BrewlogTests):
 
     def test_set_og_sets_fg(self):
         url = url_for('brew.fermentationstep_add', brew_id=self.brew.id)
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         date = datetime.datetime.utcnow() + datetime.timedelta(days=1)
         data = {
             'date': date.strftime('%Y-%m-%d'),
@@ -132,7 +132,7 @@ class TestFermentationSteps(BrewlogTests):
 
     def test_set_fg_changes_og(self):
         url = url_for('brew.fermentationstep_add', brew_id=self.brew.id)
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         date = datetime.datetime.utcnow() + datetime.timedelta(days=1)
         data_secondary = {
             'date': date.strftime('%Y-%m-%d'),
@@ -156,7 +156,7 @@ class TestFermentationSteps(BrewlogTests):
 
     def test_set_og_changes_fg(self):
         url = url_for('brew.fermentationstep_add', brew_id=self.brew.id)
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         date = datetime.datetime.utcnow() + datetime.timedelta(days=1)
         data_secondary = {
             'date': date.strftime('%Y-%m-%d'),
@@ -182,7 +182,7 @@ class TestFermentationSteps(BrewlogTests):
 
     def test_insert_step_with_fg(self):
         url = url_for('brew.fermentationstep_add', brew_id=self.brew.id)
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         date = datetime.datetime.utcnow() - datetime.timedelta(days=1)
         data = {
             'date': date.strftime('%Y-%m-%d'),
@@ -198,7 +198,7 @@ class TestFermentationSteps(BrewlogTests):
 
     def test_complete_fermentation_display(self):
         url = url_for('brew.fermentationstep_add', brew_id=self.brew.id)
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         date = datetime.datetime.utcnow() + datetime.timedelta(days=1)
         data_secondary = {
             'date': date.strftime('%Y-%m-%d'),

@@ -28,13 +28,13 @@ class TestTastingNote(BrewlogTests):
 
     def test_list_hidden_direct(self):
         url = url_for('tastingnote.all')
-        self.login(self.client, self.hidden_brew_direct.brewery.brewer.email)
+        self.login(self.hidden_brew_direct.brewery.brewer.email)
         rv = self.client.get(url)
         assert self.hidden_brew_direct.absolute_url in rv.data.decode('utf-8')
 
     def test_list_hidden_indirect(self):
         url = url_for('tastingnote.all')
-        self.login(self.client, self.hidden_brew_indirect.brewery.brewer.email)
+        self.login(self.hidden_brew_indirect.brewery.brewer.email)
         rv = self.client.get(url)
         assert self.hidden_brew_indirect.absolute_url in rv.data.decode('utf-8')
 
@@ -51,7 +51,7 @@ class TestTastingNote(BrewlogTests):
         All logged in users can add tasting notes to public brews
         """
         url = url_for('tastingnote.add', brew_id=self.brew.id)
-        self.login(self.client, self.regular_user.email)
+        self.login(self.regular_user.email)
         rv = self.client.get(url)
         assert '<form' in rv.data.decode('utf-8')
         data = {
@@ -65,7 +65,7 @@ class TestTastingNote(BrewlogTests):
         Users can not add tasting notes to hidden brews
         """
         url = url_for('tastingnote.add', brew_id=self.hidden_brew_direct.id)
-        self.login(self.client, self.regular_user.email)
+        self.login(self.regular_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 403
         data = {
@@ -79,7 +79,7 @@ class TestTastingNote(BrewlogTests):
         Users can not add tasting notes to brews of hidden brewery
         """
         url = url_for('tastingnote.add', brew_id=self.hidden_brew_indirect.id)
-        self.login(self.client, self.regular_user.email)
+        self.login(self.regular_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 403
         data = {
@@ -94,14 +94,14 @@ class TestTastingNote(BrewlogTests):
         """
         note = TastingNote.create_for(self.brew, self.regular_user, 'Nice beer, cheers!', commit=True)
         url = url_for('tastingnote.delete', note_id=note.id)
-        self.login(self.client, self.regular_user.email)
+        self.login(self.regular_user.email)
         rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
         assert note.text not in rv.data.decode('utf-8')
 
     def test_author_sees_delete_form(self):
         note = TastingNote.create_for(self.brew, self.regular_user, 'Nice beer, cheers!', commit=True)
         url = url_for('tastingnote.delete', note_id=note.id)
-        self.login(self.client, self.regular_user.email)
+        self.login(self.regular_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 200
         assert 'action="%s"' % url in rv.data.decode('utf-8')
@@ -112,7 +112,7 @@ class TestTastingNote(BrewlogTests):
         """
         note = TastingNote.create_for(self.brew, self.regular_user, 'Nice beer, cheers!', commit=True)
         url = url_for('tastingnote.delete', note_id=note.id)
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
         assert note.text not in rv.data.decode('utf-8')
 
@@ -122,7 +122,7 @@ class TestTastingNote(BrewlogTests):
         """
         note = TastingNote.create_for(self.brew, self.regular_user, 'Nice beer, cheers!', commit=True)
         url = url_for('tastingnote.delete', note_id=note.id)
-        self.login(self.client, self.hidden_brew_indirect.brewery.brewer.email)
+        self.login(self.hidden_brew_indirect.brewery.brewer.email)
         rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
         assert rv.status_code == 403
 
@@ -171,7 +171,7 @@ class TestTastingNoteAjax(BrewlogTests):
             'pk': note.id,
             'value': 'This brew is horrible!',
         }
-        self.login(self.client, self.regular_user.email)
+        self.login(self.regular_user.email)
         rv = self.client.post(url, data=data)
         assert rv.status_code == 403
 
@@ -185,7 +185,7 @@ class TestTastingNoteAjax(BrewlogTests):
             'pk': note.id,
             'value': 'This brew is horrible!',
         }
-        self.login(self.client, self.regular_user.email)
+        self.login(self.regular_user.email)
         rv = self.client.post(url, data=data)
         note = TastingNote.query.get(note.id)
         assert rv.data.decode('utf-8') == note.text_html
@@ -201,7 +201,7 @@ class TestTastingNoteAjax(BrewlogTests):
             'pk': note.id,
             'value': 'This brew is horrible!',
         }
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         rv = self.client.post(url, data=data)
         note = TastingNote.query.get(note.id)
         assert rv.data.decode('utf-8') == note.text_html
@@ -214,7 +214,7 @@ class TestTastingNoteAjax(BrewlogTests):
             'pk': note.id,
             'value': '',
         }
-        self.login(self.client, self.brew.brewery.brewer.email)
+        self.login(self.brew.brewery.brewer.email)
         rv = self.client.post(url, data=data)
         assert rv.data.decode('utf-8') == note.text_html
 
@@ -223,7 +223,7 @@ class TestTastingNoteAjax(BrewlogTests):
         data = {
             'value': 'This brew is horrible!',
         }
-        self.login(self.client, self.regular_user.email)
+        self.login(self.regular_user.email)
         rv = self.client.post(url, data=data)
         assert rv.status_code == 400
 
@@ -233,6 +233,6 @@ class TestTastingNoteAjax(BrewlogTests):
             'pk': 666,
             'value': 'This brew is horrible!',
         }
-        self.login(self.client, self.regular_user.email)
+        self.login(self.regular_user.email)
         rv = self.client.post(url, data=data)
         assert rv.status_code == 404

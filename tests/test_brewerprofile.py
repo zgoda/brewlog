@@ -5,11 +5,11 @@ from brewlog.models import (
     BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 )
 
-from . import BrewlogTestsBase
+from . import BrewlogTests
 
 
 @pytest.mark.usefixtures('client_class')
-class TestBrewerProfile(BrewlogTestsBase):
+class TestBrewerProfile(BrewlogTests):
 
     def test_login(self):
         user = BrewerProfile.get_by_email('user@example.com')
@@ -123,7 +123,7 @@ class TestBrewerProfile(BrewlogTestsBase):
 
 
 @pytest.mark.usefixtures('client_class')
-class TestProfileBrews(BrewlogTestsBase):
+class TestProfileBrews(BrewlogTests):
 
     @pytest.fixture(autouse=True)
     def set_up(self):
@@ -150,7 +150,7 @@ class TestProfileBrews(BrewlogTestsBase):
 
 
 @pytest.mark.usefixtures('client_class')
-class TestProfileBreweries(BrewlogTestsBase):
+class TestProfileBreweries(BrewlogTests):
 
     @pytest.fixture(autouse=True)
     def set_up(self):
@@ -171,7 +171,7 @@ class TestProfileBreweries(BrewlogTestsBase):
 
 
 @pytest.mark.usefixtures('client_class')
-class TestProfileExportTemplates(BrewlogTestsBase):
+class TestProfileExportTemplates(BrewlogTests):
 
     @pytest.fixture(autouse=True)
     def set_up(self):
@@ -214,7 +214,7 @@ class TestProfileExportTemplates(BrewlogTestsBase):
 
 
 @pytest.mark.usefixtures('client_class')
-class TestLabelTemplates(BrewlogTestsBase):
+class TestLabelTemplates(BrewlogTests):
 
     @pytest.fixture(autouse=True)
     def set_up(self):

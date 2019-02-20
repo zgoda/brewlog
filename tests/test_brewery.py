@@ -22,7 +22,7 @@ class TestBrewery(BrewlogTests):
         Hidden breweries can not be seen by non owner
         """
         url = url_for('brewery.all')
-        self.login(self.client, self.public_brewery.brewer.email)
+        self.login(self.public_brewery.brewer.email)
         rv = self.client.get(url)
         content = rv.data.decode('utf-8')
         assert self.hidden_brewery.name not in content
@@ -33,7 +33,7 @@ class TestBrewery(BrewlogTests):
         Owner of hidden brewery can see it on the list
         """
         url = url_for('brewery.all')
-        self.login(self.client, self.hidden_brewery.brewer.email)
+        self.login(self.hidden_brewery.brewer.email)
         rv = self.client.get(url)
         content = rv.data.decode('utf-8')
         assert self.hidden_brewery.name in content
@@ -66,7 +66,7 @@ class TestBrewery(BrewlogTests):
             * only basic information in non-owned
             * form in owned, even if hidden
         """
-        self.login(self.client, self.hidden_brewery.brewer.email)
+        self.login(self.hidden_brewery.brewer.email)
         rv = self.client.get(url_for('brewery.details', brewery_id=self.public_brewery.id))
         content = rv.data.decode('utf-8')
         assert self.public_brewery.name in content
@@ -79,7 +79,7 @@ class TestBrewery(BrewlogTests):
         Change data by non owner:
             * 403
         """
-        self.login(self.client, self.hidden_brewery.brewer.email)
+        self.login(self.hidden_brewery.brewer.email)
         url = url_for('brewery.details', brewery_id=self.public_brewery.id)
         rv = self.client.post(url, data={'name': 'new name'})
         assert rv.status_code == 403
@@ -89,7 +89,7 @@ class TestBrewery(BrewlogTests):
         Change data by owner:
             * success
         """
-        self.login(self.client, self.hidden_brewery.brewer.email)
+        self.login(self.hidden_brewery.brewer.email)
         url = url_for('brewery.details', brewery_id=self.hidden_brewery.id)
         new_name = 'new name'
         rv = self.client.post(url, data={'name': new_name}, follow_redirects=True)
@@ -100,7 +100,7 @@ class TestBrewery(BrewlogTests):
 
     def test_owner_access_delete_form(self):
         url = url_for('brewery.delete', brewery_id=self.hidden_brewery.id)
-        self.login(self.client, self.hidden_brewery.brewer.email)
+        self.login(self.hidden_brewery.brewer.email)
         rv = self.client.get(url)
         assert 'action="%s"' % url in rv.data.decode('utf-8')
 
@@ -110,7 +110,7 @@ class TestBrewery(BrewlogTests):
             * success
         """
         brewery_id = self.hidden_brewery.id
-        self.login(self.client, self.hidden_brewery.brewer.email)
+        self.login(self.hidden_brewery.brewer.email)
         url = url_for('brewery.delete', brewery_id=self.hidden_brewery.id)
         rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
         assert rv.status_code == 200
@@ -121,19 +121,19 @@ class TestBrewery(BrewlogTests):
         Delete brewery by non owner:
             * 403
         """
-        self.login(self.client, self.hidden_brewery.brewer.email)
+        self.login(self.hidden_brewery.brewer.email)
         url = url_for('brewery.delete', brewery_id=self.public_brewery.id)
         rv = self.client.post(url, data={'delete_it': True})
         assert rv.status_code == 403
 
     def test_add_form_visible_for_registered(self):
         url = url_for('brewery.add')
-        self.login(self.client, self.public_brewery.brewer.email)
+        self.login(self.public_brewery.brewer.email)
         rv = self.client.get(url)
         assert 'action="%s"' % url in rv.data.decode('utf-8')
 
     def test_create_logged_in_user(self):
-        self.login(self.client, self.public_brewery.brewer.email)
+        self.login(self.public_brewery.brewer.email)
         data = {
             'name': 'new brewery',
             'description': 'new brewery in town',
@@ -171,19 +171,19 @@ class TestBreweryBrews(BrewlogTests):
     def test_owner_view(self):
         url = url_for('brewery.brews', brewery_id=self.public_brewery.id)
         hidden_brew = Brew.query.filter_by(name='hidden czech pilsener').first()
-        self.login(self.client, self.public_brewery.brewer.email)
+        self.login(self.public_brewery.brewer.email)
         rv = self.client.get(url)
         assert hidden_brew.name in rv.data.decode('utf-8')
 
     def test_public_view(self):
         url = url_for('brewery.brews', brewery_id=self.public_brewery.id)
         hidden_brew = Brew.query.filter_by(name='hidden czech pilsener').first()
-        self.login(self.client, self.hidden_brewery.brewer.email)
+        self.login(self.hidden_brewery.brewer.email)
         rv = self.client.get(url)
         assert hidden_brew.name not in rv.data.decode('utf-8')
 
     def test_hidden_view_by_public(self):
         url = url_for('brewery.brews', brewery_id=self.hidden_brewery.id)
-        self.login(self.client, self.public_brewery.brewer.email)
+        self.login(self.public_brewery.brewer.email)
         rv = self.client.get(url)
         assert rv.status_code == 404
