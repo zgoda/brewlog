@@ -1,4 +1,4 @@
-verssion: "2"
+version: "2"
 plugins:
   bandit:
     enabled: true
