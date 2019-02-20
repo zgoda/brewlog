@@ -8,7 +8,7 @@
   <h3>{% if public_only %}{{ gettext("all tasting notes to public brews").capitalize() }}{% else %}{{ gettext("all tasting notes to brews").capitalize() }}{% endif %}</h3>
   {% if pagination.items %}
   <ul class="list-unstyled">
-    {% for note in pagination.items %}<li><a href="{{ note.brew.absolute_url }}">{{ gettext("%(user)s tasted %(brew)s", user=note.author.name, brew=note.brew.name) }}</a> {{ format_date(note.date, "short") }}</li>{% endfor %}
+    {% for note in pagination.items %}<li><a href="{{ note.brew.absolute_url }}">{{ gettext("%(user)s tasted %(brew)s", user=note.author.full_name, brew=note.brew.name) }}</a> {{ format_date(note.date, "short") }}</li>{% endfor %}
   </ul>
   {{ render_pagination(pagination) }}
   {% endif %}

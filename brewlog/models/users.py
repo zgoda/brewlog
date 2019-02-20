@@ -26,10 +26,6 @@ class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
     oauth_token_secret = db.Column(db.Text)  # for OAuth1a
     oauth_service = db.Column(db.String(50))
     remote_userid = db.Column(db.String(100))
-    custom_export_templates = db.relationship('CustomExportTemplate', cascade='all,delete', lazy='dynamic',
-        order_by='CustomExportTemplate.name')
-    custom_label_templates = db.relationship('CustomLabelTemplate', cascade='all,delete', lazy='dynamic',
-        order_by='CustomLabelTemplate.name')
 
     __table_args__ = (
         db.Index('user_remote_id', 'oauth_service', 'remote_userid'),
@@ -110,7 +106,13 @@ class CustomExportTemplate(db.Model, DefaultModelMixin):
     __tablename__ = 'custom_export_template'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'), nullable=False)
-    user = db.relationship('BrewerProfile')
+    user = db.relationship(
+        'BrewerProfile',
+        backref=db.backref(
+            'custom_export_templates', cascade='all,delete', lazy='dynamic',
+            order_by='CustomExportTemplate.name'
+        )
+    )
     name = db.Column(db.String(100), nullable=False)
     text = db.Column(db.Text)
     is_default = db.Column(db.Boolean, default=False)
@@ -128,7 +130,13 @@ class CustomLabelTemplate(db.Model, DefaultModelMixin):
     __tablename__ = 'custom_label_template'
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'), nullable=False)
-    user = db.relationship('BrewerProfile')
+    user = db.relationship(
+        'BrewerProfile',
+        backref=db.backref(
+            'custom_label_templates', cascade='all,delete', lazy='dynamic',
+            order_by='CustomLabelTemplate.name'
+        )
+    )
     name = db.Column(db.String(100), nullable=False)
     cols = db.Column(db.Integer, nullable=False, default=2)
     rows = db.Column(db.Integer, nullable=False, default=5)

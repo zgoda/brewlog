@@ -11,7 +11,12 @@ class TastingNote(db.Model, DefaultModelMixin):
     __tablename__ = 'tasting_note'
     id = db.Column(db.Integer, primary_key=True)
     author_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'), nullable=False)
-    author = db.relationship('BrewerProfile')
+    author = db.relationship(
+        'BrewerProfile',
+        backref=db.backref(
+            'tasting_notes', cascade='all,delete', lazy='dynamic'
+        )
+    )
     date = db.Column(db.Date, nullable=False, index=True)
     text = db.Column(db.Text, nullable=False)
     text_html = db.Column(db.Text)

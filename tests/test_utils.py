@@ -3,7 +3,7 @@ import unicodedata
 import pytest
 from werkzeug.exceptions import Forbidden, NotFound
 
-from brewlog.models import BrewerProfile, CustomLabelTemplate
+from brewlog.models import CustomLabelTemplate
 from brewlog.utils.brewing import sg2plato
 from brewlog.utils.pagination import get_page, url_for_other_page
 from brewlog.utils.text import stars2deg
@@ -60,9 +60,9 @@ class TestBrewingFormulas:
 class TestViewUtils:
 
     @pytest.fixture(autouse=True)
-    def set_up(self):
-        self.regular_user = BrewerProfile.get_by_email('user@example.com')
-        self.template = CustomLabelTemplate.query.filter_by(name='custom #1').first()
+    def set_up(self, user_factory, label_template_factory):
+        self.regular_user = user_factory()
+        self.template = label_template_factory(name='custom #1')
         self.template_user = self.template.user
 
     def test_user_object_objid_none(self, mocker):

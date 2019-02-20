@@ -17,10 +17,10 @@ from .utils import TastingUtils
 def all_tasting_notes():
     page_size = 20
     page = get_page(request)
-    if current_user.is_anonymous:
-        query = TastingUtils.notes()
-    else:
-        query = TastingUtils.notes(extra_user=current_user)
+    kw = {}
+    if current_user.is_authenticated:
+        kw['extra_user'] = current_user
+    query = TastingUtils.notes(public_only=True, **kw)
     query = query.order_by(db.desc(TastingNote.date))
     pagination = query.paginate(page, page_size)
     context = {
