@@ -18,8 +18,11 @@ exclude_patterns:
   - "*/__init__.py"
   - "versioneer.py"
   - "manage.py"
+  - "setup.py"
   - "secrets/"
   - "**/static/"
+  - "**/translations"
+  - "**/templates"
 checks:
   argument-count:
     config:
