@@ -13,9 +13,10 @@ from . import BrewlogTests
 class TestBrewery(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self):
-        self.public_brewery = Brewery.query.filter_by(name='brewery #1').first()
-        self.hidden_brewery = Brewery.query.filter_by(name='hidden brewery #1').first()
+    def set_up(self, brewery_factory, user_factory):
+        self.public_brewery = brewery_factory()
+        self.hidden_user = user_factory(is_public=False)
+        self.hidden_brewery = brewery_factory(brewer=self.hidden_user)
 
     def test_nonowner_view_list(self):
         """
@@ -164,9 +165,10 @@ class TestBreweryBrews(BrewlogTests):
     """
 
     @pytest.fixture(autouse=True)
-    def set_up(self):
-        self.public_brewery = Brewery.query.filter_by(name='brewery #1').first()
-        self.hidden_brewery = Brewery.query.filter_by(name='hidden brewery #1').first()
+    def set_up(self, brewery_factory, user_factory):
+        self.public_brewery = brewery_factory()
+        self.hidden_user = user_factory(is_public=False)
+        self.hidden_brewery = brewery_factory(brewer=self.hidden_user)
 
     def test_owner_view(self):
         url = url_for('brewery.brews', brewery_id=self.public_brewery.id)

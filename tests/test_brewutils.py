@@ -1,16 +1,15 @@
 import pytest
 
 from brewlog.brew.utils import BrewUtils
-from brewlog.models import Brew
 
 
 @pytest.mark.usefixtures('client_class')
 class TestBrewUtils:
 
     @pytest.fixture(autouse=True)
-    def set_up(self):
-        self.brew1 = Brew.query.get(1)
-        self.brew2 = Brew.query.get(2)
+    def set_up(self, brew_factory):
+        self.brew1 = brew_factory()
+        self.brew2 = brew_factory()
 
     def test_brew_description(self):
         ret = BrewUtils.description(self.brew1)
