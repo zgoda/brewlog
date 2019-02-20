@@ -48,6 +48,11 @@ class TestBrewUtilsStateFermenting:
         ret = BrewUtils.fermenting()
         assert len(ret) == 2
 
+    def test_public_only_with_limit(self):
+        limit = 1
+        ret = BrewUtils.fermenting(limit=limit)
+        assert len(ret) == limit
+
     def test_public_only_for_public_user(self):
         ret = BrewUtils.fermenting(user=self.brew_3.brewery.brewer)
         assert len(ret) == 0
@@ -64,6 +69,11 @@ class TestBrewUtilsStateFermenting:
         ret = BrewUtils.fermenting(public_only=False)
         assert len(ret) == 3
 
+    def test_all_with_limit(self):
+        limit = 2
+        ret = BrewUtils.fermenting(public_only=False, limit=limit)
+        assert len(ret) == limit
+
     def test_all_for_public_user(self, brew_factory):
         extra_brew = brew_factory(
             name='extra brew',
@@ -71,4 +81,12 @@ class TestBrewUtilsStateFermenting:
             brewery=self.brew_3.brewery
         )
         ret = BrewUtils.fermenting(user=extra_brew.brewery.brewer, public_only=False)
+        assert len(ret) == 2
+
+    def test_all_for_hidden_user(self, brewery_factory, brew_factory):
+        date_brewed = date.today() - timedelta(days=4)
+        brewery = brewery_factory(name='hidden brewery', brewer=self.hidden_user)
+        brew_factory(name='hidden 1', brewery=brewery, date_brewed=date_brewed)
+        brew_factory(name='hidden 2', brewery=brewery, date_brewed=date_brewed)
+        ret = BrewUtils.fermenting(user=self.hidden_user, public_only=False)
         assert len(ret) == 2
