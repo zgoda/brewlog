@@ -4,7 +4,7 @@ import datetime
 from flask import url_for
 import pytest
 
-from brewlog.models import Brew, Brewery
+from brewlog.models import Brewery
 
 from . import BrewlogTests
 
@@ -14,9 +14,9 @@ class TestBrewery(BrewlogTests):
 
     @pytest.fixture(autouse=True)
     def set_up(self, brewery_factory, user_factory):
-        self.public_brewery = brewery_factory()
+        self.public_brewery = brewery_factory(name='public brewery no. 1')
         self.hidden_user = user_factory(is_public=False)
-        self.hidden_brewery = brewery_factory(brewer=self.hidden_user)
+        self.hidden_brewery = brewery_factory(brewer=self.hidden_user, name='hidden brewery no 1')
 
     def test_nonowner_view_list(self):
         """
@@ -165,24 +165,26 @@ class TestBreweryBrews(BrewlogTests):
     """
 
     @pytest.fixture(autouse=True)
-    def set_up(self, brewery_factory, user_factory):
-        self.public_brewery = brewery_factory()
+    def set_up(self, brew_factory, brewery_factory, user_factory):
+        self.public_brewery = brewery_factory(name='public brewery no 1')
+        self.public_brewery_public_brew = brew_factory(brewery=self.public_brewery, name='public 1')
+        self.public_brewery_hidden_brew = brew_factory(brewery=self.public_brewery, is_public=False, name='hidden 1')
         self.hidden_user = user_factory(is_public=False)
-        self.hidden_brewery = brewery_factory(brewer=self.hidden_user)
+        self.hidden_brewery = brewery_factory(brewer=self.hidden_user, name='hidden brewery no 1')
+        self.hidden_brewery_public_brew = brew_factory(brewery=self.hidden_brewery, name='hidden 2')
+        self.hidden_brewery_hidden_brew = brew_factory(brewery=self.hidden_brewery, is_public=False, name='hidden 3')
 
     def test_owner_view(self):
         url = url_for('brewery.brews', brewery_id=self.public_brewery.id)
-        hidden_brew = Brew.query.filter_by(name='hidden czech pilsener').first()
         self.login(self.public_brewery.brewer.email)
         rv = self.client.get(url)
-        assert hidden_brew.name in rv.data.decode('utf-8')
+        assert self.public_brewery_hidden_brew.name in rv.data.decode('utf-8')
 
     def test_public_view(self):
         url = url_for('brewery.brews', brewery_id=self.public_brewery.id)
-        hidden_brew = Brew.query.filter_by(name='hidden czech pilsener').first()
         self.login(self.hidden_brewery.brewer.email)
         rv = self.client.get(url)
-        assert hidden_brew.name not in rv.data.decode('utf-8')
+        assert self.public_brewery_hidden_brew.name not in rv.data.decode('utf-8')
 
     def test_hidden_view_by_public(self):
         url = url_for('brewery.brews', brewery_id=self.hidden_brewery.id)
