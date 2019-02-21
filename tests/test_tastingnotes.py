@@ -1,3 +1,5 @@
+import datetime
+
 from flask import url_for
 import pytest
 
@@ -62,6 +64,34 @@ class TastingTests(BrewlogTests):
 
 
 @pytest.mark.usefixtures('client_class')
+class TestTastingNoteModel(TastingTests):
+
+    def test_create_for_with_date(self, user_factory, mocker):
+        date = datetime.date(year=1992, month=12, day=4)
+        user = user_factory()
+        text = 'note X'
+        note = TastingNote.create_for(
+            self.public_brewery_public_brew, author=user, text=text, date=date
+        )
+        assert note.date == date
+
+    def test_create_for_no_date(self, user_factory, mocker):
+        user = user_factory()
+        date = datetime.date(year=1992, month=12, day=4)
+        fake_datetime = mocker.MagicMock()
+        fake_datetime.date.today.return_value = date
+        mocker.patch(
+            'brewlog.models.tasting.datetime',
+            fake_datetime,
+        )
+        text = 'note X'
+        note = TastingNote.create_for(
+            self.public_brewery_public_brew, author=user, text=text
+        )
+        assert note.date == date
+
+
+@pytest.mark.usefixtures('client_class')
 class TestTastingNote(TastingTests):
 
     def test_list_anon(self):
@@ -102,7 +132,8 @@ class TestTastingNote(TastingTests):
         rv = self.client.get(url)
         assert 'action="%s"' % url in rv.data.decode('utf-8')
         data = {
-            'text': 'Nice beer, cheers!'
+            'text': 'Nice beer, cheers!',
+            'date': datetime.date.today().isoformat(),
         }
         rv = self.client.post(url, data=data, follow_redirects=True)
         assert data['text'] in rv.data.decode('utf-8')

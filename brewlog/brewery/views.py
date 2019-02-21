@@ -128,7 +128,7 @@ def brewery_brews(brewery_id):
         if not brewery.has_access(current_user):
             abort(404)
         public_only = True
-    brewery_brews = brewery.all_brews(public_only)
+    brewery_brews = brewery.all_brews(public_only=public_only)
     pagination = brewery_brews.paginate(page, page_size)
     ctx = {
         'brewery': brewery,

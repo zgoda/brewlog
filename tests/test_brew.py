@@ -439,11 +439,21 @@ class TestBrewAttenuation(BrewTests):
         assert b'apparent' not in rv.data
 
     def test_og_fg_set(self, fermentation_step_factory):
-        fermentation_step_factory(brew=self.public_brewery_public_brew, og=10.5, fg=2.5)
+        fermentation_step_factory(brew=self.public_brewery_public_brew, og=10.5, fg=2.5, name='primary')
         brew = self.public_brewery_public_brew
         attenuation = brew.attenuation
         assert attenuation['apparent'] == apparent_attenuation(brew.og, brew.fg)
         assert attenuation['real'] == real_attenuation(brew.og, brew.fg)
+
+    def test_no_og_no_fg(self, fermentation_step_factory):
+        fermentation_step_factory(brew=self.public_brewery_public_brew, name='primary')
+        assert self.public_brewery_public_brew.attenuation['apparent'] == 0
+        assert self.public_brewery_public_brew.attenuation['real'] == 0
+
+    def test_og_no_fg(self, fermentation_step_factory):
+        fermentation_step_factory(brew=self.public_brewery_public_brew, name='primary', og=10)
+        assert self.public_brewery_public_brew.attenuation['apparent'] == 0
+        assert self.public_brewery_public_brew.attenuation['real'] == 0
 
 
 @pytest.mark.usefixtures('client_class')

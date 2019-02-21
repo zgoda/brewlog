@@ -31,9 +31,7 @@ class TastingNote(db.Model, DefaultModelMixin):
     @classmethod
     def create_for(cls, brew, author, text, date=None, commit=False):
         note = cls(brew=brew, author=author, text=text)
-        if date is None:
-            date = datetime.date.today()
-        note.date = date
+        note.date = date or datetime.date.today()
         db.session.add(note)
         db.session.flush()
         if commit:
@@ -43,11 +41,8 @@ class TastingNote(db.Model, DefaultModelMixin):
 
 # events: TastingNote model
 def tasting_note_pre_save(mapper, connection, target):
-    if target.date is None:
-        target.date = datetime.date.today()
-    if target.text:
-        target.text = stars2deg(target.text)
-        target.text_html = markdown.markdown(target.text, safe_mode='remove')
+    target.text = stars2deg(target.text)
+    target.text_html = markdown.markdown(target.text, safe_mode='remove')
 
 
 db.event.listen(TastingNote, 'before_insert', tasting_note_pre_save)

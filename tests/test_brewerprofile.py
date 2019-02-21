@@ -1,6 +1,7 @@
 import pytest
 from flask import url_for
 
+from brewlog.ext import db
 from brewlog.models import (
     BrewerProfile, CustomExportTemplate, CustomLabelTemplate
 )
@@ -12,14 +13,34 @@ class BrewerProfileTests(BrewlogTests):
 
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory, brewery_factory, brew_factory):
-        self.public_user = user_factory()
+        self.public_user = user_factory(first_name='Aaaa', last_name='Aaaa')
         self.public_brewery = brewery_factory(brewer=self.public_user, name='public brewery no 1')
         self.pb_public_brew = brew_factory(brewery=self.public_brewery, name='public brew no 1')
         self.pb_hidden_brew = brew_factory(brewery=self.public_brewery, is_public=False, name='hidden brew no 1')
-        self.hidden_user = user_factory(is_public=False)
+        self.hidden_user = user_factory(is_public=False, first_name='Bbbb', last_name='Bbbb')
         self.hidden_brewery = brewery_factory(brewer=self.hidden_user, name='hidden brewery no 1')
         self.hb_public_brew = brew_factory(brewery=self.hidden_brewery, name='hidden brew no 2')
         self.hb_hidden_brew = brew_factory(brewery=self.hidden_brewery, is_public=False, name='hidden brew no 2')
+
+
+@pytest.mark.usefixtures('client_class')
+class TestBrewerProfileModel(BrewerProfileTests):
+
+    def test_no_names(self, user_factory):
+        user = user_factory(first_name=None, last_name=None, nick=None)
+        assert 'anonymous' in user.name
+
+    def test_last_created_public_only(self):
+        assert len(BrewerProfile.last_created(public_only=True)) == 1
+
+    def test_last_created_all(self):
+        assert len(BrewerProfile.last_created(public_only=False)) == 2
+
+    def test_public_ordering(self, user_factory):
+        user = user_factory(first_name='Xxxx', last_name='Xxxx')
+        assert BrewerProfile.public().first() == self.public_user
+        assert BrewerProfile.public(order_by=BrewerProfile.first_name).first() == self.public_user
+        assert BrewerProfile.public(order_by=db.desc(BrewerProfile.first_name)).first() == user
 
 
 @pytest.mark.usefixtures('client_class')

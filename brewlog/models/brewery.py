@@ -37,12 +37,11 @@ class Brewery(db.Model, DefaultModelMixin):
     def brewers(self):
         return [self.brewer]
 
-    def _brews(self, public_only=False, limit=None, order=None):
+    def _brews(self, order, public_only=False, limit=None):
         query = self.brews.filter_by(is_draft=False)
         if public_only:
             query = query.filter_by(is_public=True)
-        if order is not None:
-            query = sort_query(query, order)
+        query = sort_query(query, order)
         if limit is not None:
             query = query.limit(limit)
         return query
