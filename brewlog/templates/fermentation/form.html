@@ -1,4 +1,4 @@
-{% extends "brew/fermentation/base.html" %}
+{% extends "fermentation/base.html" %}
 {% import "macros/forms.html" as forms %}
 {% import "macros/bootstrap.html" as bsu %}
 
@@ -8,7 +8,7 @@
 <div class="col-xs-12">
   <h3>{{ gettext("create fermentation step").capitalize() }}</h3>
   <p>{{ gettext("fermentation step for brew %(brew)s", brew=brew.full_name).capitalize() }}.</p>
-  <form method="post" action="{{ url_for('brew.fermentationstep_add', brew_id=brew.id) }}" class="form form-horizontal" role="form">
+  <form method="post" action="{{ url_for('ferm.fermentationstep_add', brew_id=brew.id) }}" class="form form-horizontal" role="form">
     {{ forms.render(form) }}
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">

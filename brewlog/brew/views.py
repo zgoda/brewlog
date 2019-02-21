@@ -12,10 +12,10 @@ from markdown import markdown
 from . import brew_bp
 from ..ext import db
 from ..forms.base import DeleteForm
-from ..models import Brew, CustomLabelTemplate, FermentationStep
+from ..models import Brew, CustomLabelTemplate
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
-from .forms import BrewForm, ChangeStateForm, FermentationStepForm
+from .forms import BrewForm, ChangeStateForm
 from .utils import BrewUtils
 
 HINTS = [
@@ -50,7 +50,7 @@ def brew(brew_id, **kwargs):
         if form.validate_on_submit():
             brew = form.save(obj=brew)
             flash(_('brew %(name)s data updated', name=brew.name), category='success')
-            return redirect(url_for('brew.details', brew_id=brew.id))
+            return redirect(request.path)
     if not brew.has_access(current_user):
         abort(404)
     public_only = current_user not in brew.brewery.brewers
@@ -193,92 +193,6 @@ def brew_delete(brew_id):
         'delete_form': form,
     }
     return render_template('brew/delete.html', **ctx)
-
-
-@brew_bp.route(
-    '/<int:brew_id>/fermentationstep/add',
-    methods=['GET', 'POST'], endpoint='fermentationstep_add'
-)
-@login_required
-def fermentation_step_add(brew_id):
-    brew = Brew.query.get_or_404(brew_id)
-    if brew.brewery.brewer != current_user:
-        abort(403)
-    form = FermentationStepForm()
-    if form.validate_on_submit():
-        fstep = form.save(brew=brew, save=False)
-        db.session.add(fstep)
-        previous_step = fstep.previous_step()
-        if previous_step:
-            previous_step.fg = fstep.og
-            db.session.add(previous_step)
-        if fstep.fg is not None:
-            next_step = fstep.next_step()
-            if next_step:
-                next_step.og = fstep.fg
-                db.session.add(next_step)
-        db.session.commit()
-        flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been created', step_name=fstep.name,
-            brew_name=brew.name), category='success')
-        return redirect(url_for('brew.details', brew_id=brew.id))
-    ctx = {
-        'brew': brew,
-        'form': form,
-    }
-    return render_template('brew/fermentation/form.html', **ctx)
-
-
-@brew_bp.route('/fermentationstep/<int:fstep_id>', methods=['GET', 'POST'], endpoint='fermentation_step')
-@login_required
-def fermentation_step(fstep_id):
-    fstep = FermentationStep.query.get_or_404(fstep_id)
-    if fstep.brew.brewery.brewer != current_user:
-        abort(403)
-    form = FermentationStepForm()
-    if form.validate_on_submit():
-        fstep = form.save(fstep.brew, obj=fstep, save=False)
-        db.session.add(fstep)
-        previous_step = fstep.previous_step()
-        if previous_step:
-            previous_step.fg = fstep.og
-            db.session.add(previous_step)
-        if fstep.fg is not None:
-            next_step = fstep.next_step()
-            if next_step:
-                next_step.og = fstep.fg
-                db.session.add(next_step)
-        db.session.commit()
-        flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been updated', step_name=fstep.name,
-            brew_name=fstep.brew.name), category='success')
-        return redirect(url_for('brew.details', brew_id=fstep.brew.id))
-    ctx = {
-        'form': FermentationStepForm(obj=fstep),
-        'fstep': fstep,
-    }
-    return render_template('brew/fermentation/step.html', **ctx)
-
-
-@brew_bp.route('/fermentationstep/<int:fstep_id>/delete', methods=['GET', 'POST'], endpoint='fermentationstep_delete')
-@login_required
-def fermentation_step_delete(fstep_id):
-    fstep = FermentationStep.query.get_or_404(fstep_id)
-    if fstep.brew.brewery.brewer != current_user:
-        abort(403)
-    fstep_name = fstep.name
-    brew_name = fstep.brew.name
-    next_ = url_for('brew.details', brew_id=fstep.brew.id)
-    form = DeleteForm()
-    if form.validate_on_submit() and form.delete_it.data:
-        db.session.delete(fstep)
-        db.session.commit()
-        flash(_('fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted', fstep_name=fstep_name,
-            brew_name=brew_name), category='success')
-        return redirect(next_)
-    ctx = {
-        'fstep': fstep,
-        'delete_form': form,
-    }
-    return render_template('brew/fermentation/step_delete.html', **ctx)
 
 
 @brew_bp.route('/<int:brew_id>/chgstate', methods=['POST'], endpoint='chgstate')

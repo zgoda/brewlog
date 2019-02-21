@@ -62,6 +62,8 @@ def configure_blueprints(app, env):
     app.register_blueprint(brew_bp, url_prefix='/brew')
     from brewlog.tasting import tasting_bp
     app.register_blueprint(tasting_bp, url_prefix='/tastingnote')
+    from brewlog.fermentation import ferm_bp
+    app.register_blueprint(ferm_bp, url_prefix='/ferm')
 
 
 def configure_extensions(app, env):
