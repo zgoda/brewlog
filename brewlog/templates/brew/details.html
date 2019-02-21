@@ -61,7 +61,7 @@ $(document).ready(function() {
           {% for fstep in brew.fermentation_steps.all() %}
           {% include "brew/include/fermentation_step.html" %}
           {% endfor %}
-          <p><a href="{{ url_for('brew.fermentationstep_add', brew_id=brew.id) }}" class="btn btn-primary">{{ gettext("add fermentation step") }}</a></p>        
+          <p><a href="{{ url_for('ferm.fermentationstep_add', brew_id=brew.id) }}" class="btn btn-primary">{{ gettext("add fermentation step") }}</a></p>
         </div>
       </div>
     </div>
