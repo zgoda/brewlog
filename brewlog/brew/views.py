@@ -2,7 +2,7 @@ from datetime import datetime
 
 from flask import (
     abort, flash, jsonify, redirect, render_template, render_template_string,
-    request, url_for
+    request, url_for,
 )
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext

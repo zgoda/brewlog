@@ -3,8 +3,8 @@ from flask_babel import lazy_gettext as _
 from wtforms.fields.html5 import DateField, DecimalField, IntegerField
 from wtforms.validators import DataRequired, Optional
 
-from ..models import FermentationStep
 from ..forms.base import BaseObjectForm
+from ..models import FermentationStep
 
 
 class FermentationStepForm(BaseObjectForm):

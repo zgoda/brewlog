@@ -3,9 +3,9 @@ from flask_babel import gettext as _
 from flask_login import login_required, logout_user
 
 from . import auth_bp
+from ..ext import oauth
 from .providers import services
 from .utils import login_success
-from ..ext import oauth
 
 
 @auth_bp.route('/select', endpoint='select')

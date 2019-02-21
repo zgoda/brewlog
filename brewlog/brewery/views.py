@@ -1,6 +1,5 @@
 from flask import (
-    abort, flash, jsonify, redirect, render_template, request,
-    url_for
+    abort, flash, jsonify, redirect, render_template, request, url_for,
 )
 from flask_babel import gettext as _
 from flask_login import current_user, login_required

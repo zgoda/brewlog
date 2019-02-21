@@ -7,10 +7,10 @@ from ..brew.utils import BrewUtils
 from ..ext import db
 from ..forms.base import DeleteForm
 from ..models import (
-    Brew, BrewerProfile, Brewery, CustomExportTemplate, CustomLabelTemplate
+    Brew, BrewerProfile, Brewery, CustomExportTemplate, CustomLabelTemplate,
 )
 from ..profile.forms import (
-    CustomExportTemplateForm, CustomLabelTemplateForm, ProfileForm
+    CustomExportTemplateForm, CustomLabelTemplateForm, ProfileForm,
 )
 from ..utils.pagination import get_page
 from ..utils.views import get_user_object
