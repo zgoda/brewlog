@@ -10,26 +10,29 @@ from . import BrewlogTests
 class BrewTests(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, brew_factory, brewery_factory, user_factory):
+    def set_up(self, brewery_factory, user_factory):
         self.list_url = url_for('brew.all')
         self.create_url = url_for('brew.add')
-
-        # public user data
         self.public_user = user_factory()
         self.public_brewery = brewery_factory(
             brewer=self.public_user, name='public brewery no 1'
         )
+        self.hidden_user = user_factory(is_public=False)
+        self.hidden_brewery = brewery_factory(
+            brewer=self.hidden_user, name='hidden brewery no 2'
+        )
+
+
+@pytest.mark.usefixtures('client_class')
+class TestBrewList(BrewTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up2(self, brew_factory):
         self.public_brewery_public_brew = brew_factory(
             brewery=self.public_brewery, name='public brew no 1'
         )
         self.public_brewery_hidden_brew = brew_factory(
             brewery=self.public_brewery, is_public=False, name='hidden brew no 1'
-        )
-
-        # hidden user data
-        self.hidden_user = user_factory(is_public=False)
-        self.hidden_brewery = brewery_factory(
-            brewer=self.hidden_user, name='hidden brewery no 2'
         )
         self.hidden_brewery_public_brew = brew_factory(
             brewery=self.hidden_brewery, name='public brew no 2'
@@ -37,10 +40,6 @@ class BrewTests(BrewlogTests):
         self.hidden_brewery_hidden_brew = brew_factory(
             brewery=self.hidden_brewery, is_public=False, name='hidden brew no 2'
         )
-
-
-@pytest.mark.usefixtures('client_class')
-class TestBrewList(BrewTests):
 
     def test_anon_user_view_list(self):
         """Anonymous user sees only public brews of public users. No brew
@@ -92,6 +91,21 @@ class TestBrewList(BrewTests):
 @pytest.mark.usefixtures('client_class')
 class TestBrewDetailsAnonUser(BrewTests):
 
+    @pytest.fixture(autouse=True)
+    def set_up2(self, brew_factory):
+        self.public_brewery_public_brew = brew_factory(
+            brewery=self.public_brewery, name='public brew no 1'
+        )
+        self.public_brewery_hidden_brew = brew_factory(
+            brewery=self.public_brewery, is_public=False, name='hidden brew no 1'
+        )
+        self.hidden_brewery_public_brew = brew_factory(
+            brewery=self.hidden_brewery, name='public brew no 2'
+        )
+        self.hidden_brewery_hidden_brew = brew_factory(
+            brewery=self.hidden_brewery, is_public=False, name='hidden brew no 2'
+        )
+
     def test_anon_user_public_brewery_public_brew_details(self):
         """Anonymous user sees read-only version of public brew details page.
 
@@ -135,6 +149,21 @@ class TestBrewDetailsAnonUser(BrewTests):
 
 @pytest.mark.usefixtures('client_class')
 class TestBrewDetailsLoggedInUser(BrewTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up2(self, brew_factory):
+        self.public_brewery_public_brew = brew_factory(
+            brewery=self.public_brewery, name='public brew no 1'
+        )
+        self.public_brewery_hidden_brew = brew_factory(
+            brewery=self.public_brewery, is_public=False, name='hidden brew no 1'
+        )
+        self.hidden_brewery_public_brew = brew_factory(
+            brewery=self.hidden_brewery, name='public brew no 2'
+        )
+        self.hidden_brewery_hidden_brew = brew_factory(
+            brewery=self.hidden_brewery, is_public=False, name='hidden brew no 2'
+        )
 
     def test_owner_public_brewery_public_brew_details(self):
         """Owner sees full version of own public brew details page.
@@ -205,6 +234,15 @@ class TestBrewDetailsLoggedInUser(BrewTests):
 
 @pytest.mark.usefixtures('client_class')
 class TestBrewOperations(BrewTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up2(self, brew_factory):
+        self.public_brewery_public_brew = brew_factory(
+            brewery=self.public_brewery, name='public brew no 1'
+        )
+        self.public_brewery_hidden_brew = brew_factory(
+            brewery=self.public_brewery, is_public=False, name='hidden brew no 1'
+        )
 
     def test_anon_create_page(self):
         """Anonymous users can not access brew create page.
@@ -358,6 +396,15 @@ class TestBrewOperations(BrewTests):
 @pytest.mark.usefixtures('client_class')
 class TestBrewNavigation(BrewTests):
 
+    @pytest.fixture(autouse=True)
+    def set_up2(self, brew_factory):
+        self.public_brewery_public_brew = brew_factory(
+            brewery=self.public_brewery, name='public brew no 1'
+        )
+        self.public_brewery_hidden_brew = brew_factory(
+            brewery=self.public_brewery, is_public=False, name='hidden brew no 1'
+        )
+
     def test_next_own_brews(self):
         brew_id = self.public_brewery_public_brew.id
         url = url_for('brew.details', brew_id=brew_id)
@@ -402,6 +449,21 @@ class TestBrewNavigation(BrewTests):
 @pytest.mark.usefixtures('client_class')
 class TestBrewObjectLists(BrewTests):
 
+    @pytest.fixture(autouse=True)
+    def set_up2(self, brew_factory):
+        self.public_brewery_public_brew = brew_factory(
+            brewery=self.public_brewery, name='public brew no 1'
+        )
+        self.public_brewery_hidden_brew = brew_factory(
+            brewery=self.public_brewery, is_public=False, name='hidden brew no 1'
+        )
+        self.hidden_brewery_public_brew = brew_factory(
+            brewery=self.hidden_brewery, name='public brew no 2'
+        )
+        self.hidden_brewery_hidden_brew = brew_factory(
+            brewery=self.hidden_brewery, is_public=False, name='hidden brew no 2'
+        )
+
     def test_list_public_only_in_public_brewery(self):
         brew_ids = [x.id for x in Brew.get_latest_for(self.public_user, public_only=True)]
         hidden_brews = [x.id for x in Brew.query.join(Brewery).filter(
@@ -432,6 +494,12 @@ class TestBrewObjectLists(BrewTests):
 @pytest.mark.usefixtures('client_class')
 class TestBrewAttenuation(BrewTests):
 
+    @pytest.fixture(autouse=True)
+    def set_up2(self, brew_factory):
+        self.public_brewery_public_brew = brew_factory(
+            brewery=self.public_brewery, name='public brew no 1'
+        )
+
     def test_attenuation_none_display(self):
         url = url_for('brew.details', brew_id=self.public_brewery_public_brew.id)
         self.login(self.public_user.email)
@@ -458,6 +526,15 @@ class TestBrewAttenuation(BrewTests):
 
 @pytest.mark.usefixtures('client_class')
 class TestBrewExport(BrewTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up2(self, brew_factory):
+        self.public_brewery_public_brew = brew_factory(
+            brewery=self.public_brewery, name='public brew no 1'
+        )
+        self.hidden_brewery_public_brew = brew_factory(
+            brewery=self.hidden_brewery, name='public brew no 2'
+        )
 
     def test_public(self):
         url = url_for('brew.export', brew_id=self.public_brewery_public_brew.id, flavour='ipboard')

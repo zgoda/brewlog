@@ -100,7 +100,7 @@ class Brew(db.Model, DefaultModelMixin):
 
     @property
     def is_brewed_yet(self):
-        return self.date_brewed and self.date_brewed < datetime.date.today()
+        return bool(self.date_brewed and self.date_brewed < datetime.date.today())
 
     @property
     def attenuation(self):
