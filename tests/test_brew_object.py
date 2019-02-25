@@ -31,3 +31,15 @@ class TestBrewObject(BrewObjectTests):
         )
         brew = brew_factory(brewery=self.public_brewery, date_brewed=brewing_date)
         assert brew.is_brewed_yet is False
+
+    def test_is_brewed(self, brew_factory, mocker):
+        today = datetime.date(2018, 12, 21)
+        fake_datetime = mocker.MagicMock()
+        fake_datetime.date.today.return_value = today
+        mocker.patch(
+            'brewlog.models.brewing.datetime',
+            fake_datetime,
+        )
+        brewing_date = today - datetime.timedelta(days=6)
+        brew = brew_factory(brewery=self.public_brewery, date_brewed=brewing_date)
+        assert brew.is_brewed_yet is True
