@@ -1,6 +1,4 @@
-from flask import (
-    abort, flash, jsonify, redirect, render_template, request, url_for,
-)
+from flask import abort, flash, redirect, render_template, request
 from flask_babel import gettext as _
 from flask_login import current_user, login_required
 
@@ -72,11 +70,7 @@ def bloodhound_prefetch():
     else:
         query = current_user.breweries
     query = query.order_by(Brewery.name)
-    breweries_list = []
-    for brewery_id, name in query.values(Brewery.id, Brewery.name):
-        url = url_for('brewery.details', brewery_id=brewery_id)
-        breweries_list.append(dict(name=name, url=url))
-    return jsonify(breweries_list)
+    return BreweryUtils.brewery_search_result(query)
 
 
 @brewery_bp.route('/search', endpoint='search')
@@ -89,11 +83,7 @@ def search():
     if term:
         query = query.filter(Brewery.name.like(term[0] + '%'))
     query = query.order_by(Brewery.name)
-    breweries_list = []
-    for brewery_id, name in query.values(Brewery.id, Brewery.name):
-        url = url_for('brewery.details', brewery_id=brewery_id)
-        breweries_list.append(dict(name=name, url=url))
-    return jsonify(breweries_list)
+    return BreweryUtils.brewery_search_result(query)
 
 
 @brewery_bp.route('/<int:brewery_id>', methods=['POST', 'GET'], endpoint='details')

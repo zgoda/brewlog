@@ -1,8 +1,8 @@
 from datetime import datetime
 
 from flask import (
-    abort, flash, jsonify, redirect, render_template, render_template_string,
-    request, url_for,
+    abort, flash, redirect, render_template, render_template_string, request,
+    url_for,
 )
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext
@@ -93,11 +93,7 @@ def bloodhound_prefetch():
     else:
         query = BrewUtils.brew_list_query(public_only=False, user=current_user)
     query = query.order_by(Brew.name)
-    brew_list = []
-    for brew_id, name in query.values(Brew.id, Brew.name):
-        url = url_for('brew.details', brew_id=brew_id)
-        brew_list.append(dict(name=name, url=url))
-    return jsonify(brew_list)
+    return BrewUtils.brew_search_result(query)
 
 
 @brew_bp.route('/search', endpoint='search')
@@ -110,11 +106,7 @@ def search():
     if term:
         query = query.filter(Brew.name.like(term[0] + '%'))
     query = query.order_by(Brew.name)
-    brew_list = []
-    for brew_id, name in query.values(Brew.id, Brew.name):
-        url = url_for('brew.details', brew_id=brew_id)
-        brew_list.append(dict(name=name, url=url))
-    return jsonify(brew_list)
+    return BrewUtils.brew_search_result(query)
 
 
 @brew_bp.route('/<int:brew_id>/export/<flavour>', endpoint='export')
