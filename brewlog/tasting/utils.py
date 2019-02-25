@@ -1,5 +1,6 @@
 from ..ext import db
 from ..models import Brew, BrewerProfile, Brewery, TastingNote
+from ..utils.query import public_or_owner
 
 
 class TastingUtils:
@@ -11,15 +12,7 @@ class TastingUtils:
             query = query.join(BrewerProfile).filter(BrewerProfile.id == user.id)
         if public_only:
             query = query.join(Brew).join(Brewery).join(BrewerProfile)
-            if extra_user:
-                query = query.filter(
-                    db.or_(BrewerProfile.id == extra_user.id,
-                        db.and_(BrewerProfile.is_public.is_(True), Brew.is_public.is_(True)))
-                )
-            else:
-                query = query.filter(
-                    db.and_(BrewerProfile.is_public.is_(True), Brew.is_public.is_(True))
-                )
+            query = public_or_owner(query, extra_user)
         return query
 
     @staticmethod
