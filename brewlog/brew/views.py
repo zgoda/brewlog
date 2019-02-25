@@ -16,7 +16,7 @@ from ..models import Brew, CustomLabelTemplate
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
 from .forms import BrewForm, ChangeStateForm
-from .utils import BrewUtils
+from .utils import BrewUtils, list_query_for_user
 
 HINTS = [
     ("67-66*C - 90'\n75*C - 15'", lazy_gettext('single infusion mash w/ mash out')),
@@ -88,20 +88,14 @@ def brew_all():
 
 @brew_bp.route('/prefetch', endpoint='prefetch')
 def bloodhound_prefetch():
-    if current_user.is_anonymous:
-        query = BrewUtils.brew_list_query()
-    else:
-        query = BrewUtils.brew_list_query(public_only=False, user=current_user)
+    query = list_query_for_user(current_user)
     query = query.order_by(Brew.name)
     return BrewUtils.brew_search_result(query)
 
 
 @brew_bp.route('/search', endpoint='search')
 def search():
-    if current_user.is_anonymous:
-        query = BrewUtils.brew_list_query()
-    else:
-        query = BrewUtils.brew_list_query(public_only=False, user=current_user)
+    query = list_query_for_user(current_user)
     term = request.args.getlist('q')
     if term:
         query = query.filter(Brew.name.like(term[0] + '%'))

@@ -110,3 +110,9 @@ class BrewUtils:
             url = url_for('brew.details', brew_id=brew_id)
             brew_list.append(dict(name=name, url=url))
         return jsonify(brew_list)
+
+
+def list_query_for_user(user):
+    if user.is_anonymous:
+        return BrewUtils.brew_list_query()
+    return BrewUtils.brew_list_query(public_only=False, user=user)
