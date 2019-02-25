@@ -6,6 +6,7 @@ from flask_babel import lazy_gettext as _
 
 from ..ext import db
 from ..models import Brew, BrewerProfile, Brewery
+from ..utils.query import public_or_owner
 from ..utils.text import stars2deg
 
 
@@ -92,15 +93,7 @@ class BrewUtils:
             if user is not None:
                 query = query.filter(BrewerProfile.id == user.id)
             if public_only:
-                if extra_user is not None:
-                    query = query.filter(
-                        db.or_(BrewerProfile.id == extra_user.id,
-                            db.and_(BrewerProfile.is_public.is_(True), Brew.is_public.is_(True)))
-                    )
-                else:
-                    query = query.filter(
-                        BrewerProfile.is_public.is_(True), Brew.is_public.is_(True)
-                    )
+                query = public_or_owner(query, extra_user)
         return query
 
     @staticmethod
