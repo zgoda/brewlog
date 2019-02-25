@@ -7,6 +7,7 @@ from ..ext import db
 from ..forms.base import DeleteForm
 from ..models import Brew, FermentationStep
 from .forms import FermentationStepForm
+from .utils import update_steps_gravity
 
 
 @ferm_bp.route(
@@ -26,11 +27,7 @@ def fermentation_step_add(brew_id):
         if previous_step:
             previous_step.fg = fstep.og
             db.session.add(previous_step)
-        if fstep.fg is not None:
-            next_step = fstep.next_step()
-            if next_step:
-                next_step.og = fstep.fg
-                db.session.add(next_step)
+        update_steps_gravity(fstep)
         db.session.commit()
         flash(_(
             'fermentation step %(step_name)s for brew %(brew_name)s has been created',
@@ -59,11 +56,7 @@ def fermentation_step(fstep_id):
         if previous_step:
             previous_step.fg = fstep.og
             db.session.add(previous_step)
-        if fstep.fg is not None:
-            next_step = fstep.next_step()
-            if next_step:
-                next_step.og = fstep.fg
-                db.session.add(next_step)
+        update_steps_gravity(fstep)
         db.session.commit()
         flash(_('fermentation step %(step_name)s for brew %(brew_name)s has been updated', step_name=fstep.name,
             brew_name=fstep.brew.name), category='success')
