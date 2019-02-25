@@ -49,7 +49,7 @@ def brew(brew_id, **kwargs):
         form = BrewForm()
         if form.validate_on_submit():
             brew = form.save(obj=brew)
-            flash(_('brew %(name)s data updated', name=brew.name), category='success')
+            flash(_('brew %(name)s data updated', name=brew.full_name), category='success')
             return redirect(request.path)
     if not brew.has_access(current_user):
         abort(404)
