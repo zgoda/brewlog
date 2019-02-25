@@ -1,3 +1,5 @@
+from flask import jsonify, url_for
+
 from ..ext import db
 from ..models import BrewerProfile, Brewery
 
@@ -19,3 +21,11 @@ class BreweryUtils:
     @staticmethod
     def latest_breweries(ordering, limit=5, public_only=False, extra_user=None):
         return BreweryUtils.breweries(public_only, extra_user).order_by(db.desc(ordering)).limit(limit).all()
+
+    @staticmethod
+    def brewery_search_result(query):
+        breweries_list = []
+        for brewery_id, name in query.values(Brewery.id, Brewery.name):
+            url = url_for('brewery.details', brewery_id=brewery_id)
+            breweries_list.append(dict(name=name, url=url))
+        return jsonify(breweries_list)

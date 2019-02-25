@@ -1,5 +1,6 @@
 import datetime
 
+from flask import jsonify, url_for
 from flask_babel import gettext
 from flask_babel import lazy_gettext as _
 
@@ -101,3 +102,11 @@ class BrewUtils:
                         BrewerProfile.is_public.is_(True), Brew.is_public.is_(True)
                     )
         return query
+
+    @staticmethod
+    def brew_search_result(query):
+        brew_list = []
+        for brew_id, name in query.values(Brew.id, Brew.name):
+            url = url_for('brew.details', brew_id=brew_id)
+            brew_list.append(dict(name=name, url=url))
+        return jsonify(brew_list)
