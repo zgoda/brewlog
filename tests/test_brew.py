@@ -546,7 +546,7 @@ class TestBrewExport(BrewTests):
         url = url_for('brew.export', brew_id=self.hidden_brewery_public_brew.id, flavour='ipboard')
         self.login(self.public_user.email)
         rv = self.client.get(url)
-        assert rv.status_code == 403
+        assert rv.status_code == 404
 
     def test_print_public(self):
         url = url_for('brew.print', brew_id=self.public_brewery_public_brew.id)
@@ -558,7 +558,7 @@ class TestBrewExport(BrewTests):
         url = url_for('brew.print', brew_id=self.hidden_brewery_public_brew.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
-        assert rv.status_code == 403
+        assert rv.status_code == 404
 
     def test_print_labels_public(self):
         url = url_for('brew.labels', brew_id=self.public_brewery_public_brew.id)

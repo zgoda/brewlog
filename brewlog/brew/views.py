@@ -102,9 +102,7 @@ def search():
 
 @brew_bp.route('/<int:brew_id>/export/<flavour>', endpoint='export')
 def brew_export(brew_id, flavour):
-    brew = Brew.query.get_or_404(brew_id)
-    if not brew.has_access(current_user):
-        abort(403)
+    brew = check_brew(brew_id, current_user)
     ctx = {
         'brew': brew,
         'flavour': flavour,
@@ -115,9 +113,7 @@ def brew_export(brew_id, flavour):
 
 @brew_bp.route('/<int:brew_id>/print', endpoint='print')
 def brew_print(brew_id):
-    brew = Brew.query.get_or_404(brew_id)
-    if not brew.has_access(current_user):
-        abort(403)
+    brew = check_brew(brew_id, current_user)
     ctx = {
         'brew': brew,
     }
@@ -126,9 +122,7 @@ def brew_print(brew_id):
 
 @brew_bp.route('/<int:brew_id>/labels', endpoint='labels')
 def brew_labels(brew_id):
-    brew = Brew.query.get_or_404(brew_id)
-    if not brew.has_access(current_user):
-        abort(403)
+    brew = check_brew(brew_id, current_user, strict=True)
     ctx = {
         'brew': brew,
         'custom_templates': [],
@@ -160,9 +154,7 @@ def brew_labels(brew_id):
 @brew_bp.route('/<int:brew_id>/delete', methods=['GET', 'POST'], endpoint='delete')
 @login_required
 def brew_delete(brew_id):
-    brew = Brew.query.get_or_404(brew_id)
-    if brew.brewery.brewer != current_user:
-        abort(403)
+    brew = check_brew(brew_id, current_user, strict=True)
     name = brew.name
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
@@ -181,9 +173,7 @@ def brew_delete(brew_id):
 @brew_bp.route('/<int:brew_id>/chgstate', methods=['POST'], endpoint='chgstate')
 @login_required
 def change_state(brew_id):
-    brew = Brew.query.get_or_404(brew_id)
-    if brew.brewery.brewer != current_user:
-        abort(403)
+    brew = check_brew(brew_id, current_user, strict=True)
     form = ChangeStateForm()
     now = datetime.utcnow()
     action = form.data['action']
