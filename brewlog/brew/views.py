@@ -16,7 +16,7 @@ from ..models import Brew, CustomLabelTemplate
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
 from .forms import BrewForm, ChangeStateForm
-from .utils import BrewUtils, list_query_for_user
+from .utils import BrewUtils, check_brew, list_query_for_user
 
 HINTS = [
     ("67-66*C - 90'\n75*C - 15'", lazy_gettext('single infusion mash w/ mash out')),
@@ -42,7 +42,7 @@ def brew_add():
 
 @brew_bp.route('/<int:brew_id>', methods=['POST', 'GET'], endpoint='details')
 def brew(brew_id):
-    brew = Brew.query.get_or_404(brew_id)
+    brew = check_brew(brew_id, current_user)
     user_is_brewer = current_user in brew.brewery.brewers
     if request.method == 'POST':
         if not user_is_brewer:
@@ -52,8 +52,6 @@ def brew(brew_id):
             brew = form.save(obj=brew)
             flash(_('brew %(name)s data updated', name=brew.full_name), category='success')
             return redirect(request.path)
-    if not brew.has_access(current_user):
-        abort(404)
     public_only = not user_is_brewer
     ctx = {
         'brew': brew,

@@ -1,6 +1,6 @@
 import datetime
 
-from flask import jsonify, url_for
+from flask import abort, jsonify, url_for
 from flask_babel import gettext
 from flask_babel import lazy_gettext as _
 
@@ -115,3 +115,10 @@ def list_query_for_user(user):
     if user.is_anonymous:
         return BrewUtils.brew_list_query()
     return BrewUtils.brew_list_query(public_only=False, user=user)
+
+
+def check_brew(brew_id, user):
+    brew = Brew.query.get_or_404(brew_id)
+    if not brew.has_access(user):
+        abort(404)
+    return brew
