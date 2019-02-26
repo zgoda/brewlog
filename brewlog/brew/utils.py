@@ -104,6 +104,12 @@ class BrewUtils:
             brew_list.append(dict(name=name, url=url))
         return jsonify(brew_list)
 
+    @staticmethod
+    def state_changeable(brew):
+        return brew.current_state[0] in (
+            brew.STATE_FINISHED, brew.STATE_TAPPED, brew.STATE_MATURING
+        )
+
 
 def list_query_for_user(user):
     if user.is_anonymous:

@@ -41,10 +41,11 @@ def brew_add():
 
 
 @brew_bp.route('/<int:brew_id>', methods=['POST', 'GET'], endpoint='details')
-def brew(brew_id, **kwargs):
+def brew(brew_id):
     brew = Brew.query.get_or_404(brew_id)
+    user_is_brewer = current_user in brew.brewery.brewers
     if request.method == 'POST':
-        if current_user not in brew.brewery.brewers:
+        if not user_is_brewer:
             abort(403)
         form = BrewForm()
         if form.validate_on_submit():
@@ -53,7 +54,7 @@ def brew(brew_id, **kwargs):
             return redirect(request.path)
     if not brew.has_access(current_user):
         abort(404)
-    public_only = current_user not in brew.brewery.brewers
+    public_only = not user_is_brewer
     ctx = {
         'brew': brew,
         'utils': BrewUtils,
@@ -62,9 +63,9 @@ def brew(brew_id, **kwargs):
         'next': brew.get_next(public_only=public_only),
         'previous': brew.get_previous(public_only=public_only),
     }
-    if current_user in brew.brewery.brewers:
+    if user_is_brewer:
         ctx['form'] = BrewForm(obj=brew)
-        if brew.current_state[0] in (brew.STATE_FINISHED, brew.STATE_TAPPED, brew.STATE_MATURING):
+        if BrewUtils.state_changeable(brew):
             ctx['action_form'] = ChangeStateForm()
     return render_template('brew/details.html', **ctx)
 
