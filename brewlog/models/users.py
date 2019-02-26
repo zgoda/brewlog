@@ -33,15 +33,15 @@ class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
 
     @property
     def absolute_url(self):
-        return url_for('profile.details', userid=self.id)
+        return url_for('profile.details', user_id=self.id)
 
     @property
     def breweries_list_url(self):
-        return url_for('profile.breweries', userid=self.id)
+        return url_for('profile.breweries', user_id=self.id)
 
     @property
     def brews_list_url(self):
-        return url_for('profile.brews', userid=self.id)
+        return url_for('profile.brews', user_id=self.id)
 
     @property
     def name(self):
@@ -123,7 +123,7 @@ class CustomExportTemplate(db.Model, DefaultModelMixin):
 
     @property
     def absolute_url(self):
-        return url_for('profile.export_template', tid=self.id, userid=self.user.id)
+        return url_for('profile.export_template', tid=self.id, user_id=self.user.id)
 
 
 class CustomLabelTemplate(db.Model, DefaultModelMixin):
@@ -151,4 +151,4 @@ class CustomLabelTemplate(db.Model, DefaultModelMixin):
 
     @property
     def absolute_url(self):
-        return url_for('profile.label_template', tid=self.id, userid=self.user.id)
+        return url_for('profile.label_template', tid=self.id, user_id=self.user.id)

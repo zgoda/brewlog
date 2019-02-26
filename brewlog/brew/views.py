@@ -169,7 +169,7 @@ def brew_delete(brew_id):
         db.session.delete(brew)
         db.session.commit()
         flash(_('brew %(name)s has been deleted', name=name), category='success')
-        next_ = next_redirect('profile.brews', userid=current_user.id)
+        next_ = next_redirect('profile.brews', user_id=current_user.id)
         return redirect(next_)
     ctx = {
         'brew': brew,

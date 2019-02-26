@@ -81,9 +81,9 @@ def configure_extensions(app, env):
     login_manager.login_message_category = 'warning'
 
     @login_manager.user_loader
-    def get_user(userid):
+    def get_user(user_id):
         from .models.users import BrewerProfile
-        return BrewerProfile.query.get(userid)
+        return BrewerProfile.query.get(user_id)
 
     if not app.testing:
         @babel.localeselector

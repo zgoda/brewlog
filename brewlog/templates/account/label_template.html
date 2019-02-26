@@ -7,7 +7,7 @@
 {% block widecontent %}
 <div class="col-xs-12">
   <h3>{% if template %}{{ gettext("label template %(name)s", name=template.name).capitalize() }}{% else %}{{ gettext("new label template").capitalize() }}{% endif %}</h3>
-  <form action="{% if template %}{{ url_for('profile.label_template', tid=template.id, userid=current_user.id) }}{% else %}{{ url_for('profile.label_template_add', userid=current_user.id) }}{% endif %}" method="post" class="form form-horizontal" role="form">
+  <form action="{% if template %}{{ url_for('profile.label_template', tid=template.id, user_id=current_user.id) }}{% else %}{{ url_for('profile.label_template_add', user_id=current_user.id) }}{% endif %}" method="post" class="form form-horizontal" role="form">
     {{ forms.render(form) }}
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">

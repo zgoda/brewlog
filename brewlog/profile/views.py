@@ -16,9 +16,9 @@ from ..utils.pagination import get_page
 from ..utils.views import get_user_object
 
 
-@profile_bp.route('/<int:userid>', methods=['GET', 'POST'], endpoint='details')
-def profile(userid, **kwargs):
-    user_profile = BrewerProfile.query.get_or_404(userid)
+@profile_bp.route('/<int:user_id>', methods=['GET', 'POST'], endpoint='details')
+def profile(user_id):
+    user_profile = BrewerProfile.query.get_or_404(user_id)
     if not user_profile.has_access(current_user):
         abort(404)
     if request.method == 'POST' and current_user != user_profile:
@@ -41,10 +41,10 @@ def profile(userid, **kwargs):
     return render_template('account/profile.html', **context)
 
 
-@profile_bp.route('<int:userid>/delete', methods=['GET', 'POST'], endpoint='delete')
+@profile_bp.route('<int:user_id>/delete', methods=['GET', 'POST'], endpoint='delete')
 @login_required
-def profile_delete(userid):
-    profile = BrewerProfile.query.get_or_404(userid)
+def profile_delete(user_id):
+    profile = BrewerProfile.query.get_or_404(user_id)
     if current_user != profile:
         abort(403)
     email = profile.email
@@ -74,9 +74,9 @@ def profile_list():
     return render_template('account/profile_list.html', **ctx)
 
 
-@profile_bp.route('/<int:userid>/breweries', endpoint='breweries')
-def breweries(userid):
-    brewer = BrewerProfile.query.get_or_404(userid)
+@profile_bp.route('/<int:user_id>/breweries', endpoint='breweries')
+def breweries(user_id):
+    brewer = BrewerProfile.query.get_or_404(user_id)
     if current_user != brewer and not brewer.is_public:
         abort(404)
     page_size = 10
@@ -89,15 +89,15 @@ def breweries(userid):
     return render_template('brewery/list.html', **ctx)
 
 
-@profile_bp.route('/<int:userid>/brews', endpoint='brews')
-def brews(userid):
-    brewer = BrewerProfile.query.get_or_404(userid)
+@profile_bp.route('/<int:user_id>/brews', endpoint='brews')
+def brews(user_id):
+    brewer = BrewerProfile.query.get_or_404(user_id)
     if current_user != brewer and not brewer.is_public:
         abort(404)
     page_size = 10
     page = get_page(request)
-    query = Brew.query.join(Brewery).filter(Brewery.brewer_id == userid)
-    if current_user.is_anonymous or current_user.id != userid:
+    query = Brew.query.join(Brewery).filter(Brewery.brewer_id == user_id)
+    if current_user.is_anonymous or current_user.id != user_id:
         query = query.filter(Brew.is_public.is_(True))
     query = query.order_by(db.desc(Brew.created))
     pagination = query.paginate(page, page_size)
@@ -109,17 +109,17 @@ def brews(userid):
 
 
 @profile_bp.route(
-    '/<int:userid>/extemplate',
+    '/<int:user_id>/extemplate',
     methods=['GET', 'POST'], defaults={'tid': None},
     endpoint='export_template_add'
 )
 @profile_bp.route(
-    '/<int:userid>/extemplate/<int:tid>',
+    '/<int:user_id>/extemplate/<int:tid>',
     methods=['GET', 'POST'],
     endpoint='export_template'
 )
 @login_required
-def export_template(userid, tid=None):
+def export_template(user_id, tid=None):
     template = get_user_object(CustomExportTemplate, tid)
     form = CustomExportTemplateForm()
     if form.validate_on_submit():
@@ -133,17 +133,17 @@ def export_template(userid, tid=None):
 
 
 @profile_bp.route(
-    '/<int:userid>/lbtemplate',
+    '/<int:user_id>/lbtemplate',
     methods=['GET', 'POST'], defaults={'tid': None},
     endpoint='label_template_add'
 )
 @profile_bp.route(
-    '/<int:userid>/lbtemplate/<int:tid>',
+    '/<int:user_id>/lbtemplate/<int:tid>',
     methods=['GET', 'POST'],
     endpoint='label_template'
 )
 @login_required
-def label_template(userid, tid=None):
+def label_template(user_id, tid=None):
     template = get_user_object(CustomLabelTemplate, tid)
     form = CustomLabelTemplateForm()
     if form.validate_on_submit():

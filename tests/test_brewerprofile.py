@@ -71,13 +71,13 @@ class TestBrewerProfile(BrewerProfileTests):
         assert self.hidden_user.absolute_url in rv.data.decode('utf-8')
 
     def test_anon_view_profile(self):
-        profile_url = url_for('profile.details', userid=self.public_user.id)
+        profile_url = url_for('profile.details', user_id=self.public_user.id)
         rv = self.client.get(profile_url)
         assert 'action="%s"' % self.public_user.absolute_url not in rv.data.decode('utf-8')
 
     def test_update_other_profile(self, user_factory):
         user = user_factory()
-        profile_url = url_for('profile.details', userid=self.public_user.id)
+        profile_url = url_for('profile.details', user_id=self.public_user.id)
         self.login(user.email)
         data = {
             'nick': 'new nick',
@@ -86,7 +86,7 @@ class TestBrewerProfile(BrewerProfileTests):
         assert rv.status_code == 403
 
     def test_update_by_anon(self):
-        profile_url = url_for('profile.details', userid=self.public_user.id)
+        profile_url = url_for('profile.details', user_id=self.public_user.id)
         data = {
             'nick': 'new nick',
         }
@@ -94,7 +94,7 @@ class TestBrewerProfile(BrewerProfileTests):
         assert rv.status_code == 403
 
     def test_update_by_self(self):
-        profile_url = url_for('profile.details', userid=self.public_user.id)
+        profile_url = url_for('profile.details', user_id=self.public_user.id)
         self.login(self.public_user.email)
         data = {
             'nick': 'Stephan',
@@ -105,7 +105,7 @@ class TestBrewerProfile(BrewerProfileTests):
         assert BrewerProfile.get_by_email(self.public_user.email).nick == data['nick']
 
     def test_update_failure(self):
-        profile_url = url_for('profile.details', userid=self.public_user.id)
+        profile_url = url_for('profile.details', user_id=self.public_user.id)
         self.login(self.public_user.email)
         data = {
             'nick': 'Stephan',
@@ -115,27 +115,27 @@ class TestBrewerProfile(BrewerProfileTests):
         assert b'profile data has been updated' not in rv.data
 
     def test_view_hidden_by_public(self):
-        profile_url = url_for('profile.details', userid=self.hidden_user.id)
+        profile_url = url_for('profile.details', user_id=self.hidden_user.id)
         self.login(self.public_user.email)
         rv = self.client.get(profile_url)
         assert rv.status_code == 404
 
     def test_owner_sees_delete_form(self):
-        url = url_for('profile.delete', userid=self.public_user.id)
+        url = url_for('profile.delete', user_id=self.public_user.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 200
         assert 'action="%s"' % url in rv.data.decode('utf-8')
 
     def test_public_cant_access_delete_form(self):
-        url = url_for('profile.delete', userid=self.public_user.id)
+        url = url_for('profile.delete', user_id=self.public_user.id)
         self.login(self.hidden_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 403
 
     def test_delete_profile(self):
         user_id = self.public_user.id
-        url = url_for('profile.delete', userid=user_id)
+        url = url_for('profile.delete', user_id=user_id)
         self.login(self.public_user.email)
         self.client.post(url, data={'delete_it': True}, follow_redirects=True)
         assert BrewerProfile.query.get(user_id) is None
@@ -145,19 +145,19 @@ class TestBrewerProfile(BrewerProfileTests):
 class TestProfileBrews(BrewerProfileTests):
 
     def test_public(self):
-        url = url_for('profile.brews', userid=self.public_user.id)
+        url = url_for('profile.brews', user_id=self.public_user.id)
         self.login(self.hidden_user.email)
         rv = self.client.get(url)
         assert self.pb_hidden_brew.name not in rv.data.decode('utf-8')
 
     def test_owner(self):
-        url = url_for('profile.brews', userid=self.public_user.id)
+        url = url_for('profile.brews', user_id=self.public_user.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert self.pb_hidden_brew.name in rv.data.decode('utf-8')
 
     def test_hidden(self):
-        url = url_for('profile.brews', userid=self.hidden_user.id)
+        url = url_for('profile.brews', user_id=self.hidden_user.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 404
@@ -167,13 +167,13 @@ class TestProfileBrews(BrewerProfileTests):
 class TestProfileBreweries(BrewerProfileTests):
 
     def test_public(self):
-        url = url_for('profile.breweries', userid=self.public_user.id)
+        url = url_for('profile.breweries', user_id=self.public_user.id)
         self.login(self.hidden_user.email)
         rv = self.client.get(url)
         assert self.public_brewery.name in rv.data.decode('utf-8')
 
     def test_hidden(self):
-        url = url_for('profile.breweries', userid=self.hidden_user.id)
+        url = url_for('profile.breweries', user_id=self.hidden_user.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 404
@@ -187,25 +187,25 @@ class TestProfileExportTemplates(BrewerProfileTests):
         self.template = export_template_factory(user=self.public_user, name='template')
 
     def test_list_on_profile_page(self):
-        url = url_for('profile.details', userid=self.public_user.id)
+        url = url_for('profile.details', user_id=self.public_user.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert self.template.name in rv.data.decode('utf-8')
 
     def test_access_own(self):
-        url = url_for('profile.export_template', userid=self.public_user.id, tid=self.template.id)
+        url = url_for('profile.export_template', user_id=self.public_user.id, tid=self.template.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert self.template.name in rv.data.decode('utf-8')
 
     def test_access_other(self):
-        url = url_for('profile.export_template', userid=self.hidden_user.id, tid=self.template.id)
+        url = url_for('profile.export_template', user_id=self.hidden_user.id, tid=self.template.id)
         self.login(self.hidden_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 403
 
     def test_create(self):
-        url = url_for('profile.export_template_add', userid=self.public_user.id)
+        url = url_for('profile.export_template_add', user_id=self.public_user.id)
         self.login(self.public_user.email)
         data = dict(name='new template', text='template')
         rv = self.client.post(url, data=data, follow_redirects=True)
@@ -213,7 +213,7 @@ class TestProfileExportTemplates(BrewerProfileTests):
         assert data['name'] in rv.data.decode('utf-8')
 
     def test_edit(self):
-        url = url_for('profile.export_template', userid=self.public_user.id, tid=self.template.id)
+        url = url_for('profile.export_template', user_id=self.public_user.id, tid=self.template.id)
         self.login(self.public_user.email)
         data = dict(name='new custom template', text='new template text')
         rv = self.client.post(url, data=data, follow_redirects=True)
@@ -228,25 +228,25 @@ class TestLabelTemplates(BrewerProfileTests):
         self.template = label_template_factory(user=self.public_user, name='template')
 
     def test_list_in_profile_page(self):
-        url = url_for('profile.details', userid=self.public_user.id)
+        url = url_for('profile.details', user_id=self.public_user.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert self.template.name in rv.data.decode('utf-8')
 
     def test_access_own(self):
-        url = url_for('profile.label_template', userid=self.public_user.id, tid=self.template.id)
+        url = url_for('profile.label_template', user_id=self.public_user.id, tid=self.template.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert self.template.name in rv.data.decode('utf-8')
 
     def test_access_other(self):
-        url = url_for('profile.label_template', userid=self.public_user.id, tid=self.template.id)
+        url = url_for('profile.label_template', user_id=self.public_user.id, tid=self.template.id)
         self.login(self.hidden_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 403
 
     def test_create(self):
-        url = url_for('profile.label_template_add', userid=self.public_user.id)
+        url = url_for('profile.label_template_add', user_id=self.public_user.id)
         self.login(self.public_user.email)
         data = dict(name='new template', text='template')
         rv = self.client.post(url, data=data, follow_redirects=True)
@@ -254,7 +254,7 @@ class TestLabelTemplates(BrewerProfileTests):
         assert data['name'] in rv.data.decode('utf-8')
 
     def test_edit(self):
-        url = url_for('profile.label_template', userid=self.public_user.id, tid=self.template.id)
+        url = url_for('profile.label_template', user_id=self.public_user.id, tid=self.template.id)
         self.login(self.public_user.email)
         data = dict(name='new custom template', text='new template text')
         rv = self.client.post(url, data=data, follow_redirects=True)
