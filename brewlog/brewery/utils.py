@@ -1,4 +1,4 @@
-from flask import jsonify, url_for
+from flask import abort, jsonify, url_for
 
 from ..ext import db
 from ..models import BrewerProfile, Brewery
@@ -29,3 +29,10 @@ class BreweryUtils:
             url = url_for('brewery.details', brewery_id=brewery_id)
             breweries_list.append(dict(name=name, url=url))
         return jsonify(breweries_list)
+
+
+def check_brewery(brewery_id, user):
+    brewery = Brewery.query.get_or_404(brewery_id)
+    if not brewery.has_access(user):
+        abort(404)
+    return brewery

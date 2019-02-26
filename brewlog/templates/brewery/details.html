@@ -8,7 +8,7 @@
 {% block widecontent %}
 <div class="col-xs-12">
   <h3>{{ brewery.name }}</h3>
-  {% if form %}
+  {% if current_user == brewery.brewer %}
   <p>{% trans %}You may change brewery data using the form below{% endtrans %}:</p>
   <form method="post" action="{{ brewery.absolute_url }}" class="form form-horizontal" role="form">
     {{ forms.render(form) }}
@@ -32,7 +32,7 @@
   </ul>
   <p><a href="{{ url_for('brewery.brews', brewery_id=brewery.id) }}">{{ gettext("view all brews") }}</a></p>
   
-  {% if form %}
+  {% if current_user == brewery.brewer %}
   <p><a href="{{ url_for('brew.add') }}" class="btn btn-sm btn-primary">{{ gettext("add new brew") }}</a></p>
   {% endif %}
 </div>

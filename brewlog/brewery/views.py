@@ -9,7 +9,7 @@ from ..forms.base import DeleteForm
 from ..models import Brewery
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
-from .utils import BreweryUtils
+from .utils import BreweryUtils, check_brewery
 
 
 @brewery_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
@@ -87,8 +87,9 @@ def search():
 
 
 @brewery_bp.route('/<int:brewery_id>', methods=['POST', 'GET'], endpoint='details')
-def brewery(brewery_id, **kwargs):
-    brewery = Brewery.query.get_or_404(brewery_id)
+def brewery(brewery_id):
+    brewery = check_brewery(brewery_id, current_user)
+    form = None
     if request.method == 'POST':
         if current_user != brewery.brewer:
             abort(403)
@@ -97,13 +98,10 @@ def brewery(brewery_id, **kwargs):
             brewery = form.save(obj=brewery)
             flash(_('brewery %(name)s data updated', name=brewery.name), category='success')
             return redirect(brewery.absolute_url)
-    if not brewery.has_access(current_user):
-        abort(404)
     ctx = {
         'brewery': brewery,
+        'form': form or BreweryForm(obj=brewery),
     }
-    if current_user == brewery.brewer:
-        ctx['form'] = BreweryForm(obj=brewery)
     return render_template('brewery/details.html', **ctx)
 
 
