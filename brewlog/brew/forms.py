@@ -1,5 +1,4 @@
 import wtforms as wf
-from flask import flash, redirect, request
 from flask_babel import lazy_gettext as _
 from flask_login import current_user
 from wtforms.fields.html5 import DateField, DecimalField, IntegerField
@@ -78,12 +77,6 @@ class BrewForm(BaseObjectForm):
         if obj is None:
             obj = Brew()
         return super(BrewForm, self).save(obj, save)
-
-    def process_post(self, brew):
-        if self.validate_on_submit():
-            brew = self.save(obj=brew)
-            flash(_('brew %(name)s data updated', name=brew.full_name), category='success')
-            return redirect(request.path)
 
 
 class ChangeStateForm(BaseForm):

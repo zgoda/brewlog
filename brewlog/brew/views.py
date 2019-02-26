@@ -48,9 +48,10 @@ def brew(brew_id):
         if not brew.user_is_brewer(current_user):
             abort(403)
         brew_form = BrewForm()
-        ret = brew_form.process_post(brew)
-        if ret is not None:
-            return ret
+        if brew_form.validate_on_submit():
+            brew = brew_form.save(obj=brew)
+            flash(_('brew %(name)s data updated', name=brew.full_name), category='success')
+            return redirect(request.path)
     public_only = not brew.user_is_brewer(current_user)
     ctx = {
         'brew': brew,
