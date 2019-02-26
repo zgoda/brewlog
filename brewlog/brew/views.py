@@ -60,11 +60,9 @@ def brew(brew_id):
         'notes': brew.notes_to_json(),
         'next': brew.get_next(public_only=public_only),
         'previous': brew.get_previous(public_only=public_only),
+        'action_form': ChangeStateForm(obj=brew),
+        'form': brew_form or BrewForm(obj=brew),
     }
-    if brew.user_is_brewer(current_user):
-        ctx['form'] = brew_form or BrewForm(obj=brew)
-        if BrewUtils.state_changeable(brew):
-            ctx['action_form'] = ChangeStateForm(obj=brew)
     return render_template('brew/details.html', **ctx)
 
 
