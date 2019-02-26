@@ -57,7 +57,7 @@ class TestBrewery(BrewlogTests):
         rv = self.client.get(url_for('brewery.details', brewery_id=self.public_brewery.id))
         content = rv.data.decode('utf-8')
         assert self.public_brewery.name in content
-        assert 'action="%s"' % self.public_brewery.absolute_url not in content
+        assert 'action="%s"' % url_for('brewery.details', brewery_id=self.public_brewery.id) not in content
         rv = self.client.get(url_for('brewery.details', brewery_id=self.hidden_brewery.id))
         assert rv.status_code == 404
 
@@ -71,7 +71,7 @@ class TestBrewery(BrewlogTests):
         rv = self.client.get(url_for('brewery.details', brewery_id=self.public_brewery.id))
         content = rv.data.decode('utf-8')
         assert self.public_brewery.name in content
-        assert 'action="%s"' % self.public_brewery.absolute_url not in content
+        assert 'action="%s"' % url_for('brewery.details', brewery_id=self.public_brewery.id) not in content
         rv = self.client.get(url_for('brewery.details', brewery_id=self.hidden_brewery.id))
         assert '<form' in rv.data.decode('utf-8')
 

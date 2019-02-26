@@ -1,7 +1,6 @@
 import datetime
 
 import markdown
-from flask import url_for
 from flask_babel import format_date
 from flask_babel import lazy_gettext as _
 from sqlalchemy_utils import sort_query
@@ -28,10 +27,6 @@ class Brewery(db.Model, DefaultModelMixin):
         'BrewerProfile',
         backref=db.backref('breweries', lazy='dynamic', cascade='all,delete'),
     )
-
-    @property
-    def absolute_url(self):
-        return url_for('brewery.details', brewery_id=self.id)
 
     @property
     def brewers(self):

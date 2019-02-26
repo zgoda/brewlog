@@ -1,4 +1,4 @@
-from flask import abort, flash, redirect, render_template, request
+from flask import abort, flash, redirect, render_template, request, url_for
 from flask_babel import gettext as _
 from flask_login import current_user, login_required
 
@@ -19,7 +19,7 @@ def brewery_add():
     if form.validate_on_submit():
         brewery = form.save()
         flash(_('brewery %(name)s created', name=brewery.name), category='success')
-        return redirect(brewery.absolute_url)
+        return redirect(url_for('brewery.details', brewery_id=brewery.id))
     ctx = {
         'form': form,
     }
@@ -95,7 +95,7 @@ def brewery(brewery_id):
         if form.validate_on_submit():
             brewery = form.save(obj=brewery)
             flash(_('brewery %(name)s data updated', name=brewery.name), category='success')
-            return redirect(brewery.absolute_url)
+            return redirect(request.path)
     ctx = {
         'brewery': brewery,
         'form': form or BreweryForm(obj=brewery),

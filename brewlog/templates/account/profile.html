@@ -43,7 +43,7 @@
 <h5>{{ gettext("Owned") }}</h5>
 {% if profile.breweries %}
 <ul class="list-unstyled">
-  {% for brewery in profile.breweries %}<li><a href="{{ brewery.absolute_url }}">{{ brewery.name }}</a> ({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }})</li>{% endfor %}
+  {% for brewery in profile.breweries %}<li><a href="{{ url_for('brewery.details', brewery_id=brewery.id) }}">{{ brewery.name }}</a> ({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }})</li>{% endfor %}
 </ul>
 {% endif %}
 {% if profile.other_breweries %}

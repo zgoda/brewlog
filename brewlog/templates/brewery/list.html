@@ -16,7 +16,7 @@
   <tbody>
   {% for brewery in pagination.items %}
   <tr>
-    <td><a href="{{ brewery.absolute_url }}">{{ brewery.name }}</a></td>
+    <td><a href="{{ url_for('brewery.details', brewery_id=brewery.id) }}">{{ brewery.name }}</a></td>
     <td>{{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }}</td>
     <td>{% if current_user == brewery.brewer %}<a href="{{ url_for('brewery.delete', brewery_id=brewery.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>{% endif %}</td>
   </tr>

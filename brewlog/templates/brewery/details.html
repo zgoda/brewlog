@@ -10,7 +10,7 @@
   <h3>{{ brewery.name }}</h3>
   {% if current_user == brewery.brewer %}
   <p>{% trans %}You may change brewery data using the form below{% endtrans %}:</p>
-  <form method="post" action="{{ brewery.absolute_url }}" class="form form-horizontal" role="form">
+  <form method="post" action="{{ url_for('brewery.details', brewery_id=brewery.id) }}" class="form form-horizontal" role="form">
     {{ forms.render(form) }}
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
