@@ -43,16 +43,15 @@ def brew_add():
 @brew_bp.route('/<int:brew_id>', methods=['POST', 'GET'], endpoint='details')
 def brew(brew_id):
     brew = check_brew(brew_id, current_user)
-    user_is_brewer = current_user in brew.brewery.brewers
+    brew_form = None
     if request.method == 'POST':
-        if not user_is_brewer:
+        if not brew.user_is_brewer(current_user):
             abort(403)
-        form = BrewForm()
-        if form.validate_on_submit():
-            brew = form.save(obj=brew)
-            flash(_('brew %(name)s data updated', name=brew.full_name), category='success')
-            return redirect(request.path)
-    public_only = not user_is_brewer
+        brew_form = BrewForm()
+        ret = brew_form.process_post(brew)
+        if ret is not None:
+            return ret
+    public_only = not brew.user_is_brewer(current_user)
     ctx = {
         'brew': brew,
         'utils': BrewUtils,
@@ -61,10 +60,10 @@ def brew(brew_id):
         'next': brew.get_next(public_only=public_only),
         'previous': brew.get_previous(public_only=public_only),
     }
-    if user_is_brewer:
-        ctx['form'] = BrewForm(obj=brew)
+    if brew.user_is_brewer(current_user):
+        ctx['form'] = brew_form or BrewForm(obj=brew)
         if BrewUtils.state_changeable(brew):
-            ctx['action_form'] = ChangeStateForm()
+            ctx['action_form'] = ChangeStateForm(obj=brew)
     return render_template('brew/details.html', **ctx)
 
 
