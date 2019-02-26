@@ -16,7 +16,7 @@ from ..models import Brew, CustomLabelTemplate
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
 from .forms import BrewForm, ChangeStateForm
-from .utils import BrewUtils, list_query_for_user
+from .utils import BrewUtils, check_brew, list_query_for_user
 
 HINTS = [
     ("67-66*C - 90'\n75*C - 15'", lazy_gettext('single infusion mash w/ mash out')),
@@ -41,19 +41,18 @@ def brew_add():
 
 
 @brew_bp.route('/<int:brew_id>', methods=['POST', 'GET'], endpoint='details')
-def brew(brew_id, **kwargs):
-    brew = Brew.query.get_or_404(brew_id)
+def brew(brew_id):
+    brew = check_brew(brew_id, current_user)
+    brew_form = None
     if request.method == 'POST':
-        if current_user not in brew.brewery.brewers:
+        if not brew.user_is_brewer(current_user):
             abort(403)
-        form = BrewForm()
-        if form.validate_on_submit():
-            brew = form.save(obj=brew)
+        brew_form = BrewForm()
+        if brew_form.validate_on_submit():
+            brew = brew_form.save(obj=brew)
             flash(_('brew %(name)s data updated', name=brew.full_name), category='success')
             return redirect(request.path)
-    if not brew.has_access(current_user):
-        abort(404)
-    public_only = current_user not in brew.brewery.brewers
+    public_only = not brew.user_is_brewer(current_user)
     ctx = {
         'brew': brew,
         'utils': BrewUtils,
@@ -61,11 +60,9 @@ def brew(brew_id, **kwargs):
         'notes': brew.notes_to_json(),
         'next': brew.get_next(public_only=public_only),
         'previous': brew.get_previous(public_only=public_only),
+        'action_form': ChangeStateForm(obj=brew),
+        'form': brew_form or BrewForm(obj=brew),
     }
-    if current_user in brew.brewery.brewers:
-        ctx['form'] = BrewForm(obj=brew)
-        if brew.current_state[0] in (brew.STATE_FINISHED, brew.STATE_TAPPED, brew.STATE_MATURING):
-            ctx['action_form'] = ChangeStateForm()
     return render_template('brew/details.html', **ctx)
 
 

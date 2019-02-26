@@ -80,4 +80,4 @@ class BrewForm(BaseObjectForm):
 
 
 class ChangeStateForm(BaseForm):
-    action = wf.RadioField(_('action'), choices=choices.ACTION_CHOICES, default='available')
+    action = wf.SelectField(_('action'), choices=choices.ACTION_CHOICES, default='available')
