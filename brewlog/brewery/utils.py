@@ -1,4 +1,4 @@
-from flask import abort, jsonify, url_for
+from flask import abort, jsonify, request, url_for
 
 from ..ext import db
 from ..models import BrewerProfile, Brewery
@@ -35,4 +35,6 @@ def check_brewery(brewery_id, user):
     brewery = Brewery.query.get_or_404(brewery_id)
     if not brewery.has_access(user):
         abort(404)
+    if request.method == 'POST' and user not in brewery.brewers:
+        abort(403)
     return brewery

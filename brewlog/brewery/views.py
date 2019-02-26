@@ -91,8 +91,6 @@ def brewery(brewery_id):
     brewery = check_brewery(brewery_id, current_user)
     form = None
     if request.method == 'POST':
-        if current_user != brewery.brewer:
-            abort(403)
         form = BreweryForm()
         if form.validate_on_submit():
             brewery = form.save(obj=brewery)
