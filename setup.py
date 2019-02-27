@@ -45,7 +45,6 @@ setup(
         'SQLAlchemy-Utils',
         'Authlib',
         'Markdown',
-        'translitcodec',
         'python-dateutil',
         'WTForms-Alchemy',
     ),
@@ -58,6 +57,7 @@ setup(
         'pytest-cov',
         'pytest-flask',
         'pytest-factoryboy',
+        'pyfakefs',
     ),
     extras_require={
         'prod': ['psycopg2', 'uwsgi']

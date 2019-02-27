@@ -2,6 +2,13 @@
 
 {% block headpagetitle %}{% trans %}Welcome{% endtrans %}{% endblock %}
 
+{% block announcement %}
+{% if announcement %}
+<h2>{{ gettext('announcement') }}</h2>
+{{ announcement|safe }}
+{% endif %}
+{% endblock %}
+
 {% block widecontent %}
 <div class="col-xs-12">
   <div class="row">

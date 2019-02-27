@@ -78,6 +78,14 @@ class TestMainPageAnonUser(BrewlogTests):
         assert brewery.name in page
         assert brew.name not in page
 
+    @pytest.mark.options(ANNOUNCEMENT_FILE='/tmp/dummy/announcement.md')
+    def test_announcement_present(self, fs):
+        file_name = '/tmp/dummy/announcement.md'
+        fs.create_file(file_name, contents='This **very important** announcement.')
+        fs.add_real_directory(self.TEMPLATES_DIR)
+        rv = self.client.get(self.url)
+        assert b'<strong>very important</strong>' in rv.data
+
 
 @pytest.mark.usefixtures('client_class')
 class TestMainPageLoggedInRegularUser(BrewlogTests):
