@@ -1,279 +1,332 @@
 # Translations template for PROJECT.
-# Copyright (C) 2017 ORGANIZATION
+# Copyright (C) 2019 ORGANIZATION
 # This file is distributed under the same license as the PROJECT project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2017.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2017-09-18 10:53+0200\n"
+"POT-Creation-Date: 2019-02-27 20:08+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.5.1\n"
+"Generated-By: Babel 2.6.0\n"
 
-#: brewlog/app.py:73
+#: brewlog/app.py:80 build/lib/brewlog/app.py:78
 msgid "Please log in to access this page"
 msgstr ""
 
-#: brewlog/auth/utils.py:22
+#: brewlog/auth/utils.py:23 build/lib/brewlog/auth/utils.py:22
 #, python-format
 msgid "You have been signed in as %(email)s using %(service)s"
 msgstr ""
 
-#: brewlog/auth/views.py:20
+#: brewlog/auth/views.py:23 build/lib/brewlog/auth/views.py:23
 #, python-format
 msgid "Service \"%(provider)s\" is not supported"
 msgstr ""
 
-#: brewlog/auth/views.py:48
+#: brewlog/auth/views.py:44 build/lib/brewlog/auth/views.py:44
 #, python-format
 msgid "Error receiving profile data from Google: %(code)s"
 msgstr ""
 
-#: brewlog/auth/views.py:56
-#, python-format
-msgid ""
-"Facebook login error, reason: %(error_reason)s, description: "
-"%(error_description)s"
-msgstr ""
-
-#: brewlog/auth/views.py:76 brewlog/auth/views.py:81
-#, python-format
-msgid "GitHub login error, reason: %(error)s, description: %(error_description)s"
-msgstr ""
-
-#: brewlog/auth/views.py:88
+#: brewlog/auth/views.py:76 build/lib/brewlog/auth/views.py:76
 #, python-format
 msgid "GitHub profile for user %(name)s lacks public email, skipping as unusable."
 msgstr ""
 
-#: brewlog/brew/forms.py:16 brewlog/tasting/forms.py:11
-msgid "date"
-msgstr ""
-
-#: brewlog/brew/forms.py:17 brewlog/brew/forms.py:39
-#: brewlog/brewery/forms.py:19 brewlog/models/brewing.py:67
-#: brewlog/profile/forms.py:25 brewlog/profile/forms.py:36
-#: brewlog/templates/brew/list.html:12 brewlog/templates/brewery/brews.html:12
-#: brewlog/templates/brewery/list.html:12
-msgid "name"
-msgstr ""
-
-#: brewlog/brew/forms.py:18 brewlog/templates/brew/include/details.html:7
-msgid "original gravity"
-msgstr ""
-
-#: brewlog/brew/forms.py:19 brewlog/templates/brew/include/details.html:8
-msgid "final gravity"
-msgstr ""
-
-#: brewlog/brew/forms.py:20 brewlog/models/choices.py:31
-msgid "temperature"
-msgstr ""
-
-#: brewlog/brew/forms.py:21
-msgid "volume collected"
-msgstr ""
-
-#: brewlog/brew/forms.py:22 brewlog/brew/forms.py:48
-#: brewlog/templates/brew/include/details.html:53
-msgid "notes"
-msgstr ""
-
-#: brewlog/brew/forms.py:36 brewlog/templates/brewery/base.html:3
-#: brewlog/templates/index.html:42
+#: brewlog/brew/forms.py:20 brewlog/templates/brewery/base.html:3
+#: brewlog/templates/index.html:42 build/lib/brewlog/brew/forms.py:35
+#: build/lib/brewlog/templates/brewery/base.html:3
+#: build/lib/brewlog/templates/index.html:42
 msgid "brewery"
 msgstr ""
 
-#: brewlog/brew/forms.py:40
+#: brewlog/brew/forms.py:23 brewlog/brewery/forms.py:21
+#: brewlog/fermentation/forms.py:12 brewlog/models/brewery.py:53
+#: brewlog/profile/forms.py:37 brewlog/profile/forms.py:48
+#: brewlog/templates/brew/list.html:12 brewlog/templates/brewery/brews.html:12
+#: brewlog/templates/brewery/list.html:12 build/lib/brewlog/brew/forms.py:16
+#: build/lib/brewlog/brew/forms.py:38 build/lib/brewlog/brewery/forms.py:21
+#: build/lib/brewlog/models/brewery.py:59 build/lib/brewlog/profile/forms.py:37
+#: build/lib/brewlog/profile/forms.py:48
+#: build/lib/brewlog/templates/brew/list.html:12
+#: build/lib/brewlog/templates/brewery/brews.html:12
+#: build/lib/brewlog/templates/brewery/list.html:12
+msgid "name"
+msgstr ""
+
+#: brewlog/brew/forms.py:24 build/lib/brewlog/brew/forms.py:39
 msgid "code"
 msgstr ""
 
-#: brewlog/brew/forms.py:42
+#: brewlog/brew/forms.py:26 build/lib/brewlog/brew/forms.py:41
 msgid "style"
 msgstr ""
 
-#: brewlog/brew/forms.py:43
+#: brewlog/brew/forms.py:27 build/lib/brewlog/brew/forms.py:42
 msgid "descriptive name of style, as you see it"
 msgstr ""
 
-#: brewlog/brew/forms.py:46
+#: brewlog/brew/forms.py:29 build/lib/brewlog/brew/forms.py:44
 msgid "BJCP style code"
 msgstr ""
 
-#: brewlog/brew/forms.py:47
+#: brewlog/brew/forms.py:30 build/lib/brewlog/brew/forms.py:45
 msgid "BJCP style name"
 msgstr ""
 
-#: brewlog/brew/forms.py:49
+#: brewlog/brew/forms.py:31 brewlog/fermentation/forms.py:17
+#: brewlog/templates/brew/include/details.html:53
+#: build/lib/brewlog/brew/forms.py:21 build/lib/brewlog/brew/forms.py:46
+#: build/lib/brewlog/templates/brew/include/details.html:53
+msgid "notes"
+msgstr ""
+
+#: brewlog/brew/forms.py:32 build/lib/brewlog/brew/forms.py:47
 msgid "date brewed"
 msgstr ""
 
-#: brewlog/brew/forms.py:51 brewlog/templates/brew/export/ipboard.txt:4
+#: brewlog/brew/forms.py:34 brewlog/templates/brew/export/ipboard.txt:4
 #: brewlog/templates/brew/include/details.html:14
+#: build/lib/brewlog/brew/forms.py:49
+#: build/lib/brewlog/templates/brew/export/ipboard.txt:4
+#: build/lib/brewlog/templates/brew/include/details.html:14
 msgid "fermentables"
 msgstr ""
 
-#: brewlog/brew/forms.py:52
+#: brewlog/brew/forms.py:35 build/lib/brewlog/brew/forms.py:50
 msgid "put each fermentable on separate line to make nice list"
 msgstr ""
 
-#: brewlog/brew/forms.py:55
+#: brewlog/brew/forms.py:38 build/lib/brewlog/brew/forms.py:53
 msgid "hop items"
 msgstr ""
 
-#: brewlog/brew/forms.py:56
+#: brewlog/brew/forms.py:39 build/lib/brewlog/brew/forms.py:54
 msgid "put each hop item on separate line to make nice list"
 msgstr ""
 
-#: brewlog/brew/forms.py:59
+#: brewlog/brew/forms.py:42 build/lib/brewlog/brew/forms.py:57
 msgid "yeast items"
 msgstr ""
 
-#: brewlog/brew/forms.py:60
+#: brewlog/brew/forms.py:43 build/lib/brewlog/brew/forms.py:58
 msgid "put each yeast item on separate line to make nice list"
 msgstr ""
 
-#: brewlog/brew/forms.py:63
+#: brewlog/brew/forms.py:46 build/lib/brewlog/brew/forms.py:61
 msgid "miscellaneous items"
 msgstr ""
 
-#: brewlog/brew/forms.py:64
+#: brewlog/brew/forms.py:47 build/lib/brewlog/brew/forms.py:62
 msgid "put each miscellanea on separare line to make nice list"
 msgstr ""
 
-#: brewlog/brew/forms.py:67
+#: brewlog/brew/forms.py:50 build/lib/brewlog/brew/forms.py:65
 msgid "mash schedule"
 msgstr ""
 
-#: brewlog/brew/forms.py:68 brewlog/brew/forms.py:74
+#: brewlog/brew/forms.py:51 brewlog/brew/forms.py:57
+#: build/lib/brewlog/brew/forms.py:66 build/lib/brewlog/brew/forms.py:72
 msgid "put each step on separate line to make nice list"
 msgstr ""
 
-#: brewlog/brew/forms.py:71 brewlog/templates/brew/export/ipboard.txt:19
+#: brewlog/brew/forms.py:54 brewlog/templates/brew/export/ipboard.txt:19
 #: brewlog/templates/brew/include/details.html:44
+#: build/lib/brewlog/brew/forms.py:69
+#: build/lib/brewlog/templates/brew/export/ipboard.txt:19
+#: build/lib/brewlog/templates/brew/include/details.html:44
 msgid "sparging"
 msgstr ""
 
-#: brewlog/brew/forms.py:73 brewlog/templates/brew/export/ipboard.txt:23
+#: brewlog/brew/forms.py:56 brewlog/templates/brew/export/ipboard.txt:23
 #: brewlog/templates/brew/include/details.html:46
+#: build/lib/brewlog/brew/forms.py:71
+#: build/lib/brewlog/templates/brew/export/ipboard.txt:23
+#: build/lib/brewlog/templates/brew/include/details.html:46
 msgid "hopping schedule"
 msgstr ""
 
-#: brewlog/brew/forms.py:76 brewlog/templates/brew/export/ipboard.txt:21
+#: brewlog/brew/forms.py:59 brewlog/templates/brew/export/ipboard.txt:21
 #: brewlog/templates/brew/include/details.html:45
+#: build/lib/brewlog/brew/forms.py:74
+#: build/lib/brewlog/templates/brew/export/ipboard.txt:21
+#: build/lib/brewlog/templates/brew/include/details.html:45
 msgid "boil time"
 msgstr ""
 
-#: brewlog/brew/forms.py:78 brewlog/templates/brew/include/details.html:11
+#: brewlog/brew/forms.py:61 brewlog/templates/brew/include/details.html:11
+#: build/lib/brewlog/brew/forms.py:76
+#: build/lib/brewlog/templates/brew/include/details.html:11
 msgid "final amount"
 msgstr ""
 
-#: brewlog/brew/forms.py:79
+#: brewlog/brew/forms.py:62 build/lib/brewlog/brew/forms.py:77
 msgid "volume into bottling"
 msgstr ""
 
-#: brewlog/brew/forms.py:81 brewlog/templates/brew/include/details.html:59
+#: brewlog/brew/forms.py:65 brewlog/templates/brew/include/details.html:59
+#: build/lib/brewlog/brew/forms.py:80
+#: build/lib/brewlog/templates/brew/include/details.html:59
 msgid "bottling date"
 msgstr ""
 
-#: brewlog/brew/forms.py:83
+#: brewlog/brew/forms.py:67 build/lib/brewlog/brew/forms.py:82
 msgid "type of carbonation"
 msgstr ""
 
-#: brewlog/brew/forms.py:87
+#: brewlog/brew/forms.py:70 build/lib/brewlog/brew/forms.py:85
 msgid "carbonation level"
 msgstr ""
 
-#: brewlog/brew/forms.py:90 brewlog/templates/brew/include/details.html:61
+#: brewlog/brew/forms.py:72 brewlog/templates/brew/include/details.html:61
+#: build/lib/brewlog/brew/forms.py:87
+#: build/lib/brewlog/templates/brew/include/details.html:61
 msgid "carbonation used"
 msgstr ""
 
-#: brewlog/brew/forms.py:91
+#: brewlog/brew/forms.py:73 build/lib/brewlog/brew/forms.py:88
 msgid "public"
 msgstr ""
 
-#: brewlog/brew/forms.py:92 brewlog/templates/brew/list.html:21
+#: brewlog/brew/forms.py:74 brewlog/templates/brew/list.html:21
+#: build/lib/brewlog/brew/forms.py:89
+#: build/lib/brewlog/templates/brew/list.html:21
 msgid "draft"
 msgstr ""
 
-#: brewlog/brew/forms.py:101
+#: brewlog/brew/forms.py:83 build/lib/brewlog/brew/forms.py:98
 msgid "action"
 msgstr ""
 
-#: brewlog/brew/views.py:20
+#: brewlog/brew/utils.py:18 build/lib/brewlog/brew/utils.py:16
+msgid "unspecified style"
+msgstr ""
+
+#: brewlog/brew/utils.py:20 brewlog/brew/utils.py:21 brewlog/brew/utils.py:22
+#: build/lib/brewlog/brew/utils.py:18 build/lib/brewlog/brew/utils.py:19
+#: build/lib/brewlog/brew/utils.py:20
+msgid "unknown"
+msgstr ""
+
+#: brewlog/brew/utils.py:23 build/lib/brewlog/brew/utils.py:21
+#, python-format
+msgid "%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s"
+msgstr ""
+
+#: brewlog/brew/utils.py:28 build/lib/brewlog/brew/utils.py:26
+msgid "not in particular style"
+msgstr ""
+
+#: brewlog/brew/utils.py:32 build/lib/brewlog/brew/utils.py:30
+#, python-format
+msgid "%(style)s by %(brewer)s in %(brewery)s"
+msgstr ""
+
+#: brewlog/brew/views.py:22 build/lib/brewlog/brew/views.py:21
 msgid "single infusion mash w/ mash out"
 msgstr ""
 
-#: brewlog/brew/views.py:21
+#: brewlog/brew/views.py:23 build/lib/brewlog/brew/views.py:22
 msgid "2-step mash w/ mash out"
 msgstr ""
 
-#: brewlog/brew/views.py:22
+#: brewlog/brew/views.py:24 build/lib/brewlog/brew/views.py:23
 msgid "3-step mash w/ mash out"
 msgstr ""
 
-#: brewlog/brew/views.py:32
+#: brewlog/brew/views.py:34 build/lib/brewlog/brew/views.py:33
 #, python-format
 msgid "brew %(name)s created"
 msgstr ""
 
-#: brewlog/brew/views.py:50
+#: brewlog/brew/views.py:53 build/lib/brewlog/brew/views.py:51
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr ""
 
-#: brewlog/brew/views.py:182
+#: brewlog/brew/views.py:163 build/lib/brewlog/brew/views.py:187
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr ""
 
-#: brewlog/brew/views.py:212
-#, python-format
-msgid "fermentation step %(step_name)s for brew %(brew_name)s has been created"
-msgstr ""
-
-#: brewlog/brew/views.py:242
-#, python-format
-msgid "fermentation step %(step_name)s for brew %(brew_name)s has been updated"
-msgstr ""
-
-#: brewlog/brew/views.py:265
-#, python-format
-msgid "fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted"
-msgstr ""
-
-#: brewlog/brewery/forms.py:15
+#: brewlog/brewery/forms.py:16 build/lib/brewlog/brewery/forms.py:16
 msgid "brewery name has to be between 4 and 500 characters long"
 msgstr ""
 
-#: brewlog/brewery/forms.py:20 brewlog/models/brewing.py:68
+#: brewlog/brewery/forms.py:22 brewlog/models/brewery.py:54
+#: build/lib/brewlog/brewery/forms.py:22 build/lib/brewlog/models/brewery.py:60
 msgid "description"
 msgstr ""
 
-#: brewlog/brewery/forms.py:21 brewlog/models/brewing.py:69
+#: brewlog/brewery/forms.py:23 brewlog/models/brewery.py:55
+#: build/lib/brewlog/brewery/forms.py:23 build/lib/brewlog/models/brewery.py:61
 msgid "established"
 msgstr ""
 
-#: brewlog/brewery/views.py:21
+#: brewlog/brewery/views.py:21 build/lib/brewlog/brewery/views.py:23
 #, python-format
 msgid "brewery %(name)s created"
 msgstr ""
 
-#: brewlog/brewery/views.py:40
+#: brewlog/brewery/views.py:40 build/lib/brewlog/brewery/views.py:42
 #, python-format
 msgid "brewery %(name)s has been deleted"
 msgstr ""
 
-#: brewlog/brewery/views.py:104
+#: brewlog/brewery/views.py:97 build/lib/brewlog/brewery/views.py:108
 #, python-format
 msgid "brewery %(name)s data updated"
+msgstr ""
+
+#: brewlog/fermentation/forms.py:11 brewlog/tasting/forms.py:11
+#: build/lib/brewlog/brew/forms.py:15 build/lib/brewlog/tasting/forms.py:11
+msgid "date"
+msgstr ""
+
+#: brewlog/fermentation/forms.py:13
+#: brewlog/templates/brew/include/details.html:7
+#: build/lib/brewlog/brew/forms.py:17
+#: build/lib/brewlog/templates/brew/include/details.html:7
+msgid "original gravity"
+msgstr ""
+
+#: brewlog/fermentation/forms.py:14
+#: brewlog/templates/brew/include/details.html:8
+#: build/lib/brewlog/brew/forms.py:18
+#: build/lib/brewlog/templates/brew/include/details.html:8
+msgid "final gravity"
+msgstr ""
+
+#: brewlog/fermentation/forms.py:15 brewlog/models/choices.py:31
+#: build/lib/brewlog/brew/forms.py:19 build/lib/brewlog/models/choices.py:31
+msgid "temperature"
+msgstr ""
+
+#: brewlog/fermentation/forms.py:16 build/lib/brewlog/brew/forms.py:20
+msgid "volume collected"
+msgstr ""
+
+#: brewlog/fermentation/views.py:32 build/lib/brewlog/brew/views.py:220
+#, python-format
+msgid "fermentation step %(step_name)s for brew %(brew_name)s has been created"
+msgstr ""
+
+#: brewlog/fermentation/views.py:61 build/lib/brewlog/brew/views.py:250
+#, python-format
+msgid "fermentation step %(step_name)s for brew %(brew_name)s has been updated"
+msgstr ""
+
+#: brewlog/fermentation/views.py:84 build/lib/brewlog/brew/views.py:273
+#, python-format
+msgid "fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted"
 msgstr ""
 
 #: brewlog/forms/base.py:23
@@ -281,395 +334,415 @@ msgstr ""
 #: brewlog/templates/brew/list.html:24 brewlog/templates/brewery/brews.html:19
 #: brewlog/templates/brewery/list.html:21
 #: brewlog/templates/tasting/include/tasting_notes.html:12
+#: build/lib/brewlog/forms/base.py:23
+#: build/lib/brewlog/templates/brew/include/fermentation_step.html:3
+#: build/lib/brewlog/templates/brew/list.html:24
+#: build/lib/brewlog/templates/brewery/brews.html:19
+#: build/lib/brewlog/templates/brewery/list.html:21
+#: build/lib/brewlog/templates/tasting/include/tasting_notes.html:12
 msgid "delete"
 msgstr ""
 
-#: brewlog/models/brewing.py:119 brewlog/models/brewing.py:120
-#: brewlog/models/brewing.py:121
-msgid "unspecified"
-msgstr ""
-
-#: brewlog/models/brewing.py:149
+#: brewlog/models/brewing.py:18 build/lib/brewlog/models/brewing.py:18
 msgid "planned"
 msgstr ""
 
-#: brewlog/models/brewing.py:150
+#: brewlog/models/brewing.py:19 build/lib/brewlog/models/brewing.py:19
 msgid "fermenting"
 msgstr ""
 
-#: brewlog/models/brewing.py:151
+#: brewlog/models/brewing.py:20 build/lib/brewlog/models/brewing.py:20
 msgid "finished"
 msgstr ""
 
-#: brewlog/models/brewing.py:152
+#: brewlog/models/brewing.py:21 build/lib/brewlog/models/brewing.py:21
 msgid "tapped"
 msgstr ""
 
-#: brewlog/models/brewing.py:153
+#: brewlog/models/brewing.py:22 build/lib/brewlog/models/brewing.py:22
 msgid "maturing"
 msgstr ""
 
-#: brewlog/models/brewing.py:229
-msgid "not in particular style"
-msgstr ""
-
-#: brewlog/models/brewing.py:233
-#, python-format
-msgid "%(style)s by %(brewer)s in %(brewery)s"
-msgstr ""
-
-#: brewlog/models/brewing.py:238
-msgid "unspecified style"
-msgstr ""
-
-#: brewlog/models/brewing.py:243 brewlog/models/brewing.py:247
-#: brewlog/models/brewing.py:251
-msgid "unknown"
-msgstr ""
-
-#: brewlog/models/brewing.py:252
-#, python-format
-msgid "%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s"
-msgstr ""
-
-#: brewlog/models/brewing.py:259
+#: brewlog/models/brewing.py:96 build/lib/brewlog/models/brewing.py:96
 msgid "normal"
 msgstr ""
 
-#: brewlog/models/brewing.py:261
+#: brewlog/models/brewing.py:98 build/lib/brewlog/models/brewing.py:98
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr ""
 
-#: brewlog/models/choices.py:7
+#: brewlog/models/choices.py:7 build/lib/brewlog/models/choices.py:7
 msgid "forced in keg"
 msgstr ""
 
-#: brewlog/models/choices.py:7
+#: brewlog/models/choices.py:7 build/lib/brewlog/models/choices.py:7
 msgid "keg with priming"
 msgstr ""
 
-#: brewlog/models/choices.py:7
+#: brewlog/models/choices.py:7 build/lib/brewlog/models/choices.py:7
 msgid "bottles with priming"
 msgstr ""
 
-#: brewlog/models/choices.py:12
+#: brewlog/models/choices.py:12 build/lib/brewlog/models/choices.py:12
 msgid "high (eg. German wheat, Belgian ales)"
 msgstr ""
 
-#: brewlog/models/choices.py:13
+#: brewlog/models/choices.py:13 build/lib/brewlog/models/choices.py:13
 msgid "normal (eg. lagers, American ales)"
 msgstr ""
 
-#: brewlog/models/choices.py:14
+#: brewlog/models/choices.py:14 build/lib/brewlog/models/choices.py:14
 msgid "low (eg. British and Irish ales)"
 msgstr ""
 
-#: brewlog/models/choices.py:15
+#: brewlog/models/choices.py:15 build/lib/brewlog/models/choices.py:15
 msgid "very low (eg. Scottish ales, kellerbiers)"
 msgstr ""
 
-#: brewlog/models/choices.py:16
+#: brewlog/models/choices.py:16 build/lib/brewlog/models/choices.py:16
 msgid "none (eg. Finnish sahti)"
 msgstr ""
 
-#: brewlog/models/choices.py:23
+#: brewlog/models/choices.py:23 build/lib/brewlog/models/choices.py:23
 msgid "primary"
 msgstr ""
 
-#: brewlog/models/choices.py:23
+#: brewlog/models/choices.py:23 build/lib/brewlog/models/choices.py:23
 msgid "secondary"
 msgstr ""
 
 #: brewlog/models/choices.py:23 brewlog/models/choices.py:27
+#: build/lib/brewlog/models/choices.py:23
+#: build/lib/brewlog/models/choices.py:27
 msgid "bottling"
 msgstr ""
 
 #: brewlog/models/choices.py:27 brewlog/models/choices.py:35
+#: build/lib/brewlog/models/choices.py:27
+#: build/lib/brewlog/models/choices.py:35
 msgid "mash"
 msgstr ""
 
 #: brewlog/models/choices.py:27 brewlog/models/choices.py:35
+#: build/lib/brewlog/models/choices.py:27
+#: build/lib/brewlog/models/choices.py:35
 msgid "boil"
 msgstr ""
 
-#: brewlog/models/choices.py:27
+#: brewlog/models/choices.py:27 build/lib/brewlog/models/choices.py:27
 msgid "fermentation"
 msgstr ""
 
-#: brewlog/models/choices.py:31
+#: brewlog/models/choices.py:31 build/lib/brewlog/models/choices.py:31
 msgid "infusion"
 msgstr ""
 
-#: brewlog/models/choices.py:31
+#: brewlog/models/choices.py:31 build/lib/brewlog/models/choices.py:31
 msgid "decoction"
 msgstr ""
 
-#: brewlog/models/choices.py:35
+#: brewlog/models/choices.py:35 build/lib/brewlog/models/choices.py:35
 msgid "first wort"
 msgstr ""
 
-#: brewlog/models/choices.py:35
+#: brewlog/models/choices.py:35 build/lib/brewlog/models/choices.py:35
 msgid "post-boil"
 msgstr ""
 
-#: brewlog/models/choices.py:35
+#: brewlog/models/choices.py:35 build/lib/brewlog/models/choices.py:35
 msgid "dry hop"
 msgstr ""
 
-#: brewlog/models/choices.py:39
+#: brewlog/models/choices.py:39 build/lib/brewlog/models/choices.py:39
 msgid "tap"
 msgstr ""
 
-#: brewlog/models/choices.py:39
+#: brewlog/models/choices.py:39 build/lib/brewlog/models/choices.py:39
 msgid "untap"
 msgstr ""
 
-#: brewlog/models/choices.py:39
+#: brewlog/models/choices.py:39 build/lib/brewlog/models/choices.py:39
 msgid "finish"
 msgstr ""
 
-#: brewlog/models/choices.py:39
+#: brewlog/models/choices.py:39 build/lib/brewlog/models/choices.py:39
 msgid "available"
 msgstr ""
 
-#: brewlog/models/users.py:60
+#: brewlog/models/fermentation.py:32 brewlog/models/fermentation.py:33
+#: brewlog/models/fermentation.py:34
+#: build/lib/brewlog/models/fermentation.py:32
+#: build/lib/brewlog/models/fermentation.py:33
+#: build/lib/brewlog/models/fermentation.py:34
+msgid "unspecified"
+msgstr ""
+
+#: brewlog/models/users.py:52 build/lib/brewlog/models/users.py:56
 msgid "wanting to stay anonymous"
 msgstr ""
 
-#: brewlog/profile/forms.py:10
+#: brewlog/profile/forms.py:11 build/lib/brewlog/profile/forms.py:11
 msgid "first name"
 msgstr ""
 
-#: brewlog/profile/forms.py:11
+#: brewlog/profile/forms.py:12 build/lib/brewlog/profile/forms.py:12
 msgid "last name"
 msgstr ""
 
-#: brewlog/profile/forms.py:12 brewlog/templates/macros/users.html:4
+#: brewlog/profile/forms.py:14 brewlog/templates/macros/users.html:4
+#: build/lib/brewlog/profile/forms.py:14
+#: build/lib/brewlog/templates/macros/users.html:4
 msgid "nick"
 msgstr ""
 
-#: brewlog/profile/forms.py:13
+#: brewlog/profile/forms.py:14 build/lib/brewlog/profile/forms.py:14
 msgid "one of above fields should be provided"
 msgstr ""
 
-#: brewlog/profile/forms.py:14
+#: brewlog/profile/forms.py:16 build/lib/brewlog/profile/forms.py:16
 msgid "email"
 msgstr ""
 
-#: brewlog/profile/forms.py:15 brewlog/templates/macros/users.html:5
+#: brewlog/profile/forms.py:17 brewlog/templates/macros/users.html:5
+#: build/lib/brewlog/profile/forms.py:17
+#: build/lib/brewlog/templates/macros/users.html:5
 msgid "location"
 msgstr ""
 
-#: brewlog/profile/forms.py:16
+#: brewlog/profile/forms.py:18 build/lib/brewlog/profile/forms.py:18
 msgid "about me"
 msgstr ""
 
-#: brewlog/profile/forms.py:17
+#: brewlog/profile/forms.py:20 build/lib/brewlog/profile/forms.py:20
 msgid "profile is public"
 msgstr ""
 
-#: brewlog/profile/forms.py:18
+#: brewlog/profile/forms.py:21 build/lib/brewlog/profile/forms.py:21
 msgid "all activity of non-public brewers is hidden on site, they are invisible"
 msgstr ""
 
-#: brewlog/profile/forms.py:26 brewlog/profile/forms.py:43
-#: brewlog/tasting/forms.py:12
+#: brewlog/profile/forms.py:32 build/lib/brewlog/profile/forms.py:32
+#, python-format
+msgid "your template %(name)s has been saved"
+msgstr ""
+
+#: brewlog/profile/forms.py:38 brewlog/profile/forms.py:55
+#: brewlog/tasting/forms.py:12 build/lib/brewlog/profile/forms.py:38
+#: build/lib/brewlog/profile/forms.py:55 build/lib/brewlog/tasting/forms.py:12
 msgid "text"
 msgstr ""
 
-#: brewlog/profile/forms.py:26 brewlog/profile/forms.py:43
+#: brewlog/profile/forms.py:38 brewlog/profile/forms.py:55
+#: build/lib/brewlog/profile/forms.py:38 build/lib/brewlog/profile/forms.py:55
 msgid "template text"
 msgstr ""
 
-#: brewlog/profile/forms.py:27 brewlog/profile/forms.py:44
-#: brewlog/templates/brew/labels.html:9
+#: brewlog/profile/forms.py:39 brewlog/profile/forms.py:56
+#: brewlog/templates/brew/labels.html:9 build/lib/brewlog/profile/forms.py:39
+#: build/lib/brewlog/profile/forms.py:56
+#: build/lib/brewlog/templates/brew/labels.html:9
 msgid "default"
 msgstr ""
 
-#: brewlog/profile/forms.py:37
+#: brewlog/profile/forms.py:49 build/lib/brewlog/profile/forms.py:49
 msgid "columns"
 msgstr ""
 
-#: brewlog/profile/forms.py:38
+#: brewlog/profile/forms.py:50 build/lib/brewlog/profile/forms.py:50
 msgid "rows"
 msgstr ""
 
-#: brewlog/profile/forms.py:39
+#: brewlog/profile/forms.py:51 build/lib/brewlog/profile/forms.py:51
 msgid "label width"
 msgstr ""
 
-#: brewlog/profile/forms.py:40
+#: brewlog/profile/forms.py:52 build/lib/brewlog/profile/forms.py:52
 msgid "single label cell width in milimetres"
 msgstr ""
 
-#: brewlog/profile/forms.py:41
+#: brewlog/profile/forms.py:53 build/lib/brewlog/profile/forms.py:53
 msgid "label height"
 msgstr ""
 
-#: brewlog/profile/forms.py:42
+#: brewlog/profile/forms.py:54 build/lib/brewlog/profile/forms.py:54
 msgid "single label cell height in milimetres"
 msgstr ""
 
-#: brewlog/profile/views.py:23
+#: brewlog/profile/views.py:29 build/lib/brewlog/profile/views.py:29
 msgid "your profile data has been updated"
 msgstr ""
 
-#: brewlog/profile/views.py:53
+#: brewlog/profile/views.py:56 build/lib/brewlog/profile/views.py:56
 #, python-format
 msgid "profile for %(email)s has been deleted"
 msgstr ""
 
-#: brewlog/profile/views.py:119
-#, python-format
-msgid "your export template %(name)s has been saved"
-msgstr ""
-
-#: brewlog/profile/views.py:140
-#, python-format
-msgid "your label template %(name)s has been saved"
-msgstr ""
-
-#: brewlog/tasting/views.py:42
+#: brewlog/tasting/views.py:42 build/lib/brewlog/tasting/views.py:41
 #, python-format
 msgid "tasting note for %(brew)s saved"
 msgstr ""
 
-#: brewlog/tasting/views.py:63
+#: brewlog/tasting/views.py:63 build/lib/brewlog/tasting/views.py:62
 #, python-format
 msgid "tasting note for brew %(brew)s has been deleted"
 msgstr ""
 
 #: brewlog/templates/flatpage.html:9
+#: build/lib/brewlog/templates/flatpage.html:9
 #, python-format
 msgid "Updated: %(date)s"
 msgstr ""
 
 #: brewlog/templates/home.html:3 brewlog/templates/misc/dashboard.html:3
+#: build/lib/brewlog/templates/home.html:3
+#: build/lib/brewlog/templates/misc/dashboard.html:3
 msgid "Welcome"
 msgstr ""
 
-#: brewlog/templates/home.html:7 brewlog/templates/misc/dashboard.html:9
+#: brewlog/templates/home.html:7 brewlog/templates/misc/dashboard.html:7
+msgid "announcement"
+msgstr ""
+
+#: brewlog/templates/home.html:14 brewlog/templates/misc/dashboard.html:16
+#: build/lib/brewlog/templates/home.html:7
+#: build/lib/brewlog/templates/misc/dashboard.html:9
 msgid "Welcome to BrewLog"
 msgstr ""
 
-#: brewlog/templates/home.html:8
+#: brewlog/templates/home.html:15 build/lib/brewlog/templates/home.html:8
 msgid ""
 "This is BrewLog, brewing log app written by homebrewer for homebrewers. "
 "Have a look to the site and start logging your brews."
 msgstr ""
 
-#: brewlog/templates/home.html:9
+#: brewlog/templates/home.html:16 build/lib/brewlog/templates/home.html:9
 msgid "latest site activity"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:59 brewlog/templates/home.html:16
+#: brewlog/templates/account/profile.html:59 brewlog/templates/home.html:23
+#: build/lib/brewlog/templates/account/profile.html:59
+#: build/lib/brewlog/templates/home.html:16
 msgid "latest brews"
 msgstr ""
 
-#: brewlog/templates/home.html:18
+#: brewlog/templates/home.html:25 build/lib/brewlog/templates/home.html:18
 #, python-format
 msgid "by %(brewername)s in %(breweryname)s"
 msgstr ""
 
-#: brewlog/templates/home.html:20 brewlog/templates/home.html:31
-#: brewlog/templates/home.html:44 brewlog/templates/home.html:55
+#: brewlog/templates/home.html:27 brewlog/templates/home.html:38
+#: brewlog/templates/home.html:51 brewlog/templates/home.html:62
+#: build/lib/brewlog/templates/home.html:20
+#: build/lib/brewlog/templates/home.html:31
+#: build/lib/brewlog/templates/home.html:44
+#: build/lib/brewlog/templates/home.html:55
 msgid "view all"
 msgstr ""
 
-#: brewlog/templates/home.html:27
+#: brewlog/templates/home.html:34 build/lib/brewlog/templates/home.html:27
 msgid "latest tasting notes"
 msgstr ""
 
-#: brewlog/templates/home.html:29
+#: brewlog/templates/home.html:36 build/lib/brewlog/templates/home.html:29
 #, python-format
 msgid "%(author)s on %(date)s"
 msgstr ""
 
-#: brewlog/templates/home.html:40
+#: brewlog/templates/home.html:47 build/lib/brewlog/templates/home.html:40
 msgid "latest brewers"
 msgstr ""
 
-#: brewlog/templates/home.html:42
+#: brewlog/templates/home.html:49 build/lib/brewlog/templates/home.html:42
 #, python-format
 msgid "registered: %(date)s"
 msgstr ""
 
-#: brewlog/templates/home.html:51
+#: brewlog/templates/home.html:58 build/lib/brewlog/templates/home.html:51
 msgid "recently registered breweries"
 msgstr ""
 
-#: brewlog/templates/home.html:53
+#: brewlog/templates/home.html:60 build/lib/brewlog/templates/home.html:53
 #, python-format
 msgid "by %(brewer)s"
 msgstr ""
 
-#: brewlog/templates/index.html:33
+#: brewlog/templates/index.html:33 build/lib/brewlog/templates/index.html:33
 msgid "search"
 msgstr ""
 
-#: brewlog/templates/index.html:40
+#: brewlog/templates/index.html:40 build/lib/brewlog/templates/index.html:40
 msgid "create new"
 msgstr ""
 
 #: brewlog/templates/brew/base.html:3 brewlog/templates/index.html:43
+#: build/lib/brewlog/templates/brew/base.html:3
+#: build/lib/brewlog/templates/index.html:43
 msgid "brew"
 msgstr ""
 
-#: brewlog/templates/index.html:47
+#: brewlog/templates/index.html:47 build/lib/brewlog/templates/index.html:47
 msgid "my items"
 msgstr ""
 
-#: brewlog/templates/index.html:49 brewlog/templates/index.html:154
+#: brewlog/templates/index.html:49 brewlog/templates/index.html:160
+#: build/lib/brewlog/templates/index.html:49
+#: build/lib/brewlog/templates/index.html:154
 msgid "breweries"
 msgstr ""
 
 #: brewlog/templates/brew/list.html:4 brewlog/templates/brewery/list.html:13
-#: brewlog/templates/index.html:50 brewlog/templates/index.html:146
+#: brewlog/templates/index.html:50 brewlog/templates/index.html:152
+#: build/lib/brewlog/templates/brew/list.html:4
+#: build/lib/brewlog/templates/brewery/list.html:13
+#: build/lib/brewlog/templates/index.html:50
+#: build/lib/brewlog/templates/index.html:146
 msgid "brews"
 msgstr ""
 
-#: brewlog/templates/index.html:55
+#: brewlog/templates/index.html:55 build/lib/brewlog/templates/index.html:55
 msgid "user tools"
 msgstr ""
 
-#: brewlog/templates/index.html:58
+#: brewlog/templates/index.html:58 build/lib/brewlog/templates/index.html:58
 msgid "login page"
 msgstr ""
 
-#: brewlog/templates/index.html:60
+#: brewlog/templates/index.html:60 build/lib/brewlog/templates/index.html:60
 msgid "my profile"
 msgstr ""
 
-#: brewlog/templates/index.html:61
+#: brewlog/templates/index.html:61 build/lib/brewlog/templates/index.html:61
 msgid "logout"
 msgstr ""
 
-#: brewlog/templates/index.html:99
+#: brewlog/templates/index.html:105 build/lib/brewlog/templates/index.html:99
 msgid "All rights reserved"
 msgstr ""
 
-#: brewlog/templates/index.html:102
+#: brewlog/templates/index.html:108 build/lib/brewlog/templates/index.html:102
 msgid "about"
 msgstr ""
 
-#: brewlog/templates/index.html:103
+#: brewlog/templates/index.html:109 build/lib/brewlog/templates/index.html:103
 msgid "user guide"
 msgstr ""
 
-#: brewlog/templates/index.html:104
+#: brewlog/templates/index.html:110 build/lib/brewlog/templates/index.html:104
 msgid "legal mumbo-jumbo"
 msgstr ""
 
-#: brewlog/templates/index.html:105
+#: brewlog/templates/index.html:111 build/lib/brewlog/templates/index.html:105
 msgid "privacy statement"
 msgstr ""
 
 #: brewlog/templates/account/delete.html:4
+#: build/lib/brewlog/templates/account/delete.html:4
 msgid "confirm removal of your account"
 msgstr ""
 
 #: brewlog/templates/account/delete.html:9
+#: build/lib/brewlog/templates/account/delete.html:9
 #, python-format
 msgid ""
 "Account for %(email)s is about to be deleted with all related content. As"
@@ -678,10 +751,12 @@ msgid ""
 msgstr ""
 
 #: brewlog/templates/account/delete.html:10
+#: build/lib/brewlog/templates/account/delete.html:10
 msgid "Big fat warning!"
 msgstr ""
 
 #: brewlog/templates/account/delete.html:10
+#: build/lib/brewlog/templates/account/delete.html:10
 msgid ""
 "All related content will be deleted too: breweries, brews, tasting notes "
 "and so on."
@@ -689,36 +764,54 @@ msgstr ""
 
 #: brewlog/templates/account/export_template.html:5
 #: brewlog/templates/account/export_template.html:9
+#: build/lib/brewlog/templates/account/export_template.html:5
+#: build/lib/brewlog/templates/account/export_template.html:9
 #, python-format
 msgid "export template %(name)s"
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:5
 #: brewlog/templates/account/export_template.html:9
+#: build/lib/brewlog/templates/account/export_template.html:5
+#: build/lib/brewlog/templates/account/export_template.html:9
 msgid "new export template"
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:14
 #: brewlog/templates/account/label_template.html:14
 #: brewlog/templates/account/profile.html:17
-#: brewlog/templates/brew/details.html:68
-#: brewlog/templates/brew/details.html:85
-#: brewlog/templates/brew/fermentation/form.html:15
-#: brewlog/templates/brew/fermentation/step.html:15
-#: brewlog/templates/brew/form.html:14
+#: brewlog/templates/brew/details.html:77
+#: brewlog/templates/brew/details.html:94 brewlog/templates/brew/form.html:14
 #: brewlog/templates/brewery/details.html:17
 #: brewlog/templates/brewery/form.html:13
+#: brewlog/templates/fermentation/form.html:15
+#: brewlog/templates/fermentation/step.html:15
 #: brewlog/templates/tasting/tasting_note.html:14
+#: build/lib/brewlog/templates/account/export_template.html:14
+#: build/lib/brewlog/templates/account/label_template.html:14
+#: build/lib/brewlog/templates/account/profile.html:17
+#: build/lib/brewlog/templates/brew/details.html:77
+#: build/lib/brewlog/templates/brew/details.html:94
+#: build/lib/brewlog/templates/brew/fermentation/form.html:15
+#: build/lib/brewlog/templates/brew/fermentation/step.html:15
+#: build/lib/brewlog/templates/brew/form.html:14
+#: build/lib/brewlog/templates/brewery/details.html:17
+#: build/lib/brewlog/templates/brewery/form.html:13
+#: build/lib/brewlog/templates/tasting/tasting_note.html:14
 msgid "submit"
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:18
 #: brewlog/templates/account/label_template.html:18
+#: build/lib/brewlog/templates/account/export_template.html:18
+#: build/lib/brewlog/templates/account/label_template.html:18
 msgid "help for template code"
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:19
 #: brewlog/templates/account/label_template.html:19
+#: build/lib/brewlog/templates/account/export_template.html:19
+#: build/lib/brewlog/templates/account/label_template.html:19
 msgid ""
 "The template code must be written in Jinja2[1] template language using "
 "Markdown[2] markup. Available context variable is named \"brew\" and "
@@ -726,86 +819,111 @@ msgid ""
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:20
+#: build/lib/brewlog/templates/account/export_template.html:20
 msgid "As an example, see the default export template:"
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:51
 #: brewlog/templates/account/label_template.html:31
+#: build/lib/brewlog/templates/account/export_template.html:51
+#: build/lib/brewlog/templates/account/label_template.html:31
 msgid "Jinja2 Template Designer Documentation"
 msgstr ""
 
 #: brewlog/templates/account/export_template.html:52
 #: brewlog/templates/account/label_template.html:32
+#: build/lib/brewlog/templates/account/export_template.html:52
+#: build/lib/brewlog/templates/account/label_template.html:32
 msgid "Markdown syntax"
 msgstr ""
 
 #: brewlog/templates/account/label_template.html:5
 #: brewlog/templates/account/label_template.html:9
+#: build/lib/brewlog/templates/account/label_template.html:5
+#: build/lib/brewlog/templates/account/label_template.html:9
 #, python-format
 msgid "label template %(name)s"
 msgstr ""
 
 #: brewlog/templates/account/label_template.html:5
 #: brewlog/templates/account/label_template.html:9
+#: build/lib/brewlog/templates/account/label_template.html:5
+#: build/lib/brewlog/templates/account/label_template.html:9
 msgid "new label template"
 msgstr ""
 
 #: brewlog/templates/account/label_template.html:20
+#: build/lib/brewlog/templates/account/label_template.html:20
 msgid "As an example, see the default label template:"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:6
+#: build/lib/brewlog/templates/account/profile.html:6
 #, python-format
 msgid "Profile data for user %(name)s"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:9
+#: build/lib/brewlog/templates/account/profile.html:9
 #, python-format
 msgid "Brewer profile for user %(name)s"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:12
+#: build/lib/brewlog/templates/account/profile.html:12
 msgid ""
 "This is your brewer's profile data. You may change it using the form "
 "below."
 msgstr ""
 
 #: brewlog/templates/account/profile.html:21
+#: build/lib/brewlog/templates/account/profile.html:21
 msgid "delete account"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:22
+#: build/lib/brewlog/templates/account/profile.html:22
 msgid "delete my account"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:23
+#: build/lib/brewlog/templates/account/profile.html:23
 msgid "user customizations"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:24
+#: build/lib/brewlog/templates/account/profile.html:24
 msgid "custom recipe export templates"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:30
 #: brewlog/templates/account/profile.html:37
+#: build/lib/brewlog/templates/account/profile.html:30
+#: build/lib/brewlog/templates/account/profile.html:37
 msgid "add new template"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:31
+#: build/lib/brewlog/templates/account/profile.html:31
 msgid "custom label templates"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:42
+#: build/lib/brewlog/templates/account/profile.html:42
 msgid "Brewery list"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:43
+#: build/lib/brewlog/templates/account/profile.html:43
 msgid "Owned"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:46
 #: brewlog/templates/account/profile.html:52
 #: brewlog/templates/brewery/list.html:20
+#: build/lib/brewlog/templates/account/profile.html:46
+#: build/lib/brewlog/templates/account/profile.html:52
+#: build/lib/brewlog/templates/brewery/list.html:20
 #, python-format
 msgid "%(num)d brew"
 msgid_plural "%(num)d brews"
@@ -813,39 +931,54 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: brewlog/templates/account/profile.html:50
+#: build/lib/brewlog/templates/account/profile.html:50
 msgid "Other"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:56
 #: brewlog/templates/brewery/form.html:5 brewlog/templates/brewery/list.html:29
+#: build/lib/brewlog/templates/account/profile.html:56
+#: build/lib/brewlog/templates/brewery/form.html:5
+#: build/lib/brewlog/templates/brewery/list.html:29
 msgid "add new brewery"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:65 brewlog/templates/brew/form.html:5
 #: brewlog/templates/brew/form.html:9 brewlog/templates/brew/list.html:36
-#: brewlog/templates/brewery/details.html:40
+#: brewlog/templates/brewery/details.html:36
+#: build/lib/brewlog/templates/account/profile.html:65
+#: build/lib/brewlog/templates/brew/form.html:5
+#: build/lib/brewlog/templates/brew/form.html:9
+#: build/lib/brewlog/templates/brew/list.html:36
+#: build/lib/brewlog/templates/brewery/details.html:34
 msgid "add new brew"
 msgstr ""
 
 #: brewlog/templates/account/profile_list.html:4
 #: brewlog/templates/account/profile_list.html:8
+#: build/lib/brewlog/templates/account/profile_list.html:4
+#: build/lib/brewlog/templates/account/profile_list.html:8
 msgid "registered brewers"
 msgstr ""
 
 #: brewlog/templates/auth/base.html:3
+#: build/lib/brewlog/templates/auth/base.html:3
 msgid "authorization"
 msgstr ""
 
 #: brewlog/templates/auth/select.html:7
+#: build/lib/brewlog/templates/auth/select.html:7
 msgid "Sign in with"
 msgstr ""
 
 #: brewlog/templates/brew/delete.html:4
+#: build/lib/brewlog/templates/brew/delete.html:4
 #, python-format
 msgid "confirm removal of your brew %(name)s"
 msgstr ""
 
 #: brewlog/templates/brew/delete.html:9
+#: build/lib/brewlog/templates/brew/delete.html:9
 #, python-format
 msgid ""
 "Brew %(name)s is about to be deleted with all its content. As this "
@@ -853,251 +986,257 @@ msgid ""
 "want do do?"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:14
-msgid "cancel"
-msgstr ""
-
-#: brewlog/templates/brew/details.html:15
-msgid "send"
-msgstr ""
-
-#: brewlog/templates/brew/details.html:24
+#: brewlog/templates/brew/details.html:33
+#: build/lib/brewlog/templates/brew/details.html:33
 msgid "recipe tools"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:26
+#: brewlog/templates/brew/details.html:35
+#: build/lib/brewlog/templates/brew/details.html:35
 msgid "print recipe"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:27
+#: brewlog/templates/brew/details.html:36
+#: build/lib/brewlog/templates/brew/details.html:36
 msgid "print labels"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:29
+#: brewlog/templates/brew/details.html:38
+#: build/lib/brewlog/templates/brew/details.html:38
 msgid "export"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:47
+#: brewlog/templates/brew/details.html:56
+#: build/lib/brewlog/templates/brew/details.html:56
 msgid "fermentation data"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:55
+#: brewlog/templates/brew/details.html:64
+#: build/lib/brewlog/templates/brew/details.html:64
 msgid "add fermentation step"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:62
+#: brewlog/templates/brew/details.html:71
+#: build/lib/brewlog/templates/brew/details.html:71
 msgid "change state"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:63
+#: brewlog/templates/brew/details.html:72
+#: build/lib/brewlog/templates/brew/details.html:72
 msgid "current state"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:63 brewlog/templates/brew/list.html:23
+#: brewlog/templates/brew/details.html:72 brewlog/templates/brew/list.html:23
+#: build/lib/brewlog/templates/brew/details.html:72
+#: build/lib/brewlog/templates/brew/list.html:23
 #, python-format
 msgid "since %(date)s"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:77
+#: brewlog/templates/brew/details.html:86
+#: build/lib/brewlog/templates/brew/details.html:86
 msgid "add tasting note"
 msgstr ""
 
-#: brewlog/templates/brew/details.html:80
+#: brewlog/templates/brew/details.html:89
+#: build/lib/brewlog/templates/brew/details.html:89
 msgid "edit brew"
 msgstr ""
 
 #: brewlog/templates/brew/export.html:3 brewlog/templates/brew/export.html:7
+#: build/lib/brewlog/templates/brew/export.html:3
+#: build/lib/brewlog/templates/brew/export.html:7
 #, python-format
 msgid "%(flavour)s export of brew %(brew)s"
 msgstr ""
 
 #: brewlog/templates/brew/export.html:9
+#: build/lib/brewlog/templates/brew/export.html:9
 msgid "brew link"
 msgstr ""
 
 #: brewlog/templates/brew/list.html:8
+#: build/lib/brewlog/templates/brew/list.html:8
 msgid "all public brews"
 msgstr ""
 
 #: brewlog/templates/brew/list.html:8
+#: build/lib/brewlog/templates/brew/list.html:8
 msgid "all brews"
 msgstr ""
 
 #: brewlog/templates/brew/list.html:13
+#: build/lib/brewlog/templates/brew/list.html:13
 msgid "informations"
 msgstr ""
 
 #: brewlog/templates/brew/list.html:14
+#: build/lib/brewlog/templates/brew/list.html:14
 msgid "status"
 msgstr ""
 
 #: brewlog/templates/brew/list.html:15 brewlog/templates/brewery/brews.html:13
 #: brewlog/templates/brewery/list.html:14
+#: build/lib/brewlog/templates/brew/list.html:15
+#: build/lib/brewlog/templates/brewery/brews.html:13
+#: build/lib/brewlog/templates/brewery/list.html:14
 msgid "operations"
 msgstr ""
 
 #: brewlog/templates/brew/list.html:24
+#: build/lib/brewlog/templates/brew/list.html:24
 msgid "edit"
 msgstr ""
 
 #: brewlog/templates/brew/export/ipboard.txt:2
 #: brewlog/templates/brew/include/details.html:3
+#: build/lib/brewlog/templates/brew/export/ipboard.txt:2
+#: build/lib/brewlog/templates/brew/include/details.html:3
 #, python-format
 msgid "brewed on %(date)s"
 msgstr ""
 
 #: brewlog/templates/brew/export/ipboard.txt:7
 #: brewlog/templates/brew/include/details.html:20
+#: build/lib/brewlog/templates/brew/export/ipboard.txt:7
+#: build/lib/brewlog/templates/brew/include/details.html:20
 msgid "hops"
 msgstr ""
 
 #: brewlog/templates/brew/export/ipboard.txt:10
 #: brewlog/templates/brew/include/details.html:26
+#: build/lib/brewlog/templates/brew/export/ipboard.txt:10
+#: build/lib/brewlog/templates/brew/include/details.html:26
 msgid "yeast"
 msgstr ""
 
 #: brewlog/templates/brew/export/ipboard.txt:13
 #: brewlog/templates/brew/include/details.html:32
+#: build/lib/brewlog/templates/brew/export/ipboard.txt:13
+#: build/lib/brewlog/templates/brew/include/details.html:32
 msgid "misc. items"
 msgstr ""
 
 #: brewlog/templates/brew/export/ipboard.txt:16
 #: brewlog/templates/brew/include/details.html:38
+#: build/lib/brewlog/templates/brew/export/ipboard.txt:16
+#: build/lib/brewlog/templates/brew/include/details.html:38
 msgid "mash steps"
 msgstr ""
 
-#: brewlog/templates/brew/fermentation/base.html:3
-msgid "fermentation step"
-msgstr ""
-
-#: brewlog/templates/brew/fermentation/form.html:5
-#, python-format
-msgid "fermentation step for %(brew)s"
-msgstr ""
-
-#: brewlog/templates/brew/fermentation/form.html:9
-msgid "create fermentation step"
-msgstr ""
-
-#: brewlog/templates/brew/fermentation/form.html:10
-#, python-format
-msgid "fermentation step for brew %(brew)s"
-msgstr ""
-
-#: brewlog/templates/brew/fermentation/step.html:9
-msgid "edit fermentation step"
-msgstr ""
-
-#: brewlog/templates/brew/fermentation/step.html:10
-#, python-format
-msgid "fermentation step %(step_name)s for brew %(brew_name)s"
-msgstr ""
-
-#: brewlog/templates/brew/fermentation/step_delete.html:4
-#, python-format
-msgid ""
-"confirm removal of fermentation step %(fstep_name)s for your brew "
-"%(brew_name)s"
-msgstr ""
-
-#: brewlog/templates/brew/fermentation/step_delete.html:8
-#, python-format
-msgid ""
-"Fermentation step %(fstep_name)s for your brew %(brew_name)s is about to "
-"be deleted with all its content. As this process is irreversible we're "
-"asking you again, is this really what you want do do?"
-msgstr ""
-
 #: brewlog/templates/brew/include/brew_navigation.html:2
+#: build/lib/brewlog/templates/brew/include/brew_navigation.html:2
 msgid "previous"
 msgstr ""
 
 #: brewlog/templates/brew/include/brew_navigation.html:5
+#: build/lib/brewlog/templates/brew/include/brew_navigation.html:5
 msgid "next"
 msgstr ""
 
 #: brewlog/templates/brew/include/details.html:3
+#: build/lib/brewlog/templates/brew/include/details.html:3
 #, python-format
 msgid "packaged on %(date)s"
 msgstr ""
 
 #: brewlog/templates/brew/include/details.html:4
+#: build/lib/brewlog/templates/brew/include/details.html:4
 msgid "stats"
 msgstr ""
 
 #: brewlog/templates/brew/include/details.html:6
+#: build/lib/brewlog/templates/brew/include/details.html:6
 msgid "brew length"
 msgstr ""
 
 #: brewlog/templates/brew/include/details.html:9
+#: build/lib/brewlog/templates/brew/include/details.html:9
 msgid "abv"
 msgstr ""
 
 #: brewlog/templates/brew/include/details.html:10
+#: build/lib/brewlog/templates/brew/include/details.html:10
 msgid "attenuation"
 msgstr ""
 
 #: brewlog/templates/brew/include/details.html:10
+#: build/lib/brewlog/templates/brew/include/details.html:10
 msgid "apparent"
 msgstr ""
 
 #: brewlog/templates/brew/include/details.html:10
+#: build/lib/brewlog/templates/brew/include/details.html:10
 msgid "real"
 msgstr ""
 
 #: brewlog/templates/brew/include/details.html:13
+#: build/lib/brewlog/templates/brew/include/details.html:13
 msgid "wort preparation"
 msgstr ""
 
 #: brewlog/templates/brew/include/details.html:56
+#: build/lib/brewlog/templates/brew/include/details.html:56
 msgid "fermentation and packaging"
 msgstr ""
 
 #: brewlog/templates/brew/include/details.html:58
+#: build/lib/brewlog/templates/brew/include/details.html:58
 msgid "fermentation start date"
 msgstr ""
 
 #: brewlog/templates/brew/include/details.html:60
+#: build/lib/brewlog/templates/brew/include/details.html:60
 msgid "carbonation data"
 msgstr ""
 
 #: brewlog/templates/brew/include/fermentation_step.html:3
+#: build/lib/brewlog/templates/brew/include/fermentation_step.html:3
 #, python-format
 msgid "OG: %(og)s&deg;Blg, FG: %(fg)s&deg;Blg, volume: %(volume)s ltr"
 msgstr ""
 
 #: brewlog/templates/brew/include/fermentation_step.html:3
+#: build/lib/brewlog/templates/brew/include/fermentation_step.html:3
 msgid "change"
 msgstr ""
 
 #: brewlog/templates/brew/include/label.html:3
+#: build/lib/brewlog/templates/brew/include/label.html:3
 msgid "brewed"
 msgstr ""
 
 #: brewlog/templates/brew/include/label.html:3
+#: build/lib/brewlog/templates/brew/include/label.html:3
 msgid "packaged"
 msgstr ""
 
 #: brewlog/templates/brew/include/label.html:4
+#: build/lib/brewlog/templates/brew/include/label.html:4
 msgid "OG"
 msgstr ""
 
 #: brewlog/templates/brew/include/label.html:4
+#: build/lib/brewlog/templates/brew/include/label.html:4
 msgid "alc. vol."
 msgstr ""
 
 #: brewlog/templates/brewery/brews.html:4
 #: brewlog/templates/brewery/brews.html:8
+#: build/lib/brewlog/templates/brewery/brews.html:4
+#: build/lib/brewlog/templates/brewery/brews.html:8
 #, python-format
 msgid "brews from brewery %(name)s"
 msgstr ""
 
 #: brewlog/templates/brewery/delete.html:4
+#: build/lib/brewlog/templates/brewery/delete.html:4
 #, python-format
 msgid "confirm removal of your brewery %(name)s"
 msgstr ""
 
 #: brewlog/templates/brewery/delete.html:9
+#: build/lib/brewlog/templates/brewery/delete.html:9
 #, python-format
 msgid ""
 "Brewery %(name)s is about to be deleted with all its content. As this "
@@ -1106,146 +1245,228 @@ msgid ""
 msgstr ""
 
 #: brewlog/templates/brewery/delete.html:9
+#: build/lib/brewlog/templates/brewery/delete.html:9
 #, python-format
 msgid "Along with brewery %(name)s following items will be removed:"
 msgstr ""
 
 #: brewlog/templates/brewery/details.html:12
+#: build/lib/brewlog/templates/brewery/details.html:12
 msgid "You may change brewery data using the form below"
 msgstr ""
 
 #: brewlog/templates/brewery/details.html:24
+#: build/lib/brewlog/templates/brewery/details.html:24
 msgid "People"
 msgstr ""
 
 #: brewlog/templates/brewery/details.html:25
+#: build/lib/brewlog/templates/brewery/details.html:25
 msgid "Head brewer"
 msgstr ""
 
 #: brewlog/templates/brewery/details.html:27
-msgid "Other brewers"
-msgstr ""
-
-#: brewlog/templates/brewery/details.html:33
+#: build/lib/brewlog/templates/brewery/details.html:27
 msgid "Latest brews"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:35
+#: brewlog/templates/brewery/details.html:30
+#: build/lib/brewlog/templates/brewery/details.html:29
 msgid "not brewed yet"
 msgstr ""
 
-#: brewlog/templates/brewery/details.html:37
+#: brewlog/templates/brewery/details.html:33
+#: build/lib/brewlog/templates/brewery/details.html:31
 msgid "view all brews"
 msgstr ""
 
 #: brewlog/templates/brewery/form.html:5
+#: build/lib/brewlog/templates/brewery/form.html:5
 #, python-format
 msgid "modify your %(breweryname)s brewery data"
 msgstr ""
 
 #: brewlog/templates/brewery/list.html:4
+#: build/lib/brewlog/templates/brewery/list.html:4
 msgid "brewery list"
 msgstr ""
 
 #: brewlog/templates/brewery/list.html:8
+#: build/lib/brewlog/templates/brewery/list.html:8
 msgid "List of registered breweries"
 msgstr ""
 
 #: brewlog/templates/errors/403.html:3
+#: build/lib/brewlog/templates/errors/403.html:3
 msgid "Forbidden (403)"
 msgstr ""
 
 #: brewlog/templates/errors/403.html:7
+#: build/lib/brewlog/templates/errors/403.html:7
 msgid "You don't have permission to access this page."
 msgstr ""
 
 #: brewlog/templates/errors/404.html:3
+#: build/lib/brewlog/templates/errors/404.html:3
 msgid "Page not found (404)"
 msgstr ""
 
 #: brewlog/templates/errors/404.html:7
+#: build/lib/brewlog/templates/errors/404.html:7
 msgid "The page you was trying to access was not found on the server."
 msgstr ""
 
 #: brewlog/templates/errors/500.html:3
+#: build/lib/brewlog/templates/errors/500.html:3
 msgid "Server Error (500)"
 msgstr ""
 
 #: brewlog/templates/errors/500.html:7
+#: build/lib/brewlog/templates/errors/500.html:7
 msgid "Server Error."
 msgstr ""
 
+#: brewlog/templates/fermentation/base.html:3
+#: build/lib/brewlog/templates/brew/fermentation/base.html:3
+msgid "fermentation step"
+msgstr ""
+
+#: brewlog/templates/fermentation/form.html:5
+#: build/lib/brewlog/templates/brew/fermentation/form.html:5
+#, python-format
+msgid "fermentation step for %(brew)s"
+msgstr ""
+
+#: brewlog/templates/fermentation/form.html:9
+#: build/lib/brewlog/templates/brew/fermentation/form.html:9
+msgid "create fermentation step"
+msgstr ""
+
+#: brewlog/templates/fermentation/form.html:10
+#: build/lib/brewlog/templates/brew/fermentation/form.html:10
+#, python-format
+msgid "fermentation step for brew %(brew)s"
+msgstr ""
+
+#: brewlog/templates/fermentation/step.html:9
+#: build/lib/brewlog/templates/brew/fermentation/step.html:9
+msgid "edit fermentation step"
+msgstr ""
+
+#: brewlog/templates/fermentation/step.html:10
+#: build/lib/brewlog/templates/brew/fermentation/step.html:10
+#, python-format
+msgid "fermentation step %(step_name)s for brew %(brew_name)s"
+msgstr ""
+
+#: brewlog/templates/fermentation/step_delete.html:4
+#: build/lib/brewlog/templates/brew/fermentation/step_delete.html:4
+#, python-format
+msgid ""
+"confirm removal of fermentation step %(fstep_name)s for your brew "
+"%(brew_name)s"
+msgstr ""
+
+#: brewlog/templates/fermentation/step_delete.html:8
+#: build/lib/brewlog/templates/brew/fermentation/step_delete.html:8
+#, python-format
+msgid ""
+"Fermentation step %(fstep_name)s for your brew %(brew_name)s is about to "
+"be deleted with all its content. As this process is irreversible we're "
+"asking you again, is this really what you want do do?"
+msgstr ""
+
 #: brewlog/templates/macros/forms.html:32
+#: build/lib/brewlog/templates/macros/forms.html:32
 msgid "Yes, delete it"
 msgstr ""
 
 #: brewlog/templates/macros/users.html:3
+#: build/lib/brewlog/templates/macros/users.html:3
 msgid "full name"
 msgstr ""
 
 #: brewlog/templates/macros/users.html:6
+#: build/lib/brewlog/templates/macros/users.html:6
 msgid "registered"
 msgstr ""
 
-#: brewlog/templates/misc/dashboard.html:16
+#: brewlog/templates/misc/dashboard.html:23
+#: build/lib/brewlog/templates/misc/dashboard.html:16
 msgid "My latest recipes"
 msgstr ""
 
-#: brewlog/templates/misc/dashboard.html:30
+#: brewlog/templates/misc/dashboard.html:37
+#: build/lib/brewlog/templates/misc/dashboard.html:30
 msgid "My recent reviews"
 msgstr ""
 
-#: brewlog/templates/misc/dashboard.html:44
+#: brewlog/templates/misc/dashboard.html:51
+#: build/lib/brewlog/templates/misc/dashboard.html:44
 msgid "Recently brewed"
 msgstr ""
 
-#: brewlog/templates/misc/dashboard.html:60
+#: brewlog/templates/misc/dashboard.html:67
+#: build/lib/brewlog/templates/misc/dashboard.html:60
 msgid "Fermenting"
 msgstr ""
 
-#: brewlog/templates/misc/dashboard.html:68
-#: brewlog/templates/misc/dashboard.html:84
-#: brewlog/templates/misc/dashboard.html:100
+#: brewlog/templates/misc/dashboard.html:75
+#: brewlog/templates/misc/dashboard.html:91
+#: brewlog/templates/misc/dashboard.html:107
+#: build/lib/brewlog/templates/misc/dashboard.html:68
+#: build/lib/brewlog/templates/misc/dashboard.html:84
+#: build/lib/brewlog/templates/misc/dashboard.html:100
 msgid "Nothing"
 msgstr ""
 
-#: brewlog/templates/misc/dashboard.html:76
+#: brewlog/templates/misc/dashboard.html:83
+#: build/lib/brewlog/templates/misc/dashboard.html:76
 msgid "Maturing"
 msgstr ""
 
-#: brewlog/templates/misc/dashboard.html:92
+#: brewlog/templates/misc/dashboard.html:99
+#: build/lib/brewlog/templates/misc/dashboard.html:92
 msgid "On tap"
 msgstr ""
 
 #: brewlog/templates/tasting/include/tasting_notes.html:1
 #: brewlog/templates/tasting/list.html:4
+#: build/lib/brewlog/templates/tasting/include/tasting_notes.html:1
+#: build/lib/brewlog/templates/tasting/list.html:4
 msgid "tasting notes"
 msgstr ""
 
 #: brewlog/templates/tasting/list.html:8
+#: build/lib/brewlog/templates/tasting/list.html:8
 msgid "all tasting notes to public brews"
 msgstr ""
 
 #: brewlog/templates/tasting/list.html:8
+#: build/lib/brewlog/templates/tasting/list.html:8
 msgid "all tasting notes to brews"
 msgstr ""
 
 #: brewlog/templates/tasting/list.html:11
+#: build/lib/brewlog/templates/tasting/list.html:11
 #, python-format
 msgid "%(user)s tasted %(brew)s"
 msgstr ""
 
 #: brewlog/templates/tasting/tasting_note.html:5
+#: build/lib/brewlog/templates/tasting/tasting_note.html:5
 #, python-format
 msgid "tasting note for brew %(brew)s from %(brewery)s"
 msgstr ""
 
 #: brewlog/templates/tasting/tasting_note_delete.html:4
+#: build/lib/brewlog/templates/tasting/tasting_note_delete.html:4
 #, python-format
 msgid "confirm removal of tasting note for brew %(name)s"
 msgstr ""
 
 #: brewlog/templates/tasting/tasting_note_delete.html:9
+#: build/lib/brewlog/templates/tasting/tasting_note_delete.html:9
 #, python-format
 msgid ""
 "You are about to delete tasting note for brew %(name)s by %(author)s "
@@ -1254,6 +1475,7 @@ msgid ""
 msgstr ""
 
 #: brewlog/templates/tasting/include/tasting_notes.html:4
+#: build/lib/brewlog/templates/tasting/include/tasting_notes.html:4
 #, python-format
 msgid "by %(user)s on %(date)s"
 msgstr ""

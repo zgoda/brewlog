@@ -6,7 +6,7 @@ from werkzeug.exceptions import Forbidden, NotFound
 from brewlog.models import CustomLabelTemplate
 from brewlog.utils.brewing import sg2plato, abv
 from brewlog.utils.pagination import get_page, url_for_other_page
-from brewlog.utils.text import stars2deg
+from brewlog.utils.text import stars2deg, get_announcement
 from brewlog.utils.views import get_user_object
 
 
@@ -20,6 +20,16 @@ class TestTextUtils:
         expected = pattern % (new_char, new_char)
         ret = stars2deg(text)
         assert ret == expected
+
+    def test_announcement_not_found(self):
+        announcement = get_announcement(None)
+        assert announcement is None
+
+    def test_announcement_from_file(self, fs):
+        file_name = '/tmp/dummy/announcement.md'
+        fs.create_file(file_name, contents='This **very** important announcement.')
+        announcement = get_announcement(file_name)
+        assert '<strong>very</strong>' in announcement
 
 
 class TestPaginationUtils:

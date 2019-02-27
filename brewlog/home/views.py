@@ -7,6 +7,7 @@ from ..brewery.utils import BreweryUtils
 from ..ext import pages
 from ..models import Brew, BrewerProfile, Brewery, TastingNote
 from ..tasting.utils import TastingUtils
+from ..utils.text import get_announcement
 
 
 @home_bp.route('/', endpoint='index')
@@ -21,6 +22,7 @@ def main():
         latest_tasting_notes=TastingUtils.latest_notes(TastingNote.date, limit=item_limit, public_only=True),
         recently_active_breweries=BreweryUtils.latest_breweries(Brewery.updated, limit=item_limit, public_only=True),  # noqa
         recently_active_brewers=BrewerProfile.last_updated(limit=item_limit, public_only=True),
+        announcement=get_announcement(current_app.config.get('ANNOUNCEMENT_FILE')),
     )
     return render_template('home.html', **ctx)
 
@@ -41,6 +43,7 @@ def dashboard():
         'fermenting': BrewUtils.fermenting(**kw),
         'maturing': BrewUtils.maturing(**kw),
         'on_tap': BrewUtils.on_tap(**kw),
+        'announcement': get_announcement(current_app.config.get('ANNOUNCEMENT_FILE')),
     }
     return render_template('misc/dashboard.html', **ctx)
 
