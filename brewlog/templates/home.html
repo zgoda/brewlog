@@ -4,7 +4,7 @@
 
 {% block announcement %}
 {% if announcement %}
-<h2>{{ gettext('announcement') }}</h2>
+<h2>{{ gettext('announcement').capitalize() }}</h2>
 {{ announcement|safe }}
 {% endif %}
 {% endblock %}
