@@ -1,3 +1,4 @@
+import codecs
 import os
 import re
 import unicodedata
@@ -14,5 +15,5 @@ def stars2deg(text):
 
 def get_announcement(file_name):
     if file_name and os.path.isfile(file_name):
-        with open(file_name) as fp:
+        with codecs.open(file_name, encoding='utf-8') as fp:
             return markdown.markdown(fp.read(), safe_mode='remove')
