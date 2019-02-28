@@ -32,10 +32,6 @@ class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
     )
 
     @property
-    def absolute_url(self):
-        return url_for('profile.details', user_id=self.id)
-
-    @property
     def breweries_list_url(self):
         return url_for('profile.breweries', user_id=self.id)
 
