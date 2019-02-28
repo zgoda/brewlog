@@ -62,18 +62,18 @@ class TestBrewerProfile(BrewerProfileTests):
         url = url_for('profile.all')
         self.login(self.public_user.email)
         rv = self.client.get(url)
-        assert self.hidden_user.absolute_url not in rv.data.decode('utf-8')
+        assert url_for('profile.details', user_id=self.hidden_user.id) not in rv.data.decode('utf-8')
 
     def test_view_list_by_hidden(self):
         url = url_for('profile.all')
         self.login(self.hidden_user.email)
         rv = self.client.get(url)
-        assert self.hidden_user.absolute_url in rv.data.decode('utf-8')
+        assert url_for('profile.details', user_id=self.hidden_user.id) in rv.data.decode('utf-8')
 
     def test_anon_view_profile(self):
         profile_url = url_for('profile.details', user_id=self.public_user.id)
         rv = self.client.get(profile_url)
-        assert 'action="%s"' % self.public_user.absolute_url not in rv.data.decode('utf-8')
+        assert 'action="%s"' % profile_url not in rv.data.decode('utf-8')
 
     def test_update_other_profile(self, user_factory):
         user = user_factory()

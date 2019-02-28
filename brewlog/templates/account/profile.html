@@ -10,7 +10,7 @@
 {{ users.display_profile(profile) }}
 {% if form %}
 <p>{% trans %}This is your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
-<form action="{{ profile.absolute_url }}" method="post" class="form form-horizontal" role="form">
+<form action="{{ url_for('profile.details', user_id=profile.id) }}" method="post" class="form form-horizontal" role="form">
   {{ forms.render(form) }}
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">

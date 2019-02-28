@@ -27,7 +27,7 @@ def profile(user_id):
     if form.validate_on_submit():
         profile = form.save(obj=user_profile)
         flash(_('your profile data has been updated'), category='success')
-        return redirect(profile.absolute_url)
+        return redirect(url_for('.details', user_id=profile.id))
     context = {
         'data': user_profile.nick,
         'data_type': 'summary',

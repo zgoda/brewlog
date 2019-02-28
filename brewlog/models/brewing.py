@@ -56,10 +56,6 @@ class Brew(db.Model, DefaultModelMixin):
     tapped = db.Column(db.Date)
     finished = db.Column(db.Date)
 
-    @property
-    def absolute_url(self):
-        return url_for('brew.details', brew_id=self.id)
-
     @cached_property
     def first_step(self):
         return sort_query(self.fermentation_steps, 'date').first()

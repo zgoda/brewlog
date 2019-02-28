@@ -22,7 +22,7 @@
   {{ modelrender.render(brewery) }}
   {% endif %}
   <h3>{{ gettext("People") }}</h3>
-  <p>{{ gettext("Head brewer") }}: <a href="{{ brewery.brewer.absolute_url }}">{{ brewery.brewer.name }}</a></p>
+  <p>{{ gettext("Head brewer") }}: <a href="{{ url_for('profile.details', user_id=brewery.brewer.id) }}">{{ brewery.brewer.name }}</a></p>
   
   <h3>{% trans %}Latest brews{% endtrans %}</h3>
   <ul class="list-unstyled">
