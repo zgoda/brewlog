@@ -1,8 +1,5 @@
 dist: xenial
 language: python
-env:
-  global:
-    - CC_TEST_REPORTER_ID=5cd7559a300294cda9e507e854492c76e6fa208e5c9f157690e31a2d49805066
 python:
   - "3.7"
   - "3.6"
