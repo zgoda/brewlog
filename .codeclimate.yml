@@ -1,12 +1,5 @@
 version: "2"
 plugins:
-  bandit:
-    enabled: true
-  sonar-python:
-    enabled: true
-    config:
-      test_patterns:
-        - tests/**
   git-legal:
     enabled: true
 exclude_patterns:

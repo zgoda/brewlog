@@ -1,2 +1,0 @@
-[bandit]
-exclude = tests,build,conf,dist,docs,sql
