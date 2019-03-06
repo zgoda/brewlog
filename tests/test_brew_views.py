@@ -21,8 +21,8 @@ class BrewViewTests(BrewlogTests):
 @pytest.mark.usefixtures('client_class')
 class TestBrewDetails(BrewViewTests):
 
-    def url(self, x):
-        return url_for('brew.details', brew_id=x.id)
+    def url(self, brew):
+        return url_for('brew.details', brew_id=brew.id)
 
     def test_get_404(self):
         rv = self.client.get(url_for('brew.details', brew_id=666))
@@ -41,7 +41,7 @@ class TestBrewDetails(BrewViewTests):
         assert rv.status_code == 404
 
     def test_post_data_ok(self, brew_factory):
-        brew = brew_factory(brewery=self.public_brewery, name='pb1')
+        brew = brew_factory(brewery=self.public_brewery, name='pb1', code='xxx')
         self.login(self.public_user.email)
         data = {
             'name': brew.name,
@@ -52,7 +52,24 @@ class TestBrewDetails(BrewViewTests):
         }
         rv = self.client.post(self.url(brew), data=data, follow_redirects=True)
         assert rv.status_code == 200
+        assert 'data updated' in rv.data.decode('utf-8')
         assert Brew.query.get(brew.id).code == data['code']
+
+    def test_post_data_missing(self, brew_factory):
+        brew = brew_factory(brewery=self.public_brewery, name='pb1', code='xxx')
+        self.login(self.public_user.email)
+        data = {
+            'name': None,
+            'brewery': brew.brewery.id,
+            'code': '001',
+            'carbonation_level': 'low',
+            'carbonation_type': 'bottles with priming',
+        }
+        rv = self.client.post(self.url(brew), data=data, follow_redirects=True)
+        assert rv.status_code == 200
+        page = rv.data.decode('utf-8')
+        assert 'field is required' in page
+        assert 'data updated' not in page
 
     def test_state_form_present(self, brew_factory):
         brewed = datetime.date(1992, 12, 4)
