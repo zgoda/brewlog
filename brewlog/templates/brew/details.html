@@ -34,8 +34,6 @@ $(document).ready(function() {
   <ul class="dropdown-menu" role="menu">
     <li><a href="{{ url_for('brew.print', brew_id=brew.id) }}">{{ gettext("print recipe") }}</a></li>
     <li><a href="{{ url_for('brew.labels', brew_id=brew.id) }}">{{ gettext("print labels") }}</a></li>
-    <li class="divider"></li>
-    <li><a href="{{ url_for('brew.export', flavour='ipboard', brew_id=brew.id) }}">{{ gettext("export")}}: IP.Board</a></li>
   </ul>
 </li>
 {% endblock %}

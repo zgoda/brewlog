@@ -98,30 +98,6 @@ db.event.listen(BrewerProfile, 'before_insert', profile_pre_save)
 db.event.listen(BrewerProfile, 'before_update', profile_pre_save)
 
 
-class CustomExportTemplate(db.Model, DefaultModelMixin):
-    __tablename__ = 'custom_export_template'
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'), nullable=False)
-    user = db.relationship(
-        'BrewerProfile',
-        backref=db.backref(
-            'custom_export_templates', cascade='all,delete', lazy='dynamic',
-            order_by='CustomExportTemplate.name'
-        )
-    )
-    name = db.Column(db.String(100), nullable=False)
-    text = db.Column(db.Text)
-    is_default = db.Column(db.Boolean, default=False)
-
-    __table__args__ = (
-        db.Index('user_export_template', 'user_id', 'name'),
-    )
-
-    @property
-    def absolute_url(self):
-        return url_for('profile.export_template', tid=self.id, user_id=self.user.id)
-
-
 class CustomLabelTemplate(db.Model, DefaultModelMixin):
     __tablename__ = 'custom_label_template'
     id = db.Column(db.Integer, primary_key=True)

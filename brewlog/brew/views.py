@@ -93,17 +93,6 @@ def search():
     return BrewUtils.brew_search_result(query)
 
 
-@brew_bp.route('/<int:brew_id>/export/<flavour>', endpoint='export')
-def brew_export(brew_id, flavour):
-    brew = check_brew(brew_id, current_user)
-    ctx = {
-        'brew': brew,
-        'flavour': flavour,
-        'exported': render_template('brew/export/%s.txt' % flavour, brew=brew)
-    }
-    return render_template('brew/export.html', **ctx)
-
-
 @brew_bp.route('/<int:brew_id>/print', endpoint='print')
 def brew_print(brew_id):
     brew = check_brew(brew_id, current_user)

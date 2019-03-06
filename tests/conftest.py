@@ -5,13 +5,11 @@ from brewlog import make_app
 from brewlog.ext import db
 
 from .factories import (
-    BreweryFactory, BrewFactory, ExportTemplateFactory,
-    FermentationStepFactory, LabelTemplateFactory, TastingNoteFactory,
-    UserFactory
+    BreweryFactory, BrewFactory, FermentationStepFactory, LabelTemplateFactory,
+    TastingNoteFactory, UserFactory,
 )
 
 register(UserFactory)
-register(ExportTemplateFactory)
 register(LabelTemplateFactory)
 register(BreweryFactory)
 register(BrewFactory)
