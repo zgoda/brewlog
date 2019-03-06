@@ -522,28 +522,3 @@ class TestBrewAttenuation(BrewTests):
         fermentation_step_factory(brew=self.public_brewery_public_brew, name='primary', og=10)
         assert self.public_brewery_public_brew.attenuation['apparent'] == 0
         assert self.public_brewery_public_brew.attenuation['real'] == 0
-
-
-@pytest.mark.usefixtures('client_class')
-class TestBrewExport(BrewTests):
-
-    @pytest.fixture(autouse=True)
-    def set_up2(self, brew_factory):
-        self.public_brewery_public_brew = brew_factory(
-            brewery=self.public_brewery, name='public brew no 1'
-        )
-        self.hidden_brewery_public_brew = brew_factory(
-            brewery=self.hidden_brewery, name='public brew no 2'
-        )
-
-    def test_print_public(self):
-        url = url_for('brew.print', brew_id=self.public_brewery_public_brew.id)
-        self.login(self.public_user.email)
-        rv = self.client.get(url)
-        assert rv.status_code == 200
-
-    def test_print_hidden(self):
-        url = url_for('brew.print', brew_id=self.hidden_brewery_public_brew.id)
-        self.login(self.public_user.email)
-        rv = self.client.get(url)
-        assert rv.status_code == 404

@@ -1,9 +1,0 @@
-{% extends "print.html" %}
-
-{% block headpagetitle %}{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name }}{% endblock %}
-
-{% block widecontent %}
-<div class="col-xs-12">
-{% include "brew/include/details.html" %}
-</div>
-{% endblock %}
