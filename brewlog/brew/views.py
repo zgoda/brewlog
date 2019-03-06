@@ -1,19 +1,15 @@
 from datetime import datetime
 
-from flask import (
-    abort, flash, redirect, render_template, render_template_string, request,
-    url_for,
-)
+from flask import abort, flash, redirect, render_template, request, url_for
 from flask_babel import gettext as _
 from flask_babel import lazy_gettext
 from flask_login import current_user, login_required
-from markdown import markdown
 
 from . import brew_bp
 from ..ext import db
 from ..forms.base import DeleteForm
 from ..forms.utils import process_success
-from ..models import Brew, CustomLabelTemplate
+from ..models import Brew
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
 from .forms import BrewForm, ChangeStateForm
@@ -100,37 +96,6 @@ def brew_print(brew_id):
         'brew': brew,
     }
     return render_template('brew/print.html', **ctx)
-
-
-@brew_bp.route('/<int:brew_id>/labels', endpoint='labels')
-def brew_labels(brew_id):
-    brew = check_brew(brew_id, current_user, strict=True)
-    ctx = {
-        'brew': brew,
-        'custom_templates': [],
-        'rendered_cell': None,
-        'rows': 5,
-        'cols': 2,
-        'cell_style': 'width:90mm;height:50mm',
-        'current_template': 0,
-    }
-    if current_user.is_authenticated:
-        ctx['custom_templates'] = current_user.custom_label_templates.order_by(CustomLabelTemplate.name).all()
-        use_template = request.args.get('template')
-        if use_template is not None:
-            template_obj = current_user.custom_label_templates.filter_by(id=use_template).one()
-            if template_obj is not None:
-                cs = 'width:%(width)smm;min-width:%(width)smm;height:%(height)smm;min-height:%(height)s' % \
-                    {'width': template_obj.width, 'height': template_obj.height}
-                custom_data = dict(
-                    rendered_cell=render_template_string(markdown(template_obj.text, safe_mode='remove'), brew=brew),
-                    rows=template_obj.rows,
-                    cols=template_obj.cols,
-                    cell_style=cs,
-                    current_template=template_obj.id,
-                )
-                ctx.update(custom_data)
-    return render_template('brew/labels.html', **ctx)
 
 
 @brew_bp.route('/<int:brew_id>/delete', methods=['GET', 'POST'], endpoint='delete')

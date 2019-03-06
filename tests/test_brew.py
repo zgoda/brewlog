@@ -547,26 +547,3 @@ class TestBrewExport(BrewTests):
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 404
-
-    def test_print_labels_public(self):
-        url = url_for('brew.labels', brew_id=self.public_brewery_public_brew.id)
-        self.login(self.public_user.email)
-        rv = self.client.get(url)
-        assert rv.status_code == 200
-        assert '%s</h3>' % self.public_brewery_public_brew.name in rv.data.decode('utf-8')
-
-    def test_print_labels_custom_template(self, label_template_factory):
-        template = label_template_factory(
-            user=self.public_user, name='custom 1', text='#### {{ brew.name }}'
-        )
-        url = url_for('brew.labels', brew_id=self.public_brewery_public_brew.id)
-        self.login(self.public_user.email)
-        rv = self.client.get(url, query_string={'template': template.id})
-        assert rv.status_code == 200
-        assert '<h4>%s</h4>' % self.public_brewery_public_brew.name in rv.data.decode('utf-8')
-
-    def test_print_labels_hidden(self):
-        url = url_for('brew.labels', brew_id=self.hidden_brewery_public_brew.id)
-        self.login(self.public_user.email)
-        rv = self.client.get(url)
-        assert rv.status_code == 403
