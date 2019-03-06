@@ -16,12 +16,12 @@ exclude_patterns:
   - "setup.py"
   - "secrets/"
   - "**/static/"
-  - "**/translations"
-  - "**/templates"
+  - "**/translations/*"
+  - "**/templates/*"
 checks:
   argument-count:
     config:
-      threshold: 6
+      threshold: 8
   method-complexity:
     config:
-      threshold: 8
+      threshold: 10
