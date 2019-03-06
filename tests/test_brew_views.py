@@ -88,3 +88,27 @@ class TestJsonViews(BrewViewTests):
         assert len(data) == 2
         names = [x['name'] for x in data]
         assert brew_h.name in names
+
+    def test_search_anon(self, brew_factory):
+        brew_p = brew_factory(brewery=self.public_brewery, name='pb1')
+        brew_h = brew_factory(brewery=self.public_brewery, name='hb2', is_public=False)
+        rv = self.client.get(url_for('brew.search', q=brew_p.name))
+        data = rv.get_json()
+        assert len(data) == 1
+        assert data[0]['name'] == brew_p.name
+        rv = self.client.get(url_for('brew.search', q=brew_h.name))
+        data = rv.get_json()
+        assert len(data) == 0
+
+    def test_search_auth(self, brew_factory):
+        brew_p = brew_factory(brewery=self.public_brewery, name='pb1')
+        brew_h = brew_factory(brewery=self.public_brewery, name='hb2', is_public=False)
+        self.login(self.public_user.email)
+        rv = self.client.get(url_for('brew.search', q=brew_p.name))
+        data = rv.get_json()
+        assert len(data) == 1
+        assert data[0]['name'] == brew_p.name
+        rv = self.client.get(url_for('brew.search', q=brew_h.name))
+        data = rv.get_json()
+        assert len(data) == 1
+        assert data[0]['name'] == brew_h.name
