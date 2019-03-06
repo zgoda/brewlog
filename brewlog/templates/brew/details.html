@@ -28,15 +28,6 @@ $(document).ready(function() {
 {% endif %}
 {% endblock %}
 
-{% block topmenu_right %}
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">{% trans %}recipe tools{% endtrans %} <span class="caret"></span></a>
-  <ul class="dropdown-menu" role="menu">
-    <li><a href="{{ url_for('brew.print', brew_id=brew.id) }}">{{ gettext("print recipe") }}</a></li>
-  </ul>
-</li>
-{% endblock %}
-
 {% block headpagetitle %}{{ super() }} {{ brew.full_name }}{% endblock %}
 
 {% block headdescription %}{{ utils.description }}{% endblock %}

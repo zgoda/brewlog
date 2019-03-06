@@ -89,15 +89,6 @@ def search():
     return BrewUtils.brew_search_result(query)
 
 
-@brew_bp.route('/<int:brew_id>/print', endpoint='print')
-def brew_print(brew_id):
-    brew = check_brew(brew_id, current_user)
-    ctx = {
-        'brew': brew,
-    }
-    return render_template('brew/print.html', **ctx)
-
-
 @brew_bp.route('/<int:brew_id>/delete', methods=['GET', 'POST'], endpoint='delete')
 @login_required
 def brew_delete(brew_id):
