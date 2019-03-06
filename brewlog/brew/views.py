@@ -83,13 +83,6 @@ def brew_all():
     return render_template('brew/list.html', **context)
 
 
-@brew_bp.route('/prefetch', endpoint='prefetch')
-def bloodhound_prefetch():
-    query = list_query_for_user(current_user)
-    query = query.order_by(Brew.name)
-    return BrewUtils.brew_search_result(query)
-
-
 @brew_bp.route('/search', endpoint='search')
 def search():
     query = list_query_for_user(current_user)

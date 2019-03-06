@@ -63,16 +63,6 @@ def brewery_all():
     return render_template('brewery/list.html', **ctx)
 
 
-@brewery_bp.route('/prefetch', endpoint='prefetch')
-def bloodhound_prefetch():
-    if current_user.is_anonymous:
-        query = BreweryUtils.breweries()
-    else:
-        query = current_user.breweries
-    query = query.order_by(Brewery.name)
-    return BreweryUtils.brewery_search_result(query)
-
-
 @brewery_bp.route('/search', endpoint='search')
 def search():
     if current_user.is_anonymous:

@@ -74,7 +74,7 @@ class TestJsonViews(BrewViewTests):
     def test_prefetch_anon(self, brew_factory):
         brew1 = brew_factory(brewery=self.public_brewery, name='pb1')
         brew_factory(brewery=self.hidden_brewery, name='hb2')
-        rv = self.client.get(url_for('brew.prefetch'))
+        rv = self.client.get(url_for('brew.search'))
         data = rv.get_json()
         assert len(data) == 1
         assert data[0]['name'] == brew1.name
@@ -83,7 +83,7 @@ class TestJsonViews(BrewViewTests):
         brew_factory(brewery=self.public_brewery, name='pb1')
         brew_h = brew_factory(brewery=self.public_brewery, name='hb2', is_public=False)
         self.login(self.public_user.email)
-        rv = self.client.get(url_for('brew.prefetch'))
+        rv = self.client.get(url_for('brew.search'))
         data = rv.get_json()
         assert len(data) == 2
         names = [x['name'] for x in data]
