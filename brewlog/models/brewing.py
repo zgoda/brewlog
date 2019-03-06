@@ -2,7 +2,6 @@ import datetime
 import json
 
 import markdown
-from flask import url_for
 from flask_babel import lazy_gettext as _
 from sqlalchemy_utils import sort_query
 from werkzeug.utils import cached_property

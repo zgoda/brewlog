@@ -3,6 +3,7 @@ import datetime
 import pytest
 from flask import url_for
 
+from brewlog.ext import db
 from brewlog.models import Brew
 
 from . import BrewlogTests
@@ -19,7 +20,7 @@ class BrewViewTests(BrewlogTests):
 
 
 @pytest.mark.usefixtures('client_class')
-class TestBrewDetails(BrewViewTests):
+class TestBrewDetailsView(BrewViewTests):
 
     def url(self, brew):
         return url_for('brew.details', brew_id=brew.id)
@@ -129,3 +130,50 @@ class TestJsonViews(BrewViewTests):
         data = rv.get_json()
         assert len(data) == 1
         assert data[0]['name'] == brew_h.name
+
+
+@pytest.mark.usefixtures('client_class')
+class TestStateChangeView(BrewViewTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up2(self, brew_factory):
+        self.brew = brew_factory(
+            brewery=self.public_brewery,
+            name='pale ale',
+            date_brewed=datetime.date.today() - datetime.timedelta(days=30),
+            bottling_date=datetime.date.today() - datetime.timedelta(days=10),
+        )
+        self.url = url_for('brew.chgstate', brew_id=self.brew.id)
+
+    def test_brew_tap_anon(self):
+        rv = self.client.post(self.url, data=dict(action='tap'), follow_redirects=True)
+        page = rv.data.decode('utf-8')
+        assert 'Sign in with' in page
+
+    def test_brew_tap_nonbrewer(self):
+        self.login(self.hidden_user.email)
+        rv = self.client.post(self.url, data=dict(action='tap'), follow_redirects=True)
+        assert rv.status_code == 403
+        page = rv.data.decode('utf-8')
+        assert 'You don\'t have permission to access this page' in page
+
+    def test_brew_tap_brewer(self):
+        self.login(self.public_user.email)
+        rv = self.client.post(self.url, data=dict(action='tap'), follow_redirects=True)
+        page = rv.data.decode('utf-8')
+        assert '</strong>: {}'.format(Brew.STATE_TAPPED) in page
+
+    def test_brew_untap_brewer(self):
+        self.brew.tapped = datetime.datetime.today() - datetime.timedelta(days=2)
+        db.session.add(self.brew)
+        db.session.commit()
+        self.login(self.public_user.email)
+        rv = self.client.post(self.url, data=dict(action='untap'), follow_redirects=True)
+        page = rv.data.decode('utf-8')
+        assert '</strong>: {}'.format(Brew.STATE_MATURING) in page
+
+    def test_brew_finish_brewer(self):
+        self.login(self.public_user.email)
+        rv = self.client.post(self.url, data=dict(action='finish'), follow_redirects=True)
+        page = rv.data.decode('utf-8')
+        assert '</strong>: {}'.format(Brew.STATE_FINISHED) in page
