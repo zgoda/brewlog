@@ -3,6 +3,7 @@ plugins:
   git-legal:
     enabled: true
 exclude_patterns:
+  - "docs/"
   - "tests/"
   - "*/_version.py"
   - "*/wsgi.py"
