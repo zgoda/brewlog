@@ -536,18 +536,6 @@ class TestBrewExport(BrewTests):
             brewery=self.hidden_brewery, name='public brew no 2'
         )
 
-    def test_public(self):
-        url = url_for('brew.export', brew_id=self.public_brewery_public_brew.id, flavour='ipboard')
-        self.login(self.public_user.email)
-        rv = self.client.get(url)
-        assert b'<textarea' in rv.data
-
-    def test_hidden(self):
-        url = url_for('brew.export', brew_id=self.hidden_brewery_public_brew.id, flavour='ipboard')
-        self.login(self.public_user.email)
-        rv = self.client.get(url)
-        assert rv.status_code == 404
-
     def test_print_public(self):
         url = url_for('brew.print', brew_id=self.public_brewery_public_brew.id)
         self.login(self.public_user.email)
@@ -567,7 +555,7 @@ class TestBrewExport(BrewTests):
         assert rv.status_code == 200
         assert '%s</h3>' % self.public_brewery_public_brew.name in rv.data.decode('utf-8')
 
-    def test_print_custom_template(self, label_template_factory):
+    def test_print_labels_custom_template(self, label_template_factory):
         template = label_template_factory(
             user=self.public_user, name='custom 1', text='#### {{ brew.name }}'
         )

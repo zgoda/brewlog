@@ -6,12 +6,8 @@ from . import profile_bp
 from ..brew.utils import BrewUtils
 from ..ext import db
 from ..forms.base import DeleteForm
-from ..models import (
-    Brew, BrewerProfile, Brewery, CustomExportTemplate, CustomLabelTemplate,
-)
-from ..profile.forms import (
-    CustomExportTemplateForm, CustomLabelTemplateForm, ProfileForm,
-)
+from ..models import Brew, BrewerProfile, Brewery, CustomLabelTemplate
+from ..profile.forms import CustomLabelTemplateForm, ProfileForm
 from ..utils.pagination import get_page
 from ..utils.views import get_user_object
 
@@ -106,30 +102,6 @@ def brews(user_id):
         'utils': BrewUtils,
     }
     return render_template('brew/list.html', **ctx)
-
-
-@profile_bp.route(
-    '/<int:user_id>/extemplate',
-    methods=['GET', 'POST'], defaults={'tid': None},
-    endpoint='export_template_add'
-)
-@profile_bp.route(
-    '/<int:user_id>/extemplate/<int:tid>',
-    methods=['GET', 'POST'],
-    endpoint='export_template'
-)
-@login_required
-def export_template(user_id, tid=None):
-    template = get_user_object(CustomExportTemplate, tid)
-    form = CustomExportTemplateForm()
-    if form.validate_on_submit():
-        return form.save_and_redirect(current_user, template)
-    form = CustomExportTemplateForm(obj=template)
-    ctx = {
-        'form': form,
-        'template': template,
-    }
-    return render_template('account/export_template.html', **ctx)
 
 
 @profile_bp.route(

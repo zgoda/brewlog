@@ -21,13 +21,6 @@
 <h3>{{ gettext("delete account").capitalize() }}</h3>
 <p><a href="{{ url_for('profile.delete', user_id=profile.id) }}" class="btn btn-danger">{{ gettext("delete my account") }}</a></p>
 <h3>{{ gettext("user customizations").capitalize() }}</h3>
-<h4>{{ gettext("custom recipe export templates").capitalize() }}</h4>
-{% if profile.custom_export_templates %}
-<ul>
-  {% for template in profile.custom_export_templates %}<li><a href="{{ template.absolute_url }}">{{ template.name }}</a></li>{% endfor %}
-</ul>
-{% endif %}
-<p><a href="{{ url_for('profile.export_template_add', user_id=profile.id) }}" class="btn btn-primary">{{ gettext("add new template") }}</a></p>
 <h4>{{ gettext("custom label templates").capitalize() }}</h4>
 {% if profile.custom_label_templates %}
 <ul>
