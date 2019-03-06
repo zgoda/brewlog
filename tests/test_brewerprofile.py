@@ -2,7 +2,7 @@ import pytest
 from flask import url_for
 
 from brewlog.ext import db
-from brewlog.models import BrewerProfile, CustomLabelTemplate
+from brewlog.models import BrewerProfile
 
 from . import BrewlogTests
 
@@ -175,44 +175,3 @@ class TestProfileBreweries(BrewerProfileTests):
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 404
-
-
-@pytest.mark.usefixtures('client_class')
-class TestLabelTemplates(BrewerProfileTests):
-
-    @pytest.fixture(autouse=True)
-    def set_up2(self, label_template_factory):
-        self.template = label_template_factory(user=self.public_user, name='template')
-
-    def test_list_in_profile_page(self):
-        url = url_for('profile.details', user_id=self.public_user.id)
-        self.login(self.public_user.email)
-        rv = self.client.get(url)
-        assert self.template.name in rv.data.decode('utf-8')
-
-    def test_access_own(self):
-        url = url_for('profile.label_template', user_id=self.public_user.id, tid=self.template.id)
-        self.login(self.public_user.email)
-        rv = self.client.get(url)
-        assert self.template.name in rv.data.decode('utf-8')
-
-    def test_access_other(self):
-        url = url_for('profile.label_template', user_id=self.public_user.id, tid=self.template.id)
-        self.login(self.hidden_user.email)
-        rv = self.client.get(url)
-        assert rv.status_code == 403
-
-    def test_create(self):
-        url = url_for('profile.label_template_add', user_id=self.public_user.id)
-        self.login(self.public_user.email)
-        data = dict(name='new template', text='template')
-        rv = self.client.post(url, data=data, follow_redirects=True)
-        assert CustomLabelTemplate.query.filter_by(user=self.public_user).count() == 2
-        assert data['name'] in rv.data.decode('utf-8')
-
-    def test_edit(self):
-        url = url_for('profile.label_template', user_id=self.public_user.id, tid=self.template.id)
-        self.login(self.public_user.email)
-        data = dict(name='new custom template', text='new template text')
-        rv = self.client.post(url, data=data, follow_redirects=True)
-        assert b'has been saved' in rv.data

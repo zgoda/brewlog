@@ -6,10 +6,9 @@ from . import profile_bp
 from ..brew.utils import BrewUtils
 from ..ext import db
 from ..forms.base import DeleteForm
-from ..models import Brew, BrewerProfile, Brewery, CustomLabelTemplate
-from ..profile.forms import CustomLabelTemplateForm, ProfileForm
+from ..models import Brew, BrewerProfile, Brewery
+from ..profile.forms import ProfileForm
 from ..utils.pagination import get_page
-from ..utils.views import get_user_object
 
 
 @profile_bp.route('/<int:user_id>', methods=['GET', 'POST'], endpoint='details')
@@ -102,27 +101,3 @@ def brews(user_id):
         'utils': BrewUtils,
     }
     return render_template('brew/list.html', **ctx)
-
-
-@profile_bp.route(
-    '/<int:user_id>/lbtemplate',
-    methods=['GET', 'POST'], defaults={'tid': None},
-    endpoint='label_template_add'
-)
-@profile_bp.route(
-    '/<int:user_id>/lbtemplate/<int:tid>',
-    methods=['GET', 'POST'],
-    endpoint='label_template'
-)
-@login_required
-def label_template(user_id, tid=None):
-    template = get_user_object(CustomLabelTemplate, tid)
-    form = CustomLabelTemplateForm()
-    if form.validate_on_submit():
-        return form.save_and_redirect(current_user, template)
-    form = CustomLabelTemplateForm(obj=template)
-    ctx = {
-        'form': form,
-        'template': template,
-    }
-    return render_template('account/label_template.html', **ctx)
