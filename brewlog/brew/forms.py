@@ -56,7 +56,7 @@ class BrewForm(BaseObjectForm):
         _('hopping schedule'),
         description=_('put each step on separate line to make nice list')
     )
-    boil_time = IntegerField(_('boil time'))
+    boil_time = IntegerField(_('boil time'), validators=[Optional()])
     final_amount = DecimalField(
         _('final amount'), places=1,
         description=_('volume into bottling'),

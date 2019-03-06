@@ -85,7 +85,7 @@
         <div class="panel-body">
           {% if maturing %}
           <ul>
-            {% for brew in maturing %}<li><a href="{{ url_for('brew_details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.bottling_date|dateformat("short") }}</li>{% endfor %}
+            {% for brew in maturing %}<li><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.bottling_date|dateformat("short") }}</li>{% endfor %}
           </ul>
           {% else %}
           <p>{% trans %}Nothing{% endtrans %}</p>

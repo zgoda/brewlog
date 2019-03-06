@@ -16,11 +16,13 @@ class BrewViewTests(BrewlogTests):
         self.public_brewery = brewery_factory(name='public brewery no. 1', brewer=self.public_user)
         self.hidden_user = user_factory(is_public=False, first_name='B', last_name='B')
         self.hidden_brewery = brewery_factory(name='hidden brewery no. 1', brewer=self.hidden_user)
-        self.url = lambda x: url_for('brew.details', brew_id=x.id)
 
 
 @pytest.mark.usefixtures('client_class')
 class TestBrewDetails(BrewViewTests):
+
+    def url(self, x):
+        return url_for('brew.details', brew_id=x.id)
 
     def test_get_404(self):
         rv = self.client.get(url_for('brew.details', brew_id=666))
@@ -65,11 +67,24 @@ class TestBrewDetails(BrewViewTests):
         page = rv.data.decode('utf-8')
         assert url_for('brew.chgstate', brew_id=brew.id) in page
 
+
+@pytest.mark.usefixtures('client_class')
+class TestJsonViews(BrewViewTests):
+
     def test_prefetch_anon(self, brew_factory):
         brew1 = brew_factory(brewery=self.public_brewery, name='pb1')
-        brew2 = brew_factory(brewery=self.hidden_brewery, name='hb2')
+        brew_factory(brewery=self.hidden_brewery, name='hb2')
         rv = self.client.get(url_for('brew.prefetch'))
         data = rv.get_json()
         assert len(data) == 1
         assert data[0]['name'] == brew1.name
-        assert data[0]['name'] != brew2.name
+
+    def test_prefetch_auth(self, brew_factory):
+        brew_factory(brewery=self.public_brewery, name='pb1')
+        brew_h = brew_factory(brewery=self.public_brewery, name='hb2', is_public=False)
+        self.login(self.public_user.email)
+        rv = self.client.get(url_for('brew.prefetch'))
+        data = rv.get_json()
+        assert len(data) == 2
+        names = [x['name'] for x in data]
+        assert brew_h.name in names
