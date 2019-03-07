@@ -9,11 +9,10 @@ from werkzeug.utils import cached_property
 from ..ext import db
 from ..models import Brewery, choices
 from ..utils.brewing import abv, apparent_attenuation, real_attenuation
-from ..utils.models import DefaultModelMixin
 from ..utils.text import stars2deg
 
 
-class Brew(db.Model, DefaultModelMixin):
+class Brew(db.Model):
     STATE_PLANNED = _('planned')
     STATE_FERMENTING = _('fermenting')
     STATE_FINISHED = _('finished')

@@ -5,10 +5,9 @@ from flask_babel import lazy_gettext as _
 from flask_login import UserMixin
 
 from ..ext import db
-from ..utils.models import DefaultModelMixin
 
 
-class BrewerProfile(UserMixin, db.Model, DefaultModelMixin):
+class BrewerProfile(UserMixin, db.Model):
     __tablename__ = 'brewer_profile'
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(50))

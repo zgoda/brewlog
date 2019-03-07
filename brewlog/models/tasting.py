@@ -3,11 +3,10 @@ import datetime
 import markdown
 
 from ..ext import db
-from ..utils.models import DefaultModelMixin
 from ..utils.text import stars2deg
 
 
-class TastingNote(db.Model, DefaultModelMixin):
+class TastingNote(db.Model):
     __tablename__ = 'tasting_note'
     id = db.Column(db.Integer, primary_key=True)
     author_id = db.Column(db.Integer, db.ForeignKey('brewer_profile.id'), nullable=False)

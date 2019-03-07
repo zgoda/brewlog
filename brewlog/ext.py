@@ -6,13 +6,15 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from authlib.flask.client import OAuth
 
+from .utils.models import Model
+
 login_manager = LoginManager()
 
 babel = Babel()
 
 pages = FlatPages()
 
-db = SQLAlchemy()
+db = SQLAlchemy(model_class=Model)
 
 csrf = CSRFProtect()
 

@@ -6,10 +6,9 @@ from flask_babel import lazy_gettext as _
 from sqlalchemy_utils import sort_query
 
 from ..ext import db
-from ..utils.models import DefaultModelMixin
 
 
-class Brewery(db.Model, DefaultModelMixin):
+class Brewery(db.Model):
     __tablename__ = 'brewery'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(200), nullable=False)

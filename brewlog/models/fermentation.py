@@ -1,10 +1,9 @@
 from flask_babel import lazy_gettext as _
 
 from ..ext import db
-from ..utils.models import DefaultModelMixin
 
 
-class FermentationStep(db.Model, DefaultModelMixin):
+class FermentationStep(db.Model):
     __tablename__ = 'fermentation_step'
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, index=True, nullable=False)
