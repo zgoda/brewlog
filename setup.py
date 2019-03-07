@@ -47,6 +47,8 @@ setup(
         'Markdown',
         'python-dateutil',
         'WTForms-Alchemy',
+        # pinned for sanity
+        'SQLAlchemy<1.3',
     ),
     setup_requires=(
         'pytest-runner',
