@@ -1,5 +1,5 @@
 from flask import abort, flash, redirect, render_template, request
-from flask_babel import gettext as _
+from flask_babel import lazy_gettext as _
 from flask_login import current_user, login_required
 
 from ..brewery import brewery_bp
