@@ -113,16 +113,21 @@ def brew_delete(brew_id):
 def change_state(brew_id):
     brew = check_brew(brew_id, current_user, strict=True)
     form = ChangeStateForm()
-    now = datetime.utcnow()
-    action = form.data['action']
-    if action == 'tap':
-        brew.tapped = now
-        brew.finished = None
-    elif action in ('untap', 'available'):
-        brew.finished = None
-        brew.tapped = None
-    elif action == 'finish':
-        brew.finished = now
-    db.session.add(brew)
-    db.session.commit()
+    if form.validate_on_submit():
+        now = datetime.utcnow()
+        action = form.action.data
+        if action == 'tap':
+            brew.tapped = now
+            brew.finished = None
+        elif action in ('untap', 'available'):
+            brew.finished = None
+            brew.tapped = None
+        elif action == 'finish':  # pragma: nocover
+            brew.tapped = None
+            brew.finished = now
+        db.session.add(brew)
+        db.session.commit()
+        flash(_('brew %(name)s state changed', name=brew.full_name), category='success')
+    else:
+        flash(_('invalid state'), category='warning')
     return redirect(url_for('brew.details', brew_id=brew.id))

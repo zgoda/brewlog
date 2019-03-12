@@ -64,10 +64,10 @@ class BrewForm(BaseObjectForm):
     )
     bottling_date = DateField(_('bottling date'), validators=[Optional()])
     carbonation_type = wf.SelectField(
-        _('type of carbonation'), choices=choices.CARBONATION_CHOICES
+        _('type of carbonation'), choices=choices.CARBONATION_CHOICES,
     )
     carbonation_level = wf.SelectField(
-        _('carbonation level'), choices=choices.CARB_LEVEL_CHOICES
+        _('carbonation level'), choices=choices.CARB_LEVEL_CHOICES,
     )
     carbonation_used = wf.TextAreaField(_('carbonation used'))
     is_public = wf.BooleanField(_('public'), default=True)

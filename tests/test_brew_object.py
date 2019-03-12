@@ -2,6 +2,8 @@ import datetime
 
 import pytest
 
+from brewlog.utils.brewing import apparent_attenuation, real_attenuation
+
 from . import BrewlogTests
 
 
@@ -10,9 +12,9 @@ class BrewObjectTests(BrewlogTests):
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory, brewery_factory):
         self.public_user = user_factory()
-        self.public_brewery = brewery_factory(brewer=self.public_user, name='public brewery no. 1')
+        self.public_brewery = brewery_factory(brewer=self.public_user, name='public brewery')
         self.hidden_user = user_factory(is_public=False)
-        self.hidden_brewery = brewery_factory(brewer=self.hidden_user, name='hidden brewery no. 1')
+        self.hidden_brewery = brewery_factory(brewer=self.hidden_user, name='hidden brewery')
 
 
 @pytest.mark.usefixtures('app')
@@ -43,3 +45,21 @@ class TestBrewObject(BrewObjectTests):
         brewing_date = today - datetime.timedelta(days=6)
         brew = brew_factory(brewery=self.public_brewery, date_brewed=brewing_date)
         assert brew.is_brewed_yet is True
+
+    def test_attenuation_og_fg_set(self, brew_factory, fermentation_step_factory):
+        brew = brew_factory(brewery=self.public_brewery, name='pb1')
+        fermentation_step_factory(brew=brew, og=10.5, fg=2.5, name='primary')
+        assert brew.attenuation['apparent'] == apparent_attenuation(brew.og, brew.fg)
+        assert brew.attenuation['real'] == real_attenuation(brew.og, brew.fg)
+
+    def test_attenuation_no_og_no_fg(self, brew_factory, fermentation_step_factory):
+        brew = brew_factory(brewery=self.public_brewery, name='pb1')
+        fermentation_step_factory(brew=brew, name='primary')
+        assert brew.attenuation['apparent'] == 0
+        assert brew.attenuation['real'] == 0
+
+    def test_attenuation_og_no_fg(self, brew_factory, fermentation_step_factory):
+        brew = brew_factory(brewery=self.public_brewery, name='pb1')
+        fermentation_step_factory(brew=brew, name='primary', og=10)
+        assert brew.attenuation['apparent'] == 0
+        assert brew.attenuation['real'] == 0
