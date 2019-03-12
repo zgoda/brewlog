@@ -28,9 +28,8 @@ def configure_app(app, env):
     app.config.from_object('brewlog.config')
     if env is not None:
         try:
-            app.config.from_object('brewlog.config_%s' % env)
+            app.config.from_object(f'brewlog.config_{env}')
         except ImportStringError:
-            # module is not importable
             pass
     if os.environ.get('BREWLOG_CONFIG_LOCAL'):
         app.logger.info('local configuration loaded from %s' % os.environ.get('BREWLOG_CONFIG_LOCAL'))

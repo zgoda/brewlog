@@ -14,17 +14,18 @@ def textarea_with_hints(field, **kwargs):
     if not EMPTY_HINTS[0] in hints:
         hints = EMPTY_HINTS + hints
     obj_id = kwargs['id']
-    hint_elem_id = '%s_hints' % obj_id
+    hint_elem_id = f'{obj_id}_hints'
     if len(hints) > 1:
-        hint = ['<select %s class="form-control">' % (html_params(id=hint_elem_id))]
+        hint = [f'<select {html_params(id=hint_elem_id)} class="form-control">']
         for hint_value, hint_label in hints:
-            hint.append('<option value="%s">%s</option>' % (escape(hint_value), escape(hint_label)))
+            hint.append(f'<option value="{escape(hint_value)}">{escape(hint_label)}</option>')
         hint.append('</select>')
         hint = HTMLString(''.join(hint))
     else:
         hint = ''
-    textarea = HTMLString('<textarea %s>%s</textarea>' %
-        (html_params(name=field.name, **kwargs), escape(text_type(field._value()))))
+    textarea = HTMLString(
+        f'<textarea {html_params(name=field.name, **kwargs)}>{escape(text_type(field._value()))}</textarea>'
+    )
     if hint:
         script = """
         <script type="text/javascript">

@@ -22,7 +22,7 @@ def remote_login(provider):
     if svc is None:
         flash(_('Service "%(provider)s" is not supported', provider=provider), category='error')
         return redirect(url_for('auth.select'))
-    view_name = 'auth.callback-%s' % provider
+    view_name = f'auth.callback-{provider}'
     callback = url_for(view_name, _external=True)
     return svc.authorize_redirect(callback)
 

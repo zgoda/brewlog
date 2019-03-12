@@ -116,7 +116,7 @@ class Brew(db.Model):
     def notes_to_json(self):
         notes = {}
         for note in self.tasting_notes:
-            notes['note_text_%s' % note.id] = note.text
+            notes[f'note_text_{note.id}'] = note.text
         return json.dumps(notes)
 
     @classmethod
@@ -135,7 +135,7 @@ class Brew(db.Model):
     def full_name(self):
         parts = []
         if self.code:
-            parts.append('#%s' % self.code)
+            parts.append(f'#{self.code}')
         parts.append(self.name)
         return ' '.join(parts)
 
