@@ -172,7 +172,7 @@ class TestBrewDetailsLoggedInUser(BrewTests):
 
         self.login(self.public_user.email)
         brew_url = url_for('brew.details', brew_id=self.public_brewery_public_brew.id)
-        action_text = 'action="{}"'.format(brew_url)
+        action_text = f'action="{brew_url}"'
         rv = self.client.get(brew_url)
         assert action_text in rv.data.decode('utf-8')
 
@@ -183,7 +183,7 @@ class TestBrewDetailsLoggedInUser(BrewTests):
 
         self.login(self.public_user.email)
         brew_url = url_for('brew.details', brew_id=self.public_brewery_hidden_brew.id)
-        action_text = 'action="{}"'.format(brew_url)
+        action_text = f'action="{brew_url}"'
         rv = self.client.get(brew_url)
         assert action_text in rv.data.decode('utf-8')
 
@@ -194,7 +194,7 @@ class TestBrewDetailsLoggedInUser(BrewTests):
 
         self.login(self.hidden_user.email)
         brew_url = url_for('brew.details', brew_id=self.hidden_brewery_public_brew.id)
-        action_text = 'action="{}"'.format(brew_url)
+        action_text = f'action="{brew_url}"'
         rv = self.client.get(brew_url)
         assert action_text in rv.data.decode('utf-8')
 
@@ -205,7 +205,7 @@ class TestBrewDetailsLoggedInUser(BrewTests):
 
         self.login(self.hidden_user.email)
         brew_url = url_for('brew.details', brew_id=self.hidden_brewery_hidden_brew.id)
-        action_text = 'action="{}"'.format(brew_url)
+        action_text = f'action="{brew_url}"'
         rv = self.client.get(brew_url)
         assert action_text in rv.data.decode('utf-8')
 
@@ -260,7 +260,7 @@ class TestBrewOperations(BrewTests):
         self.login(self.public_user.email)
         rv = self.client.get(self.create_url)
         assert rv.status_code == 200
-        assert 'action="%s"' % self.create_url in rv.data.decode('utf-8')
+        assert f'action="{self.create_url}"' in rv.data.decode('utf-8')
 
     def test_add_by_registered(self):
         """Registered users can add brews.
@@ -278,7 +278,7 @@ class TestBrewOperations(BrewTests):
         rv = self.client.post(self.create_url, data=data, follow_redirects=True)
         assert rv.status_code == 200
         content = rv.data.decode('utf-8')
-        assert '<h3>%s</h3>' % data['name'] in content
+        assert f'<h3>{data["name"]}</h3>' in content
         assert self.public_brewery.name in content
         brew = Brew.query.filter_by(name=data['name']).first()
         assert brew.fermentation_steps.count() == 0
@@ -331,7 +331,7 @@ class TestBrewOperations(BrewTests):
         }
         rv = self.client.post(url, data=data, follow_redirects=True)
         assert rv.status_code == 200
-        assert '<h3>%s</h3>' % data['name'] in rv.data.decode('utf-8')
+        assert f'<h3>{data["name"]}</h3>' in rv.data.decode('utf-8')
 
     def test_update_by_public(self):
         """ Non-owner can not update brew data
@@ -355,7 +355,7 @@ class TestBrewOperations(BrewTests):
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 200
-        assert 'action="%s"' % url in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.data.decode('utf-8')
 
     def test_delete_by_owner(self):
         """Owner can delete brew.
@@ -412,7 +412,7 @@ class TestBrewNavigation(BrewTests):
         rv = self.client.get(url)
         content = rv.data.decode('utf-8')
         next_url = url_for('brew.details', brew_id=self.public_brewery_hidden_brew.id)
-        assert '<a href="%s">next</a>' % next_url in content
+        assert f'<a href="{next_url}">next</a>' in content
         assert '>previous</a>' not in content
 
     def test_previous_own_brews(self):
@@ -420,7 +420,7 @@ class TestBrewNavigation(BrewTests):
         self.login(self.public_user.email)
         rv = self.client.get(url)
         prev_url = url_for('brew.details', brew_id=self.public_brewery_public_brew.id)
-        assert '<a href="%s">previous</a>' % prev_url in rv.data.decode('utf-8')
+        assert f'<a href="{prev_url}">previous</a>' in rv.data.decode('utf-8')
 
     def test_anon_navigation(self):
         """Non-public brews are not accessible in prev/next navigation for

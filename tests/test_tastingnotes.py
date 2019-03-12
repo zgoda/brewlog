@@ -186,7 +186,7 @@ class TestTastingNote(TastingTests):
         self.login(self.extra_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 200
-        assert 'action="%s"' % url in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.data.decode('utf-8')
 
     def test_delete_by_brew_owner(self):
         """

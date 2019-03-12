@@ -54,10 +54,11 @@ class TestBrewery(BrewlogTests):
             * only basic information if public
             * 404 if hidden
         """
-        rv = self.client.get(url_for('brewery.details', brewery_id=self.public_brewery.id))
+        pb_url = url_for('brewery.details', brewery_id=self.public_brewery.id)
+        rv = self.client.get(pb_url)
         content = rv.data.decode('utf-8')
         assert self.public_brewery.name in content
-        assert 'action="%s"' % url_for('brewery.details', brewery_id=self.public_brewery.id) not in content
+        assert f'action="{pb_url}"' not in content
         rv = self.client.get(url_for('brewery.details', brewery_id=self.hidden_brewery.id))
         assert rv.status_code == 404
 
@@ -67,11 +68,12 @@ class TestBrewery(BrewlogTests):
             * only basic information in non-owned
             * form in owned, even if hidden
         """
+        pb_url = url_for('brewery.details', brewery_id=self.public_brewery.id)
         self.login(self.hidden_brewery.brewer.email)
-        rv = self.client.get(url_for('brewery.details', brewery_id=self.public_brewery.id))
+        rv = self.client.get(pb_url)
         content = rv.data.decode('utf-8')
         assert self.public_brewery.name in content
-        assert 'action="%s"' % url_for('brewery.details', brewery_id=self.public_brewery.id) not in content
+        assert f'action="{pb_url}"' not in content
         rv = self.client.get(url_for('brewery.details', brewery_id=self.hidden_brewery.id))
         assert '<form' in rv.data.decode('utf-8')
 
@@ -103,7 +105,7 @@ class TestBrewery(BrewlogTests):
         url = url_for('brewery.delete', brewery_id=self.hidden_brewery.id)
         self.login(self.hidden_brewery.brewer.email)
         rv = self.client.get(url)
-        assert 'action="%s"' % url in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.data.decode('utf-8')
 
     def test_owner_delete(self):
         """
@@ -131,7 +133,7 @@ class TestBrewery(BrewlogTests):
         url = url_for('brewery.add')
         self.login(self.public_brewery.brewer.email)
         rv = self.client.get(url)
-        assert 'action="%s"' % url in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.data.decode('utf-8')
 
     def test_create_logged_in_user(self):
         self.login(self.public_brewery.brewer.email)

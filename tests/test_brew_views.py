@@ -13,10 +13,18 @@ class BrewViewTests(BrewlogTests):
 
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory, brewery_factory):
-        self.public_user = user_factory(first_name='A', last_name='A')
-        self.public_brewery = brewery_factory(name='public brewery no. 1', brewer=self.public_user)
-        self.hidden_user = user_factory(is_public=False, first_name='B', last_name='B')
-        self.hidden_brewery = brewery_factory(name='hidden brewery no. 1', brewer=self.hidden_user)
+        self.public_user = user_factory(
+            first_name='A', last_name='A'
+        )
+        self.public_brewery = brewery_factory(
+            name='public brewery no. 1', brewer=self.public_user
+        )
+        self.hidden_user = user_factory(
+            is_public=False, first_name='B', last_name='B'
+        )
+        self.hidden_brewery = brewery_factory(
+            name='hidden brewery no. 1', brewer=self.hidden_user
+        )
 
 
 @pytest.mark.usefixtures('client_class')
@@ -36,13 +44,17 @@ class TestBrewDetailsView(BrewViewTests):
         assert rv.status_code == 404
 
     def test_get_no_access_hidden_brew(self, brew_factory):
-        brew = brew_factory(brewery=self.public_brewery, is_public=False, name='hb1')
+        brew = brew_factory(
+            brewery=self.public_brewery, is_public=False, name='hb1'
+        )
         self.login(self.hidden_user.email)
         rv = self.client.get(self.url(brew))
         assert rv.status_code == 404
 
     def test_post_data_ok(self, brew_factory):
-        brew = brew_factory(brewery=self.public_brewery, name='pb1', code='xxx')
+        brew = brew_factory(
+            brewery=self.public_brewery, name='pb1', code='xxx'
+        )
         self.login(self.public_user.email)
         data = {
             'name': brew.name,
@@ -161,7 +173,7 @@ class TestStateChangeView(BrewViewTests):
         self.login(self.public_user.email)
         rv = self.client.post(self.url, data=dict(action='tap'), follow_redirects=True)
         page = rv.data.decode('utf-8')
-        assert '</strong>: {}'.format(Brew.STATE_TAPPED) in page
+        assert f'</strong>: {Brew.STATE_TAPPED}' in page
 
     def test_brew_untap_brewer(self):
         self.brew.tapped = datetime.datetime.today() - datetime.timedelta(days=2)
@@ -170,10 +182,48 @@ class TestStateChangeView(BrewViewTests):
         self.login(self.public_user.email)
         rv = self.client.post(self.url, data=dict(action='untap'), follow_redirects=True)
         page = rv.data.decode('utf-8')
-        assert '</strong>: {}'.format(Brew.STATE_MATURING) in page
+        assert f'</strong>: {Brew.STATE_MATURING}' in page
 
     def test_brew_finish_brewer(self):
         self.login(self.public_user.email)
         rv = self.client.post(self.url, data=dict(action='finish'), follow_redirects=True)
         page = rv.data.decode('utf-8')
-        assert '</strong>: {}'.format(Brew.STATE_FINISHED) in page
+        assert f'</strong>: {Brew.STATE_FINISHED}' in page
+
+
+@pytest.mark.usefixtures('client_class')
+class TestBrewAddView(BrewViewTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up2(self):
+        self.url = url_for('brew.add')
+
+    def test_get_anon(self):
+        rv = self.client.get(self.url)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['location']
+
+    def test_get_authenticated(self):
+        self.login(self.public_user.email)
+        rv = self.client.get(self.url)
+        page = rv.data.decode('utf-8')
+        assert f'action="{self.url}"' in page
+
+    def test_post_anon(self):
+        data = {
+            'name': 'pale ale',
+            'brewery': self.public_brewery.id,
+        }
+        rv = self.client.post(self.url, data=data)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['location']
+
+    def test_post_authenticated_own_brewery(self):
+        data = {
+            'name': 'pale ale',
+            'brewery': self.public_brewery.id,
+        }
+        self.login(self.public_user.email)
+        rv = self.client.post(self.url, data=data, follow_redirects=True)
+        page = rv.data.decode('utf-8')
+        assert data['name'] in page

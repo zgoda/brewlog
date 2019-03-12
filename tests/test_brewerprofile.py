@@ -50,7 +50,7 @@ class TestBrewerProfile(BrewerProfileTests):
         assert 'localhost' in rv.headers.get('Location')
         # check target resource
         rv = self.login(self.public_user.email)
-        assert 'You have been signed in as %s' % self.public_user.email in rv.data.decode('utf-8')
+        assert f'You have been signed in as {self.public_user.email}' in rv.data.decode('utf-8')
 
     def test_hidden_user(self):
         rv = self.client.get(url_for('home.index'))
@@ -71,7 +71,7 @@ class TestBrewerProfile(BrewerProfileTests):
     def test_anon_view_profile(self):
         profile_url = url_for('profile.details', user_id=self.public_user.id)
         rv = self.client.get(profile_url)
-        assert 'action="%s"' % profile_url not in rv.data.decode('utf-8')
+        assert f'action="{profile_url}"' not in rv.data.decode('utf-8')
 
     def test_update_other_profile(self, user_factory):
         user = user_factory()
@@ -123,7 +123,7 @@ class TestBrewerProfile(BrewerProfileTests):
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 200
-        assert 'action="%s"' % url in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.data.decode('utf-8')
 
     def test_public_cant_access_delete_form(self):
         url = url_for('profile.delete', user_id=self.public_user.id)

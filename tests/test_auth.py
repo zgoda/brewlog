@@ -18,7 +18,7 @@ class TestAuth(BrewlogTests):
         assert rv.status_code == 200
         content = rv.data.decode('utf-8')
         for x in [url_for('auth.login', provider=p) for p in ('google', 'facebook', 'local', 'github')]:
-            link_text = 'href="%s"' % x
+            link_text = f'href="{x}"'
             assert link_text in content
 
     def test_invalid_provider_selected(self):

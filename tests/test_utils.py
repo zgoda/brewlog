@@ -10,9 +10,8 @@ class TestTextUtils:
     def test_degree_replacement(self):
         orig_char = '*'
         new_char = unicodedata.lookup('DEGREE SIGN')
-        pattern = 'OG was 14%sP, pitch temp. 21%sC'
-        text = pattern % (orig_char, orig_char)
-        expected = pattern % (new_char, new_char)
+        text = f'OG was 14{orig_char}P, pitch temp. 21{orig_char}C'
+        expected = f'OG was 14{new_char}P, pitch temp. 21{new_char}C'
         ret = stars2deg(text)
         assert ret == expected
 
