@@ -1,3 +1,5 @@
+import os
+
 from flask import url_for
 import pytest
 
@@ -6,6 +8,11 @@ from . import BrewlogTests
 
 @pytest.mark.usefixtures('client_class')
 class TestMainPageAnonUser(BrewlogTests):
+
+    TEMPLATES_DIR = os.path.join(
+        os.path.dirname(os.path.dirname(__file__)),
+        'brewlog/templates',
+    )
 
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory):
@@ -19,64 +26,57 @@ class TestMainPageAnonUser(BrewlogTests):
 
     def test_common_elements(self):
         rv = self.client.get(self.url)
-        assert b'>Brew Log</a>' in rv.data
-        assert b'login page' in rv.data
+        assert '>Brew Log</a>' in rv.text
+        assert 'login page' in rv.text
 
     def test_profile_visibility(self):
         rv = self.client.get(self.url)
-        page = rv.data.decode('utf-8')
-        assert self.regular_user.full_name in page
-        assert self.hidden_user.full_name not in page
+        assert self.regular_user.full_name in rv.text
+        assert self.hidden_user.full_name not in rv.text
 
     def test_brewery_visibility_regular_user(self, brewery_factory):
         brewery = brewery_factory(brewer=self.regular_user, name=self.regular_brewery_name)
         rv = self.client.get(self.url)
-        page = rv.data.decode('utf-8')
-        assert self.regular_user.full_name in page
-        assert brewery.name in page
+        assert self.regular_user.full_name in rv.text
+        assert brewery.name in rv.text
 
     def test_brewery_visibility_hidden_user(self, brewery_factory):
         brewery = brewery_factory(brewer=self.hidden_user, name=self.hidden_brewery_name)
         rv = self.client.get(self.url)
-        page = rv.data.decode('utf-8')
-        assert self.hidden_user.full_name not in page
-        assert brewery.name not in page
+        assert self.hidden_user.full_name not in rv.text
+        assert brewery.name not in rv.text
 
     def test_brew_visibility_regular_brew_regular_user(self, brew_factory, brewery_factory):
         brewery = brewery_factory(brewer=self.regular_user, name=self.regular_brewery_name)
         brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
         rv = self.client.get(self.url)
-        page = rv.data.decode('utf-8')
-        assert self.regular_user.full_name in page
-        assert brewery.name in page
-        assert brew.name in page
+        assert self.regular_user.full_name in rv.text
+        assert brewery.name in rv.text
+        assert brew.name in rv.text
 
     def test_brew_visibility_regular_brew_hidden_user(self, brew_factory, brewery_factory):
         brewery = brewery_factory(brewer=self.hidden_user, name=self.regular_brewery_name)
         brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
         rv = self.client.get(self.url)
-        page = rv.data.decode('utf-8')
-        assert self.hidden_user.full_name not in page
-        assert brewery.name not in page
-        assert brew.name not in page
+        assert self.hidden_user.full_name not in rv.text
+        assert brewery.name not in rv.text
+        assert brew.name not in rv.text
 
     def test_brew_visibility_hidden_brew_hidden_user(self, brew_factory, brewery_factory):
         brewery = brewery_factory(brewer=self.hidden_user, name=self.regular_brewery_name)
         brew = brew_factory(brewery=brewery, name=self.regular_brew_name, is_public=False)
         rv = self.client.get(self.url)
-        page = rv.data.decode('utf-8')
-        assert self.hidden_user.full_name not in page
-        assert brewery.name not in page
-        assert brew.name not in page
+        assert self.hidden_user.full_name not in rv.text
+        assert brewery.name not in rv.text
+        assert brew.name not in rv.text
 
     def test_brew_visibility_hidden_brew_regular_user(self, brew_factory, brewery_factory):
         brewery = brewery_factory(brewer=self.regular_user, name=self.regular_brewery_name)
         brew = brew_factory(brewery=brewery, name=self.regular_brew_name, is_public=False)
         rv = self.client.get(self.url)
-        page = rv.data.decode('utf-8')
-        assert self.regular_user.full_name in page
-        assert brewery.name in page
-        assert brew.name not in page
+        assert self.regular_user.full_name in rv.text
+        assert brewery.name in rv.text
+        assert brew.name not in rv.text
 
     @pytest.mark.options(ANNOUNCEMENT_FILE='/tmp/dummy/announcement.md')
     def test_announcement_present(self, fs):
@@ -84,7 +84,7 @@ class TestMainPageAnonUser(BrewlogTests):
         fs.create_file(file_name, contents='This **very important** announcement.')
         fs.add_real_directory(self.TEMPLATES_DIR)
         rv = self.client.get(self.url)
-        assert b'<strong>very important</strong>' in rv.data
+        assert '<strong>very important</strong>' in rv.text
 
 
 @pytest.mark.usefixtures('client_class')
@@ -102,9 +102,9 @@ class TestMainPageLoggedInRegularUser(BrewlogTests):
     def test_common_elements(self):
         self.login(self.user.email)
         rv = self.client.get(self.url)
-        assert b'>Brew Log</a>' in rv.data
-        assert b'my profile' in rv.data
-        assert b'login page' not in rv.data
+        assert '>Brew Log</a>' in rv.text
+        assert 'my profile' in rv.text
+        assert 'login page' not in rv.text
 
     def test_dashboard_brews(self, brew_factory, brewery_factory):
         self.login(self.user.email)
@@ -112,9 +112,8 @@ class TestMainPageLoggedInRegularUser(BrewlogTests):
         regular_brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
         hidden_brew = brew_factory(brewery=brewery, name=self.hidden_brew_name)
         rv = self.client.get(self.url)
-        page = rv.data.decode('utf-8')
-        assert regular_brew.name in page
-        assert hidden_brew.name in page
+        assert regular_brew.name in rv.text
+        assert hidden_brew.name in rv.text
 
 
 @pytest.mark.usefixtures('client_class')
@@ -131,9 +130,9 @@ class TestMainPageLoggedInHiddenUser(BrewlogTests):
     def test_common_elements(self):
         self.login(self.user.email)
         rv = self.client.get(self.url)
-        assert b'>Brew Log</a>' in rv.data
-        assert b'my profile' in rv.data
-        assert b'login page' not in rv.data
+        assert '>Brew Log</a>' in rv.text
+        assert 'my profile' in rv.text
+        assert 'login page' not in rv.text
 
     def test_dashboard_brews(self, brew_factory, brewery_factory):
         self.login(self.user.email)
@@ -141,6 +140,5 @@ class TestMainPageLoggedInHiddenUser(BrewlogTests):
         regular_brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
         hidden_brew = brew_factory(brewery=brewery, name=self.hidden_brew_name)
         rv = self.client.get(self.url)
-        page = rv.data.decode('utf-8')
-        assert regular_brew.name in page
-        assert hidden_brew.name in page
+        assert regular_brew.name in rv.text
+        assert hidden_brew.name in rv.text

@@ -21,7 +21,7 @@ class BrewerProfileTests(BrewlogTests):
         self.hb_hidden_brew = brew_factory(brewery=self.hidden_brewery, is_public=False, name='hidden brew no 2')
 
 
-@pytest.mark.usefixtures('client_class')
+@pytest.mark.usefixtures('app')
 class TestBrewerProfileModel(BrewerProfileTests):
 
     def test_no_names(self, user_factory):
@@ -50,28 +50,28 @@ class TestBrewerProfile(BrewerProfileTests):
         assert 'localhost' in rv.headers.get('Location')
         # check target resource
         rv = self.login(self.public_user.email)
-        assert f'You have been signed in as {self.public_user.email}' in rv.data.decode('utf-8')
+        assert f'You have been signed in as {self.public_user.email}' in rv.text
 
     def test_hidden_user(self):
         rv = self.client.get(url_for('home.index'))
-        assert self.hidden_user.full_name not in rv.data.decode('utf-8')
+        assert self.hidden_user.full_name not in rv.text
 
     def test_view_list_by_public(self):
         url = url_for('profile.all')
         self.login(self.public_user.email)
         rv = self.client.get(url)
-        assert url_for('profile.details', user_id=self.hidden_user.id) not in rv.data.decode('utf-8')
+        assert url_for('profile.details', user_id=self.hidden_user.id) not in rv.text
 
     def test_view_list_by_hidden(self):
         url = url_for('profile.all')
         self.login(self.hidden_user.email)
         rv = self.client.get(url)
-        assert url_for('profile.details', user_id=self.hidden_user.id) in rv.data.decode('utf-8')
+        assert url_for('profile.details', user_id=self.hidden_user.id) in rv.text
 
     def test_anon_view_profile(self):
         profile_url = url_for('profile.details', user_id=self.public_user.id)
         rv = self.client.get(profile_url)
-        assert f'action="{profile_url}"' not in rv.data.decode('utf-8')
+        assert f'action="{profile_url}"' not in rv.text
 
     def test_update_other_profile(self, user_factory):
         user = user_factory()
@@ -110,7 +110,7 @@ class TestBrewerProfile(BrewerProfileTests):
             'email': 'cowabungaitis',
         }
         rv = self.client.post(profile_url, data=data, follow_redirects=True)
-        assert b'profile data has been updated' not in rv.data
+        assert 'profile data has been updated' not in rv.text
 
     def test_view_hidden_by_public(self):
         profile_url = url_for('profile.details', user_id=self.hidden_user.id)
@@ -123,7 +123,7 @@ class TestBrewerProfile(BrewerProfileTests):
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 200
-        assert f'action="{url}"' in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.text
 
     def test_public_cant_access_delete_form(self):
         url = url_for('profile.delete', user_id=self.public_user.id)
@@ -146,13 +146,13 @@ class TestProfileBrews(BrewerProfileTests):
         url = url_for('profile.brews', user_id=self.public_user.id)
         self.login(self.hidden_user.email)
         rv = self.client.get(url)
-        assert self.pb_hidden_brew.name not in rv.data.decode('utf-8')
+        assert self.pb_hidden_brew.name not in rv.text
 
     def test_owner(self):
         url = url_for('profile.brews', user_id=self.public_user.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
-        assert self.pb_hidden_brew.name in rv.data.decode('utf-8')
+        assert self.pb_hidden_brew.name in rv.text
 
     def test_hidden(self):
         url = url_for('profile.brews', user_id=self.hidden_user.id)
@@ -168,7 +168,7 @@ class TestProfileBreweries(BrewerProfileTests):
         url = url_for('profile.breweries', user_id=self.public_user.id)
         self.login(self.hidden_user.email)
         rv = self.client.get(url)
-        assert self.public_brewery.name in rv.data.decode('utf-8')
+        assert self.public_brewery.name in rv.text
 
     def test_hidden(self):
         url = url_for('profile.breweries', user_id=self.hidden_user.id)

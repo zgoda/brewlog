@@ -5,7 +5,7 @@ import pytest
 from brewlog.brew.utils import BrewUtils
 
 
-@pytest.mark.usefixtures('client_class')
+@pytest.mark.usefixtures('app')
 class TestBrewUtils:
 
     @pytest.fixture(autouse=True)
@@ -23,7 +23,7 @@ class TestBrewUtils:
         assert 'not in particular style' in ret
 
 
-@pytest.mark.usefixtures('client_class')
+@pytest.mark.usefixtures('app')
 class TestBrewUtilsStateFermenting:
 
     @pytest.fixture(autouse=True)

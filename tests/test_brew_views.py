@@ -65,7 +65,7 @@ class TestBrewDetailsView(BrewViewTests):
         }
         rv = self.client.post(self.url(brew), data=data, follow_redirects=True)
         assert rv.status_code == 200
-        assert 'data updated' in rv.data.decode('utf-8')
+        assert 'data updated' in rv.text
         assert Brew.query.get(brew.id).code == data['code']
 
     def test_post_data_missing(self, brew_factory):
@@ -80,9 +80,8 @@ class TestBrewDetailsView(BrewViewTests):
         }
         rv = self.client.post(self.url(brew), data=data, follow_redirects=True)
         assert rv.status_code == 200
-        page = rv.data.decode('utf-8')
-        assert 'field is required' in page
-        assert 'data updated' not in page
+        assert 'field is required' in rv.text
+        assert 'data updated' not in rv.text
 
     def test_state_form_present(self, brew_factory):
         brewed = datetime.date(1992, 12, 4)
@@ -94,8 +93,7 @@ class TestBrewDetailsView(BrewViewTests):
         )
         self.login(self.public_user.email)
         rv = self.client.get(self.url(brew))
-        page = rv.data.decode('utf-8')
-        assert url_for('brew.chgstate', brew_id=brew.id) in page
+        assert url_for('brew.chgstate', brew_id=brew.id) in rv.text
 
 
 @pytest.mark.usefixtures('client_class')
@@ -159,21 +157,18 @@ class TestStateChangeView(BrewViewTests):
 
     def test_brew_tap_anon(self):
         rv = self.client.post(self.url, data=dict(action='tap'), follow_redirects=True)
-        page = rv.data.decode('utf-8')
-        assert 'Sign in with' in page
+        assert 'Sign in with' in rv.text
 
     def test_brew_tap_nonbrewer(self):
         self.login(self.hidden_user.email)
         rv = self.client.post(self.url, data=dict(action='tap'), follow_redirects=True)
         assert rv.status_code == 403
-        page = rv.data.decode('utf-8')
-        assert 'You don\'t have permission to access this page' in page
+        assert "You don't have permission to access this page" in rv.text
 
     def test_brew_tap_brewer(self):
         self.login(self.public_user.email)
         rv = self.client.post(self.url, data=dict(action='tap'), follow_redirects=True)
-        page = rv.data.decode('utf-8')
-        assert f'</strong>: {Brew.STATE_TAPPED}' in page
+        assert f'</strong>: {Brew.STATE_TAPPED}' in rv.text
 
     def test_brew_untap_brewer(self):
         self.brew.tapped = datetime.datetime.today() - datetime.timedelta(days=2)
@@ -181,14 +176,12 @@ class TestStateChangeView(BrewViewTests):
         db.session.commit()
         self.login(self.public_user.email)
         rv = self.client.post(self.url, data=dict(action='untap'), follow_redirects=True)
-        page = rv.data.decode('utf-8')
-        assert f'</strong>: {Brew.STATE_MATURING}' in page
+        assert f'</strong>: {Brew.STATE_MATURING}' in rv.text
 
     def test_brew_finish_brewer(self):
         self.login(self.public_user.email)
         rv = self.client.post(self.url, data=dict(action='finish'), follow_redirects=True)
-        page = rv.data.decode('utf-8')
-        assert f'</strong>: {Brew.STATE_FINISHED}' in page
+        assert f'</strong>: {Brew.STATE_FINISHED}' in rv.text
 
 
 @pytest.mark.usefixtures('client_class')
@@ -206,8 +199,7 @@ class TestBrewAddView(BrewViewTests):
     def test_get_authenticated(self):
         self.login(self.public_user.email)
         rv = self.client.get(self.url)
-        page = rv.data.decode('utf-8')
-        assert f'action="{self.url}"' in page
+        assert f'action="{self.url}"' in rv.text
 
     def test_post_anon(self):
         data = {
@@ -225,5 +217,4 @@ class TestBrewAddView(BrewViewTests):
         }
         self.login(self.public_user.email)
         rv = self.client.post(self.url, data=data, follow_redirects=True)
-        page = rv.data.decode('utf-8')
-        assert data['name'] in page
+        assert data['name'] in rv.text

@@ -24,9 +24,8 @@ class TestBrewery(BrewlogTests):
         url = url_for('brewery.all')
         self.login(self.public_brewery.brewer.email)
         rv = self.client.get(url)
-        content = rv.data.decode('utf-8')
-        assert self.hidden_brewery.name not in content
-        assert url_for('brewery.delete', brewery_id=self.public_brewery.id) in content
+        assert self.hidden_brewery.name not in rv.text
+        assert url_for('brewery.delete', brewery_id=self.public_brewery.id) in rv.text
 
     def test_owner_view_list(self):
         """
@@ -35,17 +34,15 @@ class TestBrewery(BrewlogTests):
         url = url_for('brewery.all')
         self.login(self.hidden_brewery.brewer.email)
         rv = self.client.get(url)
-        content = rv.data.decode('utf-8')
-        assert self.hidden_brewery.name in content
-        assert url_for('brewery.delete', brewery_id=self.hidden_brewery.id) in content
+        assert self.hidden_brewery.name in rv.text
+        assert url_for('brewery.delete', brewery_id=self.hidden_brewery.id) in rv.text
 
     def test_anon_view_list(self):
         url = url_for('brewery.all')
         rv = self.client.get(url)
-        content = rv.data.decode('utf-8')
-        assert self.hidden_brewery.name not in content
-        assert self.public_brewery.name in content
-        assert url_for('brewery.delete', brewery_id=self.public_brewery.id) not in content
+        assert self.hidden_brewery.name not in rv.text
+        assert self.public_brewery.name in rv.text
+        assert url_for('brewery.delete', brewery_id=self.public_brewery.id) not in rv.text
 
     def test_nonowner_view(self):
         """
@@ -55,9 +52,8 @@ class TestBrewery(BrewlogTests):
         """
         pb_url = url_for('brewery.details', brewery_id=self.public_brewery.id)
         rv = self.client.get(pb_url)
-        content = rv.data.decode('utf-8')
-        assert self.public_brewery.name in content
-        assert f'action="{pb_url}"' not in content
+        assert self.public_brewery.name in rv.text
+        assert f'action="{pb_url}"' not in rv.text
         rv = self.client.get(url_for('brewery.details', brewery_id=self.hidden_brewery.id))
         assert rv.status_code == 404
 
@@ -70,11 +66,10 @@ class TestBrewery(BrewlogTests):
         pb_url = url_for('brewery.details', brewery_id=self.public_brewery.id)
         self.login(self.hidden_brewery.brewer.email)
         rv = self.client.get(pb_url)
-        content = rv.data.decode('utf-8')
-        assert self.public_brewery.name in content
-        assert f'action="{pb_url}"' not in content
+        assert self.public_brewery.name in rv.text
+        assert f'action="{pb_url}"' not in rv.text
         rv = self.client.get(url_for('brewery.details', brewery_id=self.hidden_brewery.id))
-        assert '<form' in rv.data.decode('utf-8')
+        assert '<form' in rv.text
 
     def test_nonowner_change(self):
         """
@@ -96,7 +91,7 @@ class TestBrewery(BrewlogTests):
         new_name = 'new name'
         rv = self.client.post(url, data={'name': new_name}, follow_redirects=True)
         assert rv.status_code == 200
-        assert new_name in rv.data.decode('utf-8')
+        assert new_name in rv.text
         brewery = Brewery.query.get(self.hidden_brewery.id)
         assert brewery.name == new_name
 
@@ -104,7 +99,7 @@ class TestBrewery(BrewlogTests):
         url = url_for('brewery.delete', brewery_id=self.hidden_brewery.id)
         self.login(self.hidden_brewery.brewer.email)
         rv = self.client.get(url)
-        assert f'action="{url}"' in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.text
 
     def test_owner_delete(self):
         """
@@ -132,7 +127,7 @@ class TestBrewery(BrewlogTests):
         url = url_for('brewery.add')
         self.login(self.public_brewery.brewer.email)
         rv = self.client.get(url)
-        assert f'action="{url}"' in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.text
 
     def test_create_logged_in_user(self):
         self.login(self.public_brewery.brewer.email)
@@ -143,7 +138,7 @@ class TestBrewery(BrewlogTests):
         }
         url = url_for('brewery.add')
         rv = self.client.post(url, data=data, follow_redirects=True)
-        assert data['name'] in rv.data.decode('utf-8')
+        assert data['name'] in rv.text
 
     def test_create_anon(self):
         data = {
@@ -179,13 +174,13 @@ class TestBreweryBrews(BrewlogTests):
         url = url_for('brewery.brews', brewery_id=self.public_brewery.id)
         self.login(self.public_brewery.brewer.email)
         rv = self.client.get(url)
-        assert self.public_brewery_hidden_brew.name in rv.data.decode('utf-8')
+        assert self.public_brewery_hidden_brew.name in rv.text
 
     def test_public_view(self):
         url = url_for('brewery.brews', brewery_id=self.public_brewery.id)
         self.login(self.hidden_brewery.brewer.email)
         rv = self.client.get(url)
-        assert self.public_brewery_hidden_brew.name not in rv.data.decode('utf-8')
+        assert self.public_brewery_hidden_brew.name not in rv.text
 
     def test_hidden_view_by_public(self):
         url = url_for('brewery.brews', brewery_id=self.hidden_brewery.id)

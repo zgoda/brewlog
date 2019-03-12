@@ -29,12 +29,11 @@ class TestFermentationSteps(BrewlogTests):
             'name': 'secondary',
         }
         rv = self.client.get(url_for('brew.details', brew_id=self.hidden_brew.id))
-        content = rv.data.decode('utf-8')
-        assert f'<h3>{self.hidden_brew.full_name}</h3>' in content
-        assert data['name'] not in content
+        assert f'<h3>{self.hidden_brew.full_name}</h3>' in rv.text
+        assert data['name'] not in rv.text
         rv = self.client.post(url, data=data, follow_redirects=True)
         assert rv.status_code == 200
-        assert data['name'] in rv.data.decode('utf-8')
+        assert data['name'] in rv.text
 
     def test_add_fermentation_step_by_public(self):
         url = url_for('ferm.fermentationstep_add', brew_id=self.public_brew.id)
@@ -44,8 +43,8 @@ class TestFermentationSteps(BrewlogTests):
             'name': 'secondary',
         }
         rv = self.client.get(url_for('brew.details', brew_id=self.public_brew.id))
-        assert f'<h3>{self.public_brew.full_name}</h3>' in rv.data.decode('utf-8')
-        assert data['name'] not in rv.data.decode('utf-8')
+        assert f'<h3>{self.public_brew.full_name}</h3>' in rv.text
+        assert data['name'] not in rv.text
         rv = self.client.post(url, data=data, follow_redirects=True)
         assert rv.status_code == 403
 
@@ -67,10 +66,9 @@ class TestFermentationSteps(BrewlogTests):
         url = url_for('ferm.fermentationstep_delete', fstep_id=fstep_id)
         self.login(self.public_user.email)
         rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
-        content = rv.data.decode('utf-8')
         assert rv.status_code == 200
-        assert f'<h3>{self.public_brew.full_name}</h3>' in content
-        assert url not in content
+        assert f'<h3>{self.public_brew.full_name}</h3>' in rv.text
+        assert url not in rv.text
         assert FermentationStep.query.get(fstep_id) is None
 
     def test_delete_fermentation_step_by_public(self):
@@ -85,14 +83,14 @@ class TestFermentationSteps(BrewlogTests):
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 200
-        assert f'action="{url}"' in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.text
 
     def test_edit_fermentation_step_owner_sees_form(self):
         url = url_for('ferm.fermentation_step', fstep_id=self.fstep.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 200
-        assert self.fstep.name in rv.data.decode('utf-8')
+        assert self.fstep.name in rv.text
 
     def test_edit_fermentation_step_owner_can_modify(self):
         url = url_for('ferm.fermentation_step', fstep_id=self.fstep.id)
@@ -105,7 +103,7 @@ class TestFermentationSteps(BrewlogTests):
         }
         rv = self.client.post(url, data=data, follow_redirects=True)
         assert rv.status_code == 200
-        assert data['name'] in rv.data.decode('utf-8')
+        assert data['name'] in rv.text
 
     def test_edit_fermentation_step_by_public(self):
         url = url_for('ferm.fermentation_step', fstep_id=self.fstep.id)
@@ -213,4 +211,4 @@ class TestFermentationSteps(BrewlogTests):
         }
         rv = self.client.post(url, data=data_secondary, follow_redirects=True)
         assert rv.status_code == 200
-        assert '5.5%' in rv.data.decode('utf-8')
+        assert '5.5%' in rv.text

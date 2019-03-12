@@ -3,7 +3,7 @@ import pytest
 from brewlog.brewery.utils import BreweryUtils
 
 
-@pytest.mark.usefixtures('client_class')
+@pytest.mark.usefixtures('app')
 class TestBreweryUtils:
 
     @pytest.fixture(autouse=True)

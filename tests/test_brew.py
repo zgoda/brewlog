@@ -48,12 +48,11 @@ class TestBrewList(BrewTests):
         """
 
         rv = self.client.get(self.list_url)
-        page = rv.data.decode('utf-8')
-        assert self.public_brewery_public_brew.name in page
-        assert self.public_brewery_hidden_brew.name not in page
-        assert self.hidden_brewery_public_brew.name not in page
-        assert self.hidden_brewery_hidden_brew.name not in page
-        assert url_for('brew.delete', brew_id=self.public_brewery_public_brew.id) not in page
+        assert self.public_brewery_public_brew.name in rv.text
+        assert self.public_brewery_hidden_brew.name not in rv.text
+        assert self.hidden_brewery_public_brew.name not in rv.text
+        assert self.hidden_brewery_hidden_brew.name not in rv.text
+        assert url_for('brew.delete', brew_id=self.public_brewery_public_brew.id) not in rv.text
 
     def test_loggedin_public_user_view_list(self):
         """Logged in public user sees all his brews and public brews of public
@@ -63,13 +62,12 @@ class TestBrewList(BrewTests):
 
         self.login(self.public_user.email)
         rv = self.client.get(self.list_url)
-        page = rv.data.decode('utf-8')
-        assert self.public_brewery_public_brew.name in page
-        assert self.public_brewery_hidden_brew.name in page
-        assert self.hidden_brewery_public_brew.name not in page
-        assert self.hidden_brewery_hidden_brew.name not in page
-        assert url_for('brew.delete', brew_id=self.public_brewery_public_brew.id) in page
-        assert url_for('brew.delete', brew_id=self.hidden_brewery_public_brew.id) not in page
+        assert self.public_brewery_public_brew.name in rv.text
+        assert self.public_brewery_hidden_brew.name in rv.text
+        assert self.hidden_brewery_public_brew.name not in rv.text
+        assert self.hidden_brewery_hidden_brew.name not in rv.text
+        assert url_for('brew.delete', brew_id=self.public_brewery_public_brew.id) in rv.text
+        assert url_for('brew.delete', brew_id=self.hidden_brewery_public_brew.id) not in rv.text
 
     def test_loggedin_hidden_user_view_list(self):
         """Logged in hidden user sees all his brews and public brews of public
@@ -79,13 +77,12 @@ class TestBrewList(BrewTests):
 
         self.login(self.hidden_user.email)
         rv = self.client.get(self.list_url)
-        page = rv.data.decode('utf-8')
-        assert self.public_brewery_public_brew.name in page
-        assert self.public_brewery_hidden_brew.name not in page
-        assert self.hidden_brewery_public_brew.name in page
-        assert self.hidden_brewery_hidden_brew.name in page
-        assert url_for('brew.delete', brew_id=self.public_brewery_public_brew.id) not in page
-        assert url_for('brew.delete', brew_id=self.hidden_brewery_public_brew.id) in page
+        assert self.public_brewery_public_brew.name in rv.text
+        assert self.public_brewery_hidden_brew.name not in rv.text
+        assert self.hidden_brewery_public_brew.name in rv.text
+        assert self.hidden_brewery_hidden_brew.name in rv.text
+        assert url_for('brew.delete', brew_id=self.public_brewery_public_brew.id) not in rv.text
+        assert url_for('brew.delete', brew_id=self.hidden_brewery_public_brew.id) in rv.text
 
 
 @pytest.mark.usefixtures('client_class')
@@ -114,7 +111,7 @@ class TestBrewDetailsAnonUser(BrewTests):
         brew_url = url_for('brew.details', brew_id=self.public_brewery_public_brew.id)
         action_text = f'action="{brew_url}"'
         rv = self.client.get(brew_url)
-        assert action_text not in rv.data.decode('utf-8')
+        assert action_text not in rv.text
 
     def test_anon_user_public_brewery_hidden_brew_details(self):
         """Anonymous user gets 404 when trying to access public brewery hidden
@@ -174,7 +171,7 @@ class TestBrewDetailsLoggedInUser(BrewTests):
         brew_url = url_for('brew.details', brew_id=self.public_brewery_public_brew.id)
         action_text = f'action="{brew_url}"'
         rv = self.client.get(brew_url)
-        assert action_text in rv.data.decode('utf-8')
+        assert action_text in rv.text
 
     def test_owner_public_brewery_hidden_brew_details(self):
         """Owner sees full version of own hidden brew details page.
@@ -185,7 +182,7 @@ class TestBrewDetailsLoggedInUser(BrewTests):
         brew_url = url_for('brew.details', brew_id=self.public_brewery_hidden_brew.id)
         action_text = f'action="{brew_url}"'
         rv = self.client.get(brew_url)
-        assert action_text in rv.data.decode('utf-8')
+        assert action_text in rv.text
 
     def test_owner_hidden_brewery_public_brew_details(self):
         """Owner sees full version of own hidden brew details page.
@@ -196,7 +193,7 @@ class TestBrewDetailsLoggedInUser(BrewTests):
         brew_url = url_for('brew.details', brew_id=self.hidden_brewery_public_brew.id)
         action_text = f'action="{brew_url}"'
         rv = self.client.get(brew_url)
-        assert action_text in rv.data.decode('utf-8')
+        assert action_text in rv.text
 
     def test_owner_hidden_brewery_hidden_brew_details(self):
         """Owner sees full version of own hidden brew details page.
@@ -207,7 +204,7 @@ class TestBrewDetailsLoggedInUser(BrewTests):
         brew_url = url_for('brew.details', brew_id=self.hidden_brewery_hidden_brew.id)
         action_text = f'action="{brew_url}"'
         rv = self.client.get(brew_url)
-        assert action_text in rv.data.decode('utf-8')
+        assert action_text in rv.text
 
     def test_non_owner_hidden_brewery_public_brew_details(self):
         """Logged in user gets 404 when trying to access hidden brewery public
@@ -260,7 +257,7 @@ class TestBrewOperations(BrewTests):
         self.login(self.public_user.email)
         rv = self.client.get(self.create_url)
         assert rv.status_code == 200
-        assert f'action="{self.create_url}"' in rv.data.decode('utf-8')
+        assert f'action="{self.create_url}"' in rv.text
 
     def test_add_by_registered(self):
         """Registered users can add brews.
@@ -277,9 +274,8 @@ class TestBrewOperations(BrewTests):
         }
         rv = self.client.post(self.create_url, data=data, follow_redirects=True)
         assert rv.status_code == 200
-        content = rv.data.decode('utf-8')
-        assert f'<h3>{data["name"]}</h3>' in content
-        assert self.public_brewery.name in content
+        assert f'<h3>{data["name"]}</h3>' in rv.text
+        assert self.public_brewery.name in rv.text
         brew = Brew.query.filter_by(name=data['name']).first()
         assert brew.fermentation_steps.count() == 0
 
@@ -313,7 +309,7 @@ class TestBrewOperations(BrewTests):
         self.login(self.hidden_user.email)
         rv = self.client.post(self.create_url, data=data, follow_redirects=False)
         assert rv.status_code == 200
-        assert b'This field is required.' in rv.data
+        assert 'This field is required.' in rv.text
         assert Brew.query.filter_by(name=data['name']).first() is None
 
     def test_update_by_owner(self):
@@ -331,7 +327,7 @@ class TestBrewOperations(BrewTests):
         }
         rv = self.client.post(url, data=data, follow_redirects=True)
         assert rv.status_code == 200
-        assert f'<h3>{data["name"]}</h3>' in rv.data.decode('utf-8')
+        assert f'<h3>{data["name"]}</h3>' in rv.text
 
     def test_update_by_public(self):
         """ Non-owner can not update brew data
@@ -355,7 +351,7 @@ class TestBrewOperations(BrewTests):
         self.login(self.public_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 200
-        assert f'action="{url}"' in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.text
 
     def test_delete_by_owner(self):
         """Owner can delete brew.
@@ -410,17 +406,16 @@ class TestBrewNavigation(BrewTests):
         url = url_for('brew.details', brew_id=brew_id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
-        content = rv.data.decode('utf-8')
         next_url = url_for('brew.details', brew_id=self.public_brewery_hidden_brew.id)
-        assert f'<a href="{next_url}">next</a>' in content
-        assert '>previous</a>' not in content
+        assert f'<a href="{next_url}">next</a>' in rv.text
+        assert '>previous</a>' not in rv.text
 
     def test_previous_own_brews(self):
         url = url_for('brew.details', brew_id=self.public_brewery_hidden_brew.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
         prev_url = url_for('brew.details', brew_id=self.public_brewery_public_brew.id)
-        assert f'<a href="{prev_url}">previous</a>' in rv.data.decode('utf-8')
+        assert f'<a href="{prev_url}">previous</a>' in rv.text
 
     def test_anon_navigation(self):
         """Non-public brews are not accessible in prev/next navigation for
@@ -430,8 +425,7 @@ class TestBrewNavigation(BrewTests):
 
         url = url_for('brew.details', brew_id=self.public_brewery_public_brew.id)
         rv = self.client.get(url)
-        content = rv.data.decode('utf-8')
-        assert url_for('brew.details', brew_id=self.public_brewery_hidden_brew.id) not in content
+        assert url_for('brew.details', brew_id=self.public_brewery_hidden_brew.id) not in rv.text
 
     def test_non_owner_navigation(self):
         """Non-public brews are not accessible in prev/next navigation for
@@ -442,11 +436,10 @@ class TestBrewNavigation(BrewTests):
         url = url_for('brew.details', brew_id=self.public_brewery_public_brew.id)
         self.login(self.hidden_user.email)
         rv = self.client.get(url)
-        content = rv.data.decode('utf-8')
-        assert url_for('brew.details', brew_id=self.public_brewery_hidden_brew.id) not in content
+        assert url_for('brew.details', brew_id=self.public_brewery_hidden_brew.id) not in rv.text
 
 
-@pytest.mark.usefixtures('client_class')
+@pytest.mark.usefixtures('app')
 class TestBrewObjectLists(BrewTests):
 
     @pytest.fixture(autouse=True)
@@ -504,7 +497,7 @@ class TestBrewAttenuation(BrewTests):
         url = url_for('brew.details', brew_id=self.public_brewery_public_brew.id)
         self.login(self.public_user.email)
         rv = self.client.get(url)
-        assert b'apparent' not in rv.data
+        assert 'apparent' not in rv.text
 
     def test_og_fg_set(self, fermentation_step_factory):
         fermentation_step_factory(brew=self.public_brewery_public_brew, og=10.5, fg=2.5, name='primary')

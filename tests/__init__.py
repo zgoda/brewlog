@@ -1,12 +1,4 @@
-import os
-
-
 class BrewlogTests:
-
-    TEMPLATES_DIR = os.path.join(
-        os.path.dirname(os.path.dirname(__file__)),
-        'brewlog/templates',
-    )
 
     def login(self, email):
         return self.client.get(f'/auth/local?email={email}', follow_redirects=True)

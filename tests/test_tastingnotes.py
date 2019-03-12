@@ -63,7 +63,7 @@ class TastingTests(BrewlogTests):
         self.ajax_load_url = url_for('tastingnote.loadtext')
 
 
-@pytest.mark.usefixtures('client_class')
+@pytest.mark.usefixtures('app')
 class TestTastingNoteModel(TastingTests):
 
     def test_create_for_with_date(self, user_factory, mocker):
@@ -100,20 +100,18 @@ class TestTastingNote(TastingTests):
         """
 
         rv = self.client.get(self.list_url)
-        page = rv.data.decode('utf-8')
-        assert self.public_brewery_hidden_brew.name not in page
-        assert self.hidden_brewery_public_brew.name not in page
-        assert self.hidden_user.full_name in page
+        assert self.public_brewery_hidden_brew.name not in rv.text
+        assert self.hidden_brewery_public_brew.name not in rv.text
+        assert self.hidden_user.full_name in rv.text
 
     def test_list_logged_in(self):
         self.login(self.public_user.email)
         rv = self.client.get(self.list_url)
-        page = rv.data.decode('utf-8')
-        assert self.public_brewery_public_brew.name in page
-        assert self.public_brewery_hidden_brew.name in page
-        assert self.hidden_user.full_name in page
-        assert self.hidden_brewery_public_brew.name not in page
-        assert self.hidden_brewery_hidden_brew.name not in page
+        assert self.public_brewery_public_brew.name in rv.text
+        assert self.public_brewery_hidden_brew.name in rv.text
+        assert self.hidden_user.full_name in rv.text
+        assert self.hidden_brewery_public_brew.name not in rv.text
+        assert self.hidden_brewery_hidden_brew.name not in rv.text
 
     def test_create_anon(self):
         """
@@ -130,13 +128,13 @@ class TestTastingNote(TastingTests):
         url = url_for('tastingnote.add', brew_id=self.public_brewery_public_brew.id)
         self.login(self.extra_user.email)
         rv = self.client.get(url)
-        assert f'action="{url}"' in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.text
         data = {
             'text': 'Nice beer, cheers!',
             'date': datetime.date.today().isoformat(),
         }
         rv = self.client.post(url, data=data, follow_redirects=True)
-        assert data['text'] in rv.data.decode('utf-8')
+        assert data['text'] in rv.text
 
     def test_create_for_hidden_brew_direct(self):
         """
@@ -176,7 +174,7 @@ class TestTastingNote(TastingTests):
         url = url_for('tastingnote.delete', note_id=note.id)
         self.login(self.public_user.email)
         rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
-        assert note.text not in rv.data.decode('utf-8')
+        assert note.text not in rv.text
 
     def test_author_sees_delete_form(self):
         note = TastingNote.create_for(
@@ -186,7 +184,7 @@ class TestTastingNote(TastingTests):
         self.login(self.extra_user.email)
         rv = self.client.get(url)
         assert rv.status_code == 200
-        assert f'action="{url}"' in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.text
 
     def test_delete_by_brew_owner(self):
         """
@@ -198,7 +196,7 @@ class TestTastingNote(TastingTests):
         url = url_for('tastingnote.delete', note_id=note.id)
         self.login(self.public_user.email)
         rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
-        assert note.text not in rv.data.decode('utf-8')
+        assert note.text not in rv.text
 
     def test_delete_by_public(self):
         """
@@ -222,7 +220,7 @@ class TestTastingNoteAjax(TastingTests):
         )
         rv = self.client.get(self.ajax_load_url, query_string={'id': note.id})
         assert rv.status_code == 200
-        assert note.text in rv.data.decode('utf-8')
+        assert note.text in rv.text
 
     def test_load_missing_id(self):
         rv = self.client.get(self.ajax_load_url)
@@ -239,7 +237,7 @@ class TestTastingNoteAjax(TastingTests):
         url = url_for('brew.details', brew_id=self.public_brewery_public_brew.id)
         edit_url = url_for('tastingnote.update')
         rv = self.client.get(url)
-        assert edit_url not in rv.data.decode('utf-8')
+        assert edit_url not in rv.text
 
     def test_update_note_by_public(self):
         """
@@ -271,7 +269,7 @@ class TestTastingNoteAjax(TastingTests):
         self.login(self.extra_user.email)
         rv = self.client.post(url, data=data)
         note = TastingNote.query.get(note.id)
-        assert rv.data.decode('utf-8') == note.text_html
+        assert rv.text == note.text_html
         assert note.text == data['value']
 
     def test_update_note_by_brew_owner(self):
@@ -289,7 +287,7 @@ class TestTastingNoteAjax(TastingTests):
         self.login(self.public_user.email)
         rv = self.client.post(url, data=data)
         note = TastingNote.query.get(note.id)
-        assert rv.data.decode('utf-8') == note.text_html
+        assert rv.text == note.text_html
         assert note.text == data['value']
 
     def test_update_empty_text(self):
@@ -303,7 +301,7 @@ class TestTastingNoteAjax(TastingTests):
         }
         self.login(self.public_user.email)
         rv = self.client.post(url, data=data)
-        assert rv.data.decode('utf-8') == note.text_html
+        assert rv.text == note.text_html
 
     def test_update_missing_id(self):
         url = url_for('tastingnote.update')
