@@ -1,4 +1,3 @@
-import urllib
 import datetime
 
 from flask import url_for
@@ -151,7 +150,7 @@ class TestBrewery(BrewlogTests):
             'name': 'new brewery',
         }
         url = url_for('brewery.add')
-        redirect_url = url_for('auth.select') + '?%s' % urllib.parse.urlencode({'next': url})
+        redirect_url = url_for('auth.select', next=url)
         rv = self.client.post(url, data=data, follow_redirects=False)
         assert redirect_url in rv.headers.get('Location')
 

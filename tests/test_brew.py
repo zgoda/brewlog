@@ -112,7 +112,7 @@ class TestBrewDetailsAnonUser(BrewTests):
         """
 
         brew_url = url_for('brew.details', brew_id=self.public_brewery_public_brew.id)
-        action_text = 'action="{}"'.format(brew_url)
+        action_text = f'action="{brew_url}"'
         rv = self.client.get(brew_url)
         assert action_text not in rv.data.decode('utf-8')
 

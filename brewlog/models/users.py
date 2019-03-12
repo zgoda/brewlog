@@ -87,7 +87,9 @@ class BrewerProfile(UserMixin, db.Model):
 
 # events: BrewerProfile model
 def profile_pre_save(mapper, connection, target):
-    full_name = '%s %s' % (target.first_name or '', target.last_name or '')
+    first_name = target.first_name or ''
+    last_name = target.last_name or ''
+    full_name = f'{first_name} {last_name}'
     target.full_name = full_name.strip()
     if target.updated is None:
         target.updated = target.created

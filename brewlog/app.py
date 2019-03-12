@@ -31,11 +31,13 @@ def configure_app(app, env):
             app.config.from_object(f'brewlog.config_{env}')
         except ImportStringError:
             pass
-    if os.environ.get('BREWLOG_CONFIG_LOCAL'):
-        app.logger.info('local configuration loaded from %s' % os.environ.get('BREWLOG_CONFIG_LOCAL'))
+    config_local = os.environ.get('BREWLOG_CONFIG_LOCAL')
+    if config_local:
+        app.logger.info(f'local configuration loaded from {config_local}')
         app.config.from_envvar('BREWLOG_CONFIG_LOCAL')
-    if os.environ.get('BREWLOG_CONFIG_SECRETS'):
-        app.logger.info('secrets loaded from %s' % os.environ.get('BREWLOG_CONFIG_SECRETS'))
+    config_secrets = os.environ.get('BREWLOG_CONFIG_SECRETS')
+    if config_secrets:
+        app.logger.info(f'secrets loaded from {config_secrets}')
         app.config.from_envvar('BREWLOG_CONFIG_SECRETS')
     if app.config['DEBUG']:
         @app.route('/favicon.ico')

@@ -27,14 +27,14 @@ def textarea_with_hints(field, **kwargs):
         f'<textarea {html_params(name=field.name, **kwargs)}>{escape(text_type(field._value()))}</textarea>'
     )
     if hint:
-        script = """
+        script = f"""
         <script type="text/javascript">
-        $("#%(hint_elem_id)s").change(function() {
+        $("#{hint_elem_id}").change(function() {{
             var value = $(this).val();
-            $("#%(obj_id)s").val(value);
-        });
+            $("#{obj_id}").val(value);
+        }});
         </script>
-        """ % locals()
+        """
     else:
         script = ''
     items = [i for i in [hint, textarea, script] if i]

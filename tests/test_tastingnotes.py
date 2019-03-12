@@ -130,7 +130,7 @@ class TestTastingNote(TastingTests):
         url = url_for('tastingnote.add', brew_id=self.public_brewery_public_brew.id)
         self.login(self.extra_user.email)
         rv = self.client.get(url)
-        assert 'action="%s"' % url in rv.data.decode('utf-8')
+        assert f'action="{url}"' in rv.data.decode('utf-8')
         data = {
             'text': 'Nice beer, cheers!',
             'date': datetime.date.today().isoformat(),

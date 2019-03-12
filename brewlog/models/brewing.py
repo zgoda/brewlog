@@ -182,7 +182,9 @@ class Brew(db.Model):
 
 # events: Brew model
 def brew_pre_save(mapper, connection, target):
-    bjcp_style = '%s %s' % (target.bjcp_style_code or '', target.bjcp_style_name or '')
+    style_code = target.bjcp_style_code or ''
+    style_name = target.bjcp_style_name or ''
+    bjcp_style = f'{style_code} {style_name}'
     bjcp_style = bjcp_style.strip()
     target.bjcp_style = bjcp_style or None
     if target.notes:
