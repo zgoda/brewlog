@@ -30,7 +30,7 @@ $(document).ready(function() {
 
 {% block headpagetitle %}{{ super() }} {{ brew.full_name }}{% endblock %}
 
-{% block headdescription %}{{ utils.description }}{% endblock %}
+{% block headdescription %}{{ utils.description(brew) }}{% endblock %}
 
 {% block widecontent %}
 <div class="col-xs-12">

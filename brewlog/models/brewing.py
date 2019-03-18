@@ -143,7 +143,7 @@ class Brew(db.Model):
     def abv(self):
         if self.fg and self.og:
             from_carbonation = 0
-            if self.carbonation_type.endswith('priming'):
+            if self.carbonation_type and self.carbonation_type.endswith('priming'):
                 from_carbonation = choices.CARB_LEVEL_DATA[self.carbonation_level or 'normal']
             return abv(self.og, self.fg, from_carbonation)
 
