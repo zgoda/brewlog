@@ -49,7 +49,7 @@ class Brew(db.Model):
     brewery_id = db.Column(db.Integer, db.ForeignKey('brewery.id'), nullable=False)
     brewery = db.relationship(
         'Brewery',
-        backref=db.backref('brews', lazy='dynamic', cascade='all,delete')
+        backref=db.backref('brews', lazy='dynamic', cascade='all,delete-orphan')
     )
     tapped = db.Column(db.Date)
     finished = db.Column(db.Date)

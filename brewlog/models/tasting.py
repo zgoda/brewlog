@@ -13,7 +13,7 @@ class TastingNote(db.Model):
     author = db.relationship(
         'BrewerProfile',
         backref=db.backref(
-            'tasting_notes', cascade='all,delete', lazy='dynamic'
+            'tasting_notes', cascade='all,delete-orphan', lazy='dynamic'
         )
     )
     date = db.Column(db.Date, nullable=False, index=True)
@@ -23,7 +23,7 @@ class TastingNote(db.Model):
     brew = db.relationship(
         'Brew',
         backref=db.backref(
-            'tasting_notes', cascade='all,delete', lazy='dynamic', order_by='desc(TastingNote.date)'
+            'tasting_notes', cascade='all,delete-orphan', lazy='dynamic', order_by='desc(TastingNote.date)'
         )
     )
 

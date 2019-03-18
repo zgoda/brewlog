@@ -18,7 +18,7 @@ class FermentationStep(db.Model):
     brew = db.relationship(
         'Brew',
         backref=db.backref(
-            'fermentation_steps', cascade='all,delete', lazy='dynamic'
+            'fermentation_steps', cascade='all,delete-orphan', lazy='dynamic'
         )
     )
 
