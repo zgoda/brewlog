@@ -132,6 +132,39 @@ class TestBrewDetailsView(BrewViewTests):
 
 
 @pytest.mark.usefixtures('client_class')
+class TestBrewDetailsNavigation(BrewViewTests):
+
+    def url(self, brew):
+        return url_for('brew.details', brew_id=brew.id)
+
+    @pytest.mark.parametrize('anon', [
+        False, True,
+    ], ids=['authenticated', 'anonymous'])
+    def test_brew_navigation_non_owner(self, anon, brew_factory):
+        p2_brew = brew_factory(brewery=self.public_brewery)
+        p1_brew = brew_factory(brewery=self.public_brewery, is_public=False)
+        brew = brew_factory(brewery=self.public_brewery)
+        n1_brew = brew_factory(brewery=self.public_brewery, is_public=False)
+        n2_brew = brew_factory(brewery=self.public_brewery)
+        if not anon:
+            self.login(self.hidden_user.email)
+        rv = self.client.get(self.url(brew))
+        assert f'href="{self.url(p2_brew)}"' in rv.text
+        assert f'href="{self.url(p1_brew)}"' not in rv.text
+        assert f'href="{self.url(n1_brew)}"' not in rv.text
+        assert f'href="{self.url(n2_brew)}"' in rv.text
+
+    def test_brew_navigation_owner(self, brew_factory):
+        p1_brew = brew_factory(brewery=self.public_brewery, is_public=False)
+        brew = brew_factory(brewery=self.public_brewery)
+        n1_brew = brew_factory(brewery=self.public_brewery, is_public=False)
+        self.login(self.public_user.email)
+        rv = self.client.get(self.url(brew))
+        assert f'href="{self.url(p1_brew)}"' in rv.text
+        assert f'href="{self.url(n1_brew)}"' in rv.text
+
+
+@pytest.mark.usefixtures('client_class')
 class TestBrewListView(BrewViewTests):
 
     @pytest.fixture(autouse=True)
