@@ -1,14 +1,14 @@
-# Translations template for PROJECT.
+# Translations template for BrewLog.
 # Copyright (C) 2019 ORGANIZATION
-# This file is distributed under the same license as the PROJECT project.
+# This file is distributed under the same license as the BrewLog project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PROJECT VERSION\n"
+"Project-Id-Version: BrewLog 0.9.3+34.g0e15ebc.dirty\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-07 00:37+0100\n"
+"POT-Creation-Date: 2019-03-20 20:41+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: brewlog/app.py:80
+#: brewlog/app.py:81
 msgid "Please log in to access this page"
 msgstr ""
 
@@ -47,7 +47,7 @@ msgid "brewery"
 msgstr ""
 
 #: brewlog/brew/forms.py:23 brewlog/brewery/forms.py:21
-#: brewlog/fermentation/forms.py:12 brewlog/models/brewery.py:53
+#: brewlog/fermentation/forms.py:12 brewlog/models/brewery.py:52
 #: brewlog/templates/brew/list.html:12 brewlog/templates/brewery/brews.html:12
 #: brewlog/templates/brewery/list.html:12
 msgid "name"
@@ -192,18 +192,6 @@ msgstr ""
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr ""
 
-#: brewlog/brew/views.py:19
-msgid "single infusion mash w/ mash out"
-msgstr ""
-
-#: brewlog/brew/views.py:20
-msgid "2-step mash w/ mash out"
-msgstr ""
-
-#: brewlog/brew/views.py:21
-msgid "3-step mash w/ mash out"
-msgstr ""
-
 #: brewlog/brew/views.py:49
 #, python-format
 msgid "brew %(name)s data updated"
@@ -214,15 +202,24 @@ msgstr ""
 msgid "brew %(name)s has been deleted"
 msgstr ""
 
+#: brewlog/brew/views.py:130
+#, python-format
+msgid "brew %(name)s state changed"
+msgstr ""
+
+#: brewlog/brew/views.py:132
+msgid "invalid state"
+msgstr ""
+
 #: brewlog/brewery/forms.py:16
 msgid "brewery name has to be between 4 and 500 characters long"
 msgstr ""
 
-#: brewlog/brewery/forms.py:22 brewlog/models/brewery.py:54
+#: brewlog/brewery/forms.py:22 brewlog/models/brewery.py:53
 msgid "description"
 msgstr ""
 
-#: brewlog/brewery/forms.py:23 brewlog/models/brewery.py:55
+#: brewlog/brewery/forms.py:23 brewlog/models/brewery.py:54
 msgid "established"
 msgstr ""
 
@@ -240,13 +237,11 @@ msgstr ""
 msgid "date"
 msgstr ""
 
-#: brewlog/fermentation/forms.py:13
-#: brewlog/templates/brew/include/details.html:7
+#: brewlog/fermentation/forms.py:13 brewlog/templates/brew/include/details.html:7
 msgid "original gravity"
 msgstr ""
 
-#: brewlog/fermentation/forms.py:14
-#: brewlog/templates/brew/include/details.html:8
+#: brewlog/fermentation/forms.py:14 brewlog/templates/brew/include/details.html:8
 msgid "final gravity"
 msgstr ""
 
@@ -273,39 +268,38 @@ msgstr ""
 msgid "fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted"
 msgstr ""
 
-#: brewlog/forms/base.py:23
-#: brewlog/templates/brew/include/fermentation_step.html:3
+#: brewlog/forms/base.py:23 brewlog/templates/brew/include/fermentation_step.html:3
 #: brewlog/templates/brew/list.html:24 brewlog/templates/brewery/brews.html:19
 #: brewlog/templates/brewery/list.html:21
 #: brewlog/templates/tasting/include/tasting_notes.html:12
 msgid "delete"
 msgstr ""
 
-#: brewlog/models/brewing.py:17
+#: brewlog/models/brewing.py:16
 msgid "planned"
 msgstr ""
 
-#: brewlog/models/brewing.py:18
+#: brewlog/models/brewing.py:17
 msgid "fermenting"
 msgstr ""
 
-#: brewlog/models/brewing.py:19
+#: brewlog/models/brewing.py:18
 msgid "finished"
 msgstr ""
 
-#: brewlog/models/brewing.py:20
+#: brewlog/models/brewing.py:19
 msgid "tapped"
 msgstr ""
 
-#: brewlog/models/brewing.py:21
+#: brewlog/models/brewing.py:20
 msgid "maturing"
 msgstr ""
 
-#: brewlog/models/brewing.py:91
+#: brewlog/models/brewing.py:90
 msgid "normal"
 msgstr ""
 
-#: brewlog/models/brewing.py:93
+#: brewlog/models/brewing.py:92
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr ""
@@ -402,12 +396,12 @@ msgstr ""
 msgid "available"
 msgstr ""
 
-#: brewlog/models/fermentation.py:32 brewlog/models/fermentation.py:33
-#: brewlog/models/fermentation.py:34
+#: brewlog/models/fermentation.py:31 brewlog/models/fermentation.py:32
+#: brewlog/models/fermentation.py:33
 msgid "unspecified"
 msgstr ""
 
-#: brewlog/models/users.py:48
+#: brewlog/models/users.py:47
 msgid "wanting to stay anonymous"
 msgstr ""
 
@@ -489,8 +483,8 @@ msgstr ""
 
 #: brewlog/templates/home.html:15
 msgid ""
-"This is BrewLog, brewing log app written by homebrewer for homebrewers. "
-"Have a look to the site and start logging your brews."
+"This is BrewLog, brewing log app written by homebrewer for homebrewers. Have "
+"a look to the site and start logging your brews."
 msgstr ""
 
 #: brewlog/templates/home.html:16
@@ -606,9 +600,9 @@ msgstr ""
 #: brewlog/templates/account/delete.html:9
 #, python-format
 msgid ""
-"Account for %(email)s is about to be deleted with all related content. As"
-" this process is irreversible we're asking you again, is this really what"
-" you want to do?"
+"Account for %(email)s is about to be deleted with all related content. As "
+"this process is irreversible we're asking you again, is this really what you "
+"want to do?"
 msgstr ""
 
 #: brewlog/templates/account/delete.html:10
@@ -617,8 +611,8 @@ msgstr ""
 
 #: brewlog/templates/account/delete.html:10
 msgid ""
-"All related content will be deleted too: breweries, brews, tasting notes "
-"and so on."
+"All related content will be deleted too: breweries, brews, tasting notes and "
+"so on."
 msgstr ""
 
 #: brewlog/templates/account/profile.html:6
@@ -632,16 +626,12 @@ msgid "Brewer profile for user %(name)s"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:12
-msgid ""
-"This is your brewer's profile data. You may change it using the form "
-"below."
+msgid "This is your brewer's profile data. You may change it using the form below."
 msgstr ""
 
-#: brewlog/templates/account/profile.html:17
-#: brewlog/templates/brew/details.html:65
+#: brewlog/templates/account/profile.html:17 brewlog/templates/brew/details.html:65
 #: brewlog/templates/brew/details.html:82 brewlog/templates/brew/form.html:14
-#: brewlog/templates/brewery/details.html:17
-#: brewlog/templates/brewery/form.html:13
+#: brewlog/templates/brewery/details.html:17 brewlog/templates/brewery/form.html:13
 #: brewlog/templates/fermentation/form.html:15
 #: brewlog/templates/fermentation/step.html:15
 #: brewlog/templates/tasting/tasting_note.html:14
@@ -665,20 +655,17 @@ msgid "Owned"
 msgstr ""
 
 #: brewlog/templates/account/profile.html:31
-#: brewlog/templates/account/profile.html:37
-#: brewlog/templates/brewery/list.html:20
+#: brewlog/templates/account/profile.html:37 brewlog/templates/brewery/list.html:20
 #, python-format
 msgid "%(num)d brew"
-msgid_plural "%(num)d brews"
-msgstr[0] ""
-msgstr[1] ""
+msgstr ""
 
 #: brewlog/templates/account/profile.html:35
 msgid "Other"
 msgstr ""
 
-#: brewlog/templates/account/profile.html:41
-#: brewlog/templates/brewery/form.html:5 brewlog/templates/brewery/list.html:29
+#: brewlog/templates/account/profile.html:41 brewlog/templates/brewery/form.html:5
+#: brewlog/templates/brewery/list.html:29
 msgid "add new brewery"
 msgstr ""
 
@@ -709,9 +696,8 @@ msgstr ""
 #: brewlog/templates/brew/delete.html:9
 #, python-format
 msgid ""
-"Brew %(name)s is about to be deleted with all its content. As this "
-"process is irreversible we're asking you again, is this really what you "
-"want do do?"
+"Brew %(name)s is about to be deleted with all its content. As this process is"
+" irreversible we're asking you again, is this really what you want do do?"
 msgstr ""
 
 #: brewlog/templates/brew/details.html:44
@@ -851,8 +837,7 @@ msgstr ""
 msgid "change"
 msgstr ""
 
-#: brewlog/templates/brewery/brews.html:4
-#: brewlog/templates/brewery/brews.html:8
+#: brewlog/templates/brewery/brews.html:4 brewlog/templates/brewery/brews.html:8
 #, python-format
 msgid "brews from brewery %(name)s"
 msgstr ""
@@ -865,9 +850,8 @@ msgstr ""
 #: brewlog/templates/brewery/delete.html:9
 #, python-format
 msgid ""
-"Brewery %(name)s is about to be deleted with all its content. As this "
-"process is irreversible we're asking you again, is this really what you "
-"want do do?"
+"Brewery %(name)s is about to be deleted with all its content. As this process"
+" is irreversible we're asking you again, is this really what you want do do?"
 msgstr ""
 
 #: brewlog/templates/brewery/delete.html:9
@@ -973,9 +957,9 @@ msgstr ""
 #: brewlog/templates/fermentation/step_delete.html:8
 #, python-format
 msgid ""
-"Fermentation step %(fstep_name)s for your brew %(brew_name)s is about to "
-"be deleted with all its content. As this process is irreversible we're "
-"asking you again, is this really what you want do do?"
+"Fermentation step %(fstep_name)s for your brew %(brew_name)s is about to be "
+"deleted with all its content. As this process is irreversible we're asking "
+"you again, is this really what you want do do?"
 msgstr ""
 
 #: brewlog/templates/macros/forms.html:32
@@ -1051,9 +1035,9 @@ msgstr ""
 #: brewlog/templates/tasting/tasting_note_delete.html:9
 #, python-format
 msgid ""
-"You are about to delete tasting note for brew %(name)s by %(author)s "
-"added %(date)s. As this process is irreversible we're asking you again, "
-"is this really what you want do do?"
+"You are about to delete tasting note for brew %(name)s by %(author)s added "
+"%(date)s. As this process is irreversible we're asking you again, is this "
+"really what you want do do?"
 msgstr ""
 
 #: brewlog/templates/tasting/include/tasting_notes.html:4

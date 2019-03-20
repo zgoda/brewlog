@@ -52,6 +52,7 @@ setup(
     ),
     setup_requires=(
         'pytest-runner',
+        'babel',
     ),
     tests_require=(
         'pytest',

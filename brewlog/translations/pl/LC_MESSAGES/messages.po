@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-03-07 00:37+0100\n"
+"POT-Creation-Date: 2019-03-20 20:41+0100\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language: pl\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: brewlog/app.py:80
+#: brewlog/app.py:81
 msgid "Please log in to access this page"
 msgstr "Musisz się zalogować by uzyskać dostęp do tej strony"
 
@@ -52,7 +52,7 @@ msgid "brewery"
 msgstr "browar"
 
 #: brewlog/brew/forms.py:23 brewlog/brewery/forms.py:21
-#: brewlog/fermentation/forms.py:12 brewlog/models/brewery.py:53
+#: brewlog/fermentation/forms.py:12 brewlog/models/brewery.py:52
 #: brewlog/templates/brew/list.html:12 brewlog/templates/brewery/brews.html:12
 #: brewlog/templates/brewery/list.html:12
 msgid "name"
@@ -197,18 +197,6 @@ msgstr "bezstylowiec"
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr "%(style)s przez %(brewer)s w %(brewery)s"
 
-#: brewlog/brew/views.py:19
-msgid "single infusion mash w/ mash out"
-msgstr "jednotemperaturowe z wygrzewem"
-
-#: brewlog/brew/views.py:20
-msgid "2-step mash w/ mash out"
-msgstr "dwustopniowe z wygrzewem"
-
-#: brewlog/brew/views.py:21
-msgid "3-step mash w/ mash out"
-msgstr "trójstopniowe z wygrzewem"
-
 #: brewlog/brew/views.py:49
 #, python-format
 msgid "brew %(name)s data updated"
@@ -219,15 +207,24 @@ msgstr "dane warki %(name)s zostały zaktualizowane"
 msgid "brew %(name)s has been deleted"
 msgstr "warka %(name)s została usunięta"
 
+#: brewlog/brew/views.py:130
+#, python-format
+msgid "brew %(name)s state changed"
+msgstr "status warki %(name)s zmieniony"
+
+#: brewlog/brew/views.py:132
+msgid "invalid state"
+msgstr "nieprawidłowy status"
+
 #: brewlog/brewery/forms.py:16
 msgid "brewery name has to be between 4 and 500 characters long"
 msgstr "nazwa browaru musi mieć od 4 do 500 znaków długości"
 
-#: brewlog/brewery/forms.py:22 brewlog/models/brewery.py:54
+#: brewlog/brewery/forms.py:22 brewlog/models/brewery.py:53
 msgid "description"
 msgstr "opis"
 
-#: brewlog/brewery/forms.py:23 brewlog/models/brewery.py:55
+#: brewlog/brewery/forms.py:23 brewlog/models/brewery.py:54
 msgid "established"
 msgstr "ustanowiony"
 
@@ -288,31 +285,31 @@ msgstr "etap fermentacji %(fstep_name)s dla warki %(brew_name)s został usunięt
 msgid "delete"
 msgstr "usuń"
 
-#: brewlog/models/brewing.py:17
+#: brewlog/models/brewing.py:16
 msgid "planned"
 msgstr "planowane"
 
-#: brewlog/models/brewing.py:18
+#: brewlog/models/brewing.py:17
 msgid "fermenting"
 msgstr "fermentuje"
 
-#: brewlog/models/brewing.py:19
+#: brewlog/models/brewing.py:18
 msgid "finished"
 msgstr "skończone"
 
-#: brewlog/models/brewing.py:20
+#: brewlog/models/brewing.py:19
 msgid "tapped"
 msgstr "podpięte"
 
-#: brewlog/models/brewing.py:21
+#: brewlog/models/brewing.py:20
 msgid "maturing"
 msgstr "dojrzewa"
 
-#: brewlog/models/brewing.py:91
+#: brewlog/models/brewing.py:90
 msgid "normal"
 msgstr "normalne"
 
-#: brewlog/models/brewing.py:93
+#: brewlog/models/brewing.py:92
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr "%(carb_type)s: nagazowanie %(carb_level)s"
@@ -409,12 +406,12 @@ msgstr "zakończ"
 msgid "available"
 msgstr "oczekujące"
 
-#: brewlog/models/fermentation.py:32 brewlog/models/fermentation.py:33
-#: brewlog/models/fermentation.py:34
+#: brewlog/models/fermentation.py:31 brewlog/models/fermentation.py:32
+#: brewlog/models/fermentation.py:33
 msgid "unspecified"
 msgstr "nie podane"
 
-#: brewlog/models/users.py:48
+#: brewlog/models/users.py:47
 msgid "wanting to stay anonymous"
 msgstr "pragnący pozostać anonimowym"
 
@@ -685,10 +682,7 @@ msgstr "Własne"
 #: brewlog/templates/brewery/list.html:20
 #, python-format
 msgid "%(num)d brew"
-msgid_plural "%(num)d brews"
-msgstr[0] "%(num)d warka"
-msgstr[1] "%(num)d warki"
-msgstr[2] "%(num)d warek"
+msgstr "%(num)d warka"
 
 #: brewlog/templates/account/profile.html:35
 msgid "Other"
@@ -890,9 +884,9 @@ msgid ""
 "process is irreversible we're asking you again, is this really what you "
 "want do do?"
 msgstr ""
-"Browar %(name)s zostanie usunięty wraz z całą zawartością. Ponieważ proces "
-"ten jest nieodwracalny, proszę potwierdzić, czy rzeczywiście chcesz to "
-"zrobić?"
+"Browar %(name)s zostanie usunięty wraz z całą zawartością. Ponieważ "
+"proces ten jest nieodwracalny, proszę potwierdzić, czy rzeczywiście "
+"chcesz to zrobić?"
 
 #: brewlog/templates/brewery/delete.html:9
 #, python-format
@@ -1251,4 +1245,13 @@ msgstr "przez %(user)s dnia %(date)s"
 #~ " całą zawartością. Ponieważ proces ten "
 #~ "jest nieodwracalny, proszę potwierdzić, czy"
 #~ " rzeczywiście chcesz to zrobić?"
+
+#~ msgid "single infusion mash w/ mash out"
+#~ msgstr "jednotemperaturowe z wygrzewem"
+
+#~ msgid "2-step mash w/ mash out"
+#~ msgstr "dwustopniowe z wygrzewem"
+
+#~ msgid "3-step mash w/ mash out"
+#~ msgstr "trójstopniowe z wygrzewem"
 
