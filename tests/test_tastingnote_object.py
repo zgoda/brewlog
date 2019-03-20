@@ -6,7 +6,7 @@ from brewlog.models import TastingNote
 
 
 @pytest.mark.usefixtures('app')
-class TestTastingNoteObject():
+class TestTastingNoteObject:
 
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory, brewery_factory):

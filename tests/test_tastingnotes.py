@@ -66,33 +66,6 @@ class TastingTests(BrewlogTests):
 @pytest.mark.usefixtures('client_class')
 class TestTastingNote(TastingTests):
 
-    def test_list_anon(self):
-        """Anonymous users can see only notes to public brews on the list.
-
-        """
-
-        rv = self.client.get(self.list_url)
-        assert self.public_brewery_hidden_brew.name not in rv.text
-        assert self.hidden_brewery_public_brew.name not in rv.text
-        assert self.hidden_user.full_name in rv.text
-
-    def test_list_logged_in(self):
-        self.login(self.public_user.email)
-        rv = self.client.get(self.list_url)
-        assert self.public_brewery_public_brew.name in rv.text
-        assert self.public_brewery_hidden_brew.name in rv.text
-        assert self.hidden_user.full_name in rv.text
-        assert self.hidden_brewery_public_brew.name not in rv.text
-        assert self.hidden_brewery_hidden_brew.name not in rv.text
-
-    def test_create_anon(self):
-        """
-        Anonymous users can not add tasting notes
-        """
-        url = url_for('tastingnote.add', brew_id=self.public_brewery_public_brew.id)
-        rv = self.client.get(url)
-        assert rv.status_code == 302
-
     def test_create_for_public_brew(self):
         """
         All logged in users can add tasting notes to public brews
