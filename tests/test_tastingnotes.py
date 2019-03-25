@@ -114,16 +114,20 @@ class TestTastingNote(TastingTests):
         Note author can delete it
         """
         note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user, 'Nice beer, cheers!', commit=True
+            self.public_brewery_public_brew, self.extra_user,
+            'Nice beer, cheers!', commit=True,
         )
         url = url_for('tastingnote.delete', note_id=note.id)
         self.login(self.public_user.email)
-        rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
+        rv = self.client.post(
+            url, data={'delete_it': True}, follow_redirects=True
+        )
         assert note.text not in rv.text
 
     def test_author_sees_delete_form(self):
         note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user, 'Nice beer, cheers!', commit=True
+            self.public_brewery_public_brew, self.extra_user,
+            'Nice beer, cheers!', commit=True,
         )
         url = url_for('tastingnote.delete', note_id=note.id)
         self.login(self.extra_user.email)
@@ -136,7 +140,8 @@ class TestTastingNote(TastingTests):
         Brew owner can delete tasting notes
         """
         note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user, 'Nice beer, cheers!', commit=True
+            self.public_brewery_public_brew, self.extra_user,
+            'Nice beer, cheers!', commit=True,
         )
         url = url_for('tastingnote.delete', note_id=note.id)
         self.login(self.public_user.email)
@@ -148,11 +153,14 @@ class TestTastingNote(TastingTests):
         Not involved in logged users can't delete notes
         """
         note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user, 'Nice beer, cheers!', commit=True
+            self.public_brewery_public_brew, self.extra_user,
+            'Nice beer, cheers!', commit=True,
         )
         url = url_for('tastingnote.delete', note_id=note.id)
         self.login(self.hidden_user.email)
-        rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
+        rv = self.client.post(
+            url, data={'delete_it': True}, follow_redirects=True
+        )
         assert rv.status_code == 403
 
 
@@ -161,7 +169,8 @@ class TestTastingNoteAjax(TastingTests):
 
     def test_load(self):
         note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user, 'Nice beer, cheers!', commit=True
+            self.public_brewery_public_brew, self.extra_user,
+            'Nice beer, cheers!', commit=True,
         )
         rv = self.client.get(self.ajax_load_url, query_string={'id': note.id})
         assert rv.status_code == 200
@@ -189,7 +198,8 @@ class TestTastingNoteAjax(TastingTests):
         Anonymous users can not edit tasting note texts
         """
         note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user, 'Nice beer, cheers!', commit=True
+            self.public_brewery_public_brew, self.extra_user,
+            'Nice beer, cheers!', commit=True,
         )
         url = url_for('tastingnote.update')
         data = {
@@ -205,7 +215,9 @@ class TestTastingNoteAjax(TastingTests):
         Author can edit own notes
         """
         note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user, 'Nice beer, cheers!', commit=True)
+            self.public_brewery_public_brew, self.extra_user,
+            'Nice beer, cheers!', commit=True,
+        )
         url = url_for('tastingnote.update')
         data = {
             'pk': note.id,
@@ -222,7 +234,8 @@ class TestTastingNoteAjax(TastingTests):
         Brew owner can edit notes to his brews regardless of note authorship
         """
         note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user, 'Nice beer, cheers!', commit=True
+            self.public_brewery_public_brew, self.extra_user,
+            'Nice beer, cheers!', commit=True,
         )
         url = url_for('tastingnote.update')
         data = {
@@ -237,7 +250,8 @@ class TestTastingNoteAjax(TastingTests):
 
     def test_update_empty_text(self):
         note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user, 'Nice beer, cheers!', commit=True
+            self.public_brewery_public_brew, self.extra_user,
+            'Nice beer, cheers!', commit=True,
         )
         url = url_for('tastingnote.update')
         data = {

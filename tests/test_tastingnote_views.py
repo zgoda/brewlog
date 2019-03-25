@@ -59,3 +59,24 @@ class TestTastingNoteCreateView(BrewlogTests):
         rv = self.client.get(url)
         assert rv.status_code == 302
         assert url_for('auth.select') in rv.headers['location']
+
+    def test_get_create_anon_to_hidden(self, brew_factory):
+        brew = brew_factory(brewery=self.public_brewery, is_public=False)
+        url = url_for('tastingnote.add', brew_id=brew.id)
+        rv = self.client.get(url)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['location']
+
+    def test_get_create_authenticated_to_public(self, brew_factory):
+        brew = brew_factory(brewery=self.public_brewery)
+        url = url_for('tastingnote.add', brew_id=brew.id)
+        self.login(self.hidden_user.email)
+        rv = self.client.get(url)
+        assert f'action="{url}"' in rv.text
+
+    def test_get_create_authenticated_to_hidden(self, brew_factory):
+        brew = brew_factory(brewery=self.public_brewery, is_public=False)
+        url = url_for('tastingnote.add', brew_id=brew.id)
+        self.login(self.hidden_user.email)
+        rv = self.client.get(url)
+        assert rv.status_code == 403
