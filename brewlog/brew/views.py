@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from flask import abort, flash, redirect, render_template, request, url_for
-from flask_babel import gettext as _
 from flask_babel import lazy_gettext
 from flask_login import current_user, login_required
 
@@ -16,9 +15,18 @@ from .forms import BrewForm, ChangeStateForm
 from .utils import BrewUtils, check_brew, list_query_for_user
 
 HINTS = [
-    ("67-66*C - 90'\n75*C - 15'", lazy_gettext('single infusion mash w/ mash out')),
-    ("63-61*C - 30'\n73-71*C - 30'\n75*C - 15'", lazy_gettext('2-step mash w/ mash out')),
-    ("55-54*C - 10'\n63-61*C - 30'\n73-71*C - 30'\n75*C - 15'", lazy_gettext('3-step mash w/ mash out')),
+    (
+        "67-66*C - 90'\n75*C - 15'",
+        lazy_gettext('single infusion mash w/ mash out')
+    ),
+    (
+        "63-61*C - 30'\n73-71*C - 30'\n75*C - 15'",
+        lazy_gettext('2-step mash w/ mash out')
+    ),
+    (
+        "55-54*C - 10'\n63-61*C - 30'\n73-71*C - 30'\n75*C - 15'",
+        lazy_gettext('3-step mash w/ mash out')
+    ),
 ]
 
 
@@ -46,7 +54,10 @@ def brew(brew_id):
         brew_form = BrewForm()
         if brew_form.validate_on_submit():
             brew = brew_form.save(obj=brew)
-            flash(_('brew %(name)s data updated', name=brew.full_name), category='success')
+            flash(
+                lazy_gettext('brew %(name)s data updated', name=brew.full_name),
+                category='success'
+            )
             return redirect(request.path)
     public_only = not brew.user_is_brewer(current_user)
     ctx = {
@@ -98,7 +109,10 @@ def brew_delete(brew_id):
     if form.validate_on_submit() and form.delete_it.data:
         db.session.delete(brew)
         db.session.commit()
-        flash(_('brew %(name)s has been deleted', name=name), category='success')
+        flash(
+            lazy_gettext('brew %(name)s has been deleted', name=name),
+            category='success'
+        )
         next_ = next_redirect('profile.brews', user_id=current_user.id)
         return redirect(next_)
     ctx = {
@@ -127,7 +141,10 @@ def change_state(brew_id):
             brew.finished = now
         db.session.add(brew)
         db.session.commit()
-        flash(_('brew %(name)s state changed', name=brew.full_name), category='success')
+        flash(
+            lazy_gettext('brew %(name)s state changed', name=brew.full_name),
+            category='success'
+        )
     else:
-        flash(_('invalid state'), category='warning')
+        flash(lazy_gettext('invalid state'), category='warning')
     return redirect(url_for('brew.details', brew_id=brew.id))

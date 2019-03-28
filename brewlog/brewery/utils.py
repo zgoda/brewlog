@@ -12,15 +12,21 @@ class BreweryUtils:
         if public_only:
             if extra_user:
                 query = query.join(BrewerProfile).filter(
-                    db.or_(BrewerProfile.is_public.is_(True), BrewerProfile.id == extra_user.id)
+                    db.or_(
+                        BrewerProfile.is_public.is_(True), Brewery.brewer == extra_user
+                    )
                 )
             else:
-                query = query.join(BrewerProfile).filter(BrewerProfile.is_public.is_(True))
+                query = query.join(
+                    BrewerProfile
+                ).filter(BrewerProfile.is_public.is_(True))
         return query
 
     @staticmethod
     def latest_breweries(ordering, limit=5, public_only=False, extra_user=None):
-        return BreweryUtils.breweries(public_only, extra_user).order_by(db.desc(ordering)).limit(limit).all()
+        return BreweryUtils.breweries(
+            public_only, extra_user
+        ).order_by(db.desc(ordering)).limit(limit).all()
 
     @staticmethod
     def brewery_search_result(query):

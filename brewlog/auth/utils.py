@@ -1,5 +1,5 @@
 from flask import flash, redirect, session
-from flask_babel import gettext as _
+from flask_babel import lazy_gettext as _
 from flask_login import login_user
 
 from ..ext import db
@@ -20,7 +20,12 @@ def login_success(email, access_token, remote_id, service_name, **kwargs):
     db.session.commit()
     login_user(user)
     session.permanent = True
-    flash(_('You have been signed in as %(email)s using %(service)s', email=email, service=service_name),
-        category='success')
+    flash(
+        _(
+            'You have been signed in as %(email)s using %(service)s', email=email,
+            service=service_name
+        ),
+        category='success'
+    )
     next_ = next_redirect('home.index')
     return redirect(next_)

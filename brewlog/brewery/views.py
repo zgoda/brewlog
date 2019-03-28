@@ -26,7 +26,9 @@ def brewery_add():
     return render_template('brewery/form.html', **ctx)
 
 
-@brewery_bp.route('/<int:brewery_id>/delete', methods=['POST', 'GET'], endpoint='delete')
+@brewery_bp.route(
+    '/<int:brewery_id>/delete', methods=['POST', 'GET'], endpoint='delete'
+)
 @login_required
 def brewery_delete(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
@@ -37,7 +39,9 @@ def brewery_delete(brewery_id):
         name = brewery.name
         db.session.delete(brewery)
         db.session.commit()
-        flash(_('brewery %(name)s has been deleted', name=name), category='success')
+        flash(
+            _('brewery %(name)s has been deleted', name=name), category='success',
+        )
         next_ = next_redirect('profile.breweries', user_id=current_user.id)
         return redirect(next_)
     ctx = {
@@ -76,7 +80,9 @@ def search():
     return BreweryUtils.brewery_search_result(query)
 
 
-@brewery_bp.route('/<int:brewery_id>', methods=['POST', 'GET'], endpoint='details')
+@brewery_bp.route(
+    '/<int:brewery_id>', methods=['POST', 'GET'], endpoint='details',
+)
 def brewery(brewery_id):
     brewery = check_brewery(brewery_id, current_user)
     form = None
@@ -84,7 +90,10 @@ def brewery(brewery_id):
         form = BreweryForm()
         if form.validate_on_submit():
             brewery = form.save(obj=brewery)
-            flash(_('brewery %(name)s data updated', name=brewery.name), category='success')
+            flash(
+                _('brewery %(name)s data updated', name=brewery.name),
+                category='success',
+            )
             return redirect(request.path)
     ctx = {
         'brewery': brewery,

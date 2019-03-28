@@ -65,7 +65,8 @@ class BrewUtils:
         return BrewUtils._in_state(query, user, public_only, limit)
 
     @staticmethod
-    def latest(ordering, limit=5, public_only=False, extra_user=None, user=None, brewed_only=False):
+    def latest(ordering, limit=5, public_only=False, extra_user=None,
+               user=None, brewed_only=False):
         query = BrewUtils.brew_list_query(public_only, extra_user, user)
         if brewed_only:
             query = query.filter(Brew.date_brewed.isnot(None))
