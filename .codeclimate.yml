@@ -6,6 +6,7 @@ exclude_patterns:
   - "docs/"
   - "tests/"
   - "*/brewlog/_version.py"
+  - "*/brewlog/cli.py"
   - "*/brewlog/wsgi.py"
   - "*/brewlog/config*.py"
   - "*/brewlog/app.py"
