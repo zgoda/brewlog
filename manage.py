@@ -1,11 +1,5 @@
-import os
-
+from dotenv import find_dotenv, load_dotenv
 from flask.cli import FlaskGroup
-
-os.environ['FLASK_ENV'] = 'development'
-os.environ['FLASK_RUN_PORT'] = '8080'
-os.environ['AUTHLIB_INSECURE_TRANSPORT'] = '1'
-os.environ['AUTHLIB_RELAX_TOKEN_SCOPE'] = '1'
 
 
 def create_app(info):
@@ -37,4 +31,5 @@ def recreatedb():
 
 
 if __name__ == '__main__':
+    load_dotenv(find_dotenv())
     cli()

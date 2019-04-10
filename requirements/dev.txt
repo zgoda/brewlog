@@ -20,3 +20,5 @@ setuptools
 wheel
 
 flask-shell-ipython
+
+python-dotenv
