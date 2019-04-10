@@ -82,5 +82,10 @@ setup(
     extras_require={
         'prod': ['psycopg2', 'uwsgi']
     },
+    entry_points={
+        'console_scripts': [
+            'brewlog=brewlog.cli:main',
+        ],
+    },
     python_requires='~=3.6',
 )
