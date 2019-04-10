@@ -8,7 +8,6 @@ Flask-Bootstrap
 SQLAlchemy-Utils
 Authlib
 Markdown
-python-dateutil
 WTForms-Alchemy
 attrs
 

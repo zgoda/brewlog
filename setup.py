@@ -62,7 +62,6 @@ setup(
         'SQLAlchemy-Utils',
         'Authlib',
         'Markdown',
-        'python-dateutil',
         'WTForms-Alchemy',
         # pinned for sanity
         'SQLAlchemy<1.3',
