@@ -1,18 +1,26 @@
 import os
 from logging.config import dictConfig
 
-from flask import Flask, render_template, request, send_from_directory, session
+from flask import render_template, request, send_from_directory, session
 from flask_babel import gettext as _
 from werkzeug.utils import ImportStringError
 
+from .auth import auth_bp
+from .brew import brew_bp
+from .brewery import brewery_bp
 from .ext import babel, bootstrap, csrf, db, login_manager, oauth, pages
+from .fermentation import ferm_bp
+from .home import home_bp
+from .profile import profile_bp
+from .tasting import tasting_bp
 from .templates import setup_template_extensions
+from .utils.app import Brewlog
 
 
 def make_app(env=None):
     if not os.environ.get('FLASK_ENV', '') == 'development':
         configure_logging()
-    app = Flask(__name__)
+    app = Brewlog(__name__.split('.')[0])
     configure_app(app, env)
     configure_extensions(app, env)
     with app.app_context():
@@ -54,31 +62,20 @@ def configure_hooks(app, env):
 
 
 def configure_blueprints(app, env):
-    from brewlog.home import home_bp
     app.register_blueprint(home_bp)
-    from brewlog.auth import auth_bp
     app.register_blueprint(auth_bp, url_prefix='/auth')
-    from brewlog.profile import profile_bp
     app.register_blueprint(profile_bp, url_prefix='/profile')
-    from brewlog.brewery import brewery_bp
     app.register_blueprint(brewery_bp, url_prefix='/brewery')
-    from brewlog.brew import brew_bp
     app.register_blueprint(brew_bp, url_prefix='/brew')
-    from brewlog.tasting import tasting_bp
     app.register_blueprint(tasting_bp, url_prefix='/tastingnote')
-    from brewlog.fermentation import ferm_bp
     app.register_blueprint(ferm_bp, url_prefix='/ferm')
 
 
 def configure_extensions(app, env):
     db.init_app(app)
-
     csrf.init_app(app)
-
     oauth.init_app(app)
-
     bootstrap.init_app(app)
-
     login_manager.init_app(app)
     login_manager.login_view = 'auth.select'
     login_manager.login_message = _('Please log in to access this page')

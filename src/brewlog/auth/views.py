@@ -3,8 +3,8 @@ from flask_babel import gettext as _
 from flask_login import login_required, logout_user
 
 from . import auth_bp
+from . import providers
 from ..ext import oauth
-from .providers import services
 from .utils import login_success
 
 
@@ -18,7 +18,7 @@ def select_provider():
 def remote_login(provider):
     if provider == 'local':
         return local_login_callback(request.args.get('email'))
-    svc = services.get(provider)
+    svc = getattr(providers, provider, None)
     if svc is None:
         flash(
             _('Service "%(provider)s" is not supported', provider=provider),
@@ -35,15 +35,16 @@ def google_remote_login_callback():  # pragma: nocover
     resp = oauth.google.authorize_access_token()
     if resp:
         session['access_token'] = resp['access_token'], ''
-        r = oauth.google.get('oauth2/v2/userinfo')
+        r = oauth.google.get('oauth2/v3/userinfo')
         if r.ok:
             data = r.json()
             kw = {
                 'first_name': data.get('given_name', ''),
                 'last_name': data.get('family_name', ''),
             }
+            user_id = data.pop('sub')
             return login_success(
-                data['email'], resp['access_token'], data['id'], 'google', **kw
+                data['email'], resp['access_token'], user_id, 'google', **kw
             )
         else:
             flash(

@@ -1,7 +1,46 @@
 import inspect
 
-from flask import current_app, flash, redirect, url_for
+import attr
+from flask import current_app, flash, redirect, render_template_string, url_for
 from flask_babel import lazy_gettext
+
+
+class Renderable:
+
+    def render(self):
+        return render_template_string(self.template, obj=self)
+
+
+@attr.s
+class Link(Renderable):
+    href = attr.ib()
+    text = attr.ib(default='click')
+
+    template = ''.join([
+        '<a href="{{ obj.href }}">',
+        '{{ obj.text }}',
+        '</a>',
+    ])
+
+
+@attr.s
+class Button(Renderable):
+    type_ = attr.ib(default='submit')
+    class_ = attr.ib(default='primary')
+    icon = attr.ib(default='check')
+    icon_type = attr.ib(default='fas')
+    text = attr.ib('ok')
+    link = attr.ib(default=False)
+
+    template = ''.join(
+        [
+            '<button type="{{ obj.type_ }}" class="btn btn-{{ obj.class_ }}">',
+            '<i class="{{ obj.icon_type }} fa-{{ obj.icon }}"></i>',
+            '&nbsp;',
+            '{{ obj.text }}',
+            '</button>',
+        ]
+    )
 
 
 def process_success(form, endpoint, flash_message):

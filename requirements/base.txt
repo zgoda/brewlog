@@ -10,6 +10,7 @@ Authlib
 Markdown
 python-dateutil
 WTForms-Alchemy
+attrs
 
 # pinned for sanity
 SQLAlchemy<1.3
