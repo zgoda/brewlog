@@ -1,4 +1,0 @@
--r dev.txt
-
-gunicorn
-psycopg2
