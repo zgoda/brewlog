@@ -44,13 +44,13 @@ class TestAuth(BrewlogTests):
         assert BrewerProfile.get_by_email(email) is not None
 
     def test_remote_login(self, mocker):
-        provider = 'dummy'
+        provider = 'google'
         url = url_for('auth.login', provider=provider)
         route = mocker.sentinel.route
         fake_url_for = mocker.Mock(return_value=route)
         mocker.patch('brewlog.auth.views.url_for', fake_url_for)
         fake_redirect = mocker.Mock(return_value='redirect')
         fake_service = mocker.MagicMock(authorize_redirect=fake_redirect)
-        mocker.patch.dict('brewlog.auth.views.services', {provider: fake_service})
+        mocker.patch('brewlog.auth.views.providers.google', fake_service)
         self.client.get(url)
         fake_redirect.assert_called_once_with(route)
