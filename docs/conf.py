@@ -18,7 +18,7 @@
 # -- Project information -----------------------------------------------------
 
 project = 'Brewlog'
-copyright = '2013, Jarek Zgoda'
+copyright = '2012, Jarek Zgoda'
 author = 'Jarek Zgoda'
 
 # The full version, including alpha/beta/rc tags
