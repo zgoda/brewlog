@@ -270,18 +270,18 @@ class TestStateChangeView(BrewViewTests):
         self.url = url_for('brew.chgstate', brew_id=self.brew.id)
 
     def test_brew_tap_anon(self):
-        rv = self.client.post(self.url, data=dict(action='tap'), follow_redirects=True)
+        rv = self.client.post(self.url, data={'action': 'tap'}, follow_redirects=True)
         assert 'Sign in with' in rv.text
 
     def test_brew_tap_nonbrewer(self):
         self.login(self.hidden_user.email)
-        rv = self.client.post(self.url, data=dict(action='tap'), follow_redirects=True)
+        rv = self.client.post(self.url, data={'action': 'tap'}, follow_redirects=True)
         assert rv.status_code == 403
         assert "You don't have permission to access this page" in rv.text
 
     def test_brew_tap_brewer(self):
         self.login(self.public_user.email)
-        rv = self.client.post(self.url, data=dict(action='tap'), follow_redirects=True)
+        rv = self.client.post(self.url, data={'action': 'tap'}, follow_redirects=True)
         assert f'</strong>: {Brew.STATE_TAPPED}' in rv.text
         assert 'state changed' in rv.text
 
@@ -290,20 +290,26 @@ class TestStateChangeView(BrewViewTests):
         db.session.add(self.brew)
         db.session.commit()
         self.login(self.public_user.email)
-        rv = self.client.post(self.url, data=dict(action='untap'), follow_redirects=True)
+        rv = self.client.post(
+            self.url, data={'action': 'untap'}, follow_redirects=True
+        )
         assert f'</strong>: {Brew.STATE_MATURING}' in rv.text
         assert 'state changed' in rv.text
 
     def test_brew_finish_brewer(self):
         self.login(self.public_user.email)
-        rv = self.client.post(self.url, data=dict(action='finish'), follow_redirects=True)
+        rv = self.client.post(
+            self.url, data={'action': 'finish'}, follow_redirects=True
+        )
         assert f'</strong>: {Brew.STATE_FINISHED}' in rv.text
         assert 'state changed' in rv.text
         assert self.brew.tapped is None
 
     def test_invalid_state(self):
         self.login(self.public_user.email)
-        rv = self.client.post(self.url, data=dict(action='dummy'), follow_redirects=True)
+        rv = self.client.post(
+            self.url, data={'action': 'dummy'}, follow_redirects=True
+        )
         assert 'invalid state' in rv.text
 
 

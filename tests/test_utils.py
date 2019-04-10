@@ -44,7 +44,7 @@ class TestPaginationUtils:
         with app.app_context():
             page = 666
             fake_request = mocker.MagicMock(
-                view_args=dict(a1='v1'),
+                view_args={'a1': 'v1'},
                 endpoint='home.index',
             )
             mocker.patch('brewlog.utils.pagination.request', fake_request)

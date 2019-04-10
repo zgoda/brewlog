@@ -15,7 +15,9 @@ class TestBrewery(BrewlogTests):
     def set_up(self, brewery_factory, user_factory):
         self.public_brewery = brewery_factory(name='public brewery no. 1')
         self.hidden_user = user_factory(is_public=False)
-        self.hidden_brewery = brewery_factory(brewer=self.hidden_user, name='hidden brewery no 1')
+        self.hidden_brewery = brewery_factory(
+            brewer=self.hidden_user, name='hidden brewery no 1'
+        )
 
     def test_nonowner_view_list(self):
         """
@@ -42,7 +44,9 @@ class TestBrewery(BrewlogTests):
         rv = self.client.get(url)
         assert self.hidden_brewery.name not in rv.text
         assert self.public_brewery.name in rv.text
-        assert url_for('brewery.delete', brewery_id=self.public_brewery.id) not in rv.text
+        assert url_for(
+            'brewery.delete', brewery_id=self.public_brewery.id
+        ) not in rv.text
 
     def test_nonowner_view(self):
         """
@@ -54,7 +58,9 @@ class TestBrewery(BrewlogTests):
         rv = self.client.get(pb_url)
         assert self.public_brewery.name in rv.text
         assert f'action="{pb_url}"' not in rv.text
-        rv = self.client.get(url_for('brewery.details', brewery_id=self.hidden_brewery.id))
+        rv = self.client.get(
+            url_for('brewery.details', brewery_id=self.hidden_brewery.id)
+        )
         assert rv.status_code == 404
 
     def test_owner_view(self):
@@ -68,7 +74,9 @@ class TestBrewery(BrewlogTests):
         rv = self.client.get(pb_url)
         assert self.public_brewery.name in rv.text
         assert f'action="{pb_url}"' not in rv.text
-        rv = self.client.get(url_for('brewery.details', brewery_id=self.hidden_brewery.id))
+        rv = self.client.get(
+            url_for('brewery.details', brewery_id=self.hidden_brewery.id)
+        )
         assert '<form' in rv.text
 
     def test_nonowner_change(self):
@@ -163,12 +171,22 @@ class TestBreweryBrews(BrewlogTests):
     @pytest.fixture(autouse=True)
     def set_up(self, brew_factory, brewery_factory, user_factory):
         self.public_brewery = brewery_factory(name='public brewery no 1')
-        self.public_brewery_public_brew = brew_factory(brewery=self.public_brewery, name='public 1')
-        self.public_brewery_hidden_brew = brew_factory(brewery=self.public_brewery, is_public=False, name='hidden 1')
+        self.public_brewery_public_brew = brew_factory(
+            brewery=self.public_brewery, name='public 1'
+        )
+        self.public_brewery_hidden_brew = brew_factory(
+            brewery=self.public_brewery, is_public=False, name='hidden 1'
+        )
         self.hidden_user = user_factory(is_public=False)
-        self.hidden_brewery = brewery_factory(brewer=self.hidden_user, name='hidden brewery no 1')
-        self.hidden_brewery_public_brew = brew_factory(brewery=self.hidden_brewery, name='hidden 2')
-        self.hidden_brewery_hidden_brew = brew_factory(brewery=self.hidden_brewery, is_public=False, name='hidden 3')
+        self.hidden_brewery = brewery_factory(
+            brewer=self.hidden_user, name='hidden brewery no 1'
+        )
+        self.hidden_brewery_public_brew = brew_factory(
+            brewery=self.hidden_brewery, name='hidden 2'
+        )
+        self.hidden_brewery_hidden_brew = brew_factory(
+            brewery=self.hidden_brewery, is_public=False, name='hidden 3'
+        )
 
     def test_owner_view(self):
         url = url_for('brewery.brews', brewery_id=self.public_brewery.id)

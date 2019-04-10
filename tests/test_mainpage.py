@@ -11,7 +11,7 @@ class TestMainPageAnonUser(BrewlogTests):
 
     TEMPLATES_DIR = os.path.join(
         os.path.dirname(os.path.dirname(__file__)),
-        'brewlog/templates',
+        'src/brewlog/templates',
     )
 
     @pytest.fixture(autouse=True)
@@ -35,51 +35,71 @@ class TestMainPageAnonUser(BrewlogTests):
         assert self.hidden_user.full_name not in rv.text
 
     def test_brewery_visibility_regular_user(self, brewery_factory):
-        brewery = brewery_factory(brewer=self.regular_user, name=self.regular_brewery_name)
+        brewery = brewery_factory(
+            brewer=self.regular_user, name=self.regular_brewery_name
+        )
         rv = self.client.get(self.url)
         assert self.regular_user.full_name in rv.text
         assert brewery.name in rv.text
 
     def test_brewery_visibility_hidden_user(self, brewery_factory):
-        brewery = brewery_factory(brewer=self.hidden_user, name=self.hidden_brewery_name)
+        brewery = brewery_factory(
+            brewer=self.hidden_user, name=self.hidden_brewery_name
+        )
         rv = self.client.get(self.url)
         assert self.hidden_user.full_name not in rv.text
         assert brewery.name not in rv.text
 
-    def test_brew_visibility_regular_brew_regular_user(self, brew_factory, brewery_factory):
-        brewery = brewery_factory(brewer=self.regular_user, name=self.regular_brewery_name)
+    def test_brew_visibility_regular_brew_regular_user(self, brew_factory,
+                                                       brewery_factory):
+        brewery = brewery_factory(
+            brewer=self.regular_user, name=self.regular_brewery_name
+        )
         brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
         rv = self.client.get(self.url)
         assert self.regular_user.full_name in rv.text
         assert brewery.name in rv.text
         assert brew.name in rv.text
 
-    def test_brew_visibility_regular_brew_hidden_user(self, brew_factory, brewery_factory):
-        brewery = brewery_factory(brewer=self.hidden_user, name=self.regular_brewery_name)
+    def test_brew_visibility_regular_brew_hidden_user(self, brew_factory,
+                                                      brewery_factory):
+        brewery = brewery_factory(
+            brewer=self.hidden_user, name=self.regular_brewery_name
+        )
         brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
         rv = self.client.get(self.url)
         assert self.hidden_user.full_name not in rv.text
         assert brewery.name not in rv.text
         assert brew.name not in rv.text
 
-    def test_brew_visibility_hidden_brew_hidden_user(self, brew_factory, brewery_factory):
-        brewery = brewery_factory(brewer=self.hidden_user, name=self.regular_brewery_name)
-        brew = brew_factory(brewery=brewery, name=self.regular_brew_name, is_public=False)
+    def test_brew_visibility_hidden_brew_hidden_user(self, brew_factory,
+                                                     brewery_factory):
+        brewery = brewery_factory(
+            brewer=self.hidden_user, name=self.regular_brewery_name
+        )
+        brew = brew_factory(
+            brewery=brewery, name=self.regular_brew_name, is_public=False
+        )
         rv = self.client.get(self.url)
         assert self.hidden_user.full_name not in rv.text
         assert brewery.name not in rv.text
         assert brew.name not in rv.text
 
-    def test_brew_visibility_hidden_brew_regular_user(self, brew_factory, brewery_factory):
-        brewery = brewery_factory(brewer=self.regular_user, name=self.regular_brewery_name)
-        brew = brew_factory(brewery=brewery, name=self.regular_brew_name, is_public=False)
+    def test_brew_visibility_hidden_brew_regular_user(self, brew_factory,
+                                                      brewery_factory):
+        brewery = brewery_factory(
+            brewer=self.regular_user, name=self.regular_brewery_name
+        )
+        brew = brew_factory(
+            brewery=brewery, name=self.regular_brew_name, is_public=False
+        )
         rv = self.client.get(self.url)
         assert self.regular_user.full_name in rv.text
         assert brewery.name in rv.text
         assert brew.name not in rv.text
 
     @pytest.mark.options(ANNOUNCEMENT_FILE='/tmp/dummy/announcement.md')
-    def test_announcement_present(self, fs):
+    def test_announcement_present(self, fs, app):
         file_name = '/tmp/dummy/announcement.md'
         fs.create_file(file_name, contents='This **very important** announcement.')
         fs.add_real_directory(self.TEMPLATES_DIR)

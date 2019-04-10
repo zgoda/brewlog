@@ -9,9 +9,13 @@ class TestBreweryUtils:
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory, brewery_factory):
         self.public_user = user_factory()
-        self.public_brewery = brewery_factory(brewer=self.public_user, name='public brewery no 1')
+        self.public_brewery = brewery_factory(
+            brewer=self.public_user, name='public brewery no 1'
+        )
         self.hidden_user = user_factory(is_public=False)
-        self.hidden_brewery = brewery_factory(brewer=self.hidden_user, name='hidden brewery no 1')
+        self.hidden_brewery = brewery_factory(
+            brewer=self.hidden_user, name='hidden brewery no 1'
+        )
 
     def test_public_only(self):
         query = BreweryUtils.breweries()

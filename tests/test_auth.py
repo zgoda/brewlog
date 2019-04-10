@@ -16,8 +16,11 @@ class TestAuth(BrewlogTests):
     def test_provider_selector(self):
         rv = self.client.get(self.select_url)
         assert rv.status_code == 200
-        for x in [url_for('auth.login', provider=p) for p in ('google', 'facebook', 'local', 'github')]:
-            link_text = f'href="{x}"'
+        urls = []
+        for provider in ('google', 'facebook', 'local', 'github'):
+            urls.append(url_for('auth.login', provider=provider))
+        for url in urls:
+            link_text = f'href="{url}"'
             assert link_text in rv.text
 
     def test_invalid_provider_selected(self):

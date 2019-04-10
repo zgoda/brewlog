@@ -10,6 +10,7 @@ before_script:
   - ./cc-test-reporter before-build
 install:
   - pip install -U -r requirements/test.txt
+  - pip install -e .
 script:
   - pytest --cov-branch --cov-report xml --cov=brewlog tests
 after_script:

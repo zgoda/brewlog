@@ -13,9 +13,13 @@ class BrewObjectTests(BrewlogTests):
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory, brewery_factory):
         self.public_user = user_factory()
-        self.public_brewery = brewery_factory(brewer=self.public_user, name='public brewery')
+        self.public_brewery = brewery_factory(
+            brewer=self.public_user, name='public brewery'
+        )
         self.hidden_user = user_factory(is_public=False)
-        self.hidden_brewery = brewery_factory(brewer=self.hidden_user, name='hidden brewery')
+        self.hidden_brewery = brewery_factory(
+            brewer=self.hidden_user, name='hidden brewery'
+        )
 
 
 @pytest.mark.usefixtures('app')
@@ -85,7 +89,9 @@ class TestBrewObjectLists(BrewObjectTests):
         )
 
     def test_list_public_only_in_public_brewery(self):
-        brew_ids = [x.id for x in Brew.get_latest_for(self.public_user, public_only=True)]
+        brew_ids = [
+            x.id for x in Brew.get_latest_for(self.public_user, public_only=True)
+        ]
         hidden_brews = [x.id for x in Brew.query.join(Brewery).filter(
             Brewery.brewer == self.public_user, Brew.is_public.is_(False)
         ).all()]
@@ -93,19 +99,31 @@ class TestBrewObjectLists(BrewObjectTests):
             assert x not in brew_ids
 
     def test_list_all_in_public_brewery(self):
-        brew_ids = [x.id for x in Brew.get_latest_for(self.public_user, public_only=False)]
+        brew_ids = [
+            x.id for x in Brew.get_latest_for(self.public_user, public_only=False)
+        ]
         assert len(brew_ids) == 2
 
     def test_list_public_in_hidden_brewery(self):
-        brew_ids = [x.id for x in Brew.get_latest_for(self.hidden_user, public_only=True)]
+        brew_ids = [
+            x.id for x in Brew.get_latest_for(self.hidden_user, public_only=True)
+        ]
         assert len(brew_ids) == 0
 
     def test_limit_public_only_in_public_brewery(self):
         limit = 0
-        brew_ids = [x.id for x in Brew.get_latest_for(self.public_user, public_only=True, limit=limit)]
+        brew_ids = [
+            x.id for x in Brew.get_latest_for(
+                self.public_user, public_only=True, limit=limit
+            )
+        ]
         assert len(brew_ids) == limit
 
     def test_limit_all_in_public_brewery(self):
         limit = 1
-        brew_ids = [x.id for x in Brew.get_latest_for(self.public_user, public_only=False, limit=limit)]
+        brew_ids = [
+            x.id for x in Brew.get_latest_for(
+                self.public_user, public_only=False, limit=limit
+            )
+        ]
         assert len(brew_ids) == limit

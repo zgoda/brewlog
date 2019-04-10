@@ -12,14 +12,25 @@ from . import BrewlogTests
 class TestFermentationSteps(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory, brewery_factory, brew_factory, fermentation_step_factory):
+    def set_up(self, user_factory, brewery_factory, brew_factory,
+               fermentation_step_factory):
         self.public_user = user_factory()
-        self.public_brewery = brewery_factory(brewer=self.public_user, name='public brewery no 1')
-        self.public_brew = brew_factory(brewery=self.public_brewery, name='public brew no 1')
-        self.fstep = fermentation_step_factory(brew=self.public_brew, og=12.5, volume=21, name='primary')
+        self.public_brewery = brewery_factory(
+            brewer=self.public_user, name='public brewery no 1'
+        )
+        self.public_brew = brew_factory(
+            brewery=self.public_brewery, name='public brew no 1'
+        )
+        self.fstep = fermentation_step_factory(
+            brew=self.public_brew, og=12.5, volume=21, name='primary'
+        )
         self.hidden_user = user_factory(is_public=False)
-        self.hidden_brewery = brewery_factory(brewer=self.hidden_user, name='hidden brewery no 1')
-        self.hidden_brew = brew_factory(brewery=self.hidden_brewery, name='hidden brew no 1')
+        self.hidden_brewery = brewery_factory(
+            brewer=self.hidden_user, name='hidden brewery no 1'
+        )
+        self.hidden_brew = brew_factory(
+            brewery=self.hidden_brewery, name='hidden brew no 1'
+        )
 
     def test_add_fermentation_step_by_owner(self):
         url = url_for('ferm.fermentationstep_add', brew_id=self.hidden_brew.id)
@@ -128,8 +139,12 @@ class TestFermentationSteps(BrewlogTests):
         }
         rv = self.client.post(url, data=data, follow_redirects=True)
         assert rv.status_code == 200
-        step = FermentationStep.query.filter_by(brew=self.public_brew, name=data['name']).first()
-        prev_step = FermentationStep.query.filter_by(brew=self.public_brew).order_by(FermentationStep.date).first()
+        step = FermentationStep.query.filter_by(
+            brew=self.public_brew, name=data['name']
+        ).first()
+        prev_step = FermentationStep.query.filter_by(
+            brew=self.public_brew
+        ).order_by(FermentationStep.date).first()
         assert prev_step.fg == step.og
 
     def test_set_fg_changes_og(self):
@@ -153,7 +168,9 @@ class TestFermentationSteps(BrewlogTests):
         }
         rv = self.client.post(url, data=data_primary, follow_redirects=True)
         assert rv.status_code == 200
-        next_step = FermentationStep.query.filter_by(name=data_secondary['name']).first()
+        next_step = FermentationStep.query.filter_by(
+            name=data_secondary['name']
+        ).first()
         assert next_step.og == data_primary['fg']
 
     def test_set_og_changes_fg(self):
@@ -169,7 +186,9 @@ class TestFermentationSteps(BrewlogTests):
         rv = self.client.post(url, data=data_secondary, follow_redirects=True)
         assert rv.status_code == 200
         assert FermentationStep.query.filter_by(brew=self.public_brew).count() == 2
-        step = FermentationStep.query.filter_by(brew=self.public_brew, name=data_secondary['name']).first()
+        step = FermentationStep.query.filter_by(
+            brew=self.public_brew, name=data_secondary['name']
+        ).first()
         url = url_for('ferm.fermentation_step', fstep_id=step.id)
         data = {
             'date': date.strftime('%Y-%m-%d'),
@@ -179,7 +198,9 @@ class TestFermentationSteps(BrewlogTests):
         }
         rv = self.client.post(url, data=data, follow_redirects=True)
         assert rv.status_code == 200
-        prev_step = FermentationStep.query.filter_by(brew=self.public_brew).order_by(FermentationStep.date).first()
+        prev_step = FermentationStep.query.filter_by(
+            brew=self.public_brew
+        ).order_by(FermentationStep.date).first()
         assert prev_step.fg == data['og']
 
     def test_insert_step_with_fg(self):
