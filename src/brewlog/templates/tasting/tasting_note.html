@@ -1,20 +1,10 @@
 {% extends "brew/base.html" %}
 {% import "macros/forms.html" as forms %}
-{% import "macros/bootstrap.html" as bsu %}
 
 {% block headpagetitle %}{{ gettext("tasting note for brew %(brew)s from %(brewery)s", brew=brew.name, brewery=brew.brewery.name) }}{% endblock %}
 
 {% block widecontent %}
-<div class="col-xs-12">
-  {% if form %}
-  <form method="post" action="{{ url_for('tastingnote.add', brew_id=brew.id) }}" class="form form-horizontal" role="form">
-    {{ forms.render(form) }}
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">{{ bsu.icon("check") }} {{ gettext("submit") }}</button>
-      </div>
-    </div>
-  </form>
-  {% endif %}
-</div>
+{% if form %}
+{{ forms.render_form(form, url_for('tastingnote.add', brew_id=brew.id)) }}
+{% endif %}
 {% endblock %}

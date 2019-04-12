@@ -4,24 +4,24 @@
 {% block headpagetitle %}{{ gettext("brews from brewery %(name)s", name=brewery.name) }}{% endblock %}
 
 {% block widecontent %}
-<div class="col-xs-12">
-  <h3>{{ gettext("brews from brewery %(name)s", name=brewery.name).capitalize() }}</h3>
-  {% if pagination.items %}
-  <table class="col-sm-12 table table-striped">
-  <thead>
-    <th>{{ gettext("name") }}</th>
-    <th>{{ gettext("operations") }}</th>
-  </thead>
-  <tbody>
-  {% for brew in pagination.items %}
+<h3>{{ gettext("brews from brewery %(name)s", name=brewery.name).capitalize() }}</h3>
+{% if pagination.items %}
+<table class="table table-striped">
+<thead>
   <tr>
-    <td><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a></td>
-    <td>{% if current_user == brew.brewery.brewer %}<a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>{% endif %}</td>
+    <th scope="col">{{ gettext("name") }}</th>
+    <th scope="col">{{ gettext("operations") }}</th>
   </tr>
-  {% endfor %}
-  </tbody>
-  </table>
-  {{ render_pagination(pagination) }}
-  {% endif %}
-</div>
+</thead>
+<tbody>
+{% for brew in pagination.items %}
+<tr>
+  <td><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a></td>
+  <td>{% if current_user == brew.brewery.brewer %}<a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>{% endif %}</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{{ render_pagination(pagination) }}
+{% endif %}
 {% endblock %}

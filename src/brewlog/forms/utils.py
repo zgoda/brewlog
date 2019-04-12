@@ -1,14 +1,16 @@
 import inspect
 
 import attr
-from flask import current_app, flash, redirect, render_template_string, url_for
+from flask import (
+    Markup, current_app, flash, redirect, render_template_string, url_for
+)
 from flask_babel import lazy_gettext
 
 
 class Renderable:
 
     def render(self):
-        return render_template_string(self.template, obj=self)
+        return Markup(render_template_string(self.template, obj=self))
 
 
 @attr.s

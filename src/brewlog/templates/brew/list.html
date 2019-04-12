@@ -4,36 +4,36 @@
 {% block headpagetitle %}{{ gettext("brews") }}{% endblock %}
 
 {% block widecontent %}
-<div class="col-xs-12">
-  <h3>{% if public_only %}{{ gettext("all public brews").capitalize() }}{% else %}{{ gettext("all brews").capitalize() }}{% endif %}</h3>
-  {% if pagination.items %}
-  <table class="table table-striped">
-  <thead>
-    <th>{{ gettext("name") }}</th>
-    <th>{{ gettext("informations") }}</th>
-    <th>{{ gettext("status") }}</th>
-    <th>{{ gettext("operations") }}</th>
-  </thead>
-  <tbody>
-  {% for brew in pagination.items %}
+<h3>{% if public_only %}{{ gettext("all public brews").capitalize() }}{% else %}{{ gettext("all brews").capitalize() }}{% endif %}</h3>
+{% if pagination.items %}
+<table class="table table-striped">
+<thead>
   <tr>
-  <td><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a></td>
-  <td>{% if brew.is_draft %}<strong>{{ gettext("draft") }}</strong> {% endif %}{{ utils.display_info(brew) }}</td>
-  {% if current_user == brew.brewery.brewer %}
-  <td>{{ brew.current_state[0] }}{% if brew.current_state[1] %} ({{ gettext("since %(date)s", date=format_date(brew.current_state[1], 'short')) }}){% endif %}</td>
-  <td><a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>&nbsp;<a href="{{ url_for('brew.details', brew_id=brew.id) }}" class="btn btn-xs btn-primary">{{ gettext("edit") }}</a></td>
-  {% else %}
-  <td>&nbsp;</td>
-  <td>&nbsp;</td>
-  {% endif %}
+    <th scope="col">{{ gettext("name") }}</th>
+    <th scope="col">{{ gettext("informations") }}</th>
+    <th scope="col">{{ gettext("status") }}</th>
+    <th scope="col">{{ gettext("operations") }}</th>
   </tr>
-  {% endfor %}
-  </tbody>
-  </table>
-  {{ render_pagination(pagination) }}
-  {% endif %}
-  {% if current_user.is_authenticated %}
-  <p><a href="{{ url_for('brew.add') }}" class="btn btn-primary">{{ gettext("add new brew") }}</a></p>
-  {% endif %}
-</div>
+</thead>
+<tbody>
+{% for brew in pagination.items %}
+<tr>
+<td><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a></td>
+<td>{% if brew.is_draft %}<strong>{{ gettext("draft") }}</strong> {% endif %}{{ utils.display_info(brew) }}</td>
+{% if current_user == brew.brewery.brewer %}
+<td>{{ brew.current_state[0] }}{% if brew.current_state[1] %} ({{ gettext("since %(date)s", date=format_date(brew.current_state[1], 'short')) }}){% endif %}</td>
+<td><a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>&nbsp;<a href="{{ url_for('brew.details', brew_id=brew.id) }}" class="btn btn-xs btn-primary">{{ gettext("edit") }}</a></td>
+{% else %}
+<td>&nbsp;</td>
+<td>&nbsp;</td>
+{% endif %}
+</tr>
+{% endfor %}
+</tbody>
+</table>
+{{ render_pagination(pagination) }}
+{% endif %}
+{% if current_user.is_authenticated %}
+<p><a href="{{ url_for('brew.add') }}" class="btn btn-primary">{{ gettext("add new brew") }}</a></p>
+{% endif %}
 {% endblock %}

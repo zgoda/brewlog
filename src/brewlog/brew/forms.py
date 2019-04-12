@@ -8,6 +8,7 @@ from wtforms_alchemy import QuerySelectField
 from ..forms.base import BaseForm, BaseObjectForm
 from ..forms.fields import TextAreaWithHintsField
 from ..forms.widgets import textarea_with_hints
+from ..forms.utils import Button
 from ..models import Brew, Brewery, choices
 
 
@@ -83,3 +84,7 @@ class ChangeStateForm(BaseForm):
     action = wf.SelectField(
         _('action'), choices=choices.ACTION_CHOICES, default='available'
     )
+
+    buttons = [
+        Button(text=_('change'))
+    ]
