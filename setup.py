@@ -63,6 +63,7 @@ setup(
         'Authlib',
         'Markdown',
         'WTForms-Alchemy',
+        'attrs',
         # pinned for sanity
         'SQLAlchemy<1.3',
     ),
