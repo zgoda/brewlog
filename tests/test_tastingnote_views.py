@@ -24,9 +24,9 @@ class TestTastingNoteListView(BrewlogTests):
         hidden_brew_2 = brew_factory(brewery=self.public_brewery, is_public=False)
         tasting_note_factory(brew=hidden_brew_2, author=self.public_user)
         rv = self.client.get(self.url)
-        assert f'tasted {public_brew.name}' in rv.text
-        assert f'tasted {hidden_brew_1.name}' not in rv.text
-        assert f'tasted {hidden_brew_2.name}' not in rv.text
+        assert f'{public_brew.name}</a>' in rv.text
+        assert f'{hidden_brew_1.name}</a>' not in rv.text
+        assert f'{hidden_brew_2.name}</a>' not in rv.text
 
     def test_get_authenticated(self, brew_factory, tasting_note_factory):
         public_brew = brew_factory(brewery=self.public_brewery)
@@ -38,9 +38,9 @@ class TestTastingNoteListView(BrewlogTests):
         tasting_note_factory(brew=hidden_brew_2, author=self.public_user)
         self.login(self.public_user.email)
         rv = self.client.get(self.url)
-        assert f'tasted {public_brew.name}' in rv.text
-        assert f'tasted {hidden_brew_1.name}' not in rv.text
-        assert f'tasted {hidden_brew_2.name}' in rv.text
+        assert f'{public_brew.name}</a>' in rv.text
+        assert f'{hidden_brew_1.name}</a>' not in rv.text
+        assert f'{hidden_brew_2.name}</a>' in rv.text
 
 
 @pytest.mark.usefixtures('client_class')
