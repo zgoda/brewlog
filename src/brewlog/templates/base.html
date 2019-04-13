@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>{% block headpagetitle %}{% endblock %}</title>
+    <meta name="description" content="{% block headdescription %}{% endblock %}">
+    <link rel="stylesheet" type="text/css" href="/static/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/vendor/fontawesome/css/all.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/vendor/typeaheadjs.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/app.css">
+    {% block styles %}{% endblock %}
+    <link href="/static/favicon.ico" rel="icon" type="image/x-icon">
+    <script src="/static/vendor/jquery-3.4.0.min.js"></script>
+  </head>
+  <body role="document">
+
+    <div class="container">
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Brew Log</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar-collapse-1" aria-controls="navbar-collapse-1" aria-expanded="false" aria-label="{{ gettext('toggle navigation') }}">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+          <form class="form-inline my-2 my-lg-0 mr-auto" id="bloodhound" role="search">
+            <input type="search" class="form-control typeahead mr-sm-2" placeholder="{{ gettext('search') }}" aria-label="{{ gettext('search') }}">
+          </form>
+          <ul class="navbar-nav">
+            {% block topmenu_right %}{% endblock %}
+            {% if not current_user.is_anonymous %}
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" id="createitem-menu-dropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{% trans %}create new{% endtrans %}</a>
+              <div class="dropdown-menu" aria-labelledby="createitem-menu-dropdown">
+                <a class="dropdown-item" href="{{ url_for('brewery.add') }}">{% trans %}brewery{% endtrans %}</a>
+                <a class="dropdown-item" href="{{ url_for('brew.add') }}">{% trans %}brew{% endtrans %}</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" id="useritems-menu-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans %}my items{% endtrans %}</a>
+              <div class="dropdown-menu" aria-labelledby="useritems-menu-dropdown">
+                <a class="dropdown-item" href="{{ current_user.breweries_list_url }}">{% trans %}breweries{% endtrans %}</a>
+                <a class="dropdown-item" href="{{ current_user.brews_list_url }}">{% trans %}brews{% endtrans %}</a>
+              </div>
+            </li>
+            {% endif %}
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link dropdown-toggle" id="account-menu-dropdown" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{% trans %}user tools{% endtrans %}</a>
+              <div class="dropdown-menu" aria-labelledby="account-menu-dropdown">
+                {% if current_user.is_anonymous %}
+                <a class="dropdown-item" href="{{ url_for('auth.select') }}">{% trans %}login page{% endtrans %}</a>
+                {% else %}
+                <a class="dropdown-item" href="{{ url_for('profile.details', user_id=current_user.id) }}"><span class="fas fa-user"></span> {% trans %}my profile{% endtrans %}</a>
+                <a class="dropdown-item" href="{{ url_for('auth.logout') }}"><span class="fas fa-sign-out-alt"></span> {% trans %}logout{% endtrans %}</a>
+                {% endif %}
+              </div>
+            </li>
+          </ul>
+        </div>
+      </nav>
+
+      <div class="row my-2">
+        {% with flashes = get_flashed_messages(with_categories=True) %}
+        <div class="col-12">
+          {% for category, flash in flashes %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ flash }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="{{ gettext('close') }}"><span aria-hidden="true">&times;</span></button>
+          </div>
+          {% endfor %}
+        </div>
+        {% endwith %}
+      </div>
+
+      <div class="row my-2">
+        <div class="col-12">
+          {% block announcement %}
+          {% endblock %}
+        </div>
+      </div>
+
+      <div class="row my-2">
+        <div class="col-12">
+          {% block widecontent %}
+          {% endblock %}
+        </div>
+        <div class="col-md-9">
+          {% block content %}
+          {% endblock %}
+        </div>
+        <div class="col-md-3">
+          {% block sidebar %}
+          {% endblock %}
+        </div>
+      </div>
+
+      <footer>
+        <hr>
+        <p>&copy; 2012&ndash;<script>document.write(new Date().getFullYear())</script>, Jarek Zgoda &amp; Z-SOFT. {% trans %}All rights reserved{% endtrans %}.</p>
+        <div>
+          <ul class="list-inline">
+            <li class="list-inline-item"><a href="{{ url_for('home.flatpage', path='about') }}">{{ gettext("about") }}</a></li>
+            <li class="list-inline-item"><a href="{{ url_for('home.flatpage', path='guide') }}">{{ gettext("user guide") }}</a></li>
+            <li class="list-inline-item"><a href="{{ url_for('home.flatpage', path='legal') }}">{{ gettext("legal mumbo-jumbo") }}</a></li>
+            <li class="list-inline-item"><a href="{{ url_for('home.flatpage', path='privacy') }}">{{ gettext("privacy statement") }}</a></li>
+          </ul>
+        </div>
+      </footer>
+    </div>
+    <script src="/static/vendor/popper.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/vendor/typeahead.bundle.min.js"></script>
+    <script type="text/javascript">
+      var brews = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: {
+          url: "{{ url_for('brew.search') }}",
+          ttl: 900000
+        },
+        remote: {
+          url: "{{ url_for('brew.search') }}?q=%QUERY",
+          wildcard: "%QUERY"
+        }
+      });
+      var breweries = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: {
+          url: "{{ url_for('brewery.search') }}",
+          ttl: 900000
+        },
+        remote: {
+          url: "{{ url_for('brewery.search') }}?q=%QUERY",
+          wildcard: "%QUERY"
+        }
+      });
+      $('#bloodhound .typeahead').typeahead(
+        {
+          highlight: true
+        },
+        {
+          name: "brews",
+          source: brews,
+          display: "name",
+          templates: {
+            header: '<h4 class="dataset-name">{{ gettext("brews") }}</h4>'
+          }
+        },
+        {
+          name: "breweries",
+          source: breweries,
+          display: "name",
+          templates: {
+            header: '<h4 class="dataset-name">{{ gettext("breweries") }}</h4>'
+          }
+        }
+      );
+      $('#bloodhound .typeahead').bind('typeahead:select', function(ev, suggestion) {
+        window.location.replace(suggestion.url);
+      });
+    </script>
+    {% block scripts %}{% endblock %}
+  </body>
+</html>

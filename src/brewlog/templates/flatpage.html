@@ -1,12 +1,10 @@
-{% extends "index-1cols.html" %}
+{% extends "base.html" %}
 
 {% block headpagetitle %}{{ page.title }}{% endblock %}
 
 {% block widecontent %}
-<div class="col-xs-12">
-  {{ html|safe }}
-  {% if page.meta.updated %}
-  <p>{{ gettext("Updated: %(date)s", date=format_date(page.meta.updated, "short")) }}</p>
-  {% endif %}
-</div>
+{{ html|safe }}
+{% if page.meta.updated %}
+<p>{{ gettext("Updated: %(date)s", date=format_date(page.meta.updated, "short")) }}</p>
+{% endif %}
 {% endblock %}

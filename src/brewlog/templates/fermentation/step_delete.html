@@ -6,7 +6,5 @@
 {% block widecontent %}
 <h3>{{ fstep.name }} ({{ fstep.brew.name }})</h3>
 <p>{{ gettext("Fermentation step %(fstep_name)s for your brew %(brew_name)s is about to be deleted with all its content. As this process is irreversible we're asking you again, is this really what you want do do?", fstep_name=fstep.name, brew_name=fstep.brew.name) }}</p>
-{% with action = url_for('ferm.fermentationstep_delete', fstep_id=fstep.id) %}
-  {{ forms.delete_form(delete_form, action) }}
-{% endwith %}
+{{ forms.render_form(delete_form, url_for('ferm.fermentationstep_delete', fstep_id=fstep.id)) }}
 {% endblock %}

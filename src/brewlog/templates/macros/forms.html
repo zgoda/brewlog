@@ -1,34 +1,50 @@
-{% import "bootstrap/wtf.html" as wtf %}
-{% import "macros/bootstrap.html" as bsu %}
+{% from 'bootstrap/form.html' import form_errors, render_field %}
 
-{% macro render(form) -%}
-{% set hints = kwargs.pop('hints', None) %}
-{% if form %}
-{{ form.hidden_tag() }}
-{% for field in form %}
-  {% if field.type == 'HiddenField' %}
-    {{ field }}
-  {% endif %}
-{% endfor %}
-{{ wtf.form_errors(form, hiddens="only") }}
-{% for field in form %}
-{% if not field.type in ['CSRFTokenField', 'HiddenField'] %}
-  {% if field.type == 'DecimalField' %}
-    {{ wtf.form_field(field, form_type="horizontal", horizontal_columns=('sm', 2, 10), step=pow(10, field.places * -1)) }}
-  {% elif field.type == 'TextAreaWithHintsField' and hints %}
-    {{ wtf.form_field(field, form_type="horizontal", horizontal_columns=('sm', 2, 10), hints=hints) }}
-  {% else %}
-    {{ wtf.form_field(field, form_type="horizontal", horizontal_columns=('sm', 2, 10)) }}
-  {% endif %}
-{% endif %}
-{% endfor %}
-{% endif %}
+{% macro render_form_fields(form, form_type="horizontal", horizontal_columns=('sm', 2, 10)) %}
+  {% set hints = kwargs.pop('hints', None) %}
+  {{ form.hidden_tag() }}
+  {{ form_errors(form, hiddens='only') }}
+  {%- for field in form %}
+    {% if not bootstrap_is_hidden_field(field) -%}
+      {% if field.type == 'DecimalField' -%}
+        {{ render_field(
+          field,
+          form_type=form_type,
+          horizontal_columns=horizontal_columns,
+          button_map=button_map,
+          step=pow(10, field.places * -1)) }}
+      {% elif field.type == 'TextAreaWithHintsField' and hints %}
+        {{ render_field(
+          field,
+          form_type=form_type,
+          horizontal_columns=horizontal_columns,
+          button_map=button_map,
+          hints=hints) }}
+      {% else %}
+        {{ render_field(
+          field,
+          form_type=form_type,
+          horizontal_columns=horizontal_columns,
+          button_map=button_map) }}
+        {%- endif %}
+    {%- endif %}
+  {%- endfor %}
 {%- endmacro %}
 
-{% macro delete_form(form, action) -%}
-<form method="post" action="{{ action }}" role="form">
-  {{ form.csrf_token }}
-  {{ form.delete_it() }}
-  <button type="submit" class="btn btn-sm btn-danger">{{ bsu.icon("trash") }} {{ gettext("Yes, delete it") }}</button>
+{% macro render_form_buttons(buttons) %}
+<div class="form-group row">
+  <div class="offset-sm-2 col-sm-10">
+    {%- for button in buttons %}
+    {{ button.render() }}&nbsp;
+    {%- endfor %}
+  </div>
+</div>
+{%- endmacro %}
+
+{% macro render_form(form, action) %}
+{% set hints = kwargs.pop('hints', None) %}
+<form method="post" action="{{ action }}" class="form form-horizontal" role="form">
+{{ render_form_fields(form, hints=hints) }}
+{{ render_form_buttons(form.buttons) }}
 </form>
 {%- endmacro %}

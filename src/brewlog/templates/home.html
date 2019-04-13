@@ -1,4 +1,4 @@
-{% extends "index-1cols.html" %}
+{% extends "base.html" %}
 
 {% block headpagetitle %}{% trans %}Welcome{% endtrans %}{% endblock %}
 
@@ -10,60 +10,66 @@
 {% endblock %}
 
 {% block widecontent %}
-<div class="col-xs-12">
-  <h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
-  <p>{% trans %}This is BrewLog, brewing log app written by homebrewer for homebrewers. Have a look to the site and start logging your brews.{% endtrans %}</p>
-  <h2>{{ gettext("latest site activity").capitalize() }}</h2>
-  <div class="row">
-    <div class="col-xs-12">
-      <div class="row">
-        {% if latest_brews %}
-        <div class="col-xs-12 col-md-6">
-          <div class="well">
-            <h4>{{ gettext("latest brews").capitalize() }}</h4>
+<h1>{% trans %}Welcome to BrewLog{% endtrans %}</h1>
+<p>{% trans %}This is BrewLog, brewing log app written by homebrewer for homebrewers. Have a look to the site and start logging your brews.{% endtrans %}</p>
+<h2>{{ gettext("latest site activity").capitalize() }}</h2>
+<div class="row">
+  <div class="col-12">
+    <div class="row my-2">
+      {% if latest_brews %}
+      <div class="col-12 col-md-6">
+        <div class="card border-0">
+          <div class="card-body">
+            <h4 class="card-title">{{ gettext("latest brews").capitalize() }}</h4>
             <ul class="list-unstyled">
               {% for brew in latest_brews %}<li><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> {{ gettext("by %(brewername)s in %(breweryname)s", brewername=brew.brewery.brewer.name, breweryname=brew.brewery.name) }}</li>{% endfor %}
             </ul>
-            <p><a href="{{ url_for('brew.all') }}">{{ gettext("view all") }}</a></p>
+            <a class="card-link" href="{{ url_for('brew.all') }}">{{ gettext("view all") }}</a>
           </div>
         </div>
-        {% endif %}
-        {% if latest_tasting_notes %}
-        <div class="col-xs-12 col-md-6">
-          <div class="well">
-            <h4>{{ gettext("latest tasting notes").capitalize() }}</h4>
+      </div>
+      {% endif %}
+      {% if latest_tasting_notes %}
+      <div class="col-12 col-md-6">
+        <div class="card border-0">
+          <div class="card-body">
+            <h4 class="card-title">{{ gettext("latest tasting notes").capitalize() }}</h4>
             <ul class="list-unstyled">
               {% for note in latest_tasting_notes %}<li><a href="{{ url_for('brew.details', brew_id=note.brew.id) }}">{{ note.brew.full_name }}</a> - {{ gettext("%(author)s on %(date)s", author=note.author.name, date=format_date(note.date, "short")) }}</li>{% endfor %}
             </ul>
-            <p><a href="{{ url_for('tastingnote.all') }}">{{ gettext("view all") }}</a></p>
+            <a class="card-link" href="{{ url_for('tastingnote.all') }}">{{ gettext("view all") }}</a>
           </div>
         </div>
-        {% endif %}
       </div>
-      <div class="row">
-        {% if latest_brewers %}
-        <div class="col-xs-12 col-md-6">
-          <div class="well">
-            <h4>{{ gettext("latest brewers").capitalize() }}</h4>
+      {% endif %}
+    </div>
+    <div class="row my-2">
+      {% if latest_brewers %}
+      <div class="col-12 col-md-6">
+        <div class="card border-0">
+          <div class="card-body">
+            <h4 class="card-title">{{ gettext("latest brewers").capitalize() }}</h4>
             <ul class="list-unstyled">
               {% for brewer in latest_brewers %}<li><a href="{{ url_for('profile.details', user_id=brewer.id) }}">{{ brewer.name }}</a> {{ gettext("registered: %(date)s", date=format_date(brewer.created, "short")) }}</li>{% endfor %}
             </ul>
-            <p><a href="{{ url_for('profile.all') }}">{{ gettext("view all") }}</a></p>
+            <a class="card-link" href="{{ url_for('profile.all') }}">{{ gettext("view all") }}</a>
           </div>
         </div>
-        {% endif %}
-        {% if latest_breweries %}
-        <div class="col-xs-12 col-md-6">
-          <div class="well">
-            <h4>{{ gettext("recently registered breweries").capitalize() }}</h4>
+      </div>
+      {% endif %}
+      {% if latest_breweries %}
+      <div class="col-12 col-md-6">
+        <div class="card border-0">
+          <div class="card-body">
+            <h4 class="card-title">{{ gettext("recently registered breweries").capitalize() }}</h4>
             <ul class="list-unstyled">
               {% for brewery in latest_breweries %}<li><a href="{{ url_for('brewery.details', brewery_id=brewery.id) }}">{{ brewery.name }}</a> {{ gettext("by %(brewer)s", brewer=brewery.brewer.name) }}</li>{% endfor %}
             </ul>
-            <p><a href="{{ url_for('brewery.all') }}">{{ gettext("view all") }}</a></p>
+            <a class="card-link" href="{{ url_for('brewery.all') }}">{{ gettext("view all") }}</a>
           </div>
         </div>
-        {% endif %}
       </div>
+      {% endif %}
     </div>
   </div>
 </div>

@@ -27,7 +27,7 @@ def profile(user_id):
         'data': user_profile.nick,
         'data_type': 'summary',
         'profile': user_profile,
-        'latest_brews': Brew.get_latest_for(user_profile),
+        'latest_brews': Brew.get_latest_for(user_profile, limit=10),
     }
     context['data'] = user_profile.full_data()
     context['data_type'] = 'full'

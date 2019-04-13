@@ -4,12 +4,8 @@
 {% block headpagetitle %}{{ gettext("confirm removal of your account") }}{% endblock %}
 
 {% block widecontent %}
-<div class="col-xs-12">
-  <h3>{{ profile.full_name }}</h3>
-  <p>{{ gettext("Account for %(email)s is about to be deleted with all related content. As this process is irreversible we're asking you again, is this really what you want to do?", email=profile.email) }}</p>
-  <p><strong>{{ gettext("Big fat warning!") }}</strong> {{ gettext("All related content will be deleted too: breweries, brews, tasting notes and so on.") }}</p>
-  {% with action = url_for('profile.delete', user_id=profile.id) %}
-    {{ forms.delete_form(delete_form, action) }}
-  {% endwith %}
-</div>
+<h3>{{ profile.full_name }}</h3>
+<p>{{ gettext("Account for %(email)s is about to be deleted with all related content. As this process is irreversible we're asking you again, is this really what you want to do?", email=profile.email) }}</p>
+<p><strong>{{ gettext("Big fat warning!") }}</strong> {{ gettext("All related content will be deleted too: breweries, brews, tasting notes and so on.") }}</p>
+{{ forms.render_form(delete_form, url_for('profile.delete', user_id=profile.id)) }}
 {% endblock %}

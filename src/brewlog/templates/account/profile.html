@@ -1,6 +1,5 @@
 {% extends "account/base.html" %}
 {% import "macros/forms.html" as forms %}
-{% import "macros/bootstrap.html" as bsu %}
 {% import "macros/users.html" as users %}
 
 {% block headpagetitle %}{{ gettext("Profile data for user %(name)s", name=profile.name) }}{% endblock %}
@@ -10,14 +9,7 @@
 {{ users.display_profile(profile) }}
 {% if form %}
 <p>{% trans %}This is your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
-<form action="{{ url_for('profile.details', user_id=profile.id) }}" method="post" class="form form-horizontal" role="form">
-  {{ forms.render(form) }}
-  <div class="form-group">
-    <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" class="btn btn-primary">{{ bsu.icon("check") }} {{ gettext("submit") }}</button>
-    </div>
-  </div>
-</form>
+{{ forms.render_form(form, url_for('profile.details', user_id=profile.id)) }}
 <h3>{{ gettext("delete account").capitalize() }}</h3>
 <p><a href="{{ url_for('profile.delete', user_id=profile.id) }}" class="btn btn-danger">{{ gettext("delete my account") }}</a></p>
 {% endif %}
@@ -25,16 +17,9 @@
 
 {% block sidebar %}
 <h4>{% trans %}Brewery list{% endtrans %}</h4>
-<h5>{{ gettext("Owned") }}</h5>
 {% if profile.breweries %}
 <ul class="list-unstyled">
   {% for brewery in profile.breweries %}<li><a href="{{ url_for('brewery.details', brewery_id=brewery.id) }}">{{ brewery.name }}</a> ({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }})</li>{% endfor %}
-</ul>
-{% endif %}
-{% if profile.other_breweries %}
-<h5>{{ gettext("Other") }}</h5>
-<ul class="list-unstyled">
-  {% for brewery in profile.other_breweries %}<li><a href="{{ url_for('brewery.details', brewery_id=brewery.id) }}">{{ brewery.name }}</a> {{ ngettext("%(num)d brew", "%(num)d brews"), brewery.brews.count() }}</li>{% endfor %}
 </ul>
 {% endif %}
 {% if form %}
@@ -45,6 +30,7 @@
 <ul class="list-unstyled">
   {% for brew in latest_brews %}<li><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.name }}</a> {{ brew.created|dateformat("short") }}</li>{% endfor %}
 </ul>
+<p><a href="{{ url_for('profile.brews', user_id=profile.id) }}">{{ gettext('see all').capitalize() }}</a></p>
 {% endif %}
 {% if form and (profile.breweries or profile.other_breweries) %}
 <p><a href="{{ url_for('brew.add') }}" class="btn btn-sm btn-primary">{{ gettext("add new brew") }}</a></p>

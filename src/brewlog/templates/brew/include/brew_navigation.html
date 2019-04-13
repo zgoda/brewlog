@@ -1,6 +1,12 @@
-{% if previous %}
-<a href="{{ url_for('brew.details', brew_id=previous.id) }}">{{ gettext("previous") }}</a>
-{% endif %}
-{% if next %}
-<span class="pull-right"><a href="{{ url_for('brew.details', brew_id=next.id) }}">{{ gettext("next") }}</a></span>
-{% endif %}
+<div class="row">
+  <div class="col-sm text-left">
+    {% if previous %}
+    <a href="{{ url_for('brew.details', brew_id=previous.id) }}">{{ gettext("previous") }}</a>
+    {% endif %}
+  </div>
+  <div class="col-sm text-right">
+    {% if next %}
+    <a href="{{ url_for('brew.details', brew_id=next.id) }}">{{ gettext("next") }}</a>
+    {% endif %}
+  </div>
+</div>

@@ -1,6 +1,5 @@
 {% extends "brew/base.html" %}
 {% import "macros/forms.html" as forms %}
-{% import "macros/bootstrap.html" as bsu %}
 
 {% block styles %}
 {% if current_user.is_authenticated %}
@@ -33,56 +32,32 @@ $(document).ready(function() {
 {% block headdescription %}{{ utils.description(brew) }}{% endblock %}
 
 {% block widecontent %}
-<div class="col-xs-12">
-  {% include "brew/include/brew_navigation.html" %}
-  {% include "brew/include/details.html" %}
-  {% if form %}
-  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
-    <div class="panel panel-default">
-      <div class="panel-heading" role="tab" id="heading-panel-fermentation-data">
-        <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#panel-fermentation-data" aria-expanded="false" aria-controls="#panel-fermentation-data">{{ gettext("fermentation data").capitalize() }}</a>
-        </h4>
-      </div>
-      <div id="panel-fermentation-data" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-panel-fermentation-data">
-        <div class="panel-body">
-          {% for fstep in brew.fermentation_steps.all() %}
-          {% include "brew/include/fermentation_step.html" %}
-          {% endfor %}
-          <p><a href="{{ url_for('ferm.fermentationstep_add', brew_id=brew.id) }}" class="btn btn-primary">{{ gettext("add fermentation step") }}</a></p>
-        </div>
-      </div>
-    </div>
+{% include "brew/include/brew_navigation.html" %}
+{% include "brew/include/details.html" %}
+{% if form %}
+<p><button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#fermentation-data" aria-expanded="false">{{ gettext("fermentation data").capitalize() }}</button></p>
+<div class="collapse" id="fermentation-data">
+  <div class="card card-body">
+    {% for fstep in brew.fermentation_steps.all() %}
+    {% include "brew/include/fermentation_step.html" %}
+    {% endfor %}
+    <p><a href="{{ url_for('ferm.fermentationstep_add', brew_id=brew.id) }}" class="btn btn-primary">{{ gettext("add fermentation step") }}</a></p>
   </div>
-  {% endif %}
-  {% if brew.user_is_brewer(current_user) and utils.state_changeable(brew) %}
-  <h3>{{ gettext("change state").capitalize() }}</h3>
-  <p><strong>{{ gettext('current state').capitalize() }}</strong>: {{ brew.current_state[0] }}{% if brew.current_state[1] %} {{ gettext('since %(date)s', date=format_date(brew.current_state[1], 'short')) }}{% endif %}</p>
-  <form method="post" action="{{ url_for('brew.chgstate', brew_id=brew.id) }}" class="form form-horizontal" role="form">
-    {{ forms.render(action_form) }}
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">{{ bsu.icon("check") }} {{ gettext("submit") }}</button>
-      </div>
-    </div>
-  </form>  
-  {% endif %}
-  {% if brew.tasting_notes %}
-  {% include "tasting/include/tasting_notes.html" %}
-  {% endif %}
-  {% if current_user.is_authenticated and brew.is_brewed_yet %}
-  <p><a href="{{ url_for('tastingnote.add', brew_id=brew.id) }}" class="btn btn-primary">{{ gettext("add tasting note") }}</a></p>
-  {% endif %}
-  {% if brew.user_is_brewer(current_user) %}
-  <h3>{{ gettext("edit brew").capitalize() }}</h3>
-  <form method="post" action="{{ url_for('brew.details', brew_id=brew.id) }}" class="form form-horizontal" role="form">
-    {{ forms.render(form) }}
-    <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary">{{ bsu.icon("check") }} {{ gettext("submit") }}</button>
-      </div>
-    </div>
-  </form>
-  {% endif %}
 </div>
+{% endif %}
+{% if brew.user_is_brewer(current_user) and utils.state_changeable(brew) %}
+<h3>{{ gettext("change state").capitalize() }}</h3>
+<p><strong>{{ gettext('current state').capitalize() }}</strong>: {{ brew.current_state[0] }}{% if brew.current_state[1] %} {{ gettext('since %(date)s', date=format_date(brew.current_state[1], 'short')) }}{% endif %}</p>
+{{ forms.render_form(action_form, url_for('brew.chgstate', brew_id=brew.id)) }}
+{% endif %}
+{% if brew.tasting_notes %}
+{% include "tasting/include/tasting_notes.html" %}
+{% endif %}
+{% if current_user.is_authenticated and brew.is_brewed_yet %}
+<p><a href="{{ url_for('tastingnote.add', brew_id=brew.id) }}" class="btn btn-primary">{{ gettext("add tasting note") }}</a></p>
+{% endif %}
+{% if brew.user_is_brewer(current_user) %}
+<h3>{{ gettext("edit brew").capitalize() }}</h3>
+{{ forms.render_form(form, url_for('brew.details', brew_id=brew.id)) }}
+{% endif %}
 {% endblock %}
