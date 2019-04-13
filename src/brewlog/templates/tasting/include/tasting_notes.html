@@ -1,7 +1,7 @@
 <h3>{{ gettext("tasting notes").capitalize() }}</h3>
 {% for note in brew.tasting_notes %}
 <div>
-  <h4><small>{{ gettext("by %(user)s on %(date)s", user=note.author.name, date=format_date(note.date, "short")) }}</small></h4>
+  <h5>{{ gettext("by %(user)s on %(date)s", user=note.author.name, date=format_date(note.date, "short")) }}</h5>
   {% if current_user in (note.author, note.brew.brewery.brewer) %}
   <div class="edit_area" id="note_text_{{ note.id }}" data-type="text" data-pk="{{ note.id }}" data-url="{{ url_for('tastingnote.update') }}">
     {{ note.text_html|safe }}
