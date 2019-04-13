@@ -7,22 +7,22 @@
 <h3>{{ gettext("List of registered breweries") }}</h3>
 {% if pagination.items %}
 <table class="table table-striped">
-<thead>
-  <tr>
-    <th scope="col">{{ gettext("name") }}</th>
-    <th scope="col">{{ gettext("brews") }}</th>
-    <th scope="col">{{ gettext("operations") }}</th>
-  </tr>
-</thead>
-<tbody>
-{% for brewery in pagination.items %}
-<tr>
-  <td><a href="{{ url_for('brewery.details', brewery_id=brewery.id) }}">{{ brewery.name }}</a></td>
-  <td>{{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }}</td>
-  <td>{% if current_user == brewery.brewer %}<a href="{{ url_for('brewery.delete', brewery_id=brewery.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>{% endif %}</td>
-</tr>
-{% endfor %}
-</tbody>
+  <thead>
+    <tr>
+      <th scope="col">{{ gettext("name") }}</th>
+      <th scope="col">{{ gettext("brews") }}</th>
+      <th scope="col">{{ gettext("operations") }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for brewery in pagination.items %}
+    <tr>
+      <td><a href="{{ url_for('brewery.details', brewery_id=brewery.id) }}">{{ brewery.name }}</a></td>
+      <td>{{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }}</td>
+      <td>{% if current_user == brewery.brewer %}<a href="{{ url_for('brewery.delete', brewery_id=brewery.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>{% endif %}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>
 {{ render_pagination(pagination) }}
 {% endif %}
