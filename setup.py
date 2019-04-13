@@ -80,7 +80,7 @@ setup(
         'pyfakefs',
     ),
     extras_require={
-        'prod': ['psycopg2', 'uwsgi']
+        'prod': ['psycopg2-binary', 'uwsgi']
     },
     entry_points={
         'console_scripts': [
