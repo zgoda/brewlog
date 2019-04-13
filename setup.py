@@ -58,7 +58,7 @@ setup(
         'Flask-FlatPages',
         'Flask-SQLAlchemy',
         'Flask-WTF',
-        'Flask-Bootstrap',
+        'Bootstrap-Flask',
         'SQLAlchemy-Utils',
         'Authlib',
         'Markdown',
