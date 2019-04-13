@@ -1,9 +1,9 @@
 {% macro render(obj) -%}
-<dl class="dl-horizontal">
+<dl class="row">
 {% for field, data in obj.render_fields %}
   {% if data %}
-  <dt>{{ gettext(field) }}</dt>
-  <dd>{{ data }}</dd>
+  <dt class="col-sm-3">{{ gettext(field) }}</dt>
+  <dd class="col-sm-9">{{ data }}</dd>
   {% endif %}
 {% endfor %}
 </ul>
