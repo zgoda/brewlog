@@ -22,12 +22,6 @@
   {% for brewery in profile.breweries %}<li><a href="{{ url_for('brewery.details', brewery_id=brewery.id) }}">{{ brewery.name }}</a> ({{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }})</li>{% endfor %}
 </ul>
 {% endif %}
-{% if profile.other_breweries %}
-<h5>{{ gettext("Other") }}</h5>
-<ul class="list-unstyled">
-  {% for brewery in profile.other_breweries %}<li><a href="{{ url_for('brewery.details', brewery_id=brewery.id) }}">{{ brewery.name }}</a> {{ ngettext("%(num)d brew", "%(num)d brews"), brewery.brews.count() }}</li>{% endfor %}
-</ul>
-{% endif %}
 {% if form %}
 <p><a href="{{ url_for('brewery.add') }}" class="btn btn-sm btn-primary">{{ gettext("add new brewery") }}</a></p>
 {% endif %}
@@ -36,6 +30,7 @@
 <ul class="list-unstyled">
   {% for brew in latest_brews %}<li><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.name }}</a> {{ brew.created|dateformat("short") }}</li>{% endfor %}
 </ul>
+<p><a href="{{ url_for('profile.brews', user_id=profile.id) }}">{{ gettext('see all').capitalize() }}</a></p>
 {% endif %}
 {% if form and (profile.breweries or profile.other_breweries) %}
 <p><a href="{{ url_for('brew.add') }}" class="btn btn-sm btn-primary">{{ gettext("add new brew") }}</a></p>

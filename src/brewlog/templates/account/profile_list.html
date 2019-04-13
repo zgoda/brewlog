@@ -6,9 +6,22 @@
 {% block widecontent %}
 <h3>{{ gettext("registered brewers").capitalize() }}</h3>
 {% if pagination.items %}
-<ul class="list-unstyled">
-{% for user in pagination.items %}<li><a href="{{ url_for('profile.details', user_id=user.id) }}">{{ user.name }}</a></li>{% endfor %}
-</ul>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">{{ gettext('name').capitalize() }}</th>
+      <th scope="col">{{ gettext('registered').capitalize() }}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for user in pagination.items %}
+    <tr>
+      <td><a href="{{ url_for('profile.details', user_id=user.id) }}">{{ user.name }}</a></td>
+      <td>{{ user.created|dateformat('short') }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 {{ render_pagination(pagination) }}
 {% endif %}
 {% endblock %}
