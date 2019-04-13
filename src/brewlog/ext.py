@@ -1,3 +1,7 @@
+# Copyright 2019 Jarek Zgoda. All rights reserved.
+# Use of this source code is governed by a BSD-style
+# license that can be found in the LICENSE file.
+
 from flask_babel import Babel
 from flask_bootstrap import Bootstrap
 from flask_flatpages import FlatPages
