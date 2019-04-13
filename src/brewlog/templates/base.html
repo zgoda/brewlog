@@ -22,7 +22,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbar-collapse-1">
-          <form class="form-inline my-2 my-lg-0 mr-auto" id="blodhound" role="search">
+          <form class="form-inline my-2 my-lg-0 mr-auto" id="bloodhound" role="search">
             <input type="search" class="form-control typeahead mr-sm-2" placeholder="{{ gettext('search') }}" aria-label="{{ gettext('search') }}">
           </form>
           <ul class="navbar-nav">
@@ -134,25 +134,27 @@
           wildcard: "%QUERY"
         }
       });
-      $('#bloodhound .typeahead').typeahead({
-        highlight: true
-      },
-      {
-        name: "brews",
-        source: brews,
-        display: "name",
-        templates: {
-          header: '<h4 class="dataset-name">{{ gettext("brews") }}</h4>'
+      $('#bloodhound .typeahead').typeahead(
+        {
+          highlight: true
+        },
+        {
+          name: "brews",
+          source: brews,
+          display: "name",
+          templates: {
+            header: '<h4 class="dataset-name">{{ gettext("brews") }}</h4>'
+          }
+        },
+        {
+          name: "breweries",
+          source: breweries,
+          display: "name",
+          templates: {
+            header: '<h4 class="dataset-name">{{ gettext("breweries") }}</h4>'
+          }
         }
-      },
-      {
-        name: "breweries",
-        source: breweries,
-        display: "name",
-        templates: {
-          header: '<h4 class="dataset-name">{{ gettext("breweries") }}</h4>'
-        }
-      });
+      );
       $('#bloodhound .typeahead').bind('typeahead:select', function(ev, suggestion) {
         window.location.replace(suggestion.url);
       });
