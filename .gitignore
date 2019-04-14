@@ -48,9 +48,6 @@ cov.xml
 .hypothesis/
 .pytest_cache/
 
-# Translations
-*.pot
-
 # Django stuff:
 *.log
 local_settings.py

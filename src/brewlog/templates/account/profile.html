@@ -11,6 +11,7 @@
 <p>{% trans %}This is your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
 {{ forms.render_form(form, url_for('profile.details', user_id=profile.id)) }}
 <h3>{{ gettext("delete account").capitalize() }}</h3>
+<p>{% trans %}Follow the below link to permanently delete your account.{% endtrans %}</p>
 <p><a href="{{ url_for('profile.delete', user_id=profile.id) }}" class="btn btn-danger">{{ gettext("delete my account") }}</a></p>
 {% endif %}
 {% endblock %}
