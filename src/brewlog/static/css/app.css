@@ -6,6 +6,10 @@ textarea.export, textarea#text {
     height: 34.6875em;
 }
 
+input[type=text].tastingnote-editable-text {
+    width: 40rem;
+}
+
 .help-block, .help {
     font-size: 75%;
     font-style: italic;
