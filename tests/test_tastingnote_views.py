@@ -20,12 +20,14 @@ class TestTastingNoteListView(BrewlogTests):
         self.url = url_for('tastingnote.all')
 
     def test_get_anon(self, brew_factory, tasting_note_factory):
-        public_brew = brew_factory(brewery=self.public_brewery)
+        public_brew = brew_factory(brewery=self.public_brewery, name='public_1')
         tasting_note_factory(brew=public_brew, author=self.public_user)
         tasting_note_factory(brew=public_brew, author=self.hidden_user)
-        hidden_brew_1 = brew_factory(brewery=self.hidden_brewery)
+        hidden_brew_1 = brew_factory(brewery=self.hidden_brewery, name='hidden_1')
         tasting_note_factory(brew=hidden_brew_1, author=self.hidden_user)
-        hidden_brew_2 = brew_factory(brewery=self.public_brewery, is_public=False)
+        hidden_brew_2 = brew_factory(
+            brewery=self.public_brewery, is_public=False, name='hidden_2'
+        )
         tasting_note_factory(brew=hidden_brew_2, author=self.public_user)
         rv = self.client.get(self.url)
         assert f'{public_brew.name}</a>' in rv.text
@@ -33,12 +35,14 @@ class TestTastingNoteListView(BrewlogTests):
         assert f'{hidden_brew_2.name}</a>' not in rv.text
 
     def test_get_authenticated(self, brew_factory, tasting_note_factory):
-        public_brew = brew_factory(brewery=self.public_brewery)
+        public_brew = brew_factory(brewery=self.public_brewery, name='public_1')
         tasting_note_factory(brew=public_brew, author=self.public_user)
         tasting_note_factory(brew=public_brew, author=self.hidden_user)
-        hidden_brew_1 = brew_factory(brewery=self.hidden_brewery)
+        hidden_brew_1 = brew_factory(brewery=self.hidden_brewery, name='hidden_1')
         tasting_note_factory(brew=hidden_brew_1, author=self.hidden_user)
-        hidden_brew_2 = brew_factory(brewery=self.public_brewery, is_public=False)
+        hidden_brew_2 = brew_factory(
+            brewery=self.public_brewery, is_public=False, name='hidden_2'
+        )
         tasting_note_factory(brew=hidden_brew_2, author=self.public_user)
         self.login(self.public_user.email)
         rv = self.client.get(self.url)
