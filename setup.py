@@ -64,7 +64,6 @@ setup(
         'Markdown',
         'WTForms-Alchemy',
         'attrs',
-        'python-dotenv',
         # pinned for sanity
         'SQLAlchemy<1.3',
     ),

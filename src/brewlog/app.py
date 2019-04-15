@@ -5,7 +5,6 @@
 import os
 from logging.config import dictConfig
 
-from dotenv import load_dotenv
 from flask import render_template, request, send_from_directory, session
 from flask_babel import gettext as _
 from werkzeug.utils import ImportStringError
@@ -23,11 +22,8 @@ from .utils.app import Brewlog
 
 
 def make_app(env=None):
-    if not os.environ.get('FLASK_ENV', '') == 'development':
+    if os.environ.get('FLASK_ENV', '') != 'development':
         configure_logging()
-        secrets_env = os.environ.get('BREWLOG_SECRETS')
-        if secrets_env:
-            load_dotenv(secrets_env)
     app = Brewlog(__name__.split('.')[0])
     configure_app(app, env)
     configure_extensions(app, env)
