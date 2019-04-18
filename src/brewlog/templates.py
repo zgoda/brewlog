@@ -7,12 +7,8 @@ import math
 from flask_babel import format_date
 
 from .utils.brewing import plato2sg
-from .utils.text import stars2deg
 from .utils.pagination import url_for_other_page
-
-
-def setup_filters(application):
-    pass  # no filters yet
+from .utils.text import stars2deg
 
 
 def setup_globals(application):
@@ -26,5 +22,4 @@ def setup_globals(application):
 
 
 def setup_template_extensions(application):
-    setup_filters(application)
     setup_globals(application)
