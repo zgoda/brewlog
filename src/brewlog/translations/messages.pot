@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BrewLog 1.0.0.dev0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-14 11:05+0200\n"
+"POT-Creation-Date: 2019-04-18 15:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -436,9 +436,28 @@ msgstr ""
 msgid "available"
 msgstr ""
 
-#: src/brewlog/models/fermentation.py:35 src/brewlog/models/fermentation.py:36
-#: src/brewlog/models/fermentation.py:37
-msgid "unspecified"
+#: src/brewlog/models/fermentation.py:35
+#, python-format
+msgid "OG: %(og)s&deg;Blg, FG: %(fg)s&deg;Blg, volume: %(volume)s ltr"
+msgstr ""
+
+#: src/brewlog/models/fermentation.py:40
+#, python-format
+msgid "OG: %(og)s&deg;Blg, volume: %(volume)s ltr"
+msgstr ""
+
+#: src/brewlog/models/fermentation.py:45
+#, python-format
+msgid "OG: %(og)s&deg;Blg, FG: %(fg)s&deg;Blg"
+msgstr ""
+
+#: src/brewlog/models/fermentation.py:49
+#, python-format
+msgid "OG: %(og)s&deg;Blg"
+msgstr ""
+
+#: src/brewlog/models/fermentation.py:51
+msgid "missing key fermentation data"
 msgstr ""
 
 #: src/brewlog/models/users.py:51
@@ -881,11 +900,6 @@ msgstr ""
 
 #: src/brewlog/templates/brew/include/details.html:60
 msgid "carbonation data"
-msgstr ""
-
-#: src/brewlog/templates/brew/include/fermentation_step.html:3
-#, python-format
-msgid "OG: %(og)s&deg;Blg, FG: %(fg)s&deg;Blg, volume: %(volume)s ltr"
 msgstr ""
 
 #: src/brewlog/templates/brewery/brews.html:4

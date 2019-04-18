@@ -30,12 +30,26 @@ class FermentationStep(db.Model):
         db.Index('fermentationstep_brew_date', 'brew_id', 'date'),
     )
 
-    def step_data(self):
-        return {
-            'og': self.og or _('unspecified'),
-            'fg': self.fg or _('unspecified'),
-            'volume': self.volume or _('unspecified'),
-        }
+    def display_info(self):
+        if self.og and self.fg and self.volume:
+            line = _(
+                'OG: %(og)s&deg;Blg, FG: %(fg)s&deg;Blg, volume: %(volume)s ltr',
+                og=self.og, fg=self.fg, volume=self.volume
+            )
+        elif self.og and self.volume:
+            line = _(
+                'OG: %(og)s&deg;Blg, volume: %(volume)s ltr',
+                og=self.og, volume=self.volume
+            )
+        elif self.og and self.fg:
+            line = _(
+                'OG: %(og)s&deg;Blg, FG: %(fg)s&deg;Blg', og=self.og, fg=self.fg
+            )
+        elif self.og:
+            line = _('OG: %(og)s&deg;Blg', og=self.og)
+        else:
+            line = _('missing key fermentation data')
+        return line
 
     def previous_step(self):
         return FermentationStep.query.filter(
