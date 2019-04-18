@@ -28,8 +28,6 @@ def make_app(env=None):
     configure_app(app, env)
     configure_extensions(app, env)
     with app.app_context():
-        configure_auth(app, env)
-        configure_hooks(app, env)
         configure_blueprints(app, env)
         configure_error_handlers(app, env)
         setup_template_extensions(app)
@@ -59,10 +57,6 @@ def configure_app(app, env):
                 'favicon.ico',
                 mimetype='image/vnd.microsoft.icon',
             )
-
-
-def configure_hooks(app, env):
-    pass
 
 
 def configure_blueprints(app, env):
@@ -102,10 +96,6 @@ def configure_extensions(app, env):
 
     pages.init_app(app)
     pages.get('foo')  # preload all static pages
-
-
-def configure_auth(app, env):
-    pass
 
 
 def configure_logging():
