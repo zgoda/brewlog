@@ -2,28 +2,19 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-import wtforms as wf
 from flask_babel import lazy_gettext as _
 from flask_login import current_user
+from wtforms.fields import StringField, TextAreaField
 from wtforms.fields.html5 import DateField
-from wtforms.validators import DataRequired, Length
+from wtforms.validators import DataRequired
 
 from ..forms.base import BaseObjectForm
 from ..models import Brewery
 
 
-class BreweryNameLength(Length):
-
-    def __init__(self):
-        super().__init__(
-            min=4, max=500,
-            message=_('brewery name has to be between 4 and 500 characters long')
-        )
-
-
 class BreweryForm(BaseObjectForm):
-    name = wf.StringField(_('name'), validators=[BreweryNameLength(), DataRequired()])
-    description = wf.TextAreaField(_('description'))
+    name = StringField(_('name'), validators=[DataRequired()])
+    description = TextAreaField(_('description'))
     established_date = DateField(_('established'))
 
     def save(self, obj=None):
