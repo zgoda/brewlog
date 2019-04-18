@@ -5,6 +5,8 @@ plugins:
 exclude_patterns:
   - "docs/"
   - "tests/"
+  - "requirements/"
+  - "conf/"
   - "*/brewlog/_version.py"
   - "*/brewlog/cli.py"
   - "*/brewlog/wsgi.py"
@@ -13,7 +15,6 @@ exclude_patterns:
   - "*/brewlog/ext.py"
   - "*/brewlog/templates.py"
   - "*/brewlog/__init__.py"
-  - "manage.py"
   - "setup.py"
   - "secrets/"
   - "**/static/"

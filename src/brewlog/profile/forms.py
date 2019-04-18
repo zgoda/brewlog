@@ -2,23 +2,23 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-import wtforms as wf
 from flask_babel import lazy_gettext as _
-from wtforms.validators import DataRequired, Email
+from wtforms.fields import BooleanField, StringField, TextAreaField
+from wtforms.fields.html5 import EmailField
+from wtforms.validators import DataRequired
+from wtforms_components.validators import Email
 
 from ..forms.base import BaseObjectForm
 
 
 class ProfileForm(BaseObjectForm):
-    first_name = wf.StringField(_('first name'))
-    last_name = wf.StringField(_('last name'))
-    nick = wf.StringField(
-        _('nick'), description=_('one of above fields should be provided')
-    )
-    email = wf.StringField(_('email'), validators=[DataRequired(), Email()])
-    location = wf.StringField(_('location'))
-    about_me = wf.TextAreaField(_('about me'))
-    is_public = wf.BooleanField(
+    first_name = StringField(_('first name'))
+    last_name = StringField(_('last name'))
+    nick = StringField(_('nick'))
+    email = EmailField(_('email'), validators=[DataRequired(), Email()])
+    location = StringField(_('location'))
+    about_me = TextAreaField(_('about me'))
+    is_public = BooleanField(
         _('profile is public'), default=True,
         description=_(
             'all activity of non-public brewers is hidden on site, they are invisible'
@@ -27,3 +27,17 @@ class ProfileForm(BaseObjectForm):
 
     def save(self, obj):
         return super().save(obj, save=True)
+
+    def validate(self):
+        result = super().validate()
+        has_name = self.first_name.data and self.last_name.data
+        has_nick = bool(self.nick.data)
+        name_valid = True
+        if not any([has_name, has_nick]):
+            name_valid = False
+            msg = _('please provide full name or nick')
+            if not has_name:
+                self.last_name.errors.append(msg)
+            else:
+                self.nick.errors.append(msg)
+        return result and name_valid

@@ -9,6 +9,7 @@ SQLAlchemy-Utils
 Authlib
 Markdown
 WTForms-Alchemy
+WTForms-Components
 attrs
 
 # pinned for sanity
