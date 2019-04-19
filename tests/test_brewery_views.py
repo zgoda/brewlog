@@ -59,7 +59,7 @@ class TestBreweryDetailsView(BrewlogTests):
         return url_for('brewery.details', brewery_id=brewery.id)
 
     @pytest.mark.parametrize('anonymous', [True, False], ids=['anon', 'actor'])
-    def test_nonowner_public(self, anonymous, user_factory, brewery_factory):
+    def test_get_nonowner_public(self, anonymous, user_factory, brewery_factory):
         owner = user_factory(is_public=True)
         brewery = brewery_factory(brewer=owner, name='brewery no 1')
         if not anonymous:
@@ -71,7 +71,7 @@ class TestBreweryDetailsView(BrewlogTests):
         assert f'action="{url}"' not in rv.text
 
     @pytest.mark.parametrize('anonymous', [True, False], ids=['anon', 'actor'])
-    def test_nonowner_hidden(self, anonymous, user_factory, brewery_factory):
+    def test_get_nonowner_hidden(self, anonymous, user_factory, brewery_factory):
         owner = user_factory(is_public=False)
         brewery = brewery_factory(brewer=owner, name='brewery no 1')
         if not anonymous:
@@ -82,10 +82,201 @@ class TestBreweryDetailsView(BrewlogTests):
         assert rv.status_code == 404
 
     @pytest.mark.parametrize('public', [True, False], ids=['public', 'hidden'])
-    def test_owner(self, public, user_factory, brewery_factory):
+    def test_get_owner(self, public, user_factory, brewery_factory):
         owner = user_factory(is_public=public)
         brewery = brewery_factory(brewer=owner, name='brewery no 1')
         self.login(owner.email)
         url = self.url(brewery)
         rv = self.client.get(url)
         assert f'action="{url}"' in rv.text
+
+    @pytest.mark.parametrize('anonymous', [True, False], ids=['anon', 'actor'])
+    def test_post_nonowner_public(self, anonymous, user_factory, brewery_factory):
+        owner = user_factory(is_public=True)
+        brewery = brewery_factory(brewer=owner, name='brewery no 1')
+        if not anonymous:
+            actor = user_factory()
+            self.login(actor.email)
+        url = self.url(brewery)
+        data = {'name': 'new name'}
+        rv = self.client.post(url, data=data, follow_redirects=False)
+        assert rv.status_code == 403
+
+    @pytest.mark.parametrize('anonymous', [True, False], ids=['anon', 'actor'])
+    def test_post_nonowner_hidden(self, anonymous, user_factory, brewery_factory):
+        owner = user_factory(is_public=False)
+        brewery = brewery_factory(brewer=owner, name='brewery no 1')
+        if not anonymous:
+            actor = user_factory()
+            self.login(actor.email)
+        url = self.url(brewery)
+        data = {'name': 'new name'}
+        rv = self.client.post(url, data=data, follow_redirects=False)
+        assert rv.status_code == 404
+
+    @pytest.mark.parametrize('public', [True, False], ids=['public', 'hidden'])
+    def test_post_owner(self, public, user_factory, brewery_factory):
+        owner = user_factory(is_public=public)
+        brewery = brewery_factory(brewer=owner, name='brewery no 1')
+        self.login(owner.email)
+        url = self.url(brewery)
+        name = 'new name'
+        data = {'name': name}
+        rv = self.client.post(url, data=data, follow_redirects=True)
+        assert f'<h3>{name}</h3>' in rv.text
+
+
+@pytest.mark.usefixtures('client_class')
+class TestBreweryDeleteView(BrewlogTests):
+
+    def url(self, brewery):
+        return url_for('brewery.delete', brewery_id=brewery.id)
+
+    @pytest.mark.parametrize('anonymous', [True, False], ids=['anon', 'actor'])
+    def test_get_nonowner_public(self, anonymous, user_factory, brewery_factory):
+        owner = user_factory(is_public=True)
+        brewery = brewery_factory(brewer=owner, name='brewery no 1')
+        if not anonymous:
+            actor = user_factory()
+            self.login(actor.email)
+        url = self.url(brewery)
+        rv = self.client.get(url)
+        assert rv.status_code == 403
+
+    @pytest.mark.parametrize('anonymous', [True, False], ids=['anon', 'actor'])
+    def test_get_nonowner_hidden(self, anonymous, user_factory, brewery_factory):
+        owner = user_factory(is_public=False)
+        brewery = brewery_factory(brewer=owner, name='brewery no 1')
+        if not anonymous:
+            actor = user_factory()
+            self.login(actor.email)
+        url = self.url(brewery)
+        rv = self.client.get(url)
+        assert rv.status_code == 404
+
+    @pytest.mark.parametrize('public', [True, False], ids=['public', 'hidden'])
+    def test_get_owner(self, public, user_factory, brewery_factory):
+        owner = user_factory(is_public=False)
+        brewery = brewery_factory(brewer=owner, name='brewery no 1')
+        self.login(owner.email)
+        url = self.url(brewery)
+        rv = self.client.get(url)
+        assert f'<h3>{brewery.name}</h3>' in rv.text
+        assert f'action="{url}"' in rv.text
+
+    @pytest.mark.parametrize('anonymous', [True, False], ids=['anon', 'actor'])
+    def test_post_nonowner_public(self, anonymous, user_factory, brewery_factory):
+        owner = user_factory(is_public=True)
+        brewery = brewery_factory(brewer=owner, name='brewery no 1')
+        if not anonymous:
+            actor = user_factory()
+            self.login(actor.email)
+        url = self.url(brewery)
+        data = {'delete_it': True}
+        rv = self.client.post(url, data=data)
+        assert rv.status_code == 403
+
+    @pytest.mark.parametrize('anonymous', [True, False], ids=['anon', 'actor'])
+    def test_post_nonowner_hidden(self, anonymous, user_factory, brewery_factory):
+        owner = user_factory(is_public=False)
+        brewery = brewery_factory(brewer=owner, name='brewery no 1')
+        if not anonymous:
+            actor = user_factory()
+            self.login(actor.email)
+        url = self.url(brewery)
+        data = {'delete_it': True}
+        rv = self.client.post(url, data=data)
+        assert rv.status_code == 404
+
+    @pytest.mark.parametrize('public', [True, False], ids=['public', 'hidden'])
+    def test_post_owner(self, public, user_factory, brewery_factory):
+        owner = user_factory(is_public=False)
+        brewery = brewery_factory(brewer=owner, name='brewery no 1')
+        self.login(owner.email)
+        url = self.url(brewery)
+        data = {'delete_it': True}
+        rv = self.client.post(url, data=data)
+        assert rv.status_code == 302
+        assert url_for('profile.breweries', user_id=owner.id) in rv.headers['location']
+
+
+@pytest.mark.usefixtures('client_class')
+class TestBreweryCreateView(BrewlogTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self):
+        self.url = url_for('brewery.add')
+
+    def test_get_anon(self):
+        rv = self.client.get(self.url)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['location']
+
+    def test_get_authenticated(self, user_factory):
+        actor = user_factory()
+        self.login(actor.email)
+        rv = self.client.get(self.url)
+        assert f'action="{self.url}"' in rv.text
+
+    def test_post_anon(self):
+        data = {
+            'name': 'brewery no 1'
+        }
+        rv = self.client.post(self.url, data=data)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['location']
+
+    def test_post_authenticated(self, user_factory):
+        actor = user_factory()
+        self.login(actor.email)
+        name = 'brewery no 1'
+        data = {'name': name}
+        rv = self.client.post(self.url, data=data, follow_redirects=True)
+        assert f'<h3>{name}</h3>' in rv.text
+
+
+@pytest.mark.usefixtures('client_class')
+class TestBreweryBrewsView(BrewlogTests):
+
+    def url(self, brewery):
+        return url_for('brewery.brews', brewery_id=brewery.id)
+
+    @pytest.mark.parametrize('anonymous', [True, False], ids=['anon', 'actor'])
+    def test_get_nonowner_public(
+                self, anonymous, user_factory, brewery_factory, brew_factory
+            ):
+        owner = user_factory(is_public=True)
+        brewery = brewery_factory(name='brewery no 1', brewer=owner)
+        public_brew = brew_factory(brewery=brewery, name='public brew', is_public=True)
+        pb_url = url_for('brew.details', brew_id=public_brew.id)
+        hidden_brew = brew_factory(brewery=brewery, name='hidden brew', is_public=False)
+        hb_url = url_for('brew.details', brew_id=hidden_brew.id)
+        if not anonymous:
+            actor = user_factory()
+            self.login(actor.email)
+        rv = self.client.get(self.url(brewery))
+        assert f'href="{pb_url}"' in rv.text
+        assert f'href="{hb_url}"' not in rv.text
+
+    @pytest.mark.parametrize('anonymous', [True, False], ids=['anon', 'actor'])
+    def test_get_nonowner_hidden(self, anonymous, user_factory, brewery_factory):
+        owner = user_factory(is_public=False)
+        brewery = brewery_factory(name='brewery no 1', brewer=owner)
+        if not anonymous:
+            actor = user_factory()
+            self.login(actor.email)
+        rv = self.client.get(self.url(brewery))
+        assert rv.status_code == 404
+
+    @pytest.mark.parametrize('public', [True, False], ids=['public', 'hidden'])
+    def test_get_owner(self, public, user_factory, brewery_factory, brew_factory):
+        owner = user_factory(is_public=public)
+        brewery = brewery_factory(name='brewery no 1', brewer=owner)
+        public_brew = brew_factory(brewery=brewery, name='public brew', is_public=True)
+        pb_url = url_for('brew.details', brew_id=public_brew.id)
+        hidden_brew = brew_factory(brewery=brewery, name='hidden brew', is_public=False)
+        hb_url = url_for('brew.details', brew_id=hidden_brew.id)
+        self.login(owner.email)
+        rv = self.client.get(self.url(brewery))
+        assert f'href="{pb_url}"' in rv.text
+        assert f'href="{hb_url}"' in rv.text

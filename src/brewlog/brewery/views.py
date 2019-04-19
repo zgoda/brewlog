@@ -33,11 +33,13 @@ def brewery_add():
 @brewery_bp.route(
     '/<int:brewery_id>/delete', methods=['POST', 'GET'], endpoint='delete'
 )
-@login_required
 def brewery_delete(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
     if brewery.brewer != current_user:
-        abort(403)
+        if brewery.brewer.is_public:
+            abort(403)
+        else:
+            abort(404)
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
         name = brewery.name
@@ -109,9 +111,11 @@ def brewery(brewery_id):
 
 @brewery_bp.route('/<int:brewery_id>/brews', endpoint='brews')
 def brewery_brews(brewery_id):
+    brewery = Brewery.query.get_or_404(brewery_id)
+    if not brewery.brewer.is_public and brewery.brewer != current_user:
+        abort(404)
     page_size = 20
     page = get_page(request)
-    brewery = Brewery.query.get_or_404(brewery_id)
     utils = BreweryUtils(brewery)
     public_only = False
     if current_user.is_anonymous or (current_user != brewery.brewer):
