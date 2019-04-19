@@ -1,6 +1,5 @@
 {% extends "brewery/base.html" %}
 {% import "macros/forms.html" as forms %}
-{% import "macros/modelrender.html" as modelrender %}
 
 {% block headpagetitle %}{{ super() }} {{ brewery.name }}{% endblock %}
 
@@ -30,7 +29,7 @@
     </tr>
   </thead>
   <tbody>
-    {% for brew in brewery.recent_brews(public_only=only_public) %}
+    {% for brew in utils.recent_brews(public_only=only_public) %}
     <tr>
       <td>{% if brew.date_brewed %}{{ brew.date_brewed|dateformat("short") }}{% else %}{{ gettext('not brewed yet') }}{% endif %}</td>
       <td><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.name }}</a></td>

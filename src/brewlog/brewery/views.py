@@ -101,6 +101,7 @@ def brewery(brewery_id):
             return redirect(request.path)
     ctx = {
         'brewery': brewery,
+        'utils': BreweryUtils(brewery),
         'form': form or BreweryForm(obj=brewery),
     }
     return render_template('brewery/details.html', **ctx)
@@ -111,12 +112,13 @@ def brewery_brews(brewery_id):
     page_size = 20
     page = get_page(request)
     brewery = Brewery.query.get_or_404(brewery_id)
+    utils = BreweryUtils(brewery)
     public_only = False
     if current_user.is_anonymous or (current_user != brewery.brewer):
         if not brewery.has_access(current_user):
             abort(404)
         public_only = True
-    brewery_brews = brewery.all_brews(public_only=public_only)
+    brewery_brews = utils.recent_brews(public_only=public_only, limit=None)
     pagination = brewery_brews.paginate(page, page_size)
     ctx = {
         'brewery': brewery,

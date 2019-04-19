@@ -45,7 +45,7 @@ $(document).ready(function() {
   </div>
 </div>
 {% endif %}
-{% if brew.user_is_brewer(current_user) and utils.state_changeable(brew) %}
+{% if brew.brewery.brewer == current_user and utils.state_changeable(brew) %}
 <h3>{{ gettext("change state").capitalize() }}</h3>
 <p><strong>{{ gettext('current state').capitalize() }}</strong>: {{ brew.current_state[0] }}{% if brew.current_state[1] %} {{ gettext('since %(date)s', date=format_date(brew.current_state[1], 'short')) }}{% endif %}</p>
 {{ forms.render_form(action_form, url_for('brew.chgstate', brew_id=brew.id)) }}
@@ -56,7 +56,7 @@ $(document).ready(function() {
 {% if current_user.is_authenticated and brew.is_brewed_yet %}
 <p><a href="{{ url_for('tastingnote.add', brew_id=brew.id) }}" class="btn btn-primary">{{ gettext("add tasting note") }}</a></p>
 {% endif %}
-{% if brew.user_is_brewer(current_user) %}
+{% if brew.brewery.brewer == current_user %}
 <h3>{{ gettext("edit brew").capitalize() }}</h3>
 {{ forms.render_form(form, url_for('brew.details', brew_id=brew.id)) }}
 {% endif %}

@@ -3,12 +3,16 @@
 # license that can be found in the LICENSE file.
 
 from flask import abort, jsonify, request, url_for
+from sqlalchemy_utils import sort_query
 
 from ..ext import db
 from ..models import BrewerProfile, Brewery
 
 
 class BreweryUtils:
+
+    def __init__(self, brewery):
+        self.brewery = brewery
 
     @staticmethod
     def breweries(public_only=True, extra_user=None):
@@ -40,11 +44,26 @@ class BreweryUtils:
             breweries_list.append({'name': name, 'url': url})
         return jsonify(breweries_list)
 
+    @staticmethod
+    def brews(brewery, order, public_only=True, limit=None):
+        query = brewery.brews.filter_by(is_draft=False)
+        if public_only:
+            query = query.filter_by(is_public=True)
+        query = sort_query(query, order)
+        if limit is not None:
+            query = query.limit(limit)
+        return query
+
+    def recent_brews(self, public_only=True, limit=10):
+        return self.brews(
+            self.brewery, order='-brew-created', public_only=public_only, limit=limit
+        )
+
 
 def check_brewery(brewery_id, user):
     brewery = Brewery.query.get_or_404(brewery_id)
     if not brewery.has_access(user):
         abort(404)
-    if request.method == 'POST' and user not in brewery.brewers:
+    if request.method == 'POST' and user != brewery.brewer:
         abort(403)
     return brewery

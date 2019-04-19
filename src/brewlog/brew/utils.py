@@ -125,7 +125,7 @@ def list_query_for_user(user):
 def check_brew(brew_id, user, strict=False):
     brew = Brew.query.get_or_404(brew_id)
     if strict:
-        if not brew.user_is_brewer(user):
+        if brew.brewery.brewer != user:
             abort(403)
     else:
         if not brew.has_access(user):

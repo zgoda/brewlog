@@ -53,7 +53,7 @@ def brew(brew_id):
     brew = check_brew(brew_id, current_user)
     brew_form = None
     if request.method == 'POST':
-        if not brew.user_is_brewer(current_user):
+        if brew.brewery.brewer != current_user:
             abort(403)
         brew_form = BrewForm()
         if brew_form.validate_on_submit():
@@ -63,7 +63,7 @@ def brew(brew_id):
                 category='success'
             )
             return redirect(request.path)
-    public_only = not brew.user_is_brewer(current_user)
+    public_only = brew.brewery.brewer != current_user
     ctx = {
         'brew': brew,
         'utils': BrewUtils,

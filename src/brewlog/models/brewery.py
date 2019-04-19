@@ -5,9 +5,6 @@
 import datetime
 
 import markdown
-from flask_babel import format_date
-from flask_babel import lazy_gettext as _
-from sqlalchemy_utils import sort_query
 
 from ..ext import db
 
@@ -32,33 +29,6 @@ class Brewery(db.Model):
         'BrewerProfile',
         backref=db.backref('breweries', lazy='dynamic', cascade='all,delete-orphan'),
     )
-
-    @property
-    def brewers(self):
-        return [self.brewer]
-
-    def _brews(self, order, public_only=False, limit=None):
-        query = self.brews.filter_by(is_draft=False)
-        if public_only:
-            query = query.filter_by(is_public=True)
-        query = sort_query(query, order)
-        if limit is not None:
-            query = query.limit(limit)
-        return query
-
-    def recent_brews(self, public_only=False, limit=10):
-        return self._brews(public_only=public_only, limit=limit, order='-brew-created')
-
-    def all_brews(self, public_only=False):
-        return self._brews(public_only=public_only, order='-brew-created')
-
-    @property
-    def render_fields(self):
-        return (
-            (_('name'), self.name),
-            (_('description'), self.description),
-            (_('established'), format_date(self.established_date, 'medium')),
-        )
 
     def has_access(self, user):
         if self.brewer != user and not self.brewer.has_access(user):

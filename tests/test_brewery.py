@@ -23,66 +23,6 @@ class TestBrewery(BrewlogTests):
             brewer=self.hidden_user, name='hidden brewery no 1'
         )
 
-    def test_nonowner_view_list(self):
-        """
-        Hidden breweries can not be seen by non owner
-        """
-        url = url_for('brewery.all')
-        self.login(self.public_brewery.brewer.email)
-        rv = self.client.get(url)
-        assert self.hidden_brewery.name not in rv.text
-        assert url_for('brewery.delete', brewery_id=self.public_brewery.id) in rv.text
-
-    def test_owner_view_list(self):
-        """
-        Owner of hidden brewery can see it on the list
-        """
-        url = url_for('brewery.all')
-        self.login(self.hidden_brewery.brewer.email)
-        rv = self.client.get(url)
-        assert self.hidden_brewery.name in rv.text
-        assert url_for('brewery.delete', brewery_id=self.hidden_brewery.id) in rv.text
-
-    def test_anon_view_list(self):
-        url = url_for('brewery.all')
-        rv = self.client.get(url)
-        assert self.hidden_brewery.name not in rv.text
-        assert self.public_brewery.name in rv.text
-        assert url_for(
-            'brewery.delete', brewery_id=self.public_brewery.id
-        ) not in rv.text
-
-    def test_nonowner_view(self):
-        """
-        View by ordinary user:
-            * only basic information if public
-            * 404 if hidden
-        """
-        pb_url = url_for('brewery.details', brewery_id=self.public_brewery.id)
-        rv = self.client.get(pb_url)
-        assert self.public_brewery.name in rv.text
-        assert f'action="{pb_url}"' not in rv.text
-        rv = self.client.get(
-            url_for('brewery.details', brewery_id=self.hidden_brewery.id)
-        )
-        assert rv.status_code == 404
-
-    def test_owner_view(self):
-        """
-        View by logged in user, owner of one of the breweries:
-            * only basic information in non-owned
-            * form in owned, even if hidden
-        """
-        pb_url = url_for('brewery.details', brewery_id=self.public_brewery.id)
-        self.login(self.hidden_brewery.brewer.email)
-        rv = self.client.get(pb_url)
-        assert self.public_brewery.name in rv.text
-        assert f'action="{pb_url}"' not in rv.text
-        rv = self.client.get(
-            url_for('brewery.details', brewery_id=self.hidden_brewery.id)
-        )
-        assert '<form' in rv.text
-
     def test_nonowner_change(self):
         """
         Change data by non owner:

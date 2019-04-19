@@ -124,9 +124,6 @@ class Brew(db.Model):
             return False
         return True
 
-    def user_is_brewer(self, user):
-        return user in self.brewery.brewers
-
     def notes_to_json(self):
         notes = {}
         for note in self.tasting_notes:
