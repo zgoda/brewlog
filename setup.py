@@ -64,8 +64,6 @@ setup(
         'Markdown',
         'WTForms-Alchemy',
         'attrs',
-        # pinned for sanity
-        'SQLAlchemy<1.3',
     ),
     setup_requires=(
         'pytest-runner',

@@ -11,6 +11,3 @@ Markdown
 WTForms-Alchemy
 WTForms-Components
 attrs
-
-# pinned for sanity
-SQLAlchemy<1.3
