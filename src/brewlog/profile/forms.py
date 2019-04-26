@@ -31,13 +31,12 @@ class ProfileForm(BaseObjectForm):
     def validate(self):
         result = super().validate()
         has_name = self.first_name.data and self.last_name.data
-        has_nick = bool(self.nick.data)
+        has_nick = self.nick.data
         name_valid = True
-        if not any([has_name, has_nick]):
+        if not (has_name or has_nick):
             name_valid = False
             msg = _('please provide full name or nick')
-            if not has_name:
-                self.last_name.errors.append(msg)
-            else:
-                self.nick.errors.append(msg)
+            self.last_name.errors.append(msg)
+            self.first_name.errors.append(msg)
+            self.nick.errors.append(msg)
         return result and name_valid

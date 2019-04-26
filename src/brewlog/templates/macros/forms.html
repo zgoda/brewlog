@@ -43,7 +43,7 @@
 
 {% macro render_form(form, action) %}
 {% set hints = kwargs.pop('hints', None) %}
-<form method="post" action="{{ action }}" class="form form-horizontal" role="form">
+<form method="post" action="{{ action }}" class="form form-horizontal" role="form" novalidate>
 {{ render_form_fields(form, hints=hints) }}
 {{ render_form_buttons(form.buttons) }}
 </form>

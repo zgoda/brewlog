@@ -58,8 +58,9 @@
         </div>
       </nav>
 
+      {% with flashes = get_flashed_messages(with_categories=True) %}
+      {% if flashes %}
       <div class="row my-2">
-        {% with flashes = get_flashed_messages(with_categories=True) %}
         <div class="col-12">
           {% for category, flash in flashes %}
           <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
@@ -68,8 +69,9 @@
           </div>
           {% endfor %}
         </div>
-        {% endwith %}
       </div>
+      {% endif %}
+      {% endwith %}
 
       <div class="row my-2">
         <div class="col-12">

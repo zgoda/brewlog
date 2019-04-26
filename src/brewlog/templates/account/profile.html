@@ -33,7 +33,7 @@
 </ul>
 <p><a href="{{ url_for('profile.brews', user_id=profile.id) }}">{{ gettext('see all').capitalize() }}</a></p>
 {% endif %}
-{% if form and (profile.breweries or profile.other_breweries) %}
+{% if form and profile.breweries.count() %}
 <p><a href="{{ url_for('brew.add') }}" class="btn btn-sm btn-primary">{{ gettext("add new brew") }}</a></p>
 {% endif %}
 {% endblock %}

@@ -50,10 +50,6 @@ class BrewerProfile(UserMixin, db.Model):
                 return value
         return _('wanting to stay anonymous')
 
-    @property
-    def other_breweries(self):
-        return []
-
     @classmethod
     def get_by_email(cls, email):
         return cls.query.filter_by(email=email).first()

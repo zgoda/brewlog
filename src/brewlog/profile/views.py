@@ -20,13 +20,15 @@ def profile(user_id):
     user_profile = BrewerProfile.query.get_or_404(user_id)
     if not user_profile.has_access(current_user):
         abort(404)
-    if request.method == 'POST' and current_user != user_profile:
-        abort(403)
-    form = ProfileForm()
-    if form.validate_on_submit():
-        profile = form.save(obj=user_profile)
-        flash(_('your profile data has been updated'), category='success')
-        return redirect(url_for('.details', user_id=profile.id))
+    form = None
+    if request.method == 'POST':
+        if current_user != user_profile:
+            abort(403)
+        form = ProfileForm()
+        if form.validate_on_submit():
+            profile = form.save(obj=user_profile)
+            flash(_('your profile data has been updated'), category='success')
+            return redirect(url_for('.details', user_id=profile.id))
     context = {
         'data': user_profile.nick,
         'data_type': 'summary',
@@ -36,7 +38,7 @@ def profile(user_id):
     context['data'] = user_profile.full_data()
     context['data_type'] = 'full'
     if user_profile == current_user:
-        context['form'] = ProfileForm(obj=user_profile)
+        context['form'] = form or ProfileForm(obj=user_profile)
     return render_template('account/profile.html', **context)
 
 
@@ -45,7 +47,9 @@ def profile(user_id):
 def profile_delete(user_id):
     profile = BrewerProfile.query.get_or_404(user_id)
     if current_user != profile:
-        abort(403)
+        if profile.is_public:
+            abort(403)
+        abort(404)
     email = profile.email
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
