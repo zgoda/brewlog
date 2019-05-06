@@ -2,8 +2,6 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-import datetime
-
 from flask import url_for
 import pytest
 
@@ -69,49 +67,6 @@ class TastingTests(BrewlogTests):
 
 @pytest.mark.usefixtures('client_class')
 class TestTastingNote(TastingTests):
-
-    def test_create_for_public_brew(self):
-        """
-        All logged in users can add tasting notes to public brews
-        """
-        url = url_for('tastingnote.add', brew_id=self.public_brewery_public_brew.id)
-        self.login(self.extra_user.email)
-        rv = self.client.get(url)
-        assert f'action="{url}"' in rv.text
-        data = {
-            'text': 'Nice beer, cheers!',
-            'date': datetime.date.today().isoformat(),
-        }
-        rv = self.client.post(url, data=data, follow_redirects=True)
-        assert data['text'] in rv.text
-
-    def test_create_for_hidden_brew_direct(self):
-        """
-        Users can not add tasting notes to hidden brews
-        """
-        url = url_for('tastingnote.add', brew_id=self.public_brewery_hidden_brew.id)
-        self.login(self.extra_user.email)
-        rv = self.client.get(url)
-        assert rv.status_code == 404
-        data = {
-            'text': 'Nice beer, cheers!'
-        }
-        rv = self.client.post(url, data=data)
-        assert rv.status_code == 404
-
-    def test_create_for_hidden_brew_indirect(self):
-        """
-        Users can not add tasting notes to brews of hidden brewery
-        """
-        url = url_for('tastingnote.add', brew_id=self.hidden_brewery_public_brew.id)
-        self.login(self.extra_user.email)
-        rv = self.client.get(url)
-        assert rv.status_code == 404
-        data = {
-            'text': 'Nice beer, cheers!'
-        }
-        rv = self.client.post(url, data=data)
-        assert rv.status_code == 404
 
     def test_delete_by_author(self):
         """

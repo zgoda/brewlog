@@ -112,11 +112,24 @@ class TestTastingNoteCreateView(BrewlogTests):
         rv = self.client.get(url)
         assert f'action="{url}"' in rv.text
 
+    def test_post_authenticated_to_public(self, brew_factory, user_factory):
+        brew = brew_factory(brewery=self.public_brewery)
+        text = 'Nice beer, cheers!'
+        data = {
+            'text': text,
+            'date': datetime.date.today().isoformat(),
+        }
+        url = url_for('tastingnote.add', brew_id=brew.id)
+        actor = user_factory()
+        self.login(actor.email)
+        rv = self.client.post(url, data=data, follow_redirects=True)
+        assert f'<p>{text}</p>' in rv.text
+
     @pytest.mark.parametrize('brewer,brew', [
         (True, True),
         (True, False),
         (False, True)
-    ], ids=[])
+    ], ids=['hidden-hidden', 'hidden-public', 'public-hidden'])
     def test_get_authenticated_to_hidden(
                 self, brewer, brew, brew_factory, user_factory
             ):
@@ -130,4 +143,29 @@ class TestTastingNoteCreateView(BrewlogTests):
         actor = user_factory()
         self.login(actor.email)
         rv = self.client.get(url)
+        assert rv.status_code == 404
+
+    @pytest.mark.parametrize('brewer,brew', [
+        (True, True),
+        (True, False),
+        (False, True)
+    ], ids=['hidden-hidden', 'hidden-public', 'public-hidden'])
+    def test_post_authenticated_to_hidden(
+                self, brewer, brew, brew_factory, user_factory
+            ):
+        if brewer is True:
+            brewery = self.hidden_brewery
+        else:
+            brewery = self.public_brewery
+        hidden_brew = not brew
+        brew = brew_factory(brewery=brewery, is_public=hidden_brew)
+        url = url_for('tastingnote.add', brew_id=brew.id)
+        actor = user_factory()
+        self.login(actor.email)
+        text = 'Nice beer, cheers!'
+        data = {
+            'text': text,
+            'date': datetime.date.today().isoformat(),
+        }
+        rv = self.client.post(url, data=data)
         assert rv.status_code == 404
