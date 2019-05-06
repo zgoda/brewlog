@@ -2,6 +2,8 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+import datetime
+
 import pytest
 from flask import url_for
 
@@ -56,35 +58,76 @@ class TestTastingNoteCreateView(BrewlogTests):
 
     @pytest.fixture(autouse=True)
     def set_up(self, user_factory, brewery_factory):
-        self.public_user = user_factory()
+        self.public_user = user_factory(is_public=True)
         self.public_brewery = brewery_factory(brewer=self.public_user)
         self.hidden_user = user_factory(is_public=False)
         self.hidden_brewery = brewery_factory(brewer=self.hidden_user)
 
-    def test_get_create_anon_to_public(self, brew_factory):
-        brew = brew_factory(brewery=self.public_brewery)
+    @pytest.mark.parametrize('public', [
+        True, False
+    ], ids=['public', 'hidden'])
+    def test_get_anon(self, public, brew_factory):
+        brew = brew_factory(brewery=self.public_brewery, is_public=public)
         url = url_for('tastingnote.add', brew_id=brew.id)
         rv = self.client.get(url)
         assert rv.status_code == 302
         assert url_for('auth.select') in rv.headers['location']
 
-    def test_get_create_anon_to_hidden(self, brew_factory):
-        brew = brew_factory(brewery=self.public_brewery, is_public=False)
+    def test_get_anon_hidden_indirect(self, brew_factory):
+        brew = brew_factory(brewery=self.hidden_brewery, is_public=True)
         url = url_for('tastingnote.add', brew_id=brew.id)
         rv = self.client.get(url)
         assert rv.status_code == 302
         assert url_for('auth.select') in rv.headers['location']
 
-    def test_get_create_authenticated_to_public(self, brew_factory):
+    @pytest.mark.parametrize('public', [
+        True, False
+    ], ids=['public', 'hidden'])
+    def test_post_anon(self, public, brew_factory):
+        brew = brew_factory(brewery=self.public_brewery, is_public=public)
+        data = {
+            'text': 'Nice beer, cheers!',
+            'date': datetime.date.today().isoformat(),
+        }
+        url = url_for('tastingnote.add', brew_id=brew.id)
+        rv = self.client.post(url, data=data)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['location']
+
+    def test_post_anon_hidden_indirect(self, brew_factory):
+        brew = brew_factory(brewery=self.hidden_brewery, is_public=True)
+        data = {
+            'text': 'Nice beer, cheers!',
+            'date': datetime.date.today().isoformat(),
+        }
+        url = url_for('tastingnote.add', brew_id=brew.id)
+        rv = self.client.post(url, data=data)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['location']
+
+    def test_get_authenticated_to_public(self, brew_factory):
         brew = brew_factory(brewery=self.public_brewery)
         url = url_for('tastingnote.add', brew_id=brew.id)
         self.login(self.hidden_user.email)
         rv = self.client.get(url)
         assert f'action="{url}"' in rv.text
 
-    def test_get_create_authenticated_to_hidden(self, brew_factory):
-        brew = brew_factory(brewery=self.public_brewery, is_public=False)
+    @pytest.mark.parametrize('brewer,brew', [
+        (True, True),
+        (True, False),
+        (False, True)
+    ], ids=[])
+    def test_get_authenticated_to_hidden(
+                self, brewer, brew, brew_factory, user_factory
+            ):
+        if brewer is True:
+            brewery = self.hidden_brewery
+        else:
+            brewery = self.public_brewery
+        hidden_brew = not brew
+        brew = brew_factory(brewery=brewery, is_public=hidden_brew)
         url = url_for('tastingnote.add', brew_id=brew.id)
-        self.login(self.hidden_user.email)
+        actor = user_factory()
+        self.login(actor.email)
         rv = self.client.get(url)
-        assert rv.status_code == 403
+        assert rv.status_code == 404

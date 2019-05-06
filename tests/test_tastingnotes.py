@@ -92,12 +92,12 @@ class TestTastingNote(TastingTests):
         url = url_for('tastingnote.add', brew_id=self.public_brewery_hidden_brew.id)
         self.login(self.extra_user.email)
         rv = self.client.get(url)
-        assert rv.status_code == 403
+        assert rv.status_code == 404
         data = {
             'text': 'Nice beer, cheers!'
         }
         rv = self.client.post(url, data=data)
-        assert rv.status_code == 403
+        assert rv.status_code == 404
 
     def test_create_for_hidden_brew_indirect(self):
         """
@@ -106,12 +106,12 @@ class TestTastingNote(TastingTests):
         url = url_for('tastingnote.add', brew_id=self.hidden_brewery_public_brew.id)
         self.login(self.extra_user.email)
         rv = self.client.get(url)
-        assert rv.status_code == 403
+        assert rv.status_code == 404
         data = {
             'text': 'Nice beer, cheers!'
         }
         rv = self.client.post(url, data=data)
-        assert rv.status_code == 403
+        assert rv.status_code == 404
 
     def test_delete_by_author(self):
         """

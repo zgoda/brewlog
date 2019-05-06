@@ -38,8 +38,9 @@ def all_tasting_notes():
 @login_required
 def brew_add_tasting_note(brew_id):
     brew = Brew.query.get_or_404(brew_id)
-    if not brew.has_access(current_user):
-        abort(403)
+    if not (brew.is_public and brew.brewery.brewer.is_public) \
+            and brew.brewery.brewer != current_user:
+        abort(404)
     form = TastingNoteForm()
     if form.validate_on_submit():
         form.save(brew)
@@ -84,9 +85,7 @@ def brew_load_tasting_note_text():
     if not provided_id:
         abort(400)
     note_id = provided_id.rsplit('_', 1)[-1]
-    note = TastingNote.query.get(note_id)
-    if note is None:
-        abort(404)
+    note = TastingNote.query.get_or_404(note_id)
     return note.text
 
 
@@ -96,9 +95,7 @@ def brew_update_tasting_note():
     note_id = request.form.get('pk')
     if not note_id:
         abort(400)
-    note = TastingNote.query.get(note_id)
-    if note is None:
-        abort(404)
+    note = TastingNote.query.get_or_404(note_id)
     if current_user not in (note.author, note.brew.brewery.brewer) \
             or not note.brew.has_access(current_user):
         abort(403)
