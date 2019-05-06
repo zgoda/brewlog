@@ -58,6 +58,9 @@ def brew_add_tasting_note(brew_id):
 @login_required
 def brew_delete_tasting_note(note_id):
     note = TastingNote.query.get_or_404(note_id)
+    if not (note.brew.is_public and note.brew.brewery.brewer.is_public) \
+            and current_user != note.brew.brewery.brewer:
+        abort(404)
     if current_user not in (note.author, note.brew.brewery.brewer):
         abort(403)
     brew = note.brew

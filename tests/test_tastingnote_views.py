@@ -169,3 +169,92 @@ class TestTastingNoteCreateView(BrewlogTests):
         }
         rv = self.client.post(url, data=data)
         assert rv.status_code == 404
+
+
+@pytest.mark.usefixtures('client_class')
+class TestTastingNoteDeleteView(BrewlogTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self, user_factory, brewery_factory):
+        self.public_user = user_factory(is_public=True)
+        self.public_brewery = brewery_factory(brewer=self.public_user)
+        self.hidden_user = user_factory(is_public=False)
+        self.hidden_brewery = brewery_factory(brewer=self.hidden_user)
+        self.author = user_factory()
+
+    def url(self, note):
+        return url_for('tastingnote.delete', note_id=note.id)
+
+    @pytest.mark.parametrize('public', [
+        True, False
+    ], ids=['public', 'hidden'])
+    def test_get_anon(self, public, brew_factory, tasting_note_factory):
+        brew = brew_factory(brewery=self.public_brewery, is_public=public)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        url = self.url(note)
+        rv = self.client.get(url)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['location']
+
+    def test_get_anon_hidden_indirect(self, brew_factory, tasting_note_factory):
+        brew = brew_factory(brewery=self.hidden_brewery, is_public=True)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        url = self.url(note)
+        rv = self.client.get(url)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['location']
+
+    @pytest.mark.parametrize('public', [
+        True, False
+    ], ids=['public', 'hidden'])
+    def test_post_anon(self, public, brew_factory, tasting_note_factory):
+        brew = brew_factory(brewery=self.public_brewery, is_public=public)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        url = self.url(note)
+        data = {'delete_it': True}
+        rv = self.client.post(url, data=data)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['location']
+
+    def test_post_anon_hidden_indirect(self, brew_factory, tasting_note_factory):
+        brew = brew_factory(brewery=self.hidden_brewery, is_public=True)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        url = self.url(note)
+        data = {'delete_it': True}
+        rv = self.client.post(url, data=data)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['location']
+
+    def test_get_authenticated_to_public(
+                self, user_factory, brew_factory, tasting_note_factory
+            ):
+        brew = brew_factory(brewery=self.public_brewery, is_public=True)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        actor = user_factory()
+        url = self.url(note)
+        self.login(actor.email)
+        rv = self.client.get(url)
+        assert rv.status_code == 403
+
+    def test_post_authenticated_to_public(
+                self, user_factory, brew_factory, tasting_note_factory
+            ):
+        brew = brew_factory(brewery=self.public_brewery, is_public=True)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        actor = user_factory()
+        url = self.url(note)
+        data = {'delete_it': True}
+        self.login(actor.email)
+        rv = self.client.get(url, data=data)
+        assert rv.status_code == 403
+
+    def test_get_authenticated_to_hidden(
+                self, user_factory, brew_factory, tasting_note_factory
+            ):
+        brew = brew_factory(brewery=self.public_brewery, is_public=False)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        actor = user_factory()
+        url = self.url(note)
+        self.login(actor.email)
+        rv = self.client.get(url)
+        assert rv.status_code == 404

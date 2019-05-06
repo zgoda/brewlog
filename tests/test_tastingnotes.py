@@ -107,21 +107,6 @@ class TestTastingNote(TastingTests):
         rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
         assert note.text not in rv.text
 
-    def test_delete_by_public(self):
-        """
-        Not involved in logged users can't delete notes
-        """
-        note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user,
-            'Nice beer, cheers!', commit=True,
-        )
-        url = url_for('tastingnote.delete', note_id=note.id)
-        self.login(self.hidden_user.email)
-        rv = self.client.post(
-            url, data={'delete_it': True}, follow_redirects=True
-        )
-        assert rv.status_code == 403
-
 
 @pytest.mark.usefixtures('client_class')
 class TestTastingNoteAjax(TastingTests):

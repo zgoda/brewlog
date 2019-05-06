@@ -20,5 +20,6 @@ SSL
 ---
 
 Because the app uses OAuth2 for user identification, it's really necessary to
-run it secured with SSL or the providers will refuse to issue authentication
-codes.
+run it secured with SSL or some providers will refuse to issue authentication
+tokens. I recommend LetsEncrypt, it's quite simple, it's free and almost
+maintenance free.
