@@ -196,8 +196,13 @@ class TestTastingNoteDeleteView(BrewlogTests):
         assert rv.status_code == 302
         assert url_for('auth.select') in rv.headers['location']
 
-    def test_get_anon_hidden_indirect(self, brew_factory, tasting_note_factory):
-        brew = brew_factory(brewery=self.hidden_brewery, is_public=True)
+    @pytest.mark.parametrize('public_brew', [
+        True, False
+    ], ids=['public', 'hidden'])
+    def test_get_anon_hidden_indirect(
+                self, public_brew, brew_factory, tasting_note_factory
+            ):
+        brew = brew_factory(brewery=self.hidden_brewery, is_public=public_brew)
         note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
         url = self.url(note)
         rv = self.client.get(url)
@@ -216,8 +221,13 @@ class TestTastingNoteDeleteView(BrewlogTests):
         assert rv.status_code == 302
         assert url_for('auth.select') in rv.headers['location']
 
-    def test_post_anon_hidden_indirect(self, brew_factory, tasting_note_factory):
-        brew = brew_factory(brewery=self.hidden_brewery, is_public=True)
+    @pytest.mark.parametrize('public_brew', [
+        True, False
+    ], ids=['public', 'hidden'])
+    def test_post_anon_hidden_indirect(
+                self, public_brew, brew_factory, tasting_note_factory
+            ):
+        brew = brew_factory(brewery=self.hidden_brewery, is_public=public_brew)
         note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
         url = self.url(note)
         data = {'delete_it': True}
@@ -257,4 +267,31 @@ class TestTastingNoteDeleteView(BrewlogTests):
         url = self.url(note)
         self.login(actor.email)
         rv = self.client.get(url)
+        assert rv.status_code == 404
+
+    def test_post_authenticated_to_hidden(
+                self, user_factory, brew_factory, tasting_note_factory
+            ):
+        brew = brew_factory(brewery=self.public_brewery, is_public=False)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        actor = user_factory()
+        url = self.url(note)
+        data = {'delete_it': True}
+        self.login(actor.email)
+        rv = self.client.get(url, data=data)
+        assert rv.status_code == 404
+
+    @pytest.mark.parametrize('public_brew', [
+        True, False
+    ], ids=['public', 'hidden'])
+    def test_post_authenticated_to_hidden_indirect(
+                self, public_brew, user_factory, brew_factory, tasting_note_factory
+            ):
+        brew = brew_factory(brewery=self.hidden_brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        actor = user_factory()
+        url = self.url(note)
+        data = {'delete_it': True}
+        self.login(actor.email)
+        rv = self.client.get(url, data=data)
         assert rv.status_code == 404
