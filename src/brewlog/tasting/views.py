@@ -99,8 +99,10 @@ def brew_update_tasting_note():
     if not note_id:
         abort(400)
     note = TastingNote.query.get_or_404(note_id)
-    if current_user not in (note.author, note.brew.brewery.brewer) \
-            or not note.brew.has_access(current_user):
+    if not (note.brew.is_public and note.brew.brewery.brewer.is_public) \
+            and current_user != note.brew.brewery.brewer:
+        abort(404)
+    if current_user not in (note.author, note.brew.brewery.brewer):
         abort(403)
     value = request.form.get('value', '').strip()
     if value:

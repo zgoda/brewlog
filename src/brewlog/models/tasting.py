@@ -35,13 +35,11 @@ class TastingNote(db.Model):
     )
 
     @classmethod
-    def create_for(cls, brew, author, text, date=None, commit=False):
+    def create_for(cls, brew, author, text, date=None):
         note = cls(brew=brew, author=author, text=text)
         note.date = date or datetime.date.today()
         db.session.add(note)
         db.session.flush()
-        if commit:
-            db.session.commit()
         return note
 
 

@@ -7,6 +7,8 @@ import datetime
 import pytest
 from flask import url_for
 
+from brewlog.models import TastingNote
+
 from . import BrewlogTests
 
 
@@ -397,3 +399,269 @@ class TestTastingNoteDeleteView(BrewlogTests):
         self.login(brewery.brewer.email)
         rv = self.client.post(url, data=data, follow_redirects=True)
         assert 'has been deleted' in rv.text
+
+
+@pytest.mark.usefixtures('client_class')
+class TestTastingNoteLoadView(BrewlogTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self, user_factory, brewery_factory):
+        self.public_user = user_factory()
+        self.public_brewery = brewery_factory(brewer=self.public_user)
+        self.hidden_user = user_factory(is_public=False)
+        self.hidden_brewery = brewery_factory(brewer=self.hidden_user)
+        self.author = user_factory()
+        self.url = url_for('tastingnote.loadtext')
+
+    def test_missing_note_id(self):
+        rv = self.client.get(self.url)
+        assert rv.status_code == 400
+
+    def test_nonexisting_note_id(self):
+        rv = self.client.get(self.url, query_string={'id': 666})
+        assert rv.status_code == 404
+
+    @pytest.mark.parametrize('public_brewery,public_brew', [
+        (True, True),
+        (True, False),
+        (False, True),
+        (False, False),
+    ])
+    def test_get_anon(
+                self, public_brewery, public_brew, brew_factory, tasting_note_factory
+            ):
+        if public_brewery:
+            brewery = self.public_brewery
+        else:
+            brewery = self.hidden_brewery
+        brew = brew_factory(brewery=brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        rv = self.client.get(self.url, query_string={'id': note.id})
+        assert rv.status_code == 200
+        assert note.text in rv.text
+
+    @pytest.mark.parametrize('public_brewery,public_brew', [
+        (True, True),
+        (True, False),
+        (False, True),
+        (False, False),
+    ])
+    def test_get_authenticated(
+                self, public_brewery, public_brew,
+                user_factory, brew_factory, tasting_note_factory,
+            ):
+        if public_brewery:
+            brewery = self.public_brewery
+        else:
+            brewery = self.hidden_brewery
+        brew = brew_factory(brewery=brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        actor = user_factory()
+        self.login(actor.email)
+        rv = self.client.get(self.url, query_string={'id': note.id})
+        assert rv.status_code == 200
+        assert note.text in rv.text
+
+    @pytest.mark.parametrize('public_brewery,public_brew', [
+        (True, True),
+        (True, False),
+        (False, True),
+        (False, False),
+    ])
+    def test_get_author(
+                self, public_brewery, public_brew, brew_factory, tasting_note_factory
+            ):
+        if public_brewery:
+            brewery = self.public_brewery
+        else:
+            brewery = self.hidden_brewery
+        brew = brew_factory(brewery=brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        self.login(self.author.email)
+        rv = self.client.get(self.url, query_string={'id': note.id})
+        assert rv.status_code == 200
+        assert note.text in rv.text
+
+    @pytest.mark.parametrize('public_brewery,public_brew', [
+        (True, True),
+        (True, False),
+        (False, True),
+        (False, False),
+    ])
+    def test_get_owner(
+                self, public_brewery, public_brew, brew_factory, tasting_note_factory
+            ):
+        if public_brewery:
+            brewery = self.public_brewery
+        else:
+            brewery = self.hidden_brewery
+        brew = brew_factory(brewery=brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        self.login(brewery.brewer.email)
+        rv = self.client.get(self.url, query_string={'id': note.id})
+        assert rv.status_code == 200
+        assert note.text in rv.text
+
+
+@pytest.mark.usefixtures('client_class')
+class TestTastingNoteUpdateView(BrewlogTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self, user_factory, brewery_factory):
+        self.public_user = user_factory()
+        self.public_brewery = brewery_factory(brewer=self.public_user)
+        self.hidden_user = user_factory(is_public=False)
+        self.hidden_brewery = brewery_factory(brewer=self.hidden_user)
+        self.author = user_factory()
+        self.url = url_for('tastingnote.update')
+
+    @pytest.mark.parametrize('public_brewery,public_brew', [
+        (True, True),
+        (True, False),
+        (False, True),
+        (False, False)
+    ], ids=['public-public', 'public-hidden', 'hidden-public', 'hidden-hidden'])
+    def test_anon(
+                self, public_brewery, public_brew, brew_factory, tasting_note_factory
+            ):
+        if public_brewery:
+            brewery = self.public_brewery
+        else:
+            brewery = self.hidden_brewery
+        brew = brew_factory(brewery=brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        data = {
+            'pk': note.id,
+            'value': 'This brew is horrible!',
+        }
+        rv = self.client.post(self.url, data=data)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['location']
+
+    def test_authenticated_public(
+                self, user_factory, brew_factory, tasting_note_factory
+            ):
+        brew = brew_factory(brewery=self.public_brewery, is_public=True)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        data = {
+            'pk': note.id,
+            'value': 'This brew is horrible!',
+        }
+        actor = user_factory()
+        self.login(actor.email)
+        rv = self.client.post(self.url, data=data)
+        assert rv.status_code == 403
+
+    @pytest.mark.parametrize('public_brewery,public_brew', [
+        (True, False),
+        (False, True),
+        (False, False)
+    ], ids=['public-hidden', 'hidden-public', 'hidden-hidden'])
+    def test_authenticated_hidden(
+                self, public_brewery, public_brew,
+                user_factory, brew_factory, tasting_note_factory,
+            ):
+        if public_brewery:
+            brewery = self.public_brewery
+        else:
+            brewery = self.hidden_brewery
+        brew = brew_factory(brewery=brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        data = {
+            'pk': note.id,
+            'value': 'This brew is horrible!',
+        }
+        actor = user_factory()
+        self.login(actor.email)
+        rv = self.client.post(self.url, data=data)
+        assert rv.status_code == 404
+
+    def test_author_public(
+                self, brew_factory, tasting_note_factory
+            ):
+        brew = brew_factory(brewery=self.public_brewery, is_public=True)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        data = {
+            'pk': note.id,
+            'value': 'This brew is horrible!',
+        }
+        self.login(self.author.email)
+        rv = self.client.post(self.url, data=data)
+        note = TastingNote.query.get(note.id)
+        assert rv.text == note.text_html
+        assert note.text == data['value']
+
+    @pytest.mark.parametrize('public_brewery,public_brew', [
+        (True, False),
+        (False, True),
+        (False, False)
+    ], ids=['public-hidden', 'hidden-public', 'hidden-hidden'])
+    def test_author_hidden(
+                self, public_brewery, public_brew, brew_factory, tasting_note_factory
+            ):
+        if public_brewery:
+            brewery = self.public_brewery
+        else:
+            brewery = self.hidden_brewery
+        brew = brew_factory(brewery=brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        data = {
+            'pk': note.id,
+            'value': 'This brew is horrible!',
+        }
+        self.login(self.author.email)
+        rv = self.client.post(self.url, data=data)
+        assert rv.status_code == 404
+
+    @pytest.mark.parametrize('public_brewery,public_brew', [
+        (True, True),
+        (True, False),
+        (False, True),
+        (False, False)
+    ], ids=['public-public', 'public-hidden', 'hidden-public', 'hidden-hidden'])
+    def test_owner(
+                self, public_brewery, public_brew, brew_factory, tasting_note_factory
+            ):
+        if public_brewery:
+            brewery = self.public_brewery
+        else:
+            brewery = self.hidden_brewery
+        brew = brew_factory(brewery=brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        data = {
+            'pk': note.id,
+            'value': 'This brew is horrible!',
+        }
+        self.login(brewery.brewer.email)
+        rv = self.client.post(self.url, data=data)
+        note = TastingNote.query.get(note.id)
+        assert rv.text == note.text_html
+        assert note.text == data['value']
+
+    def test_empty_text(self, brew_factory, tasting_note_factory):
+        brew = brew_factory(brewery=self.public_brewery, is_public=True)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        data = {
+            'pk': note.id,
+            'value': '',
+        }
+        self.login(self.author.email)
+        rv = self.client.post(self.url, data=data)
+        assert rv.text == note.text_html
+
+    def test_missing_pk(self):
+        data = {
+            'value': 'This brew is horrible!',
+        }
+        self.login(self.author.email)
+        rv = self.client.post(self.url, data=data)
+        assert rv.status_code == 400
+
+    def test_nonexisting_pk(self):
+        data = {
+            'pk': 666,
+            'value': 'This brew is horrible!',
+        }
+        self.login(self.author.email)
+        rv = self.client.post(self.url, data=data)
+        assert rv.status_code == 404
