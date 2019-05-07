@@ -2,19 +2,20 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-from flask import abort, flash, redirect, render_template, request
+from flask import flash, redirect, render_template, request
 from flask_babel import lazy_gettext as _
 from flask_login import current_user, login_required
 
-from ..brewery import brewery_bp
-from ..brewery.forms import BreweryForm
 from ..ext import db
 from ..forms.base import DeleteForm
 from ..forms.utils import process_success
 from ..models import Brewery
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
-from .utils import BreweryUtils, check_brewery
+from . import brewery_bp
+from .forms import BreweryForm
+from .permissions import OwnerAccessPermission, PublicAccessPermission
+from .utils import BreweryUtils
 
 
 @brewery_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
@@ -35,11 +36,9 @@ def brewery_add():
 )
 def brewery_delete(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
-    if brewery.brewer != current_user:
-        if brewery.brewer.is_public:
-            abort(403)
-        else:
-            abort(404)
+    for perm in (PublicAccessPermission(brewery), OwnerAccessPermission(brewery)):
+        if not perm.check():
+            perm.deny()
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
         name = brewery.name
@@ -90,9 +89,15 @@ def search():
     '/<int:brewery_id>', methods=['POST', 'GET'], endpoint='details',
 )
 def brewery(brewery_id):
-    brewery = check_brewery(brewery_id, current_user)
+    brewery = Brewery.query.get_or_404(brewery_id)
+    perm = PublicAccessPermission(brewery)
+    if not perm.check():
+        perm.deny()
     form = None
     if request.method == 'POST':
+        perm = OwnerAccessPermission(brewery)
+        if not perm.check():
+            perm.deny()
         form = BreweryForm()
         if form.validate_on_submit():
             brewery = form.save(obj=brewery)
@@ -112,15 +117,14 @@ def brewery(brewery_id):
 @brewery_bp.route('/<int:brewery_id>/brews', endpoint='brews')
 def brewery_brews(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
-    if not brewery.brewer.is_public and brewery.brewer != current_user:
-        abort(404)
+    perm = PublicAccessPermission(brewery)
+    if not perm.check():
+        perm.deny()
     page_size = 20
     page = get_page(request)
     utils = BreweryUtils(brewery)
     public_only = False
     if current_user.is_anonymous or (current_user != brewery.brewer):
-        if not brewery.has_access(current_user):
-            abort(404)
         public_only = True
     brewery_brews = utils.recent_brews(public_only=public_only, limit=None)
     pagination = brewery_brews.paginate(page, page_size)

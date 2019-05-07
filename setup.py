@@ -64,6 +64,7 @@ setup(
         'Markdown',
         'WTForms-Alchemy',
         'attrs',
+        'permission',
     ),
     setup_requires=(
         'pytest-runner',

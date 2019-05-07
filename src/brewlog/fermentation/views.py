@@ -2,14 +2,15 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-from flask import abort, flash, redirect, render_template, url_for
+from flask import flash, redirect, render_template, url_for
 from flask_babel import lazy_gettext as _
-from flask_login import current_user, login_required
+from flask_login import login_required
 
-from . import ferm_bp
+from ..brew.permissions import OwnerAccessPermission, PublicAccessPermission
 from ..ext import db
 from ..forms.base import DeleteForm
 from ..models import Brew, FermentationStep
+from . import ferm_bp
 from .forms import FermentationStepForm
 from .utils import update_steps_gravity
 
@@ -21,8 +22,9 @@ from .utils import update_steps_gravity
 @login_required
 def fermentation_step_add(brew_id):
     brew = Brew.query.get_or_404(brew_id)
-    if brew.brewery.brewer != current_user:
-        abort(403)
+    for perm in (PublicAccessPermission(brew), OwnerAccessPermission(brew)):
+        if not perm.check():
+            perm.deny()
     form = FermentationStepForm()
     if form.validate_on_submit():
         fstep = form.save(brew=brew, save=False)
@@ -53,8 +55,9 @@ def fermentation_step_add(brew_id):
 @login_required
 def fermentation_step(fstep_id):
     fstep = FermentationStep.query.get_or_404(fstep_id)
-    if fstep.brew.brewery.brewer != current_user:
-        abort(403)
+    for perm in (PublicAccessPermission(fstep.brew), OwnerAccessPermission(fstep.brew)):
+        if not perm.check():
+            perm.deny()
     form = FermentationStepForm()
     if form.validate_on_submit():
         fstep = form.save(fstep.brew, obj=fstep, save=False)
@@ -88,8 +91,9 @@ def fermentation_step(fstep_id):
 @login_required
 def fermentation_step_delete(fstep_id):
     fstep = FermentationStep.query.get_or_404(fstep_id)
-    if fstep.brew.brewery.brewer != current_user:
-        abort(403)
+    for perm in (PublicAccessPermission(fstep.brew), OwnerAccessPermission(fstep.brew)):
+        if not perm.check():
+            perm.deny()
     fstep_name = fstep.name
     brew_name = fstep.brew.name
     next_ = url_for('brew.details', brew_id=fstep.brew.id)

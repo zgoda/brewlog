@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-from flask import abort, jsonify, request, url_for
+from flask import jsonify, url_for
 from sqlalchemy_utils import sort_query
 
 from ..ext import db
@@ -58,12 +58,3 @@ class BreweryUtils:
         return self.brews(
             self.brewery, order='-brew-created', public_only=public_only, limit=limit
         )
-
-
-def check_brewery(brewery_id, user):
-    brewery = Brewery.query.get_or_404(brewery_id)
-    if not brewery.has_access(user):
-        abort(404)
-    if request.method == 'POST' and user != brewery.brewer:
-        abort(403)
-    return brewery

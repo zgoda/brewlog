@@ -2,28 +2,31 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-from flask import abort, flash, redirect, render_template, request, url_for
+from flask import flash, redirect, render_template, request, url_for
 from flask_babel import gettext as _
 from flask_login import current_user, login_required, logout_user
 
-from . import profile_bp
 from ..brew.utils import BrewUtils
 from ..ext import db
 from ..forms.base import DeleteForm
 from ..models import Brew, BrewerProfile, Brewery
-from ..profile.forms import ProfileForm
 from ..utils.pagination import get_page
+from . import profile_bp
+from .forms import ProfileForm
+from .permissions import OwnerAccessPermission, PublicAccessPermission
 
 
 @profile_bp.route('/<int:user_id>', methods=['GET', 'POST'], endpoint='details')
 def profile(user_id):
     user_profile = BrewerProfile.query.get_or_404(user_id)
-    if not user_profile.has_access(current_user):
-        abort(404)
+    perm = PublicAccessPermission(user_profile)
+    if not perm.check():
+        perm.deny()
     form = None
     if request.method == 'POST':
-        if current_user != user_profile:
-            abort(403)
+        perm = OwnerAccessPermission(user_profile)
+        if not perm.check():
+            perm.deny()
         form = ProfileForm()
         if form.validate_on_submit():
             profile = form.save(obj=user_profile)
@@ -46,10 +49,9 @@ def profile(user_id):
 @login_required
 def profile_delete(user_id):
     profile = BrewerProfile.query.get_or_404(user_id)
-    if current_user != profile:
-        if profile.is_public:
-            abort(403)
-        abort(404)
+    for perm in (PublicAccessPermission(profile), OwnerAccessPermission(profile)):
+        if not perm.check():
+            perm.deny()
     email = profile.email
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
@@ -82,8 +84,9 @@ def profile_list():
 @profile_bp.route('/<int:user_id>/breweries', endpoint='breweries')
 def breweries(user_id):
     brewer = BrewerProfile.query.get_or_404(user_id)
-    if current_user != brewer and not brewer.is_public:
-        abort(404)
+    perm = PublicAccessPermission(brewer)
+    if not perm.check():
+        perm.deny()
     page_size = 10
     page = get_page(request)
     query = brewer.breweries.order_by(Brewery.name)
@@ -97,8 +100,9 @@ def breweries(user_id):
 @profile_bp.route('/<int:user_id>/brews', endpoint='brews')
 def brews(user_id):
     brewer = BrewerProfile.query.get_or_404(user_id)
-    if current_user != brewer and not brewer.is_public:
-        abort(404)
+    perm = PublicAccessPermission(brewer)
+    if not perm.check():
+        perm.deny()
     page_size = 10
     page = get_page(request)
     query = Brew.query.join(Brewery).filter(Brewery.brewer_id == user_id)
