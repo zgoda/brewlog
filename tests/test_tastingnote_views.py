@@ -278,7 +278,7 @@ class TestTastingNoteDeleteView(BrewlogTests):
         url = self.url(note)
         data = {'delete_it': True}
         self.login(actor.email)
-        rv = self.client.get(url, data=data)
+        rv = self.client.post(url, data=data)
         assert rv.status_code == 404
 
     @pytest.mark.parametrize('public_brew', [
@@ -293,5 +293,107 @@ class TestTastingNoteDeleteView(BrewlogTests):
         url = self.url(note)
         data = {'delete_it': True}
         self.login(actor.email)
-        rv = self.client.get(url, data=data)
+        rv = self.client.post(url, data=data)
         assert rv.status_code == 404
+
+    def test_get_author_to_public(self, brew_factory, tasting_note_factory):
+        brew = brew_factory(brewery=self.public_brewery, is_public=True)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        url = self.url(note)
+        self.login(self.author.email)
+        rv = self.client.get(url)
+        assert f'action="{url}"' in rv.text
+
+    def test_post_author_to_public(self, brew_factory, tasting_note_factory):
+        brew = brew_factory(brewery=self.public_brewery, is_public=True)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        url = self.url(note)
+        data = {'delete_it': True}
+        self.login(self.author.email)
+        rv = self.client.post(url, data=data, follow_redirects=True)
+        assert 'has been deleted' in rv.text
+
+    def test_get_author_to_hidden(self, brew_factory, tasting_note_factory):
+        brew = brew_factory(brewery=self.public_brewery, is_public=False)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        url = self.url(note)
+        self.login(self.author.email)
+        rv = self.client.get(url)
+        assert rv.status_code == 404
+
+    def test_post_author_to_hidden(self, brew_factory, tasting_note_factory):
+        brew = brew_factory(brewery=self.public_brewery, is_public=False)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        url = self.url(note)
+        data = {'delete_it': True}
+        self.login(self.author.email)
+        rv = self.client.post(url, data=data, follow_redirects=True)
+        assert rv.status_code == 404
+
+    @pytest.mark.parametrize('public_brew', [
+        True, False
+    ], ids=['public', 'hidden'])
+    def test_get_author_to_hidden_indirect(
+                self, public_brew, brew_factory, tasting_note_factory
+            ):
+        brew = brew_factory(brewery=self.hidden_brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        url = self.url(note)
+        self.login(self.author.email)
+        rv = self.client.get(url)
+        assert rv.status_code == 404
+
+    @pytest.mark.parametrize('public_brew', [
+        True, False
+    ], ids=['public', 'hidden'])
+    def test_post_author_to_hidden_indirect(
+                self, public_brew, brew_factory, tasting_note_factory
+            ):
+        brew = brew_factory(brewery=self.hidden_brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        url = self.url(note)
+        data = {'delete_it': True}
+        self.login(self.author.email)
+        rv = self.client.post(url, data=data)
+        assert rv.status_code == 404
+
+    @pytest.mark.parametrize('public_brewery,public_brew', [
+        (True, True),
+        (True, False),
+        (False, True),
+        (False, False)
+    ], ids=['public-public', 'public-hidden', 'hidden-public', 'hidden-hidden'])
+    def test_get_owner(
+                self, public_brewery, public_brew, brew_factory, tasting_note_factory
+            ):
+        if public_brewery:
+            brewery = self.public_brewery
+        else:
+            brewery = self.hidden_brewery
+        brew = brew_factory(brewery=brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        url = self.url(note)
+        self.login(brewery.brewer.email)
+        rv = self.client.get(url)
+        assert f'action="{url}"' in rv.text
+
+    @pytest.mark.parametrize('public_brewery,public_brew', [
+        (True, True),
+        (True, False),
+        (False, True),
+        (False, False)
+    ], ids=['public-public', 'public-hidden', 'hidden-public', 'hidden-hidden'])
+    def test_post_owner(
+                self, public_brewery, public_brew, brew_factory, tasting_note_factory
+            ):
+        if public_brewery:
+            brewery = self.public_brewery
+        else:
+            brewery = self.hidden_brewery
+        brew = brew_factory(brewery=brewery, is_public=public_brew)
+        note = tasting_note_factory(brew=brew, author=self.author, text='Good stuff')
+        url = self.url(note)
+        data = {'delete_it': True}
+        self.login(brewery.brewer.email)
+        rv = self.client.post(url, data=data, follow_redirects=True)
+        assert 'has been deleted' in rv.text

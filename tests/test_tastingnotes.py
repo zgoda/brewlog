@@ -66,49 +66,6 @@ class TastingTests(BrewlogTests):
 
 
 @pytest.mark.usefixtures('client_class')
-class TestTastingNote(TastingTests):
-
-    def test_delete_by_author(self):
-        """
-        Note author can delete it
-        """
-        note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user,
-            'Nice beer, cheers!', commit=True,
-        )
-        url = url_for('tastingnote.delete', note_id=note.id)
-        self.login(self.public_user.email)
-        rv = self.client.post(
-            url, data={'delete_it': True}, follow_redirects=True
-        )
-        assert note.text not in rv.text
-
-    def test_author_sees_delete_form(self):
-        note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user,
-            'Nice beer, cheers!', commit=True,
-        )
-        url = url_for('tastingnote.delete', note_id=note.id)
-        self.login(self.extra_user.email)
-        rv = self.client.get(url)
-        assert rv.status_code == 200
-        assert f'action="{url}"' in rv.text
-
-    def test_delete_by_brew_owner(self):
-        """
-        Brew owner can delete tasting notes
-        """
-        note = TastingNote.create_for(
-            self.public_brewery_public_brew, self.extra_user,
-            'Nice beer, cheers!', commit=True,
-        )
-        url = url_for('tastingnote.delete', note_id=note.id)
-        self.login(self.public_user.email)
-        rv = self.client.post(url, data={'delete_it': True}, follow_redirects=True)
-        assert note.text not in rv.text
-
-
-@pytest.mark.usefixtures('client_class')
 class TestTastingNoteAjax(TastingTests):
 
     def test_load(self):
