@@ -47,7 +47,7 @@ $(document).ready(function() {
 {% endif %}
 {% if brew.brewery.brewer == current_user and utils.state_changeable(brew) %}
 <h3>{{ gettext("change state").capitalize() }}</h3>
-<p><strong>{{ gettext('current state').capitalize() }}</strong>: {{ brew.current_state[0] }}{% if brew.current_state[1] %} {{ gettext('since %(date)s', date=format_date(brew.current_state[1], 'short')) }}{% endif %}</p>
+<p><strong>{{ gettext('current state').capitalize() }}</strong>: {{ brew.current_state.text }}{% if brew.current_state.since %} {{ gettext('since %(date)s', date=format_date(brew.current_state.since, 'short')) }}{% endif %}</p>
 {{ forms.render_form(action_form, url_for('brew.chgstate', brew_id=brew.id)) }}
 {% endif %}
 {% if brew.tasting_notes %}

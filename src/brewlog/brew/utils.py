@@ -10,6 +10,7 @@ from flask_babel import lazy_gettext as _
 
 from ..ext import db
 from ..models import Brew, BrewerProfile, Brewery
+from ..models.brewing import BrewState
 from ..utils.query import public_or_owner
 from ..utils.text import stars2deg
 
@@ -111,8 +112,9 @@ class BrewUtils:
 
     @staticmethod
     def state_changeable(brew):
-        return brew.current_state[0] in (
-            brew.STATE_FINISHED, brew.STATE_TAPPED, brew.STATE_MATURING
+        return brew.current_state.name in (
+            BrewState.STATE_FINISHED[0], BrewState.STATE_TAPPED[0],
+            BrewState.STATE_MATURING[0],
         )
 
 

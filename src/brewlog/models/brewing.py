@@ -5,6 +5,7 @@
 import datetime
 import json
 
+import attr
 import markdown
 from flask_babel import lazy_gettext as _
 from sqlalchemy_utils import sort_query
@@ -14,6 +15,19 @@ from ..ext import db
 from ..models import Brewery, choices
 from ..utils.brewing import abv, apparent_attenuation, real_attenuation
 from ..utils.text import stars2deg
+
+
+@attr.s
+class BrewState:
+    name = attr.ib(type=str)
+    text = attr.ib()
+    since = attr.ib(type=datetime.datetime, default=None)
+
+    STATE_PLANNED = ('planned', _('planned'))
+    STATE_FERMENTING = ('fermenting', _('fermenting'))
+    STATE_FINISHED = ('finished', _('finished'))
+    STATE_TAPPED = ('tapped', _('tapped'))
+    STATE_MATURING = ('maturing', _('maturing'))
 
 
 class Brew(db.Model):
@@ -155,17 +169,19 @@ class Brew(db.Model):
 
     @property
     def current_state(self):
+        state = None
         if not self.date_brewed:
-            return (self.STATE_PLANNED, None)  # not brewed yet
+            state = BrewState(*BrewState.STATE_PLANNED)
         if not self.bottling_date:
-            return (self.STATE_FERMENTING, self.date_brewed)  # still in fv
+            state = BrewState(*BrewState.STATE_FERMENTING, since=self.date_brewed)
         if self.finished:
-            return (self.STATE_FINISHED, self.finished)  # finished
+            state = BrewState(*BrewState.STATE_FINISHED, since=self.finished)
         else:
             if self.tapped:
-                return (self.STATE_TAPPED, self.tapped)  # beer is tapped
+                state = BrewState(*BrewState.STATE_TAPPED, since=self.tapped)
             else:
-                return (self.STATE_MATURING, self.bottling_date)  # beer is maturing
+                state = BrewState(*BrewState.STATE_MATURING, since=self.bottling_date)
+        return state
 
     def get_next(self, public_only=True):
         query = Brew.query
@@ -173,7 +189,7 @@ class Brew(db.Model):
             query = query.filter(Brew.is_public.is_(True))
         return query.order_by(Brew.id).filter(
             Brew.id > self.id,
-            Brew.brewery_id == self.brewery_id
+            Brew.brewery == self.brewery
         ).first()
 
     def get_previous(self, public_only=True):
@@ -182,7 +198,7 @@ class Brew(db.Model):
             query = query.filter(Brew.is_public.is_(True))
         return query.order_by(db.desc(Brew.id)).filter(
             Brew.id < self.id,
-            Brew.brewery_id == self.brewery_id
+            Brew.brewery == self.brewery
         ).first()
 
 
