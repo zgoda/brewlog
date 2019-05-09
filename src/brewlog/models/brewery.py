@@ -30,11 +30,6 @@ class Brewery(db.Model):
         backref=db.backref('breweries', lazy='dynamic', cascade='all,delete-orphan'),
     )
 
-    def has_access(self, user):
-        if self.brewer != user and not self.brewer.has_access(user):
-            return False
-        return True
-
 
 # events: Brewery model
 def brewery_pre_save(mapper, connection, target):

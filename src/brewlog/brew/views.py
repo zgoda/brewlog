@@ -4,19 +4,20 @@
 
 from datetime import datetime
 
-from flask import abort, flash, redirect, render_template, request, url_for
+from flask import flash, redirect, render_template, request, url_for
 from flask_babel import lazy_gettext
 from flask_login import current_user, login_required
 
-from . import brew_bp
 from ..ext import db
 from ..forms.base import DeleteForm
 from ..forms.utils import process_success
 from ..models import Brew
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
+from . import brew_bp
 from .forms import BrewForm, ChangeStateForm
-from .utils import BrewUtils, check_brew, list_query_for_user
+from .permissions import AccessManager
+from .utils import BrewUtils, list_query_for_user
 
 HINTS = [
     (
@@ -50,11 +51,10 @@ def brew_add():
 
 @brew_bp.route('/<int:brew_id>', methods=['POST', 'GET'], endpoint='details')
 def brew(brew_id):
-    brew = check_brew(brew_id, current_user)
+    brew = Brew.query.get_or_404(brew_id)
+    AccessManager(brew).check()
     brew_form = None
     if request.method == 'POST':
-        if brew.brewery.brewer != current_user:
-            abort(403)
         brew_form = BrewForm()
         if brew_form.validate_on_submit():
             brew = brew_form.save(obj=brew)
@@ -107,7 +107,8 @@ def search():
 @brew_bp.route('/<int:brew_id>/delete', methods=['GET', 'POST'], endpoint='delete')
 @login_required
 def brew_delete(brew_id):
-    brew = check_brew(brew_id, current_user, strict=True)
+    brew = Brew.query.get_or_404(brew_id)
+    AccessManager(brew).check(require_owner=True)
     name = brew.name
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
@@ -129,7 +130,8 @@ def brew_delete(brew_id):
 @brew_bp.route('/<int:brew_id>/chgstate', methods=['POST'], endpoint='chgstate')
 @login_required
 def change_state(brew_id):
-    brew = check_brew(brew_id, current_user, strict=True)
+    brew = Brew.query.get_or_404(brew_id)
+    AccessManager(brew).check(require_owner=True)
     form = ChangeStateForm()
     if form.validate_on_submit():
         now = datetime.utcnow()

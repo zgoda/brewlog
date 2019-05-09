@@ -7,7 +7,6 @@ from flask import abort, flash, redirect, render_template, request
 from flask_babel import gettext as _
 from flask_login import current_user, login_required
 
-from ..brew.permissions import PublicAccessPermission
 from ..ext import db
 from ..forms.base import DeleteForm
 from ..models import Brew, TastingNote
@@ -15,7 +14,7 @@ from ..utils.pagination import get_page
 from ..utils.views import next_redirect
 from . import tasting_bp
 from .forms import TastingNoteForm
-from .permissions import OwnerOrAuthorPermission
+from .permissions import AccessManager
 from .utils import TastingUtils
 
 
@@ -40,9 +39,7 @@ def all_tasting_notes():
 @login_required
 def brew_add_tasting_note(brew_id):
     brew = Brew.query.get_or_404(brew_id)
-    perm = PublicAccessPermission(brew)
-    if not perm.check():
-        perm.deny()
+    AccessManager.check_create(brew)
     form = TastingNoteForm()
     if form.validate_on_submit():
         form.save(brew)
@@ -61,9 +58,7 @@ def brew_add_tasting_note(brew_id):
 def brew_delete_tasting_note(note_id):
     note = TastingNote.query.get_or_404(note_id)
     brew = note.brew
-    for perm in (PublicAccessPermission(brew), OwnerOrAuthorPermission(note)):
-        if not perm.check():
-            perm.deny()
+    AccessManager(note).check()
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
         db.session.delete(note)
@@ -99,9 +94,7 @@ def brew_update_tasting_note():
     if not note_id:
         abort(400)
     note = TastingNote.query.get_or_404(note_id)
-    for perm in (PublicAccessPermission(note.brew), OwnerOrAuthorPermission(note)):
-        if not perm.check():
-            perm.deny()
+    AccessManager(note).check()
     value = request.form.get('value', '').strip()
     if value:
         note.text = value

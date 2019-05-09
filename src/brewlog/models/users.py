@@ -76,11 +76,6 @@ class BrewerProfile(UserMixin, db.Model):
             query = query.order_by(order_by)
         return query
 
-    def has_access(self, user):
-        if self != user and not self.is_public:
-            return False
-        return True
-
     def full_data(self):
         return self.__dict__
 

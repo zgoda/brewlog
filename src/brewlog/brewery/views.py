@@ -14,7 +14,7 @@ from ..utils.pagination import get_page
 from ..utils.views import next_redirect
 from . import brewery_bp
 from .forms import BreweryForm
-from .permissions import OwnerAccessPermission, PublicAccessPermission
+from .permissions import AccessManager
 from .utils import BreweryUtils
 
 
@@ -36,9 +36,7 @@ def brewery_add():
 )
 def brewery_delete(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
-    for perm in (PublicAccessPermission(brewery), OwnerAccessPermission(brewery)):
-        if not perm.check():
-            perm.deny()
+    AccessManager(brewery).check(require_owner=True)
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
         name = brewery.name
@@ -90,14 +88,9 @@ def search():
 )
 def brewery(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
-    perm = PublicAccessPermission(brewery)
-    if not perm.check():
-        perm.deny()
+    AccessManager(brewery).check()
     form = None
     if request.method == 'POST':
-        perm = OwnerAccessPermission(brewery)
-        if not perm.check():
-            perm.deny()
         form = BreweryForm()
         if form.validate_on_submit():
             brewery = form.save(obj=brewery)
@@ -117,9 +110,7 @@ def brewery(brewery_id):
 @brewery_bp.route('/<int:brewery_id>/brews', endpoint='brews')
 def brewery_brews(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
-    perm = PublicAccessPermission(brewery)
-    if not perm.check():
-        perm.deny()
+    AccessManager(brewery).check()
     page_size = 20
     page = get_page(request)
     utils = BreweryUtils(brewery)

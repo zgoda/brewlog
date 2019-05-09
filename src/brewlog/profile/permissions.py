@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-from flask import abort
+from flask import abort, request
 from flask_login import current_user
 from permission import Permission, Rule
 
@@ -51,3 +51,17 @@ class OwnerAccessPermission(Permission):
 
     def rule(self):
         return OwnerAccessRule(self.user)
+
+
+class AccessManager:
+
+    def __init__(self, user):
+        self.user = user
+
+    def check(self, require_owner=False):
+        perms = [PublicAccessPermission(self.user)]
+        if request.method == 'POST' or require_owner:
+            perms.append(OwnerAccessPermission(self.user))
+        for perm in perms:
+            if not perm.check():
+                perm.deny()

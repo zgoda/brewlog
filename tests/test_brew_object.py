@@ -20,10 +20,6 @@ class BrewObjectTests(BrewlogTests):
         self.public_brewery = brewery_factory(
             brewer=self.public_user, name='public brewery'
         )
-        self.hidden_user = user_factory(is_public=False)
-        self.hidden_brewery = brewery_factory(
-            brewer=self.hidden_user, name='hidden brewery'
-        )
 
 
 @pytest.mark.usefixtures('app')
@@ -73,17 +69,26 @@ class TestBrewObject(BrewObjectTests):
         assert brew.attenuation['apparent'] == 0
         assert brew.attenuation['real'] == 0
 
+    def test_notes_formatting(self, brew_factory):
+        brew_notes = 'Target: 12*P'
+        brew = brew_factory(brewery=self.public_brewery, name='pb1', notes=brew_notes)
+        assert '12°P' in brew.notes_html
+
 
 @pytest.mark.usefixtures('app')
 class TestBrewObjectLists(BrewObjectTests):
 
     @pytest.fixture(autouse=True)
-    def set_up2(self, brew_factory):
+    def set_up2(self, user_factory, brewery_factory, brew_factory):
         self.public_brewery_public_brew = brew_factory(
             brewery=self.public_brewery, name='public brew no 1'
         )
         self.public_brewery_hidden_brew = brew_factory(
             brewery=self.public_brewery, is_public=False, name='hidden brew no 1'
+        )
+        self.hidden_user = user_factory(is_public=False)
+        self.hidden_brewery = brewery_factory(
+            brewer=self.hidden_user, name='hidden brewery'
         )
         self.hidden_brewery_public_brew = brew_factory(
             brewery=self.hidden_brewery, name='public brew no 2'

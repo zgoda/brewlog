@@ -117,13 +117,6 @@ class Brew(db.Model):
             }
         return {'real': 0, 'apparent': 0}
 
-    def has_access(self, user):
-        if self.brewery.brewer != user and not (
-            self.is_public and self.brewery.has_access(user)
-        ):
-            return False
-        return True
-
     def notes_to_json(self):
         notes = {}
         for note in self.tasting_notes:

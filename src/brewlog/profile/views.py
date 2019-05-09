@@ -13,20 +13,15 @@ from ..models import Brew, BrewerProfile, Brewery
 from ..utils.pagination import get_page
 from . import profile_bp
 from .forms import ProfileForm
-from .permissions import OwnerAccessPermission, PublicAccessPermission
+from .permissions import AccessManager
 
 
 @profile_bp.route('/<int:user_id>', methods=['GET', 'POST'], endpoint='details')
 def profile(user_id):
     user_profile = BrewerProfile.query.get_or_404(user_id)
-    perm = PublicAccessPermission(user_profile)
-    if not perm.check():
-        perm.deny()
+    AccessManager(user_profile).check()
     form = None
     if request.method == 'POST':
-        perm = OwnerAccessPermission(user_profile)
-        if not perm.check():
-            perm.deny()
         form = ProfileForm()
         if form.validate_on_submit():
             profile = form.save(obj=user_profile)
@@ -49,9 +44,7 @@ def profile(user_id):
 @login_required
 def profile_delete(user_id):
     profile = BrewerProfile.query.get_or_404(user_id)
-    for perm in (PublicAccessPermission(profile), OwnerAccessPermission(profile)):
-        if not perm.check():
-            perm.deny()
+    AccessManager(profile).check(require_owner=True)
     email = profile.email
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
@@ -84,9 +77,7 @@ def profile_list():
 @profile_bp.route('/<int:user_id>/breweries', endpoint='breweries')
 def breweries(user_id):
     brewer = BrewerProfile.query.get_or_404(user_id)
-    perm = PublicAccessPermission(brewer)
-    if not perm.check():
-        perm.deny()
+    AccessManager(brewer).check()
     page_size = 10
     page = get_page(request)
     query = brewer.breweries.order_by(Brewery.name)
@@ -100,9 +91,7 @@ def breweries(user_id):
 @profile_bp.route('/<int:user_id>/brews', endpoint='brews')
 def brews(user_id):
     brewer = BrewerProfile.query.get_or_404(user_id)
-    perm = PublicAccessPermission(brewer)
-    if not perm.check():
-        perm.deny()
+    AccessManager(brewer).check()
     page_size = 10
     page = get_page(request)
     query = Brew.query.join(Brewery).filter(Brewery.brewer_id == user_id)

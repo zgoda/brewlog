@@ -6,6 +6,8 @@ from flask import abort
 from flask_login import current_user
 from permission import Permission, Rule
 
+from ..brew.permissions import PublicAccessPermission
+
 
 class OwnerOrAuthorRule(Rule):
 
@@ -28,3 +30,24 @@ class OwnerOrAuthorPermission(Permission):
 
     def rule(self):
         return OwnerOrAuthorRule(self.note)
+
+
+class AccessManager:
+
+    def __init__(self, note):
+        self.note = note
+
+    @staticmethod
+    def check_create(brew):
+        perm = PublicAccessPermission(brew)
+        if not perm.check():
+            perm.deny()
+
+    def check(self):
+        perms = [
+            PublicAccessPermission(self.note.brew),
+            OwnerOrAuthorPermission(self.note),
+        ]
+        for perm in perms:
+            if not perm.check():
+                perm.deny()
