@@ -4,10 +4,9 @@
 
 from flask import request
 from flask_login import current_user
-from permission import Permission
 
 from ..utils.views import (
-    AccessManagerBase, OwnerAccessRuleBase, PublicAccessPermissionBase,
+    AccessManagerBase, OwnerAccessRuleBase, PermissionBase,
     PublicAccessRuleBase,
 )
 
@@ -18,7 +17,7 @@ class PublicAccessRule(PublicAccessRuleBase):
         return self.obj.brewer == current_user or self.obj.brewer.is_public
 
 
-class PublicAccessPermission(PublicAccessPermissionBase):
+class PublicAccessPermission(PermissionBase):
 
     rule_class = PublicAccessRule
 
@@ -29,14 +28,9 @@ class OwnerAccessRule(OwnerAccessRuleBase):
         return self.obj.brewer == current_user
 
 
-class OwnerAccessPermission(Permission):
+class OwnerAccessPermission(PermissionBase):
 
-    def __init__(self, brewery):
-        self.brewery = brewery
-        super().__init__()
-
-    def rule(self):
-        return OwnerAccessRule(self.brewery)
+    rule_class = OwnerAccessRule
 
 
 class AccessManager(AccessManagerBase):

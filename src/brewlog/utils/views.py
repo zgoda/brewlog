@@ -41,7 +41,7 @@ class OwnerAccessRuleBase(RuleBase):
         abort(403)
 
 
-class PublicAccessPermissionBase(Permission):
+class PermissionBase(Permission):
 
     rule_class = None
 

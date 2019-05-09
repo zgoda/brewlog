@@ -3,10 +3,9 @@
 # license that can be found in the LICENSE file.
 
 from flask_login import current_user
-from permission import Permission
 
 from ..brew.permissions import PublicAccessPermission
-from ..utils.views import AccessManagerBase, OwnerAccessRuleBase
+from ..utils.views import AccessManagerBase, OwnerAccessRuleBase, PermissionBase
 
 
 class OwnerOrAuthorRule(OwnerAccessRuleBase):
@@ -15,14 +14,9 @@ class OwnerOrAuthorRule(OwnerAccessRuleBase):
         return current_user in [self.obj.author, self.obj.brew.brewery.brewer]
 
 
-class OwnerOrAuthorPermission(Permission):
+class OwnerOrAuthorPermission(PermissionBase):
 
-    def __init__(self, note):
-        self.note = note
-        super().__init__()
-
-    def rule(self):
-        return OwnerOrAuthorRule(self.note)
+    rule_class = OwnerOrAuthorRule
 
 
 class AccessManager(AccessManagerBase):
