@@ -6,6 +6,8 @@ from flask import abort, request
 from flask_login import current_user
 from permission import Permission, Rule
 
+from ..utils.views import AccessManagerBase
+
 
 class PublicAccessRule(Rule):
 
@@ -53,15 +55,12 @@ class OwnerAccessPermission(Permission):
         return OwnerAccessRule(self.brewery)
 
 
-class AccessManager:
-
-    def __init__(self, brewery):
-        self.brewery = brewery
+class AccessManager(AccessManagerBase):
 
     def check(self, require_owner=False):
-        perms = [PublicAccessPermission(self.brewery)]
+        perms = [PublicAccessPermission(self.obj)]
         if request.method == 'POST' or require_owner:
-            perms.append(OwnerAccessPermission(self.brewery))
+            perms.append(OwnerAccessPermission(self.obj))
         for perm in perms:
             if not perm.check():
                 perm.deny()

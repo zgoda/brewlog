@@ -7,6 +7,7 @@ from flask_login import current_user
 from permission import Permission, Rule
 
 from ..brew.permissions import PublicAccessPermission
+from ..utils.views import AccessManagerBase
 
 
 class OwnerOrAuthorRule(Rule):
@@ -32,10 +33,7 @@ class OwnerOrAuthorPermission(Permission):
         return OwnerOrAuthorRule(self.note)
 
 
-class AccessManager:
-
-    def __init__(self, note):
-        self.note = note
+class AccessManager(AccessManagerBase):
 
     @staticmethod
     def check_create(brew):
@@ -45,8 +43,8 @@ class AccessManager:
 
     def check(self):
         perms = [
-            PublicAccessPermission(self.note.brew),
-            OwnerOrAuthorPermission(self.note),
+            PublicAccessPermission(self.obj.brew),
+            OwnerOrAuthorPermission(self.obj),
         ]
         for perm in perms:
             if not perm.check():

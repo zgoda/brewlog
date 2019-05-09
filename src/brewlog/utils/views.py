@@ -19,3 +19,9 @@ def next_redirect(fallback_endpoint, *args, **kwargs):
     return request.args.get('next') \
         or session.pop('next', None) \
         or url_for(fallback_endpoint, *args, **kwargs)
+
+
+class AccessManagerBase:
+
+    def __init__(self, obj):
+        self.obj = obj
