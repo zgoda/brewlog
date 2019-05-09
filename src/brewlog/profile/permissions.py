@@ -6,30 +6,20 @@ from flask import abort, request
 from flask_login import current_user
 from permission import Permission, Rule
 
-from ..utils.views import AccessManagerBase
+from ..utils.views import (
+    AccessManagerBase, PublicAccessPermissionBase, PublicAccessRuleBase,
+)
 
 
-class PublicAccessRule(Rule):
-
-    def __init__(self, user):
-        self.user = user
-        super().__init__()
+class PublicAccessRule(PublicAccessRuleBase):
 
     def check(self):
-        return self.user == current_user or self.user.is_public
-
-    def deny(self):
-        abort(404)
+        return self.obj == current_user or self.obj.is_public
 
 
-class PublicAccessPermission(Permission):
+class PublicAccessPermission(PublicAccessPermissionBase):
 
-    def __init__(self, user):
-        self.user = user
-        super().__init__()
-
-    def rule(self):
-        return PublicAccessRule(self.user)
+    rule_class = PublicAccessRule
 
 
 class OwnerAccessRule(Rule):

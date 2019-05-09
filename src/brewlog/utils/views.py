@@ -2,7 +2,8 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-from flask import request, session, url_for
+from flask import abort, request, session, url_for
+from permission import Permission, Rule
 
 
 def next_redirect(fallback_endpoint, *args, **kwargs):
@@ -19,6 +20,28 @@ def next_redirect(fallback_endpoint, *args, **kwargs):
     return request.args.get('next') \
         or session.pop('next', None) \
         or url_for(fallback_endpoint, *args, **kwargs)
+
+
+class PublicAccessRuleBase(Rule):
+
+    def __init__(self, obj):
+        self.obj = obj
+        super().__init__()
+
+    def deny(self):
+        abort(404)
+
+
+class PublicAccessPermissionBase(Permission):
+
+    rule_class = None
+
+    def __init__(self, obj):
+        self.obj = obj
+        super().__init__()
+
+    def rule(self):
+        return self.rule_class(self.obj)
 
 
 class AccessManagerBase:

@@ -6,7 +6,9 @@ from flask import abort, request
 from flask_login import current_user
 from permission import Permission, Rule
 
-from ..utils.views import AccessManagerBase
+from ..utils.views import (
+    AccessManagerBase, PublicAccessPermissionBase, PublicAccessRuleBase,
+)
 
 
 class OwnerAccessRule(Rule):
@@ -32,28 +34,16 @@ class OwnerAccessPermission(Permission):
         return OwnerAccessRule(self.brew)
 
 
-class PublicAccessRule(Rule):
-
-    def __init__(self, brew):
-        self.brew = brew
-        super().__init__()
+class PublicAccessRule(PublicAccessRuleBase):
 
     def check(self):
-        return (self.brew.is_public and self.brew.brewery.brewer.is_public) \
-            or self.brew.brewery.brewer == current_user
-
-    def deny(self):
-        abort(404)
+        return (self.obj.is_public and self.obj.brewery.brewer.is_public) \
+            or self.obj.brewery.brewer == current_user
 
 
-class PublicAccessPermission(Permission):
+class PublicAccessPermission(PublicAccessPermissionBase):
 
-    def __init__(self, brew):
-        self.brew = brew
-        super().__init__()
-
-    def rule(self):
-        return PublicAccessRule(self.brew)
+    rule_class = PublicAccessRule
 
 
 class AccessManager(AccessManagerBase):
