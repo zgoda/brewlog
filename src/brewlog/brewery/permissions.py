@@ -2,12 +2,13 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-from flask import abort, request
+from flask import request
 from flask_login import current_user
-from permission import Permission, Rule
+from permission import Permission
 
 from ..utils.views import (
-    AccessManagerBase, PublicAccessPermissionBase, PublicAccessRuleBase,
+    AccessManagerBase, OwnerAccessRuleBase, PublicAccessPermissionBase,
+    PublicAccessRuleBase,
 )
 
 
@@ -22,17 +23,10 @@ class PublicAccessPermission(PublicAccessPermissionBase):
     rule_class = PublicAccessRule
 
 
-class OwnerAccessRule(Rule):
-
-    def __init__(self, brewery):
-        self.brewery = brewery
-        super().__init__()
+class OwnerAccessRule(OwnerAccessRuleBase):
 
     def check(self):
-        return self.brewery.brewer == current_user
-
-    def deny(self):
-        abort(403)
+        return self.obj.brewer == current_user
 
 
 class OwnerAccessPermission(Permission):

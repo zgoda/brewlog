@@ -22,14 +22,23 @@ def next_redirect(fallback_endpoint, *args, **kwargs):
         or url_for(fallback_endpoint, *args, **kwargs)
 
 
-class PublicAccessRuleBase(Rule):
+class RuleBase(Rule):
 
     def __init__(self, obj):
         self.obj = obj
         super().__init__()
 
+
+class PublicAccessRuleBase(RuleBase):
+
     def deny(self):
         abort(404)
+
+
+class OwnerAccessRuleBase(RuleBase):
+
+    def deny(self):
+        abort(403)
 
 
 class PublicAccessPermissionBase(Permission):
