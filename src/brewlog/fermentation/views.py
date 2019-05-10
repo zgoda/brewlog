@@ -22,7 +22,7 @@ from .utils import update_steps_gravity
 @login_required
 def fermentation_step_add(brew_id):
     brew = Brew.query.get_or_404(brew_id)
-    AccessManager(brew).check(require_owner=True)
+    AccessManager(brew, True).check()
     form = FermentationStepForm()
     if form.validate_on_submit():
         fstep = form.save(brew=brew, save=False)
@@ -53,7 +53,7 @@ def fermentation_step_add(brew_id):
 @login_required
 def fermentation_step(fstep_id):
     fstep = FermentationStep.query.get_or_404(fstep_id)
-    AccessManager(fstep.brew).check(require_owner=True)
+    AccessManager(fstep.brew, True).check()
     form = FermentationStepForm()
     if form.validate_on_submit():
         fstep = form.save(fstep.brew, obj=fstep, save=False)
@@ -87,7 +87,7 @@ def fermentation_step(fstep_id):
 @login_required
 def fermentation_step_delete(fstep_id):
     fstep = FermentationStep.query.get_or_404(fstep_id)
-    AccessManager(fstep.brew).check(require_owner=True)
+    AccessManager(fstep.brew, True).check()
     fstep_name = fstep.name
     brew_name = fstep.brew.name
     next_ = url_for('brew.details', brew_id=fstep.brew.id)

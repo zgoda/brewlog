@@ -58,7 +58,7 @@ def brew_add_tasting_note(brew_id):
 def brew_delete_tasting_note(note_id):
     note = TastingNote.query.get_or_404(note_id)
     brew = note.brew
-    AccessManager(note).check()
+    AccessManager(note, None).check()
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
         db.session.delete(note)
@@ -94,7 +94,7 @@ def brew_update_tasting_note():
     if not note_id:
         abort(400)
     note = TastingNote.query.get_or_404(note_id)
-    AccessManager(note).check()
+    AccessManager(note, None).check()
     value = request.form.get('value', '').strip()
     if value:
         note.text = value

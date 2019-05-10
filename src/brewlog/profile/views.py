@@ -19,9 +19,10 @@ from .permissions import AccessManager
 @profile_bp.route('/<int:user_id>', methods=['GET', 'POST'], endpoint='details')
 def profile(user_id):
     user_profile = BrewerProfile.query.get_or_404(user_id)
-    AccessManager(user_profile).check()
+    is_post = request.method == 'POST'
+    AccessManager(user_profile, is_post).check()
     form = None
-    if request.method == 'POST':
+    if is_post:
         form = ProfileForm()
         if form.validate_on_submit():
             profile = form.save(obj=user_profile)
@@ -44,7 +45,7 @@ def profile(user_id):
 @login_required
 def profile_delete(user_id):
     profile = BrewerProfile.query.get_or_404(user_id)
-    AccessManager(profile).check(require_owner=True)
+    AccessManager(profile, True).check()
     email = profile.email
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
@@ -77,7 +78,7 @@ def profile_list():
 @profile_bp.route('/<int:user_id>/breweries', endpoint='breweries')
 def breweries(user_id):
     brewer = BrewerProfile.query.get_or_404(user_id)
-    AccessManager(brewer).check()
+    AccessManager(brewer, False).check()
     page_size = 10
     page = get_page(request)
     query = brewer.breweries.order_by(Brewery.name)
@@ -91,7 +92,7 @@ def breweries(user_id):
 @profile_bp.route('/<int:user_id>/brews', endpoint='brews')
 def brews(user_id):
     brewer = BrewerProfile.query.get_or_404(user_id)
-    AccessManager(brewer).check()
+    AccessManager(brewer, False).check()
     page_size = 10
     page = get_page(request)
     query = Brew.query.join(Brewery).filter(Brewery.brewer_id == user_id)

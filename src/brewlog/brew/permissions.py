@@ -2,7 +2,6 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-from flask import request
 from flask_login import current_user
 
 from ..utils.views import (
@@ -36,10 +35,5 @@ class PublicAccessPermission(PermissionBase):
 
 class AccessManager(AccessManagerBase):
 
-    def check(self, require_owner=False):
-        perms = [PublicAccessPermission(self.obj)]
-        if request.method == 'POST' or require_owner:
-            perms.append(OwnerAccessPermission(self.obj))
-        for perm in perms:
-            if not perm.check():
-                perm.deny()
+    primary = PublicAccessPermission
+    secondary = OwnerAccessPermission

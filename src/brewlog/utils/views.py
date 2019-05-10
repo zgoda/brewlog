@@ -55,5 +55,18 @@ class PermissionBase(Permission):
 
 class AccessManagerBase:
 
-    def __init__(self, obj):
+    primary = None
+    secondary = None
+
+    def __init__(self, obj, secondary_condition):
         self.obj = obj
+        self.perms = []
+        if self.primary:
+            self.perms.append(self.primary(obj))
+        if self.secondary and secondary_condition:
+            self.perms.append(self.secondary(obj))
+
+    def check(self):
+        for perm in self.perms:
+            if not perm.check():
+                perm.deny()

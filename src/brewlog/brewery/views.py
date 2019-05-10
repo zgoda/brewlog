@@ -36,7 +36,7 @@ def brewery_add():
 )
 def brewery_delete(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
-    AccessManager(brewery).check(require_owner=True)
+    AccessManager(brewery, True).check()
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
         name = brewery.name
@@ -88,9 +88,10 @@ def search():
 )
 def brewery(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
-    AccessManager(brewery).check()
+    is_post = request.method == 'POST'
+    AccessManager(brewery, is_post).check()
     form = None
-    if request.method == 'POST':
+    if is_post:
         form = BreweryForm()
         if form.validate_on_submit():
             brewery = form.save(obj=brewery)
@@ -110,7 +111,7 @@ def brewery(brewery_id):
 @brewery_bp.route('/<int:brewery_id>/brews', endpoint='brews')
 def brewery_brews(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
-    AccessManager(brewery).check()
+    AccessManager(brewery, False).check()
     page_size = 20
     page = get_page(request)
     utils = BreweryUtils(brewery)

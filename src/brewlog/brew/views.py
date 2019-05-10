@@ -52,9 +52,10 @@ def brew_add():
 @brew_bp.route('/<int:brew_id>', methods=['POST', 'GET'], endpoint='details')
 def brew(brew_id):
     brew = Brew.query.get_or_404(brew_id)
-    AccessManager(brew).check()
+    is_post = request.method == 'POST'
+    AccessManager(brew, is_post).check()
     brew_form = None
-    if request.method == 'POST':
+    if is_post:
         brew_form = BrewForm()
         if brew_form.validate_on_submit():
             brew = brew_form.save(obj=brew)
@@ -108,7 +109,7 @@ def search():
 @login_required
 def brew_delete(brew_id):
     brew = Brew.query.get_or_404(brew_id)
-    AccessManager(brew).check(require_owner=True)
+    AccessManager(brew, True).check()
     name = brew.name
     form = DeleteForm()
     if form.validate_on_submit() and form.delete_it.data:
@@ -131,7 +132,7 @@ def brew_delete(brew_id):
 @login_required
 def change_state(brew_id):
     brew = Brew.query.get_or_404(brew_id)
-    AccessManager(brew).check(require_owner=True)
+    AccessManager(brew, True).check()
     form = ChangeStateForm()
     if form.validate_on_submit():
         now = datetime.utcnow()
