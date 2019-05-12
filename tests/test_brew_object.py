@@ -74,6 +74,44 @@ class TestBrewObject(BrewObjectTests):
         brew = brew_factory(brewery=self.public_brewery, name='pb1', notes=brew_notes)
         assert '12°P' in brew.notes_html
 
+    @pytest.mark.parametrize('og,fg', [
+        (None, None),
+        (None, 2.5),
+        (10, None)
+    ], ids=['no-og-no-fg', 'no-og', 'no-fg'])
+    def test_abv_calc_missing_data(
+                self, og, fg, brew_factory, fermentation_step_factory
+            ):
+        brew = brew_factory(brewery=self.public_brewery, name='pb1')
+        fermentation_step_factory(brew=brew, name='primary', og=og, fg=fg)
+        assert brew.abv is None
+
+    def test_abv_calc_carb_none(self, brew_factory, fermentation_step_factory):
+        brew = brew_factory(brewery=self.public_brewery, name='pb1')
+        fermentation_step_factory(brew=brew, name='primary', og=10, fg=2.5)
+        assert '%.1f' % brew.abv == '3.9'
+
+    @pytest.mark.parametrize('carb_info', [
+        None, 'normal'
+    ], ids=['none', 'normal'])
+    def test_abv_calc_carb_priming_normal(
+                self, carb_info, brew_factory, fermentation_step_factory
+            ):
+        brew = brew_factory(
+            brewery=self.public_brewery, name='pb1',
+            carbonation_type='keg with priming', carbonation_level=carb_info,
+        )
+        fermentation_step_factory(brew=brew, name='primary', og=10, fg=2.5)
+        assert '%.1f' % brew.abv == '4.2'
+
+    def test_abv_calc_carb_priming_vlow(self, brew_factory, fermentation_step_factory):
+        brew = brew_factory(
+            brewery=self.public_brewery, name='pb1',
+            carbonation_type='keg with priming', carbonation_level='very low',
+        )
+        fermentation_step_factory(brew=brew, name='primary', og=10, fg=2.5)
+        assert '%.1f' % brew.abv == '4.0'
+
 
 @pytest.mark.usefixtures('app')
 class TestBrewObjectLists(BrewObjectTests):

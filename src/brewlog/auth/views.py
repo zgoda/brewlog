@@ -21,7 +21,9 @@ def select_provider():
 @auth_bp.route('/<provider>', endpoint='login')
 def remote_login(provider):
     if provider == 'local':
-        return local_login_callback(request.args.get('email'))
+        return local_login_callback(
+            request.args.get('email', 'example.user@example.com')
+        )
     svc = getattr(providers, provider, None)
     if svc is None:
         flash(
@@ -109,11 +111,7 @@ def github_remote_login_callback():  # pragma: nocover
 
 @auth_bp.route('/local/callback', endpoint='callback-local')
 def local_login_callback(resp):
-    if resp is not None:
-        email = resp
-    else:
-        email = 'user@example.com'
-    return login_success(email, 'dummy', 'dummy', 'local handler', nick='example user')
+    return login_success(resp, 'dummy', 'dummy', 'local handler', nick='example user')
 
 
 @auth_bp.route('/logout')
