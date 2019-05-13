@@ -19,86 +19,96 @@ class TestMainPageAnonUser(BrewlogTests):
     )
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory):
+    def set_up(self):
         self.url = url_for('home.index')
         self.regular_brewery_name = 'regular brewery no 1'
         self.hidden_brewery_name = 'hidden brewery no 1'
         self.regular_brew_name = 'regular brew no 1'
         self.hidden_brew_name = 'hidden brew no 1'
-        self.hidden_user = user_factory(is_public=False)
-        self.regular_user = user_factory()
 
     def test_common_elements(self):
         rv = self.client.get(self.url)
         assert '>Brew Log</a>' in rv.text
         assert 'login page' in rv.text
 
-    def test_profile_visibility(self):
+    def test_profile_visibility(self, user_factory):
+        public_user = user_factory(is_public=True)
+        hidden_user = user_factory(is_public=False)
         rv = self.client.get(self.url)
-        assert self.regular_user.full_name in rv.text
-        assert self.hidden_user.full_name not in rv.text
+        assert public_user.full_name in rv.text
+        assert hidden_user.full_name not in rv.text
 
-    def test_brewery_visibility_regular_user(self, brewery_factory):
+    def test_brewery_visibility_regular_user(self, user_factory, brewery_factory):
+        public_user = user_factory(is_public=True)
         brewery = brewery_factory(
-            brewer=self.regular_user, name=self.regular_brewery_name
+            brewer=public_user, name=self.regular_brewery_name
         )
         rv = self.client.get(self.url)
-        assert self.regular_user.full_name in rv.text
+        assert public_user.full_name in rv.text
         assert brewery.name in rv.text
 
-    def test_brewery_visibility_hidden_user(self, brewery_factory):
+    def test_brewery_visibility_hidden_user(self, user_factory, brewery_factory):
+        user = user_factory(is_public=False)
         brewery = brewery_factory(
-            brewer=self.hidden_user, name=self.hidden_brewery_name
+            brewer=user, name=self.hidden_brewery_name
         )
         rv = self.client.get(self.url)
-        assert self.hidden_user.full_name not in rv.text
+        assert user.full_name not in rv.text
         assert brewery.name not in rv.text
 
-    def test_brew_visibility_regular_brew_regular_user(self, brew_factory,
-                                                       brewery_factory):
+    def test_brew_visibility_regular_brew_regular_user(
+                self, brew_factory, brewery_factory, user_factory,
+            ):
+        user = user_factory(is_public=True)
         brewery = brewery_factory(
-            brewer=self.regular_user, name=self.regular_brewery_name
+            brewer=user, name=self.regular_brewery_name
         )
         brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
         rv = self.client.get(self.url)
-        assert self.regular_user.full_name in rv.text
+        assert user.full_name in rv.text
         assert brewery.name in rv.text
         assert brew.name in rv.text
 
-    def test_brew_visibility_regular_brew_hidden_user(self, brew_factory,
-                                                      brewery_factory):
+    def test_brew_visibility_regular_brew_hidden_user(
+                self, brew_factory, brewery_factory, user_factory,
+            ):
+        user = user_factory(is_public=False)
         brewery = brewery_factory(
-            brewer=self.hidden_user, name=self.regular_brewery_name
+            brewer=user, name=self.regular_brewery_name
         )
         brew = brew_factory(brewery=brewery, name=self.regular_brew_name)
         rv = self.client.get(self.url)
-        assert self.hidden_user.full_name not in rv.text
+        assert user.full_name not in rv.text
         assert brewery.name not in rv.text
         assert brew.name not in rv.text
 
-    def test_brew_visibility_hidden_brew_hidden_user(self, brew_factory,
-                                                     brewery_factory):
+    def test_brew_visibility_hidden_brew_hidden_user(
+                self, brew_factory, brewery_factory, user_factory,
+            ):
+        user = user_factory(is_public=False)
         brewery = brewery_factory(
-            brewer=self.hidden_user, name=self.regular_brewery_name
+            brewer=user, name=self.regular_brewery_name
         )
         brew = brew_factory(
             brewery=brewery, name=self.regular_brew_name, is_public=False
         )
         rv = self.client.get(self.url)
-        assert self.hidden_user.full_name not in rv.text
+        assert user.full_name not in rv.text
         assert brewery.name not in rv.text
         assert brew.name not in rv.text
 
-    def test_brew_visibility_hidden_brew_regular_user(self, brew_factory,
-                                                      brewery_factory):
+    def test_brew_visibility_hidden_brew_regular_user(
+                self, brew_factory, brewery_factory, user_factory,
+            ):
+        user = user_factory(is_public=True)
         brewery = brewery_factory(
-            brewer=self.regular_user, name=self.regular_brewery_name
+            brewer=user, name=self.regular_brewery_name
         )
         brew = brew_factory(
             brewery=brewery, name=self.regular_brew_name, is_public=False
         )
         rv = self.client.get(self.url)
-        assert self.regular_user.full_name in rv.text
+        assert user.full_name in rv.text
         assert brewery.name in rv.text
         assert brew.name not in rv.text
 

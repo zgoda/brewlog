@@ -21,14 +21,14 @@ class TestBreweryUtils:
             brewer=self.hidden_user, name='hidden brewery no 1'
         )
 
-    def test_public_only(self):
+    def test_breweries_public_only(self):
         query = BreweryUtils.breweries()
         assert query.count() == 1
 
-    def test_public_only_extra_user(self):
+    def test_breweries_public_only_extra_user(self):
         query = BreweryUtils.breweries(extra_user=self.hidden_user)
         assert query.count() == 2
 
-    def test_all(self):
+    def test_breweries_all(self):
         query = BreweryUtils.breweries(public_only=False)
         assert query.count() == 2

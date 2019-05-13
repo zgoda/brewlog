@@ -280,3 +280,51 @@ class TestBreweryBrewsView(BrewlogTests):
         rv = self.client.get(self.url(brewery))
         assert f'href="{pb_url}"' in rv.text
         assert f'href="{hb_url}"' in rv.text
+
+
+@pytest.mark.usefixtures('client_class')
+class TestJsonViews(BrewlogTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self, user_factory, brewery_factory):
+        self.endpoint = 'brewery.search'
+        self.public_user = user_factory(is_public=True)
+        self.public_brewery = brewery_factory(
+            brewer=self.public_user, name='public brewery'
+        )
+        self.hidden_user = user_factory(is_public=False)
+        self.hidden_brewery = brewery_factory(
+            brewer=self.hidden_user, name='hidden brewery'
+        )
+
+    def test_prefetch_anon(self):
+        rv = self.client.get(url_for(self.endpoint))
+        data = rv.get_json()
+        assert len(data) == 1
+        assert data[0]['name'] == self.public_brewery.name
+
+    def test_prefetch_authenticated(self):
+        self.login(self.hidden_user.email)
+        rv = self.client.get(url_for(self.endpoint))
+        data = rv.get_json()
+        assert len(data) == 1
+        assert data[0]['name'] == self.hidden_brewery.name
+
+    def test_search_anon(self):
+        rv = self.client.get(url_for(self.endpoint, q=self.public_brewery.name))
+        data = rv.get_json()
+        assert len(data) == 1
+        assert data[0]['name'] == self.public_brewery.name
+        rv = self.client.get(url_for(self.endpoint, q=self.hidden_brewery.name))
+        data = rv.get_json()
+        assert len(data) == 0
+
+    def test_search_authenticated(self, brewery_factory):
+        self.login(self.hidden_user.email)
+        rv = self.client.get(url_for(self.endpoint, q=self.hidden_brewery.name))
+        data = rv.get_json()
+        assert len(data) == 1
+        assert data[0]['name'] == self.hidden_brewery.name
+        rv = self.client.get(url_for(self.endpoint, q=self.public_brewery.name))
+        data = rv.get_json()
+        assert len(data) == 0
