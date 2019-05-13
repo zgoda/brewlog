@@ -103,7 +103,7 @@ class TestMainPageAnonUser(BrewlogTests):
         assert brew.name not in rv.text
 
     @pytest.mark.options(ANNOUNCEMENT_FILE='/tmp/dummy/announcement.md')
-    def test_announcement_present(self, fs, app):
+    def test_announcement_present(self, fs):
         file_name = '/tmp/dummy/announcement.md'
         fs.create_file(file_name, contents='This **very important** announcement.')
         fs.add_real_directory(self.TEMPLATES_DIR)
