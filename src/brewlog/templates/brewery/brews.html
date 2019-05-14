@@ -20,7 +20,7 @@
     <tr>
       <td><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a></td>
       <td>{% if brew.style %}{{ brew.style }}{% else %}{{ gettext('no style information') }}{% endif %}</td>
-      <td>{% if current_user == brew.brewery.brewer %}<a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="btn btn-xs btn-danger">{{ gettext("delete") }}</a>{% endif %}</td>
+      <td>{% if current_user == brew.brewery.brewer %}<a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="btn btn-sm btn-danger">{{ gettext("delete") }}</a>{% endif %}</td>
       <td>{% if brew.date_brewed %}{{ brew.date_brewed|dateformat("short") }}{% else %}{{ gettext('not brewed yet') }}{% endif %}</td>
     </tr>
     {% endfor %}
