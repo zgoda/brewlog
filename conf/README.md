@@ -13,3 +13,7 @@ Nginx configuration file with letsencrypt SSL certificates configured, goes to `
 ## brewlog.ini
 
 uWSGI configuration file. Place it where it's set in service startup script.
+
+## brewlog.service
+
+systemd service unit file. This goes to `/etc/systemd/system` on Debian 9 and newer Ubuntus.

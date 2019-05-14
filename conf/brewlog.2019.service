@@ -1,0 +1,15 @@
+[Unit]
+Description=uWSGI launcher for Brewlog
+After=network.target
+
+[Service]
+User=jarek
+Group=www-data
+WorkingDirectory=/home/jarek/brewlog
+Environment="PATH=/home/jarek/brewlog/venv/bin"
+Environment="BREWLOG_CONFIG_LOCAL=/home/jarek/brewlog/config/config_local.py"
+Environment="BREWLOG_CONFIG_SECRETS=/home/jarek/brewlog/config/secrets.py"
+ExecStart=/home/jarek/brewlog/venv/bin/uwsgi --ini config/brewlog.ini
+
+[Install]
+WantedBy=multi-user.target
