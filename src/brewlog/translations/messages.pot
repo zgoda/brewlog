@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: BrewLog 1.0.0.dev0\n"
+"Project-Id-Version: BrewLog 1.0.1.dev0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-04-18 15:26+0200\n"
+"POT-Creation-Date: 2019-05-20 22:09+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.6.0\n"
 
-#: src/brewlog/app.py:85
+#: src/brewlog/app.py:79
 msgid "Please log in to access this page"
 msgstr ""
 
@@ -26,232 +26,229 @@ msgstr ""
 msgid "You have been signed in as %(email)s using %(service)s"
 msgstr ""
 
-#: src/brewlog/auth/views.py:28
+#: src/brewlog/auth/views.py:30
 #, python-format
 msgid "Service \"%(provider)s\" is not supported"
 msgstr ""
 
-#: src/brewlog/auth/views.py:55
+#: src/brewlog/auth/views.py:57
 #, python-format
 msgid "Error receiving profile data from Google: %(code)s"
 msgstr ""
 
-#: src/brewlog/auth/views.py:96
+#: src/brewlog/auth/views.py:98
 #, python-format
 msgid "GitHub profile for user %(name)s lacks public email, skipping as unusable."
 msgstr ""
 
-#: src/brewlog/brew/forms.py:25 src/brewlog/templates/base.html:34
+#: src/brewlog/brew/forms.py:27 src/brewlog/templates/base.html:34
 #: src/brewlog/templates/brewery/base.html:3
 msgid "brewery"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:28 src/brewlog/brewery/forms.py:25
-#: src/brewlog/fermentation/forms.py:16 src/brewlog/models/brewery.py:58
+#: src/brewlog/brew/forms.py:30 src/brewlog/brewery/forms.py:16
+#: src/brewlog/fermentation/forms.py:16
 #: src/brewlog/templates/account/profile_list.html:12
 #: src/brewlog/templates/brew/list.html:12
 #: src/brewlog/templates/brewery/brews.html:12
-#: src/brewlog/templates/brewery/details.html:14
-#: src/brewlog/templates/brewery/details.html:28
+#: src/brewlog/templates/brewery/details.html:13
+#: src/brewlog/templates/brewery/details.html:27
 #: src/brewlog/templates/brewery/list.html:12
 msgid "name"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:29
+#: src/brewlog/brew/forms.py:31
 msgid "code"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:31 src/brewlog/templates/brewery/details.html:29
+#: src/brewlog/brew/forms.py:33 src/brewlog/templates/brewery/brews.html:13
+#: src/brewlog/templates/brewery/details.html:28
 msgid "style"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:32
+#: src/brewlog/brew/forms.py:34
 msgid "descriptive name of style, as you see it"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:34
+#: src/brewlog/brew/forms.py:36
 msgid "BJCP style code"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:35
+#: src/brewlog/brew/forms.py:37
 msgid "BJCP style name"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:36 src/brewlog/fermentation/forms.py:21
+#: src/brewlog/brew/forms.py:38 src/brewlog/fermentation/forms.py:21
 #: src/brewlog/templates/brew/include/details.html:53
 msgid "notes"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:37 src/brewlog/templates/brewery/details.html:27
+#: src/brewlog/brew/forms.py:39 src/brewlog/templates/brewery/brews.html:14
+#: src/brewlog/templates/brewery/details.html:26
 msgid "date brewed"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:39 src/brewlog/templates/brew/include/details.html:14
+#: src/brewlog/brew/forms.py:41 src/brewlog/templates/brew/include/details.html:14
 msgid "fermentables"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:40
+#: src/brewlog/brew/forms.py:42
 msgid "put each fermentable on separate line to make nice list"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:43
+#: src/brewlog/brew/forms.py:45
 msgid "hop items"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:44
+#: src/brewlog/brew/forms.py:46
 msgid "put each hop item on separate line to make nice list"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:47
+#: src/brewlog/brew/forms.py:49
 msgid "yeast items"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:48
+#: src/brewlog/brew/forms.py:50
 msgid "put each yeast item on separate line to make nice list"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:51
+#: src/brewlog/brew/forms.py:53
 msgid "miscellaneous items"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:52
+#: src/brewlog/brew/forms.py:54
 msgid "put each miscellanea on separare line to make nice list"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:55
+#: src/brewlog/brew/forms.py:57
 msgid "mash schedule"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:56 src/brewlog/brew/forms.py:62
+#: src/brewlog/brew/forms.py:58 src/brewlog/brew/forms.py:64
 msgid "put each step on separate line to make nice list"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:59 src/brewlog/templates/brew/include/details.html:44
+#: src/brewlog/brew/forms.py:61 src/brewlog/templates/brew/include/details.html:44
 msgid "sparging"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:61 src/brewlog/templates/brew/include/details.html:46
+#: src/brewlog/brew/forms.py:63 src/brewlog/templates/brew/include/details.html:46
 msgid "hopping schedule"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:64 src/brewlog/templates/brew/include/details.html:45
+#: src/brewlog/brew/forms.py:66 src/brewlog/templates/brew/include/details.html:45
 msgid "boil time"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:66 src/brewlog/templates/brew/include/details.html:11
+#: src/brewlog/brew/forms.py:68 src/brewlog/templates/brew/include/details.html:11
 msgid "final amount"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:67
+#: src/brewlog/brew/forms.py:69
 msgid "volume into bottling"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:70 src/brewlog/templates/brew/include/details.html:59
+#: src/brewlog/brew/forms.py:72 src/brewlog/templates/brew/include/details.html:59
 msgid "bottling date"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:72
+#: src/brewlog/brew/forms.py:74
 msgid "type of carbonation"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:75
+#: src/brewlog/brew/forms.py:77
 msgid "carbonation level"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:77 src/brewlog/templates/brew/include/details.html:61
+#: src/brewlog/brew/forms.py:79 src/brewlog/templates/brew/include/details.html:61
 msgid "carbonation used"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:78
+#: src/brewlog/brew/forms.py:80
 msgid "public"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:79 src/brewlog/templates/brew/list.html:22
+#: src/brewlog/brew/forms.py:81 src/brewlog/templates/brew/list.html:22
 msgid "draft"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:89
+#: src/brewlog/brew/forms.py:91
 msgid "action"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:93
+#: src/brewlog/brew/forms.py:95
 #: src/brewlog/templates/brew/include/fermentation_step.html:3
 msgid "change"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:22
+#: src/brewlog/brew/utils.py:23
 msgid "unspecified style"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:24 src/brewlog/brew/utils.py:25
-#: src/brewlog/brew/utils.py:26
+#: src/brewlog/brew/utils.py:25 src/brewlog/brew/utils.py:26
+#: src/brewlog/brew/utils.py:27
 msgid "unknown"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:27
+#: src/brewlog/brew/utils.py:28
 #, python-format
 msgid "%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:32
+#: src/brewlog/brew/utils.py:33
 msgid "not in particular style"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:36
+#: src/brewlog/brew/utils.py:37
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr ""
 
-#: src/brewlog/brew/views.py:24
+#: src/brewlog/brew/views.py:25
 msgid "single infusion mash w/ mash out"
 msgstr ""
 
-#: src/brewlog/brew/views.py:28
+#: src/brewlog/brew/views.py:29
 msgid "2-step mash w/ mash out"
 msgstr ""
 
-#: src/brewlog/brew/views.py:32
+#: src/brewlog/brew/views.py:33
 msgid "3-step mash w/ mash out"
 msgstr ""
 
-#: src/brewlog/brew/views.py:62
+#: src/brewlog/brew/views.py:63
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr ""
 
-#: src/brewlog/brew/views.py:117
+#: src/brewlog/brew/views.py:119
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr ""
 
-#: src/brewlog/brew/views.py:149
+#: src/brewlog/brew/views.py:152
 #, python-format
 msgid "brew %(name)s state changed"
 msgstr ""
 
-#: src/brewlog/brew/views.py:153
+#: src/brewlog/brew/views.py:156
 msgid "invalid state"
 msgstr ""
 
-#: src/brewlog/brewery/forms.py:20
-msgid "brewery name has to be between 4 and 500 characters long"
-msgstr ""
-
-#: src/brewlog/brewery/forms.py:26 src/brewlog/models/brewery.py:59
+#: src/brewlog/brewery/forms.py:17
 msgid "description"
 msgstr ""
 
-#: src/brewlog/brewery/forms.py:27 src/brewlog/models/brewery.py:60
-#: src/brewlog/templates/brewery/details.html:15
+#: src/brewlog/brewery/forms.py:18 src/brewlog/templates/brewery/details.html:14
 msgid "established"
 msgstr ""
 
-#: src/brewlog/brewery/views.py:47
+#: src/brewlog/brewery/views.py:46
 #, python-format
 msgid "brewery %(name)s has been deleted"
 msgstr ""
 
-#: src/brewlog/brewery/views.py:98
+#: src/brewlog/brewery/views.py:99
 #, python-format
 msgid "brewery %(name)s data updated"
 msgstr ""
@@ -284,12 +281,12 @@ msgstr ""
 msgid "fermentation step %(step_name)s for brew %(brew_name)s has been created"
 msgstr ""
 
-#: src/brewlog/fermentation/views.py:69
+#: src/brewlog/fermentation/views.py:68
 #, python-format
 msgid "fermentation step %(step_name)s for brew %(brew_name)s has been updated"
 msgstr ""
 
-#: src/brewlog/fermentation/views.py:101
+#: src/brewlog/fermentation/views.py:99
 #, python-format
 msgid "fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted"
 msgstr ""
@@ -305,7 +302,7 @@ msgstr ""
 #: src/brewlog/forms/base.py:33
 #: src/brewlog/templates/brew/include/fermentation_step.html:3
 #: src/brewlog/templates/brew/list.html:25
-#: src/brewlog/templates/brewery/brews.html:20
+#: src/brewlog/templates/brewery/brews.html:23
 #: src/brewlog/templates/brewery/list.html:22
 #: src/brewlog/templates/tasting/include/tasting_notes.html:12
 msgid "delete"
@@ -315,31 +312,31 @@ msgstr ""
 msgid "confirm"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:20
+#: src/brewlog/models/brewing.py:26 src/brewlog/models/brewing.py:34
 msgid "planned"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:21
+#: src/brewlog/models/brewing.py:27 src/brewlog/models/brewing.py:35
 msgid "fermenting"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:22
+#: src/brewlog/models/brewing.py:28 src/brewlog/models/brewing.py:36
 msgid "finished"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:23
+#: src/brewlog/models/brewing.py:29 src/brewlog/models/brewing.py:37
 msgid "tapped"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:24
+#: src/brewlog/models/brewing.py:30 src/brewlog/models/brewing.py:38
 msgid "maturing"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:101
+#: src/brewlog/models/brewing.py:115
 msgid "normal"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:104
+#: src/brewlog/models/brewing.py:118
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr ""
@@ -464,20 +461,16 @@ msgstr ""
 msgid "wanting to stay anonymous"
 msgstr ""
 
-#: src/brewlog/profile/forms.py:13
+#: src/brewlog/profile/forms.py:15
 msgid "first name"
 msgstr ""
 
-#: src/brewlog/profile/forms.py:14
+#: src/brewlog/profile/forms.py:16
 msgid "last name"
 msgstr ""
 
-#: src/brewlog/profile/forms.py:16 src/brewlog/templates/macros/users.html:4
+#: src/brewlog/profile/forms.py:17 src/brewlog/templates/macros/users.html:4
 msgid "nick"
-msgstr ""
-
-#: src/brewlog/profile/forms.py:16
-msgid "one of above fields should be provided"
 msgstr ""
 
 #: src/brewlog/profile/forms.py:18
@@ -500,7 +493,11 @@ msgstr ""
 msgid "all activity of non-public brewers is hidden on site, they are invisible"
 msgstr ""
 
-#: src/brewlog/profile/views.py:28
+#: src/brewlog/profile/forms.py:38
+msgid "please provide full name or nick"
+msgstr ""
+
+#: src/brewlog/profile/views.py:29
 msgid "your profile data has been updated"
 msgstr ""
 
@@ -518,7 +515,7 @@ msgstr ""
 msgid "tasting note for %(brew)s saved"
 msgstr ""
 
-#: src/brewlog/tasting/views.py:68
+#: src/brewlog/tasting/views.py:67
 #, python-format
 msgid "tasting note for brew %(brew)s has been deleted"
 msgstr ""
@@ -544,11 +541,11 @@ msgstr ""
 msgid "my items"
 msgstr ""
 
-#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:154
+#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:156
 msgid "breweries"
 msgstr ""
 
-#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:146
+#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:148
 #: src/brewlog/templates/brew/list.html:4
 #: src/brewlog/templates/brewery/list.html:13
 msgid "brews"
@@ -570,27 +567,27 @@ msgstr ""
 msgid "logout"
 msgstr ""
 
-#: src/brewlog/templates/base.html:67
+#: src/brewlog/templates/base.html:68
 msgid "close"
 msgstr ""
 
-#: src/brewlog/templates/base.html:98
+#: src/brewlog/templates/base.html:100
 msgid "All rights reserved"
 msgstr ""
 
-#: src/brewlog/templates/base.html:101
+#: src/brewlog/templates/base.html:103
 msgid "about"
 msgstr ""
 
-#: src/brewlog/templates/base.html:102
+#: src/brewlog/templates/base.html:104
 msgid "user guide"
 msgstr ""
 
-#: src/brewlog/templates/base.html:103
+#: src/brewlog/templates/base.html:105
 msgid "legal mumbo-jumbo"
 msgstr ""
 
-#: src/brewlog/templates/base.html:104
+#: src/brewlog/templates/base.html:106
 msgid "privacy statement"
 msgstr ""
 
@@ -735,7 +732,7 @@ msgstr ""
 #: src/brewlog/templates/account/profile.html:37
 #: src/brewlog/templates/brew/form.html:4 src/brewlog/templates/brew/form.html:7
 #: src/brewlog/templates/brew/list.html:37
-#: src/brewlog/templates/brewery/details.html:46
+#: src/brewlog/templates/brewery/details.html:45
 msgid "add new brew"
 msgstr ""
 
@@ -745,7 +742,7 @@ msgid "registered brewers"
 msgstr ""
 
 #: src/brewlog/templates/account/profile_list.html:13
-#: src/brewlog/templates/brewery/details.html:16
+#: src/brewlog/templates/brewery/details.html:15
 #: src/brewlog/templates/macros/users.html:6
 msgid "registered"
 msgstr ""
@@ -817,7 +814,7 @@ msgid "status"
 msgstr ""
 
 #: src/brewlog/templates/brew/list.html:15
-#: src/brewlog/templates/brewery/brews.html:13
+#: src/brewlog/templates/brewery/brews.html:15
 #: src/brewlog/templates/brewery/list.html:14
 msgid "operations"
 msgstr ""
@@ -905,7 +902,17 @@ msgstr ""
 #: src/brewlog/templates/brewery/brews.html:4
 #: src/brewlog/templates/brewery/brews.html:7
 #, python-format
-msgid "brews from brewery %(name)s"
+msgid "Brews from brewery %(name)s"
+msgstr ""
+
+#: src/brewlog/templates/brewery/brews.html:22
+#: src/brewlog/templates/brewery/details.html:36
+msgid "no style information"
+msgstr ""
+
+#: src/brewlog/templates/brewery/brews.html:24
+#: src/brewlog/templates/brewery/details.html:34
+msgid "not brewed yet"
 msgstr ""
 
 #: src/brewlog/templates/brewery/delete.html:4
@@ -925,31 +932,23 @@ msgstr ""
 msgid "Along with brewery %(name)s following items will be removed:"
 msgstr ""
 
-#: src/brewlog/templates/brewery/details.html:10
+#: src/brewlog/templates/brewery/details.html:9
 msgid "You may change brewery data using the form below"
 msgstr ""
 
-#: src/brewlog/templates/brewery/details.html:19
+#: src/brewlog/templates/brewery/details.html:18
 msgid "People"
 msgstr ""
 
-#: src/brewlog/templates/brewery/details.html:20
+#: src/brewlog/templates/brewery/details.html:19
 msgid "Head brewer"
 msgstr ""
 
-#: src/brewlog/templates/brewery/details.html:22
+#: src/brewlog/templates/brewery/details.html:21
 msgid "Latest brews"
 msgstr ""
 
-#: src/brewlog/templates/brewery/details.html:35
-msgid "not brewed yet"
-msgstr ""
-
-#: src/brewlog/templates/brewery/details.html:37
-msgid "no style information"
-msgstr ""
-
-#: src/brewlog/templates/brewery/details.html:43
+#: src/brewlog/templates/brewery/details.html:42
 msgid "view all brews"
 msgstr ""
 
