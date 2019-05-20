@@ -63,6 +63,7 @@ setup(
         'Authlib',
         'Markdown',
         'WTForms-Alchemy',
+        'WTForms-Components',
         'attrs',
         'permission',
     ),
