@@ -26,7 +26,7 @@ class BrewUtils:
         if brew.og:
             data.append(gettext('OG: %(og).1f*Blg', og=brew.og))
         if brew.fg:
-            data.append(gettext('FG: %(fg).1f', fg=brew.fg))
+            data.append(gettext('FG: %(fg).1f*Blg', fg=brew.fg))
         return stars2deg(', '.join(data))
 
     @staticmethod

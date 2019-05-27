@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BrewLog 1.0.2.dev0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-27 22:39+0200\n"
+"POT-Creation-Date: 2019-05-27 23:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -181,25 +181,30 @@ msgstr ""
 msgid "change"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:23
+#: src/brewlog/brew/utils.py:22
 msgid "unspecified style"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:25 src/brewlog/brew/utils.py:26
-#: src/brewlog/brew/utils.py:27
-msgid "unknown"
-msgstr ""
-
-#: src/brewlog/brew/utils.py:28
+#: src/brewlog/brew/utils.py:25
 #, python-format
-msgid "%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s"
+msgid "%(abv).1f%% ABV"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:33
+#: src/brewlog/brew/utils.py:27
+#, python-format
+msgid "OG: %(og).1f*Blg"
+msgstr ""
+
+#: src/brewlog/brew/utils.py:29
+#, python-format
+msgid "FG: %(fg).1f*Blg"
+msgstr ""
+
+#: src/brewlog/brew/utils.py:35
 msgid "not in particular style"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:37
+#: src/brewlog/brew/utils.py:39
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr ""
