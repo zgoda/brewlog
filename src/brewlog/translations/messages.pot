@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: BrewLog 1.0.1.dev0\n"
+"Project-Id-Version: BrewLog 1.0.2.dev0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-27 21:32+0200\n"
+"POT-Creation-Date: 2019-05-27 22:39+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -551,11 +551,11 @@ msgstr ""
 msgid "my items"
 msgstr ""
 
-#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:156
+#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:157
 msgid "breweries"
 msgstr ""
 
-#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:148
+#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:149
 #: src/brewlog/templates/brew/list.html:4
 #: src/brewlog/templates/brewery/list.html:13
 msgid "brews"
@@ -582,22 +582,26 @@ msgid "close"
 msgstr ""
 
 #: src/brewlog/templates/base.html:100
+msgid "version"
+msgstr ""
+
+#: src/brewlog/templates/base.html:101
 msgid "All rights reserved"
 msgstr ""
 
-#: src/brewlog/templates/base.html:103
+#: src/brewlog/templates/base.html:104
 msgid "about"
 msgstr ""
 
-#: src/brewlog/templates/base.html:104
+#: src/brewlog/templates/base.html:105
 msgid "user guide"
 msgstr ""
 
-#: src/brewlog/templates/base.html:105
+#: src/brewlog/templates/base.html:106
 msgid "legal mumbo-jumbo"
 msgstr ""
 
-#: src/brewlog/templates/base.html:106
+#: src/brewlog/templates/base.html:107
 msgid "privacy statement"
 msgstr ""
 

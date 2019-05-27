@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-27 21:32+0200\n"
+"POT-Creation-Date: 2019-05-27 22:39+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language: pl\n"
@@ -568,11 +568,11 @@ msgstr "warka"
 msgid "my items"
 msgstr "moje rzeczy"
 
-#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:156
+#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:157
 msgid "breweries"
 msgstr "browary"
 
-#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:148
+#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:149
 #: src/brewlog/templates/brew/list.html:4
 #: src/brewlog/templates/brewery/list.html:13
 msgid "brews"
@@ -599,22 +599,26 @@ msgid "close"
 msgstr "zamknij"
 
 #: src/brewlog/templates/base.html:100
+msgid "version"
+msgstr "wersja"
+
+#: src/brewlog/templates/base.html:101
 msgid "All rights reserved"
 msgstr "Wszelkie prawa zastrzeżone"
 
-#: src/brewlog/templates/base.html:103
+#: src/brewlog/templates/base.html:104
 msgid "about"
 msgstr "o aplikacji"
 
-#: src/brewlog/templates/base.html:104
+#: src/brewlog/templates/base.html:105
 msgid "user guide"
 msgstr "przewodnik użytkownika"
 
-#: src/brewlog/templates/base.html:105
+#: src/brewlog/templates/base.html:106
 msgid "legal mumbo-jumbo"
 msgstr "prawniczy bełkot"
 
-#: src/brewlog/templates/base.html:106
+#: src/brewlog/templates/base.html:107
 msgid "privacy statement"
 msgstr "informacje o warunkach prywatności"
 
