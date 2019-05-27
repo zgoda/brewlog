@@ -2,13 +2,12 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-from flask import flash, redirect, render_template, request
+from flask import flash, redirect, render_template, request, url_for
 from flask_babel import lazy_gettext as _
 from flask_login import current_user, login_required
 
 from ..ext import db
 from ..forms.base import DeleteForm
-from ..forms.utils import process_success
 from ..models import Brewery
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
@@ -22,9 +21,10 @@ from .utils import BreweryUtils
 @login_required
 def brewery_add():
     form = BreweryForm()
-    ret = process_success(form, 'brewery.details', 'brewery %(name)s created')
-    if ret is not None:
-        return ret
+    if form.validate_on_submit():
+        brewery = form.save()
+        flash(_('brewery %(name)s created', name=brewery.name), category='success')
+        return redirect(url_for('brewery.details', brewery_id=brewery.id))
     ctx = {
         'form': form,
     }

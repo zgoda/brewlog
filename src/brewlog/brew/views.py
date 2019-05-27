@@ -10,7 +10,6 @@ from flask_login import current_user, login_required
 
 from ..ext import db
 from ..forms.base import DeleteForm
-from ..forms.utils import process_success
 from ..models import Brew
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
@@ -39,9 +38,10 @@ HINTS = [
 @login_required
 def brew_add():
     form = BrewForm()
-    form_result = process_success(form, 'brew.details', 'brew %(name)s created')
-    if form_result is not None:
-        return form_result
+    if form.validate_on_submit():
+        brew = form.save()
+        flash(lazy_gettext('brew %(name)s created', name=brew.name), category='success')
+        return redirect(url_for('brew.details', brew_id=brew.id))
     ctx = {
         'form': form,
         'mash_hints': HINTS,

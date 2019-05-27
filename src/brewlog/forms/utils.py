@@ -2,13 +2,8 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-import inspect
-
 import attr
-from flask import (
-    Markup, current_app, flash, redirect, render_template_string, url_for
-)
-from flask_babel import lazy_gettext
+from flask import Markup, render_template_string
 
 
 class Renderable:
@@ -47,15 +42,3 @@ class Button(Renderable):
             '</button>',
         ]
     )
-
-
-def process_success(form, endpoint, flash_message):
-    if form.validate_on_submit():
-        obj = form.save()
-        flash(lazy_gettext(flash_message, name=obj.name), category='success')
-        view_func = current_app.view_functions[endpoint]
-        arg_name = inspect.getfullargspec(view_func).args[0]
-        kw = {
-            arg_name: obj.id,
-        }
-        return redirect(url_for(endpoint, **kw))

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-20 22:09+0200\n"
+"POT-Creation-Date: 2019-05-27 21:32+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language: pl\n"
@@ -18,7 +18,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 2.7.0\n"
 
 #: src/brewlog/app.py:79
 msgid "Please log in to access this page"
@@ -216,17 +216,22 @@ msgstr "bezstylowiec"
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr "%(style)s przez %(brewer)s w %(brewery)s"
 
-#: src/brewlog/brew/views.py:25
+#: src/brewlog/brew/views.py:24
 msgid "single infusion mash w/ mash out"
 msgstr "infuzyjne jednostopniowe z wygrzewem"
 
-#: src/brewlog/brew/views.py:29
+#: src/brewlog/brew/views.py:28
 msgid "2-step mash w/ mash out"
 msgstr "dwustopniowe z wygrzewem"
 
-#: src/brewlog/brew/views.py:33
+#: src/brewlog/brew/views.py:32
 msgid "3-step mash w/ mash out"
 msgstr "trzystopniowe z wygrzewem"
+
+#: src/brewlog/brew/views.py:43
+#, python-format
+msgid "brew %(name)s created"
+msgstr "warka %(name)s została utworzona"
 
 #: src/brewlog/brew/views.py:63
 #, python-format
@@ -255,6 +260,11 @@ msgstr "opis"
 #: src/brewlog/templates/brewery/details.html:14
 msgid "established"
 msgstr "ustanowiony"
+
+#: src/brewlog/brewery/views.py:26
+#, python-format
+msgid "brewery %(name)s created"
+msgstr "browar %(name)s został utworzony"
 
 #: src/brewlog/brewery/views.py:46
 #, python-format

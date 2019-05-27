@@ -8,14 +8,14 @@ msgid ""
 msgstr ""
 "Project-Id-Version: BrewLog 1.0.1.dev0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-20 22:09+0200\n"
+"POT-Creation-Date: 2019-05-27 21:32+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.6.0\n"
+"Generated-By: Babel 2.7.0\n"
 
 #: src/brewlog/app.py:79
 msgid "Please log in to access this page"
@@ -204,16 +204,21 @@ msgstr ""
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr ""
 
-#: src/brewlog/brew/views.py:25
+#: src/brewlog/brew/views.py:24
 msgid "single infusion mash w/ mash out"
 msgstr ""
 
-#: src/brewlog/brew/views.py:29
+#: src/brewlog/brew/views.py:28
 msgid "2-step mash w/ mash out"
 msgstr ""
 
-#: src/brewlog/brew/views.py:33
+#: src/brewlog/brew/views.py:32
 msgid "3-step mash w/ mash out"
+msgstr ""
+
+#: src/brewlog/brew/views.py:43
+#, python-format
+msgid "brew %(name)s created"
 msgstr ""
 
 #: src/brewlog/brew/views.py:63
@@ -241,6 +246,11 @@ msgstr ""
 
 #: src/brewlog/brewery/forms.py:18 src/brewlog/templates/brewery/details.html:14
 msgid "established"
+msgstr ""
+
+#: src/brewlog/brewery/views.py:26
+#, python-format
+msgid "brewery %(name)s created"
 msgstr ""
 
 #: src/brewlog/brewery/views.py:46
