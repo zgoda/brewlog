@@ -5,6 +5,7 @@ Changes
 ------------------
 
 - display version information in page footer
+- fixed ugly brew description string in Polish translation
 
 1.0.1 (2019-05-28)
 ------------------

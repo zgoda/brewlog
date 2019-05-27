@@ -19,13 +19,15 @@ class BrewUtils:
 
     @staticmethod
     def description(brew):
-        data = {
-            'style': brew.style or brew.bjcp_style or gettext('unspecified style')
-        }
-        data['og'] = '%.1f*Blg' % brew.og if brew.og else gettext('unknown')
-        data['fg'] = '%.1f*Blg' % brew.fg if brew.fg else gettext('unknown')
-        data['abv'] = '%.1f%%' % brew.abv if brew.abv else gettext('unknown')
-        return stars2deg(gettext('%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s', **data))
+        style = brew.style or brew.bjcp_style or gettext('unspecified style')
+        data = [style]
+        if brew.abv:
+            data.append(gettext('%(abv).1f%% ABV', abv=brew.abv))
+        if brew.og:
+            data.append(gettext('OG: %(og).1f*Blg', og=brew.og))
+        if brew.fg:
+            data.append(gettext('FG: %(fg).1f', fg=brew.fg))
+        return stars2deg(', '.join(data))
 
     @staticmethod
     def display_info(brew):

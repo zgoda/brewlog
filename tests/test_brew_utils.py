@@ -19,8 +19,7 @@ class TestBrewUtils:
 
     def test_brew_description(self):
         ret = BrewUtils.description(self.brew1)
-        assert 'unspecified style' in ret
-        assert 'unknown' in ret
+        assert ret == 'unspecified style'
 
     def test_display_info(self):
         ret = BrewUtils.display_info(self.brew1)
