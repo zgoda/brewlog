@@ -2,4 +2,8 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-__version__ = '1.0.1-dev'
+__version__ = '1.0.1'
+
+
+def get_version():
+    return __version__
