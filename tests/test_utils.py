@@ -7,6 +7,7 @@ import unicodedata
 from brewlog.utils.brewing import sg2plato, abv
 from brewlog.utils.pagination import get_page, url_for_other_page
 from brewlog.utils.text import stars2deg, get_announcement
+from brewlog.utils.views import is_redirect_safe
 
 
 class TestTextUtils:
@@ -67,3 +68,21 @@ class TestBrewingFormulas:
         og = 10
         fg = 2.5
         assert round(abv(og, fg)) == 4
+
+
+class TestViewUtils:
+
+    def test_safe_url_not_http(self, app):
+        with app.test_request_context('/'):
+            url = 'ssh://somewhere.com'
+            assert not is_redirect_safe(url)
+
+    def test_safe_url_other_netloc(self, app):
+        with app.test_request_context('/'):
+            url = 'http://cia.gov'
+            assert not is_redirect_safe(url)
+
+    def test_safe_url_is_safe(self, app):
+        with app.test_request_context('/'):
+            url = '/somewhere/else'
+            assert is_redirect_safe(url)

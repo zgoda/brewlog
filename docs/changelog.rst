@@ -1,9 +1,11 @@
 Changes
 =======
 
-1.0.2 (unreleased)
+1.0.2 (2019-05-30)
 ------------------
 
+- fixed unsecure redirects, application now checks redirect target whether
+  it's http(s) and is on the same netloc
 - display version information in page footer
 - fixed ugly brew description string in Polish translation
 
