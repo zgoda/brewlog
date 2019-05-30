@@ -28,7 +28,7 @@ def find_version(*file_paths):
 long_description = read('README.md')
 
 setup(
-    name='BrewLog',
+    name='brewlog',
     version=find_version('src', 'brewlog', '_version.py'),
     author='Jarek Zgoda',
     author_email='jarek.zgoda@gmail.com',
@@ -48,7 +48,6 @@ setup(
         'Operating System :: POSIX',
         'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Python :: 3.7',
-        'Programming Language :: Python :: 3.8',
     ],
     install_requires=(
         'Flask',
