@@ -13,4 +13,4 @@
 
 ## Reporting a Vulnerability
 
-Please report any vulnerability found by mail to jarek-dot-zgoda-at-gmail-dot-com. I will get in touch as soon as I can.
+Please report any vulnerability found by mail to jarek-dot-zgoda-at-gmail-dot-com. I will get in touch as soon as I can. Please wait couple days before reporting it in issue tracker.
