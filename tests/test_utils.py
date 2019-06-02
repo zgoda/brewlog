@@ -4,9 +4,11 @@
 
 import unicodedata
 
-from brewlog.utils.brewing import sg2plato, abv
+import pytest
+
+from brewlog.utils.brewing import abv, sg2plato
 from brewlog.utils.pagination import get_page, url_for_other_page
-from brewlog.utils.text import stars2deg, get_announcement
+from brewlog.utils.text import get_announcement, stars2deg
 from brewlog.utils.views import is_redirect_safe
 
 
@@ -72,17 +74,14 @@ class TestBrewingFormulas:
 
 class TestViewUtils:
 
-    def test_safe_url_not_http(self, app):
+    @pytest.mark.parametrize('url', [
+        '', None, 'ssh://somewhere.com', 'http://cia.gov'
+    ], ids=['empty', 'none', 'non-http', 'external'])
+    def test_safe_redirect_url_not_safe(self, app, url):
         with app.test_request_context('/'):
-            url = 'ssh://somewhere.com'
             assert not is_redirect_safe(url)
 
-    def test_safe_url_other_netloc(self, app):
-        with app.test_request_context('/'):
-            url = 'http://cia.gov'
-            assert not is_redirect_safe(url)
-
-    def test_safe_url_is_safe(self, app):
+    def test_safe_redirect_url_safe(self, app):
         with app.test_request_context('/'):
             url = '/somewhere/else'
             assert is_redirect_safe(url)
