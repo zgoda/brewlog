@@ -103,5 +103,6 @@ def brews(user_id):
     ctx = {
         'pagination': pagination,
         'utils': BrewUtils,
+        'user_is_brewer': current_user == brewer,
     }
     return render_template('brew/list.html', **ctx)

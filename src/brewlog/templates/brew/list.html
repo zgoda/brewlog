@@ -33,7 +33,7 @@
 </table>
 {{ render_pagination(pagination) }}
 {% endif %}
-{% if current_user.is_authenticated %}
+{% if user_is_brewer %}
 <p><a href="{{ url_for('brew.add') }}" class="btn btn-primary">{{ gettext("add new brew") }}</a></p>
 {% endif %}
 {% endblock %}

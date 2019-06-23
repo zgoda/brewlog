@@ -91,6 +91,7 @@ def brew_all():
     context = {
         'pagination': pagination,
         'utils': BrewUtils,
+        'user_is_brewer': False,
     }
     return render_template('brew/list.html', **context)
 
