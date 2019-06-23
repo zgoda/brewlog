@@ -19,6 +19,5 @@ wheel
 
 flask-shell-ipython
 watchdog
-inotify
 
 python-dotenv
