@@ -57,6 +57,7 @@ setup(
         'Flask-SQLAlchemy',
         'Flask-WTF',
         'Bootstrap-Flask',
+        'Flask-Migrate',
         'SQLAlchemy-Utils',
         'Authlib',
         'Markdown',
@@ -64,6 +65,7 @@ setup(
         'WTForms-Components',
         'attrs',
         'permission',
+        'psycopg2-binary',
     ),
     setup_requires=(
         'pytest-runner',
@@ -78,7 +80,7 @@ setup(
         'pyfakefs',
     ),
     extras_require={
-        'prod': ['psycopg2-binary', 'uwsgi']
+        'prod': ['uwsgi']
     },
     entry_points={
         'console_scripts': [
