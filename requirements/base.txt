@@ -5,6 +5,7 @@ Flask-FlatPages
 Flask-SQLAlchemy
 Flask-WTF
 Bootstrap-Flask
+Flask-Migrate
 SQLAlchemy-Utils
 Authlib
 Markdown
@@ -12,3 +13,4 @@ WTForms-Alchemy
 WTForms-Components
 attrs
 permission
+psycopg2-binary

@@ -7,6 +7,7 @@ exclude_patterns:
   - "tests/"
   - "requirements/"
   - "conf/"
+  - "migrations/"
   - "*/brewlog/_version.py"
   - "*/brewlog/cli.py"
   - "*/brewlog/wsgi.py"

@@ -9,6 +9,7 @@ from flask_flatpages import FlatPages
 from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
+from flask_migrate import Migrate
 
 from .utils.models import Model
 
@@ -25,3 +26,5 @@ csrf = CSRFProtect()
 bootstrap = Bootstrap()
 
 oauth = OAuth()
+
+migrate = Migrate()

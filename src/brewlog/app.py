@@ -12,7 +12,9 @@ from werkzeug.utils import ImportStringError
 from .auth import auth_bp
 from .brew import brew_bp
 from .brewery import brewery_bp
-from .ext import babel, bootstrap, csrf, db, login_manager, oauth, pages
+from .ext import (
+    babel, bootstrap, csrf, db, login_manager, migrate, oauth, pages,
+)
 from .fermentation import ferm_bp
 from .home import home_bp
 from .profile import profile_bp
@@ -71,6 +73,7 @@ def configure_blueprints(app, env):
 
 def configure_extensions(app, env):
     db.init_app(app)
+    migrate.init_app(app, db)
     csrf.init_app(app)
     oauth.init_app(app)
     bootstrap.init_app(app)
