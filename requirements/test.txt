@@ -1,6 +1,6 @@
 -r base.txt
 
-pytest
+pytest<5
 pytest-flask
 pytest-cov
 pytest-mock
