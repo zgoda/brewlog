@@ -17,7 +17,7 @@ class BrewerProfile(UserMixin, db.Model):
     first_name = db.Column(db.String(50))
     last_name = db.Column(db.String(50))
     nick = db.Column(db.String(50))
-    email = db.Column(db.String(200), index=True, nullable=False)
+    email = db.Column(db.String(200), index=True)
     full_name = db.Column(db.String(100))
     location = db.Column(db.String(100))
     about_me = db.Column(db.Text)
@@ -29,6 +29,11 @@ class BrewerProfile(UserMixin, db.Model):
     oauth_token_secret = db.Column(db.Text)  # for OAuth1a
     oauth_service = db.Column(db.String(50))
     remote_userid = db.Column(db.String(100))
+    username = db.Column(db.String(200), index=True)
+    password = db.Column(db.Text, default='unset')
+    email_confirmed = db.Column(db.Boolean, default=False)
+    confirmation_sent_dt = db.Column(db.DateTime)
+    confirmed_dt = db.Column(db.DateTime)
 
     __table_args__ = (
         db.Index('user_remote_id', 'oauth_service', 'remote_userid'),
@@ -75,9 +80,6 @@ class BrewerProfile(UserMixin, db.Model):
         if order_by is not None:
             query = query.order_by(order_by)
         return query
-
-    def full_data(self):
-        return self.__dict__
 
 
 # events: BrewerProfile model

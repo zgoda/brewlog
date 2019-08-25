@@ -29,13 +29,9 @@ def profile(user_id):
             flash(_('your profile data has been updated'), category='success')
             return redirect(url_for('.details', user_id=profile.id))
     context = {
-        'data': user_profile.nick,
-        'data_type': 'summary',
         'profile': user_profile,
         'latest_brews': Brew.get_latest_for(user_profile, limit=10),
     }
-    context['data'] = user_profile.full_data()
-    context['data_type'] = 'full'
     if user_profile == current_user:
         context['form'] = form or ProfileForm(obj=user_profile)
     return render_template('account/profile.html', **context)

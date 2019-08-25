@@ -7,3 +7,4 @@ pytest-mock
 pytest-runner
 pytest-factoryboy
 pyfakefs
+fakeredis

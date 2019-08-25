@@ -13,7 +13,7 @@ from .auth import auth_bp
 from .brew import brew_bp
 from .brewery import brewery_bp
 from .ext import (
-    babel, bootstrap, csrf, db, login_manager, migrate, oauth, pages,
+    babel, bootstrap, csrf, db, login_manager, migrate, oauth, pages, rq,
 )
 from .fermentation import ferm_bp
 from .home import home_bp
@@ -77,6 +77,7 @@ def configure_extensions(app, env):
     csrf.init_app(app)
     oauth.init_app(app)
     bootstrap.init_app(app)
+    rq.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.select'
     login_manager.login_message = _('Please log in to access this page')
