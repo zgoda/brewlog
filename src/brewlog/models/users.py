@@ -9,6 +9,7 @@ from flask_babel import lazy_gettext as _
 from flask_login import UserMixin
 
 from ..ext import db
+from ..security import pwd_context
 
 
 class BrewerProfile(UserMixin, db.Model):
@@ -55,6 +56,10 @@ class BrewerProfile(UserMixin, db.Model):
                 return value
         return _('wanting to stay anonymous')
 
+    @property
+    def has_valid_password(self):
+        return self.password != 'unset'
+
     @classmethod
     def get_by_email(cls, email):
         return cls.query.filter_by(email=email).first()
@@ -80,6 +85,9 @@ class BrewerProfile(UserMixin, db.Model):
         if order_by is not None:
             query = query.order_by(order_by)
         return query
+
+    def set_password(self, password):
+        self.password = pwd_context.hash(password)
 
 
 # events: BrewerProfile model
