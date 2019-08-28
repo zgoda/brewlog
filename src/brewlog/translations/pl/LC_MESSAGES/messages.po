@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-27 23:15+0200\n"
+"POT-Creation-Date: 2019-08-28 15:03+0200\n"
 "PO-Revision-Date: 2012-11-11 15:33+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language: pl\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
 
-#: src/brewlog/app.py:79
+#: src/brewlog/app.py:83
 msgid "Please log in to access this page"
 msgstr "Musisz się zalogować by uzyskać dostęp do tej strony"
 
@@ -243,17 +243,17 @@ msgstr "warka %(name)s została utworzona"
 msgid "brew %(name)s data updated"
 msgstr "dane warki %(name)s zostały zaktualizowane"
 
-#: src/brewlog/brew/views.py:119
+#: src/brewlog/brew/views.py:120
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr "warka %(name)s została usunięta"
 
-#: src/brewlog/brew/views.py:152
+#: src/brewlog/brew/views.py:153
 #, python-format
 msgid "brew %(name)s state changed"
 msgstr "status warki %(name)s zmieniony"
 
-#: src/brewlog/brew/views.py:156
+#: src/brewlog/brew/views.py:157
 msgid "invalid state"
 msgstr "nieprawidłowy status"
 
@@ -321,11 +321,11 @@ msgstr ""
 msgid "fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted"
 msgstr "etap fermentacji %(fstep_name)s dla warki %(brew_name)s został usunięty"
 
-#: src/brewlog/forms/base.py:20
+#: src/brewlog/forms/base.py:20 src/brewlog/profile/forms.py:52
 msgid "save"
 msgstr "zapisz"
 
-#: src/brewlog/forms/base.py:21
+#: src/brewlog/forms/base.py:21 src/brewlog/profile/forms.py:53
 msgid "go back"
 msgstr "powrót"
 
@@ -489,51 +489,63 @@ msgstr "gęstość pocz. %(og)s&deg;Blg"
 msgid "missing key fermentation data"
 msgstr "brak podstawowych danych of fermentacji"
 
-#: src/brewlog/models/users.py:51
+#: src/brewlog/models/users.py:57
 msgid "wanting to stay anonymous"
 msgstr "pragnący pozostać anonimowym"
 
-#: src/brewlog/profile/forms.py:15
+#: src/brewlog/profile/forms.py:17
 msgid "first name"
 msgstr "imię"
 
-#: src/brewlog/profile/forms.py:16
+#: src/brewlog/profile/forms.py:18
 msgid "last name"
 msgstr "nazwisko"
 
-#: src/brewlog/profile/forms.py:17 src/brewlog/templates/macros/users.html:4
+#: src/brewlog/profile/forms.py:19 src/brewlog/templates/macros/users.html:4
 msgid "nick"
 msgstr "nick"
 
-#: src/brewlog/profile/forms.py:18
+#: src/brewlog/profile/forms.py:20
 msgid "email"
 msgstr "email"
 
-#: src/brewlog/profile/forms.py:19 src/brewlog/templates/macros/users.html:5
+#: src/brewlog/profile/forms.py:21 src/brewlog/templates/macros/users.html:5
 msgid "location"
 msgstr "lokalizacja"
 
-#: src/brewlog/profile/forms.py:20
+#: src/brewlog/profile/forms.py:22
 msgid "about me"
 msgstr "o mnie"
 
-#: src/brewlog/profile/forms.py:22
+#: src/brewlog/profile/forms.py:24
 msgid "profile is public"
 msgstr "profil jest publiczny"
 
-#: src/brewlog/profile/forms.py:23
+#: src/brewlog/profile/forms.py:25
 msgid "all activity of non-public brewers is hidden on site, they are invisible"
 msgstr "aktywność użytkowników ukrytych jest niewidoczna w serwisie"
 
-#: src/brewlog/profile/forms.py:38
+#: src/brewlog/profile/forms.py:40
 msgid "please provide full name or nick"
 msgstr "proszę podać nazwę użytkownika albo pseudonim"
+
+#: src/brewlog/profile/forms.py:48
+msgid "new password"
+msgstr "nowe hasło"
+
+#: src/brewlog/profile/forms.py:49
+msgid "new password (repeat)"
+msgstr "nowe hasło (powtórz)"
 
 #: src/brewlog/profile/views.py:29
 msgid "your profile data has been updated"
 msgstr "twój profil piwowara został uaktualniony"
 
-#: src/brewlog/profile/views.py:56
+#: src/brewlog/profile/views.py:48
+msgid "your password has been changed"
+msgstr "twoje hasło zostało zmienione"
+
+#: src/brewlog/profile/views.py:68
 #, python-format
 msgid "profile for %(email)s has been deleted"
 msgstr "konto użytkownika %(email)s zostało usunięte"
@@ -573,11 +585,11 @@ msgstr "warka"
 msgid "my items"
 msgstr "moje rzeczy"
 
-#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:157
+#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:160
 msgid "breweries"
 msgstr "browary"
 
-#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:149
+#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:152
 #: src/brewlog/templates/brew/list.html:4
 #: src/brewlog/templates/brewery/list.html:13
 msgid "brews"
@@ -595,35 +607,39 @@ msgstr "strona logowania"
 msgid "my profile"
 msgstr "profil"
 
-#: src/brewlog/templates/base.html:53
+#: src/brewlog/templates/base.html:54
+msgid "set password"
+msgstr "ustaw hasło"
+
+#: src/brewlog/templates/base.html:56
 msgid "logout"
 msgstr "wyloguj"
 
-#: src/brewlog/templates/base.html:68
+#: src/brewlog/templates/base.html:71
 msgid "close"
 msgstr "zamknij"
 
-#: src/brewlog/templates/base.html:100
+#: src/brewlog/templates/base.html:103
 msgid "version"
 msgstr "wersja"
 
-#: src/brewlog/templates/base.html:101
+#: src/brewlog/templates/base.html:104
 msgid "All rights reserved"
 msgstr "Wszelkie prawa zastrzeżone"
 
-#: src/brewlog/templates/base.html:104
+#: src/brewlog/templates/base.html:107
 msgid "about"
 msgstr "o aplikacji"
 
-#: src/brewlog/templates/base.html:105
+#: src/brewlog/templates/base.html:108
 msgid "user guide"
 msgstr "przewodnik użytkownika"
 
-#: src/brewlog/templates/base.html:106
+#: src/brewlog/templates/base.html:109
 msgid "legal mumbo-jumbo"
 msgstr "prawniczy bełkot"
 
-#: src/brewlog/templates/base.html:107
+#: src/brewlog/templates/base.html:110
 msgid "privacy statement"
 msgstr "informacje o warunkach prywatności"
 
@@ -785,6 +801,7 @@ msgstr "wszystkie"
 #: src/brewlog/templates/brew/form.html:4
 #: src/brewlog/templates/brew/form.html:7
 #: src/brewlog/templates/brew/list.html:37
+#: src/brewlog/templates/brewery/brews.html:32
 #: src/brewlog/templates/brewery/details.html:45
 msgid "add new brew"
 msgstr "dodaj nową warkę"
@@ -799,6 +816,22 @@ msgstr "zarejestrowani piwowarzy"
 #: src/brewlog/templates/macros/users.html:6
 msgid "registered"
 msgstr "rejestracja"
+
+#: src/brewlog/templates/account/set_password.html:4
+#: src/brewlog/templates/account/set_password.html:7
+msgid "set or change your password"
+msgstr "ustaw lub zmień swoje hasło"
+
+#: src/brewlog/templates/account/set_password.html:10
+msgid ""
+"You do not have valid password set. While signing in is still possible "
+"with social services, this feature will soon be gone. Please provide "
+"password to keep access to your data once social sign in is turned off."
+msgstr ""
+"Nie posiadasz ustawionego hasła do konta. Logowanie przy użyciu serwisów "
+"społecznościowych wciąż jest możliwe, ale wkrótce zostanie wyłączone. "
+"Ustaw hasło aby zachować dostęp do swojego konta i danych po wyłączeniu "
+"logowania przy użyciu usług społecznościowych."
 
 #: src/brewlog/templates/auth/base.html:3
 msgid "authorization"

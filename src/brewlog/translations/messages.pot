@@ -1,14 +1,14 @@
-# Translations template for BrewLog.
+# Translations template for brewlog.
 # Copyright (C) 2019 ORGANIZATION
-# This file is distributed under the same license as the BrewLog project.
+# This file is distributed under the same license as the brewlog project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2019.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: BrewLog 1.0.2.dev0\n"
+"Project-Id-Version: brewlog 1.0.3.dev0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-27 23:15+0200\n"
+"POT-Creation-Date: 2019-08-28 15:03+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.7.0\n"
 
-#: src/brewlog/app.py:79
+#: src/brewlog/app.py:83
 msgid "Please log in to access this page"
 msgstr ""
 
@@ -231,17 +231,17 @@ msgstr ""
 msgid "brew %(name)s data updated"
 msgstr ""
 
-#: src/brewlog/brew/views.py:119
+#: src/brewlog/brew/views.py:120
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr ""
 
-#: src/brewlog/brew/views.py:152
+#: src/brewlog/brew/views.py:153
 #, python-format
 msgid "brew %(name)s state changed"
 msgstr ""
 
-#: src/brewlog/brew/views.py:156
+#: src/brewlog/brew/views.py:157
 msgid "invalid state"
 msgstr ""
 
@@ -306,11 +306,11 @@ msgstr ""
 msgid "fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted"
 msgstr ""
 
-#: src/brewlog/forms/base.py:20
+#: src/brewlog/forms/base.py:20 src/brewlog/profile/forms.py:52
 msgid "save"
 msgstr ""
 
-#: src/brewlog/forms/base.py:21
+#: src/brewlog/forms/base.py:21 src/brewlog/profile/forms.py:53
 msgid "go back"
 msgstr ""
 
@@ -472,51 +472,63 @@ msgstr ""
 msgid "missing key fermentation data"
 msgstr ""
 
-#: src/brewlog/models/users.py:51
+#: src/brewlog/models/users.py:57
 msgid "wanting to stay anonymous"
 msgstr ""
 
-#: src/brewlog/profile/forms.py:15
+#: src/brewlog/profile/forms.py:17
 msgid "first name"
 msgstr ""
 
-#: src/brewlog/profile/forms.py:16
+#: src/brewlog/profile/forms.py:18
 msgid "last name"
 msgstr ""
 
-#: src/brewlog/profile/forms.py:17 src/brewlog/templates/macros/users.html:4
+#: src/brewlog/profile/forms.py:19 src/brewlog/templates/macros/users.html:4
 msgid "nick"
 msgstr ""
 
-#: src/brewlog/profile/forms.py:18
+#: src/brewlog/profile/forms.py:20
 msgid "email"
 msgstr ""
 
-#: src/brewlog/profile/forms.py:19 src/brewlog/templates/macros/users.html:5
+#: src/brewlog/profile/forms.py:21 src/brewlog/templates/macros/users.html:5
 msgid "location"
 msgstr ""
 
-#: src/brewlog/profile/forms.py:20
+#: src/brewlog/profile/forms.py:22
 msgid "about me"
 msgstr ""
 
-#: src/brewlog/profile/forms.py:22
+#: src/brewlog/profile/forms.py:24
 msgid "profile is public"
 msgstr ""
 
-#: src/brewlog/profile/forms.py:23
+#: src/brewlog/profile/forms.py:25
 msgid "all activity of non-public brewers is hidden on site, they are invisible"
 msgstr ""
 
-#: src/brewlog/profile/forms.py:38
+#: src/brewlog/profile/forms.py:40
 msgid "please provide full name or nick"
+msgstr ""
+
+#: src/brewlog/profile/forms.py:48
+msgid "new password"
+msgstr ""
+
+#: src/brewlog/profile/forms.py:49
+msgid "new password (repeat)"
 msgstr ""
 
 #: src/brewlog/profile/views.py:29
 msgid "your profile data has been updated"
 msgstr ""
 
-#: src/brewlog/profile/views.py:56
+#: src/brewlog/profile/views.py:48
+msgid "your password has been changed"
+msgstr ""
+
+#: src/brewlog/profile/views.py:68
 #, python-format
 msgid "profile for %(email)s has been deleted"
 msgstr ""
@@ -556,11 +568,11 @@ msgstr ""
 msgid "my items"
 msgstr ""
 
-#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:157
+#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:160
 msgid "breweries"
 msgstr ""
 
-#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:149
+#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:152
 #: src/brewlog/templates/brew/list.html:4
 #: src/brewlog/templates/brewery/list.html:13
 msgid "brews"
@@ -578,35 +590,39 @@ msgstr ""
 msgid "my profile"
 msgstr ""
 
-#: src/brewlog/templates/base.html:53
+#: src/brewlog/templates/base.html:54
+msgid "set password"
+msgstr ""
+
+#: src/brewlog/templates/base.html:56
 msgid "logout"
 msgstr ""
 
-#: src/brewlog/templates/base.html:68
+#: src/brewlog/templates/base.html:71
 msgid "close"
 msgstr ""
 
-#: src/brewlog/templates/base.html:100
+#: src/brewlog/templates/base.html:103
 msgid "version"
 msgstr ""
 
-#: src/brewlog/templates/base.html:101
+#: src/brewlog/templates/base.html:104
 msgid "All rights reserved"
 msgstr ""
 
-#: src/brewlog/templates/base.html:104
+#: src/brewlog/templates/base.html:107
 msgid "about"
 msgstr ""
 
-#: src/brewlog/templates/base.html:105
+#: src/brewlog/templates/base.html:108
 msgid "user guide"
 msgstr ""
 
-#: src/brewlog/templates/base.html:106
+#: src/brewlog/templates/base.html:109
 msgid "legal mumbo-jumbo"
 msgstr ""
 
-#: src/brewlog/templates/base.html:107
+#: src/brewlog/templates/base.html:110
 msgid "privacy statement"
 msgstr ""
 
@@ -751,6 +767,7 @@ msgstr ""
 #: src/brewlog/templates/account/profile.html:37
 #: src/brewlog/templates/brew/form.html:4 src/brewlog/templates/brew/form.html:7
 #: src/brewlog/templates/brew/list.html:37
+#: src/brewlog/templates/brewery/brews.html:32
 #: src/brewlog/templates/brewery/details.html:45
 msgid "add new brew"
 msgstr ""
@@ -764,6 +781,18 @@ msgstr ""
 #: src/brewlog/templates/brewery/details.html:15
 #: src/brewlog/templates/macros/users.html:6
 msgid "registered"
+msgstr ""
+
+#: src/brewlog/templates/account/set_password.html:4
+#: src/brewlog/templates/account/set_password.html:7
+msgid "set or change your password"
+msgstr ""
+
+#: src/brewlog/templates/account/set_password.html:10
+msgid ""
+"You do not have valid password set. While signing in is still possible with "
+"social services, this feature will soon be gone. Please provide password to "
+"keep access to your data once social sign in is turned off."
 msgstr ""
 
 #: src/brewlog/templates/auth/base.html:3

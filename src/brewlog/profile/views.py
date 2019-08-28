@@ -12,7 +12,7 @@ from ..forms.base import DeleteForm
 from ..models import Brew, BrewerProfile, Brewery
 from ..utils.pagination import get_page
 from . import profile_bp
-from .forms import ProfileForm
+from .forms import ProfileForm, PasswordChangeForm
 from .permissions import AccessManager
 
 
@@ -35,6 +35,22 @@ def profile(user_id):
     if user_profile == current_user:
         context['form'] = form or ProfileForm(obj=user_profile)
     return render_template('account/profile.html', **context)
+
+
+@profile_bp.route('/newpassword', methods=['GET', 'POST'])
+@login_required
+def set_password():
+    form = None
+    if request.method == 'POST':
+        form = PasswordChangeForm()
+        if form.validate_on_submit():
+            user = form.save(current_user)
+            flash(_('your password has been changed'), category='success')
+            return redirect(url_for('.details', user_id=user.id))
+    context = {
+        'form': form or PasswordChangeForm()
+    }
+    return render_template('account/set_password.html', **context)
 
 
 @profile_bp.route('<int:user_id>/delete', methods=['GET', 'POST'], endpoint='delete')
