@@ -4,18 +4,32 @@
 
 from flask import flash, redirect, render_template, request, session, url_for
 from flask_babel import gettext as _
-from flask_login import login_required, logout_user
+from flask_login import login_required, logout_user, login_user
 
 from . import auth_bp
 from . import providers
 from ..ext import oauth
+from ..utils.views import next_redirect
+from .forms import LoginForm
 from .utils import login_success
 
 
-@auth_bp.route('/select', endpoint='select')
+@auth_bp.route('/select', methods=['POST', 'GET'], endpoint='select')
 def select_provider():
     session['next'] = request.args.get('next')
-    return render_template('auth/select.html')
+    form = None
+    if request.method == 'POST':
+        form = LoginForm()
+        if form.validate_on_submit():
+            user = form.save()
+            login_user(user)
+            session.permanent = True
+            flash(_('you are now logged in'), category='success')
+            return redirect(next_redirect('home.index'))
+    ctx = {
+        'form': form or LoginForm(),
+    }
+    return render_template('auth/select.html', **ctx)
 
 
 @auth_bp.route('/<provider>', endpoint='login')
