@@ -2,8 +2,10 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
+from flask import session
 from flask_babel import lazy_gettext as _
-from wtforms.fields import StringField, PasswordField
+from flask_login import login_user
+from wtforms.fields import PasswordField, StringField
 from wtforms.validators import DataRequired
 
 from ..ext import db
@@ -47,4 +49,6 @@ class LoginForm(BaseForm):
         return is_valid and user_found and password_valid
 
     def save(self):
+        login_user(self.user)
+        session.permanent = True
         return self.user

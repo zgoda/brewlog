@@ -4,7 +4,7 @@
 
 from flask import flash, redirect, render_template, request, session, url_for
 from flask_babel import gettext as _
-from flask_login import login_required, logout_user, login_user
+from flask_login import login_required, logout_user
 
 from . import auth_bp
 from . import providers
@@ -21,9 +21,7 @@ def select_provider():
     if request.method == 'POST':
         form = LoginForm()
         if form.validate_on_submit():
-            user = form.save()
-            login_user(user)
-            session.permanent = True
+            form.save()
             flash(_('you are now logged in'), category='success')
             return redirect(next_redirect('home.index'))
         else:
