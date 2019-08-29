@@ -26,6 +26,9 @@ def select_provider():
             session.permanent = True
             flash(_('you are now logged in'), category='success')
             return redirect(next_redirect('home.index'))
+        else:
+            flash(_('user account not found or wrong password'), category='danger')
+            return redirect(request.path)
     ctx = {
         'form': form or LoginForm(),
     }

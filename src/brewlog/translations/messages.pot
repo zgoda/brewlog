@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: brewlog 1.0.3.dev0\n"
+"Project-Id-Version: brewlog 2.0.0.dev0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-08-28 15:03+0200\n"
+"POT-Creation-Date: 2019-08-29 10:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -21,22 +21,38 @@ msgstr ""
 msgid "Please log in to access this page"
 msgstr ""
 
+#: src/brewlog/auth/forms.py:26
+msgid "email or login"
+msgstr ""
+
+#: src/brewlog/auth/forms.py:29
+msgid "password"
+msgstr ""
+
 #: src/brewlog/auth/utils.py:28
 #, python-format
 msgid "You have been signed in as %(email)s using %(service)s"
 msgstr ""
 
+#: src/brewlog/auth/views.py:27
+msgid "you are now logged in"
+msgstr ""
+
 #: src/brewlog/auth/views.py:30
+msgid "user account not found or wrong password"
+msgstr ""
+
+#: src/brewlog/auth/views.py:47
 #, python-format
 msgid "Service \"%(provider)s\" is not supported"
 msgstr ""
 
-#: src/brewlog/auth/views.py:57
+#: src/brewlog/auth/views.py:74
 #, python-format
 msgid "Error receiving profile data from Google: %(code)s"
 msgstr ""
 
-#: src/brewlog/auth/views.py:98
+#: src/brewlog/auth/views.py:115
 #, python-format
 msgid "GitHub profile for user %(name)s lacks public email, skipping as unusable."
 msgstr ""
@@ -800,7 +816,11 @@ msgid "authorization"
 msgstr ""
 
 #: src/brewlog/templates/auth/select.html:6
-msgid "Sign in with"
+msgid "sign in with login and password"
+msgstr ""
+
+#: src/brewlog/templates/auth/select.html:38
+msgid "or sign in with social networks"
 msgstr ""
 
 #: src/brewlog/templates/brew/delete.html:4
