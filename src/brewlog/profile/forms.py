@@ -56,6 +56,8 @@ class PasswordChangeForm(BaseForm):
     def validate(self):
         result = super().validate()
         passwords_match = self.new_password.data == self.new_password_r.data
+        if not passwords_match:
+            self.new_password_r.errors.append(_('passwords entered do not match'))
         return result and passwords_match
 
     def save(self, user):
