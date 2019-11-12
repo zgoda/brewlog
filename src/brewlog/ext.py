@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-from authlib.flask.client import OAuth
+from authlib.integrations.flask_client import OAuth
 from flask_babel import Babel
 from flask_bootstrap import Bootstrap
 from flask_flatpages import FlatPages
@@ -10,7 +10,6 @@ from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
 from flask_migrate import Migrate
-from flask_rq2 import RQ
 
 from .utils.models import Model
 
@@ -29,5 +28,3 @@ bootstrap = Bootstrap()
 oauth = OAuth()
 
 migrate = Migrate()
-
-rq = RQ()

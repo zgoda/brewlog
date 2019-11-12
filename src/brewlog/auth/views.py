@@ -21,8 +21,11 @@ def select_provider():
     if request.method == 'POST':
         form = LoginForm()
         if form.validate_on_submit():
-            form.save()
-            flash(_('you are now logged in'), category='success')
+            user = form.save()
+            flash(
+                _('you are now logged in as %(name)s', name=user.name),
+                category='success',
+            )
             return redirect(next_redirect('home.index'))
         else:
             flash(_('user account not found or wrong password'), category='danger')

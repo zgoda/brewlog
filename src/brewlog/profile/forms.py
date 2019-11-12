@@ -3,9 +3,9 @@
 # license that can be found in the LICENSE file.
 
 from flask_babel import lazy_gettext as _
-from wtforms.fields import BooleanField, StringField, TextAreaField, PasswordField
+from wtforms.fields import BooleanField, PasswordField, StringField, TextAreaField
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired
+from wtforms.validators import DataRequired, EqualTo
 from wtforms_components.validators import Email
 
 from ..ext import db
@@ -46,19 +46,14 @@ class ProfileForm(BaseObjectForm):
 
 class PasswordChangeForm(BaseForm):
     new_password = PasswordField(_('new password'))
-    new_password_r = PasswordField(_('new password (repeat)'))
+    new_password_r = PasswordField(
+        _('new password (repeat)'), validators=[EqualTo('new_password')]
+    )
 
     buttons = [
         Button(text=_('save')),
         Link(href='javascript:history.back()', text=_('go back')),
     ]
-
-    def validate(self):
-        result = super().validate()
-        passwords_match = self.new_password.data == self.new_password_r.data
-        if not passwords_match:
-            self.new_password_r.errors.append(_('passwords entered do not match'))
-        return result and passwords_match
 
     def save(self, user):
         user.set_password(self.new_password.data)

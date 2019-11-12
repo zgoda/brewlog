@@ -10,6 +10,14 @@
 {% if form %}
 <p>{% trans %}This is your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
 {{ forms.render_form(form, url_for('profile.details', user_id=profile.id)) }}
+<h3>{{ gettext('password').capitalize() }}</h3>
+{% if profile.has_valid_password %}
+<p>{% trans %}Please follow the below link to change your site password.{% endtrans %}</p>
+{% else %}
+<p>{% trans %}You do not have valid password set. While signing in is still possible with social services, this feature will soon be gone. Please set up password to keep access to your data once social sign in is turned off.{% endtrans %}</p>
+{% endif %}
+<p><a href="{{ url_for('profile.setpassword') }}" class="btn btn-warning">{{ gettext("set new password") }}</a></p>
+<p>{% trans %}Please be aware that we still don't have forgotten password reset mechanism implemented. Choose your password wisely, eg. allow Chrome to set it up for you.{% endtrans %}</p>
 <h3>{{ gettext("delete account").capitalize() }}</h3>
 <p>{% trans %}Follow the below link to permanently delete your account.{% endtrans %}</p>
 <p><a href="{{ url_for('profile.delete', user_id=profile.id) }}" class="btn btn-danger">{{ gettext("delete my account") }}</a></p>

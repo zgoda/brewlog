@@ -4,7 +4,6 @@ Flask-Login
 Flask-FlatPages
 Flask-SQLAlchemy
 Flask-WTF
-Flask-RQ2
 passlib[argon2]
 itsdangerous
 Bootstrap-Flask
@@ -17,5 +16,3 @@ WTForms-Components
 attrs
 permission
 psycopg2-binary
-requests
-hiredis

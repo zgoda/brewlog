@@ -37,7 +37,7 @@ def profile(user_id):
     return render_template('account/profile.html', **context)
 
 
-@profile_bp.route('/newpassword', methods=['GET', 'POST'])
+@profile_bp.route('/newpassword', methods=['GET', 'POST'], endpoint='setpassword')
 @login_required
 def set_password():
     form = None
