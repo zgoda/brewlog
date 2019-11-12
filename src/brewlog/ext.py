@@ -2,7 +2,7 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-from authlib.flask.client import OAuth
+from authlib.integrations.flask_client import OAuth
 from flask_babel import Babel
 from flask_bootstrap import Bootstrap
 from flask_flatpages import FlatPages

@@ -48,6 +48,7 @@ setup(
         'Operating System :: POSIX',
         'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3.8',
     ],
     install_requires=(
         'Flask',
@@ -59,7 +60,7 @@ setup(
         'Bootstrap-Flask',
         'Flask-Migrate',
         'SQLAlchemy-Utils',
-        'Authlib',
+        'Authlib[client]',
         'Markdown',
         'WTForms-Alchemy',
         'WTForms-Components',

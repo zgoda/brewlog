@@ -7,7 +7,7 @@ Flask-WTF
 Bootstrap-Flask
 Flask-Migrate
 SQLAlchemy-Utils
-Authlib
+Authlib[client]
 Markdown
 WTForms-Alchemy
 WTForms-Components
