@@ -1,8 +1,8 @@
-dist: xenial
 language: python
 cache: pip
 python:
   - "3.7"
+  - "3.8"
 before_script:
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
@@ -13,7 +13,7 @@ install:
   - pip install -q -e .
 script:
   - pytest --cov-branch --cov-report xml --cov=brewlog tests
-  - python setup.py sdist bdist_wheel
+  - python setup.py --quiet sdist bdist_wheel
 after_script:
   - ./cc-test-reporter after-build -t coverage.py --exit-code $TRAVIS_TEST_RESULT
 deploy:
