@@ -4,8 +4,9 @@
 
 import datetime
 import json
+from dataclasses import dataclass
+from typing import ClassVar, Optional, Tuple
 
-import attr
 import markdown
 from flask_babel import lazy_gettext as _
 from sqlalchemy_utils import sort_query
@@ -17,17 +18,17 @@ from ..utils.brewing import abv, apparent_attenuation, real_attenuation
 from ..utils.text import stars2deg
 
 
-@attr.s
+@dataclass
 class BrewState:
-    name = attr.ib(type=str)
-    text = attr.ib()
-    since = attr.ib(type=datetime.datetime, default=None)
+    name: str
+    text: str
+    since: Optional[datetime.datetime] = None
 
-    STATE_PLANNED = ('planned', _('planned'))
-    STATE_FERMENTING = ('fermenting', _('fermenting'))
-    STATE_FINISHED = ('finished', _('finished'))
-    STATE_TAPPED = ('tapped', _('tapped'))
-    STATE_MATURING = ('maturing', _('maturing'))
+    STATE_PLANNED: ClassVar[Tuple[str, str]] = ('planned', _('planned'))
+    STATE_FERMENTING: ClassVar[Tuple[str, str]] = ('fermenting', _('fermenting'))
+    STATE_FINISHED: ClassVar[Tuple[str, str]] = ('finished', _('finished'))
+    STATE_TAPPED: ClassVar[Tuple[str, str]] = ('tapped', _('tapped'))
+    STATE_MATURING: ClassVar[Tuple[str, str]] = ('maturing', _('maturing'))
 
 
 class Brew(db.Model):

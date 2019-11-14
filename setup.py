@@ -64,7 +64,6 @@ setup(
         'Markdown',
         'WTForms-Alchemy',
         'WTForms-Components',
-        'attrs',
         'permission',
         'psycopg2-binary',
     ),
