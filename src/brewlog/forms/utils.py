@@ -2,7 +2,9 @@
 # Use of this source code is governed by a BSD-style
 # license that can be found in the LICENSE file.
 
-import attr
+from dataclasses import dataclass
+from typing import ClassVar
+
 from flask import Markup, render_template_string
 
 
@@ -12,28 +14,28 @@ class Renderable:
         return Markup(render_template_string(self.template, obj=self))
 
 
-@attr.s
+@dataclass
 class Link(Renderable):
-    href = attr.ib()
-    text = attr.ib(default='click')
+    href: str
+    text: str = 'click'
 
-    template = ''.join([
+    template: ClassVar[str] = ''.join([
         '<a href="{{ obj.href }}">',
         '{{ obj.text }}',
         '</a>',
     ])
 
 
-@attr.s
+@dataclass
 class Button(Renderable):
-    type_ = attr.ib(default='submit')
-    class_ = attr.ib(default='primary')
-    icon = attr.ib(default='check')
-    icon_type = attr.ib(default='fas')
-    text = attr.ib('ok')
-    link = attr.ib(default=False)
+    type_: str = 'submit'
+    class_: str = 'primary'
+    icon: str = 'check'
+    icon_type: str = 'fas'
+    text: str = 'ok'
+    link: bool = False
 
-    template = ''.join(
+    template: ClassVar[str] = ''.join(
         [
             '<button type="{{ obj.type_ }}" class="btn btn-{{ obj.class_ }}">',
             '<i class="{{ obj.icon_type }} fa-{{ obj.icon }}"></i>',
