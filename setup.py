@@ -41,6 +41,7 @@ base_reqs = [
     'WTForms-Components',
     'permission',
     'psycopg2-binary',
+    'passlib[argon2]',
 ]
 
 test_reqs = [
