@@ -8,7 +8,7 @@ from wtforms.fields import (
     BooleanField, SelectField, StringField, TextAreaField
 )
 from wtforms.fields.html5 import DateField, DecimalField, IntegerField
-from wtforms.validators import DataRequired, Optional
+from wtforms.validators import InputRequired, Optional
 from wtforms_alchemy import QuerySelectField
 
 from ..forms.base import BaseForm, BaseObjectForm
@@ -25,9 +25,9 @@ def user_breweries_query():
 class BrewForm(BaseObjectForm):
     brewery = QuerySelectField(
         _('brewery'), query_factory=user_breweries_query, get_label='name',
-        validators=[DataRequired()]
+        validators=[InputRequired()]
     )
-    name = StringField(_('name'), validators=[DataRequired()])
+    name = StringField(_('name'), validators=[InputRequired()])
     code = StringField(_('code'))
     style = StringField(
         _('style'),

@@ -6,7 +6,7 @@ from flask import session
 from flask_babel import lazy_gettext as _
 from flask_login import login_user
 from wtforms.fields import PasswordField, StringField
-from wtforms.validators import DataRequired
+from wtforms.validators import InputRequired
 
 from ..ext import db
 from ..forms.base import BaseForm
@@ -24,11 +24,11 @@ def _rkw(**extra):
 
 class LoginForm(BaseForm):
     userid = StringField(
-        validators=[DataRequired()],
+        validators=[InputRequired()],
         render_kw=_rkw(placeholder=_('email or login')),
     )
     password = PasswordField(
-        validators=[DataRequired()], render_kw=_rkw(placeholder=_('password')),
+        validators=[InputRequired()], render_kw=_rkw(placeholder=_('password')),
     )
 
     def validate(self):

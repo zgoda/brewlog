@@ -367,7 +367,7 @@ class TestBrewAddView(BrewViewTests):
         self.login(email=self.hidden_user.email)
         rv = self.client.post(self.url, data=data)
         assert rv.status_code == 200
-        assert 'This field is required' in rv.text
+        assert 'Not a valid choice' in rv.text
         assert Brew.query.filter_by(name=data['name']).first() is None
 
 

@@ -5,7 +5,7 @@
 from flask_babel import lazy_gettext as _
 from wtforms.fields import BooleanField, PasswordField, StringField, TextAreaField
 from wtforms.fields.html5 import EmailField
-from wtforms.validators import DataRequired, EqualTo
+from wtforms.validators import EqualTo, InputRequired
 from wtforms_components.validators import Email
 
 from ..ext import db
@@ -17,7 +17,7 @@ class ProfileForm(BaseObjectForm):
     first_name = StringField(_('first name'))
     last_name = StringField(_('last name'))
     nick = StringField(_('nick'))
-    email = EmailField(_('email'), validators=[DataRequired(), Email()])
+    email = EmailField(_('email'), validators=[InputRequired(), Email()])
     location = StringField(_('location'))
     about_me = TextAreaField(_('about me'))
     is_public = BooleanField(
@@ -45,9 +45,10 @@ class ProfileForm(BaseObjectForm):
 
 
 class PasswordChangeForm(BaseForm):
-    new_password = PasswordField(_('new password'))
+    new_password = PasswordField(_('new password'), validators=[InputRequired()])
     new_password_r = PasswordField(
-        _('new password (repeat)'), validators=[EqualTo('new_password')]
+        _('new password (repeat)'),
+        validators=[EqualTo('new_password'), InputRequired()],
     )
 
     buttons = [
