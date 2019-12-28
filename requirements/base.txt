@@ -9,11 +9,10 @@ itsdangerous
 Bootstrap-Flask
 Flask-Migrate
 SQLAlchemy-Utils
-Authlib
+Authlib[client]
 Markdown
 WTForms-Alchemy
 WTForms-Components
 attrs
 permission
 psycopg2-binary
-requests
