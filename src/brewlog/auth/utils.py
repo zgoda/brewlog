@@ -34,5 +34,5 @@ def login_success(email, access_token, remote_id, service_name, **kwargs):
     if user.has_valid_password:
         next_ = next_redirect('home.index')
     else:
-        next_ = url_for('profile.set_password')
+        next_ = url_for('profile.setpassword')
     return redirect(next_)

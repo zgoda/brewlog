@@ -51,7 +51,7 @@
                 {% else %}
                 <a class="dropdown-item" href="{{ url_for('profile.details', user_id=current_user.id) }}"><span class="fas fa-user"></span> {% trans %}my profile{% endtrans %}</a>
                 {% if not current_user.has_valid_password %}
-                <a class="dropdown-item" href="{{ url_for('profile.set_password') }}"><span class="fas fa-key"></span> {% trans %}set password{% endtrans %}</a>
+                <a class="dropdown-item" href="{{ url_for('profile.setpassword') }}"><span class="fas fa-key"></span> {% trans %}set password{% endtrans %}</a>
                 {% endif %}
                 <a class="dropdown-item" href="{{ url_for('auth.logout') }}"><span class="fas fa-sign-out-alt"></span> {% trans %}logout{% endtrans %}</a>
                 {% endif %}
