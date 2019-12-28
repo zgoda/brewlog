@@ -16,3 +16,4 @@ WTForms-Components
 attrs
 permission
 psycopg2-binary
+requests
