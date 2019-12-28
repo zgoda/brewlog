@@ -15,4 +15,3 @@ WTForms-Alchemy
 WTForms-Components
 permission
 psycopg2-binary
-requests
