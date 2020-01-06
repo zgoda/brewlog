@@ -1,31 +1,11 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
+from typing import Optional
 from urllib.parse import urljoin, urlparse
 
 from flask import abort, request, session, url_for
 from permission import Permission, Rule
 
 
-def is_redirect_safe(target):
-    """Check if redirect is safe, that is using HTTP protocol and is pointing
-    to the same site.
-
-    :param target: redirect target url
-    :type target: str
-    :return: flag signalling whether redirect is safe
-    :rtype: bool
-    """
-
-    if not target:
-        return False
-    ref_url = urlparse(request.host_url)
-    test_url = urlparse(urljoin(request.host_url, target))
-    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
-
-
-def next_redirect(fallback_endpoint, *args, **kwargs):
+def next_redirect(fallback_endpoint: str, *args, **kwargs) -> str:
     """Find redirect url. The order of search is request params, session and
     finally url for fallback endpoint is returned if none found. Args and
     kwargs are passed intact to endpoint.
@@ -35,10 +15,26 @@ def next_redirect(fallback_endpoint, *args, **kwargs):
     :return: HTTP path to redirect to
     :rtype: str
     """
+    for c in [request.args.get('next'), session.pop('next', None)]:
+        if is_redirect_safe(c):
+            return c
+    return url_for(fallback_endpoint, *args, **kwargs)
 
-    return is_redirect_safe(request.args.get('next')) \
-        or is_redirect_safe(session.pop('next', None)) \
-        or url_for(fallback_endpoint, *args, **kwargs)
+
+def is_redirect_safe(target: Optional[str]) -> bool:
+    """Check if redirect is safe, that is using HTTP protocol and is pointing
+    to the same site.
+
+    :param target: redirect target url
+    :type target: str
+    :return: flag signalling whether redirect is safe
+    :rtype: bool
+    """
+    if not target:
+        return False
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and ref_url.netloc == test_url.netloc
 
 
 class RuleBase(Rule):

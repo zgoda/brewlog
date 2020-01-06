@@ -1,7 +1,3 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 from authlib.integrations.flask_client import OAuth
 from flask_babel import Babel
 from flask_bootstrap import Bootstrap
