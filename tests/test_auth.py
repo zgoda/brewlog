@@ -74,3 +74,29 @@ class TestRegister(BrewlogTests):
         rv = self.client.get(self.url)
         assert f'action="{self.url}"' in rv.text
         assert f'href="{login_url}"' in rv.text
+
+    def test_post_ok(self):
+        data = {
+            'username': 'user1',
+            'password1': 'pass1',
+            'password2': 'pass1',
+        }
+        rv = self.client.post(self.url, data=data, follow_redirects=True)
+        assert 'proceed to login' in rv.text
+        assert BrewerProfile.query.filter_by(username=data['username']).count() > 0
+
+    @pytest.mark.parametrize('data', [
+        {'password1': 'pass1', 'password2': 'pass1'},
+        {'username': 'user1'},
+        {'username': 'user1', 'password1': 'pass1'},
+        {'username': 'user1', 'password2': 'pass1'},
+        {'username': 'user1', 'password1': 'pass1', 'password2': 'pass2'},
+    ], ids=[
+        'missing-username', 'missing-both-passwords', 'missing-pass2', 'missing-pass1',
+        'passwords-differ',
+    ])
+    def test_post_fail(self, data):
+        rv = self.client.post(self.url, data=data, follow_redirects=True)
+        assert 'proceed to login' not in rv.text
+        if 'username' in data:
+            assert BrewerProfile.query.filter_by(username=data['username']).count() == 0
