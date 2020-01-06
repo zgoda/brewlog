@@ -1,17 +1,13 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 from flask import current_app, render_template
 from flask_login import current_user
 
-from . import home_bp
 from ..brew.utils import BrewUtils
 from ..brewery.utils import BreweryUtils
 from ..ext import pages
 from ..models import Brew, BrewerProfile, Brewery, TastingNote
 from ..tasting.utils import TastingUtils
 from ..utils.text import get_announcement
+from . import home_bp
 
 
 @home_bp.route('/', endpoint='index')

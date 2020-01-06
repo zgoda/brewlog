@@ -38,7 +38,7 @@ base_reqs = [
     'Authlib[client]',
     'Markdown',
     'WTForms-Alchemy',
-    'WTForms-Components',
+    'validators',
     'permission',
     'psycopg2-binary',
     'passlib[argon2]',

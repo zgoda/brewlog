@@ -1,7 +1,3 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 from flask import flash, redirect, render_template, request, url_for
 from flask_babel import gettext as _
 from flask_login import current_user, login_required, logout_user
@@ -12,7 +8,7 @@ from ..forms.base import DeleteForm
 from ..models import Brew, BrewerProfile, Brewery
 from ..utils.pagination import get_page
 from . import profile_bp
-from .forms import ProfileForm, PasswordChangeForm
+from .forms import PasswordChangeForm, ProfileForm
 from .permissions import AccessManager
 
 
