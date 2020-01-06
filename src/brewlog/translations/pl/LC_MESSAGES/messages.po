@@ -1,24 +1,24 @@
 # Polish translations for Brew-Log.
 # Copyright (C) 2012 Jarek Zgoda
 # This file is distributed under the same license as the Brew-Log project.
-# Jarek Zgoda <jarek.zgoda@gmail.com>, 2012.
+# Jarek Zgoda <jarek.zgoda@gmail.com>, 2012, 2020.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
 "POT-Creation-Date: 2020-01-06 22:20+0100\n"
-"PO-Revision-Date: 2012-11-11 15:33+0100\n"
+"PO-Revision-Date: 2020-01-06 22:34+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language: pl\n"
 "Language-Team: pl <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && "
-"(n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
 #: src/brewlog/app.py:76
 msgid "Please log in to access this page"
@@ -80,10 +80,11 @@ msgstr "Błąd ładowania danych profilu z Google: %(code)s"
 
 #: src/brewlog/auth/views.py:131
 #, python-format
-msgid "GitHub profile for user %(name)s lacks public email, skipping as unusable."
+msgid ""
+"GitHub profile for user %(name)s lacks public email, skipping as unusable."
 msgstr ""
-"W profilu publicznym użytkownika %(name)s brak adresu email, pominięty "
-"jako bezużyteczny."
+"W profilu publicznym użytkownika %(name)s brak adresu email, pominięty jako "
+"bezużyteczny."
 
 #: src/brewlog/brew/forms.py:23 src/brewlog/templates/base.html:34
 #: src/brewlog/templates/brewery/base.html:3
@@ -346,19 +347,21 @@ msgstr "zebrana objętość"
 #: src/brewlog/fermentation/views.py:32
 #, python-format
 msgid "fermentation step %(step_name)s for brew %(brew_name)s has been created"
-msgstr "etap fermentacji %(step_name)s dla warki %(brew_name)s został utworzony"
+msgstr ""
+"etap fermentacji %(step_name)s dla warki %(brew_name)s został utworzony"
 
 #: src/brewlog/fermentation/views.py:64
 #, python-format
 msgid "fermentation step %(step_name)s for brew %(brew_name)s has been updated"
 msgstr ""
-"etap fermentacji %(step_name)s dla warki %(brew_name)s został "
-"zaktualizowany"
+"etap fermentacji %(step_name)s dla warki %(brew_name)s został zaktualizowany"
 
 #: src/brewlog/fermentation/views.py:95
 #, python-format
-msgid "fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted"
-msgstr "etap fermentacji %(fstep_name)s dla warki %(brew_name)s został usunięty"
+msgid ""
+"fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted"
+msgstr ""
+"etap fermentacji %(fstep_name)s dla warki %(brew_name)s został usunięty"
 
 #: src/brewlog/forms/base.py:16 src/brewlog/profile/forms.py:57
 msgid "save"
@@ -561,13 +564,14 @@ msgid "profile is public"
 msgstr "profil jest publiczny"
 
 #: src/brewlog/profile/forms.py:21
-msgid "all activity of non-public brewers is hidden on site, they are invisible"
+msgid ""
+"all activity of non-public brewers is hidden on site, they are invisible"
 msgstr "aktywność użytkowników ukrytych jest niewidoczna w serwisie"
 
 #: src/brewlog/profile/forms.py:29
 #, python-format
 msgid "value %(value)s is not valid email address"
-msgstr ""
+msgstr "%(value)s to nie jest poprawny adres email"
 
 #: src/brewlog/profile/forms.py:42
 msgid "please provide full name or nick"
@@ -709,8 +713,8 @@ msgstr "Witaj na stronie BrewLog"
 
 #: src/brewlog/templates/home.html:14
 msgid ""
-"This is BrewLog, brewing log app written by homebrewer for homebrewers. "
-"Have a look to the site and start logging your brews."
+"This is BrewLog, brewing log app written by homebrewer for homebrewers. Have "
+"a look to the site and start logging your brews."
 msgstr ""
 "Witaj na stronie BrewLog, zrobionej przez piwowara domowego dla innych "
 "piwowarów. Rozejrzyj się i zacznij zapisywać swoje warki."
@@ -768,13 +772,13 @@ msgstr "potwierdź usunięcie konta"
 #: src/brewlog/templates/account/delete.html:8
 #, python-format
 msgid ""
-"Account for %(email)s is about to be deleted with all related content. As"
-" this process is irreversible we're asking you again, is this really what"
-" you want to do?"
+"Account for %(email)s is about to be deleted with all related content. As "
+"this process is irreversible we're asking you again, is this really what you "
+"want to do?"
 msgstr ""
 "Konto użytkownika %(email)s zostanie usunięte całkowicie. Ponieważ ten "
-"proces jest nieodwracalny, proszę potwierdzić, czy rzeczywiście chcesz je"
-" usunąć?"
+"proces jest nieodwracalny, proszę potwierdzić, czy rzeczywiście chcesz je "
+"usunąć?"
 
 #: src/brewlog/templates/account/delete.html:9
 msgid "Big fat warning!"
@@ -782,8 +786,8 @@ msgstr "Ostrzeżenie jak stąd do Łowicza!"
 
 #: src/brewlog/templates/account/delete.html:9
 msgid ""
-"All related content will be deleted too: breweries, brews, tasting notes "
-"and so on."
+"All related content will be deleted too: breweries, brews, tasting notes and "
+"so on."
 msgstr ""
 "Cała powiązana zawartość (browary, warki, notatki z degustacji) zostanie "
 "również usunięta"
@@ -800,11 +804,9 @@ msgstr "Profil piwowara %(name)s"
 
 #: src/brewlog/templates/account/profile.html:11
 msgid ""
-"This is your brewer's profile data. You may change it using the form "
-"below."
+"This is your brewer's profile data. You may change it using the form below."
 msgstr ""
-"Oto twoje dane piwowarskie. Możesz je zmienić używając poniższego "
-"formularza"
+"Oto twoje dane piwowarskie. Możesz je zmienić używając poniższego formularza"
 
 #: src/brewlog/templates/account/profile.html:15
 msgid "Please follow the below link to change your site password."
@@ -812,14 +814,14 @@ msgstr "Kliknij link poniżej by zmienić hasło do konta w serwisie."
 
 #: src/brewlog/templates/account/profile.html:17
 msgid ""
-"You do not have valid password set. While signing in is still possible "
-"with social services, this feature will soon be gone. Please set up "
-"password to keep access to your data once social sign in is turned off."
+"You do not have valid password set. While signing in is still possible with "
+"social services, this feature will soon be gone. Please set up password to "
+"keep access to your data once social sign in is turned off."
 msgstr ""
 "Nie posiadasz ustawionego hasła do konta. Logowanie przy użyciu serwisów "
-"społecznościowych wciąż jest możliwe, ale wkrótce zostanie wyłączone. "
-"Ustaw hasło aby zachować dostęp do swojego konta i danych po wyłączeniu "
-"logowania przy użyciu usług społecznościowych."
+"społecznościowych wciąż jest możliwe, ale wkrótce zostanie wyłączone. Ustaw "
+"hasło aby zachować dostęp do swojego konta i danych po wyłączeniu logowania "
+"przy użyciu usług społecznościowych."
 
 #: src/brewlog/templates/account/profile.html:19
 msgid "set new password"
@@ -827,13 +829,13 @@ msgstr "ustaw nowe hasło"
 
 #: src/brewlog/templates/account/profile.html:20
 msgid ""
-"Please be aware that we still don't have forgotten password reset "
-"mechanism implemented. Choose your password wisely, eg. allow Chrome to "
-"set it up for you."
+"Please be aware that we still don't have forgotten password reset mechanism "
+"implemented. Choose your password wisely, eg. allow Chrome to set it up for "
+"you."
 msgstr ""
 "Proszę wziąć pod uwagę że wciąż nie mamy działającej usługi resetowania "
-"zapomnianego hasła. Wybierz hasło które będzie łatwe do zapamiętania lub "
-"na przykład pozwól Chrome ustawić hasło i je zapisać."
+"zapomnianego hasła. Wybierz hasło które będzie łatwe do zapamiętania lub na "
+"przykład pozwól Chrome ustawić hasło i je zapisać."
 
 #: src/brewlog/templates/account/profile.html:21
 msgid "delete account"
@@ -897,14 +899,14 @@ msgstr "ustaw lub zmień swoje hasło"
 
 #: src/brewlog/templates/account/set_password.html:10
 msgid ""
-"You do not have valid password set. While signing in is still possible "
-"with social services, this feature will soon be gone. Please provide "
-"password to keep access to your data once social sign in is turned off."
+"You do not have valid password set. While signing in is still possible with "
+"social services, this feature will soon be gone. Please provide password to "
+"keep access to your data once social sign in is turned off."
 msgstr ""
 "Nie posiadasz ustawionego hasła do konta. Logowanie przy użyciu serwisów "
-"społecznościowych wciąż jest możliwe, ale wkrótce zostanie wyłączone. "
-"Ustaw hasło aby zachować dostęp do swojego konta i danych po wyłączeniu "
-"logowania przy użyciu usług społecznościowych."
+"społecznościowych wciąż jest możliwe, ale wkrótce zostanie wyłączone. Ustaw "
+"hasło aby zachować dostęp do swojego konta i danych po wyłączeniu logowania "
+"przy użyciu usług społecznościowych."
 
 #: src/brewlog/templates/auth/base.html:3
 msgid "authorization"
@@ -942,9 +944,8 @@ msgstr "potwierdź usunięcie warki %(name)s"
 #: src/brewlog/templates/brew/delete.html:8
 #, python-format
 msgid ""
-"Brew %(name)s is about to be deleted with all its content. As this "
-"process is irreversible we're asking you again, is this really what you "
-"want do do?"
+"Brew %(name)s is about to be deleted with all its content. As this process "
+"is irreversible we're asking you again, is this really what you want do do?"
 msgstr ""
 "Warka %(name)s zostanie usunięta całkowicie. Ponieważ ten proces jest "
 "nieodwracalny, proszę potwierdzić, czy rzeczywiście chcesz ją usunąć?"
@@ -1106,12 +1107,12 @@ msgstr "potwierdź usunięcie browaru %(name)s"
 #, python-format
 msgid ""
 "Brewery %(name)s is about to be deleted with all its content. As this "
-"process is irreversible we're asking you again, is this really what you "
-"want do do?"
+"process is irreversible we're asking you again, is this really what you want "
+"do do?"
 msgstr ""
-"Browar %(name)s zostanie usunięty wraz z całą zawartością. Ponieważ "
-"proces ten jest nieodwracalny, proszę potwierdzić, czy rzeczywiście "
-"chcesz to zrobić?"
+"Browar %(name)s zostanie usunięty wraz z całą zawartością. Ponieważ proces "
+"ten jest nieodwracalny, proszę potwierdzić, czy rzeczywiście chcesz to "
+"zrobić?"
 
 #: src/brewlog/templates/brewery/delete.html:8
 #, python-format
@@ -1208,19 +1209,18 @@ msgid ""
 "confirm removal of fermentation step %(fstep_name)s for your brew "
 "%(brew_name)s"
 msgstr ""
-"potwierdź usunięcie etapu fermentacji %(fstep_name)s dla warki "
-"%(brew_name)s"
+"potwierdź usunięcie etapu fermentacji %(fstep_name)s dla warki %(brew_name)s"
 
 #: src/brewlog/templates/fermentation/step_delete.html:8
 #, python-format
 msgid ""
-"Fermentation step %(fstep_name)s for your brew %(brew_name)s is about to "
-"be deleted with all its content. As this process is irreversible we're "
-"asking you again, is this really what you want do do?"
+"Fermentation step %(fstep_name)s for your brew %(brew_name)s is about to be "
+"deleted with all its content. As this process is irreversible we're asking "
+"you again, is this really what you want do do?"
 msgstr ""
-"Etap fermentacji %(fstep_name)s dla warki %(brew_name)s zostanie "
-"usunięty. Ponieważ jest to proces całkowicie nieodwracalny, proszę "
-"potwierdź czy na pewno chcesz go usunąć?"
+"Etap fermentacji %(fstep_name)s dla warki %(brew_name)s zostanie usunięty. "
+"Ponieważ jest to proces całkowicie nieodwracalny, proszę potwierdź czy na "
+"pewno chcesz go usunąć?"
 
 #: src/brewlog/templates/macros/bootstrap.html:3
 msgid "pages"
@@ -1294,16 +1294,15 @@ msgstr "potwierdź usunięcie recenzji warki %(name)s"
 #: src/brewlog/templates/tasting/tasting_note_delete.html:8
 #, python-format
 msgid ""
-"You are about to delete tasting note for brew %(name)s by %(author)s "
-"added %(date)s. As this process is irreversible we're asking you again, "
-"is this really what you want do do?"
+"You are about to delete tasting note for brew %(name)s by %(author)s added "
+"%(date)s. As this process is irreversible we're asking you again, is this "
+"really what you want do do?"
 msgstr ""
-"Recenzja do warki %(name)s dodana przez %(author)s dnia %(date)s zostanie"
-" usunięta. Ponieważ ten proces jest nieodwracalny, proszę potwierdzić, "
-"czy rzeczywiście chcesz ją usunąć?"
+"Recenzja do warki %(name)s dodana przez %(author)s dnia %(date)s zostanie "
+"usunięta. Ponieważ ten proces jest nieodwracalny, proszę potwierdzić, czy "
+"rzeczywiście chcesz ją usunąć?"
 
 #: src/brewlog/templates/tasting/include/tasting_notes.html:4
 #, python-format
 msgid "by %(user)s on %(date)s"
 msgstr "przez %(user)s dnia %(date)s"
-
