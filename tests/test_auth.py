@@ -1,9 +1,5 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
-from flask import url_for
 import pytest
+from flask import url_for
 
 from brewlog.models import BrewerProfile
 
@@ -11,7 +7,7 @@ from . import BrewlogTests
 
 
 @pytest.mark.usefixtures('client_class')
-class TestAuth(BrewlogTests):
+class TestSocialAuth(BrewlogTests):
 
     @pytest.fixture(autouse=True)
     def set_up(self):
@@ -58,3 +54,23 @@ class TestAuth(BrewlogTests):
         mocker.patch('brewlog.auth.views.providers.google', fake_service)
         self.client.get(url)
         fake_redirect.assert_called_once_with(route)
+
+
+@pytest.mark.usefixtures('client_class')
+class TestRegister(BrewlogTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self):
+        self.url = url_for('auth.register')
+
+    def test_anon_get(self):
+        rv = self.client.get(self.url)
+        assert f'action="{self.url}"' in rv.text
+
+    def test_authenticated_get(self, user_factory):
+        user = user_factory()
+        login_url = url_for('auth.select')
+        self.login(user.email)
+        rv = self.client.get(self.url)
+        assert f'action="{self.url}"' in rv.text
+        assert f'href="{login_url}"' in rv.text

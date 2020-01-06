@@ -11,6 +11,7 @@ from .utils import login_success
 
 @auth_bp.route('/register', methods=['POST', 'GET'], endpoint='register')
 def register():
+    logout_user()
     form = RegistrationForm()
     if form.validate_on_submit():
         user = form.save()
