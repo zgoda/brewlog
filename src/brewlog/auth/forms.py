@@ -1,17 +1,13 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 from flask import session
 from flask_babel import lazy_gettext as _
 from flask_login import login_user
 from wtforms.fields import PasswordField, StringField
-from wtforms.validators import InputRequired
+from wtforms.validators import EqualTo, InputRequired, ValidationError
 
 from ..ext import db
 from ..forms.base import BaseForm
+from ..forms.utils import Button
 from ..models.users import BrewerProfile
-from ..security import pwd_context
 
 
 def _rkw(**extra):
@@ -20,6 +16,29 @@ def _rkw(**extra):
     }
     render_kw.update(extra)
     return render_kw
+
+
+class RegistrationForm(BaseForm):
+    username = StringField(_('user name'), validators=[InputRequired()])
+    password1 = PasswordField(_('password'), validators=[InputRequired()])
+    password2 = PasswordField(
+        _('password (repeat)'), validators=[InputRequired(), EqualTo('password1')]
+    )
+
+    buttons = [
+        Button(icon='user-alt', text=_('register'))
+    ]
+
+    def validate_username(self, field):
+        if BrewerProfile.query.filter_by(username=field.data).count() > 0:
+            raise ValidationError(_('name is already taken'))
+
+    def save(self):
+        user = BrewerProfile(username=self.username.data)
+        user.set_password(self.password1.data)
+        db.session.add(user)
+        db.session.commit()
+        return user
 
 
 class LoginForm(BaseForm):
@@ -43,9 +62,7 @@ class LoginForm(BaseForm):
             ).first()
             user_found = self.user is not None
             if user_found:
-                password_valid = pwd_context.verify(
-                    self.password.data, self.user.password
-                )
+                password_valid = self.user.check_password(self.password.data)
         return is_valid and user_found and password_valid
 
     def save(self):

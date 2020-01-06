@@ -1,7 +1,3 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 import datetime
 
 from flask import url_for
@@ -24,7 +20,10 @@ class BrewerProfile(UserMixin, db.Model):
     about_me = db.Column(db.Text)
     is_public = db.Column(db.Boolean, default=True)
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
-    updated = db.Column(db.DateTime, onupdate=datetime.datetime.utcnow, index=True)
+    updated = db.Column(
+        db.DateTime, default=datetime.datetime.utcnow,
+        onupdate=datetime.datetime.utcnow, index=True,
+    )
     access_token = db.Column(db.Text)  # for OAuth2
     oauth_token = db.Column(db.Text)  # for OAuth1a
     oauth_token_secret = db.Column(db.Text)  # for OAuth1a
@@ -88,6 +87,9 @@ class BrewerProfile(UserMixin, db.Model):
 
     def set_password(self, password):
         self.password = pwd_context.hash(password)
+
+    def check_password(self, password):
+        return pwd_context.verify(password, self.password)
 
 
 # events: BrewerProfile model
