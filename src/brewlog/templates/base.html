@@ -9,9 +9,9 @@
     <link rel="stylesheet" type="text/css" href="/static/vendor/fontawesome/css/all.min.css">
     <link rel="stylesheet" type="text/css" href="/static/vendor/typeaheadjs.css">
     <link rel="stylesheet" type="text/css" href="/static/css/app.css">
+    <script src="/static/vendor/jquery-3.4.1.min.js"></script>
     {% block styles %}{% endblock %}
     <link href="/static/favicon.ico" rel="icon" type="image/x-icon">
-    <script src="/static/vendor/jquery-3.4.1.slim.min.js"></script>
   </head>
   <body role="document">
 
@@ -48,11 +48,14 @@
               <div class="dropdown-menu" aria-labelledby="account-menu-dropdown">
                 {% if current_user.is_anonymous %}
                 <a class="dropdown-item" href="{{ url_for('auth.select') }}">{% trans %}login page{% endtrans %}</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{{ url_for('auth.register') }}">{{ gettext('register account') }}</a>
                 {% else %}
                 <a class="dropdown-item" href="{{ url_for('profile.details', user_id=current_user.id) }}"><span class="fas fa-user"></span> {% trans %}my profile{% endtrans %}</a>
                 {% if not current_user.has_valid_password %}
                 <a class="dropdown-item" href="{{ url_for('profile.setpassword') }}"><span class="fas fa-key"></span> {% trans %}set password{% endtrans %}</a>
                 {% endif %}
+                <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{{ url_for('auth.logout') }}"><span class="fas fa-sign-out-alt"></span> {% trans %}logout{% endtrans %}</a>
                 {% endif %}
               </div>
