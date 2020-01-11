@@ -1,0 +1,10 @@
+{% extends "auth/base.html" %}
+
+{% from "macros/forms.html" import render_form %}
+
+{% block headpagetitle %}{{ gettext('user registration') }}{% endblock %}
+
+{% block widecontent %}
+<h1>{{ gettext('register new account').capitalize() }}</h1>
+{{ render_form(form, request.path) }}
+{% endblock %}

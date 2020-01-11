@@ -1,58 +1,98 @@
 # Polish translations for Brew-Log.
 # Copyright (C) 2012 Jarek Zgoda
 # This file is distributed under the same license as the Brew-Log project.
-# Jarek Zgoda <jarek.zgoda@gmail.com>, 2012.
+# Jarek Zgoda <jarek.zgoda@gmail.com>, 2012, 2020.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version:  Brew-Log\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2019-05-27 23:15+0200\n"
-"PO-Revision-Date: 2012-11-11 15:33+0100\n"
+"POT-Creation-Date: 2020-01-06 22:20+0100\n"
+"PO-Revision-Date: 2020-01-06 22:34+0100\n"
 "Last-Translator: Jarek Zgoda <jarek.zgoda@gmail.com>\n"
 "Language: pl\n"
 "Language-Team: pl <LL@li.org>\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && "
-"(n%100<10 || n%100>=20) ? 1 : 2)\n"
+"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
+"|| n%100>=20) ? 1 : 2)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.7.0\n"
+"Generated-By: Babel 2.8.0\n"
+"X-Generator: Gtranslator 2.91.7\n"
 
-#: src/brewlog/app.py:79
+#: src/brewlog/app.py:76
 msgid "Please log in to access this page"
 msgstr "Musisz się zalogować by uzyskać dostęp do tej strony"
 
-#: src/brewlog/auth/utils.py:28
+#: src/brewlog/auth/forms.py:22
+msgid "user name"
+msgstr "nazwa użytkownika"
+
+#: src/brewlog/auth/forms.py:23 src/brewlog/auth/forms.py:50
+#: src/brewlog/templates/account/profile.html:13
+msgid "password"
+msgstr "hasło"
+
+#: src/brewlog/auth/forms.py:25
+msgid "password (repeat)"
+msgstr "hasło (powtórz)"
+
+#: src/brewlog/auth/forms.py:29
+msgid "register"
+msgstr "rejestracja"
+
+#: src/brewlog/auth/forms.py:34
+msgid "name is already taken"
+msgstr "nazwa jest już zajęta"
+
+#: src/brewlog/auth/forms.py:47
+msgid "email or login"
+msgstr "email lub login"
+
+#: src/brewlog/auth/utils.py:24
 #, python-format
 msgid "You have been signed in as %(email)s using %(service)s"
 msgstr "Użytkownik zalogowany jako %(email)s przez %(service)s"
 
-#: src/brewlog/auth/views.py:30
+#: src/brewlog/auth/views.py:19
+#, python-format
+msgid "account for %(user)s has been created, you may proceed to login"
+msgstr "konto %(user)s zostało założone, możesz się teraz zalogować"
+
+#: src/brewlog/auth/views.py:41
+#, python-format
+msgid "you are now logged in as %(name)s"
+msgstr "użytkownik zalogowany jako %(name)s"
+
+#: src/brewlog/auth/views.py:46
+msgid "user account not found or wrong password"
+msgstr "nie znaleziono konta lub nieprawidłowe hasło"
+
+#: src/brewlog/auth/views.py:63
 #, python-format
 msgid "Service \"%(provider)s\" is not supported"
 msgstr "Logowanie przy użyciu \"%(provider)s\" nie jest obsługiwane"
 
-#: src/brewlog/auth/views.py:57
+#: src/brewlog/auth/views.py:90
 #, python-format
 msgid "Error receiving profile data from Google: %(code)s"
 msgstr "Błąd ładowania danych profilu z Google: %(code)s"
 
-#: src/brewlog/auth/views.py:98
+#: src/brewlog/auth/views.py:131
 #, python-format
-msgid "GitHub profile for user %(name)s lacks public email, skipping as unusable."
+msgid ""
+"GitHub profile for user %(name)s lacks public email, skipping as unusable."
 msgstr ""
-"W profilu publicznym użytkownika %(name)s brak adresu email, pominięty "
-"jako bezużyteczny."
+"W profilu publicznym użytkownika %(name)s brak adresu email, pominięty jako "
+"bezużyteczny."
 
-#: src/brewlog/brew/forms.py:27 src/brewlog/templates/base.html:34
+#: src/brewlog/brew/forms.py:23 src/brewlog/templates/base.html:34
 #: src/brewlog/templates/brewery/base.html:3
 msgid "brewery"
 msgstr "browar"
 
-#: src/brewlog/brew/forms.py:30 src/brewlog/brewery/forms.py:16
-#: src/brewlog/fermentation/forms.py:16
+#: src/brewlog/brew/forms.py:26 src/brewlog/brewery/forms.py:12
+#: src/brewlog/fermentation/forms.py:12
 #: src/brewlog/templates/account/profile_list.html:12
 #: src/brewlog/templates/brew/list.html:12
 #: src/brewlog/templates/brewery/brews.html:12
@@ -62,274 +102,276 @@ msgstr "browar"
 msgid "name"
 msgstr "nazwa"
 
-#: src/brewlog/brew/forms.py:31
+#: src/brewlog/brew/forms.py:27
 msgid "code"
 msgstr "kod"
 
-#: src/brewlog/brew/forms.py:33 src/brewlog/templates/brewery/brews.html:13
+#: src/brewlog/brew/forms.py:29 src/brewlog/templates/brewery/brews.html:13
 #: src/brewlog/templates/brewery/details.html:28
 msgid "style"
 msgstr "styl"
 
-#: src/brewlog/brew/forms.py:34
+#: src/brewlog/brew/forms.py:30
 msgid "descriptive name of style, as you see it"
 msgstr "opisowa nazwa stylu, tak jak Ty to piwo określasz"
 
-#: src/brewlog/brew/forms.py:36
+#: src/brewlog/brew/forms.py:32
 msgid "BJCP style code"
 msgstr "kod stylu wg BJCP"
 
-#: src/brewlog/brew/forms.py:37
+#: src/brewlog/brew/forms.py:33
 msgid "BJCP style name"
 msgstr "nazwa stylu wg BJCP"
 
-#: src/brewlog/brew/forms.py:38 src/brewlog/fermentation/forms.py:21
+#: src/brewlog/brew/forms.py:34 src/brewlog/fermentation/forms.py:17
 #: src/brewlog/templates/brew/include/details.html:53
 msgid "notes"
 msgstr "notatki"
 
-#: src/brewlog/brew/forms.py:39 src/brewlog/templates/brewery/brews.html:14
+#: src/brewlog/brew/forms.py:35 src/brewlog/templates/brewery/brews.html:14
 #: src/brewlog/templates/brewery/details.html:26
 msgid "date brewed"
 msgstr "data warzenia"
 
-#: src/brewlog/brew/forms.py:41
+#: src/brewlog/brew/forms.py:37
 #: src/brewlog/templates/brew/include/details.html:14
 msgid "fermentables"
 msgstr "surowce fermentowalne"
 
-#: src/brewlog/brew/forms.py:42
+#: src/brewlog/brew/forms.py:38
 msgid "put each fermentable on separate line to make nice list"
 msgstr "umieść każdy surowiec w oddzielnej linii by uzyskać ładną listę"
 
-#: src/brewlog/brew/forms.py:45
+#: src/brewlog/brew/forms.py:41
 msgid "hop items"
 msgstr "chmiele"
 
-#: src/brewlog/brew/forms.py:46
+#: src/brewlog/brew/forms.py:42
 msgid "put each hop item on separate line to make nice list"
 msgstr "umieść każdy chmiel w oddzielnej linii by uzyskać ładną listę"
 
-#: src/brewlog/brew/forms.py:49
+#: src/brewlog/brew/forms.py:45
 msgid "yeast items"
 msgstr "drożdże"
 
-#: src/brewlog/brew/forms.py:50
+#: src/brewlog/brew/forms.py:46
 msgid "put each yeast item on separate line to make nice list"
 msgstr "umieść każde drożdże w oddzielnej linii by uzyskać ładną listę"
 
-#: src/brewlog/brew/forms.py:53
+#: src/brewlog/brew/forms.py:49
 msgid "miscellaneous items"
 msgstr "dodatki inne"
 
-#: src/brewlog/brew/forms.py:54
+#: src/brewlog/brew/forms.py:50
 msgid "put each miscellanea on separare line to make nice list"
 msgstr "umieść każdą rzecz w oddzielnej linii by uzyskać ładną listę"
 
-#: src/brewlog/brew/forms.py:57
+#: src/brewlog/brew/forms.py:53
 msgid "mash schedule"
 msgstr "schemat zacierania"
 
-#: src/brewlog/brew/forms.py:58 src/brewlog/brew/forms.py:64
+#: src/brewlog/brew/forms.py:54 src/brewlog/brew/forms.py:60
 msgid "put each step on separate line to make nice list"
 msgstr "umieść każdy krok w oddzielnej linii by uzyskać ładną listę"
 
-#: src/brewlog/brew/forms.py:61
+#: src/brewlog/brew/forms.py:57
 #: src/brewlog/templates/brew/include/details.html:44
 msgid "sparging"
 msgstr "wysładzanie i filtracja"
 
-#: src/brewlog/brew/forms.py:63
+#: src/brewlog/brew/forms.py:59
 #: src/brewlog/templates/brew/include/details.html:46
 msgid "hopping schedule"
 msgstr "schemat chmielenia"
 
-#: src/brewlog/brew/forms.py:66
+#: src/brewlog/brew/forms.py:62
 #: src/brewlog/templates/brew/include/details.html:45
 msgid "boil time"
 msgstr "czas gotowania"
 
-#: src/brewlog/brew/forms.py:68
+#: src/brewlog/brew/forms.py:64
 #: src/brewlog/templates/brew/include/details.html:11
 msgid "final amount"
 msgstr "objętość końcowa"
 
-#: src/brewlog/brew/forms.py:69
+#: src/brewlog/brew/forms.py:65
 msgid "volume into bottling"
 msgstr "objętość po rozlewie"
 
-#: src/brewlog/brew/forms.py:72
+#: src/brewlog/brew/forms.py:68
 #: src/brewlog/templates/brew/include/details.html:59
 msgid "bottling date"
 msgstr "data rozlewu"
 
-#: src/brewlog/brew/forms.py:74
+#: src/brewlog/brew/forms.py:70
 msgid "type of carbonation"
 msgstr "rodzaj nagazowania"
 
-#: src/brewlog/brew/forms.py:77
+#: src/brewlog/brew/forms.py:73
 msgid "carbonation level"
 msgstr "poziom nagazowania"
 
-#: src/brewlog/brew/forms.py:79
+#: src/brewlog/brew/forms.py:75
 #: src/brewlog/templates/brew/include/details.html:61
 msgid "carbonation used"
 msgstr "użyte nagazowanie"
 
-#: src/brewlog/brew/forms.py:80
+#: src/brewlog/brew/forms.py:76
 msgid "public"
 msgstr "publiczna"
 
-#: src/brewlog/brew/forms.py:81 src/brewlog/templates/brew/list.html:22
+#: src/brewlog/brew/forms.py:77 src/brewlog/templates/brew/list.html:22
 msgid "draft"
 msgstr "szkic"
 
-#: src/brewlog/brew/forms.py:91
+#: src/brewlog/brew/forms.py:87
 msgid "action"
 msgstr "akcja"
 
-#: src/brewlog/brew/forms.py:95
+#: src/brewlog/brew/forms.py:91
 #: src/brewlog/templates/brew/include/fermentation_step.html:3
 msgid "change"
 msgstr "zmień"
 
-#: src/brewlog/brew/utils.py:22
+#: src/brewlog/brew/utils.py:18
 msgid "unspecified style"
 msgstr "bez stylu"
 
-#: src/brewlog/brew/utils.py:25
+#: src/brewlog/brew/utils.py:21
 #, python-format
 msgid "%(abv).1f%% ABV"
 msgstr "alk. %(abv).1f%% obj."
 
-#: src/brewlog/brew/utils.py:27
+#: src/brewlog/brew/utils.py:23
 #, python-format
 msgid "OG: %(og).1f*Blg"
 msgstr "gęstość początkowa %(og).1f*Blg"
 
-#: src/brewlog/brew/utils.py:29
+#: src/brewlog/brew/utils.py:25
 #, python-format
 msgid "FG: %(fg).1f*Blg"
 msgstr "gęstość końcowa %(fg).1f*Blg"
 
-#: src/brewlog/brew/utils.py:35
+#: src/brewlog/brew/utils.py:31
 msgid "not in particular style"
 msgstr "bezstylowiec"
 
-#: src/brewlog/brew/utils.py:39
+#: src/brewlog/brew/utils.py:35
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr "%(style)s przez %(brewer)s w %(brewery)s"
 
-#: src/brewlog/brew/views.py:24
+#: src/brewlog/brew/views.py:20
 msgid "single infusion mash w/ mash out"
 msgstr "infuzyjne jednostopniowe z wygrzewem"
 
-#: src/brewlog/brew/views.py:28
+#: src/brewlog/brew/views.py:24
 msgid "2-step mash w/ mash out"
 msgstr "dwustopniowe z wygrzewem"
 
-#: src/brewlog/brew/views.py:32
+#: src/brewlog/brew/views.py:28
 msgid "3-step mash w/ mash out"
 msgstr "trzystopniowe z wygrzewem"
 
-#: src/brewlog/brew/views.py:43
+#: src/brewlog/brew/views.py:39
 #, python-format
 msgid "brew %(name)s created"
 msgstr "warka %(name)s została utworzona"
 
-#: src/brewlog/brew/views.py:63
+#: src/brewlog/brew/views.py:59
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr "dane warki %(name)s zostały zaktualizowane"
 
-#: src/brewlog/brew/views.py:119
+#: src/brewlog/brew/views.py:116
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr "warka %(name)s została usunięta"
 
-#: src/brewlog/brew/views.py:152
+#: src/brewlog/brew/views.py:149
 #, python-format
 msgid "brew %(name)s state changed"
 msgstr "status warki %(name)s zmieniony"
 
-#: src/brewlog/brew/views.py:156
+#: src/brewlog/brew/views.py:153
 msgid "invalid state"
 msgstr "nieprawidłowy status"
 
-#: src/brewlog/brewery/forms.py:17
+#: src/brewlog/brewery/forms.py:13
 msgid "description"
 msgstr "opis"
 
-#: src/brewlog/brewery/forms.py:18
+#: src/brewlog/brewery/forms.py:14
 #: src/brewlog/templates/brewery/details.html:14
 msgid "established"
 msgstr "ustanowiony"
 
-#: src/brewlog/brewery/views.py:26
+#: src/brewlog/brewery/views.py:22
 #, python-format
 msgid "brewery %(name)s created"
 msgstr "browar %(name)s został utworzony"
 
-#: src/brewlog/brewery/views.py:46
+#: src/brewlog/brewery/views.py:42
 #, python-format
 msgid "brewery %(name)s has been deleted"
 msgstr "browar %(name)s został usunięty"
 
-#: src/brewlog/brewery/views.py:99
+#: src/brewlog/brewery/views.py:95
 #, python-format
 msgid "brewery %(name)s data updated"
 msgstr "dane browaru %(name)s zostały zaktualizowane"
 
-#: src/brewlog/fermentation/forms.py:15 src/brewlog/tasting/forms.py:15
+#: src/brewlog/fermentation/forms.py:11 src/brewlog/tasting/forms.py:12
 #: src/brewlog/templates/tasting/list.html:14
 msgid "date"
 msgstr "data"
 
-#: src/brewlog/fermentation/forms.py:17
+#: src/brewlog/fermentation/forms.py:13
 #: src/brewlog/templates/brew/include/details.html:7
 msgid "original gravity"
 msgstr "gęstość początkowa"
 
-#: src/brewlog/fermentation/forms.py:18
+#: src/brewlog/fermentation/forms.py:14
 #: src/brewlog/templates/brew/include/details.html:8
 msgid "final gravity"
 msgstr "gęstość końcowa"
 
-#: src/brewlog/fermentation/forms.py:19 src/brewlog/models/choices.py:37
+#: src/brewlog/fermentation/forms.py:15 src/brewlog/models/choices.py:33
 msgid "temperature"
 msgstr "temperatura"
 
-#: src/brewlog/fermentation/forms.py:20
+#: src/brewlog/fermentation/forms.py:16
 msgid "volume collected"
 msgstr "zebrana objętość"
 
-#: src/brewlog/fermentation/views.py:36
+#: src/brewlog/fermentation/views.py:32
 #, python-format
 msgid "fermentation step %(step_name)s for brew %(brew_name)s has been created"
-msgstr "etap fermentacji %(step_name)s dla warki %(brew_name)s został utworzony"
+msgstr ""
+"etap fermentacji %(step_name)s dla warki %(brew_name)s został utworzony"
 
-#: src/brewlog/fermentation/views.py:68
+#: src/brewlog/fermentation/views.py:64
 #, python-format
 msgid "fermentation step %(step_name)s for brew %(brew_name)s has been updated"
 msgstr ""
-"etap fermentacji %(step_name)s dla warki %(brew_name)s został "
-"zaktualizowany"
+"etap fermentacji %(step_name)s dla warki %(brew_name)s został zaktualizowany"
 
-#: src/brewlog/fermentation/views.py:99
+#: src/brewlog/fermentation/views.py:95
 #, python-format
-msgid "fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted"
-msgstr "etap fermentacji %(fstep_name)s dla warki %(brew_name)s został usunięty"
+msgid ""
+"fermentation step %(fstep_name)s for brew %(brew_name)s has been deleted"
+msgstr ""
+"etap fermentacji %(fstep_name)s dla warki %(brew_name)s został usunięty"
 
-#: src/brewlog/forms/base.py:20
+#: src/brewlog/forms/base.py:16 src/brewlog/profile/forms.py:57
 msgid "save"
 msgstr "zapisz"
 
-#: src/brewlog/forms/base.py:21
+#: src/brewlog/forms/base.py:17 src/brewlog/profile/forms.py:58
 msgid "go back"
 msgstr "powrót"
 
-#: src/brewlog/forms/base.py:33
+#: src/brewlog/forms/base.py:29
 #: src/brewlog/templates/brew/include/fermentation_step.html:3
 #: src/brewlog/templates/brew/list.html:25
 #: src/brewlog/templates/brewery/brews.html:23
@@ -338,216 +380,234 @@ msgstr "powrót"
 msgid "delete"
 msgstr "usuń"
 
-#: src/brewlog/forms/base.py:36
+#: src/brewlog/forms/base.py:32
 msgid "confirm"
 msgstr "potwierdź"
 
-#: src/brewlog/models/brewing.py:26 src/brewlog/models/brewing.py:34
+#: src/brewlog/models/brewing.py:23 src/brewlog/models/brewing.py:31
 msgid "planned"
 msgstr "planowane"
 
-#: src/brewlog/models/brewing.py:27 src/brewlog/models/brewing.py:35
+#: src/brewlog/models/brewing.py:24 src/brewlog/models/brewing.py:32
 msgid "fermenting"
 msgstr "fermentuje"
 
-#: src/brewlog/models/brewing.py:28 src/brewlog/models/brewing.py:36
+#: src/brewlog/models/brewing.py:25 src/brewlog/models/brewing.py:33
 msgid "finished"
 msgstr "skończone"
 
-#: src/brewlog/models/brewing.py:29 src/brewlog/models/brewing.py:37
+#: src/brewlog/models/brewing.py:26 src/brewlog/models/brewing.py:34
 msgid "tapped"
 msgstr "podpięte"
 
-#: src/brewlog/models/brewing.py:30 src/brewlog/models/brewing.py:38
+#: src/brewlog/models/brewing.py:27 src/brewlog/models/brewing.py:35
 msgid "maturing"
 msgstr "dojrzewa"
 
-#: src/brewlog/models/brewing.py:115
+#: src/brewlog/models/brewing.py:112
 msgid "normal"
 msgstr "normalne"
 
-#: src/brewlog/models/brewing.py:118
+#: src/brewlog/models/brewing.py:115
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr "%(carb_type)s: nagazowanie %(carb_level)s"
 
-#: src/brewlog/models/choices.py:12
+#: src/brewlog/models/choices.py:8
 msgid "forced in keg"
 msgstr "wymuszone w kegu"
 
-#: src/brewlog/models/choices.py:12
+#: src/brewlog/models/choices.py:8
 msgid "keg with priming"
 msgstr "refermentacja w kegu"
 
-#: src/brewlog/models/choices.py:12
+#: src/brewlog/models/choices.py:8
 msgid "bottles with priming"
 msgstr "refermentacja w butelkach"
 
-#: src/brewlog/models/choices.py:18
+#: src/brewlog/models/choices.py:14
 msgid "high (eg. German wheat, Belgian ales)"
 msgstr "wysokie (np. niemieckie pszenice, belgijskie ale)"
 
-#: src/brewlog/models/choices.py:19
+#: src/brewlog/models/choices.py:15
 msgid "normal (eg. lagers, American ales)"
 msgstr "normalne (np. lagery, amerykańskie ale)"
 
-#: src/brewlog/models/choices.py:20
+#: src/brewlog/models/choices.py:16
 msgid "low (eg. British and Irish ales)"
 msgstr "niskie (np. brytyjskie i irlandzkie ale)"
 
-#: src/brewlog/models/choices.py:21
+#: src/brewlog/models/choices.py:17
 msgid "very low (eg. Scottish ales, kellerbiers)"
 msgstr "bardzo niskie (np. szkockie ale, kellerbier)"
 
-#: src/brewlog/models/choices.py:22
+#: src/brewlog/models/choices.py:18
 msgid "none (eg. Finnish sahti)"
 msgstr "żadne (np. fińskie sahti)"
 
-#: src/brewlog/models/choices.py:29
+#: src/brewlog/models/choices.py:25
 msgid "primary"
 msgstr "do burzliwej"
 
-#: src/brewlog/models/choices.py:29
+#: src/brewlog/models/choices.py:25
 msgid "secondary"
 msgstr "do cichej"
 
-#: src/brewlog/models/choices.py:29 src/brewlog/models/choices.py:33
+#: src/brewlog/models/choices.py:25 src/brewlog/models/choices.py:29
 msgid "bottling"
 msgstr "do rozlewu"
 
-#: src/brewlog/models/choices.py:33 src/brewlog/models/choices.py:42
+#: src/brewlog/models/choices.py:29 src/brewlog/models/choices.py:38
 msgid "mash"
 msgstr "do zacieru"
 
-#: src/brewlog/models/choices.py:33 src/brewlog/models/choices.py:42
+#: src/brewlog/models/choices.py:29 src/brewlog/models/choices.py:38
 msgid "boil"
 msgstr "do gotowania"
 
-#: src/brewlog/models/choices.py:33
+#: src/brewlog/models/choices.py:29
 msgid "fermentation"
 msgstr "do fermentacji"
 
-#: src/brewlog/models/choices.py:37
+#: src/brewlog/models/choices.py:33
 msgid "infusion"
 msgstr "infuzja"
 
-#: src/brewlog/models/choices.py:37
+#: src/brewlog/models/choices.py:33
 msgid "decoction"
 msgstr "dekokcja"
 
-#: src/brewlog/models/choices.py:42
+#: src/brewlog/models/choices.py:38
 msgid "first wort"
 msgstr "do brzeczki przedniej"
 
-#: src/brewlog/models/choices.py:42
+#: src/brewlog/models/choices.py:38
 msgid "post-boil"
 msgstr "po gotowaniu"
 
-#: src/brewlog/models/choices.py:42
+#: src/brewlog/models/choices.py:38
 msgid "dry hop"
 msgstr "na zimno"
 
-#: src/brewlog/models/choices.py:47
+#: src/brewlog/models/choices.py:43
 msgid "tap"
 msgstr "podepnij"
 
-#: src/brewlog/models/choices.py:47
+#: src/brewlog/models/choices.py:43
 msgid "untap"
 msgstr "odepnij"
 
-#: src/brewlog/models/choices.py:47
+#: src/brewlog/models/choices.py:43
 msgid "finish"
 msgstr "zakończ"
 
-#: src/brewlog/models/choices.py:47
+#: src/brewlog/models/choices.py:43
 msgid "available"
 msgstr "oczekujące"
 
-#: src/brewlog/models/fermentation.py:35
+#: src/brewlog/models/fermentation.py:31
 #, python-format
 msgid "OG: %(og)s&deg;Blg, FG: %(fg)s&deg;Blg, volume: %(volume)s ltr"
 msgstr ""
 "gęstość pocz. %(og)s&deg;Blg, gęstość końcowa %(fg)s&deg;Blg, obj. "
 "%(volume)s l"
 
-#: src/brewlog/models/fermentation.py:40
+#: src/brewlog/models/fermentation.py:36
 #, python-format
 msgid "OG: %(og)s&deg;Blg, volume: %(volume)s ltr"
 msgstr "gęstość pocz. %(og)s&deg;Blg, obj. %(volume)s l"
 
-#: src/brewlog/models/fermentation.py:45
+#: src/brewlog/models/fermentation.py:41
 #, python-format
 msgid "OG: %(og)s&deg;Blg, FG: %(fg)s&deg;Blg"
 msgstr "gęstość pocz. %(og)s&deg;Blg, gęstość końcowa %(fg)s&deg;Blg"
 
-#: src/brewlog/models/fermentation.py:49
+#: src/brewlog/models/fermentation.py:45
 #, python-format
 msgid "OG: %(og)s&deg;Blg"
 msgstr "gęstość pocz. %(og)s&deg;Blg"
 
-#: src/brewlog/models/fermentation.py:51
+#: src/brewlog/models/fermentation.py:47
 msgid "missing key fermentation data"
 msgstr "brak podstawowych danych of fermentacji"
 
-#: src/brewlog/models/users.py:51
+#: src/brewlog/models/users.py:56
 msgid "wanting to stay anonymous"
 msgstr "pragnący pozostać anonimowym"
 
-#: src/brewlog/profile/forms.py:15
+#: src/brewlog/profile/forms.py:13
 msgid "first name"
 msgstr "imię"
 
-#: src/brewlog/profile/forms.py:16
+#: src/brewlog/profile/forms.py:14
 msgid "last name"
 msgstr "nazwisko"
 
-#: src/brewlog/profile/forms.py:17 src/brewlog/templates/macros/users.html:4
+#: src/brewlog/profile/forms.py:15 src/brewlog/templates/macros/users.html:4
 msgid "nick"
 msgstr "nick"
 
-#: src/brewlog/profile/forms.py:18
+#: src/brewlog/profile/forms.py:16
 msgid "email"
 msgstr "email"
 
-#: src/brewlog/profile/forms.py:19 src/brewlog/templates/macros/users.html:5
+#: src/brewlog/profile/forms.py:17 src/brewlog/templates/macros/users.html:5
 msgid "location"
 msgstr "lokalizacja"
 
-#: src/brewlog/profile/forms.py:20
+#: src/brewlog/profile/forms.py:18
 msgid "about me"
 msgstr "o mnie"
 
-#: src/brewlog/profile/forms.py:22
+#: src/brewlog/profile/forms.py:20
 msgid "profile is public"
 msgstr "profil jest publiczny"
 
-#: src/brewlog/profile/forms.py:23
-msgid "all activity of non-public brewers is hidden on site, they are invisible"
+#: src/brewlog/profile/forms.py:21
+msgid ""
+"all activity of non-public brewers is hidden on site, they are invisible"
 msgstr "aktywność użytkowników ukrytych jest niewidoczna w serwisie"
 
-#: src/brewlog/profile/forms.py:38
+#: src/brewlog/profile/forms.py:29
+#, python-format
+msgid "value %(value)s is not valid email address"
+msgstr "%(value)s to nie jest poprawny adres email"
+
+#: src/brewlog/profile/forms.py:42
 msgid "please provide full name or nick"
 msgstr "proszę podać nazwę użytkownika albo pseudonim"
 
-#: src/brewlog/profile/views.py:29
+#: src/brewlog/profile/forms.py:50
+msgid "new password"
+msgstr "nowe hasło"
+
+#: src/brewlog/profile/forms.py:52
+msgid "new password (repeat)"
+msgstr "nowe hasło (powtórz)"
+
+#: src/brewlog/profile/views.py:25
 msgid "your profile data has been updated"
 msgstr "twój profil piwowara został uaktualniony"
 
-#: src/brewlog/profile/views.py:56
+#: src/brewlog/profile/views.py:44
+msgid "your password has been changed"
+msgstr "twoje hasło zostało zmienione"
+
+#: src/brewlog/profile/views.py:64
 #, python-format
 msgid "profile for %(email)s has been deleted"
 msgstr "konto użytkownika %(email)s zostało usunięte"
 
-#: src/brewlog/tasting/forms.py:16
+#: src/brewlog/tasting/forms.py:13
 msgid "text"
 msgstr "tekst"
 
-#: src/brewlog/tasting/views.py:46
+#: src/brewlog/tasting/views.py:42
 #, python-format
 msgid "tasting note for %(brew)s saved"
 msgstr "recenzja do warki %(brew)s została zapisana"
 
-#: src/brewlog/tasting/views.py:67
+#: src/brewlog/tasting/views.py:63
 #, python-format
 msgid "tasting note for brew %(brew)s has been deleted"
 msgstr "recenzja do warki %(brew)s została usunięta"
@@ -573,11 +633,11 @@ msgstr "warka"
 msgid "my items"
 msgstr "moje rzeczy"
 
-#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:157
+#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:160
 msgid "breweries"
 msgstr "browary"
 
-#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:149
+#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:152
 #: src/brewlog/templates/brew/list.html:4
 #: src/brewlog/templates/brewery/list.html:13
 msgid "brews"
@@ -595,35 +655,39 @@ msgstr "strona logowania"
 msgid "my profile"
 msgstr "profil"
 
-#: src/brewlog/templates/base.html:53
+#: src/brewlog/templates/base.html:54
+msgid "set password"
+msgstr "ustaw hasło"
+
+#: src/brewlog/templates/base.html:56
 msgid "logout"
 msgstr "wyloguj"
 
-#: src/brewlog/templates/base.html:68
+#: src/brewlog/templates/base.html:71
 msgid "close"
 msgstr "zamknij"
 
-#: src/brewlog/templates/base.html:100
+#: src/brewlog/templates/base.html:103
 msgid "version"
 msgstr "wersja"
 
-#: src/brewlog/templates/base.html:101
+#: src/brewlog/templates/base.html:104
 msgid "All rights reserved"
 msgstr "Wszelkie prawa zastrzeżone"
 
-#: src/brewlog/templates/base.html:104
+#: src/brewlog/templates/base.html:107
 msgid "about"
 msgstr "o aplikacji"
 
-#: src/brewlog/templates/base.html:105
+#: src/brewlog/templates/base.html:108
 msgid "user guide"
 msgstr "przewodnik użytkownika"
 
-#: src/brewlog/templates/base.html:106
+#: src/brewlog/templates/base.html:109
 msgid "legal mumbo-jumbo"
 msgstr "prawniczy bełkot"
 
-#: src/brewlog/templates/base.html:107
+#: src/brewlog/templates/base.html:110
 msgid "privacy statement"
 msgstr "informacje o warunkach prywatności"
 
@@ -649,8 +713,8 @@ msgstr "Witaj na stronie BrewLog"
 
 #: src/brewlog/templates/home.html:14
 msgid ""
-"This is BrewLog, brewing log app written by homebrewer for homebrewers. "
-"Have a look to the site and start logging your brews."
+"This is BrewLog, brewing log app written by homebrewer for homebrewers. Have "
+"a look to the site and start logging your brews."
 msgstr ""
 "Witaj na stronie BrewLog, zrobionej przez piwowara domowego dla innych "
 "piwowarów. Rozejrzyj się i zacznij zapisywać swoje warki."
@@ -659,7 +723,7 @@ msgstr ""
 msgid "latest site activity"
 msgstr "najnowsza aktywność"
 
-#: src/brewlog/templates/account/profile.html:30
+#: src/brewlog/templates/account/profile.html:38
 #: src/brewlog/templates/home.html:23
 msgid "latest brews"
 msgstr "ostatnie warki"
@@ -708,13 +772,13 @@ msgstr "potwierdź usunięcie konta"
 #: src/brewlog/templates/account/delete.html:8
 #, python-format
 msgid ""
-"Account for %(email)s is about to be deleted with all related content. As"
-" this process is irreversible we're asking you again, is this really what"
-" you want to do?"
+"Account for %(email)s is about to be deleted with all related content. As "
+"this process is irreversible we're asking you again, is this really what you "
+"want to do?"
 msgstr ""
 "Konto użytkownika %(email)s zostanie usunięte całkowicie. Ponieważ ten "
-"proces jest nieodwracalny, proszę potwierdzić, czy rzeczywiście chcesz je"
-" usunąć?"
+"proces jest nieodwracalny, proszę potwierdzić, czy rzeczywiście chcesz je "
+"usunąć?"
 
 #: src/brewlog/templates/account/delete.html:9
 msgid "Big fat warning!"
@@ -722,8 +786,8 @@ msgstr "Ostrzeżenie jak stąd do Łowicza!"
 
 #: src/brewlog/templates/account/delete.html:9
 msgid ""
-"All related content will be deleted too: breweries, brews, tasting notes "
-"and so on."
+"All related content will be deleted too: breweries, brews, tasting notes and "
+"so on."
 msgstr ""
 "Cała powiązana zawartość (browary, warki, notatki z degustacji) zostanie "
 "również usunięta"
@@ -740,29 +804,56 @@ msgstr "Profil piwowara %(name)s"
 
 #: src/brewlog/templates/account/profile.html:11
 msgid ""
-"This is your brewer's profile data. You may change it using the form "
-"below."
+"This is your brewer's profile data. You may change it using the form below."
 msgstr ""
-"Oto twoje dane piwowarskie. Możesz je zmienić używając poniższego "
-"formularza"
+"Oto twoje dane piwowarskie. Możesz je zmienić używając poniższego formularza"
 
-#: src/brewlog/templates/account/profile.html:13
+#: src/brewlog/templates/account/profile.html:15
+msgid "Please follow the below link to change your site password."
+msgstr "Kliknij link poniżej by zmienić hasło do konta w serwisie."
+
+#: src/brewlog/templates/account/profile.html:17
+msgid ""
+"You do not have valid password set. While signing in is still possible with "
+"social services, this feature will soon be gone. Please set up password to "
+"keep access to your data once social sign in is turned off."
+msgstr ""
+"Nie posiadasz ustawionego hasła do konta. Logowanie przy użyciu serwisów "
+"społecznościowych wciąż jest możliwe, ale wkrótce zostanie wyłączone. Ustaw "
+"hasło aby zachować dostęp do swojego konta i danych po wyłączeniu logowania "
+"przy użyciu usług społecznościowych."
+
+#: src/brewlog/templates/account/profile.html:19
+msgid "set new password"
+msgstr "ustaw nowe hasło"
+
+#: src/brewlog/templates/account/profile.html:20
+msgid ""
+"Please be aware that we still don't have forgotten password reset mechanism "
+"implemented. Choose your password wisely, eg. allow Chrome to set it up for "
+"you."
+msgstr ""
+"Proszę wziąć pod uwagę że wciąż nie mamy działającej usługi resetowania "
+"zapomnianego hasła. Wybierz hasło które będzie łatwe do zapamiętania lub na "
+"przykład pozwól Chrome ustawić hasło i je zapisać."
+
+#: src/brewlog/templates/account/profile.html:21
 msgid "delete account"
 msgstr "usuń konto"
 
-#: src/brewlog/templates/account/profile.html:14
+#: src/brewlog/templates/account/profile.html:22
 msgid "Follow the below link to permanently delete your account."
 msgstr "Kliknij link poniżej by ostatecznie usunąć konto w serwisie."
 
-#: src/brewlog/templates/account/profile.html:15
+#: src/brewlog/templates/account/profile.html:23
 msgid "delete my account"
 msgstr "usuń moje konto"
 
-#: src/brewlog/templates/account/profile.html:20
+#: src/brewlog/templates/account/profile.html:28
 msgid "Brewery list"
 msgstr "Lista browarów"
 
-#: src/brewlog/templates/account/profile.html:23
+#: src/brewlog/templates/account/profile.html:31
 #: src/brewlog/templates/brewery/list.html:21
 #, python-format
 msgid "%(num)d brew"
@@ -771,20 +862,21 @@ msgstr[0] "%(num)d warka"
 msgstr[1] "%(num)d warki"
 msgstr[2] "%(num)d warek"
 
-#: src/brewlog/templates/account/profile.html:27
+#: src/brewlog/templates/account/profile.html:35
 #: src/brewlog/templates/brewery/form.html:4
 #: src/brewlog/templates/brewery/list.html:30
 msgid "add new brewery"
 msgstr "dodaj nowy browar"
 
-#: src/brewlog/templates/account/profile.html:34
+#: src/brewlog/templates/account/profile.html:42
 msgid "see all"
 msgstr "wszystkie"
 
-#: src/brewlog/templates/account/profile.html:37
+#: src/brewlog/templates/account/profile.html:45
 #: src/brewlog/templates/brew/form.html:4
 #: src/brewlog/templates/brew/form.html:7
 #: src/brewlog/templates/brew/list.html:37
+#: src/brewlog/templates/brewery/brews.html:32
 #: src/brewlog/templates/brewery/details.html:45
 msgid "add new brew"
 msgstr "dodaj nową warkę"
@@ -800,13 +892,49 @@ msgstr "zarejestrowani piwowarzy"
 msgid "registered"
 msgstr "rejestracja"
 
+#: src/brewlog/templates/account/set_password.html:4
+#: src/brewlog/templates/account/set_password.html:7
+msgid "set or change your password"
+msgstr "ustaw lub zmień swoje hasło"
+
+#: src/brewlog/templates/account/set_password.html:10
+msgid ""
+"You do not have valid password set. While signing in is still possible with "
+"social services, this feature will soon be gone. Please provide password to "
+"keep access to your data once social sign in is turned off."
+msgstr ""
+"Nie posiadasz ustawionego hasła do konta. Logowanie przy użyciu serwisów "
+"społecznościowych wciąż jest możliwe, ale wkrótce zostanie wyłączone. Ustaw "
+"hasło aby zachować dostęp do swojego konta i danych po wyłączeniu logowania "
+"przy użyciu usług społecznościowych."
+
 #: src/brewlog/templates/auth/base.html:3
 msgid "authorization"
 msgstr "logowanie"
 
+#: src/brewlog/templates/auth/register.html:5
+msgid "user registration"
+msgstr "rejestracja użytkownika"
+
+#: src/brewlog/templates/auth/register.html:8
+msgid "register new account"
+msgstr "zarejestruj nowe konto"
+
 #: src/brewlog/templates/auth/select.html:6
-msgid "Sign in with"
-msgstr "Zaloguj się używając"
+msgid "sign in with login and password"
+msgstr "zaloguj się przy użyciu hasła"
+
+#: src/brewlog/templates/auth/select.html:35
+msgid "I forgot my password"
+msgstr "hasło mi się zapodziało"
+
+#: src/brewlog/templates/auth/select.html:36
+msgid "register account"
+msgstr "zarejestruj konto"
+
+#: src/brewlog/templates/auth/select.html:43
+msgid "or sign in with social networks"
+msgstr "lub przy użyciu serwisów społecznościowych"
 
 #: src/brewlog/templates/brew/delete.html:4
 #, python-format
@@ -816,9 +944,8 @@ msgstr "potwierdź usunięcie warki %(name)s"
 #: src/brewlog/templates/brew/delete.html:8
 #, python-format
 msgid ""
-"Brew %(name)s is about to be deleted with all its content. As this "
-"process is irreversible we're asking you again, is this really what you "
-"want do do?"
+"Brew %(name)s is about to be deleted with all its content. As this process "
+"is irreversible we're asking you again, is this really what you want do do?"
 msgstr ""
 "Warka %(name)s zostanie usunięta całkowicie. Ponieważ ten proces jest "
 "nieodwracalny, proszę potwierdzić, czy rzeczywiście chcesz ją usunąć?"
@@ -980,12 +1107,12 @@ msgstr "potwierdź usunięcie browaru %(name)s"
 #, python-format
 msgid ""
 "Brewery %(name)s is about to be deleted with all its content. As this "
-"process is irreversible we're asking you again, is this really what you "
-"want do do?"
+"process is irreversible we're asking you again, is this really what you want "
+"do do?"
 msgstr ""
-"Browar %(name)s zostanie usunięty wraz z całą zawartością. Ponieważ "
-"proces ten jest nieodwracalny, proszę potwierdzić, czy rzeczywiście "
-"chcesz to zrobić?"
+"Browar %(name)s zostanie usunięty wraz z całą zawartością. Ponieważ proces "
+"ten jest nieodwracalny, proszę potwierdzić, czy rzeczywiście chcesz to "
+"zrobić?"
 
 #: src/brewlog/templates/brewery/delete.html:8
 #, python-format
@@ -1082,23 +1209,22 @@ msgid ""
 "confirm removal of fermentation step %(fstep_name)s for your brew "
 "%(brew_name)s"
 msgstr ""
-"potwierdź usunięcie etapu fermentacji %(fstep_name)s dla warki "
-"%(brew_name)s"
+"potwierdź usunięcie etapu fermentacji %(fstep_name)s dla warki %(brew_name)s"
 
 #: src/brewlog/templates/fermentation/step_delete.html:8
 #, python-format
 msgid ""
-"Fermentation step %(fstep_name)s for your brew %(brew_name)s is about to "
-"be deleted with all its content. As this process is irreversible we're "
-"asking you again, is this really what you want do do?"
+"Fermentation step %(fstep_name)s for your brew %(brew_name)s is about to be "
+"deleted with all its content. As this process is irreversible we're asking "
+"you again, is this really what you want do do?"
 msgstr ""
-"Etap fermentacji %(fstep_name)s dla warki %(brew_name)s zostanie "
-"usunięty. Ponieważ jest to proces całkowicie nieodwracalny, proszę "
-"potwierdź czy na pewno chcesz go usunąć?"
+"Etap fermentacji %(fstep_name)s dla warki %(brew_name)s zostanie usunięty. "
+"Ponieważ jest to proces całkowicie nieodwracalny, proszę potwierdź czy na "
+"pewno chcesz go usunąć?"
 
 #: src/brewlog/templates/macros/bootstrap.html:3
 msgid "pages"
-msgstr ""
+msgstr "strony"
 
 #: src/brewlog/templates/macros/bootstrap.html:15
 msgid "current"
@@ -1168,222 +1294,15 @@ msgstr "potwierdź usunięcie recenzji warki %(name)s"
 #: src/brewlog/templates/tasting/tasting_note_delete.html:8
 #, python-format
 msgid ""
-"You are about to delete tasting note for brew %(name)s by %(author)s "
-"added %(date)s. As this process is irreversible we're asking you again, "
-"is this really what you want do do?"
+"You are about to delete tasting note for brew %(name)s by %(author)s added "
+"%(date)s. As this process is irreversible we're asking you again, is this "
+"really what you want do do?"
 msgstr ""
-"Recenzja do warki %(name)s dodana przez %(author)s dnia %(date)s zostanie"
-" usunięta. Ponieważ ten proces jest nieodwracalny, proszę potwierdzić, "
-"czy rzeczywiście chcesz ją usunąć?"
+"Recenzja do warki %(name)s dodana przez %(author)s dnia %(date)s zostanie "
+"usunięta. Ponieważ ten proces jest nieodwracalny, proszę potwierdzić, czy "
+"rzeczywiście chcesz ją usunąć?"
 
 #: src/brewlog/templates/tasting/include/tasting_notes.html:4
 #, python-format
 msgid "by %(user)s on %(date)s"
 msgstr "przez %(user)s dnia %(date)s"
-
-#~ msgid "Menu"
-#~ msgstr "Menu"
-
-#~ msgid ""
-#~ "Facebook login error, reason: "
-#~ "%(error_reason)s, description: %(error_description)s"
-#~ msgstr ""
-#~ "Błąd logowania przez Facebook, przyczyna: "
-#~ "%(error_reason)s, opis: %(error_description)s"
-
-#~ msgid ""
-#~ "GitHub login error, reason: %(error)s, "
-#~ "description: %(error_description)s"
-#~ msgstr ""
-#~ "Błąd logowania przez GitHub, przyczyna: "
-#~ "%(error)s, opis: %(error_description)s"
-
-#~ msgid "your export template %(name)s has been saved"
-#~ msgstr "szablon %(name)s został zapisany"
-
-#~ msgid "your label template %(name)s has been saved"
-#~ msgstr "szablon etykiet %(name)s został zapisany"
-
-#~ msgid "cancel"
-#~ msgstr "anuluj"
-
-#~ msgid "send"
-#~ msgstr "wyślij"
-
-#~ msgid "Other brewers"
-#~ msgstr "Inni piwowarzy"
-
-#~ msgid "brew %(name)s created"
-#~ msgstr "warka %(name)s utworzona"
-
-#~ msgid "brewery %(name)s created"
-#~ msgstr "browar %(name)s utworzony"
-
-#~ msgid "your template %(name)s has been saved"
-#~ msgstr "twój szablon %(name)s został zapisany"
-
-#~ msgid "template text"
-#~ msgstr "tekst szablonu"
-
-#~ msgid "default"
-#~ msgstr "domyślny"
-
-#~ msgid "columns"
-#~ msgstr "kolumny"
-
-#~ msgid "rows"
-#~ msgstr "wiersze"
-
-#~ msgid "label width"
-#~ msgstr "serokość etykiety"
-
-#~ msgid "single label cell width in milimetres"
-#~ msgstr "szerokość pojedynczej etykiety w milimetrach"
-
-#~ msgid "label height"
-#~ msgstr "wysokość etykiety"
-
-#~ msgid "single label cell height in milimetres"
-#~ msgstr "wysokość pojedynczej etykiety w milimetrach"
-
-#~ msgid "export template %(name)s"
-#~ msgstr "szablon eksportu %(name)s"
-
-#~ msgid "new export template"
-#~ msgstr "nowy szablon eksportu"
-
-#~ msgid "help for template code"
-#~ msgstr "pomoc"
-
-#~ msgid ""
-#~ "The template code must be written "
-#~ "in Jinja2[1] template language using "
-#~ "Markdown[2] markup. Available context variable"
-#~ " is named \"brew\" and contains all"
-#~ " fields from single brew data."
-#~ msgstr ""
-#~ "Kod szablonu musi być napisany przy "
-#~ "użyciu języka szablonów Jinja2[1] oraz "
-#~ "Markdown[2]. Zmienna określająca warkę jest"
-#~ " dostępna pod nazwą \"brew\" i "
-#~ "zawiera ona wszystkie pola danych warki."
-
-#~ msgid "As an example, see the default export template:"
-#~ msgstr "Dla przykładu proszę spojrzeć, jak wygląda szablon domyślny:"
-
-#~ msgid "Jinja2 Template Designer Documentation"
-#~ msgstr "Dokumentacja dla autorów szablonów Jinja2"
-
-#~ msgid "Markdown syntax"
-#~ msgstr "Składnia Markdown"
-
-#~ msgid "label template %(name)s"
-#~ msgstr "szablon etykiety %(name)s"
-
-#~ msgid "new label template"
-#~ msgstr "nowy szablon etykiety"
-
-#~ msgid "As an example, see the default label template:"
-#~ msgstr "Dla przykładu proszę spojrzeć, jak wygląda domyślny szablon etykiety:"
-
-#~ msgid "user customizations"
-#~ msgstr "indywidualizacje"
-
-#~ msgid "custom recipe export templates"
-#~ msgstr "własne szablony eksportu receptur"
-
-#~ msgid "add new template"
-#~ msgstr "dodaj nowy szablon"
-
-#~ msgid "custom label templates"
-#~ msgstr "własne szablony etykiet"
-
-#~ msgid "recipe tools"
-#~ msgstr "narzędzia receptur"
-
-#~ msgid "print recipe"
-#~ msgstr "wydruk receptury"
-
-#~ msgid "print labels"
-#~ msgstr "wydruk etykiet"
-
-#~ msgid "export"
-#~ msgstr "wyeksportuj"
-
-#~ msgid "%(flavour)s export of brew %(brew)s"
-#~ msgstr "eksport danych warki %(brew)s w formacie %(flavour)s"
-
-#~ msgid "brew link"
-#~ msgstr "link do warki"
-
-#~ msgid "brewed"
-#~ msgstr "warzone"
-
-#~ msgid "packaged"
-#~ msgstr "rozlane"
-
-#~ msgid "OG"
-#~ msgstr "ekstrakt"
-
-#~ msgid "alc. vol."
-#~ msgstr "alk. obj."
-
-#~ msgid ""
-#~ "Brewery %(name)s is about to be "
-#~ "deleted with all its content. As "
-#~ "this process is irreversible we're "
-#~ "asking you again, is this really "
-#~ "what yoy want do do?"
-#~ msgstr ""
-#~ "Browar %(name)s zostanie usunięty wraz z"
-#~ " całą zawartością. Ponieważ proces ten "
-#~ "jest nieodwracalny, proszę potwierdzić, czy"
-#~ " rzeczywiście chcesz to zrobić?"
-
-#~ msgid "single infusion mash w/ mash out"
-#~ msgstr "jednotemperaturowe z wygrzewem"
-
-#~ msgid "2-step mash w/ mash out"
-#~ msgstr "dwustopniowe z wygrzewem"
-
-#~ msgid "3-step mash w/ mash out"
-#~ msgstr "trójstopniowe z wygrzewem"
-
-#~ msgid "submit"
-#~ msgstr "zapisz"
-
-#~ msgid "Owned"
-#~ msgstr "Własne"
-
-#~ msgid "Other"
-#~ msgstr "Inne"
-
-#~ msgid "Server Error."
-#~ msgstr "Błąd Serwera."
-
-#~ msgid "Yes, delete it"
-#~ msgstr "Tak, usuń"
-
-#~ msgid "%(user)s tasted %(brew)s"
-#~ msgstr "%(user)s degustował %(brew)s"
-
-#~ msgid "unspecified"
-#~ msgstr "nie podane"
-
-#~ msgid "brewery name has to be between 4 and 500 characters long"
-#~ msgstr "nazwa browaru musi mieć od 4 do 500 znaków długości"
-
-#~ msgid "one of above fields should be provided"
-#~ msgstr "jedno z powyższych pól powinno zostać wypełnione"
-
-#~ msgid "unknown"
-#~ msgstr "nieznany"
-
-#~ msgid "%(style)s, %(abv)s, OG: %(og)s, FG: %(fg)s"
-#~ msgstr ""
-#~ "%(style)s, alk. %(abv)s obj., gęstość "
-#~ "pocz. %(og)s, gęstość końcowa %(fg)s"
-
-#~ msgid "FG: %(fg).1f"
-#~ msgstr "gęstość końcowa %(fg).1f"
-

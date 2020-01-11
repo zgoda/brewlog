@@ -1,7 +1,3 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 import factory
 from factory.alchemy import SQLAlchemyModelFactory
 
@@ -15,8 +11,9 @@ class UserFactory(SQLAlchemyModelFactory):
     last_name = factory.Faker('last_name')
     email = factory.Faker('email')
     is_public = True
+    password = factory.PostGenerationMethodCall('set_password', 'password')
 
     class Meta:
         model = BrewerProfile
         sqlalchemy_session = db.session
-        sqlalchemy_session_persistence = 'commit'
+        sqlalchemy_session_persistence = 'flush'

@@ -1,7 +1,3 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 import datetime
 
 import factory
@@ -23,7 +19,7 @@ class BreweryFactory(SQLAlchemyModelFactory):
     class Meta:
         model = Brewery
         sqlalchemy_session = db.session
-        sqlalchemy_session_persistence = 'commit'
+        sqlalchemy_session_persistence = 'flush'
 
 
 class BrewFactory(SQLAlchemyModelFactory):
@@ -36,7 +32,7 @@ class BrewFactory(SQLAlchemyModelFactory):
     class Meta:
         model = Brew
         sqlalchemy_session = db.session
-        sqlalchemy_session_persistence = 'commit'
+        sqlalchemy_session_persistence = 'flush'
 
 
 class FermentationStepFactory(SQLAlchemyModelFactory):
@@ -48,7 +44,7 @@ class FermentationStepFactory(SQLAlchemyModelFactory):
     class Meta:
         model = FermentationStep
         sqlalchemy_session = db.session
-        sqlalchemy_session_persistence = 'commit'
+        sqlalchemy_session_persistence = 'flush'
 
 
 class TastingNoteFactory(SQLAlchemyModelFactory):
@@ -61,4 +57,4 @@ class TastingNoteFactory(SQLAlchemyModelFactory):
     class Meta:
         model = TastingNote
         sqlalchemy_session = db.session
-        sqlalchemy_session_persistence = 'commit'
+        sqlalchemy_session_persistence = 'flush'

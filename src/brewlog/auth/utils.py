@@ -1,8 +1,4 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
-from flask import flash, redirect, session
+from flask import flash, redirect, session, url_for
 from flask_babel import lazy_gettext as _
 from flask_login import login_user
 
@@ -31,5 +27,8 @@ def login_success(email, access_token, remote_id, service_name, **kwargs):
         ),
         category='success'
     )
-    next_ = next_redirect('home.index')
+    if user.has_valid_password:
+        next_ = next_redirect('home.index')
+    else:
+        next_ = url_for('profile.setpassword')
     return redirect(next_)

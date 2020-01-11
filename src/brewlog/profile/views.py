@@ -1,7 +1,3 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 from flask import flash, redirect, render_template, request, url_for
 from flask_babel import gettext as _
 from flask_login import current_user, login_required, logout_user
@@ -12,7 +8,7 @@ from ..forms.base import DeleteForm
 from ..models import Brew, BrewerProfile, Brewery
 from ..utils.pagination import get_page
 from . import profile_bp
-from .forms import ProfileForm
+from .forms import PasswordChangeForm, ProfileForm
 from .permissions import AccessManager
 
 
@@ -29,16 +25,26 @@ def profile(user_id):
             flash(_('your profile data has been updated'), category='success')
             return redirect(url_for('.details', user_id=profile.id))
     context = {
-        'data': user_profile.nick,
-        'data_type': 'summary',
         'profile': user_profile,
         'latest_brews': Brew.get_latest_for(user_profile, limit=10),
     }
-    context['data'] = user_profile.full_data()
-    context['data_type'] = 'full'
     if user_profile == current_user:
         context['form'] = form or ProfileForm(obj=user_profile)
     return render_template('account/profile.html', **context)
+
+
+@profile_bp.route('/newpassword', methods=['GET', 'POST'], endpoint='setpassword')
+@login_required
+def set_password():
+    form = PasswordChangeForm()
+    if form.validate_on_submit():
+        user = form.save(current_user)
+        flash(_('your password has been changed'), category='success')
+        return redirect(url_for('.details', user_id=user.id))
+    context = {
+        'form': form,
+    }
+    return render_template('account/set_password.html', **context)
 
 
 @profile_bp.route('<int:user_id>/delete', methods=['GET', 'POST'], endpoint='delete')

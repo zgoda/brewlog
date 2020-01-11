@@ -1,9 +1,6 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 import os
 from logging.config import dictConfig
+from typing import Optional
 
 from flask import render_template, request, send_from_directory, session
 from flask_babel import gettext as _
@@ -12,9 +9,7 @@ from werkzeug.utils import ImportStringError
 from .auth import auth_bp
 from .brew import brew_bp
 from .brewery import brewery_bp
-from .ext import (
-    babel, bootstrap, csrf, db, login_manager, migrate, oauth, pages,
-)
+from .ext import babel, bootstrap, csrf, db, login_manager, migrate, oauth, pages
 from .fermentation import ferm_bp
 from .home import home_bp
 from .profile import profile_bp
@@ -23,20 +18,20 @@ from .templates import setup_template_extensions
 from .utils.app import Brewlog
 
 
-def make_app(env=None):
+def make_app(env: Optional[str] = None) -> Brewlog:
     if os.environ.get('FLASK_ENV', '') != 'development':
         configure_logging()
     app = Brewlog(__name__.split('.')[0])
     configure_app(app, env)
-    configure_extensions(app, env)
+    configure_extensions(app)
     with app.app_context():
-        configure_blueprints(app, env)
-        configure_error_handlers(app, env)
+        configure_blueprints(app)
+        configure_error_handlers(app)
         setup_template_extensions(app)
     return app
 
 
-def configure_app(app, env):
+def configure_app(app: Brewlog, env: Optional[str] = None):
     app.config.from_object('brewlog.config')
     if env is not None:
         try:
@@ -51,7 +46,7 @@ def configure_app(app, env):
     if config_secrets:
         app.logger.info(f'secrets loaded from {config_secrets}')
         app.config.from_envvar('BREWLOG_CONFIG_SECRETS')
-    if app.config['DEBUG']:
+    if app.debug:
         @app.route('/favicon.ico')
         def favicon():
             return send_from_directory(
@@ -61,7 +56,7 @@ def configure_app(app, env):
             )
 
 
-def configure_blueprints(app, env):
+def configure_blueprints(app: Brewlog):
     app.register_blueprint(home_bp)
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(profile_bp, url_prefix='/profile')
@@ -71,7 +66,7 @@ def configure_blueprints(app, env):
     app.register_blueprint(ferm_bp, url_prefix='/ferm')
 
 
-def configure_extensions(app, env):
+def configure_extensions(app: Brewlog):
     db.init_app(app)
     migrate.init_app(app, db)
     csrf.init_app(app)
@@ -119,7 +114,7 @@ def configure_logging():
     })
 
 
-def configure_error_handlers(app, env):
+def configure_error_handlers(app: Brewlog):
     @app.errorhandler(403)
     def forbidden_page(error):
         return render_template("errors/403.html"), 403

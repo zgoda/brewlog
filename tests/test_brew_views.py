@@ -1,7 +1,3 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 import datetime
 
 import pytest
@@ -274,8 +270,8 @@ class TestStateChangeView(BrewViewTests):
         self.url = url_for('brew.chgstate', brew_id=self.brew.id)
 
     def test_brew_tap_anon(self):
-        rv = self.client.post(self.url, data={'action': 'tap'}, follow_redirects=True)
-        assert 'Sign in with' in rv.text
+        rv = self.client.post(self.url, data={'action': 'tap'})
+        assert url_for('auth.select') in rv.headers['Location']
 
     def test_brew_tap_nonbrewer(self):
         self.login(self.hidden_user.email)
@@ -367,7 +363,7 @@ class TestBrewAddView(BrewViewTests):
         self.login(email=self.hidden_user.email)
         rv = self.client.post(self.url, data=data)
         assert rv.status_code == 200
-        assert 'This field is required' in rv.text
+        assert 'Not a valid choice' in rv.text
         assert Brew.query.filter_by(name=data['name']).first() is None
 
 

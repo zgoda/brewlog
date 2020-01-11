@@ -1,18 +1,15 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 import math
 
 from flask_babel import format_date
 
 from ._version import get_version
+from .utils.app import Brewlog
 from .utils.brewing import plato2sg
 from .utils.pagination import url_for_other_page
 from .utils.text import stars2deg
 
 
-def setup_globals(application):
+def setup_globals(application: Brewlog):
     application.jinja_env.globals.update({
         'format_date': format_date,
         'pow': math.pow,
@@ -23,5 +20,5 @@ def setup_globals(application):
     })
 
 
-def setup_template_extensions(application):
+def setup_template_extensions(application: Brewlog):
     setup_globals(application)

@@ -1,9 +1,5 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
-from .brewery import Brewery  # noqa
-from .brewing import Brew  # noqa
-from .fermentation import FermentationStep  # noqa
-from .tasting import TastingNote  # noqa
-from .users import BrewerProfile  # noqa
+from .brewery import Brewery  # noqa: F401
+from .brewing import Brew  # noqa: F401
+from .fermentation import FermentationStep  # noqa: F401
+from .tasting import TastingNote  # noqa: F401
+from .users import BrewerProfile  # noqa: F401

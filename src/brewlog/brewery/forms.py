@@ -1,21 +1,17 @@
-# Copyright 2012, 2019 Jarek Zgoda. All rights reserved.
-# Use of this source code is governed by a BSD-style
-# license that can be found in the LICENSE file.
-
 from flask_babel import lazy_gettext as _
 from flask_login import current_user
 from wtforms.fields import StringField, TextAreaField
 from wtforms.fields.html5 import DateField
-from wtforms.validators import DataRequired
+from wtforms.validators import InputRequired, Optional
 
 from ..forms.base import BaseObjectForm
 from ..models import Brewery
 
 
 class BreweryForm(BaseObjectForm):
-    name = StringField(_('name'), validators=[DataRequired()])
+    name = StringField(_('name'), validators=[InputRequired()])
     description = TextAreaField(_('description'))
-    established_date = DateField(_('established'))
+    established_date = DateField(_('established'), validators=[Optional()])
 
     def save(self, obj=None):
         if obj is None:
