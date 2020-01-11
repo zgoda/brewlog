@@ -147,7 +147,7 @@ class TestBrewerProfileDetailsView(BrewlogTests):
     @pytest.mark.parametrize('public', [
         True, False
     ], ids=['public', 'hidden'])
-    def test_post_owner_fail_email(self, public, user_factory):
+    def test_post_owner_fail_email_missing(self, public, user_factory):
         user = user_factory(is_public=public)
         data = {
             'nick': 'wholly new nick',
@@ -201,6 +201,20 @@ class TestBrewerProfileDetailsView(BrewlogTests):
         rv = self.client.post(url, data=data, follow_redirects=True)
         assert 'is-invalid' in rv.text
         assert 'please provide full name or nick'
+
+    @pytest.mark.parametrize('public', [
+        True, False
+    ], ids=['public', 'hidden'])
+    def test_post_owner_fail_email_invalid(self, public, user_factory):
+        user = user_factory(is_public=public)
+        data = {
+            'nick': 'wholly new nick',
+            'email': 'garbage',
+        }
+        self.login(user.email)
+        url = self.url(user)
+        rv = self.client.post(url, data=data, follow_redirects=True)
+        assert 'is not valid email address' in rv.text
 
 
 @pytest.mark.usefixtures('client_class')
@@ -407,3 +421,49 @@ class TestBrewerProfileBrewListView(BrewlogTests):
         rv = self.client.get(url)
         assert f'href="{brew_details_url}"' in rv.text
         assert f'href="{brew_delete_url}"' in rv.text
+
+
+@pytest.mark.usefixtures('client_class')
+class TestSetPasswordView(BrewlogTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self):
+        self.url = url_for('profile.setpassword')
+
+    def test_anon_get(self):
+        rv = self.client.get(self.url, follow_redirects=False)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['Location']
+
+    def test_authenticated_get(self, user_factory):
+        user = user_factory()
+        self.login(user.email)
+        rv = self.client.get(self.url)
+        assert f'action="{self.url}"' in rv.text
+
+    def test_post_ok(self, user_factory):
+        old_password = 'pass1'
+        new_password = 'pass2'
+        user = user_factory(password=old_password)
+        self.login(user.email)
+        data = {
+            'new_password': new_password,
+            'new_password_r': new_password
+        }
+        rv = self.client.post(self.url, data=data, follow_redirects=True)
+        assert 'your password has been changed' in rv.text
+        assert BrewerProfile.query.get(user.id).check_password(new_password)
+
+    @pytest.mark.parametrize('password', ['', 'garbage'], ids=['empty', 'garbage'])
+    def test_post_fail(self, password, user_factory):
+        old_password = 'pass1'
+        new_password = 'pass2'
+        user = user_factory(password=old_password)
+        self.login(user.email)
+        data = {
+            'new_password': new_password,
+            'new_password_r': password
+        }
+        rv = self.client.post(self.url, data=data, follow_redirects=True)
+        assert 'your password has been changed' not in rv.text
+        assert BrewerProfile.query.get(user.id).check_password(old_password)

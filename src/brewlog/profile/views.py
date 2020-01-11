@@ -36,15 +36,13 @@ def profile(user_id):
 @profile_bp.route('/newpassword', methods=['GET', 'POST'], endpoint='setpassword')
 @login_required
 def set_password():
-    form = None
-    if request.method == 'POST':
-        form = PasswordChangeForm()
-        if form.validate_on_submit():
-            user = form.save(current_user)
-            flash(_('your password has been changed'), category='success')
-            return redirect(url_for('.details', user_id=user.id))
+    form = PasswordChangeForm()
+    if form.validate_on_submit():
+        user = form.save(current_user)
+        flash(_('your password has been changed'), category='success')
+        return redirect(url_for('.details', user_id=user.id))
     context = {
-        'form': form or PasswordChangeForm()
+        'form': form,
     }
     return render_template('account/set_password.html', **context)
 
