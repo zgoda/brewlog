@@ -100,3 +100,63 @@ class TestRegister(BrewlogTests):
         assert 'proceed to login' not in rv.text
         if 'username' in data:
             assert BrewerProfile.query.filter_by(username=data['username']).count() == 0
+
+    def test_post_username_exists(self, user_factory):
+        name = 'user1'
+        user_factory(username=name)
+        data = {
+            'username': name,
+            'password1': 'password',
+            'password2': 'password',
+        }
+        rv = self.client.post(self.url, data=data, follow_redirects=True)
+        assert 'proceed to login' not in rv.text
+        assert BrewerProfile.query.filter_by(username=name).count() == 1
+
+
+@pytest.mark.usefixtures('client_class')
+class TestLogin(BrewlogTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self):
+        self.url = url_for('auth.select')
+
+    def test_ok_with_username(self, user_factory):
+        name = 'user1'
+        password = 'pass1'
+        email = 'testuser@dev.brewlog.com'
+        user_factory(username=name, email=email, nick=name, password=password)
+        rv = self.client.post(
+            self.url, data={'userid': name, 'password': password},
+            follow_redirects=True,
+        )
+        assert f'now logged in as {name}' in rv.text
+
+    def test_ok_with_email(self, user_factory):
+        name = 'user1'
+        password = 'pass1'
+        email = 'testuser@dev.brewlog.com'
+        user_factory(username=name, email=email, nick=name, password=password)
+        rv = self.client.post(
+            self.url, data={'userid': email, 'password': password},
+            follow_redirects=True,
+        )
+        assert f'now logged in as {name}' in rv.text
+
+    def test_fail_no_account(self):
+        rv = self.client.post(
+            self.url, data={'userid': 'user1', 'password': 'pass1'},
+            follow_redirects=True,
+        )
+        assert 'user account not found or wrong password' in rv.text
+
+    def test_fail_wrong_password(self, user_factory):
+        name = 'user1'
+        password = 'pass1'
+        email = 'testuser@dev.brewlog.com'
+        user_factory(username=name, email=email, nick=name, password=password)
+        rv = self.client.post(
+            self.url, data={'userid': name, 'password': 'pass2'},
+            follow_redirects=True,
+        )
+        assert 'user account not found or wrong password' in rv.text

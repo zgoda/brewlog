@@ -11,6 +11,7 @@ class UserFactory(SQLAlchemyModelFactory):
     last_name = factory.Faker('last_name')
     email = factory.Faker('email')
     is_public = True
+    password = factory.PostGenerationMethodCall('set_password', 'password')
 
     class Meta:
         model = BrewerProfile
