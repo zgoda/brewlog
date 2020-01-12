@@ -93,7 +93,6 @@ def configure_extensions(app: Brewlog):
     babel.init_app(app)
 
     pages.init_app(app)
-    pages.get('foo')  # preload all static pages
 
 
 def configure_logging():
