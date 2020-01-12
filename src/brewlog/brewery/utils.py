@@ -1,8 +1,7 @@
 from flask import jsonify, url_for
-from sqlalchemy_utils import sort_query
 
 from ..ext import db
-from ..models import BrewerProfile, Brewery
+from ..models import BrewerProfile, Brewery, Brew
 
 
 class BreweryUtils:
@@ -45,12 +44,13 @@ class BreweryUtils:
         query = brewery.brews.filter_by(is_draft=False)
         if public_only:
             query = query.filter_by(is_public=True)
-        query = sort_query(query, order)
+        query = query.order_by(order)
         if limit is not None:
             query = query.limit(limit)
         return query
 
     def recent_brews(self, public_only=True, limit=10):
         return self.brews(
-            self.brewery, order='-brew-created', public_only=public_only, limit=limit
+            self.brewery, order=db.desc(Brew.created), public_only=public_only,
+            limit=limit,
         )

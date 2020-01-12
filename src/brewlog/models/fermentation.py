@@ -56,3 +56,11 @@ class FermentationStep(db.Model):
         return FermentationStep.query.filter(
             FermentationStep.brew == self.brew, FermentationStep.date > self.date
         ).order_by(FermentationStep.date).first()
+
+    @classmethod
+    def first_for_brew(cls, brew_id):
+        return cls.query.filter_by(brew_id=brew_id).order_by(cls.date).first()
+
+    @classmethod
+    def last_for_brew(cls, brew_id):
+        return cls.query.filter_by(brew_id=brew_id).order_by(db.desc(cls.date)).first()

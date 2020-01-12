@@ -5,13 +5,14 @@ from typing import ClassVar, Optional, Tuple
 
 import markdown
 from flask_babel import lazy_gettext as _
-from sqlalchemy_utils import sort_query
 from werkzeug.utils import cached_property
 
 from ..ext import db
-from ..models import Brewery, choices
 from ..utils.brewing import abv, apparent_attenuation, real_attenuation
 from ..utils.text import stars2deg
+from . import choices
+from .brewery import Brewery
+from .fermentation import FermentationStep
 
 
 @dataclass
@@ -75,11 +76,11 @@ class Brew(db.Model):
 
     @cached_property
     def first_step(self):
-        return sort_query(self.fermentation_steps, 'date').first()
+        return FermentationStep.first_for_brew(self.id)
 
     @cached_property
     def last_step(self):
-        return sort_query(self.fermentation_steps, '-date').first()
+        return FermentationStep.last_for_brew(self.id)
 
     @property
     def og(self):
