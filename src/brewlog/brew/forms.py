@@ -1,11 +1,9 @@
 from flask_babel import lazy_gettext as _
 from flask_login import current_user
-from wtforms.fields import (
-    BooleanField, SelectField, StringField, TextAreaField
-)
+from wtforms.fields import BooleanField, SelectField, StringField, TextAreaField
 from wtforms.fields.html5 import DateField, DecimalField, IntegerField
 from wtforms.validators import InputRequired, Optional
-from wtforms_alchemy import QuerySelectField
+from wtforms_alchemy.fields import QuerySelectField
 
 from ..forms.base import BaseForm, BaseObjectForm
 from ..forms.fields import TextAreaWithHintsField

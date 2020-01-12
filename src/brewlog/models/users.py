@@ -3,9 +3,9 @@ import datetime
 from flask import url_for
 from flask_babel import lazy_gettext as _
 from flask_login import UserMixin
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from ..ext import db
-from ..security import pwd_context
 
 
 class BrewerProfile(UserMixin, db.Model):
@@ -86,10 +86,10 @@ class BrewerProfile(UserMixin, db.Model):
         return query
 
     def set_password(self, password):
-        self.password = pwd_context.hash(password)
+        self.password = generate_password_hash(password)
 
     def check_password(self, password):
-        return pwd_context.verify(password, self.password)
+        return check_password_hash(self.password, password)
 
 
 # events: BrewerProfile model

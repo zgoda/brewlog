@@ -41,7 +41,7 @@ base_reqs = [
     'validators',
     'permission',
     'psycopg2-binary',
-    'passlib[argon2]',
+    'Werkzeug',
 ]
 
 test_reqs = [
