@@ -8,7 +8,7 @@ from ..utils.views import (
 
 class OwnerAccessRule(OwnerAccessRuleBase):
 
-    def check(self):
+    def check(self) -> bool:
         return self.obj.brewery.brewer == current_user
 
 
@@ -19,7 +19,7 @@ class OwnerAccessPermission(PermissionBase):
 
 class PublicAccessRule(PublicAccessRuleBase):
 
-    def check(self):
+    def check(self) -> bool:
         return (self.obj.is_public and self.obj.brewery.brewer.is_public) \
             or self.obj.brewery.brewer == current_user
 

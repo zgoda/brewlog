@@ -1,4 +1,4 @@
-from flask import flash, redirect, session, url_for
+from flask import Response, flash, redirect, session, url_for
 from flask_babel import lazy_gettext as _
 from flask_login import login_user
 
@@ -7,7 +7,9 @@ from ..models import BrewerProfile
 from ..utils.views import next_redirect
 
 
-def login_success(email, access_token, remote_id, service_name, **kwargs):
+def login_success(
+            email: str, access_token: str, remote_id: str, service_name: str, **kwargs
+        ) -> Response:
     user = BrewerProfile.get_by_email(email)
     if user is None:
         user = BrewerProfile(email=email)

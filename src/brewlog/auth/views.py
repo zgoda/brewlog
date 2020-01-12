@@ -1,4 +1,6 @@
-from flask import flash, redirect, render_template, request, session, url_for
+from typing import Union
+
+from flask import Response, flash, redirect, render_template, request, session, url_for
 from flask_babel import gettext as _
 from flask_login import login_required, logout_user
 
@@ -10,7 +12,7 @@ from .utils import login_success
 
 
 @auth_bp.route('/register', methods=['POST', 'GET'], endpoint='register')
-def register():
+def register() -> Union[str, Response]:
     logout_user()
     form = RegistrationForm()
     if form.validate_on_submit():
@@ -30,7 +32,7 @@ def register():
 
 
 @auth_bp.route('/select', methods=['POST', 'GET'], endpoint='select')
-def select_provider():
+def select_provider() -> Union[str, Response]:
     session['next'] = request.args.get('next')
     form = None
     if request.method == 'POST':
@@ -52,7 +54,7 @@ def select_provider():
 
 
 @auth_bp.route('/<provider>', endpoint='login')
-def remote_login(provider):
+def remote_login(provider: str) -> Union[str, Response]:
     if provider == 'local':
         return local_login_callback(
             request.args.get('email', 'example.user@example.com')
@@ -149,6 +151,6 @@ def local_login_callback(resp):
 
 @auth_bp.route('/logout')
 @login_required
-def logout():
+def logout() -> Response:
     logout_user()
     return redirect(url_for('home.index'))

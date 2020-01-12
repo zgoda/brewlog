@@ -1,7 +1,7 @@
 from flask import session
 from flask_babel import lazy_gettext as _
 from flask_login import login_user
-from wtforms.fields import PasswordField, StringField
+from wtforms.fields import Field, PasswordField, StringField
 from wtforms.validators import EqualTo, InputRequired, ValidationError
 
 from ..ext import db
@@ -10,7 +10,7 @@ from ..forms.utils import Button
 from ..models.users import BrewerProfile
 
 
-def _rkw(**extra):
+def _rkw(**extra: str) -> dict:
     render_kw = {
         'class_': 'form-control',
     }
@@ -29,11 +29,11 @@ class RegistrationForm(BaseForm):
         Button(icon='user-alt', text=_('register'))
     ]
 
-    def validate_username(self, field):
+    def validate_username(self, field: Field):
         if BrewerProfile.query.filter_by(username=field.data).count() > 0:
             raise ValidationError(_('name is already taken'))
 
-    def save(self):
+    def save(self) -> BrewerProfile:
         user = BrewerProfile(username=self.username.data)
         user.set_password(self.password1.data)
         db.session.add(user)
@@ -50,7 +50,7 @@ class LoginForm(BaseForm):
         validators=[InputRequired()], render_kw=_rkw(placeholder=_('password')),
     )
 
-    def validate(self):
+    def validate(self) -> bool:
         is_valid = super().validate()
         user_found = password_valid = False
         if is_valid:
@@ -65,7 +65,7 @@ class LoginForm(BaseForm):
                 password_valid = self.user.check_password(self.password.data)
         return is_valid and user_found and password_valid
 
-    def save(self):
+    def save(self) -> BrewerProfile:
         login_user(self.user)
         session.permanent = True
         return self.user

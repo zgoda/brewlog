@@ -1,5 +1,6 @@
 from flask_babel import lazy_gettext as _
 from flask_login import current_user
+from flask_sqlalchemy import BaseQuery
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
 from wtforms.fields import BooleanField, SelectField, StringField, TextAreaField
 from wtforms.fields.html5 import DateField, DecimalField, IntegerField
@@ -12,7 +13,7 @@ from ..forms.widgets import textarea_with_hints
 from ..models import Brew, Brewery, choices
 
 
-def user_breweries_query():
+def user_breweries_query() -> BaseQuery:
     return Brewery.query.filter_by(brewer=current_user).order_by(Brewery.name)
 
 
@@ -74,7 +75,7 @@ class BrewForm(BaseObjectForm):
     is_public = BooleanField(_('public'), default=True)
     is_draft = BooleanField(_('draft'), default=False)
 
-    def save(self, obj=None, save=True):
+    def save(self, obj=None, save=True) -> Brew:
         if obj is None:
             obj = Brew()
         return super(BrewForm, self).save(obj, save)

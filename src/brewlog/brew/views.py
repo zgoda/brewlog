@@ -1,6 +1,7 @@
 from datetime import datetime
+from typing import Union
 
-from flask import flash, redirect, render_template, request, url_for
+from flask import Response, flash, redirect, render_template, request, url_for
 from flask_babel import lazy_gettext
 from flask_login import current_user, login_required
 
@@ -32,7 +33,7 @@ HINTS = [
 
 @brew_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
 @login_required
-def brew_add():
+def brew_add() -> Union[str, Response]:
     form = BrewForm()
     if form.validate_on_submit():
         brew = form.save()
@@ -46,7 +47,7 @@ def brew_add():
 
 
 @brew_bp.route('/<int:brew_id>', methods=['POST', 'GET'], endpoint='details')
-def brew(brew_id):
+def brew(brew_id: int) -> Union[str, Response]:
     brew = Brew.query.get_or_404(brew_id)
     is_post = request.method == 'POST'
     AccessManager(brew, is_post).check()
@@ -75,7 +76,7 @@ def brew(brew_id):
 
 
 @brew_bp.route('/all', endpoint='all')
-def brew_all():
+def brew_all() -> str:
     page_size = 20
     page = get_page(request)
     if current_user.is_anonymous:
@@ -93,7 +94,7 @@ def brew_all():
 
 
 @brew_bp.route('/search', endpoint='search')
-def search():
+def search() -> Response:
     query = list_query_for_user(current_user)
     term = request.args.getlist('q')
     if term:
@@ -104,7 +105,7 @@ def search():
 
 @brew_bp.route('/<int:brew_id>/delete', methods=['GET', 'POST'], endpoint='delete')
 @login_required
-def brew_delete(brew_id):
+def brew_delete(brew_id: int) -> Union[str, Response]:
     brew = Brew.query.get_or_404(brew_id)
     AccessManager(brew, True).check()
     name = brew.name
@@ -127,7 +128,7 @@ def brew_delete(brew_id):
 
 @brew_bp.route('/<int:brew_id>/chgstate', methods=['POST'], endpoint='chgstate')
 @login_required
-def change_state(brew_id):
+def change_state(brew_id: int) -> Response:
     brew = Brew.query.get_or_404(brew_id)
     AccessManager(brew, True).check()
     form = ChangeStateForm()
