@@ -93,6 +93,13 @@ class BrewerProfile(UserMixin, db.Model):
     def check_password(self, password: str) -> bool:
         return check_password_hash(self.password, password)
 
+    def set_email_confirmed(self, value=True):
+        self.email_confirmed = value
+        if value:
+            self.confirmed_dt = datetime.datetime.utcnow()
+        else:
+            self.confirmed_dt = None
+
 
 # events: BrewerProfile model
 def profile_pre_save(mapper, connection, target):

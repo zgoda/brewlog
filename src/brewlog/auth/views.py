@@ -54,7 +54,7 @@ def forgot_password() -> Union[str, Response]:
     return render_template('auth/forgotpassword.html', **ctx)
 
 
-@auth_bp.route('/password/reset/<token>', enpoint='resetpassword')
+@auth_bp.route('/password/reset/<token>', endpoint='resetpassword')
 def reset_password(token: str) -> Union[str, Response]:
     pass
 

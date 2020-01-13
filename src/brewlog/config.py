@@ -10,6 +10,10 @@ CSRF_ENABLED = True
 WTF_CSRF_ENABLED = CSRF_ENABLED
 CSRF_SESSION_KEY = 'not so secret'
 REDIS_URL = os.environ.get('REDIS_URL', 'redis://')
+MAILGUN_DOMAIN = os.environ.get('MAILGUN_DOMAIN')
+MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY')
+EMAIL_SENDER = f'brewlog@{MAILGUN_DOMAIN}'
+EMAIL_CONFIRM_MAX_AGE = 60 * 60 * 24 * 2
 
 # flatpages
 FLATPAGES_EXTENSION = '.html.md'

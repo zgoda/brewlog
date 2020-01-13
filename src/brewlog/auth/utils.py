@@ -1,5 +1,3 @@
-import os
-
 from flask import (
     Response, current_app, flash, redirect, render_template_string, session, url_for,
 )
@@ -48,12 +46,10 @@ def send_password_reset_email(email: str) -> bool:
         serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
         token = serializer.dumps(payload)
         html_body = render_template_string('email/password_reset.html', token=token)
-        queue = current_app.queues['mail']
-        mg_domain = os.environ['MAILGUN_DOMAIN']
+        sender = current_app.config['EMAIL_SENDER']
         subject = _('Request to reset password at Brewlog')
-        queue.enqueue(
-            'brewlog.tasks.send_email', f'brewlog@{mg_domain}', [user.email],
-            subject, html_body,
+        current_app.queue.enqueue(
+            'brewlog.tasks.send_email', sender, [user.email], subject, html_body,
         )
         return True
     return False

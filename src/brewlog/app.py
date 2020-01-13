@@ -85,7 +85,7 @@ def configure_extensions(app: Brewlog):
         from .models.users import BrewerProfile
         return BrewerProfile.query.get(user_id)
 
-    if not app.testing:
+    if not babel.locale_selector_func:
         @babel.localeselector
         def get_locale():
             lang = session.get('lang')
@@ -105,9 +105,7 @@ def configure_redis(app: Brewlog):
         redis_conn_cls = import_string('fakeredis.FakeStrictRedis')
         run_async = False
     app.redis = redis_conn_cls.from_url(app.config['REDIS_URL'])
-    app.queues = {
-        'mail': rq.Queue('brewlog-mail', is_async=run_async, connection=app.redis)
-    }
+    app.queue = rq.Queue('brewlog', is_async=run_async, connection=app.redis)
 
 
 def configure_logging():
