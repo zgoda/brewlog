@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import datetime
 
 from flask import url_for
@@ -40,15 +42,15 @@ class BrewerProfile(UserMixin, db.Model):
     )
 
     @property
-    def breweries_list_url(self):
+    def breweries_list_url(self) -> str:
         return url_for('profile.breweries', user_id=self.id)
 
     @property
-    def brews_list_url(self):
+    def brews_list_url(self) -> str:
         return url_for('profile.brews', user_id=self.id)
 
     @property
-    def name(self):
+    def name(self) -> str:
         for attr in ['nick', 'full_name']:
             value = getattr(self, attr, None)
             if value:
@@ -56,11 +58,11 @@ class BrewerProfile(UserMixin, db.Model):
         return _('wanting to stay anonymous')
 
     @property
-    def has_valid_password(self):
+    def has_valid_password(self) -> bool:
         return self.password != 'unset'
 
     @classmethod
-    def get_by_email(cls, email):
+    def get_by_email(cls, email: str) -> BrewerProfile:
         return cls.query.filter_by(email=email).first()
 
     @classmethod
@@ -85,10 +87,10 @@ class BrewerProfile(UserMixin, db.Model):
             query = query.order_by(order_by)
         return query
 
-    def set_password(self, password):
+    def set_password(self, password: str):
         self.password = generate_password_hash(password)
 
-    def check_password(self, password):
+    def check_password(self, password: str) -> bool:
         return check_password_hash(self.password, password)
 
 

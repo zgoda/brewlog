@@ -2,9 +2,11 @@ import os
 from logging.config import dictConfig
 from typing import Optional
 
+import rq
 from flask import render_template, request, send_from_directory, session
 from flask_babel import gettext as _
-from werkzeug.utils import ImportStringError
+from redis import Redis
+from werkzeug.utils import ImportStringError, import_string
 
 from .auth import auth_bp
 from .brew import brew_bp
@@ -25,6 +27,7 @@ def make_app(env: Optional[str] = None) -> Brewlog:
     configure_app(app, env)
     configure_extensions(app)
     with app.app_context():
+        configure_redis(app)
         configure_blueprints(app)
         configure_error_handlers(app)
         setup_template_extensions(app)
@@ -93,6 +96,18 @@ def configure_extensions(app: Brewlog):
     babel.init_app(app)
 
     pages.init_app(app)
+
+
+def configure_redis(app: Brewlog):
+    redis_conn_cls = Redis
+    run_async = True
+    if app.testing:
+        redis_conn_cls = import_string('fakeredis.FakeStrictRedis')
+        run_async = False
+    app.redis = redis_conn_cls.from_url(app.config['REDIS_URL'])
+    app.queues = {
+        'mail': rq.Queue('brewlog-mail', is_async=run_async, connection=app.redis)
+    }
 
 
 def configure_logging():

@@ -1,3 +1,5 @@
+import os
+
 DEBUG = False
 TESTING = False
 SECRET_KEY = 'not so secret'
@@ -7,6 +9,7 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 CSRF_ENABLED = True
 WTF_CSRF_ENABLED = CSRF_ENABLED
 CSRF_SESSION_KEY = 'not so secret'
+REDIS_URL = os.environ.get('REDIS_URL', 'redis://')
 
 # flatpages
 FLATPAGES_EXTENSION = '.html.md'

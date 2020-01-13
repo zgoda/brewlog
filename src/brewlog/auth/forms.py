@@ -8,6 +8,7 @@ from ..ext import db
 from ..forms.base import BaseForm
 from ..forms.utils import Button
 from ..models.users import BrewerProfile
+from .utils import send_password_reset_email
 
 
 def _rkw(**extra: str) -> dict:
@@ -69,3 +70,17 @@ class LoginForm(BaseForm):
         login_user(self.user)
         session.permanent = True
         return self.user
+
+
+class ForgotPassword(BaseForm):
+    email1 = StringField(_('email'), validators=[InputRequired()])
+    email2 = StringField(
+        _('email (repeat)'), validators=[InputRequired(), EqualTo('email1')]
+    )
+
+    buttons = [
+        Button(icon='at', text=_('send'))
+    ]
+
+    def save(self):
+        return send_password_reset_email(self.email1.data)
