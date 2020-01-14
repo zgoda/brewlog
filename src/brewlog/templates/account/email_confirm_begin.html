@@ -1,0 +1,12 @@
+{% extends "account/base.html" %}
+
+{% block headpagetitle %}{{ gettext('email confirmation - start') }}{% endblock %}
+
+{% block widecontent %}
+<h2>{{ gettext('email confirmation - start').capitalize() }}</h2>
+<p>{% trans %}You are about to begin email confirmation process. We're going to send you an email message with confirmation link that you should click to confirm ownership of your email address. The message will come from address <code>brewlog@mg.zgodowie.org</code> and will be sent using MailGun service. Please consult message headers before clicking on any link.{% endtrans %}</p>
+<form method="POST" action="{{ request.path }}">
+  <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+  <button type="submit" class="btn btn-primary"><i class="fas fa-paper-plane"></i>&nbsp;{{ gettext('send') }}</button>
+</form>
+{% endblock %}

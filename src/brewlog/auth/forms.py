@@ -1,12 +1,14 @@
-from flask import session
+from flask import current_app, render_template, session
 from flask_babel import lazy_gettext as _
 from flask_login import login_user
+from itsdangerous.url_safe import URLSafeTimedSerializer
 from wtforms.fields import Field, PasswordField, StringField
 from wtforms.validators import EqualTo, InputRequired, ValidationError
 
 from ..ext import db
 from ..forms.base import BaseForm
 from ..forms.utils import Button
+from ..forms.validators import Email
 from ..models.users import BrewerProfile
 
 
@@ -69,3 +71,29 @@ class LoginForm(BaseForm):
         login_user(self.user)
         session.permanent = True
         return self.user
+
+
+class ForgotPassword(BaseForm):
+    email1 = StringField(_('email'), validators=[InputRequired(), Email()])
+    email2 = StringField(
+        _('email (repeat)'), validators=[InputRequired(), Email(), EqualTo('email1')]
+    )
+
+    buttons = [
+        Button(icon='paper-plane', text=_('send'))
+    ]
+
+    def save(self):
+        user = BrewerProfile.get_by_email(self.email1.data)
+        if user is not None and user.email_confirmed:
+            payload = {'id': user.id}
+            serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+            token = serializer.dumps(payload)
+            html_body = render_template('email/password_reset.html', token=token)
+            sender = current_app.config['EMAIL_SENDER']
+            subject = str(_('Request to reset password at Brewlog'))
+            current_app.queue.enqueue(
+                'brewlog.tasks.send_email', sender, [user.email], subject, html_body,
+            )
+            return True
+        return False

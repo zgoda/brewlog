@@ -2,9 +2,11 @@ import os
 from logging.config import dictConfig
 from typing import Optional
 
+import rq
 from flask import render_template, request, send_from_directory, session
 from flask_babel import gettext as _
-from werkzeug.utils import ImportStringError
+from redis import Redis
+from werkzeug.utils import ImportStringError, import_string
 
 from .auth import auth_bp
 from .brew import brew_bp
@@ -19,12 +21,13 @@ from .utils.app import Brewlog
 
 
 def make_app(env: Optional[str] = None) -> Brewlog:
-    if os.environ.get('FLASK_ENV', '') != 'development':
+    if os.environ.get('FLASK_ENV') == 'production':
         configure_logging()
     app = Brewlog(__name__.split('.')[0])
     configure_app(app, env)
     configure_extensions(app)
     with app.app_context():
+        configure_redis(app)
         configure_blueprints(app)
         configure_error_handlers(app)
         setup_template_extensions(app)
@@ -38,14 +41,6 @@ def configure_app(app: Brewlog, env: Optional[str] = None):
             app.config.from_object(f'brewlog.config_{env}')
         except ImportStringError:
             pass
-    config_local = os.environ.get('BREWLOG_CONFIG_LOCAL')
-    if config_local:
-        app.logger.info(f'local configuration loaded from {config_local}')
-        app.config.from_envvar('BREWLOG_CONFIG_LOCAL')
-    config_secrets = os.environ.get('BREWLOG_CONFIG_SECRETS')
-    if config_secrets:
-        app.logger.info(f'secrets loaded from {config_secrets}')
-        app.config.from_envvar('BREWLOG_CONFIG_SECRETS')
     if app.debug:
         @app.route('/favicon.ico')
         def favicon():
@@ -82,7 +77,7 @@ def configure_extensions(app: Brewlog):
         from .models.users import BrewerProfile
         return BrewerProfile.query.get(user_id)
 
-    if not app.testing:
+    if not babel.locale_selector_func:
         @babel.localeselector
         def get_locale():
             lang = session.get('lang')
@@ -93,6 +88,16 @@ def configure_extensions(app: Brewlog):
     babel.init_app(app)
 
     pages.init_app(app)
+
+
+def configure_redis(app: Brewlog):
+    redis_conn_cls = Redis
+    run_async = True
+    if app.testing:
+        redis_conn_cls = import_string('fakeredis.FakeStrictRedis')
+        run_async = False
+    app.redis = redis_conn_cls.from_url(app.config['REDIS_URL'])
+    app.queue = rq.Queue('brewlog', is_async=run_async, connection=app.redis)
 
 
 def configure_logging():

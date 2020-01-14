@@ -1,0 +1,20 @@
+PATH="absolute filesystem path to your virtualenv bin directory"
+
+GOOGLE_CLIENT_ID="your Google OAuth2 client key"
+GOOGLE_CLIENT_SECRET="your Google OAuth2 client secret"
+FACEBOOK_CLIENT_ID="your Facebook OAuth2 client key"
+FACEBOOK_CLIENT_SECRET="your Facebook OAuth2 client secret"
+GITHUB_CLIENT_ID="your Github OAuth2 client key"
+GITHUB_CLIENT_SECRET="your Github OAuth2 client secret"
+
+SECRET_KEY="some random value, bytes or str"
+
+SQLALCHEMY_DATABASE_URI="postgresql://user:password@host:5432/dbname"
+
+REDIS_URL="redis://"
+
+MAILGUN_DOMAIN="your.mail.domain"
+MAILGUN_API_KEY="your Mailgun API key"
+
+BABEL_DEFAULT_LOCALE="default locale for your instance"
+BABEL_DEFAULT_TIMEZONE="default timezone for your instance, eg. Europe/Sarajevo"

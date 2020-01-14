@@ -6,9 +6,9 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: brewlog 2.0.0.dev0\n"
+"Project-Id-Version: brewlog 2.0.0\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-01-06 22:20+0100\n"
+"POT-Creation-Date: 2020-01-14 16:59+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,75 +17,115 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
 
-#: src/brewlog/app.py:76
+#: src/brewlog/app.py:72
 msgid "Please log in to access this page"
 msgstr ""
 
-#: src/brewlog/auth/forms.py:22
+#: src/brewlog/auth/forms.py:23
 msgid "user name"
 msgstr ""
 
-#: src/brewlog/auth/forms.py:23 src/brewlog/auth/forms.py:50
-#: src/brewlog/templates/account/profile.html:13
+#: src/brewlog/auth/forms.py:24 src/brewlog/auth/forms.py:51
+#: src/brewlog/templates/account/profile.html:24
 msgid "password"
 msgstr ""
 
-#: src/brewlog/auth/forms.py:25
+#: src/brewlog/auth/forms.py:26
 msgid "password (repeat)"
 msgstr ""
 
-#: src/brewlog/auth/forms.py:29
+#: src/brewlog/auth/forms.py:30
 msgid "register"
 msgstr ""
 
-#: src/brewlog/auth/forms.py:34
+#: src/brewlog/auth/forms.py:35
 msgid "name is already taken"
 msgstr ""
 
-#: src/brewlog/auth/forms.py:47
+#: src/brewlog/auth/forms.py:48
 msgid "email or login"
 msgstr ""
 
-#: src/brewlog/auth/utils.py:24
+#: src/brewlog/auth/forms.py:76 src/brewlog/profile/forms.py:16
+msgid "email"
+msgstr ""
+
+#: src/brewlog/auth/forms.py:78
+msgid "email (repeat)"
+msgstr ""
+
+#: src/brewlog/auth/forms.py:82
+#: src/brewlog/templates/account/email_confirm_begin.html:10
+msgid "send"
+msgstr ""
+
+#: src/brewlog/auth/forms.py:93
+msgid "Request to reset password at Brewlog"
+msgstr ""
+
+#: src/brewlog/auth/utils.py:26
 #, python-format
 msgid "You have been signed in as %(email)s using %(service)s"
 msgstr ""
 
-#: src/brewlog/auth/views.py:19
+#: src/brewlog/auth/views.py:28
 #, python-format
 msgid "account for %(user)s has been created, you may proceed to login"
 msgstr ""
 
-#: src/brewlog/auth/views.py:41
+#: src/brewlog/auth/views.py:46
+msgid "message with password reset instructions has been sent to specified email"
+msgstr ""
+
+#: src/brewlog/auth/views.py:51
+msgid ""
+"something went wrong, either we don't know that email or it's not yet "
+"confirmed"
+msgstr ""
+
+#: src/brewlog/auth/views.py:75 src/brewlog/profile/views.py:160
+#, python-format
+msgid "token expired, it's valid for 48 hrs and it was generated on %(date)s"
+msgstr ""
+
+#: src/brewlog/auth/views.py:81 src/brewlog/profile/views.py:166
+msgid "invalid token"
+msgstr ""
+
+#: src/brewlog/auth/views.py:92 src/brewlog/profile/views.py:47
+msgid "your password has been changed"
+msgstr ""
+
+#: src/brewlog/auth/views.py:109
 #, python-format
 msgid "you are now logged in as %(name)s"
 msgstr ""
 
-#: src/brewlog/auth/views.py:46
+#: src/brewlog/auth/views.py:114
 msgid "user account not found or wrong password"
-msgstr ""
-
-#: src/brewlog/auth/views.py:63
-#, python-format
-msgid "Service \"%(provider)s\" is not supported"
-msgstr ""
-
-#: src/brewlog/auth/views.py:90
-#, python-format
-msgid "Error receiving profile data from Google: %(code)s"
 msgstr ""
 
 #: src/brewlog/auth/views.py:131
 #, python-format
+msgid "Service \"%(provider)s\" is not supported"
+msgstr ""
+
+#: src/brewlog/auth/views.py:158
+#, python-format
+msgid "Error receiving profile data from Google: %(code)s"
+msgstr ""
+
+#: src/brewlog/auth/views.py:199
+#, python-format
 msgid "GitHub profile for user %(name)s lacks public email, skipping as unusable."
 msgstr ""
 
-#: src/brewlog/brew/forms.py:23 src/brewlog/templates/base.html:34
+#: src/brewlog/brew/forms.py:22 src/brewlog/templates/base.html:34
 #: src/brewlog/templates/brewery/base.html:3
 msgid "brewery"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:26 src/brewlog/brewery/forms.py:12
+#: src/brewlog/brew/forms.py:25 src/brewlog/brewery/forms.py:12
 #: src/brewlog/fermentation/forms.py:12
 #: src/brewlog/templates/account/profile_list.html:12
 #: src/brewlog/templates/brew/list.html:12
@@ -96,191 +136,191 @@ msgstr ""
 msgid "name"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:27
+#: src/brewlog/brew/forms.py:26
 msgid "code"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:29 src/brewlog/templates/brewery/brews.html:13
+#: src/brewlog/brew/forms.py:28 src/brewlog/templates/brewery/brews.html:13
 #: src/brewlog/templates/brewery/details.html:28
 msgid "style"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:30
+#: src/brewlog/brew/forms.py:29
 msgid "descriptive name of style, as you see it"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:32
+#: src/brewlog/brew/forms.py:31
 msgid "BJCP style code"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:33
+#: src/brewlog/brew/forms.py:32
 msgid "BJCP style name"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:34 src/brewlog/fermentation/forms.py:17
+#: src/brewlog/brew/forms.py:33 src/brewlog/fermentation/forms.py:17
 #: src/brewlog/templates/brew/include/details.html:53
 msgid "notes"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:35 src/brewlog/templates/brewery/brews.html:14
+#: src/brewlog/brew/forms.py:34 src/brewlog/templates/brewery/brews.html:14
 #: src/brewlog/templates/brewery/details.html:26
 msgid "date brewed"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:37 src/brewlog/templates/brew/include/details.html:14
+#: src/brewlog/brew/forms.py:36 src/brewlog/templates/brew/include/details.html:14
 msgid "fermentables"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:38
+#: src/brewlog/brew/forms.py:37
 msgid "put each fermentable on separate line to make nice list"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:41
+#: src/brewlog/brew/forms.py:40
 msgid "hop items"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:42
+#: src/brewlog/brew/forms.py:41
 msgid "put each hop item on separate line to make nice list"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:45
+#: src/brewlog/brew/forms.py:44
 msgid "yeast items"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:46
+#: src/brewlog/brew/forms.py:45
 msgid "put each yeast item on separate line to make nice list"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:49
+#: src/brewlog/brew/forms.py:48
 msgid "miscellaneous items"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:50
+#: src/brewlog/brew/forms.py:49
 msgid "put each miscellanea on separare line to make nice list"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:53
+#: src/brewlog/brew/forms.py:52
 msgid "mash schedule"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:54 src/brewlog/brew/forms.py:60
+#: src/brewlog/brew/forms.py:53 src/brewlog/brew/forms.py:59
 msgid "put each step on separate line to make nice list"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:57 src/brewlog/templates/brew/include/details.html:44
+#: src/brewlog/brew/forms.py:56 src/brewlog/templates/brew/include/details.html:44
 msgid "sparging"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:59 src/brewlog/templates/brew/include/details.html:46
+#: src/brewlog/brew/forms.py:58 src/brewlog/templates/brew/include/details.html:46
 msgid "hopping schedule"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:62 src/brewlog/templates/brew/include/details.html:45
+#: src/brewlog/brew/forms.py:61 src/brewlog/templates/brew/include/details.html:45
 msgid "boil time"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:64 src/brewlog/templates/brew/include/details.html:11
+#: src/brewlog/brew/forms.py:63 src/brewlog/templates/brew/include/details.html:11
 msgid "final amount"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:65
+#: src/brewlog/brew/forms.py:64
 msgid "volume into bottling"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:68 src/brewlog/templates/brew/include/details.html:59
+#: src/brewlog/brew/forms.py:67 src/brewlog/templates/brew/include/details.html:59
 msgid "bottling date"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:70
+#: src/brewlog/brew/forms.py:69
 msgid "type of carbonation"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:73
+#: src/brewlog/brew/forms.py:72
 msgid "carbonation level"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:75 src/brewlog/templates/brew/include/details.html:61
+#: src/brewlog/brew/forms.py:74 src/brewlog/templates/brew/include/details.html:61
 msgid "carbonation used"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:76
+#: src/brewlog/brew/forms.py:75
 msgid "public"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:77 src/brewlog/templates/brew/list.html:22
+#: src/brewlog/brew/forms.py:76 src/brewlog/templates/brew/list.html:22
 msgid "draft"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:87
+#: src/brewlog/brew/forms.py:86
 msgid "action"
 msgstr ""
 
-#: src/brewlog/brew/forms.py:91
+#: src/brewlog/brew/forms.py:90
 #: src/brewlog/templates/brew/include/fermentation_step.html:3
 msgid "change"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:18
+#: src/brewlog/brew/utils.py:19
 msgid "unspecified style"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:21
+#: src/brewlog/brew/utils.py:22
 #, python-format
 msgid "%(abv).1f%% ABV"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:23
+#: src/brewlog/brew/utils.py:24
 #, python-format
 msgid "OG: %(og).1f*Blg"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:25
+#: src/brewlog/brew/utils.py:26
 #, python-format
 msgid "FG: %(fg).1f*Blg"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:31
+#: src/brewlog/brew/utils.py:32
 msgid "not in particular style"
 msgstr ""
 
-#: src/brewlog/brew/utils.py:35
+#: src/brewlog/brew/utils.py:36
 #, python-format
 msgid "%(style)s by %(brewer)s in %(brewery)s"
 msgstr ""
 
-#: src/brewlog/brew/views.py:20
+#: src/brewlog/brew/views.py:21
 msgid "single infusion mash w/ mash out"
 msgstr ""
 
-#: src/brewlog/brew/views.py:24
+#: src/brewlog/brew/views.py:25
 msgid "2-step mash w/ mash out"
 msgstr ""
 
-#: src/brewlog/brew/views.py:28
+#: src/brewlog/brew/views.py:29
 msgid "3-step mash w/ mash out"
 msgstr ""
 
-#: src/brewlog/brew/views.py:39
+#: src/brewlog/brew/views.py:40
 #, python-format
 msgid "brew %(name)s created"
 msgstr ""
 
-#: src/brewlog/brew/views.py:59
+#: src/brewlog/brew/views.py:60
 #, python-format
 msgid "brew %(name)s data updated"
 msgstr ""
 
-#: src/brewlog/brew/views.py:116
+#: src/brewlog/brew/views.py:117
 #, python-format
 msgid "brew %(name)s has been deleted"
 msgstr ""
 
-#: src/brewlog/brew/views.py:149
+#: src/brewlog/brew/views.py:150
 #, python-format
 msgid "brew %(name)s state changed"
 msgstr ""
 
-#: src/brewlog/brew/views.py:153
+#: src/brewlog/brew/views.py:154
 msgid "invalid state"
 msgstr ""
 
@@ -366,31 +406,31 @@ msgstr ""
 msgid "confirm"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:23 src/brewlog/models/brewing.py:31
+#: src/brewlog/models/brewing.py:24 src/brewlog/models/brewing.py:32
 msgid "planned"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:24 src/brewlog/models/brewing.py:32
+#: src/brewlog/models/brewing.py:25 src/brewlog/models/brewing.py:33
 msgid "fermenting"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:25 src/brewlog/models/brewing.py:33
+#: src/brewlog/models/brewing.py:26 src/brewlog/models/brewing.py:34
 msgid "finished"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:26 src/brewlog/models/brewing.py:34
+#: src/brewlog/models/brewing.py:27 src/brewlog/models/brewing.py:35
 msgid "tapped"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:27 src/brewlog/models/brewing.py:35
+#: src/brewlog/models/brewing.py:28 src/brewlog/models/brewing.py:36
 msgid "maturing"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:112
+#: src/brewlog/models/brewing.py:113
 msgid "normal"
 msgstr ""
 
-#: src/brewlog/models/brewing.py:115
+#: src/brewlog/models/brewing.py:116
 #, python-format
 msgid "%(carb_type)s: carbonation %(carb_level)s"
 msgstr ""
@@ -511,7 +551,7 @@ msgstr ""
 msgid "missing key fermentation data"
 msgstr ""
 
-#: src/brewlog/models/users.py:56
+#: src/brewlog/models/users.py:58
 msgid "wanting to stay anonymous"
 msgstr ""
 
@@ -525,10 +565,6 @@ msgstr ""
 
 #: src/brewlog/profile/forms.py:15 src/brewlog/templates/macros/users.html:4
 msgid "nick"
-msgstr ""
-
-#: src/brewlog/profile/forms.py:16
-msgid "email"
 msgstr ""
 
 #: src/brewlog/profile/forms.py:17 src/brewlog/templates/macros/users.html:5
@@ -564,17 +600,26 @@ msgstr ""
 msgid "new password (repeat)"
 msgstr ""
 
-#: src/brewlog/profile/views.py:25
+#: src/brewlog/profile/views.py:30
 msgid "your profile data has been updated"
 msgstr ""
 
-#: src/brewlog/profile/views.py:44
-msgid "your password has been changed"
-msgstr ""
-
-#: src/brewlog/profile/views.py:64
+#: src/brewlog/profile/views.py:67
 #, python-format
 msgid "profile for %(email)s has been deleted"
+msgstr ""
+
+#: src/brewlog/profile/views.py:134
+msgid "Email confirmation at Brewlog"
+msgstr ""
+
+#: src/brewlog/profile/views.py:140
+#, python-format
+msgid "confirmation email has been sent to %(email)s, please check your mailbox"
+msgstr ""
+
+#: src/brewlog/profile/views.py:174
+msgid "your email has been confirmed succesfully"
 msgstr ""
 
 #: src/brewlog/tasting/forms.py:13
@@ -612,11 +657,11 @@ msgstr ""
 msgid "my items"
 msgstr ""
 
-#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:160
+#: src/brewlog/templates/base.html:41 src/brewlog/templates/base.html:163
 msgid "breweries"
 msgstr ""
 
-#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:152
+#: src/brewlog/templates/base.html:42 src/brewlog/templates/base.html:155
 #: src/brewlog/templates/brew/list.html:4
 #: src/brewlog/templates/brewery/list.html:13
 msgid "brews"
@@ -630,43 +675,47 @@ msgstr ""
 msgid "login page"
 msgstr ""
 
-#: src/brewlog/templates/base.html:52
-msgid "my profile"
+#: src/brewlog/templates/auth/select.html:36 src/brewlog/templates/base.html:52
+msgid "register account"
 msgstr ""
 
 #: src/brewlog/templates/base.html:54
-msgid "set password"
+msgid "my profile"
 msgstr ""
 
 #: src/brewlog/templates/base.html:56
+msgid "set password"
+msgstr ""
+
+#: src/brewlog/templates/base.html:59
 msgid "logout"
 msgstr ""
 
-#: src/brewlog/templates/base.html:71
+#: src/brewlog/templates/base.html:74
 msgid "close"
 msgstr ""
 
-#: src/brewlog/templates/base.html:103
+#: src/brewlog/templates/base.html:106
 msgid "version"
 msgstr ""
 
-#: src/brewlog/templates/base.html:104
+#: src/brewlog/templates/base.html:107
 msgid "All rights reserved"
 msgstr ""
 
-#: src/brewlog/templates/base.html:107
+#: src/brewlog/templates/base.html:110
 msgid "about"
 msgstr ""
 
-#: src/brewlog/templates/base.html:108
+#: src/brewlog/templates/base.html:111
 msgid "user guide"
 msgstr ""
 
-#: src/brewlog/templates/base.html:109
+#: src/brewlog/templates/base.html:112
 msgid "legal mumbo-jumbo"
 msgstr ""
 
-#: src/brewlog/templates/base.html:110
+#: src/brewlog/templates/base.html:113
 msgid "privacy statement"
 msgstr ""
 
@@ -697,7 +746,7 @@ msgstr ""
 msgid "latest site activity"
 msgstr ""
 
-#: src/brewlog/templates/account/profile.html:38 src/brewlog/templates/home.html:23
+#: src/brewlog/templates/account/profile.html:49 src/brewlog/templates/home.html:23
 msgid "latest brews"
 msgstr ""
 
@@ -760,6 +809,20 @@ msgid ""
 "so on."
 msgstr ""
 
+#: src/brewlog/templates/account/email_confirm_begin.html:3
+#: src/brewlog/templates/account/email_confirm_begin.html:6
+msgid "email confirmation - start"
+msgstr ""
+
+#: src/brewlog/templates/account/email_confirm_begin.html:7
+msgid ""
+"You are about to begin email confirmation process. We're going to send you an"
+" email message with confirmation link that you should click to confirm "
+"ownership of your email address. The message will come from address "
+"<code>brewlog@mg.zgodowie.org</code> and will be sent using MailGun service. "
+"Please consult message headers before clicking on any link."
+msgstr ""
+
 #: src/brewlog/templates/account/profile.html:5
 #, python-format
 msgid "Profile data for user %(name)s"
@@ -774,45 +837,65 @@ msgstr ""
 msgid "This is your brewer's profile data. You may change it using the form below."
 msgstr ""
 
+#: src/brewlog/templates/account/profile.html:13
+msgid "email address"
+msgstr ""
+
 #: src/brewlog/templates/account/profile.html:15
+msgid "Your email address is confirmed and email communication is enabled."
+msgstr ""
+
+#: src/brewlog/templates/account/profile.html:18
+msgid ""
+"Your email address is not confirmed and all email communication has been "
+"disabled. This means we can not help you reset your password if you ever lost"
+" it. Please confirm your email to enable email communication. Note we do not "
+"send any emails to non-confirmed emails."
+msgstr ""
+
+#: src/brewlog/templates/account/profile.html:19
+msgid "start email confirmation"
+msgstr ""
+
+#: src/brewlog/templates/account/profile.html:26
 msgid "Please follow the below link to change your site password."
 msgstr ""
 
-#: src/brewlog/templates/account/profile.html:17
+#: src/brewlog/templates/account/profile.html:28
 msgid ""
 "You do not have valid password set. While signing in is still possible with "
 "social services, this feature will soon be gone. Please set up password to "
 "keep access to your data once social sign in is turned off."
 msgstr ""
 
-#: src/brewlog/templates/account/profile.html:19
+#: src/brewlog/templates/account/profile.html:30
 msgid "set new password"
 msgstr ""
 
-#: src/brewlog/templates/account/profile.html:20
+#: src/brewlog/templates/account/profile.html:31
 msgid ""
 "Please be aware that we still don't have forgotten password reset mechanism "
 "implemented. Choose your password wisely, eg. allow Chrome to set it up for "
 "you."
 msgstr ""
 
-#: src/brewlog/templates/account/profile.html:21
+#: src/brewlog/templates/account/profile.html:32
 msgid "delete account"
 msgstr ""
 
-#: src/brewlog/templates/account/profile.html:22
+#: src/brewlog/templates/account/profile.html:33
 msgid "Follow the below link to permanently delete your account."
 msgstr ""
 
-#: src/brewlog/templates/account/profile.html:23
+#: src/brewlog/templates/account/profile.html:34
 msgid "delete my account"
 msgstr ""
 
-#: src/brewlog/templates/account/profile.html:28
+#: src/brewlog/templates/account/profile.html:39
 msgid "Brewery list"
 msgstr ""
 
-#: src/brewlog/templates/account/profile.html:31
+#: src/brewlog/templates/account/profile.html:42
 #: src/brewlog/templates/brewery/list.html:21
 #, python-format
 msgid "%(num)d brew"
@@ -820,17 +903,17 @@ msgid_plural "%(num)d brews"
 msgstr[0] ""
 msgstr[1] ""
 
-#: src/brewlog/templates/account/profile.html:35
+#: src/brewlog/templates/account/profile.html:46
 #: src/brewlog/templates/brewery/form.html:4
 #: src/brewlog/templates/brewery/list.html:30
 msgid "add new brewery"
 msgstr ""
 
-#: src/brewlog/templates/account/profile.html:42
+#: src/brewlog/templates/account/profile.html:53
 msgid "see all"
 msgstr ""
 
-#: src/brewlog/templates/account/profile.html:45
+#: src/brewlog/templates/account/profile.html:56
 #: src/brewlog/templates/brew/form.html:4 src/brewlog/templates/brew/form.html:7
 #: src/brewlog/templates/brew/list.html:37
 #: src/brewlog/templates/brewery/brews.html:32
@@ -865,6 +948,20 @@ msgstr ""
 msgid "authorization"
 msgstr ""
 
+#: src/brewlog/templates/auth/forgotpassword.html:5
+msgid "password reset"
+msgstr ""
+
+#: src/brewlog/templates/auth/forgotpassword.html:8
+msgid "request password reset"
+msgstr ""
+
+#: src/brewlog/templates/auth/forgotpassword.html:9
+msgid ""
+"We're going to send the link to reset password to the email address specified"
+" below. You will receive further instructions along with link."
+msgstr ""
+
 #: src/brewlog/templates/auth/register.html:5
 msgid "user registration"
 msgstr ""
@@ -879,10 +976,6 @@ msgstr ""
 
 #: src/brewlog/templates/auth/select.html:35
 msgid "I forgot my password"
-msgstr ""
-
-#: src/brewlog/templates/auth/select.html:36
-msgid "register account"
 msgstr ""
 
 #: src/brewlog/templates/auth/select.html:43
@@ -1097,6 +1190,30 @@ msgstr ""
 
 #: src/brewlog/templates/brewery/list.html:7
 msgid "List of registered breweries"
+msgstr ""
+
+#: src/brewlog/templates/email/email_confirmation.html:6
+msgid ""
+"To confirm ownership of your email address please click the link below or "
+"copy it to your browser address bar and browse to the page."
+msgstr ""
+
+#: src/brewlog/templates/email/email_confirmation.html:8
+#: src/brewlog/templates/email/password_reset.html:9
+msgid "Yours truly"
+msgstr ""
+
+#: src/brewlog/templates/email/password_reset.html:6
+msgid ""
+"You requested password reset in Brewlog. Please click the below link to begin"
+" password reset procedure. You will be taken to page where you enter new "
+"password."
+msgstr ""
+
+#: src/brewlog/templates/email/password_reset.html:8
+msgid ""
+"If you did not request that you may ignore this email, your password has not "
+"been changed yet."
 msgstr ""
 
 #: src/brewlog/templates/errors/403.html:3

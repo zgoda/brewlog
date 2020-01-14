@@ -1,6 +1,11 @@
-from flask import flash, redirect, render_template, request, url_for
+from flask import (
+    abort, current_app, flash, redirect, render_template,
+    request, url_for,
+)
 from flask_babel import gettext as _
 from flask_login import current_user, login_required, logout_user
+from itsdangerous.url_safe import URLSafeTimedSerializer
+from itsdangerous.exc import SignatureExpired, BadSignature
 
 from ..brew.utils import BrewUtils
 from ..ext import db
@@ -112,3 +117,64 @@ def brews(user_id):
         'user_is_brewer': current_user == brewer,
     }
     return render_template('brew/list.html', **ctx)
+
+
+@profile_bp.route(
+    '/email/confirm', methods=['POST', 'GET'], endpoint='email-confirm-begin'
+)
+@login_required
+def email_confirmation_begin():
+    if request.method == 'POST':
+        if not current_user.email:
+            abort(400)
+        payload = {'id': current_user.id}
+        serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+        token = serializer.dumps(payload)
+        html_body = render_template('email/email_confirmation.html', token=token)
+        subject = _('Email confirmation at Brewlog')
+        current_app.queue.enqueue(
+            'brewlog.tasks.send_email', current_app.config['EMAIL_SENDER'],
+            [current_user.email], subject, html_body,
+        )
+        flash(
+            _(
+                'confirmation email has been sent to %(email)s, please check your '
+                'mailbox',
+                email=current_user.email,
+            ), category='success'
+        )
+        return redirect(url_for('.details'))
+    return render_template('account/email_confirm_begin.html')
+
+
+@profile_bp.route('/email/confirm/<token>', endpoint='email-confirm-token')
+@login_required
+def email_confirm(token: str):
+    is_error = False
+    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+    try:
+        payload = serializer.loads(
+            token, max_age=current_app.config['EMAIL_CONFIRM_MAX_AGE']
+        )
+    except SignatureExpired as e:
+        msg = _(
+            "token expired, it's valid for 48 hrs and it was generated on %(date)s",
+            date=e.date_signed,
+        )
+        is_error = True
+    except BadSignature:
+        msg = _('invalid token')
+        is_error = True
+    else:
+        if payload['id'] != current_user.id:
+            abort(400)
+        current_user.set_email_confirmed()
+        db.session.add(current_user)
+        db.session.commit()
+        msg = _('your email has been confirmed succesfully')
+    if is_error:
+        category = 'danger'
+    else:
+        category = 'success'
+    flash(msg, category=category)
+    return redirect(url_for('.details'))

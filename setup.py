@@ -40,6 +40,10 @@ base_reqs = [
     'permission',
     'psycopg2-binary',
     'Werkzeug',
+    'itsdangerous',
+    'RQ',
+    'hiredis',
+    'requests',
 ]
 
 test_reqs = [
@@ -49,6 +53,8 @@ test_reqs = [
     'pytest-flask',
     'pytest-factoryboy',
     'pyfakefs',
+    'fakeredis',
+    'responses',
 ]
 
 
