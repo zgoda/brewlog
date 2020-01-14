@@ -2,13 +2,9 @@
 
 Adapt these to your setup.
 
-## brewlog.conf
+## brewlog.nginx.conf
 
-Upstart configuration file. On Ubuntu 14.04 it goes to `/etc/init`.
-
-## brewlog.nginx.ssl.conf
-
-Nginx configuration file with letsencrypt SSL certificates configured, goes to `/etc/nginx/sites-available`
+Base Nginx configuration file, goes to `/etc/nginx/sites-available`. It does not include any SSL/HTTPS configuration as this is managed automatically by [ACME Certbot](https://certbot.eff.org/). Just launch your site unsecured and allow Certbot do its work.
 
 ## brewlog.ini
 
@@ -16,4 +12,4 @@ uWSGI configuration file. Place it where it's set in service startup script.
 
 ## brewlog.service
 
-systemd service unit file. This goes to `/etc/systemd/system` on Debian 9 and newer Ubuntus.
+systemd service unit file. This goes to `/etc/systemd/system` on Debian and Ubuntu.

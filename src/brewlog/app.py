@@ -21,7 +21,7 @@ from .utils.app import Brewlog
 
 
 def make_app(env: Optional[str] = None) -> Brewlog:
-    if os.environ.get('FLASK_ENV', '') != 'development':
+    if os.environ.get('FLASK_ENV') == 'production':
         configure_logging()
     app = Brewlog(__name__.split('.')[0])
     configure_app(app, env)
