@@ -1,4 +1,4 @@
-from flask import current_app, session, render_template
+from flask import current_app, render_template, session
 from flask_babel import lazy_gettext as _
 from flask_login import login_user
 from itsdangerous.url_safe import URLSafeTimedSerializer
@@ -8,6 +8,7 @@ from wtforms.validators import EqualTo, InputRequired, ValidationError
 from ..ext import db
 from ..forms.base import BaseForm
 from ..forms.utils import Button
+from ..forms.validators import Email
 from ..models.users import BrewerProfile
 
 
@@ -73,9 +74,9 @@ class LoginForm(BaseForm):
 
 
 class ForgotPassword(BaseForm):
-    email1 = StringField(_('email'), validators=[InputRequired()])
+    email1 = StringField(_('email'), validators=[InputRequired(), Email()])
     email2 = StringField(
-        _('email (repeat)'), validators=[InputRequired(), EqualTo('email1')]
+        _('email (repeat)'), validators=[InputRequired(), Email(), EqualTo('email1')]
     )
 
     buttons = [

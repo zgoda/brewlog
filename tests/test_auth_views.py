@@ -160,3 +160,36 @@ class TestLogin(BrewlogTests):
             follow_redirects=True,
         )
         assert 'user account not found or wrong password' in rv.text
+
+
+@pytest.mark.usefixtures('client_class')
+class TestForgotPassword(BrewlogTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self):
+        self.url = url_for('auth.forgotpassword')
+
+    def test_get(self):
+        rv = self.client.get(self.url)
+        assert f'action="{self.url}"' in rv.text
+
+    @pytest.mark.parametrize('data', [
+        {'email1': 'garbage', 'email2': 'garbage'},
+        {'email1': 'user1@invalid.com', 'email2': 'user2@invalid.com'},
+        {'email1': 'user1@invalid.com'}
+    ], ids=['invalid', 'different', 'incomplete'])
+    def test_post_invalid_data(self, data):
+        rv = self.client.post(self.url, data=data, follow_redirects=True)
+        assert f'action="{self.url}"' in rv.text
+        assert 'invalid-feedback' in rv.text
+
+    def test_post_fail_no_user(self):
+        data = {'email1': 'user1@invalid.com', 'email2': 'user1@invalid.com'}
+        rv = self.client.post(self.url, data=data, follow_redirects=True)
+        assert 'not yet confirmed' in rv.text
+
+    def test_post_fail_unconfirmed(self, user_factory):
+        user_factory(email='user1@invalid.com', password='pass')
+        data = {'email1': 'user1@invalid.com', 'email2': 'user1@invalid.com'}
+        rv = self.client.post(self.url, data=data, follow_redirects=True)
+        assert 'not yet confirmed' in rv.text
