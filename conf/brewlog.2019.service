@@ -6,7 +6,7 @@ After=network.target
 User=jarek
 Group=www-data
 WorkingDirectory=/home/jarek/brewlog
-EnvironmentFile="PATH=/home/jarek/brewlog/config/environment"
+EnvironmentFile=/home/jarek/brewlog/config/environment
 ExecStart=/home/jarek/brewlog/venv/bin/uwsgi --ini config/brewlog.ini
 
 [Install]
