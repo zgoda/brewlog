@@ -1,6 +1,7 @@
-from flask import session
+from flask import current_app, session, render_template
 from flask_babel import lazy_gettext as _
 from flask_login import login_user
+from itsdangerous.url_safe import URLSafeTimedSerializer
 from wtforms.fields import Field, PasswordField, StringField
 from wtforms.validators import EqualTo, InputRequired, ValidationError
 
@@ -8,7 +9,6 @@ from ..ext import db
 from ..forms.base import BaseForm
 from ..forms.utils import Button
 from ..models.users import BrewerProfile
-from .utils import send_password_reset_email
 
 
 def _rkw(**extra: str) -> dict:
@@ -79,8 +79,20 @@ class ForgotPassword(BaseForm):
     )
 
     buttons = [
-        Button(icon='at', text=_('send'))
+        Button(icon='paper-plane', text=_('send'))
     ]
 
     def save(self):
-        return send_password_reset_email(self.email1.data)
+        user = BrewerProfile.get_by_email(self.email1.data)
+        if user is not None and user.email_confirmed:
+            payload = {'id': user.id}
+            serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
+            token = serializer.dumps(payload)
+            html_body = render_template('email/password_reset.html', token=token)
+            sender = current_app.config['EMAIL_SENDER']
+            subject = str(_('Request to reset password at Brewlog'))
+            current_app.queue.enqueue(
+                'brewlog.tasks.send_email', sender, [user.email], subject, html_body,
+            )
+            return True
+        return False
