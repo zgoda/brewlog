@@ -16,6 +16,7 @@ exclude_patterns:
   - "*/brewlog/ext.py"
   - "*/brewlog/templates.py"
   - "*/brewlog/__init__.py"
+  - "*/brewlog/tasks.py"
   - "setup.py"
   - "secrets/"
   - "**/static/"
