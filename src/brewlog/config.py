@@ -13,7 +13,7 @@ REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
 MAILGUN_DOMAIN = os.environ.get('MAILGUN_DOMAIN') or 'unknown'
 MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY') or 'invalid'
 EMAIL_SENDER = f'brewlog@{MAILGUN_DOMAIN}'
-EMAIL_CONFIRM_MAX_AGE = 60 * 60 * 24 * 2
+EMAIL_CONFIRM_MAX_AGE = PASSWORD_RESET_MAX_AGE = 60 * 60 * 24 * 2
 
 # flatpages
 FLATPAGES_EXTENSION = '.html.md'

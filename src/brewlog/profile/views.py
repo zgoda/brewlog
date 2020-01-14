@@ -143,7 +143,7 @@ def email_confirmation_begin():
                 email=current_user.email,
             ), category='success'
         )
-        return redirect(url_for('home.index'))
+        return redirect(url_for('.details'))
     return render_template('account/email_confirm_begin.html')
 
 
@@ -177,4 +177,4 @@ def email_confirm(token: str):
     else:
         category = 'success'
     flash(msg, category=category)
-    return redirect(url_for('home.index'))
+    return redirect(url_for('.details'))
