@@ -206,7 +206,8 @@ class TestForgotPassword(BrewlogTests):
         data = {'email1': email, 'email2': email}
         rv = self.client.post(self.url, data=data, follow_redirects=True)
         assert 'message with password reset instructions has been sent' in rv.text
-        mail_data = fake_post.mock_calls[0].kwargs['data']
+        _, _, kw = fake_post.mock_calls[0]
+        mail_data = kw['data']
         assert email in mail_data['to']
         assert len(mail_data['to']) == 1
         assert 'reset password' in mail_data['subject']
