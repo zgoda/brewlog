@@ -1,7 +1,7 @@
 import logging
 import os
 import sys
-from typing import Optional, Sequence
+from typing import Sequence
 
 import requests
 
@@ -13,8 +13,7 @@ logger = logging.getLogger('rq.worker')
 
 
 def send_email(
-            sender: str, recipients: Sequence[str], subject: str,
-            html_body: str, text_body: Optional[str] = None,
+            sender: str, recipients: Sequence[str], subject: str, html_body: str,
         ):
     try:
         data = {
@@ -23,8 +22,6 @@ def send_email(
             'subject': subject,
             'html': html_body,
         }
-        if text_body is not None:
-            data['text'] = text_body
         requests.post(_mailgun_api_url, auth=_mailgun_auth, data=data)
     except Exception:
         logger.error(

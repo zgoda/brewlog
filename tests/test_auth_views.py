@@ -201,7 +201,21 @@ class TestForgotPassword(BrewlogTests):
         fake_post = mocker.Mock()
         fake_requests = mocker.Mock(post=fake_post)
         mocker.patch('brewlog.tasks.requests', fake_requests)
-        user_factory(email='user1@invalid.com', password='pass', email_confirmed=True)
-        data = {'email1': 'user1@invalid.com', 'email2': 'user1@invalid.com'}
+        email = 'user1@invalid.com'
+        user_factory(email=email, password='pass', email_confirmed=True)
+        data = {'email1': email, 'email2': email}
         rv = self.client.post(self.url, data=data, follow_redirects=True)
         assert 'message with password reset instructions has been sent' in rv.text
+        mail_data = fake_post.mock_calls[0].kwargs['data']
+        assert email in mail_data['to']
+        assert len(mail_data['to']) == 1
+        assert 'reset password' in mail_data['subject']
+
+    def test_post_task_exc(self, caplog, mocker, user_factory):
+        fake_post = mocker.Mock(side_effect=Exception)
+        fake_requests = mocker.Mock(post=fake_post)
+        mocker.patch('brewlog.tasks.requests', fake_requests)
+        user_factory(email='user1@invalid.com', password='pass', email_confirmed=True)
+        data = {'email1': 'user1@invalid.com', 'email2': 'user1@invalid.com'}
+        self.client.post(self.url, data=data, follow_redirects=True)
+        assert 'exception in background task' in caplog.text
