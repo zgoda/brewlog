@@ -1,7 +1,10 @@
-from flask import url_for
+from typing import List, Mapping
+
+from flask_sqlalchemy import BaseQuery
 
 from ..ext import db
 from ..models import Brew, BrewerProfile, Brewery
+from ..utils.query import search_result
 
 
 class BreweryUtils:
@@ -32,13 +35,8 @@ class BreweryUtils:
         ).order_by(db.desc(ordering)).limit(limit).all()
 
     @staticmethod
-    def brewery_search_result(query):
-        breweries_list = []
-        for brewery_id, name in query.values(Brewery.id, Brewery.name):
-            breweries_list.append(
-                {'name': name, 'url': url_for('brewery.details', brewery_id=brewery_id)}
-            )
-        return breweries_list
+    def brewery_search_result(query: BaseQuery) -> List[Mapping[str, str]]:
+        return search_result(query, 'brewery.details', 'brewery_id')
 
     @staticmethod
     def brews(brewery, order, public_only=True, limit=None):

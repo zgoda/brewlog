@@ -1,14 +1,13 @@
 import datetime
 from typing import Iterable, List, Mapping, Optional
 
-from flask import url_for
 from flask_babel import gettext, lazy_gettext as _
 from flask_sqlalchemy import BaseQuery
 
 from ..ext import db
 from ..models import Brew, BrewerProfile, Brewery
 from ..models.brewing import BrewState
-from ..utils.query import public_or_owner
+from ..utils.query import public_or_owner, search_result
 from ..utils.text import stars2deg
 
 
@@ -121,12 +120,7 @@ class BrewUtils:
 
     @staticmethod
     def brew_search_result(query: BaseQuery) -> List[Mapping[str, str]]:
-        brew_list = []
-        for brew_id, name in query.values(Brew.id, Brew.name):
-            brew_list.append(
-                {'name': name, 'url': url_for('brew.details', brew_id=brew_id)}
-            )
-        return brew_list
+        return search_result(query, 'brew.details', 'brew_id')
 
     @staticmethod
     def state_changeable(brew: Brew) -> bool:
