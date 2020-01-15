@@ -2,6 +2,13 @@ version: "2"
 plugins:
   git-legal:
     enabled: true
+  duplication:
+    enabled: true
+    config:
+      languages:
+        python:
+          python_version: 3
+          mass_threshold: 45
 exclude_patterns:
   - "docs/"
   - "tests/"
