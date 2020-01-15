@@ -1,5 +1,7 @@
+from datetime import datetime
 import pytest
 from flask import url_for
+from itsdangerous.exc import BadSignature, SignatureExpired
 
 from brewlog.models import BrewerProfile
 
@@ -220,3 +222,63 @@ class TestForgotPassword(BrewlogTests):
         data = {'email1': 'user1@invalid.com', 'email2': 'user1@invalid.com'}
         self.client.post(self.url, data=data, follow_redirects=True)
         assert 'exception in background task' in caplog.text
+
+
+@pytest.mark.usefixtures('client_class')
+class TestResetPassword(BrewlogTests):
+
+    def url(self, token):
+        return url_for('auth.resetpassword', token=token)
+
+    def test_get_ok(self, mocker, user_factory):
+        user = user_factory()
+        fake_serializer = mocker.MagicMock(
+            loads=mocker.Mock(return_value={'id': user.id})
+        )
+        mocker.patch(
+            'brewlog.auth.views.URLSafeTimedSerializer',
+            mocker.Mock(return_value=fake_serializer),
+        )
+        url = self.url(token='fake_token')
+        rv = self.client.get(url)
+        assert f'action="{url}"' in rv.text
+
+    def test_get_fail_signature_expired(self, mocker):
+        signed = datetime(2019, 11, 11, 14, 22, 16)
+        fake_serializer = mocker.MagicMock(
+            loads=mocker.Mock(
+                side_effect=SignatureExpired(message='Fail', date_signed=signed)
+            )
+        )
+        mocker.patch(
+            'brewlog.auth.views.URLSafeTimedSerializer',
+            mocker.Mock(return_value=fake_serializer),
+        )
+        url = self.url(token='fake_token')
+        rv = self.client.get(url, follow_redirects=True)
+        assert 'token expired' in rv.text
+
+    def test_get_fail_signature_tampered(self, mocker):
+        fake_serializer = mocker.MagicMock(
+            loads=mocker.Mock(side_effect=BadSignature(message='Fail'))
+        )
+        mocker.patch(
+            'brewlog.auth.views.URLSafeTimedSerializer',
+            mocker.Mock(return_value=fake_serializer),
+        )
+        url = self.url(token='fake_token')
+        rv = self.client.get(url, follow_redirects=True)
+        assert 'invalid token' in rv.text
+
+    def test_get_fail_user_not_found(self, mocker, user_factory):
+        user = user_factory()
+        fake_serializer = mocker.MagicMock(
+            loads=mocker.Mock(return_value={'id': user.id + 1})
+        )
+        mocker.patch(
+            'brewlog.auth.views.URLSafeTimedSerializer',
+            mocker.Mock(return_value=fake_serializer),
+        )
+        url = self.url(token='fake_token')
+        rv = self.client.get(url)
+        assert rv.status_code == 400
