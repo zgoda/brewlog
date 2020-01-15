@@ -186,10 +186,22 @@ class TestForgotPassword(BrewlogTests):
     def test_post_fail_no_user(self):
         data = {'email1': 'user1@invalid.com', 'email2': 'user1@invalid.com'}
         rv = self.client.post(self.url, data=data, follow_redirects=True)
-        assert 'not yet confirmed' in rv.text
+        assert all([
+            'we don' in rv.text,
+            't know that email' in rv.text
+        ])
 
     def test_post_fail_unconfirmed(self, user_factory):
-        user_factory(email='user1@invalid.com', password='pass')
+        user_factory(email='user1@invalid.com', password='pass', email_confirmed=False)
         data = {'email1': 'user1@invalid.com', 'email2': 'user1@invalid.com'}
         rv = self.client.post(self.url, data=data, follow_redirects=True)
         assert 'not yet confirmed' in rv.text
+
+    def test_post_ok(self, mocker, user_factory):
+        fake_post = mocker.Mock()
+        fake_requests = mocker.Mock(post=fake_post)
+        mocker.patch('brewlog.tasks.requests', fake_requests)
+        user_factory(email='user1@invalid.com', password='pass', email_confirmed=True)
+        data = {'email1': 'user1@invalid.com', 'email2': 'user1@invalid.com'}
+        rv = self.client.post(self.url, data=data, follow_redirects=True)
+        assert 'message with password reset instructions has been sent' in rv.text

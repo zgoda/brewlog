@@ -54,7 +54,6 @@ test_reqs = [
     'pytest-factoryboy',
     'pyfakefs',
     'fakeredis',
-    'responses',
 ]
 
 

@@ -1,16 +1,15 @@
+import logging
+import os
 import sys
 from typing import Optional, Sequence
 
 import requests
 
-from .app import make_app
-
-app = make_app()
-app.app_context().push()
-
-_mailgun_domain = app.config['MAILGUN_DOMAIN']
+_mailgun_domain = os.getenv('MAILGUN_DOMAIN')
 _mailgun_api_url = f'https://api.eu.mailgun.net/v3/{_mailgun_domain}/messages'
-_mailgun_auth = ('api', app.config['MAILGUN_API_KEY'])
+_mailgun_auth = ('api', os.getenv('MAILGUN_API_KEY'))
+
+logger = logging.getLogger('rq.worker')
 
 
 def send_email(
@@ -28,6 +27,6 @@ def send_email(
             data['text'] = text_body
         requests.post(_mailgun_api_url, auth=_mailgun_auth, data=data)
     except Exception:
-        app.logger.error(
+        logger.error(
             'Unhandled exception in background task', exc_info=sys.exc_info()
         )
