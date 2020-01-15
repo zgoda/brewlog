@@ -1,4 +1,4 @@
-from flask import flash, redirect, render_template, request, url_for
+from flask import flash, jsonify, redirect, render_template, request, url_for
 from flask_babel import lazy_gettext as _
 from flask_login import current_user, login_required
 
@@ -76,7 +76,7 @@ def search():
     if term:
         query = query.filter(Brewery.name.like(term[0] + '%'))
     query = query.order_by(Brewery.name)
-    return BreweryUtils.brewery_search_result(query)
+    return jsonify(BreweryUtils.brewery_search_result(query))
 
 
 @brewery_bp.route(

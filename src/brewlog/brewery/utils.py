@@ -1,7 +1,7 @@
-from flask import jsonify, url_for
+from flask import url_for
 
 from ..ext import db
-from ..models import BrewerProfile, Brewery, Brew
+from ..models import Brew, BrewerProfile, Brewery
 
 
 class BreweryUtils:
@@ -35,9 +35,10 @@ class BreweryUtils:
     def brewery_search_result(query):
         breweries_list = []
         for brewery_id, name in query.values(Brewery.id, Brewery.name):
-            url = url_for('brewery.details', brewery_id=brewery_id)
-            breweries_list.append({'name': name, 'url': url})
-        return jsonify(breweries_list)
+            breweries_list.append(
+                {'name': name, 'url': url_for('brewery.details', brewery_id=brewery_id)}
+            )
+        return breweries_list
 
     @staticmethod
     def brews(brewery, order, public_only=True, limit=None):

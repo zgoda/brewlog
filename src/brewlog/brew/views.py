@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Union
 
-from flask import Response, flash, redirect, render_template, request, url_for
+from flask import Response, flash, jsonify, redirect, render_template, request, url_for
 from flask_babel import lazy_gettext
 from flask_login import current_user, login_required
 
@@ -100,7 +100,7 @@ def search() -> Response:
     if term:
         query = query.filter(Brew.name.like(term[0] + '%'))
     query = query.order_by(Brew.name)
-    return BrewUtils.brew_search_result(query)
+    return jsonify(BrewUtils.brew_search_result(query))
 
 
 @brew_bp.route('/<int:brew_id>/delete', methods=['GET', 'POST'], endpoint='delete')

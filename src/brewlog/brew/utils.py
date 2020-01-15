@@ -1,7 +1,7 @@
 import datetime
-from typing import Iterable, Optional
+from typing import Iterable, List, Mapping, Optional
 
-from flask import Response, jsonify, url_for
+from flask import url_for
 from flask_babel import gettext, lazy_gettext as _
 from flask_sqlalchemy import BaseQuery
 
@@ -120,12 +120,13 @@ class BrewUtils:
         return query
 
     @staticmethod
-    def brew_search_result(query: BaseQuery) -> Response:
+    def brew_search_result(query: BaseQuery) -> List[Mapping[str, str]]:
         brew_list = []
         for brew_id, name in query.values(Brew.id, Brew.name):
-            url = url_for('brew.details', brew_id=brew_id)
-            brew_list.append({'name': name, 'url': url})
-        return jsonify(brew_list)
+            brew_list.append(
+                {'name': name, 'url': url_for('brew.details', brew_id=brew_id)}
+            )
+        return brew_list
 
     @staticmethod
     def state_changeable(brew: Brew) -> bool:
