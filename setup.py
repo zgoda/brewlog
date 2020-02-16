@@ -74,7 +74,6 @@ dev_reqs = [
     'wheel',
     'flask-shell-ipython',
     'watchdog',
-    'termcolor',
     'python-dotenv',
 ] + test_reqs
 
