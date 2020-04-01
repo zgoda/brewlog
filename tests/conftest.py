@@ -1,7 +1,7 @@
 import pytest
 from flask.wrappers import Response
 from pytest_factoryboy import register
-from werkzeug import cached_property
+from werkzeug.utils import cached_property
 
 from brewlog import make_app
 from brewlog.ext import db
