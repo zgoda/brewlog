@@ -1,7 +1,8 @@
 from html import escape
 
+from markupsafe import Markup
 from wtforms.compat import text_type
-from wtforms.widgets.core import HTMLString, html_params
+from wtforms.widgets.core import html_params
 
 EMPTY_HINTS = [
     ('', ''),
@@ -22,10 +23,10 @@ def textarea_with_hints(field, **kwargs):
                 f'<option value="{escape(hint_value)}">{escape(hint_label)}</option>'
             )
         hint.append('</select>')
-        hint = HTMLString(''.join(hint))
+        hint = Markup(''.join(hint))
     else:
         hint = ''
-    textarea = HTMLString(
+    textarea = Markup(
         f'<textarea {html_params(name=field.name, **kwargs)}>'
         f'{escape(text_type(field._value()))}</textarea>'
     )
@@ -41,4 +42,4 @@ def textarea_with_hints(field, **kwargs):
     else:
         script = ''
     items = [i for i in [hint, textarea, script] if i]
-    return HTMLString('<br />'.join(items))
+    return Markup('<br />'.join(items))

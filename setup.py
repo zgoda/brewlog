@@ -1,3 +1,4 @@
+import ast
 import codecs
 import re
 from os import path
@@ -13,16 +14,11 @@ def read(*parts):
         return fp.read()
 
 
-def find_version(*file_paths):
-    version_file = read(*file_paths)
-    version_match = re.search(
-        r"^__version__ = ['\"]([^'\"]*)['\"]",
-        version_file,
-        re.M,
-    )
-    if version_match:
-        return version_match.group(1)
-    raise RuntimeError('Unable to find version string.')
+_version_re = re.compile(r"__version__\s+=\s+(.*)")
+
+
+def find_version(*where):
+    return str(ast.literal_eval(_version_re.search(read(*where)).group(1)))
 
 
 base_reqs = [
@@ -66,7 +62,7 @@ dev_reqs = [
     'flake8-comprehensions',
     'pep8-naming',
     'dlint',
-    'doc8',
+    'rstcheck',
     'rope',
     'Sphinx',
     'pip',
