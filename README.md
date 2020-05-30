@@ -1,6 +1,6 @@
 # Brewlog
 
-[![Maintainability](https://api.codeclimate.com/v1/badges/bd95b4c237bb56fb116f/maintainability)](https://codeclimate.com/github/zgoda/brewlog/maintainability) [![Test Coverage](https://api.codeclimate.com/v1/badges/bd95b4c237bb56fb116f/test_coverage)](https://codeclimate.com/github/zgoda/brewlog/test_coverage) [![Build Status](https://travis-ci.com/zgoda/brewlog.svg?branch=master)](https://travis-ci.com/zgoda/brewlog)
+[![CodeFactor code quality report](https://www.codefactor.io/repository/github/zgoda/brewlog/badge)](https://www.codefactor.io/repository/github/zgoda/brewlog) [![Test coverage report](https://coveralls.io/repos/github/zgoda/brewlog/badge.svg?branch=master)](https://coveralls.io/github/zgoda/brewlog?branch=master) ![ci](https://github.com/zgoda/brewlog/workflows/ci/badge.svg)
 
 ## Brewer's log application
 
