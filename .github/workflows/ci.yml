@@ -23,8 +23,8 @@ jobs:
           python-version: ${{ matrix.python }}
       - name: Install dependencies
         run: |
-          python -m pip install -U -q pip
-          pip install -U -q -e .[test]
+          python -m pip install -U -q pip wheel
+          python -m pip install -U -q -e .[test]
       - name: Get PIP cache dir
         id: pip-cache-dir
         run: echo "::set-output name=dir::$(pip cache dir)"
