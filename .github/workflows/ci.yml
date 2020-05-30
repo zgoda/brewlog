@@ -40,7 +40,7 @@ jobs:
         run: |
           python setup.py -q sdist bdist_wheel
       - name: SonarCloud scan
-        uses: sonarsource/sonarcloud-github-action@v1
+        uses: sonarsource/sonarcloud-github-action@master
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
