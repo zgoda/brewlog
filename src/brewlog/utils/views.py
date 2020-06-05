@@ -1,7 +1,11 @@
+import collections
 from typing import Optional
 from urllib.parse import urljoin, urlparse
 
 from flask import abort, request, session, url_for
+from flask_babel import lazy_gettext as _
+from itsdangerous.exc import BadSignature, SignatureExpired
+from itsdangerous.url_safe import URLSafeTimedSerializer
 from permission import Permission, Rule
 
 
@@ -85,3 +89,38 @@ class AccessManagerBase:
         for perm in self.perms:
             if not perm.check():
                 perm.deny()
+
+
+TokenCheckResult = collections.namedtuple(
+    'TokenCheckResult', ['is_error', 'message', 'payload'], defaults=(None, )
+)
+
+
+def check_token(token: str, secret: str, max_age: int) -> TokenCheckResult:
+    """Check token validity, returns validation result with payload if token
+    is valid.
+
+    :param token: token to check
+    :type token: str
+    :param secret: secret that was used to generate token
+    :type secret: str
+    :param max_age: max age of token
+    :type max_age: int
+    :return: validation result
+    :rtype: TokenCheckResult
+    """
+    serializer = URLSafeTimedSerializer(secret)
+    payload = None
+    is_error = True
+    msg = None
+    try:
+        payload = serializer.loads(token, max_age=max_age)
+        is_error = False
+    except SignatureExpired as e:
+        msg = _(
+            "token expired, it's valid for 48 hrs and it was generated on %(date)s",
+            date=e.date_signed,
+        )
+    except BadSignature:
+        msg = _('invalid token')
+    return TokenCheckResult(is_error, message=msg, payload=payload)

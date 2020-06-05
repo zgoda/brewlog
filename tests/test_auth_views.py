@@ -236,7 +236,7 @@ class TestResetPassword(BrewlogTests):
             loads=mocker.Mock(return_value={'id': user.id})
         )
         mocker.patch(
-            'brewlog.auth.views.URLSafeTimedSerializer',
+            'brewlog.utils.views.URLSafeTimedSerializer',
             mocker.Mock(return_value=fake_serializer),
         )
         url = self.url(token='fake_token')
@@ -251,7 +251,7 @@ class TestResetPassword(BrewlogTests):
             )
         )
         mocker.patch(
-            'brewlog.auth.views.URLSafeTimedSerializer',
+            'brewlog.utils.views.URLSafeTimedSerializer',
             mocker.Mock(return_value=fake_serializer),
         )
         url = self.url(token='fake_token')
@@ -263,7 +263,7 @@ class TestResetPassword(BrewlogTests):
             loads=mocker.Mock(side_effect=BadSignature(message='Fail'))
         )
         mocker.patch(
-            'brewlog.auth.views.URLSafeTimedSerializer',
+            'brewlog.utils.views.URLSafeTimedSerializer',
             mocker.Mock(return_value=fake_serializer),
         )
         url = self.url(token='fake_token')
@@ -276,7 +276,7 @@ class TestResetPassword(BrewlogTests):
             loads=mocker.Mock(return_value={'id': user.id + 1})
         )
         mocker.patch(
-            'brewlog.auth.views.URLSafeTimedSerializer',
+            'brewlog.utils.views.URLSafeTimedSerializer',
             mocker.Mock(return_value=fake_serializer),
         )
         url = self.url(token='fake_token')
@@ -289,7 +289,7 @@ class TestResetPassword(BrewlogTests):
             loads=mocker.Mock(return_value={'id': user.id})
         )
         mocker.patch(
-            'brewlog.auth.views.URLSafeTimedSerializer',
+            'brewlog.utils.views.URLSafeTimedSerializer',
             mocker.Mock(return_value=fake_serializer),
         )
         url = self.url(token='fake_token')

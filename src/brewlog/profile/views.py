@@ -5,13 +5,13 @@ from flask import (
 from flask_babel import gettext as _
 from flask_login import current_user, login_required, logout_user
 from itsdangerous.url_safe import URLSafeTimedSerializer
-from itsdangerous.exc import SignatureExpired, BadSignature
 
 from ..brew.utils import BrewUtils
 from ..ext import db
 from ..forms.base import DeleteForm
 from ..models import Brew, BrewerProfile, Brewery
 from ..utils.pagination import get_page
+from ..utils.views import check_token
 from . import profile_bp
 from .forms import PasswordChangeForm, ProfileForm
 from .permissions import AccessManager
@@ -150,31 +150,20 @@ def email_confirmation_begin():
 @profile_bp.route('/email/confirm/<token>', endpoint='email-confirm-token')
 @login_required
 def email_confirm(token: str):
-    is_error = False
-    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
-    try:
-        payload = serializer.loads(
-            token, max_age=current_app.config['EMAIL_CONFIRM_MAX_AGE']
-        )
-    except SignatureExpired as e:
-        msg = _(
-            "token expired, it's valid for 48 hrs and it was generated on %(date)s",
-            date=e.date_signed,
-        )
-        is_error = True
-    except BadSignature:
-        msg = _('invalid token')
-        is_error = True
-    else:
-        if payload['id'] != current_user.id:
+    check_result = check_token(
+        token, current_app.config['SECRET_KEY'],
+        current_app.config['EMAIL_CONFIRM_MAX_AGE'],
+    )
+    msg = check_result.message
+    if not check_result.is_error:
+        if check_result.payload['id'] != current_user.id:
             abort(400)
         current_user.set_email_confirmed()
         db.session.add(current_user)
         db.session.commit()
         msg = _('your email has been confirmed succesfully')
-    if is_error:
-        category = 'danger'
-    else:
         category = 'success'
+    else:
+        category = 'danger'
     flash(msg, category=category)
     return redirect(url_for('.details'))

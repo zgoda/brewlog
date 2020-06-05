@@ -6,13 +6,11 @@ from flask import (
 )
 from flask_babel import gettext as _
 from flask_login import login_required, logout_user
-from itsdangerous.exc import BadSignature, SignatureExpired
-from itsdangerous.url_safe import URLSafeTimedSerializer
 
 from ..ext import oauth
 from ..models import BrewerProfile
 from ..profile.forms import PasswordChangeForm
-from ..utils.views import next_redirect
+from ..utils.views import check_token, next_redirect
 from . import auth_bp, providers
 from .forms import ForgotPassword, LoginForm, RegistrationForm
 from .utils import login_success
@@ -65,25 +63,14 @@ def forgot_password() -> Union[str, Response]:
     '/password/reset/<token>', methods=['POST', 'GET'], endpoint='resetpassword'
 )
 def reset_password(token: str) -> Union[str, Response]:
-    is_error = False
-    serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
-    try:
-        payload = serializer.loads(
-            token, max_age=current_app.config['PASSWORD_RESET_MAX_AGE']
-        )
-    except SignatureExpired as e:
-        msg = _(
-            "token expired, it's valid for 48 hrs and it was generated on %(date)s",
-            date=e.date_signed,
-        )
-        is_error = True
-    except BadSignature:
-        msg = _('invalid token')
-        is_error = True
-    if is_error:
-        flash(msg, category='danger')
+    check_result = check_token(
+        token, current_app.config['SECRET_KEY'],
+        current_app.config['PASSWORD_RESET_MAX_AGE'],
+    )
+    if check_result.is_error:
+        flash(check_result.message, category='danger')
         return redirect(url_for('auth.select'))
-    user = BrewerProfile.query.get(payload['id'])
+    user = BrewerProfile.query.get(check_result.payload['id'])
     if not user:
         abort(400)
     form = PasswordChangeForm()
