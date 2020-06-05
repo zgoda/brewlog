@@ -109,9 +109,8 @@ def select_provider() -> Union[str, Response]:
                 category='success',
             )
             return redirect(next_redirect('home.index'))
-        else:
-            flash(_('user account not found or wrong password'), category='danger')
-            return redirect(request.path)
+        flash(_('user account not found or wrong password'), category='danger')
+        return redirect(request.path)
     ctx = {
         'form': form,
     }
@@ -152,14 +151,12 @@ def google_remote_login_callback():  # pragma: nocover
             return login_success(
                 data['email'], resp['access_token'], user_id, 'google', **kw
             )
-        else:
-            flash(
-                _(
-                    'Error receiving profile data from Google: %(code)s',
-                    code=r.status_code,
-                ),
-                category='error'
-            )
+    flash(
+        _(
+            'Error receiving profile data from Google: %(code)s', code=r.status_code,
+        ),
+        category='error'
+    )
     return redirect(url_for('auth.select'))
 
 
