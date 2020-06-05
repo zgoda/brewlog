@@ -1,4 +1,5 @@
 from datetime import datetime
+
 import pytest
 from flask import url_for
 from itsdangerous.exc import BadSignature, SignatureExpired
