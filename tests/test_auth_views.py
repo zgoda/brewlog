@@ -282,3 +282,20 @@ class TestResetPassword(BrewlogTests):
         url = self.url(token='fake_token')
         rv = self.client.get(url)
         assert rv.status_code == 400
+
+    def test_post_ok(self, mocker, user_factory):
+        user = user_factory()
+        fake_serializer = mocker.MagicMock(
+            loads=mocker.Mock(return_value={'id': user.id})
+        )
+        mocker.patch(
+            'brewlog.auth.views.URLSafeTimedSerializer',
+            mocker.Mock(return_value=fake_serializer),
+        )
+        url = self.url(token='fake_token')
+        data = {
+            'new_password': 'test',
+            'new_password_r': 'test'
+        }
+        rv = self.client.post(url, data=data, follow_redirects=True)
+        assert 'your password has been changed' in rv.text
