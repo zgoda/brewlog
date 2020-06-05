@@ -100,9 +100,8 @@ def reset_password(token: str) -> Union[str, Response]:
 @auth_bp.route('/select', methods=['POST', 'GET'], endpoint='select')
 def select_provider() -> Union[str, Response]:
     session['next'] = request.args.get('next')
-    form = None
+    form = LoginForm()
     if request.method == 'POST':
-        form = LoginForm()
         if form.validate_on_submit():
             user = form.save()
             flash(
@@ -114,7 +113,7 @@ def select_provider() -> Union[str, Response]:
             flash(_('user account not found or wrong password'), category='danger')
             return redirect(request.path)
     ctx = {
-        'form': form or LoginForm(),
+        'form': form,
     }
     return render_template('auth/select.html', **ctx)
 
