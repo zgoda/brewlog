@@ -92,7 +92,7 @@ class AccessManagerBase:
 
 
 TokenCheckResult = collections.namedtuple(
-    'TokenCheckResult', ['is_error', 'message', 'payload'], defaults=(None, )
+    'TokenCheckResult', ['is_error', 'message', 'payload']
 )
 
 
