@@ -1,6 +1,7 @@
 import pytest
 from flask import url_for
 
+from brewlog.ext import db
 from brewlog.models import BrewerProfile
 
 from . import BrewlogTests
@@ -467,3 +468,48 @@ class TestSetPasswordView(BrewlogTests):
         rv = self.client.post(self.url, data=data, follow_redirects=True)
         assert 'your password has been changed' not in rv.text
         assert BrewerProfile.query.get(user.id).check_password(old_password)
+
+
+@pytest.mark.usefixtures('client_class')
+class TestEmailConfirmationViews(BrewlogTests):
+
+    @pytest.fixture(autouse=True)
+    def set_up(self):
+        self.begin_url = url_for('profile.email-confirm-begin')
+
+    def token_url(self, token):
+        return url_for('profile.email-confirm-token', token=token)
+
+    def test_begin_get_anon(self):
+        rv = self.client.get(self.begin_url)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['Location']
+
+    def test_begin_get_authenticated(self, user_factory):
+        user = user_factory()
+        self.login(user.email)
+        rv = self.client.get(self.begin_url)
+        assert f'action="{self.begin_url}"' in rv.text
+
+    def test_begin_post_ok(self, mocker, user_factory):
+        fake_post = mocker.Mock()
+        fake_requests = mocker.Mock(post=fake_post)
+        mocker.patch('brewlog.tasks.requests', fake_requests)
+        user = user_factory()
+        self.login(user.email)
+        rv = self.client.post(self.begin_url, follow_redirects=True)
+        assert f'confirmation email has been sent to {user.email}' in rv.text
+        _, _, kw = fake_post.mock_calls[0]
+        mail_data = kw['data']
+        assert user.email in mail_data['to']
+        assert len(mail_data['to']) == 1
+        assert 'mail confirmation' in mail_data['subject']
+
+    def test_begin_post_fail_no_email(self, user_factory):
+        user = user_factory()
+        self.login(user.email)
+        user.email = ''
+        db.session.add(user)
+        db.session.commit()
+        rv = self.client.post(self.begin_url, follow_redirects=True)
+        assert rv.status_code == 400

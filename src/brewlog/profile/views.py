@@ -141,9 +141,10 @@ def email_confirmation_begin():
                 'confirmation email has been sent to %(email)s, please check your '
                 'mailbox',
                 email=current_user.email,
-            ), category='success'
+            ),
+            category='success',
         )
-        return redirect(url_for('.details'))
+        return redirect(url_for('.details', user_id=current_user.id))
     return render_template('account/email_confirm_begin.html')
 
 
