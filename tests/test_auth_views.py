@@ -153,6 +153,16 @@ class TestLogin(BrewlogTests):
         )
         assert 'user account not found or wrong password' in rv.text
 
+    def test_fail_incomplete_data(self, user_factory):
+        name = 'user1'
+        password = 'pass1'
+        email = 'testuser@dev.brewlog.com'
+        user_factory(username=name, email=email, nick=name, password=password)
+        rv = self.client.post(
+            self.url, data={'userid': name}, follow_redirects=True,
+        )
+        assert 'user account not found or wrong password' in rv.text
+
     def test_fail_wrong_password(self, user_factory):
         name = 'user1'
         password = 'pass1'
