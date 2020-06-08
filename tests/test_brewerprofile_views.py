@@ -1,5 +1,8 @@
+from datetime import datetime
+
 import pytest
 from flask import url_for
+from itsdangerous.exc import BadSignature, SignatureExpired
 
 from brewlog.ext import db
 from brewlog.models import BrewerProfile
@@ -512,4 +515,71 @@ class TestEmailConfirmationViews(BrewlogTests):
         db.session.add(user)
         db.session.commit()
         rv = self.client.post(self.begin_url, follow_redirects=True)
+        assert rv.status_code == 400
+
+    def test_confirm_anon(self):
+        url = self.token_url('some-token')
+        rv = self.client.get(url)
+        assert rv.status_code == 302
+        assert url_for('auth.select') in rv.headers['Location']
+
+    def test_confirm_ok(self, mocker, user_factory):
+        user = user_factory()
+        self.login(user.email)
+        fake_serializer = mocker.MagicMock(
+            loads=mocker.Mock(return_value={'id': user.id})
+        )
+        mocker.patch(
+            'brewlog.utils.views.URLSafeTimedSerializer',
+            mocker.Mock(return_value=fake_serializer),
+        )
+        url = self.token_url(token='some-token')
+        rv = self.client.get(url, follow_redirects=True)
+        assert 'your email has been confirmed succesfully' in rv.text
+        assert user.email_confirmed is True
+
+    def test_confirm_fail_signature_expired(self, mocker, user_factory):
+        user = user_factory()
+        self.login(user.email)
+        signed = datetime(2019, 11, 11, 14, 22, 16)
+        fake_serializer = mocker.MagicMock(
+            loads=mocker.Mock(
+                side_effect=SignatureExpired(message='Fail', date_signed=signed)
+            )
+        )
+        mocker.patch(
+            'brewlog.utils.views.URLSafeTimedSerializer',
+            mocker.Mock(return_value=fake_serializer),
+        )
+        url = self.token_url(token='some-token')
+        rv = self.client.get(url, follow_redirects=True)
+        assert 'token expired' in rv.text
+        assert user.email_confirmed is False
+
+    def test_confirm_fail_signature_tampered(self, mocker, user_factory):
+        user = user_factory()
+        self.login(user.email)
+        fake_serializer = mocker.MagicMock(
+            loads=mocker.Mock(side_effect=BadSignature(message='Fail'))
+        )
+        mocker.patch(
+            'brewlog.utils.views.URLSafeTimedSerializer',
+            mocker.Mock(return_value=fake_serializer),
+        )
+        url = self.token_url(token='some-token')
+        rv = self.client.get(url, follow_redirects=True)
+        assert 'invalid token' in rv.text
+
+    def test_confirm_fail_user_notfound(self, mocker, user_factory):
+        user = user_factory()
+        self.login(user.email)
+        fake_serializer = mocker.MagicMock(
+            loads=mocker.Mock(return_value={'id': user.id + 1})
+        )
+        mocker.patch(
+            'brewlog.utils.views.URLSafeTimedSerializer',
+            mocker.Mock(return_value=fake_serializer),
+        )
+        url = self.token_url(token='some-token')
+        rv = self.client.get(url)
         assert rv.status_code == 400

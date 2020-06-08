@@ -167,4 +167,4 @@ def email_confirm(token: str):
     else:
         category = 'danger'
     flash(msg, category=category)
-    return redirect(url_for('.details'))
+    return redirect(url_for('.details', user_id=current_user.id))
