@@ -1,11 +1,12 @@
 import unicodedata
 
 import pytest
+from flask import session, url_for
 
 from brewlog.utils.brewing import abv, sg2plato
 from brewlog.utils.pagination import get_page, url_for_other_page
 from brewlog.utils.text import get_announcement, stars2deg
-from brewlog.utils.views import is_redirect_safe
+from brewlog.utils.views import is_redirect_safe, next_redirect
 
 
 class TestTextUtils:
@@ -81,3 +82,25 @@ class TestViewUtils:
         with app.test_request_context('/'):
             url = '/somewhere/else'
             assert is_redirect_safe(url)
+
+    def test_nextredirect_urlparam_valid(self, app):
+        next_url = '/some/where'
+        with app.test_request_context(f'/?next={next_url}'):
+            assert next_redirect('home.index') == next_url
+
+    def test_nextredirect_urlparam_invalid(self, app):
+        next_url = 'http://cia.gov'
+        with app.test_request_context(f'/?next={next_url}'):
+            assert next_redirect('home.index') == url_for('home.index')
+
+    def test_nextredirect_session_valid(self, app):
+        next_url = '/some/where'
+        with app.test_request_context('/'):
+            session['next'] = next_url
+            assert next_redirect('home.index') == next_url
+
+    def test_nextredirect_session_invalid(self, app):
+        next_url = 'http://cia.gov'
+        with app.test_request_context('/'):
+            session['next'] = next_url
+            assert next_redirect('home.index') == url_for('home.index')
