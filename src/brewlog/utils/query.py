@@ -1,10 +1,22 @@
+from typing import Optional
+
 from flask import url_for
+from flask_sqlalchemy import BaseQuery
 
 from ..ext import db
 from ..models import Brew, BrewerProfile
 
 
-def public_or_owner(query, user):
+def public_or_owner(query: BaseQuery, user: Optional[BrewerProfile]) -> BaseQuery:
+    """Filter Brew query of all non-accessible objects.
+
+    :param query: query over Brew objects
+    :type query: BaseQuery
+    :param user: actor object, may be None
+    :type user: Optional[BrewerProfile]
+    :return: filtered query
+    :rtype: BaseQuery
+    """
     if user is not None:
         query = query.filter(
             db.or_(

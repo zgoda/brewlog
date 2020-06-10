@@ -89,3 +89,34 @@ class TestBrewUtilsStateFermenting:
         brew_factory(name='hidden 2', brewery=brewery, date_brewed=date_brewed)
         ret = BrewUtils.fermenting(user=self.hidden_user, public_only=False)
         assert len(ret) == 2
+
+
+@pytest.mark.usefixtures('app')
+class TestBrewListQuery:
+
+    def test_anon_only_public(self, user_factory, brewery_factory, brew_factory):
+        owner = user_factory(is_public=True)
+        brewery = brewery_factory(brewer=owner)
+        brew_1 = brew_factory(brewery=brewery, is_public=True)
+        brew_2 = brew_factory(brewery=brewery, is_public=False)
+        q = BrewUtils.brew_list_query().all()
+        assert brew_1 in q
+        assert brew_2 not in q
+
+    def test_anon_all(self, user_factory, brewery_factory, brew_factory):
+        owner = user_factory(is_public=True)
+        brewery = brewery_factory(brewer=owner)
+        brew_1 = brew_factory(brewery=brewery, is_public=True)
+        brew_2 = brew_factory(brewery=brewery, is_public=False)
+        q = BrewUtils.brew_list_query(public_only=False).all()
+        assert brew_1 in q
+        assert brew_2 in q
+
+    def test_owner_all(self, user_factory, brewery_factory, brew_factory):
+        owner = user_factory(is_public=True)
+        brewery = brewery_factory(brewer=owner)
+        brew_1 = brew_factory(brewery=brewery, is_public=True)
+        brew_2 = brew_factory(brewery=brewery, is_public=False)
+        q = BrewUtils.brew_list_query(extra_user=owner).all()
+        assert brew_1 in q
+        assert brew_2 in q

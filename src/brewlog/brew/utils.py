@@ -100,8 +100,7 @@ class BrewUtils:
         if user is not None:
             query = query.join(Brewery).filter(Brewery.brewer == user)
         query = query.order_by(db.desc(Brew.date_brewed))
-        if limit is not None:
-            query = query.limit(limit)
+        query = query.limit(limit)
         return query.all()
 
     @staticmethod
