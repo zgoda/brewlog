@@ -1,5 +1,6 @@
 import pytest
 from flask import url_for
+from markdown import markdown
 
 from . import BrewlogTests
 
@@ -111,7 +112,7 @@ class TestBreweryDetailsView(BrewlogTests):
         assert rv.status_code == 404
 
     @pytest.mark.parametrize('public', [True, False], ids=['public', 'hidden'])
-    def test_post_owner(self, public, user_factory, brewery_factory):
+    def test_post_owner_ok(self, public, user_factory, brewery_factory):
         owner = user_factory(is_public=public)
         brewery = brewery_factory(brewer=owner, name='brewery no 1')
         self.login(owner.email)
@@ -120,6 +121,17 @@ class TestBreweryDetailsView(BrewlogTests):
         data = {'name': name}
         rv = self.client.post(url, data=data, follow_redirects=True)
         assert f'<h3>{name}</h3>' in rv.text
+
+    @pytest.mark.parametrize('public', [True, False], ids=['public', 'hidden'])
+    def test_post_owner_fail(self, public, user_factory, brewery_factory):
+        owner = user_factory(is_public=public)
+        brewery = brewery_factory(brewer=owner, name='brewery no 1')
+        self.login(owner.email)
+        url = self.url(brewery)
+        new_description = 'new description'
+        data = {'description': new_description}
+        rv = self.client.post(url, data=data, follow_redirects=True)
+        assert markdown(new_description) not in rv.text
 
 
 @pytest.mark.usefixtures('client_class')

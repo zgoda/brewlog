@@ -30,9 +30,7 @@ class Brewery(db.Model):
 # events: Brewery model
 def brewery_pre_save(mapper, connection, target):
     if target.description:
-        target.description_html = markdown.markdown(
-            target.description, safe_mode='remove'
-        )
+        target.description_html = markdown.markdown(target.description)
     else:
         target.description_html = None
     if target.updated is None:

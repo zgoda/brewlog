@@ -42,7 +42,7 @@ class TastingNote(db.Model):
 # events: TastingNote model
 def tasting_note_pre_save(mapper, connection, target):
     target.text = stars2deg(target.text)
-    target.text_html = markdown.markdown(target.text, safe_mode='remove')
+    target.text_html = markdown.markdown(target.text)
 
 
 db.event.listen(TastingNote, 'before_insert', tasting_note_pre_save)

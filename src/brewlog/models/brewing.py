@@ -209,7 +209,7 @@ def brew_pre_save(mapper, connection, target):
     target.bjcp_style = bjcp_style or None
     if target.notes:
         target.notes = stars2deg(target.notes)
-        target.notes_html = markdown.markdown(target.notes, safe_mode='remove')
+        target.notes_html = markdown.markdown(target.notes)
     if target.updated is None:
         target.updated = target.created
 

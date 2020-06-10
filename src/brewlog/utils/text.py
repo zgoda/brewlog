@@ -16,4 +16,4 @@ def stars2deg(text: str) -> str:
 def get_announcement(file_name: str) -> str:
     if file_name and os.path.isfile(file_name):
         with codecs.open(file_name, encoding='utf-8') as fp:
-            return markdown.markdown(fp.read(), safe_mode='remove')
+            return markdown.markdown(fp.read())

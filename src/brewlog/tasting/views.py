@@ -96,5 +96,5 @@ def brew_update_tasting_note():
         note.text = value
         db.session.add(note)
         db.session.commit()
-        return markdown.markdown(value, safe_mode='remove')
+        return markdown.markdown(value)
     return note.text_html
