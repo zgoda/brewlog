@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-import datetime
+from datetime import datetime
 
 from flask import url_for
 from flask_babel import lazy_gettext as _
@@ -21,10 +21,9 @@ class BrewerProfile(UserMixin, db.Model):
     location = db.Column(db.String(100))
     about_me = db.Column(db.Text)
     is_public = db.Column(db.Boolean, default=True)
-    created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
+    created = db.Column(db.DateTime, default=datetime.utcnow)
     updated = db.Column(
-        db.DateTime, default=datetime.datetime.utcnow,
-        onupdate=datetime.datetime.utcnow, index=True,
+        db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow, index=True,
     )
     access_token = db.Column(db.Text)  # for OAuth2
     oauth_token = db.Column(db.Text)  # for OAuth1a
@@ -96,7 +95,7 @@ class BrewerProfile(UserMixin, db.Model):
     def set_email_confirmed(self, value=True):
         self.email_confirmed = value
         if value:
-            self.confirmed_dt = datetime.datetime.utcnow()
+            self.confirmed_dt = datetime.utcnow()
         else:
             self.confirmed_dt = None
 
