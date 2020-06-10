@@ -32,6 +32,12 @@ class TestFermentationSteps(BrewlogTests):
             brewery=self.hidden_brewery, name='hidden brew no 1'
         )
 
+    def test_get_form_by_owner(self):
+        url = url_for('ferm.fermentationstep_add', brew_id=self.hidden_brew.id)
+        self.login(self.hidden_user.email)
+        rv = self.client.get(url)
+        assert f'action="{url}"' in rv.text
+
     def test_add_fermentation_step_by_owner(self):
         url = url_for('ferm.fermentationstep_add', brew_id=self.hidden_brew.id)
         self.login(self.hidden_user.email)

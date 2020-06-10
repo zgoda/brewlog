@@ -6,5 +6,5 @@
 {% block widecontent %}
 <h3>{{ gettext("create fermentation step").capitalize() }}</h3>
 <p>{{ gettext("fermentation step for brew %(brew)s", brew=brew.full_name).capitalize() }}.</p>
-{{ forms.render_form(form, url_for('ferm.fermentationstep_add', brew_id=brew.id)) }}
+{{ forms.render_form(form, request.path) }}
 {% endblock %}
