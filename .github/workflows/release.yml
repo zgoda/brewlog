@@ -33,7 +33,7 @@ jobs:
         run: echo "::set-output name=sdist::$(ls dist/*.tar.gz)"
       - name: Get sdist file name
         id: get-sdist-name
-        run: echo "::set-output name=wheel::$(basename $(ls dist/*.tar.gz)|tail -n 1)"
+        run: echo "::set-output name=sdist::$(basename $(ls dist/*.tar.gz)|tail -n 1)"
       - name: Create release
         id: create-release
         uses: actions/create-release@v1
