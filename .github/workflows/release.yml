@@ -13,7 +13,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
       - name: Set up Python 3.8
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v2.0.1
         with:
           python-version: 3.8
       - name: Install build tools
@@ -25,9 +25,15 @@ jobs:
       - name: Get wheel path
         id: get-wheel-path
         run: echo "::set-output name=wheel::$(ls dist/*.whl)"
+      - name: Get wheel file name
+        id: get-wheel-name
+        run: echo "::set-output name=wheel::$(basename $(ls dist/*.whl)|tail -n 1)"
       - name: Get sdist path
         id: get-sdist-path
         run: echo "::set-output name=sdist::$(ls dist/*.tar.gz)"
+      - name: Get sdist file name
+        id: get-sdist-name
+        run: echo "::set-output name=wheel::$(basename $(ls dist/*.tar.gz)|tail -n 1)"
       - name: Create release
         id: create-release
         uses: actions/create-release@v1
