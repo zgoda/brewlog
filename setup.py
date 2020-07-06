@@ -64,7 +64,6 @@ dev_reqs = [
     'dlint',
     'rstcheck',
     'rope',
-    'Sphinx',
     'pip',
     'setuptools',
     'wheel',
