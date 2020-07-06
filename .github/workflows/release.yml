@@ -51,7 +51,7 @@ jobs:
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: ${{ steps.get-wheel-path.outputs.wheel }}
-          asset_name: ${{ steps.get-wheel-name.outputs.name }}
+          asset_name: ${{ steps.get-wheel-name.outputs.wheel }}
           asset_content_type: application/x-wheel+zip
       - name: Upload sdist
         uses: actions/upload-release-asset@v1.0.2
