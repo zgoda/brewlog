@@ -1,0 +1,22 @@
+/* Margin */
+$spacing-system: 0, 1, 2, 3, 4, 5, 6, 8, 10, 12, 16, 20, 24, 32;
+
+@each $size in $spacing-system {
+    /* Margin */
+    .m-#{$size} { margin: calc(var(--space-size) * #{$size}) !important; }
+
+    .mt-#{$size}, .my-#{$size} { margin-top: calc(var(--space-size) * #{$size}) !important; }
+    .mb-#{$size}, .my-#{$size} { margin-bottom: calc(var(--space-size) * #{$size}) !important; }
+
+    .ml-#{$size}, .mx-#{$size} { margin-left: calc(var(--space-size) * #{$size}) !important; }
+    .mr-#{$size}, .mx-#{$size} { margin-right: calc(var(--space-size) * #{$size}) !important; }
+
+    /* Spacing */
+    .p-#{$size} { padding: calc(var(--space-size) * #{$size}) !important; }
+
+    .pt-#{$size}, .py-#{$size} { padding-top: calc(var(--space-size) * #{$size}) !important; }
+    .pb-#{$size}, .py-#{$size} { padding-bottom: calc(var(--space-size) * #{$size}) !important; }
+
+    .pl-#{$size}, .px-#{$size} { padding-left: calc(var(--space-size) * #{$size}) !important; }
+    .pr-#{$size}, .px-#{$size} { padding-right: calc(var(--space-size) * #{$size}) !important; }
+}

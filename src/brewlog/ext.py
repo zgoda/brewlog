@@ -1,4 +1,3 @@
-from authlib.integrations.flask_client import OAuth
 from flask_babel import Babel
 from flask_bootstrap import Bootstrap
 from flask_flatpages import FlatPages
@@ -20,7 +19,5 @@ db = SQLAlchemy(model_class=Model)
 csrf = CSRFProtect()
 
 bootstrap = Bootstrap()
-
-oauth = OAuth()
 
 migrate = Migrate()

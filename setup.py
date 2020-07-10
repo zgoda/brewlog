@@ -28,13 +28,11 @@ base_reqs = [
     'Flask-FlatPages',
     'Flask-SQLAlchemy',
     'Flask-WTF',
-    'Bootstrap-Flask',
+    'Flask-Assets',
     'Flask-Migrate',
-    'Authlib[client]',
     'Markdown',
     'validators',
     'permission',
-    'psycopg2-binary',
     'Werkzeug',
     'itsdangerous',
     'RQ',
@@ -103,7 +101,10 @@ setup(
         'babel',
     ),
     extras_require={
-        'prod': ['uwsgi'],
+        'prod': [
+            'gunicorn'
+            'psycopg2-binary',
+        ],
         'test': test_reqs,
         'dev': dev_reqs,
     },

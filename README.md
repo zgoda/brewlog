@@ -10,6 +10,6 @@ This application is a web service. Base implementation is located [at author sit
 
 ## Project status and governance
 
-This project is personal project of Jarek Zgoda and is done in free time. The author is actively employed in software industry and there may be periods of relative silence, but the project is actively maintained. Mind you this is not a community project yet and is not governed as such.
+This project is personal project of Jarek Zgoda and is done in free time. The author is actively employed in software industry and there may be periods of relative silence, but the project is actively maintained. This is not a community project yet and is not governed as such.
 
 If you want to report security issue please see [security policy document](SECURITY.md).

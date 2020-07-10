@@ -1,0 +1,62 @@
+/* A collection of modifiers that extend control styling */
+.btn.btn--pilled,
+[class^="btn-"].btn--pilled,
+[class*=" btn-"].btn--pilled {
+    border-radius: 6.25rem;
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+}
+
+/* btn--circle: contents must be placed inside child element */
+.btn.btn--circle,
+[class^="btn-"].btn--circle,
+[class*=" btn-"].btn--circle {
+    border-radius: 100%;
+    min-width: 60px;
+    overflow: hidden;
+    padding: 0;
+    text-align: center;
+
+    &:before {
+        content: '';
+        display: inline-block;
+        vertical-align: middle;
+        padding-top: 100%;
+    }
+
+    * {
+        max-width: 90%;
+        vertical-align: middle;
+        white-space: pre-wrap;
+    }
+}
+
+// .btn.btn--circle, /* Deprecated 0.5.6 */
+// [class^="btn-"].btn--circle,
+// [class*=" btn-"].btn--circle {
+//     border-radius: 100%;
+//     height: 3.125rem;
+//     line-height: 3.125rem;
+//     padding: 0;
+//     width: 3.125rem;
+// }
+
+/* Input (primary text-based) controls apply to inputs */
+.input-control--pilled {
+    border-radius: 6.25rem !important;
+}
+
+/* Theme modifiers */
+
+/* GLOBAL THEME SELECTORS */
+$themes: "primary", "success", "warning", "danger", "light", "dark", "link", "link-dark", "info";
+
+@each $theme in $themes {
+    .bg-#{$theme} {
+        background-color: var(--cirrus-#{$theme}) !important;
+    }
+
+    .text-#{$theme} {
+        color: var(--cirrus-#{$theme}) !important;
+    }
+}

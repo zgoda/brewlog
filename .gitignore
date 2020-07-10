@@ -107,3 +107,7 @@ _venv
 
 # pycharm and others
 .idea
+
+# lel
+node_modules/
+package-lock.json
