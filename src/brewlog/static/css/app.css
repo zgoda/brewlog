@@ -1,36 +1,3 @@
-textarea#misc, textarea#fermentables, textarea#hops, textarea#mash_steps, textarea#hopping_steps {
-    height: 11.5625em;
-}
-
-textarea.export, textarea#text {
-    height: 34.6875em;
-}
-
-input[type=text].tastingnote-editable-text {
-    width: 40rem;
-}
-
-.help-block, .help {
-    font-size: 75%;
-    font-style: italic;
-    color: gray;
-    line-height: 1.1em;
-}
-
-.required label {
-    font-weight: bold;
-}
-
-#bloodhound .dataset-name {
-  margin: 0 20px 5px 20px;
-  padding: 3px 0;
-  border-bottom: 1px solid #ccc;
-}
-
-#bloodhound .tt-cursor {
-    color: cadetblue;
-}
-
 /* nunito-sans-200 - latin-ext_latin */
 @font-face {
     font-family: 'Nunito Sans';
