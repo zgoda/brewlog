@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pl">
+<html>
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,48 +13,89 @@
   </head>
   <body role="document">
 
-    <div class="header header-fixed unselectable header-animated">
-      <div class="header-brand">
-        <div class="nav-item no-hover">
-          <h1><a href="/">Brewlog</a></h1>
-        </div>
-        <div class="nav-item nav-btn" id="header-btn">
-          <span></span>
-          <span></span>
-          <span></span>
+    <nav class="navbar" role="navigation" aria-label="{{ gettext('main navigation') }}">
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">Brewlog</a>
+        <a role="button" class="navbar-burger burger" aria-label="{{ gettext('menu') }}" aria-expanded="false" data-target="navmenu">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+      </div>
+      <div id="navmenu" class="navbar-menu">
+        <div class="navbar-end">
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">{{ gettext('user tools') }}</a>
+            <div class="navbar-dropdown is-right is-boxed">
+              {% if current_user.is_anonymous %}
+              <a class="navbar-item" href="{{ url_for('auth.select') }}"><span class="icon"><i class="fas fa-sign-in-alt"></i></span> <span>{{ gettext('login page') }}</span></a>
+              <hr class="navbar-divider">
+              <a class="navbar-item" href="{{ url_for('auth.register') }}"><span class="icon"><i class="fas fa-user-plus"></i></span> <span>{{ gettext('register account') }}</span></a>
+              {% else %}
+              <a class="navbar-item" href="{{ url_for('profile.details', user_id=current_user.id) }}"><span class="icon"><i class="fas fa-user"></i></span> <span>{% trans %}my profile{% endtrans %}</span></a>
+              {% if not current_user.has_valid_password %}
+              <a class="navbar-item" href="{{ url_for('profile.setpassword') }}"><span class="icon"></span><i class="fas fa-key"></i> <span>{% trans %}set password{% endtrans %}</span></a>
+              {% endif %}
+              <hr class="navbar-divider">
+              <a class="navbar-item" href="{{ url_for('auth.logout') }}"><span class="icon"><i class="fas fa-sign-out-alt"></i></span> <span>{% trans %}logout{% endtrans %}</span></a>
+              {% endif %}
+            </div>
+          </div>
         </div>
       </div>
-    </div>
+    </nav>
 
-    <div class="content">
-      {% with flashes = get_flashed_messages(with_categories=True) %}
-      {% if flashes %}
+    {% with flashes = get_flashed_messages(with_categories=True) %}
+    {% if flashes %}
+    <section class="section">
       {% for category, flash in flashes %}
       <div class="toast toast--{{ category }}" role="alert">
         <button class="btn-close" aria-label="{{ gettext('close') }}"></button>
         <p>{{ flash }}</p>
       </div>
       {% endfor %}
-      {% endif %}
-      {% endwith %}
+    </section>
+    {% endif %}
+    {% endwith %}
+  
+    {% block announcement %}
+    {% endblock %}
 
-      <section class="section">
+    <section class="section">
+      <div class="content">
         {% block content %}
-        {% endblock %}  
-      </section>
-    </div>
+        {% endblock %}
+      </div>
+    </section>
 
     <footer class="footer">
-      <hr class="divider">
-      <p>{{ gettext('version').capitalize() }}: {{ version }}</p>
-      <p>&copy; 2012&ndash;<script>document.write(new Date().getFullYear())</script>, Jarek Zgoda. {% trans %}All rights reserved{% endtrans %}.</p>
-      <ul class="no-bullets">
-        <li class="footer__list-item"><a href="{{ url_for('home.flatpage', path='about') }}">{{ gettext("about") }}</a></li>
-        <li class="footer__list-item"><a href="{{ url_for('home.flatpage', path='guide') }}">{{ gettext("user guide") }}</a></li>
-        <li class="footer__list-item"><a href="{{ url_for('home.flatpage', path='legal') }}">{{ gettext("legal mumbo-jumbo") }}</a></li>
-        <li class="footer__list-item"><a href="{{ url_for('home.flatpage', path='privacy') }}">{{ gettext("privacy statement") }}</a></li>
-      </ul>
+      <div class="content has-text-centered">
+        <p>{{ gettext('version').capitalize() }}: {{ version }}</p>
+        <p>&copy; 2012&ndash;<script>document.write(new Date().getFullYear())</script>, Jarek Zgoda. {% trans %}All rights reserved{% endtrans %}.</p>
+        <p><a href="{{ url_for('home.flatpage', path='about') }}">{{ gettext("about") }}</a>&nbsp;&verbar;&nbsp;<a href="{{ url_for('home.flatpage', path='guide') }}">{{ gettext("user guide") }}</a>&nbsp;&verbar;&nbsp;<a href="{{ url_for('home.flatpage', path='legal') }}">{{ gettext("legal mumbo-jumbo") }}</a>&nbsp;&verbar;&nbsp;<a href="{{ url_for('home.flatpage', path='privacy') }}">{{ gettext("privacy statement") }}</a></p>
+      </div>
     </footer>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Get all "navbar-burger" elements
+        const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+        // Check if there are any navbar burgers
+        if ($navbarBurgers.length > 0) {
+          // Add a click event on each of them
+          $navbarBurgers.forEach( el => {
+            el.addEventListener('click', () => {
+              // Get the target from the "data-target" attribute
+              const target = el.dataset.target;
+              const $target = document.getElementById(target);
+              // Toggle the "is-active" class on both the "navbar-burger" and the "navbar-menu"
+              el.classList.toggle('is-active');
+              $target.classList.toggle('is-active');
+            });
+          });
+        }
+      });
+    </script>
 
     {% block scripts %}{% endblock %}
 

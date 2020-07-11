@@ -14,7 +14,7 @@ from ..models.users import BrewerProfile
 
 def _rkw(**extra: str) -> dict:
     render_kw = {
-        'class_': 'form-control',
+        'class_': 'input',
     }
     render_kw.update(extra)
     return render_kw

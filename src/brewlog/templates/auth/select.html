@@ -1,78 +1,37 @@
 {% extends "auth/base.html" %}
 
-{% block widecontent %}
-<div class="row my-2">
-  <div class="col-12">
-    <h1>{{ gettext('sign in with login and password') }}</h1>
-  </div>
-  <div class="col-md-4 mx-auto my-2">
+{% block content %}
+<h1>{{ gettext('sign in') }}</h1>
+<div class="columns">
+  <div class="column is-one-third is-offset-one-third">
     <div class="card">
-      <article class="card-body">
+      <div class="card-content">
         <form method="POST" action="{{ url_for('auth.select') }}" novalidate>
-          <div class="form-group">
+          <div class="field">
             {{ form.csrf_token }}
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-user"></i></span>
-              </div>
+            <div class="control has-icons-left">
               {{ form.userid }}
+              <span class="icon is-small is-left"><i class="fas fa-user"></i></span>
             </div>
           </div>
-          <div class="form-group">
-            <div class="input-group">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="fas fa-lock"></i></span>
-              </div>
+          <div class="field">
+            <div class="control has-icons-left">
               {{ form.password }}
+              <span class="icon is-small is-left"><i class="fas fa-lock"></i></span>
             </div>
           </div>
-          <div class="form-group">
-            <button type="submit" class="btn btn-primary btn-block">Login</button>
+          <div class="field">
+            <div class="control">
+              <button type="submit" class="button is-primary">Login</button>
+            </div>
           </div>
         </form>
-      </article>
-      <div class="card-footer">
-        <a href="{{ url_for('auth.forgotpassword') }}" class="card-link">{{ gettext('I forgot my password') }}</a>
-        <a href="{{ url_for('auth.register') }}" class="card-link">{{ gettext('register account') }}</a>
       </div>
+      <footer class="card-footer">
+        <a href="{{ url_for('auth.forgotpassword') }}" class="card-footer-item">{{ gettext('I forgot my password') }}</a>
+        <a href="{{ url_for('auth.register') }}" class="card-footer-item">{{ gettext('register account') }}</a>
+      </footer>
     </div>
   </div>
 </div>
-<div class="row my-2">
-  <div class="col-12">
-    <p>{{ gettext('or sign in with social networks') }}</p>
-  </div>
-  <div class="col-md-4">
-    <div class="card">
-      <div class="card-body text-center">
-        <a class="btn btn-social btn-google" href="{{ url_for('auth.login', provider='google') }}"><i class="fab fa-google"></i> Google</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card">
-      <div class="card-body text-center">
-        <a class="btn btn-social btn-facebook" href="{{ url_for('auth.login', provider='facebook') }}"><i class="fab fa-facebook"></i> Facebook</a>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-4">
-    <div class="card">
-      <div class="card-body text-center">
-        <a class="btn btn-social btn-github" href="{{ url_for('auth.login', provider='github') }}"><i class="fab fa-github"></i> GitHub</a>
-      </div>
-    </div>
-  </div>
-</div>
-{% if config.DEBUG or config.TESTING %}
-<div class="row my-2">
-  <div class="col-12">
-    <div class="card">
-      <div class="card-body text-center">
-        <a class="btn btn-primary" href="{{ url_for('auth.login', provider='local') }}">local</a>
-      </div>
-    </div>
-  </div>
-</div>
-{% endif %}
 {% endblock %}

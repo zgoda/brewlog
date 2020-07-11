@@ -4,12 +4,16 @@
 
 {% block announcement %}
 {% if announcement %}
-<h2>{{ gettext('announcement').capitalize() }}</h2>
-{{ announcement|safe }}
+<section class="section">
+  <div class="content">
+    <h2>{{ gettext('announcement').capitalize() }}</h2>
+    {{ announcement|safe }}    
+  </div>
+</section>
 {% endif %}
 {% endblock %}
 
-{% block widecontent %}
+{% block content %}
 <h1>{% trans %}Welcome to BrewLog{% endtrans %}</h1>
 <p>{% trans %}This is BrewLog, brewing log app written by homebrewer for homebrewers. Have a look to the site and start logging your brews.{% endtrans %}</p>
 <h2>{{ gettext("latest site activity").capitalize() }}</h2>
