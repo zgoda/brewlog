@@ -2,14 +2,12 @@
 <html lang="pl">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block headpagetitle %}{% endblock %}</title>
     <meta name="description" content="{% block headdescription %}{% endblock %}">
-    <link rel="stylesheet" type="text/css" href="/static/vendor/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/vendor/fontawesome/css/all.min.css">
-    <link rel="stylesheet" type="text/css" href="/static/vendor/typeaheadjs.css">
-    <link rel="stylesheet" type="text/css" href="/static/css/app.css">
-    <script src="/static/vendor/jquery-3.4.1.min.js"></script>
+    {% assets 'css_all' %}
+    <link rel="stylesheet" type="text/css" href="{{ ASSET_URL }}">
+    {% endassets %}
     {% block styles %}{% endblock %}
     <link href="/static/favicon.ico" rel="icon" type="image/x-icon">
   </head>
@@ -115,59 +113,6 @@
         </div>
       </footer>
     </div>
-    <script src="/static/vendor/popper.min.js"></script>
-    <script src="/static/vendor/bootstrap/js/bootstrap.min.js"></script>
-    <script src="/static/vendor/typeahead.bundle.min.js"></script>
-    <script type="text/javascript">
-      var brews = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        prefetch: {
-          url: "{{ url_for('brew.search') }}",
-          ttl: 900000
-        },
-        remote: {
-          url: "{{ url_for('brew.search') }}?q=%QUERY",
-          wildcard: "%QUERY"
-        }
-      });
-      var breweries = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace("name"),
-        queryTokenizer: Bloodhound.tokenizers.whitespace,
-        prefetch: {
-          url: "{{ url_for('brewery.search') }}",
-          ttl: 900000
-        },
-        remote: {
-          url: "{{ url_for('brewery.search') }}?q=%QUERY",
-          wildcard: "%QUERY"
-        }
-      });
-      $('#bloodhound .typeahead').typeahead(
-        {
-          highlight: true
-        },
-        {
-          name: "brews",
-          source: brews,
-          display: "name",
-          templates: {
-            header: '<h4 class="dataset-name">{{ gettext("brews") }}</h4>'
-          }
-        },
-        {
-          name: "breweries",
-          source: breweries,
-          display: "name",
-          templates: {
-            header: '<h4 class="dataset-name">{{ gettext("breweries") }}</h4>'
-          }
-        }
-      );
-      $('#bloodhound .typeahead').bind('typeahead:select', function(ev, suggestion) {
-        window.location.replace(suggestion.url);
-      });
-    </script>
     {% block scripts %}{% endblock %}
   </body>
 </html>

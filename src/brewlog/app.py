@@ -8,10 +8,11 @@ from flask_babel import gettext as _
 from redis import Redis
 from werkzeug.utils import ImportStringError, import_string
 
+from .assets import all_css, cirrus_css
 from .auth import auth_bp
 from .brew import brew_bp
 from .brewery import brewery_bp
-from .ext import babel, bootstrap, csrf, db, login_manager, migrate, pages
+from .ext import assets, babel, csrf, db, login_manager, migrate, pages
 from .fermentation import ferm_bp
 from .home import home_bp
 from .profile import profile_bp
@@ -27,6 +28,7 @@ def make_app(env: Optional[str] = None) -> Brewlog:
     configure_app(app, env)
     configure_extensions(app)
     with app.app_context():
+        configure_assets(app)
         configure_redis(app)
         configure_blueprints(app)
         configure_error_handlers(app)
@@ -64,8 +66,8 @@ def configure_blueprints(app: Brewlog):
 def configure_extensions(app: Brewlog):
     db.init_app(app)
     migrate.init_app(app, db)
+    assets.init_app(app)
     csrf.init_app(app)
-    bootstrap.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.select'
     login_manager.login_message = _('Please log in to access this page')
@@ -87,6 +89,14 @@ def configure_extensions(app: Brewlog):
     babel.init_app(app)
 
     pages.init_app(app)
+
+
+def configure_assets(app: Brewlog):
+    bundles = {
+        'css_cirrus': cirrus_css,
+        'css_all': all_css,
+    }
+    assets.register(bundles)
 
 
 def configure_redis(app: Brewlog):
