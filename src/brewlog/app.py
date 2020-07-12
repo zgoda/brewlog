@@ -8,7 +8,7 @@ from flask_babel import gettext as _
 from redis import Redis
 from werkzeug.utils import ImportStringError, import_string
 
-from .assets import all_css, app_css
+from .assets import all_css
 from .auth import auth_bp
 from .brew import brew_bp
 from .brewery import brewery_bp
@@ -93,7 +93,6 @@ def configure_extensions(app: Brewlog):
 
 def configure_assets(app: Brewlog):
     bundles = {
-        'css_app': app_css,
         'css_all': all_css,
     }
     assets.register(bundles)

@@ -1,29 +1,27 @@
-{% macro render_pagination(pagination) -%}
+{% macro render_pagination(pagination) %}
 {% if pagination.pages > 1 %}
-<nav aria-label="{{ gettext('pages') }}">
-  <ul class="pagination justify-content-center">
-  {% if pagination.has_prev %}
-  <li class="page-item"><a class="page-link" href="{{ url_for_other_page(pagination.page - 1) }}" aria-label="{{ gettext('previous') }}"><span aria-hidden="true">&laquo;</a></li>
-  {% else %}
-  <li class="page-item disabled"><a class="page-link" href="" tabindex="-1" aria-disabled="true"><span aria-hidden="true">&laquo;</a></li>
-  {% endif %}
-  {%- for page in pagination.iter_pages() %}
-  {% if page %}
+<nav class="pagination" role="navigation" aria-label="{{ gettext('pages') }}">
+  <a class="pagination-previous" title="{{ gettext('previous') }}" href="{{ url_for_other_page(pagination.page-1) }}" {% if not pagination.has_prev %}disabled{% endif %}>{{ gettext('previous') }}</a>
+  <a class="pagination-next" title="{{ gettext('next') }}" href="{{ url_for_other_page(pagination.page+1) }}" {% if not pagination.has_next %}disabled{% endif %}>{{ gettext('next') }}</a>
+  <ul class="pagination-list">
+    {% for page in pagination.iter_pages() %}
+    {% if page %}
     {% if page != pagination.page %}
-    <li class="page-item"><a class="page-link" href="{{ url_for_other_page(page) }}">{{ page }}</a></li>
+    <li>
+      <a class="pagination-link" href="{{ url_for_other_page(page) }}" aria-label="{{ gettext('page %(page_no)s', page_no=page) }}">{{ page }}</a>
+    </li>
     {% else %}
-    <li class="page-item active" aria-current="page"><a class="page-link" href="">{{ page }} <span class="sr-only">({{ gettext('current') }})</a></li>
+    <li>
+      <a class="pagination-link is-current" aria-label="{{ gettext('page %(page_no)s', page_no=page) }}" aria-current="page">{{ page }}</a>
+    </li>
     {% endif %}
-  {% else %}
-    <li class="page-item disabled"><span class="page-link ellipsis">&hellip;</span></li>
-  {% endif %}
-  {%- endfor %}
-  {% if pagination.has_next %}
-  <li class="page-item"><a class="page-link" href="{{ url_for_other_page(pagination.page + 1) }}" aria-label="{{ gettext('next') }}"><span aria-hidden="true">&raquo;</span></a></li>
-  {% else %}
-  <li class=" page-item disabled"><a href="" tabindex="-1" aria-disabled="true"><span aria-hidden="true">&raquo;</span></a></li>
-  {% endif %}
+    {% else %}
+    <li>
+      <span class="pagination-ellipsis">&hellip;</span>
+    </li>
+    {% endif %}
+    {% endfor %}
   </ul>
 </nav>
 {% endif %}
-{%- endmacro %}
+{% endmacro %}

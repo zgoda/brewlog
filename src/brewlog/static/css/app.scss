@@ -3,7 +3,28 @@
 @import "../vendor/fontawesome/scss/fontawesome.scss";
 @import "../vendor/fontawesome/scss/solid.scss";
 
-@import "../vendor/bulma/bulma.sass";
+@import "../vendor/bulma/sass/utilities/_all.sass";
+@import "../vendor/bulma/sass/base/_all.sass";
+@import "../vendor/bulma/sass/components/card.sass";
+@import "../vendor/bulma/sass/components/dropdown.sass";
+@import "../vendor/bulma/sass/components/navbar.sass";
+@import "../vendor/bulma/sass/components/pagination.sass";
+@import "../vendor/bulma/sass/elements/box.sass";
+@import "../vendor/bulma/sass/elements/button.sass";
+@import "../vendor/bulma/sass/elements/container.sass";
+@import "../vendor/bulma/sass/elements/content.sass";
+@import "../vendor/bulma/sass/elements/icon.sass";
+@import "../vendor/bulma/sass/elements/notification.sass";
+@import "../vendor/bulma/sass/elements/other.sass";
+@import "../vendor/bulma/sass/elements/table.sass";
+@import "../vendor/bulma/sass/form/_all.sass";
+@import "../vendor/bulma/sass/grid/columns.sass";
+@import "../vendor/bulma/sass/helpers/color.sass";
+@import "../vendor/bulma/sass/helpers/spacing.sass";
+@import "../vendor/bulma/sass/helpers/typography.sass";
+@import "../vendor/bulma/sass/layout/footer.sass";
+@import "../vendor/bulma/sass/layout/section.sass";
+
 
 .list-unstyled {
     list-style: none outside none;
