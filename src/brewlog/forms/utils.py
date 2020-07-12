@@ -15,11 +15,11 @@ class Link(Renderable):
     href: str
     text: str = 'click'
 
-    template: ClassVar[str] = ''.join([
-        '<a href="{{ obj.href }}">',
-        '{{ obj.text }}',
-        '</a>',
-    ])
+    template: ClassVar[str] = (
+        '<a href="{{ obj.href }}">'
+        '{{ obj.text }}'
+        '</a>'
+    )
 
 
 @dataclass
@@ -31,12 +31,12 @@ class Button(Renderable):
     text: str = 'ok'
     link: bool = False
 
-    template: ClassVar[str] = ''.join(
-        [
-            '<button type="{{ obj.type_ }}" class="btn btn-{{ obj.class_ }}">',
-            '<i class="{{ obj.icon_type }} fa-{{ obj.icon }}"></i>',
-            '&nbsp;',
-            '{{ obj.text }}',
-            '</button>',
-        ]
+    template: ClassVar[str] = (
+        '<button type="{{ obj.type_ }}" class="button is-{{ obj.class_ }}">'
+        '<span class="icon is-small">'
+        '<i class="{{ obj.icon_type }} fa-{{ obj.icon }}"></i>'
+        '</span>'
+        '&nbsp;'
+        '<span>{{ obj.text }}</spans>'
+        '</button>'
     )

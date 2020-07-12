@@ -4,7 +4,7 @@
 
 {% block headpagetitle %}{{ gettext('user registration') }}{% endblock %}
 
-{% block widecontent %}
+{% block content %}
 <h1>{{ gettext('register new account').capitalize() }}</h1>
-{{ render_form(form, request.path) }}
+{{ render_form(form, request.path, width=8) }}
 {% endblock %}

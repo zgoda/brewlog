@@ -28,14 +28,12 @@ def main():
         'latest_tasting_notes': TastingUtils.latest_notes(
             TastingNote.date, limit=item_limit, public_only=True
         ),
-        'recently_active_breweries': BreweryUtils.latest_breweries(
-            Brewery.updated, limit=item_limit, public_only=True
-        ),
-        'recently_active_brewers': BrewerProfile.last_updated(
-            limit=item_limit, public_only=True
-        ),
         'announcement': get_announcement(current_app.config.get('ANNOUNCEMENT_FILE')),
     }
+    ctx['has_content'] = (
+        ctx['latest_brews'] and ctx['latest_breweries']
+        and ctx['latest_brewers'] and ctx['latest_tasting_notes']
+    )     
     return render_template('home.html', **ctx)
 
 

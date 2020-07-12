@@ -1,6 +1,7 @@
 import math
 
 from flask_babel import format_date
+from wtforms.fields import HiddenField
 
 from ._version import get_version
 from .utils.app import Brewlog
@@ -17,6 +18,7 @@ def setup_globals(application: Brewlog):
         'plato2sg': plato2sg,
         'url_for_other_page': url_for_other_page,
         'version': get_version(),
+        'is_hidden_field': lambda x: isinstance(x, HiddenField),
     })
 
 
