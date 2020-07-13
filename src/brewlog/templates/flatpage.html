@@ -3,7 +3,7 @@
 {% block headpagetitle %}{{ page.title }}{% endblock %}
 
 {% block content %}
-{{ html|safe }}
+{{ page.html|safe }}
 {% if page.meta.updated %}
 <p>{{ gettext("Updated: %(date)s", date=format_date(page.meta.updated, "short")) }}</p>
 {% endif %}

@@ -1,5 +1,5 @@
-from flask import current_app, render_template
-from flask_login import current_user
+from flask import current_app, redirect, render_template, url_for
+from flask_login import current_user, login_required
 
 from ..brew.utils import BrewUtils
 from ..brewery.utils import BreweryUtils
@@ -10,10 +10,10 @@ from ..utils.text import get_announcement
 from . import home_bp
 
 
-@home_bp.route('/', endpoint='index')
-def main():
+@home_bp.route('/')
+def index():
     if current_user.is_authenticated:
-        return dashboard()
+        return redirect(url_for('.dashboard'))
     item_limit = current_app.config.get('SHORTLIST_DEFAULT_LIMIT', 5)
     ctx = {
         'latest_brews': BrewUtils.latest(
@@ -33,10 +33,12 @@ def main():
     ctx['has_content'] = (
         ctx['latest_brews'] and ctx['latest_breweries']
         and ctx['latest_brewers'] and ctx['latest_tasting_notes']
-    )     
+    )
     return render_template('home.html', **ctx)
 
 
+@home_bp.route('/dashboard')
+@login_required
 def dashboard():
     item_limit = current_app.config.get('SHORTLIST_DEFAULT_LIMIT', 5)
     kw = {
@@ -44,11 +46,9 @@ def dashboard():
         'public_only': False,
         'limit': item_limit,
     }
-    brewed_kw = kw.copy()
-    brewed_kw.update({'brewed_only': True})
     ctx = {
         'latest_recipes': BrewUtils.latest(Brew.created, **kw),
-        'recently_brewed': BrewUtils.latest(Brew.date_brewed, **brewed_kw),
+        'recently_brewed': BrewUtils.latest(Brew.date_brewed, brewed_only=True, **kw),
         'recent_reviews': TastingUtils.latest_notes(TastingNote.date, **kw),
         'fermenting': BrewUtils.fermenting(**kw),
         'maturing': BrewUtils.maturing(**kw),
@@ -58,8 +58,8 @@ def dashboard():
     return render_template('misc/dashboard.html', **ctx)
 
 
-@home_bp.route('/pages/<path:path>', endpoint='flatpage')
-def flatpage(path):  # pragma: no cover
+@home_bp.route('/pages/<path:path>')
+def flatpage(path):
     page = pages.get_or_404(path)
     template = page.meta.get('template', 'flatpage.html')
-    return render_template(template, page=page, html=page.html)
+    return render_template(template, page=page)

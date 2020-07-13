@@ -1,3 +1,4 @@
+import markdown
 from flask_babel import lazy_gettext as _
 
 from ..ext import db
@@ -64,3 +65,12 @@ class FermentationStep(db.Model):
     @classmethod
     def last_for_brew(cls, brew_id):
         return cls.query.filter_by(brew_id=brew_id).order_by(db.desc(cls.date)).first()
+
+
+# events: FermentationStep model
+def fermentation_step_pre_save(mapper, connection, target):
+    target.notes_html = markdown.markdown(target.notes)
+
+
+db.event.listen(FermentationStep, 'before_insert', fermentation_step_pre_save)
+db.event.listen(FermentationStep, 'before_update', fermentation_step_pre_save)

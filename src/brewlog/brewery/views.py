@@ -13,9 +13,9 @@ from .permissions import AccessManager
 from .utils import BreweryUtils
 
 
-@brewery_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
+@brewery_bp.route('/add', methods=['POST', 'GET'])
 @login_required
-def brewery_add():
+def add():
     form = BreweryForm()
     if form.validate_on_submit():
         brewery = form.save()
@@ -27,10 +27,8 @@ def brewery_add():
     return render_template('brewery/form.html', **ctx)
 
 
-@brewery_bp.route(
-    '/<int:brewery_id>/delete', methods=['POST', 'GET'], endpoint='delete'
-)
-def brewery_delete(brewery_id):
+@brewery_bp.route('/<int:brewery_id>/delete', methods=['POST', 'GET'])
+def delete(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
     AccessManager(brewery, True).check()
     form = DeleteForm()
@@ -51,7 +49,7 @@ def brewery_delete(brewery_id):
 
 
 @brewery_bp.route('/all', endpoint='all')
-def brewery_all():
+def all_breweries():
     page_size = 20
     page = get_page(request)
     if current_user.is_anonymous:
@@ -66,7 +64,7 @@ def brewery_all():
     return render_template('brewery/list.html', **ctx)
 
 
-@brewery_bp.route('/search', endpoint='search')
+@brewery_bp.route('/search')
 def search():
     if current_user.is_anonymous:
         query = BreweryUtils.breweries()
@@ -79,10 +77,8 @@ def search():
     return jsonify(BreweryUtils.brewery_search_result(query))
 
 
-@brewery_bp.route(
-    '/<int:brewery_id>', methods=['POST', 'GET'], endpoint='details',
-)
-def brewery(brewery_id):
+@brewery_bp.route('/<int:brewery_id>', methods=['POST', 'GET'])
+def details(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
     is_post = request.method == 'POST'
     AccessManager(brewery, is_post).check()
@@ -104,8 +100,8 @@ def brewery(brewery_id):
     return render_template('brewery/details.html', **ctx)
 
 
-@brewery_bp.route('/<int:brewery_id>/brews', endpoint='brews')
-def brewery_brews(brewery_id):
+@brewery_bp.route('/<int:brewery_id>/brews')
+def brews(brewery_id):
     brewery = Brewery.query.get_or_404(brewery_id)
     AccessManager(brewery, False).check()
     page_size = 20
