@@ -1,8 +1,5 @@
 @charset "utf-8";
 
-@import "../vendor/fontawesome/scss/fontawesome.scss";
-@import "../vendor/fontawesome/scss/solid.scss";
-
 @import "../vendor/bulma/sass/utilities/_all.sass";
 @import "../vendor/bulma/sass/base/_all.sass";
 @import "../vendor/bulma/sass/components/card.sass";
@@ -29,4 +26,10 @@
 
 .list-unstyled {
     list-style: none outside none;
+}
+
+.svgicon {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
 }

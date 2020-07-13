@@ -28,7 +28,7 @@ class RegistrationForm(BaseForm):
     )
 
     buttons = [
-        Button(icon='user-alt', text=_('register'))
+        Button(icon='user', text=_('register'))
     ]
 
     def validate_username(self, field: Field):

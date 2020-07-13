@@ -1,3 +1,4 @@
+{% from "macros/icons.html" import icon %}
 <!DOCTYPE html>
 <html lang="{{ get_locale().language }}">
   <head>
@@ -28,16 +29,16 @@
             <a class="navbar-link">{{ gettext('user tools') }}</a>
             <div class="navbar-dropdown is-right is-boxed">
               {% if current_user.is_anonymous %}
-              <a class="navbar-item" href="{{ url_for('auth.select') }}"><span class="icon"><i class="fas fa-sign-in-alt"></i></span> <span>{{ gettext('login page') }}</span></a>
+              <a class="navbar-item" href="{{ url_for('auth.select') }}">{{ icon('log-in') }} <span>{{ gettext('login page') }}</span></a>
               <hr class="navbar-divider">
-              <a class="navbar-item" href="{{ url_for('auth.register') }}"><span class="icon"><i class="fas fa-user-plus"></i></span> <span>{{ gettext('register account') }}</span></a>
+              <a class="navbar-item" href="{{ url_for('auth.register') }}">{{ icon('user-plus') }} <span>{{ gettext('register account') }}</span></a>
               {% else %}
-              <a class="navbar-item" href="{{ url_for('profile.details', user_id=current_user.id) }}"><span class="icon"><i class="fas fa-user"></i></span> <span>{% trans %}my profile{% endtrans %}</span></a>
+              <a class="navbar-item" href="{{ url_for('profile.details', user_id=current_user.id) }}">{{ icon('user') }} <span>{% trans %}my profile{% endtrans %}</span></a>
               {% if not current_user.has_valid_password %}
-              <a class="navbar-item" href="{{ url_for('profile.setpassword') }}"><span class="icon"></span><i class="fas fa-key"></i> <span>{% trans %}set password{% endtrans %}</span></a>
+              <a class="navbar-item" href="{{ url_for('profile.setpassword') }}">{{ icon('key') }} <span>{% trans %}set password{% endtrans %}</span></a>
               {% endif %}
               <hr class="navbar-divider">
-              <a class="navbar-item" href="{{ url_for('auth.logout') }}"><span class="icon"><i class="fas fa-sign-out-alt"></i></span> <span>{% trans %}logout{% endtrans %}</span></a>
+              <a class="navbar-item" href="{{ url_for('auth.logout') }}">{{ icon('log-out') }} <span>{% trans %}logout{% endtrans %}</span></a>
               {% endif %}
             </div>
           </div>
