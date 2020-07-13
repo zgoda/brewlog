@@ -1,37 +1,11 @@
 {% extends "brew/base.html" %}
 {% import "macros/forms.html" as forms %}
 
-{% block styles %}
-{% if current_user.is_authenticated %}
-<link href="/static/vendor/xeditable/css/bootstrap-editable.css" rel="stylesheet">
-{% endif %}
-{% endblock %}
-
-{% block scripts %}
-{% if current_user.is_authenticated %}
-<script type="text/javascript" src="/static/vendor/xeditable/js/bootstrap-editable.min.js"></script>
-<script type="text/javascript">
-$.fn.editable.defaults.mode = 'inline';
-var csrf_token = "{{ csrf_token() }}";
-$.ajaxSetup({
-  beforeSend: function(xhr, settings) {
-    if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-      xhr.setRequestHeader("X-CSRFToken", csrf_token);
-    }
-  }
-});
-$(document).ready(function() {
-  $(".edit_area").editable();
-})
-</script>
-{% endif %}
-{% endblock %}
-
 {% block headpagetitle %}{{ super() }} {{ brew.full_name }}{% endblock %}
 
 {% block headdescription %}{{ utils.description(brew) }}{% endblock %}
 
-{% block widecontent %}
+{% block content %}
 {% include "brew/include/brew_navigation.html" %}
 {% include "brew/include/details.html" %}
 {% if form %}

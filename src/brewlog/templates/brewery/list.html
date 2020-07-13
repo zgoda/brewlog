@@ -1,9 +1,9 @@
 {% extends "brewery/base.html" %}
-{% from "macros/bootstrap.html" import render_pagination %}
+{% from "macros/pagination.html" import render_pagination %}
 
 {% block headpagetitle %}{% trans %}brewery list{% endtrans %}{% endblock %}
 
-{% block widecontent %}
+{% block content %}
 <h3>{{ gettext("List of registered breweries") }}</h3>
 {% if pagination.items %}
 <table class="table table-striped">

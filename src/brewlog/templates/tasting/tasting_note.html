@@ -3,7 +3,7 @@
 
 {% block headpagetitle %}{{ gettext("tasting note for brew %(brew)s from %(brewery)s", brew=brew.name, brewery=brew.brewery.name) }}{% endblock %}
 
-{% block widecontent %}
+{% block content %}
 {% if form %}
 {{ forms.render_form(form, url_for('tastingnote.add', brew_id=brew.id)) }}
 {% endif %}

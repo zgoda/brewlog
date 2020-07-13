@@ -3,7 +3,7 @@
 
 {% block headpagetitle %}{{ super() }} {{ brewery.name }}{% endblock %}
 
-{% block widecontent %}
+{% block content %}
 <h3>{{ brewery.name }}</h3>
 {% if current_user == brewery.brewer %}
 <p>{% trans %}You may change brewery data using the form below{% endtrans %}:</p>

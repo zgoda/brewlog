@@ -3,7 +3,7 @@
 
 {% block headpagetitle %}{{ gettext("add new brew") }} {% endblock %}
 
-{% block widecontent %}
+{% block content %}
 <h3>{{ gettext("add new brew").capitalize() }}</h3>
 {{ forms.render_form(form, url_for('brew.add'), hints=mash_hints) }}
 {% endblock %}

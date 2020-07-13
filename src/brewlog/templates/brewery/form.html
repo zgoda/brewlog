@@ -3,6 +3,6 @@
 
 {% block headpagetitle %}{% if brewery %}{{ gettext("modify your %(breweryname)s brewery data", breweryname=brewery.name) }}{% else %}{% trans %}add new brewery{% endtrans %}{% endif %}{% endblock %}
 
-{% block widecontent %}
+{% block content %}
 {{ forms.render_form(form, url_for('brewery.add')) }}
 {% endblock %}

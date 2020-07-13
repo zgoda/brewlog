@@ -3,7 +3,7 @@
 
 {% block headpagetitle %}{{ gettext("Brews from brewery %(name)s", name=brewery.name) }}{% endblock %}
 
-{% block widecontent %}
+{% block content %}
 <h3>{{ gettext("Brews from brewery %(name)s", name=brewery.name) }}</h3>
 {% if pagination.items %}
 <table class="table table-striped">

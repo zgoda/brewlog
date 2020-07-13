@@ -1,9 +1,9 @@
 {% extends "brew/base.html" %}
-{% from "macros/bootstrap.html" import render_pagination %}
+{% from "macros/pagination.html" import render_pagination %}
 
 {% block headpagetitle %}{{ gettext("brews") }}{% endblock %}
 
-{% block widecontent %}
+{% block content %}
 <h3>{% if public_only %}{{ gettext("all public brews").capitalize() }}{% else %}{{ gettext("all brews").capitalize() }}{% endif %}</h3>
 {% if pagination.items %}
 <table class="table table-striped">
