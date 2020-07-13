@@ -10,14 +10,14 @@
 {{ users.display_profile(profile) }}
 {% if form %}
 <p>{% trans %}This is your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
-{{ forms.render_form(form, url_for('profile.details', user_id=profile.id)) }}
+{{ forms.render_form(form, url_for('profile.details', user_id=profile.id), width=8) }}
 <h3>{{ gettext('email address').capitalize() }}</h3>
 {% if profile.email_confirmed %}
 <p>{% trans %}Your email address is confirmed and email communication is enabled.{% endtrans %}</p>
 {% else %}
 {% if profile.email %}
 <p>{% trans %}Your email address is not confirmed and all email communication has been disabled. This means we can not help you reset your password if you ever lost it. Please confirm your email to enable email communication. Note we do not send any emails to non-confirmed emails.{% endtrans %}</p>
-<p><a href="{{ url_for('profile.email-confirm-begin') }}" class="btn btn-warning">{{ gettext("start email confirmation") }}</a></p>
+<p><a href="{{ url_for('profile.email-confirm-begin') }}" class="button is-warning">{{ gettext("start email confirmation") }}</a></p>
 {% else %}
 <p>You did not enter your email. To use email communication (eg. to reset password) you have to have confirmed email. Please begin with entering valid email in the form above.</p>
 {% endif %}
@@ -28,10 +28,10 @@
 {% else %}
 <p>{% trans %}You do not have valid password set. While signing in is still possible with social services, this feature will soon be gone. Please set up password to keep access to your data once social sign in is turned off.{% endtrans %}</p>
 {% endif %}
-<p><a href="{{ url_for('profile.setpassword') }}" class="btn btn-warning">{{ gettext("set new password") }}</a></p>
+<p><a href="{{ url_for('profile.setpassword') }}" class="button is-warning">{{ gettext("set new password") }}</a></p>
 <p>{% trans %}Please be aware that we still don't have forgotten password reset mechanism implemented. Choose your password wisely, eg. allow Chrome to set it up for you.{% endtrans %}</p>
 <h3>{{ gettext("delete account").capitalize() }}</h3>
 <p>{% trans %}Follow the below link to permanently delete your account.{% endtrans %}</p>
-<p><a href="{{ url_for('profile.delete', user_id=profile.id) }}" class="btn btn-danger">{{ gettext("delete my account") }}</a></p>
+<p><a href="{{ url_for('profile.delete', user_id=profile.id) }}" class="button is-danger">{{ gettext("delete my account") }}</a></p>
 {% endif %}
 {% endblock %}

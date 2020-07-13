@@ -16,7 +16,7 @@ class Link(Renderable):
     text: str = 'click'
 
     template: ClassVar[str] = (
-        '<a href="{{ obj.href }}">'
+        '<a href="{{ obj.href }}" class="button is-link">'
         '{{ obj.text }}'
         '</a>'
     )

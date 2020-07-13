@@ -6,7 +6,7 @@
 {% block content %}
 <h3>{% if public_only %}{{ gettext("all tasting notes to public brews").capitalize() }}{% else %}{{ gettext("all tasting notes to brews").capitalize() }}{% endif %}</h3>
 {% if pagination.items %}
-<table class="table table-striped">
+<table class="table is-striped">
   <thead>
     <tr>
       <th scope="col">{{ gettext('brew').capitalize() }}</th>
