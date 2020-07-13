@@ -31,3 +31,10 @@ class DeleteForm(BaseForm):
     buttons = [
         Button(text=_('confirm')),
     ]
+
+
+class ActionForm(BaseForm):
+
+    buttons = [
+        Button(text=_('confirm')),
+    ]

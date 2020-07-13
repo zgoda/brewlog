@@ -1,9 +1,9 @@
 {% extends "account/base.html" %}
-{% from "macros/bootstrap.html" import render_pagination %}
+{% from "macros/pagination.html" import render_pagination %}
 
 {% block headpagetitle %}{{ gettext("registered brewers") }}{% endblock %}
 
-{% block widecontent %}
+{% block content %}
 <h3>{{ gettext("registered brewers").capitalize() }}</h3>
 {% if pagination.items %}
 <table class="table table-striped">

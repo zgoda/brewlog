@@ -13,7 +13,7 @@ from ..models import Brew, BrewerProfile, Brewery
 from ..utils.pagination import get_page
 from ..utils.views import check_token
 from . import profile_bp
-from .forms import PasswordChangeForm, ProfileForm
+from .forms import PasswordChangeForm, ProfileForm, ConfirmBeginForm
 from .permissions import AccessManager
 
 
@@ -145,7 +145,7 @@ def email_confirmation_begin():
             category='success',
         )
         return redirect(url_for('.details', user_id=current_user.id))
-    return render_template('account/email_confirm_begin.html')
+    return render_template('account/email_confirm_begin.html', form=ConfirmBeginForm())
 
 
 @profile_bp.route('/email/confirm/<token>', endpoint='email-confirm-token')

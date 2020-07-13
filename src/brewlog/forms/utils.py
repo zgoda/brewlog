@@ -28,14 +28,11 @@ class Button(Renderable):
     class_: str = 'primary'
     icon: str = 'check'
     text: str = 'ok'
-    iconset: str = 'feather'
-    link: bool = False
 
     template: ClassVar[str] = (
         '<button type="{{ obj.type_ }}" class="button is-{{ obj.class_ }}">'
         '<span class="icon">'
-        '<object class="svgicon" data="/static/vendor/{{ obj.iconset }}/{{ obj.icon }}.svg">'  # noqa: E501
-        '</object>'
+        '<svg><use xlink:href="#{{ obj.icon }}"></svg>'
         '</span>'
         '&nbsp;'
         '<span>{{ obj.text }}</spans>'

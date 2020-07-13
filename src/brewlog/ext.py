@@ -1,6 +1,5 @@
 from flask_assets import Environment
 from flask_babel import Babel
-from flask_bootstrap import Bootstrap
 from flask_flatpages import FlatPages
 from flask_login import LoginManager
 from flask_migrate import Migrate
@@ -14,6 +13,5 @@ babel = Babel()
 pages = FlatPages()
 db = SQLAlchemy(model_class=Model)
 csrf = CSRFProtect()
-bootstrap = Bootstrap()
 migrate = Migrate()
 assets = Environment()
