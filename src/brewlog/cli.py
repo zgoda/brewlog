@@ -11,18 +11,6 @@ from flask.cli import FlaskGroup
 from . import make_app
 from .ext import db
 
-_default_icons = [
-    'check',
-    'key',
-    'lock',
-    'log-in',
-    'log-out',
-    'send',
-    'trash',
-    'user-plus',
-    'user',
-]
-
 
 def create_app(info):
     return make_app('dev')
@@ -60,6 +48,17 @@ def generate_grp():
 @click.argument('iconset')
 @click.argument('names', nargs=-1)
 def gen_icons(iconset: str, names: List[str]):
+    _default_icons = [
+        'check',
+        'key',
+        'lock',
+        'log-in',
+        'log-out',
+        'send',
+        'trash',
+        'user-plus',
+        'user',
+    ]
     if names[0] == 'default':
         names = _default_icons
     target = os.path.join(
@@ -70,7 +69,7 @@ def gen_icons(iconset: str, names: List[str]):
     if os.path.isfile(target) and len(names) < len(_default_icons):
         if not click.confirm(
             'You are about to overwrite existing icon includes with smaller set '
-            'than existing one, you sure want to do this?'
+            'than default, you sure want to do this?'
         ):
             return
     ns = 'http://www.w3.org/2000/svg'
