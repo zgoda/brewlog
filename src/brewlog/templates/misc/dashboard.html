@@ -14,90 +14,68 @@
 {% endblock %}
 
 {% block content %}
-<div class="row my-2">
-  <div class="col-12">
-    <h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
-  </div>
-</div>
-<div class="row my-2">
-  <div class="col-12 col-md-4">
-    <div class="card border-primary">
-      <h4 class="card-header bg-primary text-light">{% trans %}My latest recipes{% endtrans %}</h4>
-      <div class="card-body">
-        {% if latest_recipes %}
-        <ul>
-          {% for brew in latest_recipes %}<li><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a></li>{% endfor %}
-        </ul>
-        {% endif %}
-      </div>
+<h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
+<div class="columns">
+  <div class="column">
+    <div class="panel is-info">
+      <h4 class="panel-heading">{% trans %}My latest recipes{% endtrans %}</h4>
+      {% if latest_recipes.count() %}
+      {% for brew in latest_recipes %}<a class="panel-block" href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a>{% endfor %}
+      {% else %}
+      <p class="panel-block">{{ gettext('nothing here yet') }}</p>
+      {% endif %}
     </div>
   </div>
-  <div class="col-12 col-md-4">
-    <div class="card border-primary">
-      <h4 class="card-header bg-primary text-light">{% trans %}My recent reviews{% endtrans %}</h4>
-      <div class="card-body">
-        {% if recent_reviews %}
-        <ul>
-          {% for note in recent_reviews %}<li><a href="{{ url_for('brew.details', brew_id=note.brew.id) }}">{{ note.brew.full_name }}</a> - {{ note.date|dateformat("short") }}</li>{% endfor %}
-        </ul>
-        {% endif %}
-      </div>
+  <div class="column">
+    <div class="panel is-info">
+      <h4 class="panel-heading">{% trans %}My recent reviews{% endtrans %}</h4>
+      {% if recent_reviews %}
+      {% for note in recent_reviews %}<a class="panel-block" href="{{ url_for('brew.details', brew_id=note.brew.id) }}">{{ note.brew.full_name }}</a> - {{ note.date|dateformat("short") }}{% endfor %}
+      {% else %}
+      <p class="panel-block">{{ gettext('nothing here yet') }}</p>
+      {% endif %}
     </div>
   </div>
-  <div class="col-12 col-md-4">
-    <div class="card border-primary">
-      <h4 class="card-header bg-primary text-light">{% trans %}Recently brewed{% endtrans %}</h4>
-      <div class="card-body">
-        {% if recently_brewed %}
-        <ul>
-          {% for brew in recently_brewed %}<li><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.date_brewed|dateformat("short") }}</li>{% endfor %}
-        </ul>
-        {% endif %}
-      </div>
+  <div class="column">
+    <div class="panel is-info">
+      <h4 class="panel-heading">{% trans %}Recently brewed{% endtrans %}</h4>
+      {% if recently_brewed.count() %}
+      {% for brew in recently_brewed %}<p class="panel-block"><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.date_brewed|dateformat("short") }}</p>{% endfor %}
+      {% else %}
+      <p class="panel-block">{{ gettext('nothing here yet') }}</p>
+      {% endif %}
     </div>
   </div>
 </div>
-<div class="row my-2">
-  <div class="col-12 col-md-4">
-    <div class="card border-primary">
-      <h4 class="card-header bg-primary text-light">{% trans %}Fermenting{% endtrans %}</h4>
-      <div class="card-body">
-        {% if fermenting %}
-        <ul>
-          {% for brew in fermenting %}<li><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.fermentation_start_date|dateformat("short") }}</li>{% endfor %}
-        </ul>
-        {% else %}
-        <p>{% trans %}Nothing{% endtrans %}</p>
-        {% endif %}
-      </div>
+<div class="columns">
+  <div class="column">
+    <div class="panel is-info">
+      <h4 class="panel-heading">{% trans %}Fermenting{% endtrans %}</h4>
+      {% if fermenting %}
+      {% for brew in fermenting %}<p class="panel-block"><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.fermentation_start_date|dateformat("short") }}</p>{% endfor %}
+      {% else %}
+      <p class="panel-block">{{ gettext('nothing here yet') }}</p>
+      {% endif %}
     </div>
   </div>
-  <div class="col-12 col-md-4">
-    <div class="card border-primary">
-      <h4 class="card-header bg-primary text-light">{% trans %}Maturing{% endtrans %}</h4>
-      <div class="card-body">
-        {% if maturing %}
-        <ul>
-          {% for brew in maturing %}<li><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.bottling_date|dateformat("short") }}</li>{% endfor %}
-        </ul>
-        {% else %}
-        <p>{% trans %}Nothing{% endtrans %}</p>
-        {% endif %}
-      </div>
+  <div class="column">
+    <div class="panel is-info">
+      <h4 class="panel-heading">{% trans %}Maturing{% endtrans %}</h4>
+      {% if maturing %}
+      {% for brew in maturing %}<a class="panel-block" href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.bottling_date|dateformat("short") }}{% endfor %}
+      {% else %}
+      <p class="panel-block">{{ gettext('nothing here yet') }}</p>
+      {% endif %}
     </div>
   </div>
-  <div class="col-12 col-md-4">
-    <div class="card border-primary">
-      <h4 class="card-header bg-primary text-light">{% trans %}On tap{% endtrans %}</h4>
-      <div class="card-body">
-        {% if on_tap %}
-        <ul>
-          {% for brew in on_tap %}<li><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.tapped|dateformat("short") }}</li>{% endfor %}
-        </ul>
-        {% else %}
-        <p>{% trans %}Nothing{% endtrans %}</p>
-        {% endif %}
-      </div>
+  <div class="column">
+    <div class="panel is-info">
+      <h4 class="panel-heading">{% trans %}On tap{% endtrans %}</h4>
+      {% if on_tap %}
+      {% for brew in on_tap %}<p class="panel-block"><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.tapped|dateformat("short") }}</p>{% endfor %}
+      {% else %}
+      <p class="panel-block">{{ gettext('nothing here yet') }}</p>
+      {% endif %}
     </div>
   </div>
 </div>
