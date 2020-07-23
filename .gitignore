@@ -51,7 +51,7 @@ cov.xml
 # Django stuff:
 *.log
 local_settings.py
-db.sqlite3
+db.sqlite*
 
 # Flask stuff:
 instance/
