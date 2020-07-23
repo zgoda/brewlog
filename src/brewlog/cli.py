@@ -56,6 +56,7 @@ def gen_icons(iconset: str, names: List[str]):
         'log-out',
         'send',
         'trash',
+        'upload',
         'user-plus',
         'user',
     ]

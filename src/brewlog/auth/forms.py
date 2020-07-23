@@ -80,7 +80,7 @@ class ForgotPassword(BaseForm):
     )
 
     buttons = [
-        Button(icon='paper-plane', text=_('send'))
+        Button(icon='send', text=_('send'))
     ]
 
     def save(self):
