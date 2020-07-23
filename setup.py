@@ -65,7 +65,7 @@ dev_reqs = [
     'rope',
     'isort',
     'pip',
-    'setuptools<49.2',
+    'setuptools',
     'wheel',
     'flask-shell-ipython',
     'watchdog',
