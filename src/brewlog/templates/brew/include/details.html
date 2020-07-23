@@ -2,13 +2,13 @@
 {% if brew.style %}<p>{{ brew.style }}</p>{% endif %}
 {% if brew.date_brewed %}<p>{{ gettext("brewed on %(date)s", date=format_date(brew.date_brewed, "short")) }}{% if brew.bottling_date %}, {{ gettext("packaged on %(date)s", date=format_date(brew.bottling_date, "short")) }}{% endif %}</p>{% endif %}
 <h3>{{ gettext("stats").capitalize() }}</h3>
-<dl class="row">
-  <dt class="col-sm-3">{{ gettext("brew length").capitalize() }}</dt><dd class="col-sm-9">{% if brew.brew_length %}{{ '%.1f' % brew.brew_length }}{% endif %}</dd>
-  <dt class="col-sm-3">{{ gettext("original gravity").capitalize() }}</dt><dd class="col-sm-9">{% if brew.og %}{{ '%.1f' % brew.og }}&deg;Blg, SG {{ '%.3f' % plato2sg(brew.og) }}{% endif %}</dd>
-  <dt class="col-sm-3">{{ gettext("final gravity").capitalize() }}</dt><dd class="col-sm-9">{% if brew.fg %}{{ '%.1f' % brew.fg }}&deg;Blg, SG {{ '%.3f' % plato2sg(brew.fg) }}{% endif %}</dd>
-  <dt class="col-sm-3">{{ gettext("abv").capitalize() }}</dt><dd class="col-sm-9">{% if brew.abv %}{{ '%.1f' % brew.abv }}%{% endif %}</dd>
-  {% if brew.og and brew.fg %}<dt class="col-sm-3">{{ gettext("attenuation").capitalize() }}</dt><dd class="col-sm-9">{{ gettext("apparent")}} {{ '%.1f%%' % brew.attenuation.apparent }}, {{ gettext("real") }} {{ '%.1f%%' % brew.attenuation.real }}</dd>{% endif %}
-  {% if brew.final_amount %}<dt class="col-sm-3">{{ gettext("final amount").capitalize() }}</dt><dd class="col-sm-9">{{ '%.1f' % brew.final_amount }}</dd>{% endif %}
+<dl>
+  <dt>{{ gettext("brew length").capitalize() }}</dt><dd>{% if brew.brew_length %}{{ '%.1f' % brew.brew_length }}{% endif %}</dd>
+  <dt>{{ gettext("original gravity").capitalize() }}</dt><dd>{% if brew.og %}{{ '%.1f' % brew.og }}&deg;Blg, SG {{ '%.3f' % plato2sg(brew.og) }}{% endif %}</dd>
+  <dt>{{ gettext("final gravity").capitalize() }}</dt><dd>{% if brew.fg %}{{ '%.1f' % brew.fg }}&deg;Blg, SG {{ '%.3f' % plato2sg(brew.fg) }}{% endif %}</dd>
+  <dt>{{ gettext("abv").capitalize() }}</dt><dd>{% if brew.abv %}{{ '%.1f' % brew.abv }}%{% endif %}</dd>
+  {% if brew.og and brew.fg %}<dt>{{ gettext("attenuation").capitalize() }}</dt><dd>{{ gettext("apparent")}} {{ '%.1f%%' % brew.attenuation.apparent }}, {{ gettext("real") }} {{ '%.1f%%' % brew.attenuation.real }}</dd>{% endif %}
+  {% if brew.final_amount %}<dt>{{ gettext("final amount").capitalize() }}</dt><dd>{{ '%.1f' % brew.final_amount }}</dd>{% endif %}
 </dl>
 <h3>{{ gettext("wort preparation").capitalize() }}</h3>
 <h4>{{ gettext("fermentables").capitalize() }}:</h4>

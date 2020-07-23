@@ -1,10 +1,10 @@
-<div class="row">
-  <div class="col-sm text-right">
+<div class="columns">
+  <div class="column has-text-right">
     {% if previous %}
     <a href="{{ url_for('brew.details', brew_id=previous.id) }}">&laquo;&nbsp;{{ gettext("previous") }} ({{ previous.name }})</a>
     {% endif %}
   </div>
-  <div class="col-sm text-left">
+  <div class="column has-text-left">
     {% if next %}
     <a href="{{ url_for('brew.details', brew_id=next.id) }}">{{ gettext("next") }} ({{ next.name }})&nbsp;&raquo;</a>
     {% endif %}

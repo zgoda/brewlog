@@ -13,16 +13,16 @@
 
 {% macro render_field(field) %}
 <div class="field is-horizontal">
-  <div class="field-label is-nornal">
+  <div class="field-label is-normal">
     {% if field.widget.input_type not in ('checkbox', 'radio') %}
     <label class="label" for="{{ field.id }}">{{ field.label.text|safe }}{% if field.flags.required %} <span class="has-text-danger has-text-weight-bold">*</span>{% endif %}</label>
     {% endif %}
   </div>
   <div class="field-body">
-    {% if field.widget.input_type in ('checkbox', 'radio') or field.type == 'SelectField' %}
+    {% if field.widget.input_type in ('checkbox', 'radio') or field.type in ('Select', 'QuerySelectField') %}
     <div class="field is-narrow">
       <div class="control">
-        {% if field.type == 'SelectField' %}
+        {% if field.type in ('Select', 'QuerySelectField') %}
         <div class="select is-fullwidth">
           {{ field(**kwargs) }}
         </div>
