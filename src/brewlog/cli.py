@@ -49,12 +49,15 @@ def generate_grp():
 @click.argument('names', nargs=-1)
 def gen_icons(iconset: str, names: List[str]):
     _default_icons = [
+        'briefcase',
         'check',
         'key',
         'lock',
         'log-in',
         'log-out',
+        'plus',
         'send',
+        'settings',
         'trash',
         'upload',
         'user-plus',

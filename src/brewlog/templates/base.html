@@ -26,9 +26,26 @@
         </a>
       </div>
       <div id="navmenu" class="navbar-menu">
+        <div class="navbar-start"></div>
         <div class="navbar-end">
+          {% if current_user.is_authenticated %}
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link">{{ gettext('user tools') }}</a>
+            <a class="navbar-link">{{ icon('plus') }}</a>
+            <div class="navbar-dropdown is-right is-boxed">
+              <a class="navbar-item" href="{{ url_for('brew.add') }}">{{ gettext('brew') }}</a>
+              <a class="navbar-item" href="{{ url_for('brewery.add') }}">{{ gettext('brewery') }}</a>
+            </div>
+          </div>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">{{ icon('briefcase') }}</a>
+            <div class="navbar-dropdown is-right is-boxed">
+              <a class="navbar-item" href="{{ current_user.brews_list_url }}">{{ gettext('brews') }}</a>
+              <a class="navbar-item" href="{{ current_user.breweries_list_url }}">{{ gettext('breweries') }}</a>
+            </div>
+          </div>
+          {% endif %}
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">{{ icon('settings') }}</a>
             <div class="navbar-dropdown is-right is-boxed">
               {% if current_user.is_anonymous %}
               <a class="navbar-item" href="{{ url_for('auth.select') }}">{{ icon('log-in') }} <span>{{ gettext('login page') }}</span></a>

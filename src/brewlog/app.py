@@ -43,7 +43,7 @@ def configure_app(app: Brewlog, env: Optional[str] = None):
             app.config.from_object(f'brewlog.config_{env}')
         except ImportStringError:
             pass
-    if app.debug:
+    if app.debug or app.testing:
         @app.route('/favicon.ico')
         def favicon():
             return send_from_directory(
