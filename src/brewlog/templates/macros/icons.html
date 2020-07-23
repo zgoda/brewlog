@@ -1,3 +1,8 @@
-{% macro icon(name) %}
-<span class="icon"><svg><use xlink:href="#{{ name }}"></svg></span>
+{% macro icon(name, extraclasses=None) %}
+{% if extraclasses %}
+{% set span_classes = ' '.join(extraclasses) %}
+{% else %}
+{% set span_classes = '' %}
+{% endif %}
+<span class="icon {{ span_classes }}"><svg><use xlink:href="#{{ name }}"></svg></span>
 {% endmacro %}

@@ -96,7 +96,6 @@ def configure_assets(app: Brewlog):
         'css_all': all_css,
     }
     assets.register(bundles)
-    assets.auto_build = assets.debug = app.debug
 
 
 def configure_redis(app: Brewlog):

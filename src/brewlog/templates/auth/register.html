@@ -6,5 +6,6 @@
 
 {% block content %}
 <h1>{{ gettext('register new account').capitalize() }}</h1>
+<p>{% trans %}Please fill out the form below to register new account with Brewlog.{% endtrans %}</p>
 {{ render_form(form, request.path, width=8) }}
 {% endblock %}

@@ -1,9 +1,0 @@
-{% macro display_profile(user) -%}
-<dl class="row">
-  {% if user.full_name and user.is_public %}<dt class="col-sm-3">{{ gettext("full name").capitalize() }}:</dt> <dd class="col-sm-9">{{ user.full_name }}</dd>{% endif %}
-  {% if user.nick %}<dt class="col-sm-3">{{ gettext("nick").capitalize() }}:</dt> <dd class="col-sm-9">{{ user.nick }}</dd>{% endif %}
-  {% if user.location and user.is_public %}<dt class="col-sm-3">{{ gettext("location").capitalize() }}:</dt> <dd class="col-sm-9">{{ user.location }}</dd>{% endif %}
-  <dt class="col-sm-3">{{ gettext("registered").capitalize() }}:</dt> <dd class="col-sm-9">{{ user.created|dateformat("short") }}</dd>
-</dl>
-{% if user.about_me %}<blockquote class="blockquote"><p class="mb-0">{{ user.about_me }}</p></blockquote>{% endif %}
-{%- endmacro %}

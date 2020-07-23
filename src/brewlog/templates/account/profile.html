@@ -1,13 +1,18 @@
 {% extends "account/base.html" %}
 
 {% import "macros/forms.html" as forms %}
-{% import "macros/users.html" as users %}
 
 {% block headpagetitle %}{{ gettext("Profile data for user %(name)s", name=profile.name) }}{% endblock %}
 
 {% block content %}
 <h3>{{ gettext("Brewer profile for user %(name)s", name=profile.name) }}</h3>
-{{ users.display_profile(profile) }}
+<dl>
+  {% if profile.full_name and profile.is_public %}<dt>{{ gettext("full name").capitalize() }}:</dt> <dd>{{ profile.full_name }}</dd>{% endif %}
+  {% if profile.nick %}<dt>{{ gettext("nick").capitalize() }}:</dt> <dd>{{ profile.nick }}</dd>{% endif %}
+  {% if profile.location and profile.is_public %}<dt>{{ gettext("location").capitalize() }}:</dt> <dd>{{ profile.location }}</dd>{% endif %}
+  <dt>{{ gettext("registered").capitalize() }}:</dt> <dd>{{ profile.created|dateformat("short") }}</dd>
+</dl>
+{% if profile.about_me %}<blockquote><p>{{ profile.about_me }}</p></blockquote>{% endif %}
 {% if form %}
 <p>{% trans %}This is your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
 {{ forms.render_form(form, url_for('profile.details', user_id=profile.id), width=8) }}
