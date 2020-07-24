@@ -2,8 +2,10 @@ from flask_babel import lazy_gettext as _
 from flask_login import current_user
 from flask_sqlalchemy import BaseQuery
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from wtforms.fields import BooleanField, SelectField, StringField, TextAreaField
-from wtforms.fields.html5 import DateField, DecimalField, IntegerField
+from wtforms.fields import (
+    BooleanField, DateField, DecimalField, IntegerField, SelectField, StringField,
+    TextAreaField,
+)
 from wtforms.validators import InputRequired, Optional
 
 from ..models import Brew, Brewery, choices
@@ -14,7 +16,7 @@ def user_breweries_query() -> BaseQuery:
     return Brewery.query.filter_by(brewer=current_user).order_by(Brewery.name)
 
 
-class BrewForm(BaseObjectForm):
+class BaseBrewForm(BaseObjectForm):
     brewery = QuerySelectField(
         _('brewery'), query_factory=user_breweries_query, get_label='name',
         validators=[InputRequired()]
@@ -55,6 +57,19 @@ class BrewForm(BaseObjectForm):
         description=_('put each step on separate line to make nice list'),
     )
     boil_time = IntegerField(_('boil time'), validators=[Optional()])
+
+    def save(self, obj=None, save=True) -> Brew:
+        if obj is None:
+            obj = Brew()
+        return super(BaseBrewForm, self).save(obj, save)
+
+
+class CreateBrewForm(BaseBrewForm):
+    is_public = BooleanField(_('public'), default=True)
+    is_draft = BooleanField(_('draft'), default=False)
+
+
+class EditBrewForm(BaseBrewForm):
     final_amount = DecimalField(
         _('final amount'), places=1, description=_('volume into bottling'),
         validators=[Optional()]
@@ -67,13 +82,6 @@ class BrewForm(BaseObjectForm):
         _('carbonation level'), choices=choices.CARB_LEVEL_CHOICES,
     )
     carbonation_used = TextAreaField(_('carbonation used'))
-    is_public = BooleanField(_('public'), default=True)
-    is_draft = BooleanField(_('draft'), default=False)
-
-    def save(self, obj=None, save=True) -> Brew:
-        if obj is None:
-            obj = Brew()
-        return super(BrewForm, self).save(obj, save)
 
 
 class ChangeStateForm(BaseForm):

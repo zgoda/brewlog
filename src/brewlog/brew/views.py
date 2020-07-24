@@ -11,7 +11,7 @@ from ..utils.forms import DeleteForm
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
 from . import brew_bp
-from .forms import BrewForm, ChangeStateForm
+from .forms import ChangeStateForm, CreateBrewForm, EditBrewForm
 from .permissions import AccessManager
 from .utils import BrewUtils, list_query_for_user
 
@@ -34,7 +34,7 @@ HINTS = [
 @brew_bp.route('/add', methods=['POST', 'GET'], endpoint='add')
 @login_required
 def brew_add() -> Union[str, Response]:
-    form = BrewForm()
+    form = CreateBrewForm()
     if form.validate_on_submit():
         brew = form.save()
         flash(lazy_gettext('brew %(name)s created', name=brew.name), category='success')
@@ -53,7 +53,7 @@ def brew(brew_id: int) -> Union[str, Response]:
     AccessManager(brew, is_post).check()
     brew_form = None
     if is_post:
-        brew_form = BrewForm()
+        brew_form = EditBrewForm()
         if brew_form.validate_on_submit():
             brew = brew_form.save(obj=brew)
             flash(
@@ -70,7 +70,7 @@ def brew(brew_id: int) -> Union[str, Response]:
         'next': brew.get_next(public_only=public_only),
         'previous': brew.get_previous(public_only=public_only),
         'action_form': ChangeStateForm(obj=brew),
-        'form': brew_form or BrewForm(obj=brew),
+        'form': brew_form or EditBrewForm(obj=brew),
     }
     return render_template('brew/details.html', **ctx)
 
