@@ -3,8 +3,8 @@ from wtforms.fields import StringField, TextAreaField
 from wtforms.fields.html5 import DateField, DecimalField, IntegerField
 from wtforms.validators import InputRequired, Optional
 
-from ..forms.base import BaseObjectForm
 from ..models import FermentationStep
+from ..utils.forms import BaseObjectForm
 
 
 class FermentationStepForm(BaseObjectForm):

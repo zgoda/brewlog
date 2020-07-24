@@ -39,6 +39,7 @@ base_reqs = [
     'RQ',
     'hiredis',
     'requests',
+    'python-dotenv',
 ]
 
 test_reqs = [
@@ -69,7 +70,6 @@ dev_reqs = [
     'wheel',
     'flask-shell-ipython',
     'watchdog',
-    'python-dotenv',
 ] + test_reqs
 
 

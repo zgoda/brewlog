@@ -4,8 +4,8 @@ from wtforms.fields import StringField, TextAreaField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import InputRequired, Optional
 
-from ..forms.base import BaseObjectForm
 from ..models import Brewery
+from ..utils.forms import BaseObjectForm
 
 
 class BreweryForm(BaseObjectForm):

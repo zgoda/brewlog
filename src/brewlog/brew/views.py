@@ -6,8 +6,8 @@ from flask_babel import lazy_gettext
 from flask_login import current_user, login_required
 
 from ..ext import db
-from ..forms.base import DeleteForm
 from ..models import Brew
+from ..utils.forms import DeleteForm
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
 from . import brew_bp

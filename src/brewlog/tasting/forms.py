@@ -4,8 +4,8 @@ from wtforms.fields import TextAreaField
 from wtforms.fields.html5 import DateField
 from wtforms.validators import InputRequired
 
-from ..forms.base import BaseObjectForm
 from ..models import TastingNote
+from ..utils.forms import BaseObjectForm
 
 
 class TastingNoteForm(BaseObjectForm):

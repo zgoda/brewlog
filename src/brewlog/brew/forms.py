@@ -6,11 +6,8 @@ from wtforms.fields import BooleanField, SelectField, StringField, TextAreaField
 from wtforms.fields.html5 import DateField, DecimalField, IntegerField
 from wtforms.validators import InputRequired, Optional
 
-from ..forms.base import BaseForm, BaseObjectForm
-from ..forms.fields import TextAreaWithHintsField
-from ..forms.utils import Button
-from ..forms.widgets import textarea_with_hints
 from ..models import Brew, Brewery, choices
+from ..utils.forms import BaseForm, BaseObjectForm, Button
 
 
 def user_breweries_query() -> BaseQuery:
@@ -34,34 +31,32 @@ class BrewForm(BaseObjectForm):
     date_brewed = DateField(_('date brewed'), validators=[Optional()])
     fermentables = TextAreaField(
         _('fermentables'),
-        description=_('put each fermentable on separate line to make nice list')
+        description=_('put each fermentable on separate line to make nice list'),
     )
     hops = TextAreaField(
         _('hop items'),
-        description=_('put each hop item on separate line to make nice list')
+        description=_('put each hop item on separate line to make nice list'),
     )
     yeast = TextAreaField(
         _('yeast items'),
-        description=_('put each yeast item on separate line to make nice list')
+        description=_('put each yeast item on separate line to make nice list'),
     )
     misc = TextAreaField(
         _('miscellaneous items'),
-        description=_('put each miscellanea on separare line to make nice list')
+        description=_('put each miscellanea on separare line to make nice list'),
     )
-    mash_steps = TextAreaWithHintsField(
+    mash_steps = TextAreaField(
         _('mash schedule'),
         description=_('put each step on separate line to make nice list'),
-        widget=textarea_with_hints
     )
     sparging = StringField(_('sparging'))
     hopping_steps = TextAreaField(
         _('hopping schedule'),
-        description=_('put each step on separate line to make nice list')
+        description=_('put each step on separate line to make nice list'),
     )
     boil_time = IntegerField(_('boil time'), validators=[Optional()])
     final_amount = DecimalField(
-        _('final amount'), places=1,
-        description=_('volume into bottling'),
+        _('final amount'), places=1, description=_('volume into bottling'),
         validators=[Optional()]
     )
     bottling_date = DateField(_('bottling date'), validators=[Optional()])

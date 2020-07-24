@@ -6,10 +6,8 @@ from wtforms.fields import Field, PasswordField, StringField
 from wtforms.validators import EqualTo, InputRequired, ValidationError
 
 from ..ext import db
-from ..forms.base import BaseForm
-from ..forms.utils import Button
-from ..forms.validators import Email
 from ..models.users import BrewerProfile
+from ..utils.forms import BaseForm, Button, Email
 
 
 def _rkw(**extra: str) -> dict:

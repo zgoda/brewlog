@@ -4,8 +4,8 @@ from flask_login import login_required
 
 from ..brew.permissions import AccessManager
 from ..ext import db
-from ..forms.base import DeleteForm
 from ..models import Brew, FermentationStep
+from ..utils.forms import DeleteForm
 from . import ferm_bp
 from .forms import FermentationStepForm
 from .utils import update_steps_gravity

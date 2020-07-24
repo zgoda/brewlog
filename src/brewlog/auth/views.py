@@ -14,7 +14,7 @@ from . import auth_bp
 from .forms import ForgotPassword, LoginForm, RegistrationForm
 
 
-@auth_bp.route('/register', methods=['POST', 'GET'], endpoint='register')
+@auth_bp.route('/register', methods=['POST', 'GET'])
 def register() -> Union[str, Response]:
     logout_user()
     form = RegistrationForm()

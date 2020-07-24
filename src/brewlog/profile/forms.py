@@ -5,8 +5,7 @@ from wtforms.fields.html5 import EmailField
 from wtforms.validators import EqualTo, InputRequired, ValidationError
 
 from ..ext import db
-from ..forms.base import BaseForm, BaseObjectForm, ActionForm
-from ..forms.utils import Button, Link
+from ..utils.forms import ActionForm, BaseForm, BaseObjectForm, Button, Link
 
 
 class ProfileForm(BaseObjectForm):

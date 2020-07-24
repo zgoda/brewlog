@@ -1,7 +1,7 @@
 import pytest
 from wtforms.validators import ValidationError
 
-from brewlog.forms.validators import Email
+from brewlog.utils.forms import Email
 
 
 class TestEmailValidator:

@@ -1,19 +1,16 @@
-from flask import (
-    abort, current_app, flash, redirect, render_template,
-    request, url_for,
-)
+from flask import abort, current_app, flash, redirect, render_template, request, url_for
 from flask_babel import gettext as _
 from flask_login import current_user, login_required, logout_user
 from itsdangerous.url_safe import URLSafeTimedSerializer
 
 from ..brew.utils import BrewUtils
 from ..ext import db
-from ..forms.base import DeleteForm
 from ..models import Brew, BrewerProfile, Brewery
+from ..utils.forms import DeleteForm
 from ..utils.pagination import get_page
 from ..utils.views import check_token
 from . import profile_bp
-from .forms import PasswordChangeForm, ProfileForm, ConfirmBeginForm
+from .forms import ConfirmBeginForm, PasswordChangeForm, ProfileForm
 from .permissions import AccessManager
 
 
