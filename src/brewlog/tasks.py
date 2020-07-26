@@ -4,12 +4,15 @@ import sys
 from typing import Sequence
 
 import requests
+from dotenv import find_dotenv, load_dotenv
 
 from .ext import huey
 
-_mailgun_domain = os.getenv('MAILGUN_DOMAIN')
+load_dotenv(find_dotenv())
+
+_mailgun_domain = os.environ['MAILGUN_DOMAIN']
 _mailgun_api_url = f'https://api.eu.mailgun.net/v3/{_mailgun_domain}/messages'
-_mailgun_auth = ('api', os.getenv('MAILGUN_API_KEY'))
+_mailgun_auth = ('api', os.environ['MAILGUN_API_KEY'])
 
 logger = logging.getLogger('rq.worker')
 
