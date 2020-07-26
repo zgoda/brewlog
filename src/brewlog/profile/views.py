@@ -6,6 +6,7 @@ from itsdangerous.url_safe import URLSafeTimedSerializer
 from ..brew.utils import BrewUtils
 from ..ext import db
 from ..models import Brew, BrewerProfile, Brewery
+from ..tasks import send_email
 from ..utils.forms import DeleteForm
 from ..utils.pagination import get_page
 from ..utils.views import check_token
@@ -129,9 +130,8 @@ def email_confirmation_begin():
         token = serializer.dumps(payload)
         html_body = render_template('email/email_confirmation.html', token=token)
         subject = _('Email confirmation at Brewlog')
-        current_app.queue.enqueue(
-            'brewlog.tasks.send_email', current_app.config['EMAIL_SENDER'],
-            [current_user.email], subject, html_body,
+        send_email(
+            current_app.config['EMAIL_SENDER'], [current_user.email], subject, html_body
         )
         flash(
             _(

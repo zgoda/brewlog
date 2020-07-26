@@ -36,8 +36,7 @@ base_reqs = [
     'Werkzeug',
     'itsdangerous',
     'defusedxml',
-    'RQ',
-    'hiredis',
+    'huey',
     'requests',
     'python-dotenv',
 ]

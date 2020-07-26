@@ -7,6 +7,7 @@ from wtforms.validators import EqualTo, InputRequired, ValidationError
 
 from ..ext import db
 from ..models.users import BrewerProfile
+from ..tasks import send_email
 from ..utils.forms import BaseForm, Button, Email
 
 
@@ -90,8 +91,6 @@ class ForgotPassword(BaseForm):
             html_body = render_template('email/password_reset.html', token=token)
             sender = current_app.config['EMAIL_SENDER']
             subject = str(_('Request to reset password at Brewlog'))
-            current_app.queue.enqueue(
-                'brewlog.tasks.send_email', sender, [user.email], subject, html_body,
-            )
+            send_email(sender, [user.email], subject, html_body)
             return True
         return False

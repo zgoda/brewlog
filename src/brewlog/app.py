@@ -2,20 +2,21 @@ import os
 from logging.config import dictConfig
 from typing import Optional
 
-import rq
 from flask import render_template, request, send_from_directory, session
 from flask_babel import gettext as _
-from redis import Redis
-from werkzeug.utils import ImportStringError, import_string
+from werkzeug.utils import ImportStringError
 
 from .assets import all_css
 from .auth import auth_bp
 from .brew import brew_bp
 from .brewery import brewery_bp
-from .ext import assets, babel, csrf, db, login_manager, migrate, pages
+from .ext import (
+    assets, babel, csrf, db, huey, login_manager, migrate, pages,
+)
 from .fermentation import ferm_bp
 from .home import home_bp
 from .profile import profile_bp
+from .tasks import send_email  # noqa: F401
 from .tasting import tasting_bp
 from .templates import setup_template_extensions
 from .utils.app import Brewlog
@@ -24,12 +25,15 @@ from .utils.app import Brewlog
 def make_app(env: Optional[str] = None) -> Brewlog:
     if os.environ.get('FLASK_ENV') == 'production':
         configure_logging()
-    app = Brewlog(__name__.split('.')[0])
+    extra = {}
+    extra.update({
+        'instance_path': os.getenv('INSTANCE_PATH'),
+    })
+    app = Brewlog(__name__.split('.')[0], **extra)
     configure_app(app, env)
     configure_extensions(app)
     with app.app_context():
         configure_assets(app)
-        configure_redis(app)
         configure_blueprints(app)
         configure_error_handlers(app)
         setup_template_extensions(app)
@@ -44,6 +48,7 @@ def configure_app(app: Brewlog, env: Optional[str] = None):
         except ImportStringError:
             pass
     if app.debug or app.testing:
+
         @app.route('/favicon.ico')
         def favicon():
             return send_from_directory(
@@ -51,6 +56,8 @@ def configure_app(app: Brewlog, env: Optional[str] = None):
                 'favicon.ico',
                 mimetype='image/vnd.microsoft.icon',
             )
+
+        huey.immediate = True
 
 
 def configure_blueprints(app: Brewlog):
@@ -96,16 +103,6 @@ def configure_assets(app: Brewlog):
         'css_all': all_css,
     }
     assets.register(bundles)
-
-
-def configure_redis(app: Brewlog):
-    redis_conn_cls = Redis
-    run_async = True
-    if app.testing:
-        redis_conn_cls = import_string('fakeredis.FakeStrictRedis')
-        run_async = False
-    app.redis = redis_conn_cls.from_url(app.config['REDIS_URL'])
-    app.queue = rq.Queue('brewlog', is_async=run_async, connection=app.redis)
 
 
 def configure_logging():
