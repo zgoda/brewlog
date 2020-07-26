@@ -5,6 +5,7 @@ from ..brew.utils import BrewUtils
 from ..brewery.utils import BreweryUtils
 from ..ext import pages
 from ..models import Brew, BrewerProfile, Brewery, TastingNote
+from ..schema import brew_schema
 from ..tasting.utils import TastingUtils
 from ..utils.text import get_announcement
 from . import home_bp
@@ -47,12 +48,14 @@ def dashboard():
         'limit': item_limit,
     }
     ctx = {
-        'latest_recipes': BrewUtils.latest(Brew.created, **kw),
+        'latest_recipes': brew_schema.dump(
+            BrewUtils.latest(Brew.created, **kw), many=True
+        ),
         'recently_brewed': BrewUtils.latest(Brew.date_brewed, brewed_only=True, **kw),
         'recent_reviews': TastingUtils.latest_notes(TastingNote.date, **kw),
-        'fermenting': BrewUtils.fermenting(**kw),
-        'maturing': BrewUtils.maturing(**kw),
-        'on_tap': BrewUtils.on_tap(**kw),
+        'fermenting': brew_schema.dump(BrewUtils.fermenting(**kw), many=True),
+        'maturing': brew_schema.dump(BrewUtils.maturing(**kw), many=True),
+        'on_tap': brew_schema.dump(BrewUtils.on_tap(**kw), many=True),
         'announcement': get_announcement(current_app.config.get('ANNOUNCEMENT_FILE')),
     }
     return render_template('misc/dashboard.html', **ctx)

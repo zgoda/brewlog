@@ -15,18 +15,37 @@
 
 {% block content %}
 <h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
+<!-- reactive part -->
 <div class="columns">
   <div class="column">
     <div class="panel is-info">
-      <h4 class="panel-heading">{% trans %}My latest recipes{% endtrans %}</h4>
-      {% if latest_recipes.count() %}
-      {% for brew in latest_recipes %}<a class="panel-block" href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a>{% endfor %}
-      {% else %}
-      <p class="panel-block">{{ gettext('nothing here yet') }}</p>
-      {% endif %}
+      <h4 class="panel-heading">{% trans %}Fermenting{% endtrans %}</h4>
+      <div class="panel-block" id="fermenting-panel-block"></div>
     </div>
   </div>
   <div class="column">
+    <div class="panel is-info">
+      <h4 class="panel-heading">{% trans %}Maturing{% endtrans %}</h4>
+      <div class="panel-block" id="maturing-panel-block"></div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="panel is-info">
+      <h4 class="panel-heading">{% trans %}My latest recipes{% endtrans %}</h4>
+      <div class="panel-block" id="recipes-panel-block">
+      </div>
+    </div>
+  </div>
+  <div class="column">
+    <div class="panel is-info">
+      <h4 class="panel-heading">{% trans %}On tap{% endtrans %}</h4>
+      <div class="panel-block" id="dispensing-panel-block"></div>
+    </div>
+  </div>
+</div>
+<!-- dynamic part -->
+<div class="columns is-centered">
+  <div class="column is-one-quarter">
     <div class="panel is-info">
       <h4 class="panel-heading">{% trans %}My recent reviews{% endtrans %}</h4>
       {% if recent_reviews %}
@@ -36,7 +55,7 @@
       {% endif %}
     </div>
   </div>
-  <div class="column">
+  <div class="column is-one-quarter">
     <div class="panel is-info">
       <h4 class="panel-heading">{% trans %}Recently brewed{% endtrans %}</h4>
       {% if recently_brewed.count() %}
@@ -47,36 +66,23 @@
     </div>
   </div>
 </div>
-<div class="columns">
-  <div class="column">
-    <div class="panel is-info">
-      <h4 class="panel-heading">{% trans %}Fermenting{% endtrans %}</h4>
-      {% if fermenting %}
-      {% for brew in fermenting %}<p class="panel-block"><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.fermentation_start_date|dateformat("short") }}</p>{% endfor %}
-      {% else %}
-      <p class="panel-block">{{ gettext('nothing here yet') }}</p>
-      {% endif %}
-    </div>
-  </div>
-  <div class="column">
-    <div class="panel is-info">
-      <h4 class="panel-heading">{% trans %}Maturing{% endtrans %}</h4>
-      {% if maturing %}
-      {% for brew in maturing %}<a class="panel-block" href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.bottling_date|dateformat("short") }}{% endfor %}
-      {% else %}
-      <p class="panel-block">{{ gettext('nothing here yet') }}</p>
-      {% endif %}
-    </div>
-  </div>
-  <div class="column">
-    <div class="panel is-info">
-      <h4 class="panel-heading">{% trans %}On tap{% endtrans %}</h4>
-      {% if on_tap %}
-      {% for brew in on_tap %}<p class="panel-block"><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.tapped|dateformat("short") }}</p>{% endfor %}
-      {% else %}
-      <p class="panel-block">{{ gettext('nothing here yet') }}</p>
-      {% endif %}
-    </div>
-  </div>
-</div>
+{% endblock %}
+
+{% block scriptdata %}
+<div class="is-hidden" id="recipes-data">{{ latest_recipes|tojson|safe }}</div>
+<div class="is-hidden" id="fermenting-data">{{ fermenting|tojson|safe }}</div>
+<div class="is-hidden" id="maturing-data">{{ maturing|tojson|safe }}</div>
+<div class="is-hidden" id="dispensing-data">{{ on_tap|tojson|safe }}</div>
+{% endblock %}
+
+{% block scripts %}
+<script type="module">
+  import { html, render } from '/static/js/preact.min.js';
+  import { Recipes } from '/static/js/dashboard.js';
+  const recipes = JSON.parse(document.getElementById('recipes-data').textContent);
+  const fermenting = JSON.parse(document.getElementById('fermenting-data').textContent);
+  const maturing = JSON.parse(document.getElementById('maturing-data').textContent);
+  const dispensing = JSON.parse(document.getElementById('dispensing-data').textContent);
+  render(html`<${Recipes} brews=${recipes} />`, document.getElementById('recipes-panel-block'));
+</script>
 {% endblock %}

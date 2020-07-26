@@ -30,6 +30,7 @@ base_reqs = [
     'Flask-WTF',
     'Flask-Assets',
     'Flask-Migrate',
+    'Marshmallow',
     'Markdown',
     'validators',
     'permission',
