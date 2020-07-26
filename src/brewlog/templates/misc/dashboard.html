@@ -6,7 +6,7 @@
 {% if announcement %}
 <section class="section">
   <div class="content">
-    <h2>{{ gettext('announcement').capitalize() }}</h2>
+    <h1>{{ gettext('announcement').capitalize() }}</h1>
     {{ announcement|safe }}    
   </div>
 </section>
@@ -15,54 +15,32 @@
 
 {% block content %}
 <h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
-<!-- reactive part -->
 <div class="columns">
   <div class="column">
     <div class="panel is-info">
-      <h4 class="panel-heading">{% trans %}Fermenting{% endtrans %}</h4>
+      <div class="panel-heading">{% trans %}Fermenting{% endtrans %}</div>
       <div class="panel-block" id="fermenting-panel-block"></div>
     </div>
   </div>
   <div class="column">
     <div class="panel is-info">
-      <h4 class="panel-heading">{% trans %}Maturing{% endtrans %}</h4>
+      <div class="panel-heading">{% trans %}Maturing{% endtrans %}</div>
       <div class="panel-block" id="maturing-panel-block"></div>
     </div>
   </div>
+</div>
+<div class="columns">
   <div class="column">
     <div class="panel is-info">
-      <h4 class="panel-heading">{% trans %}My latest recipes{% endtrans %}</h4>
+      <div class="panel-heading">{% trans %}My latest recipes{% endtrans %}</div>
       <div class="panel-block" id="recipes-panel-block">
       </div>
     </div>
   </div>
   <div class="column">
     <div class="panel is-info">
-      <h4 class="panel-heading">{% trans %}On tap{% endtrans %}</h4>
+      <div class="panel-heading">{% trans %}On tap{% endtrans %}</div>
       <div class="panel-block" id="dispensing-panel-block"></div>
-    </div>
-  </div>
-</div>
-<!-- dynamic part -->
-<div class="columns is-centered">
-  <div class="column is-one-quarter">
-    <div class="panel is-info">
-      <h4 class="panel-heading">{% trans %}My recent reviews{% endtrans %}</h4>
-      {% if recent_reviews %}
-      {% for note in recent_reviews %}<a class="panel-block" href="{{ url_for('brew.details', brew_id=note.brew.id) }}">{{ note.brew.full_name }}</a> - {{ note.date|dateformat("short") }}{% endfor %}
-      {% else %}
-      <p class="panel-block">{{ gettext('nothing here yet') }}</p>
-      {% endif %}
-    </div>
-  </div>
-  <div class="column is-one-quarter">
-    <div class="panel is-info">
-      <h4 class="panel-heading">{% trans %}Recently brewed{% endtrans %}</h4>
-      {% if recently_brewed.count() %}
-      {% for brew in recently_brewed %}<p class="panel-block"><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> - {{ brew.date_brewed|dateformat("short") }}</p>{% endfor %}
-      {% else %}
-      <p class="panel-block">{{ gettext('nothing here yet') }}</p>
-      {% endif %}
     </div>
   </div>
 </div>
@@ -78,11 +56,14 @@
 {% block scripts %}
 <script type="module">
   import { html, render } from '/static/js/preact.min.js';
-  import { Recipes } from '/static/js/dashboard.js';
+  import { Recipes, Fermenting, Maturing, Dispensing } from '/static/js/dashboard.js';
   const recipes = JSON.parse(document.getElementById('recipes-data').textContent);
   const fermenting = JSON.parse(document.getElementById('fermenting-data').textContent);
   const maturing = JSON.parse(document.getElementById('maturing-data').textContent);
   const dispensing = JSON.parse(document.getElementById('dispensing-data').textContent);
   render(html`<${Recipes} brews=${recipes} />`, document.getElementById('recipes-panel-block'));
+  render(html`<${Fermenting} brews=${fermenting} />`, document.getElementById('fermenting-panel-block'));
+  render(html`<${Maturing} brews=${maturing} />`, document.getElementById('maturing-panel-block'));
+  render(html`<${Dispensing} brews=${dispensing} />`, document.getElementById('dispensing-panel-block'));
 </script>
 {% endblock %}

@@ -51,8 +51,6 @@ def dashboard():
         'latest_recipes': brew_schema.dump(
             BrewUtils.latest(Brew.created, **kw), many=True
         ),
-        'recently_brewed': BrewUtils.latest(Brew.date_brewed, brewed_only=True, **kw),
-        'recent_reviews': TastingUtils.latest_notes(TastingNote.date, **kw),
         'fermenting': brew_schema.dump(BrewUtils.fermenting(**kw), many=True),
         'maturing': brew_schema.dump(BrewUtils.maturing(**kw), many=True),
         'on_tap': brew_schema.dump(BrewUtils.on_tap(**kw), many=True),
