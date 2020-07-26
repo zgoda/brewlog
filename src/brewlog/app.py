@@ -29,7 +29,7 @@ def make_app(env: Optional[str] = None) -> Brewlog:
     extra.update({
         'instance_path': os.getenv('INSTANCE_PATH'),
     })
-    app = Brewlog(__name__.split('.')[0], **extra)
+    app = Brewlog(**extra)
     configure_app(app, env)
     configure_extensions(app)
     with app.app_context():
@@ -48,7 +48,6 @@ def configure_app(app: Brewlog, env: Optional[str] = None):
         except ImportStringError:
             pass
     if app.debug or app.testing:
-
         @app.route('/favicon.ico')
         def favicon():
             return send_from_directory(
@@ -56,7 +55,6 @@ def configure_app(app: Brewlog, env: Optional[str] = None):
                 'favicon.ico',
                 mimetype='image/vnd.microsoft.icon',
             )
-
         huey.immediate = True
 
 

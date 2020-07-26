@@ -15,55 +15,18 @@
 
 {% block content %}
 <h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
-<div class="columns">
-  <div class="column">
-    <div class="panel is-info">
-      <div class="panel-heading">{% trans %}Fermenting{% endtrans %}</div>
-      <div class="panel-block" id="fermenting-panel-block"></div>
-    </div>
-  </div>
-  <div class="column">
-    <div class="panel is-info">
-      <div class="panel-heading">{% trans %}Maturing{% endtrans %}</div>
-      <div class="panel-block" id="maturing-panel-block"></div>
-    </div>
-  </div>
-</div>
-<div class="columns">
-  <div class="column">
-    <div class="panel is-info">
-      <div class="panel-heading">{% trans %}My latest recipes{% endtrans %}</div>
-      <div class="panel-block" id="recipes-panel-block">
-      </div>
-    </div>
-  </div>
-  <div class="column">
-    <div class="panel is-info">
-      <div class="panel-heading">{% trans %}On tap{% endtrans %}</div>
-      <div class="panel-block" id="dispensing-panel-block"></div>
-    </div>
-  </div>
-</div>
+<div id="dashboard-block"></div>
 {% endblock %}
 
 {% block scriptdata %}
-<div class="is-hidden" id="recipes-data">{{ latest_recipes|tojson|safe }}</div>
-<div class="is-hidden" id="fermenting-data">{{ fermenting|tojson|safe }}</div>
-<div class="is-hidden" id="maturing-data">{{ maturing|tojson|safe }}</div>
-<div class="is-hidden" id="dispensing-data">{{ on_tap|tojson|safe }}</div>
+<div class="is-hidden" id="brewsets-data">{{ brewsets|tojson|safe }}</div>
 {% endblock %}
 
 {% block scripts %}
 <script type="module">
   import { html, render } from '/static/js/preact.min.js';
-  import { Recipes, Fermenting, Maturing, Dispensing } from '/static/js/dashboard.js';
-  const recipes = JSON.parse(document.getElementById('recipes-data').textContent);
-  const fermenting = JSON.parse(document.getElementById('fermenting-data').textContent);
-  const maturing = JSON.parse(document.getElementById('maturing-data').textContent);
-  const dispensing = JSON.parse(document.getElementById('dispensing-data').textContent);
-  render(html`<${Recipes} brews=${recipes} />`, document.getElementById('recipes-panel-block'));
-  render(html`<${Fermenting} brews=${fermenting} />`, document.getElementById('fermenting-panel-block'));
-  render(html`<${Maturing} brews=${maturing} />`, document.getElementById('maturing-panel-block'));
-  render(html`<${Dispensing} brews=${dispensing} />`, document.getElementById('dispensing-panel-block'));
+  import { Dashboard } from '/static/js/dashboard.js';
+  const brewsets = JSON.parse(document.getElementById('brewsets-data').textContent);
+  render(html`<${Dashboard} brewsets=${brewsets} />`, document.getElementById('dashboard-block'));
 </script>
 {% endblock %}

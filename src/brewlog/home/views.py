@@ -48,12 +48,14 @@ def dashboard():
         'limit': item_limit,
     }
     ctx = {
-        'latest_recipes': brew_schema.dump(
-            BrewUtils.latest(Brew.created, **kw), many=True
-        ),
-        'fermenting': brew_schema.dump(BrewUtils.fermenting(**kw), many=True),
-        'maturing': brew_schema.dump(BrewUtils.maturing(**kw), many=True),
-        'on_tap': brew_schema.dump(BrewUtils.on_tap(**kw), many=True),
+        'brewsets': {
+            'recipes': brew_schema.dump(
+                BrewUtils.latest(Brew.created, **kw), many=True
+            ),
+            'fermenting': brew_schema.dump(BrewUtils.fermenting(**kw), many=True),
+            'maturing': brew_schema.dump(BrewUtils.maturing(**kw), many=True),
+            'dispensing': brew_schema.dump(BrewUtils.on_tap(**kw), many=True),
+        },
         'announcement': get_announcement(current_app.config.get('ANNOUNCEMENT_FILE')),
     }
     return render_template('misc/dashboard.html', **ctx)

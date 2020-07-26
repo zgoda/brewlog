@@ -93,7 +93,7 @@
     <footer class="footer">
       <div class="content has-text-centered">
         <p>{{ gettext('version').capitalize() }}: {{ version }}</p>
-        <p>&copy; 2012&ndash;<script>document.write(new Date().getFullYear())</script>, Jarek Zgoda. {% trans %}All rights reserved{% endtrans %}.</p>
+        <p>&copy; 2012, Jarek Zgoda. {% trans %}All rights reserved{% endtrans %}.</p>
         <p><a href="{{ url_for('home.flatpage', path='about') }}">{{ gettext("about") }}</a>&nbsp;&verbar;&nbsp;<a href="{{ url_for('home.flatpage', path='guide') }}">{{ gettext("user guide") }}</a>&nbsp;&verbar;&nbsp;<a href="{{ url_for('home.flatpage', path='legal') }}">{{ gettext("legal mumbo-jumbo") }}</a>&nbsp;&verbar;&nbsp;<a href="{{ url_for('home.flatpage', path='privacy') }}">{{ gettext("privacy statement") }}</a></p>
       </div>
     </footer>
