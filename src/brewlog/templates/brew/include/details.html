@@ -1,62 +1,62 @@
 <h3>{% if brew.code %}#{{ brew.code }} {% endif %}{{ brew.name }}</h3>
 {% if brew.style %}<p>{{ brew.style }}</p>{% endif %}
-{% if brew.date_brewed %}<p>{{ gettext("brewed on %(date)s", date=format_date(brew.date_brewed, "short")) }}{% if brew.bottling_date %}, {{ gettext("packaged on %(date)s", date=format_date(brew.bottling_date, "short")) }}{% endif %}</p>{% endif %}
-<h3>{{ gettext("stats").capitalize() }}</h3>
+{% if brew.date_brewed %}<p>uwarzona {{ format_date(brew.date_brewed, "short") }}{% if brew.bottling_date %}, rozlana {{ format_date(brew.bottling_date, "short") }}{% endif %}</p>{% endif %}
+<h3>Parametry</h3>
 <dl>
-  <dt>{{ gettext("brew length").capitalize() }}</dt><dd>{% if brew.brew_length %}{{ '%.1f' % brew.brew_length }}{% endif %}</dd>
-  <dt>{{ gettext("original gravity").capitalize() }}</dt><dd>{% if brew.og %}{{ '%.1f' % brew.og }}&deg;Blg, SG {{ '%.3f' % plato2sg(brew.og) }}{% endif %}</dd>
-  <dt>{{ gettext("final gravity").capitalize() }}</dt><dd>{% if brew.fg %}{{ '%.1f' % brew.fg }}&deg;Blg, SG {{ '%.3f' % plato2sg(brew.fg) }}{% endif %}</dd>
-  <dt>{{ gettext("abv").capitalize() }}</dt><dd>{% if brew.abv %}{{ '%.1f' % brew.abv }}%{% endif %}</dd>
-  {% if brew.og and brew.fg %}<dt>{{ gettext("attenuation").capitalize() }}</dt><dd>{{ gettext("apparent")}} {{ '%.1f%%' % brew.attenuation.apparent }}, {{ gettext("real") }} {{ '%.1f%%' % brew.attenuation.real }}</dd>{% endif %}
-  {% if brew.final_amount %}<dt>{{ gettext("final amount").capitalize() }}</dt><dd>{{ '%.1f' % brew.final_amount }}</dd>{% endif %}
+  <dt>wybicie</dt><dd>{% if brew.brew_length %}{{ '%.1f' % brew.brew_length }}{% endif %}</dd>
+  <dt>gęstość początkowa</dt><dd>{% if brew.og %}{{ '%.1f' % brew.og }}&deg;Blg, SG {{ '%.3f' % plato2sg(brew.og) }}{% endif %}</dd>
+  <dt>gęstość końcowa</dt><dd>{% if brew.fg %}{{ '%.1f' % brew.fg }}&deg;Blg, SG {{ '%.3f' % plato2sg(brew.fg) }}{% endif %}</dd>
+  <dt>zaw. alk.</dt><dd>{% if brew.abv %}{{ '%.1f' % brew.abv }}%{% endif %}</dd>
+  {% if brew.og and brew.fg %}<dt>odfermentowanie</dt><dd>pozorne {{ '%.1f%%' % brew.attenuation.apparent }}, rzeczywiste {{ '%.1f%%' % brew.attenuation.real }}</dd>{% endif %}
+  {% if brew.final_amount %}<dt>objętość końcowa</dt><dd>{{ '%.1f' % brew.final_amount }}</dd>{% endif %}
 </dl>
-<h3>{{ gettext("wort preparation").capitalize() }}</h3>
-<h4>{{ gettext("fermentables").capitalize() }}:</h4>
+<h3>Przogotowanie brzeczki</h3>
+<h4>Surowce fermentowalne:</h4>
 {% if brew.fermentables %}
 <ul>
 {% for fermentable in brew.fermentables.strip().split("\n") %}<li>{{ fermentable.strip() }}</li>{% endfor %}
 </ul>
 {% endif %}
-<h4>{{ gettext("hops").capitalize() }}:</h4>
+<h4>Chmiele:</h4>
 {% if brew.hops %}
 <ul>
 {% for hop in brew.hops.strip().split("\n") %}<li>{{ hop.strip() }}</li>{% endfor %}
 </ul>
 {% endif %}
-<h4>{{ gettext("yeast").capitalize() }}:</h4>
+<h4>Drożdże:</h4>
 {% if brew.yeast %}
 <ul>
 {% for yeast in brew.yeast.strip().split("\n") %}<li>{{ yeast.strip() }}</li>{% endfor %}
 </ul>
 {% endif %}
-<h4>{{ gettext("misc. items").capitalize() }}:</h4>
+<h4>Różne:</h4>
 {% if brew.misc %}
 <ul>
 {% for misc in brew.misc.strip().split("\n") %}<li>{{ misc.strip() }}</li>{% endfor %}
 </ul>
 {% endif %}
-<h4>{{ gettext("mash steps").capitalize() }}:</h4>
+<h4>Zacieranie:</h4>
 {% if brew.mash_steps %}
 <ul>
 {% for step in brew.mash_steps.strip().split("\n") %}<li>{{ stars2deg(step.strip()) }}</li>{% endfor %}
 </ul>
 {% endif %}
-<p><strong>{{ gettext("sparging").capitalize() }}:</strong> {% if brew.sparging %}{{ brew.sparging }}{% endif %}</p>
-<p><strong>{{ gettext("boil time").capitalize() }}:</strong> {% if brew.boil_time %}{{ brew.boil_time }}{% endif %}</p>
-<h4>{{ gettext("hopping schedule").capitalize() }}:</h4>
+<p><strong>Wysładzanie:</strong> {% if brew.sparging %}{{ brew.sparging }}{% endif %}</p>
+<p><strong>Gotowanie:</strong> {% if brew.boil_time %}{{ brew.boil_time }}{% endif %}</p>
+<h4>Chmielenie:</h4>
 {% if brew.hopping_steps %}
 <ul>
 {% for step in brew.hopping_steps.strip().split("\n") %}<li>{{ step.strip() }}</li>{% endfor %}
 </ul>
 {% endif %}
 {% if brew.notes_html %}
-<h4>{{ gettext("notes").capitalize() }}:</h4>
+<h4>Notatki:</h4>
 {{ brew.notes_html|safe }}
 {% endif %}
-<h3>{{ gettext("fermentation and packaging").capitalize() }}</h3>
+<h3>Fermentacja i rozlew</h3>
 <ul>
-  <li><strong>{{ gettext("fermentation start date").capitalize() }}:</strong> {% if brew.fermentation_start_date %}{{ brew.fermentation_start_date|dateformat("short") }}{% endif %}</li>
-  <li><strong>{{ gettext("bottling date").capitalize() }}:</strong> {% if brew.bottling_date %}{{ brew.bottling_date|dateformat("short") }}{% endif %}</li>
-  <li><strong>{{ gettext("carbonation data").capitalize() }}:</strong> {{ brew.carbonation_data_display }}</li>
-  {% if brew.carbonation_used %}<li><strong>{{ gettext("carbonation used").capitalize() }}: </strong> {{ brew.carbonation_used }}</li>{% endif %}
+  <li><strong>Początek fermentacji:</strong> {% if brew.fermentation_start_date %}{{ brew.fermentation_start_date|dateformat("short") }}{% endif %}</li>
+  <li><strong>data rozlewu:</strong> {% if brew.bottling_date %}{{ brew.bottling_date|dateformat("short") }}{% endif %}</li>
+  <li><strong>Nagazowanie:</strong> {{ brew.carbonation_data_display }}</li>
+  {% if brew.carbonation_used %}<li><strong>Użyte nagazowanie:</strong> {{ brew.carbonation_used }}</li>{% endif %}
 </ul>

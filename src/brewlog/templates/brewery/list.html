@@ -1,25 +1,25 @@
 {% extends "brewery/base.html" %}
 {% from "macros/pagination.html" import render_pagination %}
 
-{% block headpagetitle %}{% trans %}brewery list{% endtrans %}{% endblock %}
+{% block headpagetitle %}lista browarów{% endblock %}
 
 {% block content %}
-<h3>{{ gettext("List of registered breweries") }}</h3>
+<h1>Lista browarów</h1>
 {% if pagination.items %}
-<table class="table table-striped">
+<table class="table is-striped">
   <thead>
     <tr>
-      <th scope="col">{{ gettext("name") }}</th>
-      <th scope="col">{{ gettext("brews") }}</th>
-      <th scope="col">{{ gettext("operations") }}</th>
+      <th scope="col">nazwa</th>
+      <th scope="col">warki</th>
+      <th scope="col">operacje</th>
     </tr>
   </thead>
   <tbody>
     {% for brewery in pagination.items %}
     <tr>
       <td><a href="{{ url_for('brewery.details', brewery_id=brewery.id) }}">{{ brewery.name }}</a></td>
-      <td>{{ ngettext("%(num)d brew", "%(num)d brews", brewery.brews.count()) }}</td>
-      <td>{% if current_user == brewery.brewer %}<a href="{{ url_for('brewery.delete', brewery_id=brewery.id) }}" class="btn btn-sm btn-danger">{{ gettext("delete") }}</a>{% endif %}</td>
+      <td>{{ brewery.brews.count() }}</td>
+      <td>{% if current_user == brewery.brewer %}<a href="{{ url_for('brewery.delete', brewery_id=brewery.id) }}" class="button is-small is-danger">usuń</a>{% endif %}</td>
     </tr>
     {% endfor %}
   </tbody>
@@ -27,6 +27,6 @@
 {{ render_pagination(pagination) }}
 {% endif %}
 {% if current_user.is_authenticated %}
-<p><a href="{{ url_for('brewery.add') }}" class="btn btn-sm btn-primary">{{ gettext("add new brewery") }}</a></p>
+<p><a href="{{ url_for('brewery.add') }}" class="button is-primary">dodaj nowy browar</a></p>
 {% endif %}
 {% endblock %}

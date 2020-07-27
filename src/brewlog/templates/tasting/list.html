@@ -1,17 +1,17 @@
 {% extends "tasting/base.html" %}
 {% from "macros/pagination.html" import render_pagination %}
 
-{% block headpagetitle %}{{ gettext("tasting notes") }}{% endblock %}
+{% block headpagetitle %}notatki z degustacji{% endblock %}
 
 {% block content %}
-<h3>{% if public_only %}{{ gettext("all tasting notes to public brews").capitalize() }}{% else %}{{ gettext("all tasting notes to brews").capitalize() }}{% endif %}</h3>
+<h1>{% if public_only %}Notatki z degustacji warek publicznych{% else %}Notatki z degustacji{% endif %}</h1>
 {% if pagination.items %}
 <table class="table is-striped">
   <thead>
     <tr>
-      <th scope="col">{{ gettext('brew').capitalize() }}</th>
-      <th scope="col">{{ gettext('user').capitalize() }}</th>
-      <th scope="col">{{ gettext('date').capitalize() }}</th>
+      <th scope="col">warka</th>
+      <th scope="col">użtkownik</th>
+      <th scope="col">data</th>
     </tr>
   </thead>
   <tbody>

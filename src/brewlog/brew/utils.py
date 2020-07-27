@@ -27,8 +27,8 @@ class BrewUtils:
     @staticmethod
     def display_info(brew: Brew) -> str:
         style = brew.style or brew.bjcp_style or 'bezstylowiec'
-        brewery = brew.brewery.name,
-        brewer = brew.brewery.brewer.name,
+        brewery = brew.brewery.name
+        brewer = brew.brewery.brewer.name
         return f'{style} przez {brewer} w {brewery}'
 
     @staticmethod

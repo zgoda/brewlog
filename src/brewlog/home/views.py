@@ -28,9 +28,9 @@ def index():
         ),
         'announcement': get_announcement(current_app.config.get('ANNOUNCEMENT_FILE')),
     }
-    ctx['has_content'] = all(
+    ctx['has_content'] = all([
         ctx['latest_brews'], ctx['latest_breweries'], ctx['latest_tasting_notes']
-    )
+    ])
     return render_template('home.html', **ctx)
 
 

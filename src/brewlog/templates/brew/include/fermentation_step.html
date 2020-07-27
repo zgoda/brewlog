@@ -1,5 +1,5 @@
 <div>
-  <strong>{{ fstep.name }}, {{ format_date(fstep.date, "short") }}</strong>
-  <p>{{ fstep.display_info() }} <a href="{{ url_for('ferm.fermentation_step', fstep_id=fstep.id) }}" class="btn btn-sm btn-primary">{{ gettext("change") }}</a> <a href="{{ url_for('ferm.fermentationstep_delete', fstep_id=fstep.id) }}" class="btn btn-sm btn-danger">{{ gettext("delete") }}</a></p>
+  <p><strong>{{ fstep.name }}, {{ format_date(fstep.date, "short") }}</strong></p>
+  <p>{{ fstep.display_info() }} <a href="{{ url_for('ferm.fermentation_step', fstep_id=fstep.id) }}" class="button is-small is-primary">zmień</a> <a href="{{ url_for('ferm.fermentationstep_delete', fstep_id=fstep.id) }}" class="button is-small is-danger">usuń</a></p>
   {% if fstep.notes_html %}{{ fstep.notes_html|safe }}{% endif %}
 </div>

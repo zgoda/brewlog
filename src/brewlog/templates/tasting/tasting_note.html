@@ -1,9 +1,10 @@
 {% extends "brew/base.html" %}
 {% import "macros/forms.html" as forms %}
 
-{% block headpagetitle %}{{ gettext("tasting note for brew %(brew)s from %(brewery)s", brew=brew.name, brewery=brew.brewery.name) }}{% endblock %}
+{% block headpagetitle %}notatka z degustacji warki {{ brew.name }} z browaru {{ brew.brewery.name }}{% endblock %}
 
 {% block content %}
+<h1>Notatka z degustacji warki {{ brew.name }} z browaru {{ brew.brewery.name }}</h1>
 {% if form %}
 {{ forms.render_form(form, url_for('tastingnote.add', brew_id=brew.id)) }}
 {% endif %}

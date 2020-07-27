@@ -1,28 +1,28 @@
 {% extends "brew/base.html" %}
 {% from "macros/pagination.html" import render_pagination %}
 
-{% block headpagetitle %}{{ gettext("brews") }}{% endblock %}
+{% block headpagetitle %}warki{% endblock %}
 
 {% block content %}
-<h3>{% if public_only %}{{ gettext("all public brews").capitalize() }}{% else %}{{ gettext("all brews").capitalize() }}{% endif %}</h3>
+<h1>{% if public_only %}Wszystkie publiczne warki{% else %}Wszystkie warki{% endif %}</h1>
 {% if pagination.items %}
-<table class="table table-striped">
+<table class="table is-striped">
   <thead>
     <tr>
-      <th scope="col">{{ gettext("name") }}</th>
-      <th scope="col">{{ gettext("informations") }}</th>
-      <th scope="col">{{ gettext("status") }}</th>
-      <th scope="col">{{ gettext("operations") }}</th>
+      <th scope="col">nazwa</th>
+      <th scope="col">informacje</th>
+      <th scope="col">status</th>
+      <th scope="col">operacje</th>
     </tr>
   </thead>
   <tbody>
     {% for brew in pagination.items %}
     <tr>
       <td><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a></td>
-      <td>{% if brew.is_draft %}<strong>{{ gettext("draft") }}</strong> {% endif %}{{ utils.display_info(brew) }}</td>
+      <td>{% if brew.is_draft %}<strong>szkic</strong> {% endif %}{{ utils.display_info(brew) }}</td>
       {% if current_user == brew.brewery.brewer %}
-      <td>{{ brew.current_state.text }}{% if brew.current_state.since %} ({{ gettext("since %(date)s", date=format_date(brew.current_state.since, 'short')) }}){% endif %}</td>
-      <td><a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="btn btn-sm btn-danger">{{ gettext("delete") }}</a>&nbsp;<a href="{{ url_for('brew.details', brew_id=brew.id) }}" class="btn btn-sm btn-primary">{{ gettext("edit") }}</a></td>
+      <td>{{ brew.current_state.text }}{% if brew.current_state.since %} (od {{ format_date(brew.current_state.since, 'short') }}){% endif %}</td>
+      <td><a href="{{ url_for('brew.delete', brew_id=brew.id) }}" class="button is-small is-danger">usuń</a></td>
       {% else %}
       <td>&nbsp;</td>
       <td>&nbsp;</td>
@@ -34,6 +34,6 @@
 {{ render_pagination(pagination) }}
 {% endif %}
 {% if user_is_brewer %}
-<p><a href="{{ url_for('brew.add') }}" class="btn btn-primary">{{ gettext("add new brew") }}</a></p>
+<p><a href="{{ url_for('brew.add') }}" class="btn is-primary">dodaj nową warkę</a></p>
 {% endif %}
 {% endblock %}
