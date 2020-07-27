@@ -1,4 +1,3 @@
-from datetime import datetime
 from typing import Union
 
 from flask import Response, flash, jsonify, redirect, render_template, request, url_for
@@ -11,7 +10,7 @@ from ..utils.forms import DeleteForm
 from ..utils.pagination import get_page
 from ..utils.views import next_redirect
 from . import brew_bp
-from .forms import ChangeStateForm, CreateBrewForm, EditBrewForm
+from .forms import CreateBrewForm, EditBrewForm
 from .permissions import AccessManager
 from .utils import BrewUtils, list_query_for_user
 
@@ -69,7 +68,6 @@ def brew(brew_id: int) -> Union[str, Response]:
         'notes': brew.notes_to_json(),
         'next': brew.get_next(public_only=public_only),
         'previous': brew.get_previous(public_only=public_only),
-        'action_form': ChangeStateForm(obj=brew),
         'form': brew_form or EditBrewForm(obj=brew),
     }
     return render_template('brew/details.html', **ctx)
@@ -124,32 +122,3 @@ def brew_delete(brew_id: int) -> Union[str, Response]:
         'delete_form': form,
     }
     return render_template('brew/delete.html', **ctx)
-
-
-@brew_bp.route('/<int:brew_id>/chgstate', methods=['POST'], endpoint='chgstate')
-@login_required
-def change_state(brew_id: int) -> Response:
-    brew = Brew.query.get_or_404(brew_id)
-    AccessManager(brew, True).check()
-    form = ChangeStateForm()
-    if form.validate_on_submit():
-        now = datetime.utcnow()
-        action = form.action.data
-        if action == 'tap':
-            brew.tapped = now
-            brew.finished = None
-        elif action in ('untap', 'available'):
-            brew.finished = None
-            brew.tapped = None
-        elif action == 'finish':  # pragma: nocover
-            brew.tapped = None
-            brew.finished = now
-        db.session.add(brew)
-        db.session.commit()
-        flash(
-            lazy_gettext('brew %(name)s state changed', name=brew.full_name),
-            category='success'
-        )
-    else:
-        flash(lazy_gettext('invalid state'), category='warning')
-    return redirect(url_for('brew.details', brew_id=brew.id))

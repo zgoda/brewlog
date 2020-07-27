@@ -1,4 +1,3 @@
-from flask_babel import lazy_gettext as _
 from flask_login import current_user
 from flask_sqlalchemy import BaseQuery
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
@@ -9,7 +8,7 @@ from wtforms.fields import (
 from wtforms.validators import InputRequired, Optional
 
 from ..models import Brew, Brewery, choices
-from ..utils.forms import BaseForm, BaseObjectForm, Button
+from ..utils.forms import BaseObjectForm
 
 
 def user_breweries_query() -> BaseQuery:
@@ -18,45 +17,42 @@ def user_breweries_query() -> BaseQuery:
 
 class BaseBrewForm(BaseObjectForm):
     brewery = QuerySelectField(
-        _('brewery'), query_factory=user_breweries_query, get_label='name',
+        'browar', query_factory=user_breweries_query, get_label='name',
         validators=[InputRequired()]
     )
-    name = StringField(_('name'), validators=[InputRequired()])
-    code = StringField(_('code'))
-    style = StringField(
-        _('style'),
-        description=_('descriptive name of style, as you see it'),
-    )
-    bjcp_style_code = StringField(_('BJCP style code'))
-    bjcp_style_name = StringField(_('BJCP style name'))
-    notes = TextAreaField(_('notes'))
-    date_brewed = DateField(_('date brewed'), validators=[Optional()])
+    name = StringField('nazwa', validators=[InputRequired()])
+    code = StringField('kod')
+    style = StringField('styl', description='opis stylu własnymi słowami')
+    bjcp_style_code = StringField('kod stylu BJCP')
+    bjcp_style_name = StringField('nazwa stylu BJCP')
+    notes = TextAreaField('notatki')
+    date_brewed = DateField('data warzenia', validators=[Optional()])
     fermentables = TextAreaField(
-        _('fermentables'),
-        description=_('put each fermentable on separate line to make nice list'),
+        'surowce fermentowalne',
+        description='umieść każdą rzecz w oddzielnej linii by uzyskać listę',
     )
     hops = TextAreaField(
-        _('hop items'),
-        description=_('put each hop item on separate line to make nice list'),
+        'chmiele',
+        description='umieść każdą rzecz w oddzielnej linii by uzyskać listę',
     )
     yeast = TextAreaField(
-        _('yeast items'),
-        description=_('put each yeast item on separate line to make nice list'),
+        'drożdże',
+        description='umieść każdą rzecz w oddzielnej linii by uzyskać listę',
     )
     misc = TextAreaField(
-        _('miscellaneous items'),
-        description=_('put each miscellanea on separare line to make nice list'),
+        'różne',
+        description='umieść każdą rzecz w oddzielnej linii by uzyskać listę',
     )
     mash_steps = TextAreaField(
-        _('mash schedule'),
-        description=_('put each step on separate line to make nice list'),
+        'schemat zacierania',
+        description='umieść każdą rzecz w oddzielnej linii by uzyskać listę',
     )
-    sparging = StringField(_('sparging'))
+    sparging = StringField('wysładzanie')
     hopping_steps = TextAreaField(
-        _('hopping schedule'),
-        description=_('put each step on separate line to make nice list'),
+        'schemat chmielenia',
+        description='umieść każdą rzecz w oddzielnej linii by uzyskać listę',
     )
-    boil_time = IntegerField(_('boil time'), validators=[Optional()])
+    boil_time = IntegerField('gotowanie', validators=[Optional()])
 
     def save(self, obj=None, save=True) -> Brew:
         if obj is None:
@@ -65,30 +61,20 @@ class BaseBrewForm(BaseObjectForm):
 
 
 class CreateBrewForm(BaseBrewForm):
-    is_public = BooleanField(_('public'), default=True)
-    is_draft = BooleanField(_('draft'), default=False)
+    is_public = BooleanField('publiczna', default=True)
+    is_draft = BooleanField('szkic', default=False)
 
 
 class EditBrewForm(BaseBrewForm):
     final_amount = DecimalField(
-        _('final amount'), places=1, description=_('volume into bottling'),
+        'objętość końcowa', places=1, description='objętość do rozlewu',
         validators=[Optional()]
     )
-    bottling_date = DateField(_('bottling date'), validators=[Optional()])
+    bottling_date = DateField('data rozlewu', validators=[Optional()])
     carbonation_type = SelectField(
-        _('type of carbonation'), choices=choices.CARBONATION_CHOICES,
+        'typ nagazowania', choices=choices.CARBONATION_CHOICES,
     )
     carbonation_level = SelectField(
-        _('carbonation level'), choices=choices.CARB_LEVEL_CHOICES,
+        'poziom nagazowania', choices=choices.CARB_LEVEL_CHOICES,
     )
-    carbonation_used = TextAreaField(_('carbonation used'))
-
-
-class ChangeStateForm(BaseForm):
-    action = SelectField(
-        _('action'), choices=choices.ACTION_CHOICES, default='available'
-    )
-
-    buttons = [
-        Button(text=_('change'))
-    ]
+    carbonation_used = TextAreaField('użyte do nagazowania')
