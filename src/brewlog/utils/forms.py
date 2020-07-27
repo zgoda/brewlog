@@ -3,7 +3,6 @@ from typing import ClassVar
 
 import validators
 from flask import Markup, render_template_string
-from flask_babel import lazy_gettext as _
 from flask_wtf import FlaskForm
 from wtforms import BooleanField
 from wtforms.validators import ValidationError
@@ -54,8 +53,8 @@ class BaseForm(FlaskForm):
 class BaseObjectForm(BaseForm):
 
     buttons = [
-        Button(text=_('save')),
-        Link(href='javascript:history.back()', text=_('go back')),
+        Button(text='zapisz'),
+        Link(href='javascript:history.back()', text='powrót'),
     ]
 
     def save(self, obj, save=False):
@@ -67,17 +66,17 @@ class BaseObjectForm(BaseForm):
 
 
 class DeleteForm(BaseForm):
-    delete_it = BooleanField(_('delete'), default=False)
+    delete_it = BooleanField('usuń', default=False)
 
     buttons = [
-        Button(text=_('confirm')),
+        Button(text='potwierdź'),
     ]
 
 
 class ActionForm(BaseForm):
 
     buttons = [
-        Button(text=_('confirm')),
+        Button(text='potwierdź'),
     ]
 
 
@@ -85,7 +84,7 @@ class Email:
 
     def __init__(self, message=None):
         if message is None:
-            message = _('Value is not a valid email address')
+            message = 'To nie jest poprawny adres email'
         self.message = message
 
     def __call__(self, form, field):

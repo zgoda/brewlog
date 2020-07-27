@@ -1,6 +1,5 @@
 import markdown
 from flask import abort, flash, redirect, render_template, request
-from flask_babel import gettext as _
 from flask_login import current_user, login_required
 
 from ..ext import db
@@ -39,7 +38,7 @@ def brew_add_tasting_note(brew_id):
     form = TastingNoteForm()
     if form.validate_on_submit():
         form.save(brew)
-        flash(_('tasting note for %(brew)s saved', brew=brew.name), category='success')
+        flash(f'notatka z degustacji {brew.name} została zapisana', category='success')
         next_ = next_redirect('brew.details', brew_id=brew.id)
         return redirect(next_)
     ctx = {
@@ -60,8 +59,7 @@ def brew_delete_tasting_note(note_id):
         db.session.delete(note)
         db.session.commit()
         flash(
-            _('tasting note for brew %(brew)s has been deleted', brew=brew.name),
-            category='success'
+            f'notatka z degustacji {brew.name} została usunięta', category='success'
         )
         next_ = next_redirect('brew.details', brew_id=brew.id)
         return redirect(next_)

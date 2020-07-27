@@ -1,5 +1,4 @@
 from flask import abort, current_app, flash, redirect, render_template, request, url_for
-from flask_babel import gettext as _
 from flask_login import current_user, login_required, logout_user
 from itsdangerous.url_safe import URLSafeTimedSerializer
 
@@ -25,7 +24,7 @@ def profile(user_id):
         form = ProfileForm()
         if form.validate_on_submit():
             profile = form.save(obj=user_profile)
-            flash(_('your profile data has been updated'), category='success')
+            flash('twoje dane zostały zmienione', category='success')
             return redirect(url_for('.details', user_id=profile.id))
     context = {
         'profile': user_profile,
@@ -42,7 +41,7 @@ def set_password():
     form = PasswordChangeForm()
     if form.validate_on_submit():
         user = form.save(current_user)
-        flash(_('your password has been changed'), category='success')
+        flash('twoje hasło zostało zmienione', category='success')
         return redirect(url_for('.details', user_id=user.id))
     context = {
         'form': form,
@@ -61,9 +60,7 @@ def profile_delete(user_id):
         logout_user()
         db.session.delete(profile)
         db.session.commit()
-        flash(
-            _('profile for %(email)s has been deleted', email=email), category='success'
-        )
+        flash(f'dane {email} zostały usunięte', category='success')
         return redirect(url_for('home.index'))
     ctx = {
         'profile': profile,
@@ -117,16 +114,13 @@ def email_confirmation_begin():
         serializer = URLSafeTimedSerializer(current_app.config['SECRET_KEY'])
         token = serializer.dumps(payload)
         html_body = render_template('email/email_confirmation.html', token=token)
-        subject = _('Email confirmation at Brewlog')
+        subject = 'Potwierdzanie adresu email w serwisie Brewlog'
         send_email(
             current_app.config['EMAIL_SENDER'], [current_user.email], subject, html_body
         )
         flash(
-            _(
-                'confirmation email has been sent to %(email)s, please check your '
-                'mailbox',
-                email=current_user.email,
-            ),
+            'email z linkiem do potwierdzenia został wysłany na adres '
+            f'{current_user.email}, proszę sprawdzić skrzynkę pocztową',
             category='success',
         )
         return redirect(url_for('.details', user_id=current_user.id))
@@ -147,7 +141,7 @@ def email_confirm(token: str):
         current_user.set_email_confirmed()
         db.session.add(current_user)
         db.session.commit()
-        msg = _('your email has been confirmed succesfully')
+        msg = 'twój email zostal potwierdzony'
         category = 'success'
     else:
         category = 'danger'

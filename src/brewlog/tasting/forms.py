@@ -1,4 +1,3 @@
-from flask_babel import lazy_gettext as _
 from flask_login import current_user
 from wtforms.fields import TextAreaField
 from wtforms.fields.html5 import DateField
@@ -9,8 +8,8 @@ from ..utils.forms import BaseObjectForm
 
 
 class TastingNoteForm(BaseObjectForm):
-    date = DateField(_('date'), validators=[InputRequired()])
-    text = TextAreaField(_('text'), validators=[InputRequired()])
+    date = DateField('data', validators=[InputRequired()])
+    text = TextAreaField('tekst', validators=[InputRequired()])
 
     def save(self, brew, save=True):
         obj = TastingNote(brew=brew, author=current_user)

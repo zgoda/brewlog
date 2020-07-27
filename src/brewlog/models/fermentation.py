@@ -1,5 +1,4 @@
 import markdown
-from flask_babel import lazy_gettext as _
 
 from ..ext import db
 
@@ -28,25 +27,7 @@ class FermentationStep(db.Model):
     )
 
     def display_info(self):
-        if self.og and self.fg and self.volume:
-            line = _(
-                'OG: %(og)s&deg;Blg, FG: %(fg)s&deg;Blg, volume: %(volume)s ltr',
-                og=self.og, fg=self.fg, volume=self.volume
-            )
-        elif self.og and self.volume:
-            line = _(
-                'OG: %(og)s&deg;Blg, volume: %(volume)s ltr',
-                og=self.og, volume=self.volume
-            )
-        elif self.og and self.fg:
-            line = _(
-                'OG: %(og)s&deg;Blg, FG: %(fg)s&deg;Blg', og=self.og, fg=self.fg
-            )
-        elif self.og:
-            line = _('OG: %(og)s&deg;Blg', og=self.og)
-        else:
-            line = _('missing key fermentation data')
-        return line
+        return 'TBD'
 
     def previous_step(self):
         return FermentationStep.query.filter(

@@ -3,7 +3,6 @@ from typing import Optional
 from urllib.parse import urljoin, urlparse
 
 from flask import abort, request, session, url_for
-from flask_babel import lazy_gettext as _
 from itsdangerous.exc import BadSignature, SignatureExpired
 from itsdangerous.url_safe import URLSafeTimedSerializer
 from permission import Permission, Rule
@@ -117,10 +116,7 @@ def check_token(token: str, secret: str, max_age: int) -> TokenCheckResult:
         payload = serializer.loads(token, max_age=max_age)
         is_error = False
     except SignatureExpired as e:
-        msg = _(
-            "token expired, it's valid for 48 hrs and it was generated on %(date)s",
-            date=e.date_signed,
-        )
+        msg = f'przeterminowany token, był ważny 48 godz. od {e.date_signed}',
     except BadSignature:
-        msg = _('invalid token')
+        msg = 'błędny token'
     return TokenCheckResult(is_error, message=msg, payload=payload)

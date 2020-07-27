@@ -3,7 +3,6 @@ from __future__ import annotations
 from datetime import datetime
 
 from flask import url_for
-from flask_babel import lazy_gettext as _
 from flask_login import UserMixin
 from werkzeug.security import check_password_hash, generate_password_hash
 
@@ -54,7 +53,7 @@ class BrewerProfile(UserMixin, db.Model):
             value = getattr(self, attr, None)
             if value:
                 return value
-        return _('wanting to stay anonymous')
+        return 'bezimienny'
 
     @property
     def has_valid_password(self) -> bool:
