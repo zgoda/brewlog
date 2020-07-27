@@ -72,18 +72,6 @@ def profile_delete(user_id):
     return render_template('account/delete.html', **ctx)
 
 
-@profile_bp.route('/all', endpoint='all')
-def profile_list():
-    page_size = 20
-    page = get_page(request)
-    query = BrewerProfile.public(order_by=BrewerProfile.created)
-    pagination = query.paginate(page, page_size)
-    ctx = {
-        'pagination': pagination,
-    }
-    return render_template('account/profile_list.html', **ctx)
-
-
 @profile_bp.route('/<int:user_id>/breweries', endpoint='breweries')
 def breweries(user_id):
     brewer = BrewerProfile.query.get_or_404(user_id)

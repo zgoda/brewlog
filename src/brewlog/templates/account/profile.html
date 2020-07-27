@@ -2,41 +2,40 @@
 
 {% import "macros/forms.html" as forms %}
 
-{% block headpagetitle %}{{ gettext("Profile data for user %(name)s", name=profile.name) }}{% endblock %}
+{% block headpagetitle %}Profil użytkownika {{ profile.name }}{% endblock %}
 
 {% block content %}
-<h3>{{ gettext("Brewer profile for user %(name)s", name=profile.name) }}</h3>
+<h1>Profil użytkownika {{ profile.name }}</h1>
 <dl>
-  {% if profile.full_name and profile.is_public %}<dt>{{ gettext("full name").capitalize() }}:</dt> <dd>{{ profile.full_name }}</dd>{% endif %}
-  {% if profile.nick %}<dt>{{ gettext("nick").capitalize() }}:</dt> <dd>{{ profile.nick }}</dd>{% endif %}
-  {% if profile.location and profile.is_public %}<dt>{{ gettext("location").capitalize() }}:</dt> <dd>{{ profile.location }}</dd>{% endif %}
-  <dt>{{ gettext("registered").capitalize() }}:</dt> <dd>{{ profile.created|dateformat("short") }}</dd>
+  {% if profile.full_name and profile.is_public %}<dt>Pełna nazwa:</dt> <dd>{{ profile.full_name }}</dd>{% endif %}
+  {% if profile.nick %}<dt>Pseudo:</dt> <dd>{{ profile.nick }}</dd>{% endif %}
+  {% if profile.location and profile.is_public %}<dt>Lokalizacja:</dt> <dd>{{ profile.location }}</dd>{% endif %}
+  <dt>data rejestracji:</dt> <dd>{{ profile.created|dateformat("short") }}</dd>
 </dl>
 {% if profile.about_me %}<blockquote><p>{{ profile.about_me }}</p></blockquote>{% endif %}
 {% if form %}
-<p>{% trans %}This is your brewer's profile data. You may change it using the form below.{% endtrans %}</p>
+<p>Dane profilowe możesz zmienić używając poniższego formularza.</p>
 {{ forms.render_form(form, url_for('profile.details', user_id=profile.id), width=8) }}
-<h3>{{ gettext('email address').capitalize() }}</h3>
+<h2>Email</h2>
 {% if profile.email_confirmed %}
-<p>{% trans %}Your email address is confirmed and email communication is enabled.{% endtrans %}</p>
+<p>Twój email został już potwierdzony.</p>
 {% else %}
 {% if profile.email %}
-<p>{% trans %}Your email address is not confirmed and all email communication has been disabled. This means we can not help you reset your password if you ever lost it. Please confirm your email to enable email communication. Note we do not send any emails to non-confirmed emails.{% endtrans %}</p>
-<p><a href="{{ url_for('profile.email-confirm-begin') }}" class="button is-warning">{{ gettext("start email confirmation") }}</a></p>
+<p>Twój adres email nie został jeszcze potwierdzony i nie może być używany do komunikacji z serwisem. Oznacza to na przykład że nie ma możliwości zresetowania zagubionego/przejętego hasła. Proszę potwierdzić adres by serwis mógł wysyłać na niego wiadomości. Serwis Brewlog nie wysyła żadnych wiadomości na adresy które nie zostały potwierdzone.</p>
+<p><a href="{{ url_for('profile.email-confirm-begin') }}" class="button is-warning">rozpocznij</a></p>
 {% else %}
-<p>You did not enter your email. To use email communication (eg. to reset password) you have to have confirmed email. Please begin with entering valid email in the form above.</p>
+<p>Nie mamy twojego adresu email. Zacznij od dodania adresu w danych użytkownika.</p>
 {% endif %}
 {% endif %}
-<h3>{{ gettext('password').capitalize() }}</h3>
+<h2>Hasło</h2>
 {% if profile.has_valid_password %}
-<p>{% trans %}Please follow the below link to change your site password.{% endtrans %}</p>
+<p>Proszę użyć odnośnika poniżej aby zmienić hasło do serwisu.</p>
 {% else %}
-<p>{% trans %}You do not have valid password set. While signing in is still possible with social services, this feature will soon be gone. Please set up password to keep access to your data once social sign in is turned off.{% endtrans %}</p>
+<p>Nie masz jeszcze ustawionego hasła do serwisu. Użyj odnośnika poniżej aby ustawić hasło w serwisie Brewlog.</p>
 {% endif %}
-<p><a href="{{ url_for('profile.setpassword') }}" class="button is-warning">{{ gettext("set new password") }}</a></p>
-<p>{% trans %}Please be aware that we still don't have forgotten password reset mechanism implemented. Choose your password wisely, eg. allow Chrome to set it up for you.{% endtrans %}</p>
-<h3>{{ gettext("delete account").capitalize() }}</h3>
-<p>{% trans %}Follow the below link to permanently delete your account.{% endtrans %}</p>
-<p><a href="{{ url_for('profile.delete', user_id=profile.id) }}" class="button is-danger">{{ gettext("delete my account") }}</a></p>
+<p><a href="{{ url_for('profile.setpassword') }}" class="button is-warning">nowe hasło</a></p>
+<h2>Usunięcia konta</h2>
+<p>Użyj odnośnika poniżej aby trwale usunąć konto w serwisie Brewlog.</p>
+<p><a href="{{ url_for('profile.delete', user_id=profile.id) }}" class="button is-danger">usuń moje konto</a></p>
 {% endif %}
 {% endblock %}

@@ -2,10 +2,10 @@
 
 {% from "macros/forms.html" import render_form %}
 
-{% block headpagetitle %}{{ gettext('email confirmation - start') }}{% endblock %}
+{% block headpagetitle %}Potwierdzanie adresu email - początek{% endblock %}
 
 {% block content %}
-<h2>{{ gettext('email confirmation - start').capitalize() }}</h2>
-<p>{% trans %}You are about to begin email confirmation process. We're going to send you an email message with confirmation link that you should click to confirm ownership of your email address. The message will come from address <code>brewlog@mg.zgodowie.org</code> and will be sent using MailGun service. Please consult message headers before clicking on any link.{% endtrans %}</p>
+<h1>Potwierdzanie adresu email - początek</h1>
+<p>To jest pierwszy krok w procesie potwierdzania adresu email. Otrzymasz email z linkiem, który należy kliknąć aby potwierdzić, że jest się właścicielem adresu. Wiadomość przyjdzie z adresu <code>brewlog@mg.zgodowie.org</code> i zostanie przesłana przez usługę Mailgun. Proszę sprawdzić nagłówki wiadomości przed klikaniem w jakiekolwiek linki.</p>
 {{ render_form(form, request.path }}
 {% endblock %}

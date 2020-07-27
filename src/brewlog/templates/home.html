@@ -37,17 +37,6 @@
     </div>
   </div>
   {% endif %}
-</div>
-<div class="columns">
-  {% if latest_brewers %}
-  <div class="column">
-    <div class="panel is-info">
-      <div class="panel-heading">Ostatnio zarejestrowane konta</div>
-      {% for brewer in latest_brewers %}<p class="panel-block"><a href="{{ url_for('profile.details', user_id=brewer.id) }}">{{ brewer.name }}</a> - {{ format_date(brewer.created, "short") }}</p>{% endfor %}
-      <a class="panel-block" href="{{ url_for('profile.all') }}">Wszystkie</a>
-    </div>
-  </div>
-  {% endif %}
   {% if latest_breweries %}
   <div class="column">
     <div class="panel is-info">

@@ -11,43 +11,6 @@ from . import BrewlogTests
 
 
 @pytest.mark.usefixtures('client_class')
-class TestBrewerProfileListAllView(BrewlogTests):
-
-    @pytest.fixture(autouse=True)
-    def set_up(self):
-        self.url = url_for('profile.all')
-
-    def test_anon(self, user_factory):
-        pu = user_factory(is_public=True)
-        pu_url = url_for('profile.details', user_id=pu.id)
-        hu = user_factory(is_public=False)
-        hu_url = url_for('profile.details', user_id=hu.id)
-        rv = self.client.get(self.url)
-        assert f'href="{pu_url}"' in rv.text
-        assert f'href="{hu_url}"' not in rv.text
-
-    def test_authenticated_public(self, user_factory):
-        pu = user_factory(is_public=True)
-        pu_url = url_for('profile.details', user_id=pu.id)
-        hu = user_factory(is_public=False)
-        hu_url = url_for('profile.details', user_id=hu.id)
-        self.login(pu.email)
-        rv = self.client.get(self.url)
-        assert f'href="{pu_url}"' in rv.text
-        assert f'href="{hu_url}"' not in rv.text
-
-    def test_authenticated_hidden(self, user_factory):
-        pu = user_factory(is_public=True)
-        pu_url = url_for('profile.details', user_id=pu.id)
-        hu = user_factory(is_public=False)
-        hu_url = url_for('profile.details', user_id=hu.id)
-        self.login(hu.email)
-        rv = self.client.get(self.url)
-        assert f'href="{pu_url}"' in rv.text
-        assert f'href="{hu_url}"' in rv.text
-
-
-@pytest.mark.usefixtures('client_class')
 class TestBrewerProfileDetailsView(BrewlogTests):
 
     def url(self, user):
