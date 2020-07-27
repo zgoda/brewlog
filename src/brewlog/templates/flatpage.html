@@ -5,6 +5,6 @@
 {% block content %}
 {{ page.html|safe }}
 {% if page.meta.updated %}
-<p>{{ gettext("Updated: %(date)s", date=format_date(page.meta.updated, "short")) }}</p>
+<p>Aktualizacja: {{ format_date(page.meta.updated, "short") }}</p>
 {% endif %}
 {% endblock %}

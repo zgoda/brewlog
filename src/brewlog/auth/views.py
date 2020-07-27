@@ -4,7 +4,6 @@ from flask import (
     Response, abort, current_app, flash, redirect, render_template, request, session,
     url_for,
 )
-from flask_babel import gettext as _
 from flask_login import login_required, logout_user
 
 from ..models import BrewerProfile
@@ -21,10 +20,7 @@ def register() -> Union[str, Response]:
     if form.validate_on_submit():
         user = form.save()
         flash(
-            _(
-                'account for %(user)s has been created, you may proceed to login',
-                user=user.username,
-            ),
+            f'konto {user.username} zostało utworzone, możesz się teraz zalogować',
             category='success',
         )
         return redirect(url_for('auth.select'))
@@ -39,16 +35,14 @@ def forgot_password() -> Union[str, Response]:
     form = ForgotPassword()
     if form.validate_on_submit():
         if form.save():
-            msg = _(
-                'message with password reset instructions has been sent to specified '
-                'email'
-            ), 'success'
+            msg = 'wiadomość z instrukcją została wysłana na wskazany adres'
+            category = 'success'
         else:
-            msg = _(
-                "something went wrong, either we don't know that email or it's not yet "
-                "confirmed"
-            ), 'warning'
-        msg, category = msg
+            msg = (
+                'coś się nie udało, nie znamy tego adresu lub nie został on '
+                'potwierdzony'
+            )
+            category = 'warning'
         flash(msg, category=category)
         return redirect(next_redirect('home.index'))
     ctx = {
@@ -74,7 +68,7 @@ def reset_password(token: str) -> Union[str, Response]:
     form = PasswordChangeForm()
     if form.validate_on_submit():
         form.save(user)
-        flash(_('your password has been changed'), category='success')
+        flash('twoje hasło zostało zmienione', category='success')
         return redirect(url_for('.select'))
     ctx = {
         'form': form
@@ -90,11 +84,12 @@ def select_provider() -> Union[str, Response]:
         if form.validate_on_submit():
             user = form.save()
             flash(
-                _('you are now logged in as %(name)s', name=user.name),
-                category='success',
+                f'jesteś zalogowany jako {user.name}', category='success',
             )
             return redirect(next_redirect('home.index'))
-        flash(_('user account not found or wrong password'), category='danger')
+        flash(
+            'nie znaleziono konta użytkownika lub niepoprawne hasło', category='danger'
+        )
         return redirect(request.path)
     ctx = {
         'form': form,

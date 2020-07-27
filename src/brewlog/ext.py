@@ -18,7 +18,7 @@ instance_path = os.environ['INSTANCE_PATH']
 os.makedirs(instance_path, exist_ok=True)
 
 login_manager = LoginManager()
-babel = Babel()
+babel = Babel(default_locale='pl', default_timezone='Europe/Warsaw')
 pages = FlatPages()
 db = SQLAlchemy(model_class=Model)
 csrf = CSRFProtect()

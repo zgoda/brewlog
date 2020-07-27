@@ -2,10 +2,10 @@
 
 {% from "macros/forms.html" import render_form %}
 
-{% block headpagetitle %}{{ gettext('user registration') }}{% endblock %}
+{% block headpagetitle %}Rejestracja nowego konta{% endblock %}
 
 {% block content %}
-<h1>{{ gettext('register new account').capitalize() }}</h1>
-<p>{% trans %}Please fill out the form below to register new account with Brewlog.{% endtrans %}</p>
+<h1>Rejestracja nowego konta</h1>
+<p>Proszę wypełnić poniższy formularz aby zarejestrować konto w serwisie Brewlog.</p>
 {{ render_form(form, request.path, width=8) }}
 {% endblock %}

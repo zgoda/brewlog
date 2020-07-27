@@ -1,6 +1,6 @@
 import math
 
-from flask_babel import format_date, get_locale
+from flask_babel import format_date
 from wtforms.fields import HiddenField
 
 from ._version import get_version
@@ -13,7 +13,6 @@ from .utils.text import stars2deg
 def setup_globals(application: Brewlog):
     application.jinja_env.globals.update({
         'format_date': format_date,
-        'get_locale': get_locale,
         'pow': math.pow,
         'stars2deg': stars2deg,
         'plato2sg': plato2sg,

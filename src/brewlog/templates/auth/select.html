@@ -2,10 +2,10 @@
 
 {% from "macros/icons.html" import icon %}
 
-{% block headpagetitle %}{{ gettext('sign in') }}{% endblock %}
+{% block headpagetitle %}Logowanie użytkownika{% endblock %}
 
 {% block content %}
-<h1>{{ gettext('sign in') }}</h1>
+<h1>Logowanie użytkownika</h1>
 <div class="columns">
   <div class="column is-half is-offset-one-quarter">
     <div class="card">
@@ -32,8 +32,8 @@
         </form>
       </div>
       <footer class="card-footer">
-        <a href="{{ url_for('auth.forgotpassword') }}" class="card-footer-item">{{ gettext('I forgot my password') }}</a>
-        <a href="{{ url_for('auth.register') }}" class="card-footer-item">{{ gettext('register account') }}</a>
+        <a href="{{ url_for('auth.forgotpassword') }}" class="card-footer-item">Hasło mi się zapodziało</a>
+        <a href="{{ url_for('auth.register') }}" class="card-footer-item">Rejestracja nowego konta</a>
       </footer>
     </div>
   </div>

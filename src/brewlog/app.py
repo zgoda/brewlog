@@ -2,8 +2,7 @@ import os
 from logging.config import dictConfig
 from typing import Optional
 
-from flask import render_template, request, send_from_directory, session
-from flask_babel import gettext as _
+from flask import render_template, send_from_directory
 from werkzeug.utils import ImportStringError
 
 from .assets import all_css
@@ -75,21 +74,13 @@ def configure_extensions(app: Brewlog):
     csrf.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.select'
-    login_manager.login_message = _('Please log in to access this page')
+    login_manager.login_message = 'Zaloguj się by otworzyć tę stronę'
     login_manager.login_message_category = 'warning'
 
     @login_manager.user_loader
     def get_user(user_id):
         from .models.users import BrewerProfile
         return BrewerProfile.query.get(user_id)
-
-    if not babel.locale_selector_func:
-        @babel.localeselector
-        def get_locale():
-            lang = session.get('lang')
-            if lang is None:
-                lang = request.accept_languages.best_match(['pl', 'en'])
-            return lang
 
     babel.init_app(app)
 

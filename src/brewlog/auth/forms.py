@@ -1,5 +1,4 @@
 from flask import current_app, render_template, session
-from flask_babel import lazy_gettext as _
 from flask_login import login_user
 from itsdangerous.url_safe import URLSafeTimedSerializer
 from wtforms.fields import Field, PasswordField, StringField
@@ -20,19 +19,19 @@ def _rkw(**extra: str) -> dict:
 
 
 class RegistrationForm(BaseForm):
-    username = StringField(_('user name'), validators=[InputRequired()])
-    password1 = PasswordField(_('password'), validators=[InputRequired()])
+    username = StringField('nazwa', validators=[InputRequired()])
+    password1 = PasswordField('hasło', validators=[InputRequired()])
     password2 = PasswordField(
-        _('password (repeat)'), validators=[InputRequired(), EqualTo('password1')]
+        'hasło (powtórz)', validators=[InputRequired(), EqualTo('password1')]
     )
 
     buttons = [
-        Button(icon='user', text=_('register'))
+        Button(icon='user', text='zapisz')
     ]
 
     def validate_username(self, field: Field):
         if BrewerProfile.query.filter_by(username=field.data).count() > 0:
-            raise ValidationError(_('name is already taken'))
+            raise ValidationError('nazwa użytkownika jest już zajęta')
 
     def save(self) -> BrewerProfile:
         user = BrewerProfile(username=self.username.data)
@@ -45,10 +44,10 @@ class RegistrationForm(BaseForm):
 class LoginForm(BaseForm):
     userid = StringField(
         validators=[InputRequired()],
-        render_kw=_rkw(placeholder=_('email or login')),
+        render_kw=_rkw(placeholder='email lub login'),
     )
     password = PasswordField(
-        validators=[InputRequired()], render_kw=_rkw(placeholder=_('password')),
+        validators=[InputRequired()], render_kw=_rkw(placeholder='hasło'),
     )
 
     def validate(self) -> bool:
@@ -73,13 +72,13 @@ class LoginForm(BaseForm):
 
 
 class ForgotPassword(BaseForm):
-    email1 = StringField(_('email'), validators=[InputRequired(), Email()])
+    email1 = StringField('email', validators=[InputRequired(), Email()])
     email2 = StringField(
-        _('email (repeat)'), validators=[InputRequired(), Email(), EqualTo('email1')]
+        'email (powtórz)', validators=[InputRequired(), Email(), EqualTo('email1')]
     )
 
     buttons = [
-        Button(icon='send', text=_('send'))
+        Button(icon='send', text='wyślij')
     ]
 
     def save(self):
@@ -90,7 +89,7 @@ class ForgotPassword(BaseForm):
             token = serializer.dumps(payload)
             html_body = render_template('email/password_reset.html', token=token)
             sender = current_app.config['EMAIL_SENDER']
-            subject = str(_('Request to reset password at Brewlog'))
+            subject = str('Resetowanie hasła w serwisie Brewlog')
             send_email(sender, [user.email], subject, html_body)
             return True
         return False

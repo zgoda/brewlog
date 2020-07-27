@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block headpagetitle %}{% trans %}Welcome{% endtrans %}{% endblock %}
+{% block headpagetitle %}Mój Brewlog{% endblock %}
 
 {% block announcement %}
 {% if announcement %}
 <section class="section">
   <div class="content">
-    <h1>{{ gettext('announcement').capitalize() }}</h1>
+    <h1>Ogłoszenie</h1>
     {{ announcement|safe }}    
   </div>
 </section>
@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block content %}
-<h2>{% trans %}Welcome to BrewLog{% endtrans %}</h2>
+<h2>Mój Brewlog</h2>
 <div id="dashboard-block"></div>
 {% endblock %}
 

@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% block headpagetitle %}{% trans %}Welcome{% endtrans %}{% endblock %}
+{% block headpagetitle %}Brewlog{% endblock %}
 
 {% block announcement %}
 {% if announcement %}
 <section class="section">
   <div class="content">
-    <h2>{{ gettext('announcement').capitalize() }}</h2>
+    <h1>Ogłoszenie</h1>
     {{ announcement|safe }}    
   </div>
 </section>
@@ -14,26 +14,26 @@
 {% endblock %}
 
 {% block content %}
-<h1>{% trans %}Welcome to Brewlog{% endtrans %}</h1>
-<p>{% trans %}This is Brewlog, brewing log app written by homebrewer for homebrewers. Have a look to the site and start logging your brews.{% endtrans %}</p>
+<h1>Brewlog</h1>
+<p>Brewlog jest serwisem stoworzonym przez piwowara domowego dla piwowarów domowych. Służy on do prowadzenia dziennika piwowarskiego w najprostszej możliwej formie. Korzystanie z aplikacji jest całkowicie bezpłatne.</p>
 {% if has_content %}
-<h2>{{ gettext("latest site activity").capitalize() }}</h2>
+<h2>Najnowsza aktywność w serwisie</h2>
 <div class="columns">
   {% if latest_brews.count() %}
   <div class="column">
     <div class="panel is-info">
-      <h4 class="panel-heading">{{ gettext("latest brews").capitalize() }}</h4>
-      {% for brew in latest_brews %}<p class="panel-block"><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> {{ gettext("by %(brewername)s in %(breweryname)s", brewername=brew.brewery.brewer.name, breweryname=brew.brewery.name) }}</p>{% endfor %}
-      <a class="panel-block" href="{{ url_for('brew.all') }}">{{ gettext("view all") }}</a>
+      <div class="panel-heading">Ostatnie warki</div>
+      {% for brew in latest_brews %}<p class="panel-block"><a href="{{ url_for('brew.details', brew_id=brew.id) }}">{{ brew.full_name }}</a> przez {{ brew.brewery.brewer.name }} w {{ brew.brewery.name }}</p>{% endfor %}
+      <a class="panel-block" href="{{ url_for('brew.all') }}">Wszystkie</a>
     </div>
   </div>
   {% endif %}
   {% if latest_tasting_notes %}
   <div class="column">
     <div class="panel is-info">
-      <h4 class="panel-heading">{{ gettext("latest tasting notes").capitalize() }}</h4>
-      {% for note in latest_tasting_notes %}<p class="panel-block"><a class="panel-block" href="{{ url_for('brew.details', brew_id=note.brew.id) }}">{{ note.brew.full_name }}</a> - {{ gettext("%(author)s on %(date)s", author=note.author.name, date=format_date(note.date, "short")) }}</p>{% endfor %}
-      <a class="panel-block" href="{{ url_for('tastingnote.all') }}">{{ gettext("view all") }}</a>
+      <div class="panel-heading">Ostatnie notatki z degustacji</div>
+      {% for note in latest_tasting_notes %}<p class="panel-block"><a href="{{ url_for('brew.details', brew_id=note.brew.id) }}">{{ note.brew.full_name }}</a> - {{ note.author.name }}, {{ format_date(note.date, "short") }}</p>{% endfor %}
+      <a class="panel-block" href="{{ url_for('tastingnote.all') }}">Wszystkie</a>
     </div>
   </div>
   {% endif %}
@@ -42,23 +42,23 @@
   {% if latest_brewers %}
   <div class="column">
     <div class="panel is-info">
-      <h4 class="panel-heading">{{ gettext("latest brewers").capitalize() }}</h4>
-      {% for brewer in latest_brewers %}<p class="panel-block"><a href="{{ url_for('profile.details', user_id=brewer.id) }}">{{ brewer.name }}</a> {{ gettext("registered: %(date)s", date=format_date(brewer.created, "short")) }}</p>{% endfor %}
-      <a class="panel-block" href="{{ url_for('profile.all') }}">{{ gettext("view all") }}</a>
+      <div class="panel-heading">Ostatnio zarejestrowane konta</div>
+      {% for brewer in latest_brewers %}<p class="panel-block"><a href="{{ url_for('profile.details', user_id=brewer.id) }}">{{ brewer.name }}</a> - {{ format_date(brewer.created, "short") }}</p>{% endfor %}
+      <a class="panel-block" href="{{ url_for('profile.all') }}">Wszystkie</a>
     </div>
   </div>
   {% endif %}
   {% if latest_breweries %}
   <div class="column">
     <div class="panel is-info">
-      <h4 class="panel-heading">{{ gettext("recently registered breweries").capitalize() }}</h4>
-      {% for brewery in latest_breweries %}<p class="panel-block"><a href="{{ url_for('brewery.details', brewery_id=brewery.id) }}">{{ brewery.name }}</a> {{ gettext("by %(brewer)s", brewer=brewery.brewer.name) }}</p>{% endfor %}
-      <a class="panel-block" href="{{ url_for('brewery.all') }}">{{ gettext("view all") }}</a>
+      <div class="panel-heading">Ostatnio zarejestrowane browary</div>
+      {% for brewery in latest_breweries %}<p class="panel-block"><a href="{{ url_for('brewery.details', brewery_id=brewery.id) }}">{{ brewery.name }}</a> - {{ format_date(brewery.created, 'short') }}</p>{% endfor %}
+      <a class="panel-block" href="{{ url_for('brewery.all') }}">Wszystkie</a>
     </div>
   </div>
   {% endif %}
 </div>
 {% else %}
-<p>{% trans %}Nothing here yet{% endtrans %}...</p>
+<p>Nic tutaj jeszcze nie ma...</p>
 {% endif %}
 {% endblock %}
