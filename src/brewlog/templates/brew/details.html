@@ -9,7 +9,7 @@
 {% include "brew/include/brew_navigation.html" %}
 {% include "brew/include/details.html" %}
 {% if brew.brewery.brewer == current_user %}
-<h3>{{ gettext("edit brew").capitalize() }}</h3>
+<h2>Edycja danych warki</h2>
 {{ forms.render_form(form, url_for('brew.details', brew_id=brew.id), width=9) }}
 {% endif %}
 {% endblock %}

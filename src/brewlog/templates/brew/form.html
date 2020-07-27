@@ -2,9 +2,9 @@
 
 {% import "macros/forms.html" as forms %}
 
-{% block headpagetitle %}{{ gettext("add new brew") }} {% endblock %}
+{% block headpagetitle %}dodaj nową warkę{% endblock %}
 
 {% block content %}
-<h3>{{ gettext("add new brew").capitalize() }}</h3>
+<h1>Dodaj nową warkę</h1>
 {{ forms.render_form(form, url_for('brew.add'), width=9) }}
 {% endblock %}

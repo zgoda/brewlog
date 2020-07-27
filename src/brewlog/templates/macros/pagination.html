@@ -1,18 +1,18 @@
 {% macro render_pagination(pagination) %}
 {% if pagination.pages > 1 %}
-<nav class="pagination" role="navigation" aria-label="{{ gettext('pages') }}">
-  <a class="pagination-previous" title="{{ gettext('previous') }}" href="{{ url_for_other_page(pagination.page-1) }}" {% if not pagination.has_prev %}disabled{% endif %}>{{ gettext('previous') }}</a>
-  <a class="pagination-next" title="{{ gettext('next') }}" href="{{ url_for_other_page(pagination.page+1) }}" {% if not pagination.has_next %}disabled{% endif %}>{{ gettext('next') }}</a>
+<nav class="pagination" role="navigation" aria-label="strony">
+  <a class="pagination-previous" title="poprzednia" href="{{ url_for_other_page(pagination.page-1) }}" {% if not pagination.has_prev %}disabled{% endif %}>poprzednia</a>
+  <a class="pagination-next" title="następna" href="{{ url_for_other_page(pagination.page+1) }}" {% if not pagination.has_next %}disabled{% endif %}>następna</a>
   <ul class="pagination-list">
     {% for page in pagination.iter_pages() %}
     {% if page %}
     {% if page != pagination.page %}
     <li>
-      <a class="pagination-link" href="{{ url_for_other_page(page) }}" aria-label="{{ gettext('page %(page_no)s', page_no=page) }}">{{ page }}</a>
+      <a class="pagination-link" href="{{ url_for_other_page(page) }}" aria-label="strona {{ page_no }}">{{ page }}</a>
     </li>
     {% else %}
     <li>
-      <a class="pagination-link is-current" aria-label="{{ gettext('page %(page_no)s', page_no=page) }}" aria-current="page">{{ page }}</a>
+      <a class="pagination-link is-current" aria-label="strona {{ page_no }}" aria-current="page">{{ page }}</a>
     </li>
     {% endif %}
     {% else %}

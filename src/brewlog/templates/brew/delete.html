@@ -1,10 +1,10 @@
 {% extends "brew/base.html" %}
 {% import "macros/forms.html" as forms %}
 
-{% block headpagetitle %}{{ gettext("confirm removal of your brew %(name)s", name=brew.name) }}{% endblock %}
+{% block headpagetitle %}potwierdź usunięcie warki {{ brew.name }}{% endblock %}
 
 {% block content %}
-<h3>{{ brew.name }}</h3>
-<p>{{ gettext("Brew %(name)s is about to be deleted with all its content. As this process is irreversible we're asking you again, is this really what you want do do?", name=brew.name) }}</p>
+<h1>Usuwanie warki {{ brew.name }}</h1>
+<p>Warka {{ brew.name }} zostanie usunięta wraz ze wszystkimi dodatkowymi rzeczami. Ten proces jest nieodwracalny więc proszę to potwierdzić.</p>
 {{ forms.render_form(delete_form, url_for('brew.delete', brew_id=brew.id)) }}
 {% endblock %}
