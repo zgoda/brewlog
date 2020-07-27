@@ -10,7 +10,7 @@ here = path.abspath(path.dirname(__file__))
 
 
 def read(*parts):
-    with codecs.open(path.join(here, *parts), 'r') as fp:
+    with codecs.open(path.join(here, *parts), 'r', encoding='utf-8') as fp:
         return fp.read()
 
 
@@ -93,6 +93,7 @@ setup(
         'Environment :: Web Environment',
         'Framework :: Flask',
         'License :: OSI Approved :: BSD License',
+        'Natural Language :: Polish',
         'Operating System :: POSIX',
         'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Python :: 3.7',
