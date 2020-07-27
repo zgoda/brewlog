@@ -1,14 +1,15 @@
-<h3>{{ gettext("tasting notes").capitalize() }}</h3>
+{% set can_edit = current_user in (note.author, note.brew.brewery.brewer) %}
+<h3>Notatki z degustacji</h3>
 {% for note in brew.tasting_notes %}
 <div>
-  <h5>{{ gettext("by %(user)s on %(date)s", user=note.author.name, date=format_date(note.date, "short")) }}</h5>
-  {% if current_user in (note.author, note.brew.brewery.brewer) %}
+  <h4>{{ note.author.name }} dnia {{ format_date(note.date, "short") }}</h4>
+  {% if can_edit %}
   <div class="edit_area" id="note_text_{{ note.id }}" data-type="text" data-pk="{{ note.id }}" data-url="{{ url_for('tastingnote.update') }}" data-inputclass="tastingnote-editable-text">
     {{ note.text_html|safe }}
   </div>
   {% else %}
   {{ note.text_html|safe }}
   {% endif %}
-  {% if current_user in (note.brew.brewery.brewer, note.author) %}<p><a href="{{ url_for('tastingnote.delete', note_id=note.id) }}" class="btn btn-sm btn-danger">{{ gettext("delete") }}</a></p>{% endif %}
+  {% if can_edit %}<p><a href="{{ url_for('tastingnote.delete', note_id=note.id) }}" class="button is-small is-danger">usuń</a></p>{% endif %}
 </div>
 {% endfor %}

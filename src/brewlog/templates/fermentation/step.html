@@ -1,10 +1,10 @@
 {% extends "fermentation/base.html" %}
 {% import "macros/forms.html" as forms %}
 
-{% block headpagetitle %}{{ super() }} {{ fstep.name }}{% endblock %}
+{% block headpagetitle %}zmiana danych etapu fermentacji {{ fstep.name }}{% endblock %}
 
 {% block content %}
-<h3>{{ gettext("edit fermentation step").capitalize() }}</h3>
-<p>{{ gettext("fermentation step %(step_name)s for brew %(brew_name)s", step_name=fstep.name, brew_name=fstep.brew.name).capitalize() }}.</p>
+<h1>Zmiana danych etapu fermentacji {{ fstep.name }}</h1>
+<p>Jest to etap {{ fstep.name }} warki {{ fstep.brew.name }}.</p>
 {{ forms.render_form(form, url_for('ferm.fermentation_step', fstep_id=fstep.id)) }}
 {% endblock %}

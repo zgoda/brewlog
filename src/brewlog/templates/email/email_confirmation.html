@@ -3,7 +3,7 @@
 {% set url = url_for('profile.email-confirm-token', token=token, _external=True) %}
 
 {% block body %}
-<p>{% trans %}To confirm ownership of your email address please click the link below or copy it to your browser address bar and browse to the page.{% endtrans %}</p>
+<p>Aby potwierdzić że jesteś właścicielem adresu email podanego w serwisie Brewlog, proszę kliknij na link poniżej lub skopiuj go do paska adresowego przeglądarki i przejdź do strony.</p>
 <p><a href="{{ url }}">{{ url }}</a></p>
-<p>{% trans %}Yours truly{% endtrans %}<br><strong>Brewlog</strong></p>
+<p>Cały twój<br><strong>Brewlog</strong></p>
 {% endblock %}
