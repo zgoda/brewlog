@@ -4,7 +4,6 @@ from dataclasses import dataclass
 from typing import ClassVar, Optional, Tuple
 
 import markdown
-from flask_babel import lazy_gettext as _
 from werkzeug.utils import cached_property
 
 from ..ext import db
@@ -21,19 +20,25 @@ class BrewState:
     text: str
     since: Optional[datetime.datetime] = None
 
-    STATE_PLANNED: ClassVar[Tuple[str, str]] = ('planned', _('planned'))
-    STATE_FERMENTING: ClassVar[Tuple[str, str]] = ('fermenting', _('fermenting'))
-    STATE_FINISHED: ClassVar[Tuple[str, str]] = ('finished', _('finished'))
-    STATE_TAPPED: ClassVar[Tuple[str, str]] = ('tapped', _('tapped'))
-    STATE_MATURING: ClassVar[Tuple[str, str]] = ('maturing', _('maturing'))
+    PLANNED: ClassVar[str] = 'planowane'
+    FERMENTING: ClassVar[str] = 'fermentuje'
+    FINISHED: ClassVar[str] = 'zakończone'
+    TAPPED: ClassVar[str] = 'podpięte'
+    MATURING: ClassVar[str] = 'dojrzewa'
+
+    STATE_PLANNED: ClassVar[Tuple[str, str]] = ('planned', PLANNED)
+    STATE_FERMENTING: ClassVar[Tuple[str, str]] = ('fermenting', FERMENTING)
+    STATE_FINISHED: ClassVar[Tuple[str, str]] = ('finished', FINISHED)
+    STATE_TAPPED: ClassVar[Tuple[str, str]] = ('tapped', TAPPED)
+    STATE_MATURING: ClassVar[Tuple[str, str]] = ('maturing', MATURING)
 
 
 class Brew(db.Model):
-    STATE_PLANNED = _('planned')
-    STATE_FERMENTING = _('fermenting')
-    STATE_FINISHED = _('finished')
-    STATE_TAPPED = _('tapped')
-    STATE_MATURING = _('maturing')
+    STATE_PLANNED = BrewState.PLANNED
+    STATE_FERMENTING = BrewState.FERMENTING
+    STATE_FINISHED = BrewState.FINISHED
+    STATE_TAPPED = BrewState.TAPPED
+    STATE_MATURING = BrewState.MATURING
     __tablename__ = 'brew'
     id = db.Column(db.Integer, primary_key=True)  # noqa: A003
     created = db.Column(db.DateTime, default=datetime.datetime.utcnow)
@@ -105,15 +110,10 @@ class Brew(db.Model):
     @property
     def carbonation_data_display(self):
         if self.carbonation_type:
-            data = {
-                'carb_type': _(
-                    dict(choices.CARBONATION_CHOICES)[self.carbonation_type]
-                ),
-                'carb_level': _(
-                    dict(choices.CARB_LEVEL_CHOICES)[self.carbonation_level or 'normal']
-                ),
-            }
-            return _('%(carb_type)s: carbonation %(carb_level)s', **data)
+            carb_level = self.carbonation_level or 'normal'
+            carb_type = dict(choices.CARBONATION_CHOICES)[self.carbonation_type]
+            carb_level = dict(choices.CARB_LEVEL_CHOICES)[carb_level]
+            return f'{carb_type}: carbonation {carb_level}'
         return ''
 
     @property

@@ -1,7 +1,6 @@
 from typing import Union
 
 from flask import Response, flash, jsonify, redirect, render_template, request, url_for
-from flask_babel import lazy_gettext
 from flask_login import current_user, login_required
 
 from ..ext import db
@@ -17,15 +16,15 @@ from .utils import BrewUtils, list_query_for_user
 HINTS = [
     (
         "67-66*C - 90'\n75*C - 15'",
-        lazy_gettext('single infusion mash w/ mash out')
+        'jednostopniowe z wygrzewem',
     ),
     (
         "63-61*C - 30'\n73-71*C - 30'\n75*C - 15'",
-        lazy_gettext('2-step mash w/ mash out')
+        'dwustopniowe z wygrzewem',
     ),
     (
         "55-54*C - 10'\n63-61*C - 30'\n73-71*C - 30'\n75*C - 15'",
-        lazy_gettext('3-step mash w/ mash out')
+        'trójstopniowe z wygrzewem',
     ),
 ]
 
@@ -36,7 +35,7 @@ def brew_add() -> Union[str, Response]:
     form = CreateBrewForm()
     if form.validate_on_submit():
         brew = form.save()
-        flash(lazy_gettext('brew %(name)s created', name=brew.name), category='success')
+        flash(f'warka {brew.name} utworzona', category='success')
         return redirect(url_for('brew.details', brew_id=brew.id))
     ctx = {
         'form': form,
@@ -56,8 +55,7 @@ def brew(brew_id: int) -> Union[str, Response]:
         if brew_form.validate_on_submit():
             brew = brew_form.save(obj=brew)
             flash(
-                lazy_gettext('brew %(name)s data updated', name=brew.full_name),
-                category='success'
+                f'dane warki {brew.full_name} zmienione', category='success',
             )
             return redirect(request.path)
     public_only = brew.brewery.brewer != current_user
@@ -112,8 +110,7 @@ def brew_delete(brew_id: int) -> Union[str, Response]:
         db.session.delete(brew)
         db.session.commit()
         flash(
-            lazy_gettext('brew %(name)s has been deleted', name=name),
-            category='success'
+            f'warka {name} została usunięta', category='success',
         )
         next_ = next_redirect('profile.brews', user_id=current_user.id)
         return redirect(next_)

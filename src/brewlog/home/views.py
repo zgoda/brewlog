@@ -4,7 +4,7 @@ from flask_login import current_user, login_required
 from ..brew.utils import BrewUtils
 from ..brewery.utils import BreweryUtils
 from ..ext import pages
-from ..models import Brew, BrewerProfile, Brewery, TastingNote
+from ..models import Brew, Brewery, TastingNote
 from ..schema import brew_schema
 from ..tasting.utils import TastingUtils
 from ..utils.text import get_announcement
@@ -23,17 +23,13 @@ def index():
         'latest_breweries': BreweryUtils.latest_breweries(
             Brewery.created, limit=item_limit, public_only=True
         ),
-        'latest_brewers': BrewerProfile.last_created(
-            limit=item_limit, public_only=True
-        ),
         'latest_tasting_notes': TastingUtils.latest_notes(
             TastingNote.date, limit=item_limit, public_only=True
         ),
         'announcement': get_announcement(current_app.config.get('ANNOUNCEMENT_FILE')),
     }
-    ctx['has_content'] = (
-        ctx['latest_brews'] and ctx['latest_breweries']
-        and ctx['latest_brewers'] and ctx['latest_tasting_notes']
+    ctx['has_content'] = all(
+        ctx['latest_brews'], ctx['latest_breweries'], ctx['latest_tasting_notes']
     )
     return render_template('home.html', **ctx)
 

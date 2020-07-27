@@ -1,7 +1,6 @@
 import datetime
 from typing import Iterable, List, Mapping, Optional
 
-from flask_babel import gettext, lazy_gettext as _
 from flask_sqlalchemy import BaseQuery
 
 from ..ext import db
@@ -15,24 +14,22 @@ class BrewUtils:
 
     @staticmethod
     def description(brew: Brew) -> str:
-        style = brew.style or brew.bjcp_style or gettext('unspecified style')
+        style = brew.style or brew.bjcp_style or 'bezstylowiec'
         data = [style]
         if brew.abv:
-            data.append(gettext('%(abv).1f%% ABV', abv=brew.abv))
+            data.append(f'alk. {brew.abv}% obj.')
         if brew.og:
-            data.append(gettext('OG: %(og).1f*Blg', og=brew.og))
+            data.append(f'gęstość pocz. {brew.og}*Blg')
         if brew.fg:
-            data.append(gettext('FG: %(fg).1f*Blg', fg=brew.fg))
+            data.append(f'gęstość końcowa {brew.fg}*Blg')
         return stars2deg(', '.join(data))
 
     @staticmethod
     def display_info(brew: Brew) -> str:
-        data = {
-            'style': brew.style or brew.bjcp_style or _('not in particular style'),
-            'brewery': brew.brewery.name,
-            'brewer': brew.brewery.brewer.name,
-        }
-        return _('%(style)s by %(brewer)s in %(brewery)s', **data)
+        style = brew.style or brew.bjcp_style or 'bezstylowiec'
+        brewery = brew.brewery.name,
+        brewer = brew.brewery.brewer.name,
+        return f'{style} przez {brewer} w {brewery}'
 
     @staticmethod
     def fermenting(

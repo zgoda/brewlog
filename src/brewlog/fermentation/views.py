@@ -1,5 +1,4 @@
 from flask import flash, redirect, render_template, url_for
-from flask_babel import lazy_gettext as _
 from flask_login import login_required
 
 from ..brew.permissions import AccessManager
@@ -29,11 +28,10 @@ def fermentation_step_add(brew_id):
             db.session.add(previous_step)
         update_steps_gravity(fstep)
         db.session.commit()
-        flash(_(
-            'fermentation step %(step_name)s for brew %(brew_name)s has been created',
-            step_name=fstep.name,
-            brew_name=brew.name
-        ), category='success')
+        flash(
+            f'etap fermentacji {fstep.name} warki {brew.name} został utworzony',
+            category='success',
+        )
         return redirect(url_for('brew.details', brew_id=brew.id))
     ctx = {
         'brew': brew,
@@ -61,12 +59,8 @@ def fermentation_step(fstep_id):
         update_steps_gravity(fstep)
         db.session.commit()
         flash(
-            _(
-                'fermentation step %(step_name)s for brew %(brew_name)s '
-                'has been updated',
-                step_name=fstep.name, brew_name=fstep.brew.name
-            ),
-            category='success'
+            f'etap fermentacji {fstep.name} warki {fstep.brew.name} został zmieniony',
+            category='success',
         )
         return redirect(url_for('brew.details', brew_id=fstep.brew.id))
     ctx = {
@@ -92,11 +86,7 @@ def fermentation_step_delete(fstep_id):
         db.session.delete(fstep)
         db.session.commit()
         flash(
-            _(
-                'fermentation step %(fstep_name)s for brew %(brew_name)s '
-                'has been deleted',
-                fstep_name=fstep_name, brew_name=brew_name
-            ),
+            f'etap fermentacji {fstep_name} warki {brew_name} został usunięty',
             category='success'
         )
         return redirect(next_)

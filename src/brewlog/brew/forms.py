@@ -1,10 +1,8 @@
 from flask_login import current_user
 from flask_sqlalchemy import BaseQuery
 from wtforms.ext.sqlalchemy.fields import QuerySelectField
-from wtforms.fields import (
-    BooleanField, DateField, DecimalField, IntegerField, SelectField, StringField,
-    TextAreaField,
-)
+from wtforms.fields import BooleanField, SelectField, StringField, TextAreaField
+from wtforms.fields.html5 import DateField, DecimalField, IntegerField
 from wtforms.validators import InputRequired, Optional
 
 from ..models import Brew, Brewery, choices

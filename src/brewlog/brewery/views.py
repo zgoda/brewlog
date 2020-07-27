@@ -1,5 +1,4 @@
 from flask import flash, jsonify, redirect, render_template, request, url_for
-from flask_babel import lazy_gettext as _
 from flask_login import current_user, login_required
 
 from ..ext import db
@@ -19,7 +18,7 @@ def add():
     form = BreweryForm()
     if form.validate_on_submit():
         brewery = form.save()
-        flash(_('brewery %(name)s created', name=brewery.name), category='success')
+        flash(f'browar {brewery.name} utworzony', category='success')
         return redirect(url_for('brewery.details', brewery_id=brewery.id))
     ctx = {
         'form': form,
@@ -37,7 +36,7 @@ def delete(brewery_id):
         db.session.delete(brewery)
         db.session.commit()
         flash(
-            _('brewery %(name)s has been deleted', name=name), category='success',
+            f'browar {name} został usunięty', category='success',
         )
         next_ = next_redirect('profile.breweries', user_id=current_user.id)
         return redirect(next_)
@@ -88,8 +87,7 @@ def details(brewery_id):
         if form.validate_on_submit():
             brewery = form.save(obj=brewery)
             flash(
-                _('brewery %(name)s data updated', name=brewery.name),
-                category='success',
+                f'dane browaru {brewery.name} zostały zmienione', category='success',
             )
             return redirect(request.path)
     ctx = {
