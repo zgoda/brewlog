@@ -1,13 +1,21 @@
 import { html } from "./preact.min.js";
 
+const FermentingItem = ({ data }) => {
+  return html`
+    <div class="panel-block">
+      <a href="${data.url}">${data.name}</a>
+    </div>
+  `;
+}
+
 const Fermenting = ({ brews }) => {
   return html`
     <div class="column">
       <div class="panel is-info">
         <div class="panel-heading">Fermentuje</div>
-        <div class="panel-block">
-          <p>${brews.length}</p>
-        </div>
+          ${brews.map((brew) => html`
+            <${FermentingItem} data=${brew} key=${brew.id} />s
+          `)}
       </div>
     </div>
   `;
