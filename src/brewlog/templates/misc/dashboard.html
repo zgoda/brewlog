@@ -24,8 +24,9 @@
 
 {% block scripts %}
 <script type="module">
-  import { html, render } from '/static/js/preact.min.js';
-  import { Dashboard } from '/static/js/dashboard.js';
+  {% assets 'js_all' %}
+  import { html, render, Dashboard } from '{{ ASSET_URL }}';
+  {% endassets %}
   const brewsets = JSON.parse(document.getElementById('brewsets-data').textContent);
   render(html`<${Dashboard} brewsets=${brewsets} />`, document.getElementById('dashboard-block'));
 </script>

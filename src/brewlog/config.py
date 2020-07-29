@@ -9,7 +9,6 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 CSRF_ENABLED = True
 WTF_CSRF_ENABLED = CSRF_ENABLED
 CSRF_SESSION_KEY = SECRET_KEY
-REDIS_URL = os.environ.get('REDIS_URL') or 'redis://'
 MAILGUN_DOMAIN = os.environ.get('MAILGUN_DOMAIN') or 'unknown'
 MAILGUN_API_KEY = os.environ.get('MAILGUN_API_KEY') or 'invalid'
 EMAIL_SENDER = f'brewlog@{MAILGUN_DOMAIN}'
@@ -22,3 +21,6 @@ FLATPAGES_MARKDOWN_EXTENSIONS = []
 # display limits
 SHORTLIST_DEFAULT_LIMIT = 5
 LIST_DEFAULT_LIMIT = 10
+
+# tool configs
+ROLLUP_EXTRA_ARGS = ['-f', 'es', '-c', os.environ['ROLLUP_CONFIG_JS']]

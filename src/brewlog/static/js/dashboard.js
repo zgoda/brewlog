@@ -1,10 +1,14 @@
-import { html } from "./preact.min.js";
+import { html } from 'htm/preact';
 
 const FermentingItem = ({ data }) => {
   return html`
-    <div class="panel-block">
-      <p>${data.name}</p>
-      <div></div>
+    <div>
+      <div class="mb-2 has-text-weight-bold">${data.name}</div>
+      <div class="buttons are-small">
+        <button class="button is-primary is-light">przelej</button>
+        <button class="button is-primary is-light">rozlej</button>
+        <button class="button is-primary is-light">pomiar</button>
+      </div>
     </div>
   `;
 }
@@ -12,8 +16,8 @@ const FermentingItem = ({ data }) => {
 const Fermenting = ({ brews }) => {
   return html`
     <div class="column">
-      <div class="panel is-info">
-        <div class="panel-heading">Fermentuje</div>
+      <div class="box">
+        <h2>Fermentuje</h2>
         ${brews.map((brew) => html`
           <${FermentingItem} data=${brew} key=${brew.id} />
         `)}
@@ -25,9 +29,9 @@ const Fermenting = ({ brews }) => {
 const Maturing = ({ brews }) => {
   return html`
     <div class="column">
-      <div class="panel is-info">
-        <div class="panel-heading">Dojrzewa</div>
-        <div class="panel-block">
+      <div class="box">
+        <h2>Dojrzewa</h2>
+        <div>
           <p>${brews.length}</p>
         </div>
       </div>
@@ -38,9 +42,9 @@ const Maturing = ({ brews }) => {
 const Dispensing = ({ brews }) => {
   return html`
     <div class="column">
-      <div class="panel is-info">
-        <div class="panel-heading">Wyszynk</div>
-        <div class="panel-block">
+      <div class="box">
+        <h2>Wyszynk</h2>
+        <div>
           <p>${brews.length}</p>
         </div>
       </div>
@@ -51,9 +55,9 @@ const Dispensing = ({ brews }) => {
 const Recipes = ({ brews }) => {
   return html`
     <div class="column">
-      <div class="panel is-info">
-        <div class="panel-heading">Receptury</div>
-        <div class="panel-block">
+      <div class="box">
+        <h2>Receptury</h2>
+        <div>
           <p>${brews.length}</p>
         </div>
       </div>

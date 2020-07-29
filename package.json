@@ -17,10 +17,16 @@
   "author": "Jarek Zgoda",
   "license": "BSD-3-Clause",
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^8.4.0",
     "clean-css-cli": "^4.3.0",
     "eslint": "^6.8.0",
     "eslint-config-preact": "^1.1.1",
-    "node-sass": "^4.14.1"
+    "node-sass": "^4.14.1",
+    "rollup": "^2.23.0",
+    "rollup-plugin-terser": "^6.1.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "htm": "^3.0.4",
+    "preact": "^10.4.6"
+  }
 }

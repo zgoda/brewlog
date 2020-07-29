@@ -29,6 +29,7 @@ base_reqs = [
     'Flask-SQLAlchemy',
     'Flask-WTF',
     'Flask-Assets',
+    'webassets-rollup',
     'Flask-Migrate',
     'Marshmallow',
     'Markdown',
@@ -100,9 +101,6 @@ setup(
         'Programming Language :: Python :: 3.8',
     ],
     install_requires=base_reqs,
-    setup_requires=(
-        'babel',
-    ),
     extras_require={
         'prod': [
             'gunicorn'

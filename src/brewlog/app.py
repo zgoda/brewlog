@@ -5,7 +5,7 @@ from typing import Optional
 from flask import render_template, send_from_directory
 from werkzeug.utils import ImportStringError
 
-from .assets import all_css
+from .assets import all_css, all_js
 from .auth import auth_bp
 from .brew import brew_bp
 from .brewery import brewery_bp
@@ -90,6 +90,7 @@ def configure_extensions(app: Brewlog):
 def configure_assets(app: Brewlog):
     bundles = {
         'css_all': all_css,
+        'js_all': all_js,
     }
     assets.register(bundles)
 
