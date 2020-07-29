@@ -3,7 +3,8 @@ import { html } from "./preact.min.js";
 const FermentingItem = ({ data }) => {
   return html`
     <div class="panel-block">
-      <a href="${data.url}">${data.name}</a>
+      <p>${data.name}</p>
+      <div></div>
     </div>
   `;
 }
@@ -13,9 +14,9 @@ const Fermenting = ({ brews }) => {
     <div class="column">
       <div class="panel is-info">
         <div class="panel-heading">Fermentuje</div>
-          ${brews.map((brew) => html`
-            <${FermentingItem} data=${brew} key=${brew.id} />s
-          `)}
+        ${brews.map((brew) => html`
+          <${FermentingItem} data=${brew} key=${brew.id} />
+        `)}
       </div>
     </div>
   `;
