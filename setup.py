@@ -27,6 +27,7 @@ base_reqs = [
     'Flask-Login',
     'Flask-FlatPages',
     'Flask-SQLAlchemy',
+    'WTForms!=2.3.2',
     'Flask-WTF',
     'Flask-Assets',
     'webassets-rollup',
