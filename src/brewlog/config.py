@@ -23,4 +23,4 @@ SHORTLIST_DEFAULT_LIMIT = 5
 LIST_DEFAULT_LIMIT = 10
 
 # tool configs
-ROLLUP_EXTRA_ARGS = ['-f', 'es', '-c', os.environ['ROLLUP_CONFIG_JS']]
+ROLLUP_EXTRA_ARGS = ['-c', os.environ['ROLLUP_CONFIG_JS']]
