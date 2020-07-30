@@ -1,13 +1,13 @@
+import 'preact/debug';
 import { html } from 'htm/preact';
 import { render } from 'preact';
 import { useState } from 'preact/hooks';
-import { Icon } from './components';
 
 const FermentingItem = (props) => {
 
   const toggleOp = (op) => {
     props.setOp(op);
-    props.formToggle(true);
+    props.formToggle(!props.formVisible);
   };
 
   return html`
@@ -35,9 +35,7 @@ const ActionForm = (props) => {
         <input class="input" type="number" name="fg" step="0.1" onInput=${props.setFg} />
         <input class="input" type="date" name="date" onInput=${props.setDate} />
         <textarea class="textarea" name="notes" onInput=${props.setNotes}></textarea>
-        <button type="submit" class="button is-primary">
-          <span class="icon"><${Icon} name='check' /></span> <span>wyślij</span>
-        </button>
+        <button type="submit" class="button is-primary">wyślij</button>
       </form>
     </div>
   `;  
@@ -80,6 +78,7 @@ const Fermenting = ({ brews, csrfToken }) => {
             data=${brew}
             key=${brew.id}
             formToggle=${setFormVisible}
+            formVisible=${formVisible}
             setOp=${setOp}
           />
         `)}
