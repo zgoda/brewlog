@@ -1,6 +1,7 @@
 import { html } from 'htm/preact';
 import { render } from 'preact';
 import { useState } from 'preact/hooks';
+import { Icon } from './components';
 
 const FermentingItem = (props) => {
 
@@ -34,7 +35,9 @@ const ActionForm = (props) => {
         <input class="input" type="number" name="fg" step="0.1" onInput=${props.setFg} />
         <input class="input" type="date" name="date" onInput=${props.setDate} />
         <textarea class="textarea" name="notes" onInput=${props.setNotes}></textarea>
-        <button type="submit" class="button is-primary">wyślij</button>
+        <button type="submit" class="button is-primary">
+          <span class="icon"><${Icon} name='check' /></span> <span>wyślij</span>
+        </button>
       </form>
     </div>
   `;  
@@ -73,9 +76,20 @@ const Fermenting = ({ brews, csrfToken }) => {
       <div class="box">
         <h2>Fermentuje</h2>
         ${brews.map((brew) => html`
-          <${FermentingItem} data=${brew} key=${brew.id} formToggle=${setFormVisible} setOp=${setOp} />
+          <${FermentingItem}
+            data=${brew}
+            key=${brew.id}
+            formToggle=${setFormVisible}
+            setOp=${setOp}
+          />
         `)}
-        <${ActionForm} setFg=${setFg} setDate=${setDate} setNotes=${setNotes} onSubmit=${onSubmit} visible=${formVisible} />
+        <${ActionForm}
+          setFg=${setFg}
+          setDate=${setDate}
+          setNotes=${setNotes}
+          onSubmit=${onSubmit}
+          visible=${formVisible}
+        />
       </div>
     </div>
   `;

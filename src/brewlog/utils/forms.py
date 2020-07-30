@@ -41,7 +41,7 @@ class Button(Renderable):
         '<svg><use xlink:href="#{{ obj.icon }}"></svg>'
         '</span>'
         '&nbsp;'
-        '<span>{{ obj.text }}</spans>'
+        '<span>{{ obj.text }}</span>'
         '</button>'
     )
 
