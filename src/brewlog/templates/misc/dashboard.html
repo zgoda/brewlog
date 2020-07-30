@@ -24,7 +24,7 @@
 
 {% block scripts %}
 <script type="module">
-  {% assets 'js_all' %}
+  {% assets 'js_dashboard' %}
   import { html, render, Dashboard } from '{{ ASSET_URL }}';
   {% endassets %}
   const brewsets = JSON.parse(document.getElementById('brewsets-data').textContent);

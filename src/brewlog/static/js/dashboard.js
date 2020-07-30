@@ -1,4 +1,4 @@
-import { html } from 'htm/preact';
+import { html, render } from 'htm/preact';
 
 const FermentingItem = ({ data }) => {
   return html`
@@ -65,7 +65,7 @@ const Recipes = ({ brews }) => {
   `;
 }
 
-export const Dashboard = ({ brewsets }) => {
+const Dashboard = ({ brewsets }) => {
   return html`
     <div>
       <div class="columns">
@@ -79,3 +79,5 @@ export const Dashboard = ({ brewsets }) => {
     </div>
   `;
 }
+
+export { Dashboard, render, html }
