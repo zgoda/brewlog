@@ -20,6 +20,7 @@
 
 {% block scriptdata %}
 <div class="is-hidden" id="brewsets-data">{{ brewsets|tojson|safe }}</div>
+<div class="is-hidden" id="csrf-token">{{ csrf_token() }}</div>
 {% endblock %}
 
 {% block scripts %}
@@ -28,6 +29,10 @@
   import { html, render, Dashboard } from '{{ ASSET_URL }}';
   {% endassets %}
   const brewsets = JSON.parse(document.getElementById('brewsets-data').textContent);
-  render(html`<${Dashboard} brewsets=${brewsets} />`, document.getElementById('dashboard-block'));
+  const csrfToken = document.getElementById('brewsets-data').textContent;
+  render(
+    html`<${Dashboard} brewsets=${brewsets} csrfToken=${document.getElementById('csrf-token').textContent} />`,
+    document.getElementById('dashboard-block'),
+  );
 </script>
 {% endblock %}
