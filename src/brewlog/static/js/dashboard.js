@@ -25,16 +25,21 @@ const FermentingItem = (props) => {
 }
 
 const ActionForm = (props) => {
+  const opLabels = {
+    transfer: 'przelej',
+    package: 'rozlej'
+  };
   let formClass = '';
   if (!props.visible) {
     formClass = 'is-hidden';
   }
   return html`
     <div class=${formClass}>
+      <p class="has-text-weight-bold">${opLabels[props.op]}</p>
       <form onSubmit=${props.onSubmit}>
-        <input class="input" type="number" name="fg" step="0.1" onInput=${props.setFg} />
-        <input class="input" type="date" name="date" onInput=${props.setDate} />
-        <textarea class="textarea" name="notes" onInput=${props.setNotes}></textarea>
+        <input class="input" type="number" name="fg" step="0.1" onInput=${props.setFg} value=${props.fg} />
+        <input class="input" type="date" name="date" onInput=${props.setDate} value=${props.date} />
+        <textarea class="textarea" name="notes" onInput=${props.setNotes}>${props.notes}</textarea>
         <button type="submit" class="button is-primary">wyślij</button>
       </form>
     </div>
@@ -43,10 +48,18 @@ const ActionForm = (props) => {
 
 const Fermenting = ({ brews, csrfToken }) => {
   const [fg, setFg] = useState('');
-  const [date, setDate] = useState(new Date())
+  const [date, setDate] = useState('');
   const [notes, setNotes] = useState('');
   const [formVisible, setFormVisible] = useState(false);
   const [op, setOp] = useState('');
+
+  const changeFg = (event) => {
+    setFg(event.target.value);
+  }
+
+  const changeDate = (event) => {
+    setDate(event.target.value);
+  }
 
   const onSubmit = (event) => {
     event.preventDefault();
@@ -83,11 +96,15 @@ const Fermenting = ({ brews, csrfToken }) => {
           />
         `)}
         <${ActionForm}
-          setFg=${setFg}
-          setDate=${setDate}
+          fg=${fg}
+          setFg=${changeFg}
+          date=${date}
+          setDate=${changeDate}
+          notes=${notes}
           setNotes=${setNotes}
           onSubmit=${onSubmit}
           visible=${formVisible}
+          op=${op}
         />
       </div>
     </div>
