@@ -1,4 +1,5 @@
 import math
+from uuid import uuid4
 
 from flask_babel import format_date
 from wtforms.fields import HiddenField
@@ -19,6 +20,7 @@ def setup_globals(application: Brewlog):
         'url_for_other_page': url_for_other_page,
         'version': get_version(),
         'is_hidden_field': lambda x: isinstance(x, HiddenField),
+        'cache_buster': uuid4,
     })
 
 

@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 
+{% from "macros/assets.html" import cache_bust %}
+
 {% block headpagetitle %}Mój Brewlog{% endblock %}
 
 {% block announcement %}
@@ -25,9 +27,7 @@
 
 {% block scripts %}
 <script type="module">
-  {% assets 'js_dashboard' %}
-  import { html, render, Dashboard } from '{{ ASSET_URL }}';
-  {% endassets %}
+  import { html, render, Dashboard } from '{{ cache_bust("/static/dist/dashboard.js") }}';
   const brewsets = JSON.parse(document.getElementById('brewsets-data').textContent);
   const csrfToken = document.getElementById('brewsets-data').textContent;
   render(

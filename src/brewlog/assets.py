@@ -9,5 +9,5 @@ all_css = Bundle(
 )
 
 dashboard_js = Bundle(
-    'js/dashboard.js', filters='rollup', output='dist/dashboard.%(version)s.min.js',
+    'js/dashboard.js', filters='rollup', output='dist/dashboard.min.js',
 )
