@@ -30,7 +30,6 @@ base_reqs = [
     'WTForms!=2.3.2',
     'Flask-WTF',
     'Flask-Assets',
-    'webassets-rollup',
     'Flask-Migrate',
     'Marshmallow',
     'Markdown',

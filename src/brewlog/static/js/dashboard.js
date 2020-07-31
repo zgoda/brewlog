@@ -61,6 +61,10 @@ const Fermenting = ({ brews, csrfToken }) => {
     setDate(event.target.value);
   }
 
+  const changeNotes = (event) => {
+    setNotes(event.target.value);
+  }
+
   const onSubmit = (event) => {
     event.preventDefault();
     const url = `/brew/api/${op}`;
@@ -101,7 +105,7 @@ const Fermenting = ({ brews, csrfToken }) => {
           date=${date}
           setDate=${changeDate}
           notes=${notes}
-          setNotes=${setNotes}
+          setNotes=${changeNotes}
           onSubmit=${onSubmit}
           visible=${formVisible}
           op=${op}
