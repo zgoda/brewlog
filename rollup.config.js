@@ -1,5 +1,6 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
+import outputManifest from "rollup-plugin-output-manifest";
 
 require('dotenv').config()
 
@@ -25,6 +26,7 @@ export default (async () => ({
   plugins: [
     resolve(),
     commonjs(),
-    isProduction && (await import('rollup-plugin-terser')).terser(terserOpts)
+    isProduction && (await import('rollup-plugin-terser')).terser(terserOpts),
+    outputManifest()
   ]
 }))();

@@ -5,13 +5,11 @@ from typing import Optional
 from flask import render_template, send_from_directory
 from werkzeug.utils import ImportStringError
 
-from .assets import all_css
+from .assets import all_css, dashboard_js
 from .auth import auth_bp
 from .brew import brew_bp
 from .brewery import brewery_bp
-from .ext import (
-    assets, babel, csrf, db, huey, login_manager, migrate, pages,
-)
+from .ext import assets, babel, csrf, db, huey, login_manager, migrate, pages, rollup
 from .fermentation import ferm_bp
 from .home import home_bp
 from .profile import profile_bp
@@ -71,6 +69,7 @@ def configure_extensions(app: Brewlog):
     db.init_app(app)
     migrate.init_app(app, db)
     assets.init_app(app)
+    rollup.init_app(app)
     csrf.init_app(app)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.select'
@@ -92,6 +91,7 @@ def configure_assets(app: Brewlog):
         'css_all': all_css,
     }
     assets.register(bundles)
+    rollup.register(dashboard_js)
 
 
 def configure_logging():

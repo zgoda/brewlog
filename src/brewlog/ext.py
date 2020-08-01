@@ -11,6 +11,7 @@ from flask_wtf.csrf import CSRFProtect
 from huey import SqliteHuey
 
 from .utils.models import Model
+from .utils.rollup import Rollup
 
 load_dotenv(find_dotenv())
 
@@ -24,5 +25,6 @@ db = SQLAlchemy(model_class=Model)
 csrf = CSRFProtect()
 migrate = Migrate()
 assets = Environment()
+rollup = Rollup()
 
 huey = SqliteHuey(filename=os.path.join(instance_path, 'huey.sqlite'))
