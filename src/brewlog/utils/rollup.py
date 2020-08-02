@@ -145,7 +145,6 @@ class Rollup:
         if not self.mode_production:
             @app.before_request
             def run_rollup():
-                import ipdb; ipdb.set_trace()
                 if request.endpoint in self.bundles:
                     self.run_rollup(request.endpoint)
 
