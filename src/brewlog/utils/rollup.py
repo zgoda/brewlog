@@ -119,6 +119,9 @@ class Rollup:
             argv.extend(bundle.argv())
             environ = os.environ.copy()
             environ['NODE_ENV'] = environ['FLASK_ENV']
-            subprocess.run(argv, check=True, env=environ)
+            subprocess.run(
+                argv, check=True, env=environ,
+                stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            )
             app = self.app or current_app
             bundle.resolve_output(app.static_folder, app.static_url_path)
