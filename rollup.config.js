@@ -1,10 +1,9 @@
 import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
-import outputManifest from "rollup-plugin-output-manifest";
 
 require('dotenv').config()
 
-const isProduction = process.env.FLASK_ENV === 'production';
+const isProduction = process.env.NODE_ENV === 'production';
 
 const terserOpts = {
   compress: {ecma: 2015, module: true},
@@ -15,18 +14,15 @@ const terserOpts = {
 }
 
 export default (async () => ({
-  input: {
-    dashboard: 'src/brewlog/static/js/dashboard.js'
-  },
   output: {
     dir: 'src/brewlog/static/dist',
     format: 'es',
-    sourcemap: true
+    sourcemap: true,
+    entryFileNames: '[name].[hash].js',
   },
   plugins: [
     resolve(),
     commonjs(),
     isProduction && (await import('rollup-plugin-terser')).terser(terserOpts),
-    outputManifest()
   ]
 }))();

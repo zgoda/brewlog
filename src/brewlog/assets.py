@@ -1,11 +1,12 @@
 from flask_assets import Bundle
 
-from .utils.rollup import SimpleBundle
+from .utils.rollup import Bundle as RollupBundle, Entrypoint
 
 all_css = Bundle(
     'css/app.scss', filters='node-scss,cleancss', output='dist/all.%(version)s.min.css',
 )
 
-dashboard_js = SimpleBundle(
-    name='dashboard', target_dir='dist', entrypoint='js/dashboard.js'
+dashboard_js = RollupBundle(
+    name='home.dashboard', target_dir='dist',
+    entrypoints=[Entrypoint('js/dashboard.js', name='home.dashboard')],
 )

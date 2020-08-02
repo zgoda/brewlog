@@ -1,73 +1,81 @@
+import glob
 import hashlib
 import os
 import subprocess
-from dataclasses import dataclass
-from typing import List, Mapping, Optional
+from collections import namedtuple
+from dataclasses import dataclass, field
+from typing import List, Optional
 
 from flask import Flask, current_app, request
 
 
-def resolve_paths(root: str, leafs: List[str]) -> List[str]:
-    return [os.path.join(root, e) for e in leafs]
+def resolve_path(root: str, path: str) -> str:
+    return os.path.normpath(os.path.abspath(os.path.join(root, path)))
 
 
-def leaf_name(digest: str = None, *parts) -> str:
-    path = os.path.join(*parts)
-    if digest:
-        root, ext = os.path.splitext(path)
-        return f'{root}.{digest}{ext}'
-    return path
+BundleOutput = namedtuple('BundleOutput', ['file_path', 'static_path', 'url'])
+
+
+def bundle_url(name: str) -> str:
+    pass
+
+
+@dataclass
+class Entrypoint:
+    path: str
+    name: str = ''
+
+    def cmdline_param(self) -> List[str]:
+        if self.name:
+            return [f'{self.name}={self.path}']
+        else:
+            return ['-i', self.path]
 
 
 @dataclass
 class Bundle:
     name: str
     target_dir: str
+    entrypoints: List[Entrypoint]
+    dependencies: List[str] = field(default_factory=list)
+    output: Optional[BundleOutput] = None
+
+    def resolve_paths(self, root: str):
+        for ep in self.entrypoints:
+            ep.path = resolve_path(root, ep.path)
+        self.target_dir = resolve_path(root, self.target_dir)
+        for index, dep in enumerate(self.dependencies):
+            self.dependencies[index] = resolve_path(root, dep)
 
     def hash_src(self) -> List[str]:
-        return []
+        src = []
+        for ep in self.entrypoints:
+            src.extend([
+                ep.name, ep.path, str(os.stat(ep.path).st_mtime_ns)
+            ])
+        for dep in self.dependencies:
+            src.extend([
+                dep, str(os.stat(dep).st_mtime_ns)
+            ])
+        return src
 
     def calc_hash(self):
         hash_src = '\n'.join(self.hash_src())
         return hashlib.sha256(hash_src.encode('utf-8')).hexdigest()[:10]
 
+    def argv(self):
+        rv = []
+        for ep in self.entrypoints:
+            rv.extend(ep.cmdline_param())
+        return rv
 
-@dataclass
-class SimpleBundle(Bundle):
-    entrypoint: str
-    output_path: Optional[str] = None
-
-    def hash_src(self) -> List[str]:
-        src = super().hash_src()
-        src.extend([
-            self.entrypoint,
-            str(os.stat(self.entrypoint).st_mtime_ns),
-        ])
-        return src
-
-    def set_output(self, paths: List[str]):
-        self.output_path = paths[0]
-
-    @property
-    def entrypoints(self) -> List[str]:
-        return {'': self.entrypoint}
-
-
-@dataclass
-class ChunkedBundle(Bundle):
-    entrypoints: Mapping[str, str]
-    output_paths: Optional[List[str]] = None
-
-    def hash_src(self) -> List[str]:
-        src = super().hash_src()
-        for target, path in self.entrypoints.items():
-            src.extend([
-                target, path, str(os.stat(path).st_mtime_ns)
-            ])
-        return src
-
-    def set_oputput(self, paths: List[str]):
-        self.output_paths = paths
+    def resolve_output(self, root: str, url_path: str):
+        files = glob.glob(f'{root}/**/{self.name}.*.js')
+        if len(files) == 1:
+            output_path = files[0]
+            path = output_path.replace(f'{root}/', '')
+            url = os.path.join(url_path, path)
+            self.output = BundleOutput(output_path, path, url)
 
 
 class Rollup:
@@ -90,18 +98,27 @@ class Rollup:
         if os.environ.get('FLASK_ENV', 'production') != 'production':
             @app.before_request
             def run_rollup():
-                endpoint_name = request.endpoint.split('.')[-1]
-                if endpoint_name in self.bundles.keys():
-                    subprocess.run(self.argv, check=True)
+                self.run_rollup()
+        app.extensions['rollup'] = self
+
+        @app.template_global(name='jsbundle')
+        def template_func(name: str):
+            for b_name, bundle in self.bundles.items():
+                if b_name == name:
+                    return bundle.output.url
 
     def register(self, bundle: Bundle):
         self.bundles[bundle.name] = bundle
         app = self.app or current_app
-        root = app.static_folder
-        outputs = [
-            resolve_paths(
-                root,
-                [leaf_name(bundle.target_dir, e) for e in bundle.entrypoints.values()]
-            )
-        ]
-        bundle.set_output(outputs)
+        bundle.resolve_paths(app.static_folder)
+
+    def run_rollup(self):
+        if request.endpoint in self.bundles.keys():
+            bundle = self.bundles[request.endpoint]
+            argv = self.argv.copy()
+            argv.extend(bundle.argv())
+            environ = os.environ.copy()
+            environ['NODE_ENV'] = environ['FLASK_ENV']
+            subprocess.run(argv, check=True, env=environ)
+            app = self.app or current_app
+            bundle.resolve_output(app.static_folder, app.static_url_path)
