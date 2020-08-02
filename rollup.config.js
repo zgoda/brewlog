@@ -15,7 +15,6 @@ const terserOpts = {
 
 export default (async () => ({
   output: {
-    dir: 'src/brewlog/static/dist',
     format: 'es',
     sourcemap: true,
     entryFileNames: '[name].[hash].js',

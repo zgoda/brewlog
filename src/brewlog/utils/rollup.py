@@ -103,7 +103,7 @@ class Bundle:
         return hashlib.sha256('\n'.join(src).encode('utf-8')).hexdigest()
 
     def argv(self) -> List[str]:
-        rv = []
+        rv = ['-d', self.target_dir]
         for ep in self.entrypoints:
             rv.extend(ep.cmdline_param())
         return rv
