@@ -1,12 +1,15 @@
 import glob
 import hashlib
 import os
+import shlex
 import subprocess
 from collections import namedtuple
 from dataclasses import dataclass, field
 from typing import List, Mapping, Optional, Union
 
-from flask import Flask, request
+import click
+from flask import Flask, current_app, request
+from flask.cli import with_appcontext
 
 
 def resolve_path(*parts) -> str:
@@ -134,7 +137,7 @@ class Bundle:
         """
         rv = ['-d', self.target_dir]
         for ep in self.entrypoints:
-            rv.extend(ep.cmdline_param())
+            rv.append(ep.cmdline_param())
         return rv
 
     def resolve_output(self, root: str, url_path: str):
@@ -200,6 +203,8 @@ class Rollup:
             bundle = self.bundles[name]
             return bundle.output.url
 
+        app.extensions['rollup'] = self
+
     def register(self, bundle: Bundle):
         """Register bundle. At this moment input paths are resolved.
 
@@ -220,7 +225,7 @@ class Rollup:
         new_state = bundle.calc_state()
         if bundle.state != new_state:
             argv = self.argv.copy()
-            argv.append(bundle.argv())
+            argv.extend(bundle.argv())
             environ = os.environ.copy()
             environ['NODE_ENV'] = environ['FLASK_ENV']
             kw = {}
@@ -232,3 +237,68 @@ class Rollup:
             subprocess.run(argv, check=True, env=environ, **kw)
             bundle.resolve_output(self.static_folder, self.static_url_path)
             bundle.state = new_state
+
+
+@click.group(name='rollup')
+def rollup_grp():
+    """Rollup commands"""
+    pass
+
+
+@rollup_grp.command(name='init')
+def rollup_init_cmd():
+    """Initialize Rollup environment"""
+    rollup_config = """import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+const terserOpts = {
+    compress: {ecma: 2015, module: true},
+    mangle: {module: true},
+    output: {ecma: 2015},
+    parse: {ecma: 2015},
+    rename: {},
+}
+
+export default (async () => ({
+    output: {
+        format: 'es',
+        sourcemap: true,
+        entryFileNames: '[name].[hash].js',
+    },
+    plugins: [
+        resolve(),
+        commonjs(),
+        isProduction && (await import('rollup-plugin-terser')).terser(terserOpts),
+    ]
+}))();
+"""
+    init_cmd = shlex.split('npm init -y')
+    click.echo('Initializing npm environment')
+    subprocess.run(
+        init_cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+    )
+    install_cmd = shlex.split(
+        'npm install --save-dev rollup '
+        '@rollup/plugin-commonjs @rollup/plugin-node-resolve rollup-plugin-terser'
+    )
+    click.echo('Installing Rollup and plugins')
+    subprocess.run(
+        install_cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL
+    )
+    click.echo('Creating Rollup configuration module')
+    with open('rollup.config.js', 'w') as fp:
+        fp.write(rollup_config)
+    click.echo('All done, Rollup installation is ready')
+
+
+@rollup_grp.command(name='run')
+@with_appcontext
+def rollup_run_cmd():
+    """Run rollup and generate all registered bundles"""
+    rollup = current_app.extensions['rollup']
+    for name in rollup.bundles.keys():
+        click.echo(f'Building bundle {name}')
+        rollup.run_rollup(name)
+    click.echo('All done')

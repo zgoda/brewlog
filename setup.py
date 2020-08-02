@@ -113,6 +113,9 @@ setup(
         'console_scripts': [
             'brewlog=brewlog.cli:main',
         ],
+        'flask.commands': [
+            'rollup=brewlog.utils.rollup:rollup_grp',
+        ],
     },
     python_requires='~=3.7',
 )
