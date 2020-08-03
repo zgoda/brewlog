@@ -249,7 +249,8 @@ def rollup_grp():
 @rollup_grp.command(name='init')
 def rollup_init_cmd():
     """Initialize Rollup environment"""
-    rollup_config = """import resolve from '@rollup/plugin-node-resolve';
+    rollup_config = """
+import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -274,7 +275,7 @@ export default (async () => ({
         isProduction && (await import('rollup-plugin-terser')).terser(terserOpts),
     ]
 }))();
-"""
+""".strip()
     init_cmd = shlex.split('npm init -y')
     click.echo('Initializing npm environment')
     subprocess.run(
