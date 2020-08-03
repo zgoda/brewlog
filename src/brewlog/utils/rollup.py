@@ -214,12 +214,13 @@ class Rollup:
         self.bundles[bundle.name] = bundle
         bundle.resolve_paths(self.static_folder)
 
-    def run_rollup(self, bundle_name: str):
+    def run_rollup(self, bundle_name: str, node_env: Optional[str] = None):
         """Run Rollup bundler over specified bundle is bundle state changed. Once
         Rollup finishes bundle's output is resolved (paths and url).
 
         Args:
             bundle_name: name of the bundle to be rebuilt
+            node_env: optional NodeJS environment specification
         """
         bundle = self.bundles[bundle_name]
         new_state = bundle.calc_state()
@@ -227,7 +228,7 @@ class Rollup:
             argv = self.argv.copy()
             argv.extend(bundle.argv())
             environ = os.environ.copy()
-            environ['NODE_ENV'] = environ['FLASK_ENV']
+            environ['NODE_ENV'] = node_env or environ['FLASK_ENV']
             kw = {}
             if not self.mode_production:
                 kw.update({
@@ -294,11 +295,14 @@ export default (async () => ({
 
 
 @rollup_grp.command(name='run')
+@click.option(
+    '-e', '--env', 'node_env', help='optional NodeJS environment specification'
+)
 @with_appcontext
-def rollup_run_cmd():
+def rollup_run_cmd(node_env):
     """Run rollup and generate all registered bundles"""
     rollup = current_app.extensions['rollup']
     for name in rollup.bundles.keys():
         click.echo(f'Building bundle {name}')
-        rollup.run_rollup(name)
+        rollup.run_rollup(name, node_env)
     click.echo('All done')
