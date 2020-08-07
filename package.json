@@ -20,15 +20,14 @@
     "@rollup/plugin-commonjs": "^14.0.0",
     "@rollup/plugin-node-resolve": "^8.4.0",
     "clean-css-cli": "^4.3.0",
-    "dotenv": "^8.2.0",
     "eslint": "^6.8.0",
     "eslint-config-preact": "^1.1.1",
     "node-sass": "^4.14.1",
-    "rollup": "^2.23.0",
+    "rollup": "^2.23.1",
     "rollup-plugin-terser": "^6.1.0"
   },
   "dependencies": {
     "htm": "^3.0.4",
-    "preact": "^10.4.6"
+    "preact": "^10.4.7"
   }
 }

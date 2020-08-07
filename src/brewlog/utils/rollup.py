@@ -49,7 +49,7 @@ class Entrypoint:
         Returns:
             str: Rollup command line param
         """
-        return f'{shlex.quote(self.name)}={shlex.quote(self.path)}'
+        return f'{self.name}={self.path}'
 
 
 @dataclass
@@ -214,13 +214,12 @@ class Rollup:
         self.bundles[bundle.name] = bundle
         bundle.resolve_paths(self.static_folder)
 
-    def run_rollup(self, bundle_name: str, node_env: Optional[str] = None):
+    def run_rollup(self, bundle_name: str):
         """Run Rollup bundler over specified bundle is bundle state changed. Once
         Rollup finishes bundle's output is resolved (paths and url).
 
         Args:
             bundle_name: name of the bundle to be rebuilt
-            node_env: optional NodeJS environment specification
         """
         bundle = self.bundles[bundle_name]
         new_state = bundle.calc_state()
@@ -228,7 +227,7 @@ class Rollup:
             argv = self.argv.copy()
             argv.extend(bundle.argv())
             environ = os.environ.copy()
-            environ['NODE_ENV'] = node_env or environ['FLASK_ENV']
+            environ['NODE_ENV'] = environ['FLASK_ENV']
             kw = {}
             if not self.mode_production:
                 kw.update({
@@ -249,8 +248,7 @@ def rollup_grp():
 @rollup_grp.command(name='init')
 def rollup_init_cmd():
     """Initialize Rollup environment"""
-    rollup_config = """
-import resolve from '@rollup/plugin-node-resolve';
+    rollup_config = """import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -275,7 +273,7 @@ export default (async () => ({
         isProduction && (await import('rollup-plugin-terser')).terser(terserOpts),
     ]
 }))();
-""".strip()
+"""
     init_cmd = shlex.split('npm init -y')
     click.echo('Initializing npm environment')
     subprocess.run(
@@ -296,14 +294,11 @@ export default (async () => ({
 
 
 @rollup_grp.command(name='run')
-@click.option(
-    '-e', '--env', 'node_env', help='optional NodeJS environment specification'
-)
 @with_appcontext
-def rollup_run_cmd(node_env):
+def rollup_run_cmd():
     """Run rollup and generate all registered bundles"""
     rollup = current_app.extensions['rollup']
     for name in rollup.bundles.keys():
         click.echo(f'Building bundle {name}')
-        rollup.run_rollup(name, node_env)
+        rollup.run_rollup(name)
     click.echo('All done')
