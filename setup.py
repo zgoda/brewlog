@@ -50,7 +50,6 @@ test_reqs = [
     'pytest-flask',
     'pytest-factoryboy',
     'pyfakefs',
-    'fakeredis',
 ]
 
 

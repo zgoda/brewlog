@@ -49,7 +49,7 @@ class Entrypoint:
         Returns:
             str: Rollup command line param
         """
-        return f'{self.name}={self.path}'
+        return f'{shlex.quote(self.name)}={shlex.quote(self.path)}'
 
 
 @dataclass
