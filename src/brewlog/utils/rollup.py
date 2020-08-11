@@ -241,13 +241,13 @@ class Rollup:
 
 @click.group(name='rollup')
 def rollup_grp():
-    """Rollup commands"""
+    """Rollup Javascript bundler commands"""
     pass
 
 
 @rollup_grp.command(name='init')
 def rollup_init_cmd():
-    """Initialize Rollup environment"""
+    """Initialise Rollup environment"""
     rollup_config = """import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 
@@ -296,7 +296,7 @@ export default (async () => ({
 @rollup_grp.command(name='run')
 @with_appcontext
 def rollup_run_cmd():
-    """Run rollup and generate all registered bundles"""
+    """Run Rollup and generate all registered bundles"""
     rollup = current_app.extensions['rollup']
     for name in rollup.bundles.keys():
         click.echo(f'Building bundle {name}')
