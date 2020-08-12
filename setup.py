@@ -27,6 +27,7 @@ base_reqs = [
     'Flask-Login',
     'Flask-FlatPages',
     'Flask-SQLAlchemy',
+    'Flask-Rollup',
     'WTForms!=2.3.2',
     'Flask-WTF',
     'Flask-Assets',
@@ -111,9 +112,6 @@ setup(
     entry_points={
         'console_scripts': [
             'brewlog=brewlog.cli:main',
-        ],
-        'flask.commands': [
-            'rollup=brewlog.utils.rollup:rollup_grp',
         ],
     },
     python_requires='~=3.7',

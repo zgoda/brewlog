@@ -8,10 +8,10 @@ from flask_login import LoginManager
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from flask_wtf.csrf import CSRFProtect
+from flask_rollup import Rollup
 from huey import SqliteHuey
 
 from .utils.models import Model
-from .utils.rollup import Rollup
 
 load_dotenv(find_dotenv())
 
