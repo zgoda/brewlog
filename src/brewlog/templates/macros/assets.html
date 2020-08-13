@@ -1,3 +1,0 @@
-{% macro cache_bust(resource) %}
-{{ resource }}{% if config.DEBUG %}?v={{ cache_buster() }}{% endif %}
-{% endmacro %}
