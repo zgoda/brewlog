@@ -25,12 +25,9 @@
 
 {% block scripts %}
 <script type="module">
-  import { html, render, Dashboard } from '{{ jsbundle(request.endpoint) }}';
+  import { h, render, Dashboard } from '{{ jsbundle(request.endpoint) }}';
   const brewsets = JSON.parse(document.getElementById('brewsets-data').textContent);
-  const csrfToken = document.getElementById('brewsets-data').textContent;
-  render(
-    html`<${Dashboard} brewsets=${brewsets} csrfToken=${document.getElementById('csrf-token').textContent} />`,
-    document.getElementById('dashboard-block'),
-  );
+  const csrfToken = document.getElementById('csrf-token').textContent;
+  render(h(Dashboard, { brewsets, csrfToken }), document.getElementById('dashboard-block'));
 </script>
 {% endblock %}

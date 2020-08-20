@@ -1,6 +1,5 @@
 import 'preact/debug';
-import { html } from 'htm/preact';
-import { render } from 'preact';
+import { h, render } from 'preact';
 import { useState } from 'preact/hooks';
 
 const FermentingItem = (props) => {
@@ -10,18 +9,18 @@ const FermentingItem = (props) => {
     props.formToggle(!props.formVisible);
   };
 
-  return html`
+  return (
     <div>
       <div class="mb-2">
-        <span class="has-text-weight-bold">${props.data.name}</span>
+        <span class="has-text-weight-bold">{props.data.name}</span>
         <span class="ml-2">
-          <button class="button is-small is-primary is-light mr-2" onClick=${() => toggleOp('transfer')}>przelej</button>
-          <button class="button is-small is-primary is-light mr-2" onClick=${() => toggleOp('package')}>rozlej</button>
-          <a class="button is-small is-primary is-light" href="${props.data.url}">edycja</a>
+          <button class="button is-small is-primary is-light mr-2" onClick={() => toggleOp('transfer')}>przelej</button>
+          <button class="button is-small is-primary is-light mr-2" onClick={() => toggleOp('package')}>rozlej</button>
+          <a class="button is-small is-primary is-light" href="{props.data.url}">edycja</a>
         </span>
       </div>
     </div>
-  `;
+  )
 }
 
 const ActionForm = (props) => {
@@ -33,17 +32,18 @@ const ActionForm = (props) => {
   if (!props.visible) {
     formClass = 'is-hidden';
   }
-  return html`
-    <div class=${formClass}>
-      <p class="has-text-weight-bold">${opLabels[props.op]}</p>
-      <form onSubmit=${props.onSubmit}>
-        <input class="input" type="number" name="fg" step="0.1" onInput=${props.setFg} value=${props.fg} />
-        <input class="input" type="date" name="date" onInput=${props.setDate} value=${props.date} />
-        <textarea class="textarea" name="notes" onInput=${props.setNotes}>${props.notes}</textarea>
+
+  return (
+    <div class={formClass}>
+      <p class="has-text-weight-bold">{opLabels[props.op]}</p>
+      <form onSubmit={props.onSubmit}>
+        <input class="input" type="number" name="fg" step="0.1" onInput={props.setFg} value={props.fg} />
+        <input class="input" type="date" name="date" onInput={props.setDate} value={props.date} />
+        <textarea class="textarea" name="notes" onInput={props.setNotes}>{props.notes}</textarea>
         <button type="submit" class="button is-primary">wyślij</button>
       </form>
     </div>
-  `;  
+  )
 }
 
 const Fermenting = ({ brews, csrfToken }) => {
@@ -86,87 +86,87 @@ const Fermenting = ({ brews, csrfToken }) => {
       .catch((err) => console.error('HTTP fetch error:', err));
   };
 
-  return html`
+  return (
     <div class="column">
       <div class="box">
         <h2>Fermentuje</h2>
-        ${brews.map((brew) => html`
-          <${FermentingItem}
-            data=${brew}
-            key=${brew.id}
-            formToggle=${setFormVisible}
-            formVisible=${formVisible}
-            setOp=${setOp}
+        {brews.map((brew) => (
+          <FermentingItem
+            data={brew}
+            key={brew.id}
+            formToggle={setFormVisible}
+            formVisible={formVisible}
+            setOp={setOp}
           />
-        `)}
-        <${ActionForm}
-          fg=${fg}
-          setFg=${changeFg}
-          date=${date}
-          setDate=${changeDate}
-          notes=${notes}
-          setNotes=${changeNotes}
-          onSubmit=${onSubmit}
-          visible=${formVisible}
-          op=${op}
+        ))}
+        <ActionForm
+          fg={fg}
+          setFg={changeFg}
+          date={date}
+          setDate={changeDate}
+          notes={notes}
+          setNotes={changeNotes}
+          onSubmit={onSubmit}
+          visible={formVisible}
+          op={op}
         />
       </div>
     </div>
-  `;
+  );
 }
 
 const Maturing = ({ brews }) => {
-  return html`
+  return (
     <div class="column">
       <div class="box">
         <h2>Dojrzewa</h2>
         <div>
-          <p>${brews.length}</p>
+          <p>{brews.length}</p>
         </div>
       </div>
     </div>
-  `;
+  );
 }
 
 const Dispensing = ({ brews }) => {
-  return html`
+  return (
     <div class="column">
       <div class="box">
         <h2>Wyszynk</h2>
         <div>
-          <p>${brews.length}</p>
+          <p>{brews.length}</p>
         </div>
       </div>
     </div>
-  `;
+  );
 }
 
 const Recipes = ({ brews }) => {
-  return html`
+  return (
     <div class="column">
       <div class="box">
         <h2>Receptury</h2>
         <div>
-          <p>${brews.length}</p>
+          <p>{brews.length}</p>
         </div>
       </div>
     </div>
-  `;
+  );
 }
 
 const Dashboard = ({ brewsets, csrfToken }) => {
-  return html`
+  return (
     <div>
       <div class="columns">
-        <${Fermenting} brews=${brewsets.fermenting} token=${csrfToken} />
-        <${Maturing} brews=${brewsets.maturing} />
+        <Fermenting brews={brewsets.fermenting} token={csrfToken} />
+        <Maturing brews={brewsets.maturing} />
       </div>
       <div class="columns">
-        <${Dispensing} brews=${brewsets.dispensing} />
-        <${Recipes} brews=${brewsets.recipes} />
+        <Dispensing brews={brewsets.dispensing} />
+        <Recipes brews={brewsets.recipes} />
       </div>
     </div>
-  `;
+  );
 }
 
-export { Dashboard, render, html }
+export { Dashboard, render, h };

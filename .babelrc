@@ -1,0 +1,16 @@
+{
+    "plugins": [
+        ["@babel/plugin-transform-react-jsx", {
+            "pragma": "h",
+            "pragmaFrag": "Fragment"
+        }]
+    ],
+    "presets": [
+        ["@babel/preset-env", {
+            "targets": {
+                "esmodules": true
+            },
+            "bugfixes": true
+        }]
+    ]
+}
