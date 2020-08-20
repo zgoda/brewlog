@@ -5,11 +5,11 @@ import babel from "@rollup/plugin-babel";
 const isProduction = process.env.NODE_ENV === 'production';
 
 const terserOpts = {
-  compress: {ecma: 2015, module: true},
+  ecma: 2015,
+  compress: {module: true},
   mangle: {module: true},
-  output: {ecma: 2015},
-  parse: {ecma: 2015},
   rename: {},
+  safari10: true
 }
 
 export default (async () => ({
