@@ -7,7 +7,7 @@ from werkzeug.utils import ImportStringError
 
 from .assets import all_css, dashboard_js
 from .auth import auth_bp
-from .brew import brew_bp
+from .brew import brew_api_bp, brew_bp
 from .brewery import brewery_bp
 from .ext import assets, babel, csrf, db, huey, login_manager, migrate, pages, rollup
 from .fermentation import ferm_bp
@@ -61,6 +61,7 @@ def configure_blueprints(app: Brewlog):
     app.register_blueprint(profile_bp, url_prefix='/profile')
     app.register_blueprint(brewery_bp, url_prefix='/brewery')
     app.register_blueprint(brew_bp, url_prefix='/brew')
+    app.register_blueprint(brew_api_bp, url_prefix='/brew/api')
     app.register_blueprint(tasting_bp, url_prefix='/tastingnote')
     app.register_blueprint(ferm_bp, url_prefix='/ferm')
 

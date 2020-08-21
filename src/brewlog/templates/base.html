@@ -30,14 +30,14 @@
         <div class="navbar-end">
           {% if current_user.is_authenticated %}
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" aria-label="dodaj">{{ icon('plus') }}</a>
+            <a class="navbar-link" aria-label="dodaj">{{ icon('plus') }} <span>nowe</span></a>
             <div class="navbar-dropdown is-right is-boxed">
               <a class="navbar-item" href="{{ url_for('brew.add') }}">warka</a>
               <a class="navbar-item" href="{{ url_for('brewery.add') }}">browar</a>
             </div>
           </div>
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" aria-label="moje rzeczy">{{ icon('briefcase') }}</a>
+            <a class="navbar-link" aria-label="moje rzeczy">{{ icon('briefcase') }} <span>moje</span></a>
             <div class="navbar-dropdown is-right is-boxed">
               <a class="navbar-item" href="{{ current_user.brews_list_url }}">warki</a>
               <a class="navbar-item" href="{{ current_user.breweries_list_url }}">browary</a>
@@ -45,7 +45,7 @@
           </div>
           {% endif %}
           <div class="navbar-item has-dropdown is-hoverable">
-            <a class="navbar-link" aria-label="ustawienia">{{ icon('settings') }}</a>
+            <a class="navbar-link" aria-label="ustawienia">{{ icon('settings') }} <span>ustawienia</span></a>
             <div class="navbar-dropdown is-right is-boxed">
               {% if current_user.is_anonymous %}
               <a class="navbar-item" href="{{ url_for('auth.select') }}">{{ icon('log-in') }} <span>zaloguj</span></a>

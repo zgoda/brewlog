@@ -2,14 +2,14 @@ import 'preact/debug';
 import { h, render } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
 
-const FermentingItem = (props) => {
+const FermentingItem = ({ data, csrfToken }) => {
   const [showModal, setModal] = useState(false);
   const [op, setOp] = useState('');
 
   const onClose = () => {
     setModal(false);
     setOp('');
-  }
+  };
 
   const toggleOp = (op) => {
     setOp(op);
@@ -19,28 +19,28 @@ const FermentingItem = (props) => {
   return (
     <div>
       <div class="mb-2">
-        <span class="has-text-weight-bold">{props.data.name}</span>
+        <span class="has-text-weight-bold">{data.name}</span>
         <span class="ml-2">
           <button class="button is-small is-primary is-light mr-2" onClick={() => toggleOp('transfer')}>przelej</button>
           <button class="button is-small is-primary is-light mr-2" onClick={() => toggleOp('package')}>rozlej</button>
-          <a class="button is-small is-primary is-light" href={props.data.url}>edycja</a>
+          <a class="button is-small is-primary is-light" href={data.url}>edycja</a>
         </span>
       </div>
       {showModal && (
-        <ActionForm
+        <FermentingActionForm
           setModal={setModal}
           showModal={showModal}
           onClose={onClose}
           op={op}
-          csrfToken={props.token}
-          brew={props.data}
+          csrfToken={csrfToken}
+          brew={data}
         />
       )}
     </div>
   )
 }
 
-const ActionForm = (props) => {
+const FermentingActionForm = (props) => {
   const [fg, setFg] = useState(0);
   const [date, setDate] = useState('');
   const [notes, setNotes] = useState('');
@@ -71,10 +71,15 @@ const ActionForm = (props) => {
           throw new Error(`Response: ${resp.status}`);
         }
         resp.json();
+      })
+      .then((data) => {
+        console.log(data);
         props.onClose();
       })
-      .then((data) => console.log(data))
-      .catch((err) => console.error('HTTP fetch error:', err));
+      .catch((err) => {
+        console.error('HTTP fetch error:', err);
+        props.onClose();
+      });
   };
 
   const onKeyDown = useCallback((e) => {
@@ -93,9 +98,21 @@ const ActionForm = (props) => {
     }
   }, [onKeyDown]);
 
+  const changeFg = ((e) => {
+    setFg(e.target.value);
+  });
+
+  const changeDate = ((e) => {
+    setDate(e.target.value);
+  });
+
+  const changeNotes = ((e) => {
+    setNotes(e.target.value);
+  })
+
   return (
-    <div class={modalClass} onClick={() => props.onClose()}>
-      <div class="modal-background" />
+    <div class={modalClass}>
+      <div class="modal-background" onClick={() => props.onClose()} />
       <div class="modal-content">
         <div class="box">
           <p class="has-text-weight-bold">{opLabels[props.op]}</p>
@@ -103,19 +120,19 @@ const ActionForm = (props) => {
             <div class="field">
               <label class="label">Gęstość</label>
               <div class="control">
-                <input class="input" type="number" name="fg" step="0.1" onInput={setFg} value={fg} />
+                <input class="input" type="number" name="fg" step="0.1" onInput={changeFg} value={fg} />
               </div>
             </div>
             <div class="field">
               <label class="label">Data</label>
               <div class="control">
-                <input class="input" type="date" name="date" onInput={setDate} value={date} />
+                <input class="input" type="date" name="date" onInput={changeDate} value={date} />
               </div>
             </div>
             <div class="field">
               <label class="label">Notatki</label>
               <div class="control">
-                <textarea class="textarea" name="notes" onInput={setNotes}>{notes}</textarea>
+                <textarea class="textarea" name="notes" onInput={changeNotes}>{notes}</textarea>
               </div>
             </div>
             <div class="field">
@@ -126,7 +143,7 @@ const ActionForm = (props) => {
           </form>
         </div>
       </div>
-      <button class="modal-close is-large" aria-label="close" onClick={() => props.onClose()} />
+      <button class="modal-close is-large" aria-label="zamknij" onClick={() => props.onClose()} />
     </div>
   )
 }
@@ -140,7 +157,7 @@ const Fermenting = ({ brews, csrfToken }) => {
           <FermentingItem
             data={brew}
             key={brew.id}
-            token={csrfToken}
+            csrfToken={csrfToken}
           />
         ))}
       </div>
@@ -188,15 +205,25 @@ const Recipes = ({ brews }) => {
 }
 
 const Dashboard = ({ brewsets, csrfToken }) => {
+  const [fermenting, setFermenting] = useState([]);
+  const [maturing, setMaturing] = useState([]);
+  const [dispensing, setDispensing] = useState([]);
+  const [recipes, setRecipes] = useState([]);
+
+  setFermenting(brewsets.fermenting);
+  setMaturing(brewsets.maturing);
+  setDispensing(brewsets.dispensing);
+  setRecipes(brewsets.recipes);
+
   return (
     <div>
       <div class="columns">
-        <Fermenting brews={brewsets.fermenting} token={csrfToken} />
-        <Maturing brews={brewsets.maturing} />
+        <Fermenting brews={fermenting} csrfToken={csrfToken} />
+        <Maturing brews={maturing} />
       </div>
       <div class="columns">
-        <Dispensing brews={brewsets.dispensing} />
-        <Recipes brews={brewsets.recipes} />
+        <Dispensing brews={dispensing} />
+        <Recipes brews={recipes} />
       </div>
     </div>
   );
