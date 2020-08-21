@@ -8,12 +8,11 @@ const FermentingItem = (props) => {
 
   const onClose = () => {
     setModal(false);
-    document.documentElement.classList.remove('is-clipped');
+    setOp('');
   }
 
   const toggleOp = (op) => {
     setOp(op);
-    document.documentElement.classList.add('is-clipped');
     setModal(true);
   };
 
@@ -87,7 +86,9 @@ const ActionForm = (props) => {
 
   useEffect(() => {
     window.addEventListener('keydown', onKeyDown);
+    document.documentElement.classList.add('is-clipped');
     return () => {
+      document.documentElement.classList.remove('is-clipped');
       window.removeEventListener('keydown', onKeyDown);
     }
   }, [onKeyDown]);
