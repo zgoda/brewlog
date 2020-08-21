@@ -1,15 +1,19 @@
 import 'preact/debug';
 import { h, render } from 'preact';
-import { useState } from 'preact/hooks';
+import { useCallback, useEffect, useState } from 'preact/hooks';
 
 const FermentingItem = (props) => {
   const [showModal, setModal] = useState(false);
   const [op, setOp] = useState('');
 
-  const onClose = () => setModal(false);
+  const onClose = () => {
+    setModal(false);
+    document.documentElement.classList.remove('is-clipped');
+  }
 
   const toggleOp = (op) => {
     setOp(op);
+    document.documentElement.classList.add('is-clipped');
     setModal(true);
   };
 
@@ -74,8 +78,22 @@ const ActionForm = (props) => {
       .catch((err) => console.error('HTTP fetch error:', err));
   };
 
+  const onKeyDown = useCallback((e) => {
+    const { keyCode } = e;
+    if (keyCode === 27) {
+      props.onClose();
+    }
+  }, [props]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.removeEventListener('keydown', onKeyDown);
+    }
+  }, [onKeyDown]);
+
   return (
-    <div class={modalClass}>
+    <div class={modalClass} onClick={() => props.onClose()}>
       <div class="modal-background" />
       <div class="modal-content">
         <div class="box">
