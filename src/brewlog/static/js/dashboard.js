@@ -6,7 +6,13 @@ const FermentingItem = (props) => {
 
   const toggleOp = (op) => {
     props.setOp(op);
-    props.formToggle(!props.formVisible);
+    const nextState = !props.formVisible;
+    props.formToggle(nextState);
+    if (nextState) {
+      props.setCurItem(props.data.id);
+    } else {
+      props.setCurItem(0);
+    }
   };
 
   return (
@@ -37,10 +43,29 @@ const ActionForm = (props) => {
     <div class={formClass}>
       <p class="has-text-weight-bold">{opLabels[props.op]}</p>
       <form onSubmit={props.onSubmit}>
-        <input class="input" type="number" name="fg" step="0.1" onInput={props.setFg} value={props.fg} />
-        <input class="input" type="date" name="date" onInput={props.setDate} value={props.date} />
-        <textarea class="textarea" name="notes" onInput={props.setNotes}>{props.notes}</textarea>
-        <button type="submit" class="button is-primary">wyślij</button>
+        <div class="field">
+          <label class="label">Gęstość</label>
+          <div class="control">
+            <input class="input" type="number" name="fg" step="0.1" onInput={props.setFg} value={props.fg} />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Data</label>
+          <div class="control">
+            <input class="input" type="date" name="date" onInput={props.setDate} value={props.date} />
+          </div>
+        </div>
+        <div class="field">
+          <label class="label">Notatki</label>
+          <div class="control">
+            <textarea class="textarea" name="notes" onInput={props.setNotes}>{props.notes}</textarea>
+          </div>
+        </div>
+        <div class="field">
+          <div class="control">
+            <button type="submit" class="button is-primary">wyślij</button>
+          </div>
+        </div>
       </form>
     </div>
   )
@@ -52,6 +77,7 @@ const Fermenting = ({ brews, csrfToken }) => {
   const [notes, setNotes] = useState('');
   const [formVisible, setFormVisible] = useState(false);
   const [op, setOp] = useState('');
+  const [curItem, setCurItem] = useState(0);
 
   const changeFg = (event) => {
     setFg(event.target.value);
@@ -74,7 +100,7 @@ const Fermenting = ({ brews, csrfToken }) => {
         'X-CSRFToken': csrfToken,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ fg, date, notes })
+      body: JSON.stringify({ fg, date, notes, pk: curItem })
     })
       .then((resp) => {
         if (!resp.ok) {
@@ -95,6 +121,7 @@ const Fermenting = ({ brews, csrfToken }) => {
             data={brew}
             key={brew.id}
             formToggle={setFormVisible}
+            setCurItem={setCurItem}
             formVisible={formVisible}
             setOp={setOp}
           />
