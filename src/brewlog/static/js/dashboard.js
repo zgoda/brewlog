@@ -215,15 +215,10 @@ const Recipes = ({ brews }) => {
 }
 
 const Dashboard = ({ brewsets, csrfToken }) => {
-  const [fermenting, setFermenting] = useState([]);
-  const [maturing, setMaturing] = useState([]);
-  const [dispensing, setDispensing] = useState([]);
-  const [recipes, setRecipes] = useState([]);
-
-  setFermenting(brewsets.fermenting);
-  setMaturing(brewsets.maturing);
-  setDispensing(brewsets.dispensing);
-  setRecipes(brewsets.recipes);
+  const [fermenting, setFermenting] = useState(brewsets.fermenting);
+  const [maturing, setMaturing] = useState(brewsets.maturing);
+  const [dispensing, setDispensing] = useState(brewsets.dispensing);
+  const [recipes, setRecipes] = useState(brewsets.recipes);
 
   const updateBrewState = ((data, brewTypes) => {
     brewTypes.map((name) => {
