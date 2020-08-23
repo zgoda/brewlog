@@ -43,6 +43,7 @@ const FermentingItem = ({ data, csrfToken, brewsChanged }) => {
 
 const FermentingActionForm = (props) => {
   const [fg, setFg] = useState(0);
+  const [volume, setVolume] = useState(0);
   const [date, setDate] = useState('');
   const [notes, setNotes] = useState('');
 
@@ -65,7 +66,7 @@ const FermentingActionForm = (props) => {
         'X-CSRFToken': props.csrfToken,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ fg, date, notes, pk: props.brew.id }),
+      body: JSON.stringify({ volume, fg, date, notes, id: props.brew.id }),
       credentials: 'same-origin'
     });
     if (resp.ok) {
@@ -108,6 +109,10 @@ const FermentingActionForm = (props) => {
     setNotes(e.target.value);
   })
 
+  const changeVolume = ((e) => {
+    setVolume(e.target.value);
+  });
+
   return (
     <div class={modalClass}>
       <div class="modal-background" onClick={() => props.onClose()} />
@@ -115,6 +120,12 @@ const FermentingActionForm = (props) => {
         <div class="box">
           <p class="has-text-weight-bold">{opLabels[props.op]}</p>
           <form onSubmit={onSubmit}>
+            <div class="field">
+              <label class="label">Objętość</label>
+              <div class="control">
+                <input class="input" type="number" name="volume" step="0.1" onInput={changeVolume} value={volume} />
+              </div>
+            </div>
             <div class="field">
               <label class="label">Gęstość</label>
               <div class="control">
@@ -214,10 +225,29 @@ const Dashboard = ({ brewsets, csrfToken }) => {
   setDispensing(brewsets.dispensing);
   setRecipes(brewsets.recipes);
 
+  const updateBrewState = ((data, brewTypes) => {
+    brewTypes.map((name) => {
+      switch (name) {
+        case 'fermenting':
+          setFermenting(data.fermenting);
+          break;
+        case 'maturing':
+          setMaturing(data.maturing);
+          break;
+        case 'dispensing':
+          setDispensing(data.dispensing);
+          break;
+        case 'recipes':
+          setRecipes(data.recipes);
+          break;
+      }
+    });
+  });
+
   const brewsStateChanged = (async (changedTypes) => {
     let params = [];
     changedTypes.map((typeName) => {
-      params.push(`${typeName}=1`);
+      params.push(`state=${typeName}`);
     });
     const queryStr = params.join('&')
     const url = `/brew/api/brews?${queryStr}`;
@@ -226,6 +256,7 @@ const Dashboard = ({ brewsets, csrfToken }) => {
     })
     if (resp.ok) {
       const data = await resp.json();
+      updateBrewState(data, changedTypes);
       console.log(data);        
     } else {
       console.error(`HTTP fetch error: ${resp.status}`);

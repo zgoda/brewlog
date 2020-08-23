@@ -130,3 +130,7 @@ def list_query_for_user(user: BrewerProfile) -> BaseQuery:
     if user.is_anonymous:
         return BrewUtils.brew_list_query()
     return BrewUtils.brew_list_query(public_only=False, user=user)
+
+
+def package_brew(brew: Brew, date: datetime.date, volume: float, fg: float, notes: str):
+    pass

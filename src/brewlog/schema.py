@@ -3,18 +3,18 @@ from flask import url_for
 
 
 class UserSchema(Schema):
-    id = fields.Int()  # noqa: A003
+    id = fields.Int()
     name = fields.Str()
 
 
 class BrewerySchema(Schema):
-    id = fields.Int()  # noqa: A003
+    id = fields.Int()
     name = fields.Str()
     user = fields.Nested(UserSchema, only=['id', 'name'])
 
 
 class BrewSchema(Schema):
-    id = fields.Int()  # noqa: A003
+    id = fields.Int()
     name = fields.Method('item_name')
     brewery = fields.Nested(BrewerySchema, only=['id', 'name'])
     url = fields.Method('item_url')
@@ -29,4 +29,13 @@ class BrewSchema(Schema):
         return obj.name
 
 
+class BrewActionSchema(Schema):
+    id = fields.Int()
+    fg = fields.Float()
+    volume = fields.Float()
+    date = fields.Date()
+    notes = fields.Str()
+
+
 brew_schema = BrewSchema()
+brew_action_schema = BrewActionSchema()
