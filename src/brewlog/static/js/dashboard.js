@@ -2,7 +2,7 @@ import 'preact/debug';
 import { h, render } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
 
-const FermentingItem = ({ data, csrfToken }) => {
+const FermentingItem = ({ data, csrfToken, brewsChanged }) => {
   const [showModal, setModal] = useState(false);
   const [op, setOp] = useState('');
 
@@ -34,6 +34,7 @@ const FermentingItem = ({ data, csrfToken }) => {
           op={op}
           csrfToken={csrfToken}
           brew={data}
+          brewsChanged={brewsChanged}
         />
       )}
     </div>
@@ -55,32 +56,29 @@ const FermentingActionForm = (props) => {
     modalClass = 'modal is-active';
   }
 
-  const onSubmit = (event) => {
+  const onSubmit = (async (event) => {
     event.preventDefault();
     const url = `/brew/api/${props.op}`;
-    fetch(url, {
+    const resp = await fetch(url, {
       method: 'POST',
       headers: {
         'X-CSRFToken': props.csrfToken,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ fg, date, notes, pk: props.brew.id })
-    })
-      .then((resp) => {
-        if (!resp.ok) {
-          throw new Error(`Response: ${resp.status}`);
-        }
-        resp.json();
-      })
-      .then((data) => {
-        console.log(data);
-        props.onClose();
-      })
-      .catch((err) => {
-        console.error('HTTP fetch error:', err);
-        props.onClose();
-      });
-  };
+      body: JSON.stringify({ fg, date, notes, pk: props.brew.id }),
+      credentials: 'same-origin'
+    });
+    if (resp.ok) {
+      const data = await resp.json();
+      console.log(data);
+      if (props.op === 'package') {
+        props.brewsChanged(['fermenting', 'maturing']);
+      }
+    } else {
+      console.log(`HTTP fetch error: ${resp.status}`);
+    }
+    props.onClose();
+  });
 
   const onKeyDown = useCallback((e) => {
     const { keyCode } = e;
@@ -148,7 +146,7 @@ const FermentingActionForm = (props) => {
   )
 }
 
-const Fermenting = ({ brews, csrfToken }) => {
+const Fermenting = ({ brews, csrfToken, brewsChanged }) => {
   return (
     <div class="column">
       <div class="box">
@@ -158,6 +156,7 @@ const Fermenting = ({ brews, csrfToken }) => {
             data={brew}
             key={brew.id}
             csrfToken={csrfToken}
+            brewsChanged={brewsChanged}
           />
         ))}
       </div>
@@ -215,10 +214,30 @@ const Dashboard = ({ brewsets, csrfToken }) => {
   setDispensing(brewsets.dispensing);
   setRecipes(brewsets.recipes);
 
+  const brewsStateChanged = (async (changedTypes) => {
+    let params = [];
+    changedTypes.map((typeName) => {
+      params.push(`${typeName}=1`);
+    });
+    const queryStr = params.join('&')
+    const url = `/brew/api/brews?${queryStr}`;
+    const resp = await fetch(url, {
+      credentials: 'same-origin'
+    })
+    if (resp.ok) {
+      const data = await resp.json();
+      console.log(data);        
+    } else {
+      console.error(`HTTP fetch error: ${resp.status}`);
+    }
+  });
+
   return (
     <div>
       <div class="columns">
-        <Fermenting brews={fermenting} csrfToken={csrfToken} />
+        <Fermenting
+          brews={fermenting} csrfToken={csrfToken} brewsChanged={brewsStateChanged}
+        />
         <Maturing brews={maturing} />
       </div>
       <div class="columns">
