@@ -1,7 +1,7 @@
 import 'preact/debug';
 import { h, render } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
-import { CarbonationSelect, CarbonationTypeSelect } from './components/forms';
+import { CarbonationSelect, CarbonationTypeSelect, DateInput, NumberInput, TextArea } from './components/forms';
 
 const FermentingItem = (({ data, csrfToken, brewsChanged }) => {
   const [showModal, setModal] = useState(false);
@@ -146,36 +146,16 @@ const FermentingActionForm = (props) => {
   });
 
   let fields = [
-    (<div class="field">
-      <label class="label">Objętość</label>
-      <div class="control">
-        <input class="input" type="number" name="volume" step="0.1" onInput={changeVolume} value={volume} />
-      </div>
-    </div>),
-    (<div class="field">
-      <label class="label">Gęstość</label>
-      <div class="control">
-        <input class="input" type="number" name="fg" step="0.1" onInput={changeFg} value={fg} />
-      </div>
-    </div>),
-    (<div class="field">
-      <label class="label">Data</label>
-      <div class="control">
-        <input class="input" type="date" name="date" onInput={changeDate} value={date} />
-      </div>
-    </div>),   
+    <NumberInput label='Objętość' name='volume' step='0.1' setValue={changeVolume} value={volume} />,
+    <NumberInput label='Gęstość' name='fg' step='0.1' setValue={changeFg} value={fg} />,
+    <DateInput label='Data' name='date' setValue={changeDate} value={date} />,
   ];
   if (props.op === 'package') {
     fields.push(<CarbonationTypeSelect carbType={carbType} setCarbType={setCarbType} />);
     fields.push(<CarbonationSelect carbonation={carbonation} setCarbonation={setCarbonation} />);
   }
   fields.push((
-    <div class="field">
-      <label class="label">Notatki</label>
-      <div class="control">
-        <textarea class="textarea" name="notes" onInput={changeNotes}>{notes}</textarea>
-      </div>
-    </div>
+    <TextArea label='Notatki' name='notes' setValue={changeNotes} value={notes} />
   ));
 
   return (

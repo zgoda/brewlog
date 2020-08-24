@@ -4,7 +4,7 @@ const Select = ((props) => {
 
   const handleChange = ((e) => {
     props.setValue(e.target.value);
-  })
+  });
 
   return (
     <div class="field">
@@ -19,6 +19,54 @@ const Select = ((props) => {
     </div>
   )
 });
+
+const DateInput = ((props) => {
+
+  const handleInput = ((e) => {
+    props.setValue(e.target.value);
+  });
+
+  return (
+    <div class="field">
+      <label class="label" for={props.name}>{props.label}</label>
+      <div class="control">
+        <input class="input" type="date" name={props.name} onInput={handleInput} value={props.value} />
+      </div>
+    </div>
+  )
+});
+
+const NumberInput = ((props) => {
+
+  const handleInput = ((e) => {
+    props.setValue(e.target.value);
+  });
+
+  return (
+    <div class="field">
+      <label class="label" for={props.name}>{props.label}</label>
+      <div class="control">
+        <input class="input" type="number" name={props.name} step={props.step} onInput={handleInput} value={props.value} />
+      </div>
+    </div>
+  )
+});
+
+const TextArea = ((props) => {
+
+  const handleInput = ((e) => {
+    props.setValue(e.target.value);
+  });
+
+  return (
+    <div class="field">
+      <label class="label" for={props.name}>{props.label}</label>
+      <div class="control">
+        <textarea class="textarea" name={props.name} onInput={handleInput}>{props.value}</textarea>
+      </div>
+    </div>
+  )
+})
 
 const CarbonationSelect = ((props) => {
 
@@ -72,4 +120,4 @@ const CarbonationTypeSelect = ((props) => {
   )
 });
 
-export { CarbonationSelect, CarbonationTypeSelect };
+export { CarbonationSelect, CarbonationTypeSelect, DateInput, NumberInput, TextArea };
