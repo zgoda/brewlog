@@ -1,6 +1,7 @@
 import 'preact/debug';
 import { h, render } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
+import { CarbonationSelect, CarbonationTypeSelect } from './components/forms';
 
 const FermentingItem = (({ data, csrfToken, brewsChanged }) => {
   const [showModal, setModal] = useState(false);
@@ -73,6 +74,8 @@ const FermentingActionForm = (props) => {
   const [volume, setVolume] = useState(0);
   const [date, setDate] = useState('');
   const [notes, setNotes] = useState('');
+  const [carbonation, setCarbonation] = useState('');
+  const [carbType, setCarbType] = useState('');
 
   const opLabels = {
     transfer: `Przelej ${props.brew.name}`,
@@ -93,7 +96,9 @@ const FermentingActionForm = (props) => {
         'X-CSRFToken': props.csrfToken,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ volume, fg, date, notes, id: props.brew.id }),
+      body: JSON.stringify(
+        { volume, fg, date, carbonation, carbtype: carbType, notes, id: props.brew.id }
+      ),
       credentials: 'same-origin'
     });
     if (resp.ok) {
@@ -140,6 +145,39 @@ const FermentingActionForm = (props) => {
     setVolume(e.target.value);
   });
 
+  let fields = [
+    (<div class="field">
+      <label class="label">Objętość</label>
+      <div class="control">
+        <input class="input" type="number" name="volume" step="0.1" onInput={changeVolume} value={volume} />
+      </div>
+    </div>),
+    (<div class="field">
+      <label class="label">Gęstość</label>
+      <div class="control">
+        <input class="input" type="number" name="fg" step="0.1" onInput={changeFg} value={fg} />
+      </div>
+    </div>),
+    (<div class="field">
+      <label class="label">Data</label>
+      <div class="control">
+        <input class="input" type="date" name="date" onInput={changeDate} value={date} />
+      </div>
+    </div>),   
+  ];
+  if (props.op === 'package') {
+    fields.push(<CarbonationTypeSelect carbType={carbType} setCarbType={setCarbType} />);
+    fields.push(<CarbonationSelect carbonation={carbonation} setCarbonation={setCarbonation} />);
+  }
+  fields.push((
+    <div class="field">
+      <label class="label">Notatki</label>
+      <div class="control">
+        <textarea class="textarea" name="notes" onInput={changeNotes}>{notes}</textarea>
+      </div>
+    </div>
+  ));
+
   return (
     <div class={modalClass}>
       <div class="modal-background" onClick={() => props.onClose()} />
@@ -147,30 +185,7 @@ const FermentingActionForm = (props) => {
         <div class="box">
           <p class="has-text-weight-bold">{opLabels[props.op]}</p>
           <form onSubmit={onSubmit}>
-            <div class="field">
-              <label class="label">Objętość</label>
-              <div class="control">
-                <input class="input" type="number" name="volume" step="0.1" onInput={changeVolume} value={volume} />
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Gęstość</label>
-              <div class="control">
-                <input class="input" type="number" name="fg" step="0.1" onInput={changeFg} value={fg} />
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Data</label>
-              <div class="control">
-                <input class="input" type="date" name="date" onInput={changeDate} value={date} />
-              </div>
-            </div>
-            <div class="field">
-              <label class="label">Notatki</label>
-              <div class="control">
-                <textarea class="textarea" name="notes" onInput={changeNotes}>{notes}</textarea>
-              </div>
-            </div>
+            {fields.map((field) => field)}
             <div class="field">
               <div class="control">
                 <button type="submit" class="button is-primary">wyślij</button>

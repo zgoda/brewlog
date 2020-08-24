@@ -134,13 +134,18 @@ def list_query_for_user(user: BrewerProfile) -> BaseQuery:
     return BrewUtils.brew_list_query(public_only=False, user=user)
 
 
-def package_brew(brew: Brew, date: datetime.date, volume: float, fg: float, notes: str):
+def package_brew(
+            brew: Brew, date: datetime.date, volume: float, fg: float, notes: str,
+            carbonation: str, carbtype: str,
+        ):
     step = brew.fermentation_steps.order_by(db.desc(FermentationStep.date)).first()
     if step:
         step.fg = fg
         db.session.add(step)
     brew.final_amount = volume
     brew.bottling_date = date
+    brew.carbonation_level = carbonation
+    brew.carbonation_type = carbtype
     brew.carbonation_used = notes
     db.session.add(brew)
     db.session.commit()

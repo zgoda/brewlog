@@ -7,4 +7,5 @@ all_css = Bundle(
 
 dashboard_js = RollupBundle(
     name='home.dashboard', target_dir='dist', entrypoints=['js/dashboard.js'],
+    dependencies=['js/components/forms.js'],
 )

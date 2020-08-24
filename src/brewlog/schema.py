@@ -33,6 +33,7 @@ class BrewActionSchema(Schema):
     id = fields.Int()
     fg = fields.Float()
     volume = fields.Float()
+    carbonation = fields.Str()
     date = fields.Date()
     notes = fields.Str()
 
