@@ -2,7 +2,7 @@ import 'preact/debug';
 import { h, render } from 'preact';
 import { useCallback, useEffect, useState } from 'preact/hooks';
 
-const FermentingItem = ({ data, csrfToken, brewsChanged }) => {
+const FermentingItem = (({ data, csrfToken, brewsChanged }) => {
   const [showModal, setModal] = useState(false);
   const [op, setOp] = useState('');
 
@@ -39,7 +39,34 @@ const FermentingItem = ({ data, csrfToken, brewsChanged }) => {
       )}
     </div>
   )
-}
+});
+
+const MaturingItem = (({ data }) => {
+  return (
+    <div class="mb-2">
+      <span class="has-text-weight-bold">{data.name}</span>
+    </div>
+  )
+});
+
+const DispensingItem = (({ data }) => {
+  return (
+    <div class="mb-2">
+      <span class="has-text-weight-bold">{data.name}</span>
+    </div>
+  )
+});
+
+const RecipeItem = (({ data }) => {
+  return (
+    <div class="mb-2">
+      <span class="has-text-weight-bold">{data.name}</span>
+      <span class="ml-2">
+        <a class="button is-small is-primary is-light" href={data.url}>edycja</a>
+      </span>
+    </div>
+  )
+});
 
 const FermentingActionForm = (props) => {
   const [fg, setFg] = useState(0);
@@ -180,9 +207,9 @@ const Maturing = ({ brews }) => {
     <div class="column">
       <div class="box">
         <h2>Dojrzewa</h2>
-        <div>
-          <p>{brews.length}</p>
-        </div>
+        {brews.map((brew) => (
+          <MaturingItem data={brew} key={brew.id} />
+        ))}
       </div>
     </div>
   );
@@ -193,9 +220,9 @@ const Dispensing = ({ brews }) => {
     <div class="column">
       <div class="box">
         <h2>Wyszynk</h2>
-        <div>
-          <p>{brews.length}</p>
-        </div>
+        {brews.map((brew) => (
+          <DispensingItem data={brew} key={brew.id} />
+        ))}
       </div>
     </div>
   );
@@ -206,9 +233,9 @@ const Recipes = ({ brews }) => {
     <div class="column">
       <div class="box">
         <h2>Receptury</h2>
-        <div>
-          <p>{brews.length}</p>
-        </div>
+        {brews.map((brew) => (
+          <RecipeItem data={brew} key={brew.id} />
+        ))}
       </div>
     </div>
   );

@@ -40,6 +40,10 @@ def brews():
         'limit': item_limit,
     }
     for state in states:
+        if state == 'dispensing':
+            state = 'on_tap'
+        if state == 'recipes':
+            state = 'latest'
         state_fetch_method = getattr(BrewUtils, state, None)
         if not state_fetch_method:
             raise BadRequest(f'Unknown state {state}')
