@@ -1,4 +1,5 @@
 import { h } from 'preact';
+import { useCallback, useEffect } from 'preact/hooks';
 
 const Select = ((props) => {
 
@@ -120,4 +121,55 @@ const CarbonationTypeSelect = ((props) => {
   )
 });
 
-export { CarbonationSelect, CarbonationTypeSelect, DateInput, NumberInput, TextArea };
+const SubmitButton = ((props) => {
+  return (
+    <div class="field">
+      <div class="control">
+        <button type="submit" class="button is-primary">{props.label}</button>
+      </div>
+    </div>
+  )
+});
+
+const ModalForm = ((props) => {
+
+  const onKeyDown = useCallback((e) => {
+    const { keyCode } = e;
+    if (keyCode === 27) {
+      props.closeHandler();
+    }
+  }, [props]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', onKeyDown);
+    document.documentElement.classList.add('is-clipped');
+    return () => {
+      document.documentElement.classList.remove('is-clipped');
+      window.removeEventListener('keydown', onKeyDown);
+    }
+  }, [onKeyDown]);
+
+
+  let modalClass = 'modal';
+  if (props.active) {
+    modalClass = 'modal is-active';
+  }
+
+  return (
+    <div class={modalClass}>
+      <div class="modal-background" onClick={() => props.closeHandler()} />
+      <div class="modal-content">
+        <div class="box">
+          <p class="has-text-weight-bold">{props.label}</p>
+          <form onSubmit={props.submitHandler}>
+            {props.fields.map((field) => field)}
+            <SubmitButton label='wyślij' />
+          </form>
+        </div>
+      </div>
+      <button class="modal-close is-large" aria-label="zamknij" onClick={() => props.closeHandler()} />
+    </div>
+  )
+});
+
+export { CarbonationSelect, CarbonationTypeSelect, DateInput, ModalForm, NumberInput, SubmitButton, TextArea };

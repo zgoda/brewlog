@@ -1,7 +1,10 @@
 import 'preact/debug';
 import { h, render } from 'preact';
-import { useCallback, useEffect, useState } from 'preact/hooks';
-import { CarbonationSelect, CarbonationTypeSelect, DateInput, NumberInput, TextArea } from './components/forms';
+import { useState } from 'preact/hooks';
+import {
+  CarbonationSelect, CarbonationTypeSelect, DateInput, ModalForm,
+  NumberInput, TextArea,
+} from './components/forms';
 
 const FermentingItem = (({ data, csrfToken, brewsChanged }) => {
   const [showModal, setModal] = useState(false);
@@ -82,11 +85,6 @@ const FermentingActionForm = (props) => {
     package: `Rozlew ${props.brew.name}`
   };
 
-  let modalClass = 'modal';
-  if (props.showModal) {
-    modalClass = 'modal is-active';
-  }
-
   const onSubmit = (async (event) => {
     event.preventDefault();
     const url = `/brew/api/${props.op}`;
@@ -113,22 +111,6 @@ const FermentingActionForm = (props) => {
     props.onClose();
   });
 
-  const onKeyDown = useCallback((e) => {
-    const { keyCode } = e;
-    if (keyCode === 27) {
-      props.onClose();
-    }
-  }, [props]);
-
-  useEffect(() => {
-    window.addEventListener('keydown', onKeyDown);
-    document.documentElement.classList.add('is-clipped');
-    return () => {
-      document.documentElement.classList.remove('is-clipped');
-      window.removeEventListener('keydown', onKeyDown);
-    }
-  }, [onKeyDown]);
-
   const changeFg = ((e) => {
     setFg(e.target.value);
   });
@@ -151,31 +133,23 @@ const FermentingActionForm = (props) => {
     <DateInput label='Data' name='date' setValue={changeDate} value={date} />,
   ];
   if (props.op === 'package') {
-    fields.push(<CarbonationTypeSelect carbType={carbType} setCarbType={setCarbType} />);
-    fields.push(<CarbonationSelect carbonation={carbonation} setCarbonation={setCarbonation} />);
+    fields.push(
+      <CarbonationTypeSelect carbType={carbType} setCarbType={setCarbType} />,
+      <CarbonationSelect carbonation={carbonation} setCarbonation={setCarbonation} />
+    );
   }
-  fields.push((
+  fields.push(
     <TextArea label='Notatki' name='notes' setValue={changeNotes} value={notes} />
-  ));
+  );
 
   return (
-    <div class={modalClass}>
-      <div class="modal-background" onClick={() => props.onClose()} />
-      <div class="modal-content">
-        <div class="box">
-          <p class="has-text-weight-bold">{opLabels[props.op]}</p>
-          <form onSubmit={onSubmit}>
-            {fields.map((field) => field)}
-            <div class="field">
-              <div class="control">
-                <button type="submit" class="button is-primary">wyślij</button>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div>
-      <button class="modal-close is-large" aria-label="zamknij" onClick={() => props.onClose()} />
-    </div>
+    <ModalForm
+      closeHandler={props.onClose}
+      label={opLabels[props.op]}
+      active={props.showModal}
+      fields={fields}
+      submitHandler={onSubmit}
+    />
   )
 }
 
