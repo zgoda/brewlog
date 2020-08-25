@@ -1,33 +1,45 @@
 import 'preact/debug';
-import { h, render } from 'preact';
+import { h, render, Fragment } from 'preact';
 import { useState } from 'preact/hooks';
 import {
   CarbonationSelect, CarbonationTypeSelect, DateInput, ModalForm,
-  NumberInput, TextArea,
+  NumberInput, TextArea, ActionLinkButton, ActionButton,
 } from './components/forms';
+
+const PanelTitle = ((props) => {
+  return <span class="has-text-weight-bold">{props.label}</span> 
+});
 
 const FermentingItem = (({ data, csrfToken, brewsChanged }) => {
   const [showModal, setModal] = useState(false);
   const [op, setOp] = useState('');
 
-  const onClose = () => {
+  const onClose = (() => {
     setModal(false);
     setOp('');
-  };
+  });
 
-  const toggleOp = (op) => {
+  const toggleOp = ((op) => {
     setOp(op);
     setModal(true);
-  };
+  });
+
+  const setTransferOp = (() => {
+    toggleOp('transfer');
+  });
+
+  const setPackageOp = (() => {
+    toggleOp('package');
+  });
 
   return (
-    <div>
+    <Fragment>
       <div class="mb-2">
-        <span class="has-text-weight-bold">{data.name}</span>
+        <PanelTitle label={data.name} />
         <span class="ml-2">
-          <button class="button is-small is-primary is-light mr-2" onClick={() => toggleOp('transfer')}>przelej</button>
-          <button class="button is-small is-primary is-light mr-2" onClick={() => toggleOp('package')}>rozlej</button>
-          <a class="button is-small is-primary is-light" href={data.url}>edycja</a>
+          <ActionButton theresMore={true} clickHandler={setTransferOp} label='przelej' />
+          <ActionButton theresMore={true} clickHandler={setPackageOp} label='rozlej' />
+          <ActionLinkButton url={data.url} label='edycja' />
         </span>
       </div>
       {showModal && (
@@ -41,14 +53,14 @@ const FermentingItem = (({ data, csrfToken, brewsChanged }) => {
           brewsChanged={brewsChanged}
         />
       )}
-    </div>
+    </Fragment>
   )
 });
 
 const MaturingItem = (({ data }) => {
   return (
     <div class="mb-2">
-      <span class="has-text-weight-bold">{data.name}</span>
+      <PanelTitle label={data.name} />
     </div>
   )
 });
@@ -56,7 +68,7 @@ const MaturingItem = (({ data }) => {
 const DispensingItem = (({ data }) => {
   return (
     <div class="mb-2">
-      <span class="has-text-weight-bold">{data.name}</span>
+      <PanelTitle label={data.name} />
     </div>
   )
 });
@@ -64,15 +76,15 @@ const DispensingItem = (({ data }) => {
 const RecipeItem = (({ data }) => {
   return (
     <div class="mb-2">
-      <span class="has-text-weight-bold">{data.name}</span>
+      <PanelTitle label={data.name} />
       <span class="ml-2">
-        <a class="button is-small is-primary is-light" href={data.url}>edycja</a>
+        <ActionLinkButton url={data.url} label='edycja' />
       </span>
     </div>
   )
 });
 
-const FermentingActionForm = (props) => {
+const FermentingActionForm = ((props) => {
   const [fg, setFg] = useState(0);
   const [volume, setVolume] = useState(0);
   const [date, setDate] = useState('');
@@ -151,9 +163,9 @@ const FermentingActionForm = (props) => {
       submitHandler={onSubmit}
     />
   )
-}
+});
 
-const Fermenting = ({ brews, csrfToken, brewsChanged }) => {
+const Fermenting = (({ brews, csrfToken, brewsChanged }) => {
   return (
     <div class="column">
       <div class="box">
@@ -169,9 +181,9 @@ const Fermenting = ({ brews, csrfToken, brewsChanged }) => {
       </div>
     </div>
   );
-}
+});
 
-const Maturing = ({ brews }) => {
+const Maturing = (({ brews }) => {
   return (
     <div class="column">
       <div class="box">
@@ -182,9 +194,9 @@ const Maturing = ({ brews }) => {
       </div>
     </div>
   );
-}
+});
 
-const Dispensing = ({ brews }) => {
+const Dispensing = (({ brews }) => {
   return (
     <div class="column">
       <div class="box">
@@ -195,9 +207,9 @@ const Dispensing = ({ brews }) => {
       </div>
     </div>
   );
-}
+});
 
-const Recipes = ({ brews }) => {
+const Recipes = (({ brews }) => {
   return (
     <div class="column">
       <div class="box">
@@ -208,9 +220,9 @@ const Recipes = ({ brews }) => {
       </div>
     </div>
   );
-}
+});
 
-const Dashboard = ({ brewsets, csrfToken }) => {
+const Dashboard = (({ brewsets, csrfToken }) => {
   const [fermenting, setFermenting] = useState(brewsets.fermenting);
   const [maturing, setMaturing] = useState(brewsets.maturing);
   const [dispensing, setDispensing] = useState(brewsets.dispensing);
@@ -248,14 +260,13 @@ const Dashboard = ({ brewsets, csrfToken }) => {
     if (resp.ok) {
       const data = await resp.json();
       updateBrewState(data, changedTypes);
-      console.log(data);        
     } else {
       console.error(`HTTP fetch error: ${resp.status}`);
     }
   });
 
   return (
-    <div>
+    <Fragment>
       <div class="columns">
         <Fermenting
           brews={fermenting} csrfToken={csrfToken} brewsChanged={brewsStateChanged}
@@ -266,8 +277,8 @@ const Dashboard = ({ brewsets, csrfToken }) => {
         <Dispensing brews={dispensing} />
         <Recipes brews={recipes} />
       </div>
-    </div>
+    </Fragment>
   );
-}
+});
 
 export { Dashboard, render, h };

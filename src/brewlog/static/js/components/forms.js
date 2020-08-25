@@ -67,7 +67,7 @@ const TextArea = ((props) => {
       </div>
     </div>
   )
-})
+});
 
 const CarbonationSelect = ((props) => {
 
@@ -134,8 +134,7 @@ const SubmitButton = ((props) => {
 const ModalForm = ((props) => {
 
   const onKeyDown = useCallback((e) => {
-    const { keyCode } = e;
-    if (keyCode === 27) {
+    if (e.keyCode === 27) {
       props.closeHandler();
     }
   }, [props]);
@@ -157,7 +156,7 @@ const ModalForm = ((props) => {
 
   return (
     <div class={modalClass}>
-      <div class="modal-background" onClick={() => props.closeHandler()} />
+      <div class="modal-background" onClick={props.closeHandler} />
       <div class="modal-content">
         <div class="box">
           <p class="has-text-weight-bold">{props.label}</p>
@@ -167,9 +166,29 @@ const ModalForm = ((props) => {
           </form>
         </div>
       </div>
-      <button class="modal-close is-large" aria-label="zamknij" onClick={() => props.closeHandler()} />
+      <button class="modal-close is-large" aria-label="zamknij" onClick={props.closeHandler} />
     </div>
   )
 });
 
-export { CarbonationSelect, CarbonationTypeSelect, DateInput, ModalForm, NumberInput, SubmitButton, TextArea };
+const ActionButton = ((props) => {
+  let classes = [
+    'button', 'is-small', 'is-primary', 'is-light'
+  ];
+  if (props.theresMore) {
+    classes.push('mr-2');
+  }
+  classes = classes.join(' ');
+
+  return (
+    <button class={classes} onClick={props.clickHandler}>{props.label}</button>
+  )
+});
+
+const ActionLinkButton = ((props) => {
+  return (
+    <a class="button is-small is-primary is-light" href={props.url}>{props.label}</a>
+  )
+});
+
+export { ActionButton, ActionLinkButton, CarbonationSelect, CarbonationTypeSelect, DateInput, ModalForm, NumberInput, SubmitButton, TextArea };
