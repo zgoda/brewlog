@@ -3,7 +3,7 @@ import { h, render, Fragment } from 'preact';
 import { useState } from 'preact/hooks';
 import {
   CarbonationSelect, CarbonationTypeSelect, DateInput, ModalForm,
-  NumberInput, TextArea, ActionLinkButton, ActionButton,
+  NumberInput, TextArea, ActionLinkButton, ActionButton, TextInput,
 } from './components/forms';
 
 const PanelTitle = ((props) => {
@@ -91,6 +91,8 @@ const FermentingActionForm = ((props) => {
   const [notes, setNotes] = useState('');
   const [carbonation, setCarbonation] = useState('');
   const [carbType, setCarbType] = useState('');
+  const [stepName, setStepName] = useState('');
+  const [temperature, setTemperature] = useState(0);
 
   const opLabels = {
     transfer: `Przelej ${props.brew.name}`,
@@ -107,7 +109,10 @@ const FermentingActionForm = ((props) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(
-        { volume, fg, date, carbonation, carbtype: carbType, notes, id: props.brew.id }
+        {
+          volume, fg, date, carbonation, carbtype: carbType, notes, id: props.brew.id,
+          temperature, name: stepName,
+        }
       ),
       credentials: 'same-origin'
     });
@@ -137,6 +142,14 @@ const FermentingActionForm = ((props) => {
     setVolume(e.target.value);
   });
 
+  const changeStepName = ((e) => {
+    setStepName(e.target.value);
+  });
+
+  const changeTemperature = ((e) => {
+    setTemperature(e.target.value);
+  });
+
   let fields = [
     <NumberInput label='Objętość' name='volume' step='0.1' setValue={changeVolume} value={volume} />,
     <NumberInput label='Gęstość' name='fg' step='0.1' setValue={changeFg} value={fg} />,
@@ -145,8 +158,13 @@ const FermentingActionForm = ((props) => {
   if (props.op === 'package') {
     fields.push(
       <CarbonationTypeSelect carbType={carbType} setCarbType={setCarbType} />,
-      <CarbonationSelect carbonation={carbonation} setCarbonation={setCarbonation} />
+      <CarbonationSelect carbonation={carbonation} setCarbonation={setCarbonation} />,
     );
+  } else {
+    fields.push(
+      <TextInput label='Nazwa' name='name' setValue={changeStepName} value={stepName} />,
+      <NumberInput label='Temperatura' name='temperature' setValue={changeTemperature} value={temperature} />,
+    )
   }
   fields.push(
     <TextArea label='Notatki' name='notes' setValue={changeNotes} value={notes} />

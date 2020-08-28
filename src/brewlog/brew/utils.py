@@ -3,8 +3,6 @@ from typing import Iterable, List, Mapping, Optional
 
 from flask_sqlalchemy import BaseQuery
 
-from brewlog.models.fermentation import FermentationStep
-
 from ..ext import db
 from ..models import Brew, BrewerProfile, Brewery
 from ..models.brewing import BrewState
@@ -134,11 +132,11 @@ def list_query_for_user(user: BrewerProfile) -> BaseQuery:
     return BrewUtils.brew_list_query(public_only=False, user=user)
 
 
-def package_brew(
+def package(
             brew: Brew, date: datetime.date, volume: float, fg: float, notes: str,
             carbonation: str, carbtype: str,
         ):
-    step = brew.fermentation_steps.order_by(db.desc(FermentationStep.date)).first()
+    step = brew.last_step
     if step:
         step.fg = fg
         db.session.add(step)
@@ -149,3 +147,10 @@ def package_brew(
     brew.carbonation_used = notes
     db.session.add(brew)
     db.session.commit()
+
+
+def transfer(
+            brew: Brew, date: datetime.date, name: str, volume: float, fg: float,
+            temperature: float, notes: str
+        ):
+    pass

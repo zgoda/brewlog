@@ -6,7 +6,7 @@ from ..models import Brew
 from ..schema import brew_action_schema, brew_schema
 from . import brew_api_bp
 from .permissions import AccessManager
-from .utils import BrewUtils, package_brew
+from .utils import BrewUtils, package as package_brew
 
 
 @brew_api_bp.route('/transfer', methods=['POST'])

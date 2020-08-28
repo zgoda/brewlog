@@ -53,6 +53,22 @@ const NumberInput = ((props) => {
   )
 });
 
+const TextInput = ((props) => {
+
+  const handleInput = ((e) => {
+    props.setValue(e.target.value);
+  });
+
+  return (
+    <div class="field">
+      <label class="label" for={props.name}>{props.label}</label>
+      <div class="control">
+        <input class="input" type="text" name={props.name} step={props.step} onInput={handleInput} value={props.value} />
+      </div>
+    </div>
+  )
+});
+
 const TextArea = ((props) => {
 
   const handleInput = ((e) => {
@@ -186,12 +202,20 @@ const ActionButton = ((props) => {
 });
 
 const ActionLinkButton = ((props) => {
+  let classes = [
+    'button', 'is-small', 'is-primary', 'is-light'
+  ];
+  if (props.theresMore) {
+    classes.push('mr-2');
+  }
+  classes = classes.join(' ');
+
   return (
-    <a class="button is-small is-primary is-light" href={props.url}>{props.label}</a>
+    <a class={classes} href={props.url}>{props.label}</a>
   )
 });
 
 export {
-  ActionButton, ActionLinkButton, CarbonationSelect, CarbonationTypeSelect, DateInput,
-  ModalForm, NumberInput, SubmitButton, TextArea,
+  h, ActionButton, ActionLinkButton, CarbonationSelect, CarbonationTypeSelect, DateInput,
+  ModalForm, NumberInput, SubmitButton, TextArea, TextInput,
 };

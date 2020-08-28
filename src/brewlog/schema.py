@@ -36,6 +36,8 @@ class BrewActionSchema(Schema):
     carbonation = fields.Str()
     date = fields.Date()
     notes = fields.Str()
+    name = fields.Str()
+    temperature = fields.Float()
 
 
 brew_schema = BrewSchema()
