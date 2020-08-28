@@ -20,7 +20,9 @@ export default (async () => ({
   },
   plugins: [
     resolve(),
-    babel(),
+    babel({
+      exclude: 'node_modules/**'
+    }),
     commonjs(),
     isProduction && (await import('rollup-plugin-terser')).terser(terserOpts),
   ]

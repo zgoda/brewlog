@@ -117,7 +117,7 @@ const CarbonationTypeSelect = ((props) => {
   ]
 
   return (
-    <Select value={props.carbtype} setValue={props.setCarbType} label='Rodzaj nagazowania' options={options} />
+    <Select value={props.carbType} setValue={props.setCarbType} label='Rodzaj nagazowania' options={options} />
   )
 });
 
@@ -191,4 +191,7 @@ const ActionLinkButton = ((props) => {
   )
 });
 
-export { ActionButton, ActionLinkButton, CarbonationSelect, CarbonationTypeSelect, DateInput, ModalForm, NumberInput, SubmitButton, TextArea };
+export {
+  ActionButton, ActionLinkButton, CarbonationSelect, CarbonationTypeSelect, DateInput,
+  ModalForm, NumberInput, SubmitButton, TextArea,
+};

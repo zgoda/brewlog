@@ -112,8 +112,6 @@ const FermentingActionForm = ((props) => {
       credentials: 'same-origin'
     });
     if (resp.ok) {
-      const data = await resp.json();
-      console.log(data);
       if (props.op === 'package') {
         props.brewsChanged(['fermenting', 'maturing']);
       }

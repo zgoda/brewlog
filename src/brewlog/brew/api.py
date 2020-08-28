@@ -2,11 +2,11 @@ from flask import current_app, jsonify, request
 from flask_login import current_user, login_required
 from werkzeug.exceptions import BadRequest
 
+from ..models import Brew
 from ..schema import brew_action_schema, brew_schema
 from . import brew_api_bp
-from .utils import BrewUtils, package_brew
-from ..models import Brew
 from .permissions import AccessManager
+from .utils import BrewUtils, package_brew
 
 
 @brew_api_bp.route('/transfer', methods=['POST'])
@@ -23,7 +23,6 @@ def package():
     brew = Brew.query.get_or_404(brew_id)
     AccessManager(brew, True).check()
     package_brew(brew, **data)
-    return jsonify({'op': 'package'})
 
 
 @brew_api_bp.route('/brews')
