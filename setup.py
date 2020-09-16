@@ -59,7 +59,6 @@ dev_reqs = [
     'flake8',
     'flake8-builtins',
     'flake8-bugbear',
-    'flake8-mutable',
     'flake8-comprehensions',
     'pep8-naming',
     'dlint',
