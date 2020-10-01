@@ -12,7 +12,7 @@ from . import BrewlogTests
 class BrewViewTests(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory, brewery_factory):
+    def _set_up(self, user_factory, brewery_factory):
         self.public_user = user_factory(
             first_name='John', last_name='Public'
         )
@@ -168,7 +168,7 @@ class TestBrewDetailsNavigation(BrewViewTests):
 class TestBrewListView(BrewViewTests):
 
     @pytest.fixture(autouse=True)
-    def set_up2(self):
+    def _set_up2(self):
         self.url = url_for('brew.all')
 
     def details_url(self, brew):
@@ -260,7 +260,7 @@ class TestJsonViews(BrewViewTests):
 class TestStateChangeView(BrewViewTests):
 
     @pytest.fixture(autouse=True)
-    def set_up2(self, brew_factory):
+    def _set_up2(self, brew_factory):
         self.brew = brew_factory(
             brewery=self.public_brewery,
             name='pale ale',
@@ -317,7 +317,7 @@ class TestStateChangeView(BrewViewTests):
 class TestBrewAddView(BrewViewTests):
 
     @pytest.fixture(autouse=True)
-    def set_up2(self):
+    def _set_up2(self):
         self.url = url_for('brew.add')
 
     def test_get_anon(self):
@@ -371,7 +371,7 @@ class TestBrewAddView(BrewViewTests):
 class TestBrewDeleteView(BrewViewTests):
 
     @pytest.fixture(autouse=True)
-    def set_up2(self, brew_factory):
+    def _set_up2(self, brew_factory):
         self.brew = brew_factory(
             brewery=self.public_brewery,
             name='pale ale',

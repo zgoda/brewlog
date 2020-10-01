@@ -13,7 +13,7 @@ from . import BrewlogTests
 class TestRegister(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self):
+    def _set_up(self):
         self.url = url_for('auth.register')
 
     def test_anon_get(self):
@@ -71,7 +71,7 @@ class TestRegister(BrewlogTests):
 class TestLogin(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self):
+    def _set_up(self):
         self.url = url_for('auth.select')
 
     def test_ok_with_username(self, user_factory):
@@ -129,7 +129,7 @@ class TestLogin(BrewlogTests):
 class TestForgotPassword(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self):
+    def _set_up(self):
         self.url = url_for('auth.forgotpassword')
 
     def test_get(self):

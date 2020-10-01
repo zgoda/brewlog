@@ -9,7 +9,7 @@ from brewlog.brew.utils import BrewUtils
 class TestBrewUtils:
 
     @pytest.fixture(autouse=True)
-    def set_up(self, brew_factory):
+    def _set_up(self, brew_factory):
         self.brew1 = brew_factory()
         self.brew2 = brew_factory()
 
@@ -26,7 +26,7 @@ class TestBrewUtils:
 class TestBrewUtilsStateFermenting:
 
     @pytest.fixture(autouse=True)
-    def set_up(self, brew_factory, user_factory):
+    def _set_up(self, brew_factory, user_factory):
         today = date.today()
         self.brew_1 = brew_factory(
             name='fermenting 1',

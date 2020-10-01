@@ -11,7 +11,7 @@ from . import BrewlogTests
 class BrewObjectTests(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory, brewery_factory):
+    def _set_up(self, user_factory, brewery_factory):
         self.public_user = user_factory()
         self.public_brewery = brewery_factory(
             brewer=self.public_user, name='public brewery'
@@ -113,7 +113,7 @@ class TestBrewObject(BrewObjectTests):
 class TestBrewObjectLists(BrewObjectTests):
 
     @pytest.fixture(autouse=True)
-    def set_up2(self, user_factory, brewery_factory, brew_factory):
+    def _set_up2(self, user_factory, brewery_factory, brew_factory):
         self.public_brewery_public_brew = brew_factory(
             brewery=self.public_brewery, name='public brew no 1'
         )

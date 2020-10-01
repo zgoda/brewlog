@@ -394,7 +394,7 @@ class TestBrewerProfileBrewListView(BrewlogTests):
 class TestSetPasswordView(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self):
+    def _set_up(self):
         self.url = url_for('profile.setpassword')
 
     def test_anon_get(self):
@@ -440,7 +440,7 @@ class TestSetPasswordView(BrewlogTests):
 class TestEmailConfirmationViews(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self):
+    def _set_up(self):
         self.begin_url = url_for('profile.email-confirm-begin')
 
     def token_url(self, token):

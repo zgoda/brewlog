@@ -28,13 +28,13 @@ class BrewlogTestResponse(Response):
 
 
 @pytest.fixture(scope='session')
-def environ(monkeypatch, tmp_path):
+def _environ(monkeypatch, tmp_path):
     monkeypatch.setenv('MAILGUN_DOMAIN', 'some-domain.somewhere.net')
     monkeypatch.setenv('MAILGUN_API_KEY', 'some-key')
     monkeypatch.setenv('INSTANCE_PATH', str(tmp_path / 'instance'))
 
 
-@pytest.fixture
+@pytest.fixture()
 def app():
     app = make_app('test')
     app.response_class = BrewlogTestResponse

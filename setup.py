@@ -29,6 +29,7 @@ base_reqs = [
     'Flask-SQLAlchemy',
     'Flask-Rollup',
     'WTForms!=2.3.2',
+    'WTForms-SQLAlchemy',
     'Flask-WTF',
     'Flask-Assets',
     'Flask-Migrate',
@@ -42,6 +43,7 @@ base_reqs = [
     'huey',
     'requests',
     'python-dotenv',
+    'passlib[bcrypt]',
 ]
 
 test_reqs = [
@@ -60,11 +62,11 @@ dev_reqs = [
     'flake8-builtins',
     'flake8-bugbear',
     'flake8-comprehensions',
+    'flake8-pytest-style',
     'pep8-naming',
     'dlint',
     'rstcheck',
     'rope',
-    'isort',
     'pip',
     'setuptools',
     'wheel',

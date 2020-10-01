@@ -9,7 +9,7 @@ from brewlog.models import TastingNote
 class TestTastingNoteObject:
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory, brewery_factory):
+    def _set_up(self, user_factory, brewery_factory):
         self.public_user = user_factory()
         self.public_brewery = brewery_factory(brewer=self.public_user)
         self.hidden_user = user_factory(is_public=False)

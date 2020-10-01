@@ -9,7 +9,7 @@ from . import BrewlogTests
 class TestBreweryListView(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self):
+    def _set_up(self):
         self.list_url = url_for('brewery.all')
 
     def brewery_url(self, brewery):
@@ -212,7 +212,7 @@ class TestBreweryDeleteView(BrewlogTests):
 class TestBreweryCreateView(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self):
+    def _set_up(self):
         self.url = url_for('brewery.add')
 
     def test_get_anon(self):
@@ -294,7 +294,7 @@ class TestBreweryBrewsView(BrewlogTests):
 class TestJsonViews(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory, brewery_factory):
+    def _set_up(self, user_factory, brewery_factory):
         self.endpoint = 'brewery.search'
         self.public_user = user_factory(is_public=True)
         self.public_brewery = brewery_factory(

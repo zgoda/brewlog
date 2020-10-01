@@ -12,7 +12,7 @@ from . import BrewlogTests
 class TestTastingNoteListView(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory, brewery_factory):
+    def _set_up(self, user_factory, brewery_factory):
         self.public_user = user_factory()
         self.public_brewery = brewery_factory(brewer=self.public_user)
         self.hidden_user = user_factory(is_public=False)
@@ -55,7 +55,7 @@ class TestTastingNoteListView(BrewlogTests):
 class TestTastingNoteCreateView(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory, brewery_factory):
+    def _set_up(self, user_factory, brewery_factory):
         self.public_user = user_factory(is_public=True)
         self.public_brewery = brewery_factory(brewer=self.public_user)
         self.hidden_user = user_factory(is_public=False)
@@ -173,7 +173,7 @@ class TestTastingNoteCreateView(BrewlogTests):
 class TestTastingNoteDeleteView(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory, brewery_factory):
+    def _set_up(self, user_factory, brewery_factory):
         self.public_user = user_factory(is_public=True)
         self.public_brewery = brewery_factory(brewer=self.public_user)
         self.hidden_user = user_factory(is_public=False)
@@ -401,7 +401,7 @@ class TestTastingNoteDeleteView(BrewlogTests):
 class TestTastingNoteLoadView(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory, brewery_factory):
+    def _set_up(self, user_factory, brewery_factory):
         self.public_user = user_factory()
         self.public_brewery = brewery_factory(brewer=self.public_user)
         self.hidden_user = user_factory(is_public=False)
@@ -503,7 +503,7 @@ class TestTastingNoteLoadView(BrewlogTests):
 class TestTastingNoteUpdateView(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory, brewery_factory):
+    def _set_up(self, user_factory, brewery_factory):
         self.public_user = user_factory()
         self.public_brewery = brewery_factory(brewer=self.public_user)
         self.hidden_user = user_factory(is_public=False)

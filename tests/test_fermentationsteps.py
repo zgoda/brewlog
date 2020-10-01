@@ -12,8 +12,10 @@ from . import BrewlogTests
 class TestFermentationSteps(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory, brewery_factory, brew_factory,
-               fermentation_step_factory):
+    def _set_up(
+                self, user_factory, brewery_factory, brew_factory,
+                fermentation_step_factory,
+            ):
         self.public_user = user_factory()
         self.public_brewery = brewery_factory(
             brewer=self.public_user, name='public brewery no 1'

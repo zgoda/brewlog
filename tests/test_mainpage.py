@@ -15,7 +15,7 @@ class TestMainPageAnonUser(BrewlogTests):
     )
 
     @pytest.fixture(autouse=True)
-    def set_up(self):
+    def _set_up(self):
         self.url = url_for('home.index')
         self.regular_brewery_name = 'regular brewery no 1'
         self.hidden_brewery_name = 'hidden brewery no 1'
@@ -121,7 +121,7 @@ class TestMainPageAnonUser(BrewlogTests):
 class TestMainPageLoggedInRegularUser(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory):
+    def _set_up(self, user_factory):
         self.url = url_for('home.index')
         self.regular_brewery_name = 'regular brewery no 1'
         self.hidden_brewery_name = 'hidden brewery no 1'
@@ -150,7 +150,7 @@ class TestMainPageLoggedInRegularUser(BrewlogTests):
 class TestMainPageLoggedInHiddenUser(BrewlogTests):
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory):
+    def _set_up(self, user_factory):
         self.url = url_for('home.index')
         self.brewery_name = 'regular brewery no 1'
         self.regular_brew_name = 'regular brew no 1'

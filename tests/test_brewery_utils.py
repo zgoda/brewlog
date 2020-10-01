@@ -7,7 +7,7 @@ from brewlog.brewery.utils import BreweryUtils
 class TestBreweryUtils:
 
     @pytest.fixture(autouse=True)
-    def set_up(self, user_factory, brewery_factory):
+    def _set_up(self, user_factory, brewery_factory):
         self.public_user = user_factory()
         self.public_brewery = brewery_factory(
             brewer=self.public_user, name='public brewery no 1'
