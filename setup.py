@@ -43,7 +43,6 @@ base_reqs = [
     'huey',
     'requests',
     'python-dotenv',
-    'passlib[bcrypt]',
 ]
 
 test_reqs = [

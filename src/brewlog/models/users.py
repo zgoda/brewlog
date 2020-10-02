@@ -4,20 +4,9 @@ from datetime import datetime
 
 from flask import url_for
 from flask_login import UserMixin
-from passlib.context import CryptContext
+from werkzeug.security import check_password_hash, generate_password_hash
 
 from ..ext import db
-
-
-pwd_context = CryptContext(schemes=['bcrypt'])
-
-
-def generate_password_hash(password: str) -> str:
-    return pwd_context.hash(password)
-
-
-def check_password_hash(stored: str, password: str) -> bool:
-    return pwd_context.verify(password, stored)
 
 
 class BrewerProfile(UserMixin, db.Model):
