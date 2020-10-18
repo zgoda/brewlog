@@ -74,14 +74,12 @@ dev_reqs = [
 ] + test_reqs
 
 
-long_description = read('README.md')
-
 setup(
     name='brewlog',
     version=find_version('src', 'brewlog', '_version.py'),
     author='Jarek Zgoda',
     author_email='jarek.zgoda@gmail.com',
-    long_description=long_description,
+    long_description=read('README.md'),
     long_description_content_type='text/markdown',
     license='BSD',
     packages=find_packages('src'),
