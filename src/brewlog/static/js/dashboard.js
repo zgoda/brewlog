@@ -6,8 +6,8 @@ import {
   NumberInput, TextArea, ActionLinkButton, ActionButton, TextInput,
 } from './components/forms';
 
-const PanelTitle = ((props) => {
-  return <span class="has-text-weight-bold">{props.label}</span> 
+const PanelTitle = (({ label }) => {
+  return <span class="has-text-weight-bold">{label}</span> 
 });
 
 const FermentingItem = (({ data, csrfToken, brewsChanged }) => {
@@ -84,7 +84,7 @@ const RecipeItem = (({ data }) => {
   )
 });
 
-const FermentingActionForm = ((props) => {
+const FermentingActionForm = (({ brew, op, csrfToken, brewsChanged, onClose, showModal }) => {
   const [fg, setFg] = useState(0);
   const [volume, setVolume] = useState(0);
   const [date, setDate] = useState('');
@@ -95,35 +95,35 @@ const FermentingActionForm = ((props) => {
   const [temperature, setTemperature] = useState(0);
 
   const opLabels = {
-    transfer: `Przelej ${props.brew.name}`,
-    package: `Rozlew ${props.brew.name}`
+    transfer: `Przelej ${brew.name}`,
+    package: `Rozlew ${brew.name}`
   };
 
   const onSubmit = (async (event) => {
     event.preventDefault();
-    const url = `/brew/api/${props.op}`;
+    const url = `/brew/api/${op}`;
     const resp = await fetch(url, {
       method: 'POST',
       headers: {
-        'X-CSRFToken': props.csrfToken,
+        'X-CSRFToken': csrfToken,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(
         {
-          volume, fg, date, carbonation, carbtype: carbType, notes, id: props.brew.id,
+          volume, fg, date, carbonation, carbtype: carbType, notes, id: brew.id,
           temperature, name: stepName,
         }
       ),
       credentials: 'same-origin'
     });
     if (resp.ok) {
-      if (props.op === 'package') {
-        props.brewsChanged(['fermenting', 'maturing']);
+      if (op === 'package') {
+        brewsChanged(['fermenting', 'maturing']);
       }
     } else {
       console.log(`HTTP fetch error: ${resp.status}`);
     }
-    props.onClose();
+    onClose();
   });
 
   const changeFg = ((e) => {
@@ -155,7 +155,7 @@ const FermentingActionForm = ((props) => {
     <NumberInput label='Gęstość' name='fg' step='0.1' setValue={changeFg} value={fg} />,
     <DateInput label='Data' name='date' setValue={changeDate} value={date} />,
   ];
-  if (props.op === 'package') {
+  if (op === 'package') {
     fields.push(
       <CarbonationTypeSelect carbType={carbType} setCarbType={setCarbType} />,
       <CarbonationSelect carbonation={carbonation} setCarbonation={setCarbonation} />,
@@ -172,9 +172,9 @@ const FermentingActionForm = ((props) => {
 
   return (
     <ModalForm
-      closeHandler={props.onClose}
-      label={opLabels[props.op]}
-      active={props.showModal}
+      closeHandler={onClose}
+      label={opLabels[op]}
+      active={showModal}
       fields={fields}
       submitHandler={onSubmit}
     />

@@ -1,18 +1,18 @@
 import { h } from 'preact';
 import { useCallback, useEffect } from 'preact/hooks';
 
-const Select = ((props) => {
+const Select = (({ options, label, value, setValue }) => {
 
   const handleChange = ((e) => {
-    props.setValue(e.target.value);
+    setValue(e.target.value);
   });
 
   return (
     <div class="field">
-      <label class="label">{props.label}</label>
+      <label class="label">{label}</label>
       <div class="select">
-        <select value={props.value} onChange={handleChange}>
-          {props.options.map((data) => (
+        <select value={value} onChange={handleChange}>
+          {options.map((data) => (
             <option value={data.value}>{data.label}</option>
           ))}
         </select>
@@ -21,71 +21,71 @@ const Select = ((props) => {
   )
 });
 
-const DateInput = ((props) => {
+const DateInput = (({ name, label, value, setValue }) => {
 
   const handleInput = ((e) => {
-    props.setValue(e.target.value);
+    setValue(e.target.value);
   });
 
   return (
     <div class="field">
-      <label class="label" for={props.name}>{props.label}</label>
+      <label class="label" for={name}>{label}</label>
       <div class="control">
-        <input class="input" type="date" name={props.name} onInput={handleInput} value={props.value} />
+        <input class="input" type="date" name={name} onInput={handleInput} value={value} />
       </div>
     </div>
   )
 });
 
-const NumberInput = ((props) => {
+const NumberInput = (({ name, label, step, value, setValue }) => {
 
   const handleInput = ((e) => {
-    props.setValue(e.target.value);
+    setValue(e.target.value);
   });
 
   return (
     <div class="field">
-      <label class="label" for={props.name}>{props.label}</label>
+      <label class="label" for={name}>{label}</label>
       <div class="control">
-        <input class="input" type="number" name={props.name} step={props.step} onInput={handleInput} value={props.value} />
+        <input class="input" type="number" name={name} step={step} onInput={handleInput} value={value} />
       </div>
     </div>
   )
 });
 
-const TextInput = ((props) => {
+const TextInput = (({ name, label, value, setValue }) => {
 
   const handleInput = ((e) => {
-    props.setValue(e.target.value);
+    setValue(e.target.value);
   });
 
   return (
     <div class="field">
-      <label class="label" for={props.name}>{props.label}</label>
+      <label class="label" for={name}>{label}</label>
       <div class="control">
-        <input class="input" type="text" name={props.name} step={props.step} onInput={handleInput} value={props.value} />
+        <input class="input" type="text" name={name} onInput={handleInput} value={value} />
       </div>
     </div>
   )
 });
 
-const TextArea = ((props) => {
+const TextArea = (({ name, label, value, setValue }) => {
 
   const handleInput = ((e) => {
-    props.setValue(e.target.value);
+    setValue(e.target.value);
   });
 
   return (
     <div class="field">
-      <label class="label" for={props.name}>{props.label}</label>
+      <label class="label" for={name}>{label}</label>
       <div class="control">
-        <textarea class="textarea" name={props.name} onInput={handleInput}>{props.value}</textarea>
+        <textarea class="textarea" name={name} onInput={handleInput}>{value}</textarea>
       </div>
     </div>
   )
 });
 
-const CarbonationSelect = ((props) => {
+const CarbonationSelect = (({ carbonation, setCarbonation }) => {
 
   const options = [
     {
@@ -111,11 +111,11 @@ const CarbonationSelect = ((props) => {
   ]
 
   return (
-    <Select value={props.carbonation} setValue={props.setCarbonation} label='Nagazowanie' options={options} />
+    <Select value={carbonation} setValue={setCarbonation} label='Nagazowanie' options={options} />
   )
 });
 
-const CarbonationTypeSelect = ((props) => {
+const CarbonationTypeSelect = (({ carbType, setCarbType }) => {
 
   const options = [
     {
@@ -133,27 +133,27 @@ const CarbonationTypeSelect = ((props) => {
   ]
 
   return (
-    <Select value={props.carbType} setValue={props.setCarbType} label='Rodzaj nagazowania' options={options} />
+    <Select value={carbType} setValue={setCarbType} label='Rodzaj nagazowania' options={options} />
   )
 });
 
-const SubmitButton = ((props) => {
+const SubmitButton = (({ label }) => {
   return (
     <div class="field">
       <div class="control">
-        <button type="submit" class="button is-primary">{props.label}</button>
+        <button type="submit" class="button is-primary">{label}</button>
       </div>
     </div>
   )
 });
 
-const ModalForm = ((props) => {
+const ModalForm = (({ label, fields, active, closeHandler, submitHandler }) => {
 
   const onKeyDown = useCallback((e) => {
     if (e.keyCode === 27) {
-      props.closeHandler();
+      closeHandler();
     }
-  }, [props]);
+  }, [closeHandler]);
 
   useEffect(() => {
     window.addEventListener('keydown', onKeyDown);
@@ -166,52 +166,52 @@ const ModalForm = ((props) => {
 
 
   let modalClass = 'modal';
-  if (props.active) {
+  if (active) {
     modalClass = 'modal is-active';
   }
 
   return (
     <div class={modalClass}>
-      <div class="modal-background" onClick={props.closeHandler} />
+      <div class="modal-background" onClick={closeHandler} />
       <div class="modal-content">
         <div class="box">
-          <p class="has-text-weight-bold">{props.label}</p>
-          <form onSubmit={props.submitHandler}>
-            {props.fields.map((field) => field)}
+          <p class="has-text-weight-bold">{label}</p>
+          <form onSubmit={submitHandler}>
+            {fields.map((field) => field)}
             <SubmitButton label='wyślij' />
           </form>
         </div>
       </div>
-      <button class="modal-close is-large" aria-label="zamknij" onClick={props.closeHandler} />
+      <button class="modal-close is-large" aria-label="zamknij" onClick={closeHandler} />
     </div>
   )
 });
 
-const ActionButton = ((props) => {
-  let classes = [
+const ActionButton = (({ label, theresMore, clickHandler }) => {
+  const classNames = [
     'button', 'is-small', 'is-primary', 'is-light'
   ];
-  if (props.theresMore) {
-    classes.push('mr-2');
+  if (theresMore) {
+    classNames.push('mr-2');
   }
-  classes = classes.join(' ');
+  const classes = classNames.join(' ');
 
   return (
-    <button class={classes} onClick={props.clickHandler}>{props.label}</button>
+    <button class={classes} onClick={clickHandler}>{label}</button>
   )
 });
 
-const ActionLinkButton = ((props) => {
-  let classes = [
+const ActionLinkButton = (({ label, url, theresMore }) => {
+  const classNames = [
     'button', 'is-small', 'is-primary', 'is-light'
   ];
-  if (props.theresMore) {
-    classes.push('mr-2');
+  if (theresMore) {
+    classNames.push('mr-2');
   }
-  classes = classes.join(' ');
+  const classes = classNames.join(' ');
 
   return (
-    <a class={classes} href={props.url}>{props.label}</a>
+    <a class={classes} href={url}>{label}</a>
   )
 });
 
