@@ -150,7 +150,7 @@ const FermentingActionForm = (({ brew, op, csrfToken, brewsChanged, onClose, sho
     setTemperature(e.target.value);
   });
 
-  let fields = [
+  const fields = [
     <NumberInput label='Objętość' name='volume' step='0.1' setValue={changeVolume} value={volume} />,
     <NumberInput label='Gęstość' name='fg' step='0.1' setValue={changeFg} value={fg} />,
     <DateInput label='Data' name='date' setValue={changeDate} value={date} />,
@@ -264,7 +264,7 @@ const Dashboard = (({ brewsets, csrfToken }) => {
   });
 
   const brewsStateChanged = (async (changedTypes) => {
-    let params = [];
+    const params = [];
     changedTypes.map((typeName) => {
       params.push(`state=${typeName}`);
     });
