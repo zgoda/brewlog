@@ -6,9 +6,7 @@ import {
   NumberInput, TextArea, ActionLinkButton, ActionButton, TextInput,
 } from './components/forms';
 
-const PanelTitle = (({ label }) => {
-  return <span class="has-text-weight-bold">{label}</span> 
-});
+const PanelTitle = (({ label }) => (<span class="has-text-weight-bold">{label}</span>));
 
 const FermentingItem = (({ data, csrfToken, brewsChanged }) => {
   const [showModal, setModal] = useState(false);
@@ -33,13 +31,17 @@ const FermentingItem = (({ data, csrfToken, brewsChanged }) => {
   });
 
   return (
-    <Fragment>
+    <>
       <div class="mb-2">
         <PanelTitle label={data.name} />
         <span class="ml-2">
-          <ActionButton theresMore={true} clickHandler={setTransferOp} label='przelej' />
+          <ActionButton
+            theresMore={true}
+            clickHandler={setTransferOp}
+            label='przelej'
+          />
           <ActionButton theresMore={true} clickHandler={setPackageOp} label='rozlej' />
-          <ActionLinkButton url={data.url} label='edycja' />
+          <ActionLinkButton url={data.url} label='edycja' theresMore={false} />
         </span>
       </div>
       {showModal && (
@@ -53,8 +55,8 @@ const FermentingItem = (({ data, csrfToken, brewsChanged }) => {
           brewsChanged={brewsChanged}
         />
       )}
-    </Fragment>
-  )
+    </>
+  );
 });
 
 const MaturingItem = (({ data }) => {
@@ -62,7 +64,7 @@ const MaturingItem = (({ data }) => {
     <div class="mb-2">
       <PanelTitle label={data.name} />
     </div>
-  )
+  );
 });
 
 const DispensingItem = (({ data }) => {
@@ -70,7 +72,7 @@ const DispensingItem = (({ data }) => {
     <div class="mb-2">
       <PanelTitle label={data.name} />
     </div>
-  )
+  );
 });
 
 const RecipeItem = (({ data }) => {
@@ -81,10 +83,11 @@ const RecipeItem = (({ data }) => {
         <ActionLinkButton url={data.url} label='edycja' />
       </span>
     </div>
-  )
+  );
 });
 
-const FermentingActionForm = (({ brew, op, csrfToken, brewsChanged, onClose, showModal }) => {
+const FermentingActionForm =
+    (({ brew, op, csrfToken, brewsChanged, onClose, showModal }) => {
   const [fg, setFg] = useState(0);
   const [volume, setVolume] = useState(0);
   const [date, setDate] = useState('');
@@ -136,7 +139,7 @@ const FermentingActionForm = (({ brew, op, csrfToken, brewsChanged, onClose, sho
 
   const changeNotes = ((e) => {
     setNotes(e.target.value);
-  })
+  });
 
   const changeVolume = ((e) => {
     setVolume(e.target.value);
@@ -151,7 +154,13 @@ const FermentingActionForm = (({ brew, op, csrfToken, brewsChanged, onClose, sho
   });
 
   const fields = [
-    <NumberInput label='Objętość' name='volume' step='0.1' setValue={changeVolume} value={volume} />,
+    <NumberInput
+      label='Objętość'
+      name='volume'
+      step='0.1'
+      setValue={changeVolume}
+      value={volume}
+    />,
     <NumberInput label='Gęstość' name='fg' step='0.1' setValue={changeFg} value={fg} />,
     <DateInput label='Data' name='date' setValue={changeDate} value={date} />,
   ];
@@ -162,9 +171,19 @@ const FermentingActionForm = (({ brew, op, csrfToken, brewsChanged, onClose, sho
     );
   } else {
     fields.push(
-      <TextInput label='Nazwa' name='name' setValue={changeStepName} value={stepName} />,
-      <NumberInput label='Temperatura' name='temperature' setValue={changeTemperature} value={temperature} />,
-    )
+      <TextInput
+        label='Nazwa'
+        name='name'
+        setValue={changeStepName}
+        value={stepName}
+      />,
+      <NumberInput
+        label='Temperatura'
+        name='temperature'
+        setValue={changeTemperature}
+        value={temperature}
+      />,
+    );
   }
   fields.push(
     <TextArea label='Notatki' name='notes' setValue={changeNotes} value={notes} />
@@ -178,7 +197,7 @@ const FermentingActionForm = (({ brew, op, csrfToken, brewsChanged, onClose, sho
       fields={fields}
       submitHandler={onSubmit}
     />
-  )
+  );
 });
 
 const Fermenting = (({ brews, csrfToken, brewsChanged }) => {
@@ -266,13 +285,13 @@ const Dashboard = (({ brewsets, csrfToken }) => {
   const brewsStateChanged = (async (changedTypes) => {
     const params = [];
     changedTypes.map((typeName) => {
-      params.push(`state=${typeName}`);
+      params.push(`state=${encodeURIComponent(typeName)}`);
     });
-    const queryStr = params.join('&')
+    const queryStr = params.join('&');
     const url = `/brew/api/brews?${queryStr}`;
     const resp = await fetch(url, {
       credentials: 'same-origin'
-    })
+    });
     if (resp.ok) {
       const data = await resp.json();
       updateBrewState(data, changedTypes);
@@ -282,10 +301,12 @@ const Dashboard = (({ brewsets, csrfToken }) => {
   });
 
   return (
-    <Fragment>
+    <>
       <div class="columns">
         <Fermenting
-          brews={fermenting} csrfToken={csrfToken} brewsChanged={brewsStateChanged}
+          brews={fermenting}
+          csrfToken={csrfToken}
+          brewsChanged={brewsStateChanged}
         />
         <Maturing brews={maturing} />
       </div>
@@ -293,7 +314,7 @@ const Dashboard = (({ brewsets, csrfToken }) => {
         <Dispensing brews={dispensing} />
         <Recipes brews={recipes} />
       </div>
-    </Fragment>
+    </>
   );
 });
 

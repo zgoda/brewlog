@@ -18,7 +18,7 @@ const Select = (({ options, label, value, setValue }) => {
         </select>
       </div>
     </div>
-  )
+  );
 });
 
 const DateInput = (({ name, label, value, setValue }) => {
@@ -31,10 +31,16 @@ const DateInput = (({ name, label, value, setValue }) => {
     <div class="field">
       <label class="label" for={name}>{label}</label>
       <div class="control">
-        <input class="input" type="date" name={name} onInput={handleInput} value={value} />
+        <input
+          class="input"
+          type="date"
+          name={name}
+          onInput={handleInput}
+          value={value}
+        />
       </div>
     </div>
-  )
+  );
 });
 
 const NumberInput = (({ name, label, step, value, setValue }) => {
@@ -47,10 +53,17 @@ const NumberInput = (({ name, label, step, value, setValue }) => {
     <div class="field">
       <label class="label" for={name}>{label}</label>
       <div class="control">
-        <input class="input" type="number" name={name} step={step} onInput={handleInput} value={value} />
+        <input
+          class="input"
+          type="number"
+          name={name}
+          step={step}
+          onInput={handleInput}
+          value={value}
+        />
       </div>
     </div>
-  )
+  );
 });
 
 const TextInput = (({ name, label, value, setValue }) => {
@@ -63,10 +76,16 @@ const TextInput = (({ name, label, value, setValue }) => {
     <div class="field">
       <label class="label" for={name}>{label}</label>
       <div class="control">
-        <input class="input" type="text" name={name} onInput={handleInput} value={value} />
+        <input
+          class="input"
+          type="text"
+          name={name}
+          onInput={handleInput}
+          value={value}
+        />
       </div>
     </div>
-  )
+  );
 });
 
 const TextArea = (({ name, label, value, setValue }) => {
@@ -82,7 +101,7 @@ const TextArea = (({ name, label, value, setValue }) => {
         <textarea class="textarea" name={name} onInput={handleInput}>{value}</textarea>
       </div>
     </div>
-  )
+  );
 });
 
 const CarbonationSelect = (({ carbonation, setCarbonation }) => {
@@ -108,11 +127,16 @@ const CarbonationSelect = (({ carbonation, setCarbonation }) => {
       label: 'żadne (np. sahti)',
       value: 'none'
     },
-  ]
+  ];
 
   return (
-    <Select value={carbonation} setValue={setCarbonation} label='Nagazowanie' options={options} />
-  )
+    <Select
+      value={carbonation}
+      setValue={setCarbonation}
+      label='Nagazowanie'
+      options={options}
+    />
+  );
 });
 
 const CarbonationTypeSelect = (({ carbType, setCarbType }) => {
@@ -130,11 +154,16 @@ const CarbonationTypeSelect = (({ carbType, setCarbType }) => {
       label: 'refermentacja w butelkach',
       value: 'bottles with priming'
     }
-  ]
+  ];
 
   return (
-    <Select value={carbType} setValue={setCarbType} label='Rodzaj nagazowania' options={options} />
-  )
+    <Select
+      value={carbType}
+      setValue={setCarbType}
+      label='Rodzaj nagazowania'
+      options={options}
+    />
+  );
 });
 
 const SubmitButton = (({ label }) => {
@@ -144,7 +173,7 @@ const SubmitButton = (({ label }) => {
         <button type="submit" class="button is-primary">{label}</button>
       </div>
     </div>
-  )
+  );
 });
 
 const ModalForm = (({ label, fields, active, closeHandler, submitHandler }) => {
@@ -161,7 +190,7 @@ const ModalForm = (({ label, fields, active, closeHandler, submitHandler }) => {
     return () => {
       document.documentElement.classList.remove('is-clipped');
       window.removeEventListener('keydown', onKeyDown);
-    }
+    };
   }, [onKeyDown]);
 
 
@@ -182,9 +211,13 @@ const ModalForm = (({ label, fields, active, closeHandler, submitHandler }) => {
           </form>
         </div>
       </div>
-      <button class="modal-close is-large" aria-label="zamknij" onClick={closeHandler} />
+      <button
+        class="modal-close is-large"
+        aria-label="zamknij"
+        onClick={closeHandler}
+      />
     </div>
-  )
+  );
 });
 
 const ActionButton = (({ label, theresMore, clickHandler }) => {
@@ -198,7 +231,7 @@ const ActionButton = (({ label, theresMore, clickHandler }) => {
 
   return (
     <button class={classes} onClick={clickHandler}>{label}</button>
-  )
+  );
 });
 
 const ActionLinkButton = (({ label, url, theresMore }) => {
@@ -212,10 +245,10 @@ const ActionLinkButton = (({ label, url, theresMore }) => {
 
   return (
     <a class={classes} href={url}>{label}</a>
-  )
+  );
 });
 
 export {
-  h, ActionButton, ActionLinkButton, CarbonationSelect, CarbonationTypeSelect, DateInput,
-  ModalForm, NumberInput, SubmitButton, TextArea, TextInput,
+  h, ActionButton, ActionLinkButton, CarbonationSelect, CarbonationTypeSelect,
+  DateInput, ModalForm, NumberInput, SubmitButton, TextArea, TextInput,
 };
