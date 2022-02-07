@@ -1,5 +1,7 @@
 # Brewlog
 
+No longer actively maintained.
+
 [![CodeFactor code quality report](https://www.codefactor.io/repository/github/zgoda/brewlog/badge)](https://www.codefactor.io/repository/github/zgoda/brewlog) [![Test coverage report](https://coveralls.io/repos/github/zgoda/brewlog/badge.svg?branch=master)](https://coveralls.io/github/zgoda/brewlog?branch=master) ![ci](https://github.com/zgoda/brewlog/workflows/ci/badge.svg)
 
 ## Brewer's log application
